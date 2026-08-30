@@ -335,10 +335,11 @@
 
   <script>
     let booksData = [];
+    let autoTranslations = {}; // Cache for Auto-translated content
     let currentLang = localStorage.getItem('iar_lang') || 'ar';
     const pdfModal = new bootstrap.Modal(document.getElementById('pdfReaderModal'));
 
-    // Translations Dictionary
+    // Static UI Dictionary
     const i18n = {
       ar: {
         subtitle: "الأرشيف الإداري العراقي",
@@ -386,6 +387,22 @@
       }
     };
 
+    // Auto Translation Engine for Dynamic Arabic Content
+    async function translateText(text) {
+      if (!text || text.trim() === '') return text;
+      if (autoTranslations[text]) return autoTranslations[text];
+
+      try {
+        const res = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=ar&tl=en&dt=t&q=${encodeURIComponent(text)}`);
+        const data = await res.json();
+        const translatedStr = data[0].map(item => item[0]).join('');
+        autoTranslations[text] = translatedStr;
+        return translatedStr;
+      } catch (e) {
+        return text; // Fallback to original text if offline/error
+      }
+    }
+
     // Dark Mode Controller
     const themeToggleBtn = document.getElementById('themeToggleBtn');
     const themeIcon = document.getElementById('themeIcon');
@@ -409,7 +426,7 @@
     const langToggleBtn = document.getElementById('langToggleBtn');
     const bootstrapCSS = document.getElementById('bootstrapCSS');
 
-    function applyLanguage(lang) {
+    async function applyLanguage(lang) {
       currentLang = lang;
       localStorage.setItem('iar_lang', lang);
 
@@ -436,12 +453,10 @@
       document.getElementById('opt-sort-title').innerText = t.sortTitle;
       document.getElementById('modalBookTitle').innerText = t.readModalTitle;
       document.getElementById('txt-footer').innerText = t.footerText;
-      
-      // Update theme button title tooltip according to language
       themeToggleBtn.setAttribute('title', t.themeTooltip);
 
       setupCategories();
-      applyFilters();
+      await applyFilters();
     }
 
     langToggleBtn.addEventListener('click', () => {
@@ -525,7 +540,7 @@
       }
     }
 
-    function renderBooks(books) {
+    async function renderBooks(books) {
       const grid = document.getElementById('booksGrid');
       const t = i18n[currentLang];
       const isEn = currentLang === 'en';
@@ -537,12 +552,32 @@
         return;
       }
 
-      grid.innerHTML = books.map(book => {
-        const title = isEn && book.title_en ? book.title_en : book.title;
-        const author = isEn && book.author_en ? book.author_en : book.author;
-        const category = isEn && book.category_en ? book.category_en : (book.category || t.generalCat);
-        const description = isEn && book.description_en ? book.description_en : (book.description || '');
-        const publisher = isEn && book.publisher_en ? book.publisher_en : (book.publisher || t.defaultPublisher);
+      // Show loader while auto-translating if English is selected
+      if (isEn) {
+        grid.innerHTML = `
+          <div class="text-center py-5">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Translating...</span>
+            </div>
+            <p class="mt-2 text-muted small">Translating repository content...</p>
+          </div>`;
+      }
+
+      const bookCards = await Promise.all(books.map(async book => {
+        let title = isEn && book.title_en ? book.title_en : book.title;
+        let author = isEn && book.author_en ? book.author_en : book.author;
+        let category = isEn && book.category_en ? book.category_en : (book.category || t.generalCat);
+        let description = isEn && book.description_en ? book.description_en : (book.description || '');
+        let publisher = isEn && book.publisher_en ? book.publisher_en : (book.publisher || t.defaultPublisher);
+
+        // Auto Translate Fallback for Dynamic Arabic Fields
+        if (isEn) {
+          if (!book.title_en) title = await translateText(title);
+          if (!book.author_en) author = await translateText(author);
+          if (!book.category_en) category = await translateText(category);
+          if (!book.description_en) description = await translateText(description);
+          if (!book.publisher_en && book.publisher) publisher = await translateText(publisher);
+        }
 
         const coverHtml = book.cover_image 
           ? `<div class="cover-img-wrapper"><img src="${book.cover_image}" alt="${title}" class="cover-img"></div>`
@@ -586,10 +621,12 @@
             </div>
           </div>
         </div>`;
-      }).join('');
+      }));
+
+      grid.innerHTML = bookCards.join('');
     }
 
-    function applyFilters() {
+    async function applyFilters() {
       const query = document.getElementById('searchInput').value.toLowerCase();
       const selectedCat = document.getElementById('categoryFilter').value;
       const sortValue = document.getElementById('sortOrder').value;
@@ -614,7 +651,7 @@
         });
       }
 
-      renderBooks(filtered);
+      await renderBooks(filtered);
     }
 
     document.getElementById('searchInput').addEventListener('input', applyFilters);
