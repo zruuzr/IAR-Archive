@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" data-bs-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,6 +24,16 @@
       --border-color: #e2e8f0;
     }
 
+    [data-bs-theme="dark"] {
+      --primary-color: #020617;
+      --accent-color: #3b82f6;
+      --bg-color: #0f172a;
+      --card-bg: #1e293b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: #334155;
+    }
+
     body {
       background-color: var(--bg-color);
       font-family: 'Cairo', 'Inter', system-ui, -apple-system, sans-serif;
@@ -31,6 +41,7 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
 
     .navbar-iar {
@@ -52,17 +63,25 @@
     }
 
     .about-banner {
-      background: #ffffff;
+      background: var(--card-bg);
       border: 1px solid var(--border-color);
       border-radius: 12px;
       padding: 1.25rem 1.5rem;
     }
 
     .search-box .form-control, .filter-select {
+      background-color: var(--card-bg);
+      color: var(--text-main);
       border-radius: 10px;
       padding: 0.75rem 1rem;
       border: 1px solid var(--border-color);
       font-size: 0.95rem;
+    }
+
+    .search-box .form-control:focus, .filter-select:focus {
+      background-color: var(--card-bg);
+      color: var(--text-main);
+      border-color: var(--accent-color);
     }
 
     /* Book Card */
@@ -71,13 +90,14 @@
       border: 1px solid var(--border-color);
       border-radius: 14px;
       transition: all 0.25s ease-in-out;
-      overflow: visible !important; /* السماح للعناصر بالخروج */
+      overflow: visible !important;
       position: relative;
       z-index: 1;
     }
 
     .book-card:hover {
-      z-index: 10; /* رفع البطاقة الحالية فوق بقية البطاقات */
+      z-index: 10;
+      box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.15);
     }
 
     /* Cover Container & Pop-up Effect */
@@ -87,8 +107,8 @@
       flex-shrink: 0;
       border-radius: 8px;
       position: relative;
-      background-color: #f1f5f9;
-      border: 1px solid #e2e8f0;
+      background-color: rgba(148, 163, 184, 0.1);
+      border: 1px solid var(--border-color);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -110,27 +130,26 @@
       cursor: pointer;
     }
 
-    /* المنبثق المكبر عند حوم الماوس */
     .cover-container:hover .cover-img {
       position: absolute;
       top: 0;
       right: 0;
-      width: 260px; /* تكبير الغلاف ليظهر كبطاقة منبثقة */
+      width: 260px;
       height: 370px;
       z-index: 9999;
-      box-shadow: 0 20px 35px rgba(15, 23, 42, 0.35);
-      border: 3px solid #ffffff;
+      box-shadow: 0 20px 35px rgba(0, 0, 0, 0.4);
+      border: 3px solid var(--card-bg);
       border-radius: 12px;
     }
 
     .cover-placeholder {
-      color: #94a3b8;
+      color: var(--text-muted);
       font-size: 2.2rem;
     }
 
     .category-badge {
-      background-color: #eff6ff;
-      color: #1d4ed8;
+      background-color: rgba(37, 99, 235, 0.12);
+      color: var(--accent-color);
       font-size: 0.75rem;
       font-weight: 700;
       padding: 0.3rem 0.65rem;
@@ -140,7 +159,7 @@
     .book-title {
       font-weight: 700;
       font-size: 1.05rem;
-      color: var(--primary-color);
+      color: var(--text-main);
       margin-bottom: 0.25rem;
     }
 
@@ -152,28 +171,52 @@
 
     .book-desc {
       font-size: 0.85rem;
-      color: #475569;
+      color: var(--text-muted);
       line-height: 1.55;
     }
 
     .btn-read {
-      background-color: #f1f5f9;
-      color: var(--primary-color);
+      background-color: rgba(148, 163, 184, 0.12);
+      color: var(--text-main);
       font-weight: 700;
-      font-size: 0.88rem;
+      font-size: 0.85rem;
       border: 1px solid var(--border-color);
       border-radius: 8px;
-      padding: 0.55rem;
+      padding: 0.5rem;
+    }
+
+    .btn-read:hover {
+      background-color: rgba(148, 163, 184, 0.25);
+      color: var(--text-main);
     }
 
     .btn-download {
       background-color: var(--accent-color);
       color: #ffffff;
       font-weight: 700;
-      font-size: 0.88rem;
+      font-size: 0.85rem;
       border-radius: 8px;
-      padding: 0.55rem;
+      padding: 0.5rem;
       text-decoration: none;
+    }
+
+    .btn-download:hover {
+      background-color: #1d4ed8;
+      color: #ffffff;
+    }
+
+    .btn-share {
+      background-color: transparent;
+      color: var(--text-muted);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 0.5rem;
+      font-size: 0.85rem;
+    }
+
+    .btn-share:hover {
+      background-color: rgba(148, 163, 184, 0.12);
+      color: var(--text-main);
     }
 
     footer {
@@ -186,6 +229,7 @@
 </head>
 <body>
 
+  <!-- Navbar -->
   <header class="navbar-iar">
     <div class="container">
       <div class="d-flex align-items-center justify-content-between">
@@ -198,20 +242,37 @@
             <div class="brand-subtitle">الأرشيف الإداري العراقي</div>
           </div>
         </div>
+        <div class="d-flex align-items-center gap-2">
+          <!-- Dark Mode Toggle -->
+          <button id="themeToggleBtn" class="btn btn-outline-light btn-sm rounded-circle p-2" title="تبديل المظهر">
+            <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
+          </button>
+        </div>
       </div>
     </div>
   </header>
 
   <main class="container my-4">
+    <!-- About & Counter Banner -->
     <div class="about-banner mb-4">
-      <h2 class="h5 fw-bold mb-1 text-dark">حول المستودع الرقمي</h2>
-      <p class="mb-0 small text-secondary">
-        <strong>IAR Archive (الأرشيف الإداري العراقي)</strong> هو مستودع رقمي متخصص في علوم الإدارة والتطوير المؤسسي، يوفر الكتب والمراجع والموارد الأكاديمية للطلاب والباحثين والمهنيين.
-      </p>
+      <div class="row align-items-center g-3">
+        <div class="col-lg-8">
+          <h2 class="h5 fw-bold mb-1">حول المستودع الرقمي</h2>
+          <p class="mb-0 small text-muted">
+            <strong>IAR Archive (الأرشيف الإداري العراقي)</strong> هو مستودع رقمي متخصص في علوم الإدارة والتطوير المؤسسي، يوفر الكتب والمراجع والموارد الأكاديمية للطلاب والباحثين والمهنيين.
+          </p>
+        </div>
+        <div class="col-lg-4 text-lg-end">
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-2 rounded-pill fs-6">
+            <i class="bi bi-journal-text me-1"></i> الإجمالي: <span id="booksCounter">0</span> مرجع إداري
+          </span>
+        </div>
+      </div>
     </div>
 
+    <!-- Controls Row -->
     <div class="row g-3 mb-4">
-      <div class="col-md-8 search-box">
+      <div class="col-md-5 search-box">
         <input type="text" id="searchInput" class="form-control" placeholder="ابحث بعنوان الكتاب، اسم المؤلف، أو الكلمات المفتاحية...">
       </div>
       <div class="col-md-4">
@@ -219,16 +280,24 @@
           <option value="all">جميع التصنيفات الإدارية</option>
         </select>
       </div>
+      <div class="col-md-3">
+        <select id="sortOrder" class="form-select filter-select">
+          <option value="default">الترتيب الافتراضي</option>
+          <option value="title">حسب العنوان (أبجدي)</option>
+        </select>
+      </div>
     </div>
 
+    <!-- Books Grid -->
     <div class="row g-4" id="booksGrid"></div>
   </main>
 
+  <!-- PDF Modal -->
   <div class="modal fade" id="pdfReaderModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-centered" style="height: 90vh;">
       <div class="modal-content h-100">
-        <div class="modal-header py-2 bg-light">
-          <h5 class="modal-title fs-6 fw-bold text-dark" id="modalBookTitle">قراءة الكتاب</h5>
+        <div class="modal-header py-2 bg-body-tertiary">
+          <h5 class="modal-title fs-6 fw-bold" id="modalBookTitle">قراءة الكتاب</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
         </div>
         <div class="modal-body p-0 h-100 bg-dark">
@@ -251,12 +320,32 @@
     let booksData = [];
     const pdfModal = new bootstrap.Modal(document.getElementById('pdfReaderModal'));
 
+    // Dark Mode Script
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    const themeIcon = document.getElementById('themeIcon');
+    const currentTheme = localStorage.getItem('iar_theme') || 'light';
+
+    document.documentElement.setAttribute('data-bs-theme', currentTheme);
+    updateThemeIcon(currentTheme);
+
+    themeToggleBtn.addEventListener('click', () => {
+      const theme = document.documentElement.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-bs-theme', theme);
+      localStorage.setItem('iar_theme', theme);
+      updateThemeIcon(theme);
+    });
+
+    function updateThemeIcon(theme) {
+      themeIcon.className = theme === 'dark' ? 'bi bi-sun-fill' : 'bi bi-moon-stars-fill';
+    }
+
+    // Fetch Books
     async function fetchBooks() {
       try {
         const response = await fetch('books.json');
         booksData = await response.json();
         setupCategories();
-        renderBooks(booksData);
+        applyFilters();
       } catch (error) {
         document.getElementById('booksGrid').innerHTML = `<p class="text-center text-danger py-5">تعذر تحميل قائمة الكتب.</p>`;
       }
@@ -279,8 +368,30 @@
       document.getElementById('pdfFrame').src = '';
     });
 
+    // Share Functionality
+    function shareBook(title, filePath) {
+      const shareUrl = window.location.origin + window.location.pathname;
+      if (navigator.share) {
+        navigator.share({
+          title: title,
+          text: `شاهد هذا المرجع الإداري على IAR Archive: ${title}`,
+          url: shareUrl
+        }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(`${title} - ${shareUrl}`);
+        alert('تم نسخ عنوان المرجع ورابط الأرشيف إلى الحافظة.');
+      }
+    }
+
     function renderBooks(books) {
       const grid = document.getElementById('booksGrid');
+      document.getElementById('booksCounter').innerText = books.length;
+
+      if (books.length === 0) {
+        grid.innerHTML = `<p class="text-center text-muted py-5">لم يتم العثور على كتب مطابقة لخيارات البحث.</p>`;
+        return;
+      }
+
       grid.innerHTML = books.map(book => {
         const coverHtml = book.cover_image 
           ? `<div class="cover-img-wrapper"><img src="${book.cover_image}" alt="${book.title}" class="cover-img"></div>`
@@ -302,12 +413,25 @@
                 </div>
               </div>
             </div>
-            <div class="mb-3 pt-2 border-top border-light">
+            <div class="mb-3 pt-2 border-top border-light-subtle">
               <p class="book-desc mb-0">${book.description || ''}</p>
             </div>
             <div class="row g-2 mt-auto">
-              <div class="col-6"><button onclick="openPdfReader('${book.file_path}', '${book.title}')" class="btn btn-read w-100"><i class="bi bi-eye me-1"></i> قراءة</button></div>
-              <div class="col-6"><a href="${book.file_path}" download class="btn btn-download w-100 text-center"><i class="bi bi-download me-1"></i> تحميل</a></div>
+              <div class="col-5">
+                <button onclick="openPdfReader('${book.file_path}', '${book.title}')" class="btn btn-read w-100">
+                  <i class="bi bi-eye me-1"></i> قراءة
+                </button>
+              </div>
+              <div class="col-5">
+                <a href="${book.file_path}" download class="btn btn-download w-100 text-center">
+                  <i class="bi bi-download me-1"></i> تحميل
+                </a>
+              </div>
+              <div class="col-2">
+                <button onclick="shareBook('${book.title}', '${book.file_path}')" class="btn btn-share w-100" title="مشاركة">
+                  <i class="bi bi-share"></i>
+                </button>
+              </div>
             </div>
           </div>
         </div>`;
@@ -317,19 +441,25 @@
     function applyFilters() {
       const query = document.getElementById('searchInput').value.toLowerCase();
       const selectedCat = document.getElementById('categoryFilter').value;
+      const sortValue = document.getElementById('sortOrder').value;
 
-      const filtered = booksData.filter(book => {
+      let filtered = booksData.filter(book => {
         const matchesSearch = (book.title && book.title.toLowerCase().includes(query)) ||
                               (book.author && book.author.toLowerCase().includes(query));
         const matchesCat = selectedCat === 'all' || book.category === selectedCat;
         return matchesSearch && matchesCat;
       });
 
+      if (sortValue === 'title') {
+        filtered.sort((a, b) => a.title.localeCompare(b.title, 'ar'));
+      }
+
       renderBooks(filtered);
     }
 
     document.getElementById('searchInput').addEventListener('input', applyFilters);
     document.getElementById('categoryFilter').addEventListener('change', applyFilters);
+    document.getElementById('sortOrder').addEventListener('change', applyFilters);
 
     fetchBooks();
   </script>
