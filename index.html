@@ -5,10 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>IAR Archive | الأرشيف الإداري العراقي</title>
 
-  <!-- SEO & Meta -->
   <meta name="description" content="أرشيف المراجع الإدارية العراقية (IAR Archive) هو مستودع رقمي متخصص في العلوم الإدارية، يوفر الكتب والمراجع والموارد الأكاديمية للطلاب والباحثين والمهنيين.">
 
-  <!-- Bootstrap 5 RTL CSS & Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" id="bootstrapCSS">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -86,7 +84,6 @@
       border-color: var(--accent-color);
     }
 
-    /* Book Card & Cover Pop-up */
     .book-card {
       background: var(--card-bg);
       border: 1px solid var(--border-color);
@@ -242,7 +239,6 @@
 </head>
 <body>
 
-  <!-- Navbar -->
   <header class="navbar-iar">
     <div class="container">
       <div class="d-flex align-items-center justify-content-between">
@@ -256,11 +252,9 @@
           </div>
         </div>
         <div class="d-flex align-items-center gap-2">
-          <!-- Language Button -->
           <button id="langToggleBtn" class="btn btn-outline-light btn-sm fw-bold px-2.5 py-1">
             <i class="bi bi-translate me-1"></i> <span id="langLabel">EN</span>
           </button>
-          <!-- Theme Button -->
           <button id="themeToggleBtn" class="btn btn-outline-light btn-sm rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 34px; height: 34px;">
             <i class="bi bi-moon fs-6" id="themeIcon"></i>
           </button>
@@ -270,7 +264,6 @@
   </header>
 
   <main class="container my-4">
-    <!-- About Section -->
     <div class="about-banner mb-4">
       <div class="row align-items-center g-3">
         <div class="col-lg-8">
@@ -287,7 +280,6 @@
       </div>
     </div>
 
-    <!-- Controls Row -->
     <div class="row g-3 mb-4">
       <div class="col-md-5 search-box">
         <input type="text" id="searchInput" class="form-control" placeholder="ابحث بعنوان الكتاب، اسم المؤلف، أو الكلمات المفتاحية...">
@@ -305,11 +297,9 @@
       </div>
     </div>
 
-    <!-- Books Grid -->
     <div class="row g-4" id="booksGrid"></div>
   </main>
 
-  <!-- PDF Modal -->
   <div class="modal fade" id="pdfReaderModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-centered" style="height: 90vh;">
       <div class="modal-content h-100">
@@ -339,7 +329,7 @@
     let currentLang = localStorage.getItem('iar_lang') || 'ar';
     const pdfModal = new bootstrap.Modal(document.getElementById('pdfReaderModal'));
 
-    // Comprehensive Dictionary Fallback for Books Details
+    // Custom Dictionary
     const customDictionary = {
       "فن الخطابة": "The Art of Public Speaking",
       "اسم المؤلف": "Author Name",
@@ -396,22 +386,31 @@
       }
     };
 
-    // Robust Translation Function
+    // Robust Translation Function with Proxy Bypass
     async function translateText(text) {
       if (!text || text.trim() === '') return text;
       const cleanText = text.trim();
 
-      // Check Local Dictionary First
-      if (customDictionary[cleanText]) {
-        return customDictionary[cleanText];
-      }
-
+      if (customDictionary[cleanText]) return customDictionary[cleanText];
       if (autoTranslations[cleanText]) return autoTranslations[cleanText];
 
       try {
-        const res = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=ar&tl=en&dt=t&q=${encodeURIComponent(cleanText)}`);
-        const data = await res.json();
-        const translatedStr = data[0].map(item => item[0]).join('');
+        let translatedStr = "";
+        try {
+          // Attempt 1: Direct Fetch
+          const res = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=ar&tl=en&dt=t&q=${encodeURIComponent(cleanText)}`);
+          const data = await res.json();
+          translatedStr = data[0].map(item => item[0]).join('');
+        } catch (err) {
+          // Attempt 2: CORS Proxy Fallback (Bypasses Browser Blocks)
+          const gUrl = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=ar&tl=en&dt=t&q=${encodeURIComponent(cleanText)}`;
+          const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(gUrl)}`;
+          const resProxy = await fetch(proxyUrl);
+          const dataProxy = await resProxy.json();
+          const parsedData = JSON.parse(dataProxy.contents);
+          translatedStr = parsedData[0].map(item => item[0]).join('');
+        }
+        
         autoTranslations[cleanText] = translatedStr;
         return translatedStr;
       } catch (e) {
@@ -419,7 +418,7 @@
       }
     }
 
-    // Dark Mode Controller
+    // Theme Controller
     const themeToggleBtn = document.getElementById('themeToggleBtn');
     const themeIcon = document.getElementById('themeIcon');
     const currentTheme = localStorage.getItem('iar_theme') || 'light';
@@ -479,7 +478,6 @@
       applyLanguage(currentLang === 'ar' ? 'en' : 'ar');
     });
 
-    // Fetch Books
     async function fetchBooks() {
       try {
         const response = await fetch('books.json');
@@ -509,7 +507,6 @@
       document.getElementById('pdfFrame').src = '';
     });
 
-    // Share Function
     function shareBook(title, filePath) {
       const directUrl = window.location.href.split('#')[0];
 
@@ -585,7 +582,6 @@
         let description = isEn && book.description_en ? book.description_en : (book.description || '');
         let publisher = isEn && book.publisher_en ? book.publisher_en : (book.publisher || t.defaultPublisher);
 
-        // Force translate all Arabic fields when English is active
         if (isEn) {
           title = await translateText(title);
           author = await translateText(author);
