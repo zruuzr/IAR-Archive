@@ -5,8 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>IAR Archive | الأرشيف الإداري العراقي</title>
 
+  <!-- SEO & Meta -->
   <meta name="description" content="أرشيف المراجع الإدارية العراقية (IAR Archive) هو مستودع رقمي متخصص في العلوم الإدارية، يوفر الكتب والمراجع والموارد الأكاديمية للطلاب والباحثين والمهنيين.">
 
+  <!-- Bootstrap 5 RTL CSS & Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -84,7 +86,7 @@
       border-color: var(--accent-color);
     }
 
-    /* Book Card */
+    /* Book Card & Cover Pop-up */
     .book-card {
       background: var(--card-bg);
       border: 1px solid var(--border-color);
@@ -100,7 +102,6 @@
       box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.15);
     }
 
-    /* Cover Container & Pop-up Effect */
     .cover-container {
       width: 110px;
       height: 155px;
@@ -175,6 +176,7 @@
       line-height: 1.55;
     }
 
+    /* Buttons Style */
     .btn-read {
       background-color: rgba(148, 163, 184, 0.12);
       color: var(--text-main);
@@ -243,7 +245,6 @@
           </div>
         </div>
         <div class="d-flex align-items-center gap-2">
-          <!-- Dark Mode Toggle -->
           <button id="themeToggleBtn" class="btn btn-outline-light btn-sm rounded-circle p-2" title="تبديل المظهر">
             <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
           </button>
@@ -253,7 +254,7 @@
   </header>
 
   <main class="container my-4">
-    <!-- About & Counter Banner -->
+    <!-- About Section -->
     <div class="about-banner mb-4">
       <div class="row align-items-center g-3">
         <div class="col-lg-8">
@@ -368,27 +369,50 @@
       document.getElementById('pdfFrame').src = '';
     });
 
-    // Share Functionality
+    // Share Functionality (Direct URL Fix)
     function shareBook(title, filePath) {
       const directUrl = window.location.href.split('#')[0];
-  const shareText = `مرجع إداري: ${title}\nرابط الأرشيف: ${directUrl}`;
+
       if (navigator.share) {
-    navigator.clipboard.writeText(directUrl).then(() => {
-      showToast('تم نسخ رابط الموقع المباشر إلى الحافظة بنجاح.');
-    }).catch(() => {
-      const tempInput = document.createElement('input');
-      tempInput.value = directUrl;
-      document.body.appendChild(tempInput);
-      tempInput.select();
-      document.execCommand('copy');
-      document.body.removeChild(tempInput);
-      showToast('تم نسخ رابط الموقع المباشر إلى الحافظة.');
-    });
-  }
-}
-  } else {
-        navigator.clipboard.writeText(`${title} - ${shareUrl}`);
-        alert('تم نسخ عنوان المرجع ورابط الأرشيف إلى الحافظة.');
+        navigator.share({
+          title: title,
+          text: `شاهد هذا المرجع الإداري على IAR Archive: ${title}`,
+          url: directUrl
+        }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(directUrl).then(() => {
+          showToast('تم نسخ رابط الموقع المباشر إلى الحافظة بنجاح.');
+        }).catch(() => {
+          const tempInput = document.createElement('input');
+          tempInput.value = directUrl;
+          document.body.appendChild(tempInput);
+          tempInput.select();
+          document.execCommand('copy');
+          document.body.removeChild(tempInput);
+          showToast('تم نسخ رابط الموقع المباشر إلى الحافظة.');
+        });
+      }
+    }
+
+    function showToast(message) {
+      let toastEl = document.getElementById('iarToast');
+      if (!toastEl) {
+        toastEl = document.createElement('div');
+        toastEl.id = 'iarToast';
+        toastEl.className = 'position-fixed bottom-0 start-50 translate-middle-x p-3';
+        toastEl.style.zIndex = '99999';
+        toastEl.innerHTML = `
+          <div class="toast align-items-center text-bg-primary border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+              <div class="toast-body"><i class="bi bi-check-circle me-2"></i>${message}</div>
+              <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+          </div>`;
+        document.body.appendChild(toastEl);
+      } else {
+        toastEl.querySelector('.toast-body').innerHTML = `<i class="bi bi-check-circle me-2"></i>${message}`;
+        const bsToast = new bootstrap.Toast(toastEl.querySelector('.toast'));
+        bsToast.show();
       }
     }
 
@@ -474,24 +498,3 @@
   </script>
 </body>
 </html>
-function showToast(message) {
-  let toastEl = document.getElementById('iarToast');
-  if (!toastEl) {
-    toastEl = document.createElement('div');
-    toastEl.id = 'iarToast';
-    toastEl.className = 'position-fixed bottom-0 start-50 translate-middle-x p-3';
-    toastEl.style.zIndex = '99999';
-    toastEl.innerHTML = `
-      <div class="toast align-items-center text-bg-primary border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="d-flex">
-          <div class="toast-body"><i class="bi bi-check-circle me-2"></i>${message}</div>
-          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-        </div>
-      </div>`;
-    document.body.appendChild(toastEl);
-  } else {
-    toastEl.querySelector('.toast-body').innerHTML = `<i class="bi bi-check-circle me-2"></i>${message}`;
-    const bsToast = new bootstrap.Toast(toastEl.querySelector('.toast'));
-    bsToast.show();
-  }
-}
