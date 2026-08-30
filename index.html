@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مكتبة العلوم الإدارية</title>
+  <!-- Bootstrap 5 RTL CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <style>
+    body { background-color: #f8f9fa; font-family: system-ui, -apple-system, sans-serif; }
+    .hero-section { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: white; padding: 40px 0; }
+    .book-card { transition: transform 0.2s, box-shadow 0.2s; border: none; border-radius: 12px; }
+    .book-card:hover { transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0,0,0,0.08); }
+    .badge-category { background-color: #eef2ff; color: #3730a3; font-weight: 500; }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="hero-section text-center mb-4">
+    <div class="container">
+      <h1 class="fw-bold mb-2"><i class="bi bi-journal-bookmark-fill me-2"></i>مكتبة العلوم الإدارية</h1>
+      <p class="lead opacity-75 mb-0">منصة رقمية متخصصة في كتب ومراجع الإدارة والتطوير المؤسسي</p>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container mb-5">
+    
+    <!-- Controls (Search & Filter) -->
+    <div class="row g-3 mb-4">
+      <div class="col-md-8">
+        <div class="input-group">
+          <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-muted"></i></span>
+          <input type="text" id="searchInput" class="form-control border-start-0 ps-0" placeholder="ابحث باسم الكتاب أو المؤلف...">
+        </div>
+      </div>
+      <div class="col-md-4">
+        <select id="categoryFilter" class="form-select">
+          <option value="all">جميع التصنيفات</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Books Grid -->
+    <div class="row g-4" id="booksGrid">
+      <div class="text-center py-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">جاري التحميل...</span>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    let booksData = [];
+
+    async function loadBooks() {
+      try {
+        const response = await fetch('books.json');
+        booksData = await response.json();
+        
+        populateCategories();
+        renderBooks(booksData);
+      } catch (error) {
+        document.getElementById('booksGrid').innerHTML = `
+          <div class="col-12 text-center text-danger py-5">
+            <i class="bi bi-exclamation-triangle display-4"></i>
+            <p class="mt-2">حدث خطأ في تحميل قائمة الكتب.</p>
+          </div>`;
+      }
+    }
+
+    function populateCategories() {
+      const categories = ['all', ...new Set(booksData.map(b => b.category))];
+      const filterSelect = document.getElementById('categoryFilter');
+      filterSelect.innerHTML = categories.map(cat => 
+        `<option value="${cat}">${cat === 'all' ? 'جميع التصنيفات' : cat}</option>`
+      ).join('');
+    }
+
+    function renderBooks(books) {
+      const grid = document.getElementById('booksGrid');
+      if (books.length === 0) {
+        grid.innerHTML = `
+          <div class="col-12 text-center text-muted py-5">
+            <i class="bi bi-inbox display-4"></i>
+            <p class="mt-2">لم يتم العثور على كتب مطابقة.</p>
+          </div>`;
+        return;
+      }
+
+      grid.innerHTML = books.map(book => `
+        <div class="col-md-6 col-lg-4">
+          <div class="card h-100 book-card shadow-sm p-3">
+            <div class="card-body d-flex flex-column">
+              <div class="d-flex justify-content-between align-items-start mb-2">
+                <span class="badge badge-category px-2.5 py-1.5 rounded-pill">${book.category || 'عام'}</span>
+                <small class="text-muted"><i class="bi bi-calendar3 me-1"></i>${book.date || ''}</small>
+              </div>
+              <h5 class="card-title fw-bold text-dark mb-1">${book.title}</h5>
+              <p class="text-secondary small mb-2"><i class="bi bi-person me-1"></i>${book.author}</p>
+              <p class="card-text text-muted small flex-grow-1 mb-3">${book.description || ''}</p>
+              <a href="${book.download_url}" target="_blank" class="btn btn-primary w-100 mt-auto">
+                <i class="bi bi-download me-2"></i>تحميل الكتاب (PDF)
+              </a>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Filter and Search Logic
+    function filterBooks() {
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      const selectedCat = document.getElementById('categoryFilter').value;
+
+      const filtered = booksData.filter(book => {
+        const matchesSearch = book.title.toLowerCase().includes(searchTerm) || 
+                              book.author.toLowerCase().includes(searchTerm);
+        const matchesCat = selectedCat === 'all' || book.category === selectedCat;
+        return matchesSearch && matchesCat;
+      });
+
+      renderBooks(filtered);
+    }
+
+    document.getElementById('searchInput').addEventListener('input', filterBooks);
+    document.getElementById('categoryFilter').addEventListener('change', filterBooks);
+
+    loadBooks();
+  </script>
+
+</body>
+</html>
