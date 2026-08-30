@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IAR Archive | الأرشيف الإداري العراقي</title>
+  <title>IAR Archive | Iraqi Administrative Reference</title>
 
   <!-- SEO & Meta -->
   <meta name="description" content="IAR Archive (Iraqi Administrative Reference) is a digital repository for management and administrative sciences, providing books, references, and academic resources.">
@@ -13,122 +13,190 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --primary-color: #0f172a;
-      --accent-color: #2563eb;
-      --bg-color: #f8fafc;
+      --primary: #0a0f1d;
+      --accent: #2563eb;
+      --accent-hover: #1d4ed8;
+      --bg: #f8fafc;
       --card-bg: #ffffff;
-      --text-main: #1e293b;
+      --text: #0f172a;
       --text-muted: #64748b;
-      --border-color: #e2e8f0;
+      --border: #e2e8f0;
+      --card-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
     }
 
     [data-bs-theme="dark"] {
-      --primary-color: #020617;
-      --accent-color: #3b82f6;
-      --bg-color: #0f172a;
-      --card-bg: #1e293b;
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --border-color: #334155;
+      --primary: #030712;
+      --accent: #3b82f6;
+      --accent-hover: #60a5fa;
+      --bg: #0b0f19;
+      --card-bg: #111827;
+      --text: #f9fafb;
+      --text-muted: #9ca3af;
+      --border: #1f2937;
+      --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
     }
 
     body {
-      background-color: var(--bg-color);
-      font-family: 'Cairo', 'Inter', system-ui, -apple-system, sans-serif;
-      color: var(--text-main);
+      background-color: var(--bg);
+      font-family: 'Cairo', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      color: var(--text);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      transition: background-color 0.3s ease, color 0.3s ease;
+      transition: background-color 0.25s ease, color 0.25s ease;
     }
 
-    /* Announcement Bar */
-    .announcement-bar {
-      background: linear-gradient(90deg, #1e3a8a 0%, #2563eb 100%);
-      color: #ffffff;
-      font-size: 0.82rem;
-      padding: 0.4rem 0;
+    /* Top Live Announcement */
+    .top-live-bar {
+      background: linear-gradient(90deg, #1e1b4b 0%, #312e81 50%, #1e1b4b 100%);
+      color: #e0e7ff;
+      font-size: 0.8rem;
+      padding: 0.45rem 0;
       font-weight: 600;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
+    /* Navbar Header */
     .navbar-iar {
-      background-color: var(--primary-color);
-      border-bottom: 3px solid var(--accent-color);
-      padding: 1rem 0;
+      background-color: var(--primary);
+      border-bottom: 2px solid var(--border);
+      padding: 1.1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 1020;
+      backdrop-filter: blur(10px);
+    }
+
+    .brand-logo-icon {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 100%);
+      color: #ffffff;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
     }
 
     .brand-title {
-      font-weight: 800;
-      font-size: 1.6rem;
+      font-weight: 900;
+      font-size: 1.5rem;
       color: #ffffff;
+      letter-spacing: -0.5px;
     }
 
     .brand-subtitle {
       color: #94a3b8;
-      font-size: 0.88rem;
+      font-size: 0.82rem;
       font-weight: 600;
     }
 
-    .about-banner {
+    /* Interactive Stats Banner */
+    .hero-stats-card {
       background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 1.25rem 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: var(--card-shadow);
+      position: relative;
+      overflow: hidden;
     }
 
-    .search-box .form-control, .filter-select {
-      background-color: var(--card-bg);
-      color: var(--text-main);
-      border-radius: 10px;
-      padding: 0.75rem 1rem;
-      border: 1px solid var(--border-color);
-      font-size: 0.95rem;
+    .hero-stats-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--accent);
     }
 
-    .search-box .form-control:focus, .filter-select:focus {
-      background-color: var(--card-bg);
-      color: var(--text-main);
-      border-color: var(--accent-color);
+    .stat-box {
+      padding: 0.5rem 1rem;
+      border-left: 1px solid var(--border);
+    }
+
+    html[dir="ltr"] .stat-box {
+      border-left: none;
+      border-right: 1px solid var(--border);
+    }
+
+    /* Chips Navigation Bar */
+    .chips-wrapper {
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: auto;
+      padding-bottom: 0.5rem;
+      scrollbar-width: none;
+    }
+
+    .chips-wrapper::-webkit-scrollbar {
+      display: none;
+    }
+
+    .chip-item {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 0.45rem 1rem;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+
+    .chip-item:hover, .chip-item.active {
+      background: var(--accent);
+      color: #ffffff;
+      border-color: var(--accent);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
     }
 
     /* Book Card & 3D Cover Styling */
     .book-card {
       background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 14px;
-      transition: all 0.25s ease-in-out;
-      overflow: visible !important;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.25rem;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
       position: relative;
+      overflow: visible !important;
       z-index: 1;
     }
 
     .book-card:hover {
-      z-index: 10;
-      box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.15);
+      z-index: 20;
+      transform: translateY(-4px);
+      box-shadow: 0 16px 30px -10px rgba(15, 23, 42, 0.12);
     }
 
     .cover-container {
       width: 110px;
       height: 155px;
       flex-shrink: 0;
-      border-radius: 8px;
+      border-radius: 10px;
       position: relative;
-      background-color: rgba(148, 163, 184, 0.1);
-      border: 1px solid var(--border-color);
+      background: var(--bg);
+      border: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: -4px 6px 12px rgba(0, 0, 0, 0.08); /* 3D effect shadow */
+      box-shadow: -5px 8px 16px rgba(0, 0, 0, 0.12);
     }
 
     .cover-img-wrapper {
       width: 100%;
       height: 100%;
-      border-radius: 8px;
+      border-radius: 10px;
       position: relative;
     }
 
@@ -136,7 +204,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      border-radius: 8px;
+      border-radius: 10px;
       transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       cursor: pointer;
     }
@@ -145,10 +213,10 @@
       position: absolute;
       top: 0;
       right: 0;
-      width: 260px;
-      height: 370px;
+      width: 250px;
+      height: 350px;
       z-index: 9999;
-      box-shadow: 0 20px 35px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
       border: 3px solid var(--card-bg);
       border-radius: 12px;
     }
@@ -157,46 +225,33 @@
       position: absolute;
       top: 0;
       left: 0;
-      width: 260px;
-      height: 370px;
+      width: 250px;
+      height: 350px;
       z-index: 9999;
-      box-shadow: 0 20px 35px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
       border: 3px solid var(--card-bg);
       border-radius: 12px;
     }
 
-    .cover-placeholder {
-      color: var(--text-muted);
-      font-size: 2.2rem;
-    }
-
-    .category-badge {
-      background-color: rgba(37, 99, 235, 0.12);
-      color: var(--accent-color);
+    .badge-tag {
+      background: rgba(37, 99, 235, 0.1);
+      color: var(--accent);
       font-size: 0.75rem;
       font-weight: 700;
-      padding: 0.3rem 0.65rem;
+      padding: 0.3rem 0.7rem;
       border-radius: 20px;
     }
 
-    .file-size-badge {
-      background-color: rgba(220, 38, 38, 0.1);
-      color: #dc2626;
-      font-size: 0.72rem;
-      font-weight: 700;
-      padding: 0.25rem 0.55rem;
-      border-radius: 6px;
-    }
-
     .book-title {
-      font-weight: 700;
-      font-size: 1.05rem;
-      color: var(--text-main);
-      margin-bottom: 0.25rem;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--text);
+      line-height: 1.4;
+      margin-top: 0.35rem;
     }
 
     .book-author {
-      font-size: 0.85rem;
+      font-size: 0.88rem;
       color: var(--text-muted);
       font-weight: 600;
     }
@@ -204,63 +259,69 @@
     .book-desc {
       font-size: 0.85rem;
       color: var(--text-muted);
-      line-height: 1.55;
+      line-height: 1.6;
     }
 
-    .btn-action {
-      background-color: rgba(148, 163, 184, 0.12);
-      color: var(--text-main);
+    .btn-iar-action {
+      background: var(--bg);
+      color: var(--text);
       font-weight: 700;
       font-size: 0.85rem;
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 0.5rem;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.55rem;
       transition: all 0.2s ease;
     }
 
-    .btn-action:hover {
-      background-color: rgba(148, 163, 184, 0.25);
-      color: var(--text-main);
+    .btn-iar-action:hover {
+      background: rgba(37, 99, 235, 0.1);
+      color: var(--accent);
+      border-color: var(--accent);
     }
 
-    .btn-download {
-      background-color: var(--accent-color);
+    .btn-iar-primary {
+      background: var(--accent);
       color: #ffffff;
       font-weight: 700;
       font-size: 0.85rem;
-      border-radius: 8px;
-      padding: 0.5rem;
+      border-radius: 10px;
+      padding: 0.55rem;
       text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s ease;
     }
 
-    .btn-download:hover {
-      background-color: #1d4ed8;
+    .btn-iar-primary:hover {
+      background: var(--accent-hover);
       color: #ffffff;
     }
 
     footer {
       margin-top: auto;
-      background-color: var(--primary-color);
+      background-color: var(--primary);
       color: #94a3b8;
-      padding: 2rem 0;
+      padding: 2.5rem 0;
+      border-top: 1px solid var(--border);
     }
   </style>
 </head>
 <body>
 
-  <!-- Top Announcement Bar -->
-  <div class="announcement-bar text-center">
+  <!-- Live Announcement Bar -->
+  <div class="top-live-bar text-center">
     <div class="container">
-      <i class="bi bi-bell-fill me-1"></i> <span id="txt-announcement">أهلاً بكم في المستودع الرقمي للعلوم الإدارية - تحديثات دورية للمراجع الأكاديمية</span>
+      <i class="bi bi-shield-check me-1"></i> <span id="txt-announcement">IAR Archive - الأرشيف الرقمي المباشر لعلوم الإدارة والتطوير المؤسسي</span>
     </div>
   </div>
 
-  <!-- Navbar -->
+  <!-- Header / Navbar -->
   <header class="navbar-iar">
     <div class="container">
       <div class="d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center gap-3">
-          <div class="bg-primary text-white rounded-3 p-2.5 d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; background-color: var(--accent-color) !important;">
+          <div class="brand-logo-icon">
             <i class="bi bi-journal-bookmark-fill fs-4"></i>
           </div>
           <div>
@@ -269,10 +330,12 @@
           </div>
         </div>
         <div class="d-flex align-items-center gap-2">
-          <button id="langToggleBtn" class="btn btn-outline-light btn-sm fw-bold px-2.5 py-1">
+          <!-- Language Button -->
+          <button id="langToggleBtn" class="btn btn-outline-light btn-sm fw-bold px-3 py-1.5 rounded-3">
             <i class="bi bi-translate me-1"></i> <span id="langLabel">EN</span>
           </button>
-          <button id="themeToggleBtn" class="btn btn-outline-light btn-sm rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 34px; height: 34px;">
+          <!-- Theme Toggle Button -->
+          <button id="themeToggleBtn" class="btn btn-outline-light btn-sm rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
             <i class="bi bi-moon fs-6" id="themeIcon"></i>
           </button>
         </div>
@@ -281,41 +344,51 @@
   </header>
 
   <main class="container my-4">
-    <!-- About Section -->
-    <div class="about-banner mb-4">
+
+    <!-- Interactive Header & Statistics Banner -->
+    <div class="hero-stats-card mb-4">
       <div class="row align-items-center g-3">
-        <div class="col-lg-8">
-          <h2 class="h5 fw-bold mb-1" id="txt-about-title">حول المستودع الرقمي</h2>
+        <div class="col-lg-7">
+          <h1 class="h5 fw-extrabold mb-1" id="txt-about-title">الأرشيف الرقمي لعلوم الإدارة</h1>
           <p class="mb-0 small text-muted" id="txt-about-desc">
-            <strong>IAR Archive (Iraqi Administrative Reference)</strong> is a digital repository for management and administrative sciences, providing books, references, and academic resources for students, researchers, professionals, and management enthusiasts.
+            مستودع أرشفة موثق يوفر الكتب والمراجع والأبحاث المتخصصة في الإدارة العامة، القيادة، والموارد البشرية للتصفح والتحميل المباشر.
           </p>
         </div>
-        <div class="col-lg-4 text-lg-end">
-          <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-2 rounded-pill fs-6">
-            <i class="bi bi-journal-text me-1"></i> <span id="txt-total-label">الإجمالي</span>: <span id="booksCounter">0</span> <span id="txt-items-label">مرجع إداري</span>
-          </span>
+        <div class="col-lg-5">
+          <div class="d-flex justify-content-lg-end gap-3 text-center">
+            <div class="stat-box">
+              <div class="fs-4 fw-extrabold text-primary" id="booksCounter">0</div>
+              <div class="small text-muted" id="txt-stat-books">مرجع متاح</div>
+            </div>
+            <div class="stat-box">
+              <div class="fs-4 fw-extrabold text-primary" id="catCounter">0</div>
+              <div class="small text-muted" id="txt-stat-cats">تصنيف إداري</div>
+            </div>
+            <div class="stat-box">
+              <div class="fs-4 fw-extrabold text-success">2026</div>
+              <div class="small text-muted" id="txt-stat-year">سنة الأرشفة</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Controls Row -->
-    <div class="row g-3 mb-4 align-items-center">
-      <div class="col-md-4 search-box">
-        <input type="text" id="searchInput" class="form-control" placeholder="ابحث بعنوان الكتاب، اسم المؤلف، أو الكلمات المفتاحية...">
+    <!-- Search Box and Interactive View Controls -->
+    <div class="row g-3 mb-3 align-items-center">
+      <div class="col-md-7">
+        <div class="input-group">
+          <span class="input-group-text bg-body border-end-0 text-muted"><i class="bi bi-search"></i></span>
+          <input type="text" id="searchInput" class="form-control border-start-0 ps-0" placeholder="ابحث بعنوان الكتاب، اسم المؤلف، أو الكلمات المفتاحية...">
+          <button class="btn btn-outline-secondary border-start-0 d-none" type="button" id="btnClearSearch"><i class="bi bi-x-circle-fill"></i></button>
+        </div>
       </div>
-      <div class="col-md-3">
-        <select id="categoryFilter" class="form-select filter-select">
-          <option value="all">جميع التصنيفات الإدارية</option>
-        </select>
-      </div>
-      <div class="col-md-3">
-        <select id="sortOrder" class="form-select filter-select">
+      <div class="col-md-3 col-8">
+        <select id="sortOrder" class="form-select">
           <option value="default" id="opt-sort-default">الترتيب الافتراضي</option>
           <option value="title" id="opt-sort-title">حسب العنوان (أبجدي)</option>
         </select>
       </div>
-      <div class="col-md-2 text-end">
-        <!-- View Toggle (Grid / List) -->
+      <div class="col-md-2 col-4 text-end">
         <div class="btn-group w-100" role="group">
           <button type="button" class="btn btn-outline-secondary active" id="btnViewGrid" title="عرض شبكي"><i class="bi bi-grid-fill"></i></button>
           <button type="button" class="btn btn-outline-secondary" id="btnViewList" title="عرض قائمة"><i class="bi bi-list-task"></i></button>
@@ -323,13 +396,19 @@
       </div>
     </div>
 
-    <!-- Books Display Area -->
+    <!-- Interactive Category Chips Bar -->
+    <div class="chips-wrapper mb-4" id="categoryChips">
+      <div class="chip-item active" data-category="all" id="chip-all">جميع التصنيفات</div>
+    </div>
+
+    <!-- Dynamic Display Area -->
     <div id="booksDisplayContainer">
       <div class="row g-4" id="booksGrid"></div>
     </div>
+
   </main>
 
-  <!-- PDF Reader Modal -->
+  <!-- PDF Modal -->
   <div class="modal fade" id="pdfReaderModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-centered" style="height: 90vh;">
       <div class="modal-content h-100">
@@ -344,10 +423,11 @@
     </div>
   </div>
 
+  <!-- Footer -->
   <footer class="text-center">
     <div class="container">
-      <p class="mb-1 fw-semibold text-light">IAR Archive &copy; 2026</p>
-      <p class="mb-0 small text-muted" id="txt-footer">الأرشيف الإداري العراقي - مستودع رقمي متخصص في العلوم الإدارية</p>
+      <div class="brand-title mb-1">IAR Archive</div>
+      <p class="mb-0 small text-muted" id="txt-footer">الأرشيف الإداري العراقي - المستودع الرقمي المتخصص في العلوم الإدارية</p>
     </div>
   </footer>
 
@@ -356,41 +436,43 @@
   <script>
     let booksData = [];
     let currentLang = localStorage.getItem('iar_lang') || 'ar';
-    let currentViewMode = localStorage.getItem('iar_view_mode') || 'grid'; // grid or list
+    let currentViewMode = localStorage.getItem('iar_view_mode') || 'grid';
+    let selectedCategory = 'all';
+
     const pdfModal = new bootstrap.Modal(document.getElementById('pdfReaderModal'));
 
-    // Instant Dictionary Mapping
+    // Fast Local Dictionary Fallback
     const dictionary = {
       "فن الخطابة": {
         title: "The Art of Public Speaking",
         author: "Author Name",
         category: "Leadership & Management Skills",
-        description: "Overview: A practical guide detailing principles of public speaking, effective rhetoric, speech preparation, and leadership communication.",
+        description: "Overview: A practical guide detailing principles of public speaking, rhetoric, and leadership communication.",
         publisher: "IAR Archive"
       }
     };
 
-    // Static UI Dictionary
+    // Static Dictionary Translations
     const i18n = {
       ar: {
-        announcement: "أهلاً بكم في المستودع الرقمي للعلوم الإدارية - تحديثات دورية للمراجع الأكاديمية",
+        announcement: "IAR Archive - الأرشيف الرقمي المباشر لعلوم الإدارة والتطوير المؤسسي",
         subtitle: "الأرشيف الإداري العراقي",
-        aboutTitle: "حول المستودع الرقمي",
-        aboutDesc: "<strong>IAR Archive (الأرشيف الإداري العراقي)</strong> هو مستودع رقمي متخصص في علوم الإدارة والتطوير المؤسسي، يوفر الكتب والمراجع والموارد الأكاديمية للطلاب والباحثين والمهنيين والمهتمين بالعلوم الإدارية.",
-        totalLabel: "الإجمالي",
-        itemsLabel: "مرجع إداري",
+        aboutTitle: "الأرشيف الرقمي لعلوم الإدارة",
+        aboutDesc: "مستودع أرشفة موثق يوفر الكتب والمراجع والأبحاث المتخصصة في الإدارة العامة، القيادة، والموارد البشرية للتصفح والتحميل المباشر.",
+        statBooks: "مرجع متاح",
+        statCats: "تصنيف إداري",
+        statYear: "سنة الأرشفة",
         searchPlaceholder: "ابحث بعنوان الكتاب، اسم المؤلف، أو الكلمات المفتاحية...",
-        allCategories: "جميع التصنيفات الإدارية",
+        allCategories: "جميع التصنيفات",
         sortDefault: "الترتيب الافتراضي",
         sortTitle: "حسب العنوان (أبجدي)",
         readBtn: "قراءة",
         downloadBtn: "تحميل",
         shareBtn: "مشاركة",
-        citeBtn: "توثيق (APA)",
-        readModalTitle: "قراءة الكتاب",
+        citeBtn: "توثيق APA",
         noBooks: "لم يتم العثور على كتب مطابقة لخيارات البحث.",
         errorMsg: "تعذر تحميل قائمة الكتب.",
-        footerText: "الأرشيف الإداري العراقي - مستودع رقمي متخصص في العلوم الإدارية",
+        footerText: "الأرشيف الإداري العراقي - المستودع الرقمي المتخصص في العلوم الإدارية",
         toastCopied: "تم نسخ رابط الموقع المباشر إلى الحافظة بنجاح.",
         toastCiteCopied: "تم نسخ التوثيق الأكاديمي (APA) إلى الحافظة.",
         generalCat: "عام",
@@ -398,26 +480,26 @@
         themeTooltip: "تبديل المظهر"
       },
       en: {
-        announcement: "Welcome to IAR Archive - Regular updates for administrative & academic references",
+        announcement: "IAR Archive - Direct Digital Repository for Administrative Sciences",
         subtitle: "Iraqi Administrative Reference",
-        aboutTitle: "About Digital Repository",
-        aboutDesc: "<strong>IAR Archive (Iraqi Administrative Reference)</strong> is a digital repository for management and administrative sciences, providing books, references, and academic resources for students, researchers, professionals, and management enthusiasts.",
-        totalLabel: "Total",
-        itemsLabel: "References",
-        searchPlaceholder: "Search by book title, author name, or keywords...",
-        allCategories: "All Administrative Categories",
+        aboutTitle: "Digital Repository for Management Sciences",
+        aboutDesc: "A verified digital archive providing books, references, and research in public administration, leadership, and human resources for direct viewing and download.",
+        statBooks: "References Available",
+        statCats: "Categories",
+        statYear: "Archived Year",
+        searchPlaceholder: "Search by title, author name, or keywords...",
+        allCategories: "All Categories",
         sortDefault: "Default Sorting",
         sortTitle: "Sort by Title (Alphabetical)",
         readBtn: "Read",
         downloadBtn: "Download",
         shareBtn: "Share",
-        citeBtn: "Cite (APA)",
-        readModalTitle: "Reading Book",
-        noBooks: "No matching books found for search criteria.",
-        errorMsg: "Failed to load books list.",
+        citeBtn: "Cite APA",
+        noBooks: "No matching references found.",
+        errorMsg: "Failed to load repository data.",
         footerText: "Iraqi Administrative Reference - Digital Repository for Management Sciences",
-        toastCopied: "Direct repository link copied to clipboard successfully.",
-        toastCiteCopied: "APA Academic Citation copied to clipboard.",
+        toastCopied: "Direct repository link copied to clipboard.",
+        toastCiteCopied: "APA Citation copied to clipboard.",
         generalCat: "General",
         defaultPublisher: "IAR Archive",
         themeTooltip: "Toggle Theme"
@@ -467,17 +549,16 @@
       document.getElementById('txt-announcement').innerText = t.announcement;
       document.getElementById('txt-subtitle').innerText = t.subtitle;
       document.getElementById('txt-about-title').innerText = t.aboutTitle;
-      document.getElementById('txt-about-desc').innerHTML = t.aboutDesc;
-      document.getElementById('txt-total-label').innerText = t.totalLabel;
-      document.getElementById('txt-items-label').innerText = t.itemsLabel;
+      document.getElementById('txt-about-desc').innerText = t.aboutDesc;
+      document.getElementById('txt-stat-books').innerText = t.statBooks;
+      document.getElementById('txt-stat-cats').innerText = t.statCats;
+      document.getElementById('txt-stat-year').innerText = t.statYear;
       document.getElementById('searchInput').placeholder = t.searchPlaceholder;
       document.getElementById('opt-sort-default').innerText = t.sortDefault;
       document.getElementById('opt-sort-title').innerText = t.sortTitle;
-      document.getElementById('modalBookTitle').innerText = t.readModalTitle;
       document.getElementById('txt-footer').innerText = t.footerText;
-      themeToggleBtn.setAttribute('title', t.themeTooltip);
 
-      setupCategories();
+      setupChipsCategories();
       applyFilters();
     }
 
@@ -485,7 +566,7 @@
       applyLanguage(currentLang === 'ar' ? 'en' : 'ar');
     });
 
-    // View Mode Switcher (Grid / List)
+    // View Switcher (Grid / List)
     const btnViewGrid = document.getElementById('btnViewGrid');
     const btnViewList = document.getElementById('btnViewList');
 
@@ -505,39 +586,44 @@
       applyFilters();
     });
 
-    function updateViewModeUI() {
-      if (currentViewMode === 'list') {
-        btnViewList.classList.add('active');
-        btnViewGrid.classList.remove('active');
-      } else {
-        btnViewGrid.classList.add('active');
-        btnViewList.classList.remove('active');
-      }
-    }
-
     async function fetchBooks() {
       try {
         const response = await fetch('books.json');
         booksData = await response.json();
-        updateViewModeUI();
         applyLanguage(currentLang);
       } catch (error) {
         document.getElementById('booksDisplayContainer').innerHTML = `<p class="text-center text-danger py-5">${i18n[currentLang].errorMsg}</p>`;
       }
     }
 
-    function setupCategories() {
+    // Chips Categories Generation
+    function setupChipsCategories() {
       const isEn = currentLang === 'en';
+      const container = document.getElementById('categoryChips');
       const categories = ['all', ...new Set(booksData.map(b => {
         if (isEn) {
           return b.category_en || (dictionary[b.title] ? dictionary[b.title].category : b.category);
         }
         return b.category;
       }))];
-      
-      document.getElementById('categoryFilter').innerHTML = categories.map(cat => 
-        `<option value="${cat}">${cat === 'all' ? i18n[currentLang].allCategories : cat}</option>`
-      ).join('');
+
+      document.getElementById('catCounter').innerText = categories.length - 1;
+
+      container.innerHTML = categories.map(cat => {
+        const label = cat === 'all' ? i18n[currentLang].allCategories : cat;
+        const activeClass = cat === selectedCategory ? 'active' : '';
+        return `<div class="chip-item ${activeClass}" data-category="${cat}">${label}</div>`;
+      }).join('');
+
+      // Add click events to chips
+      document.querySelectorAll('.chip-item').forEach(chip => {
+        chip.addEventListener('click', (e) => {
+          document.querySelectorAll('.chip-item').forEach(c => c.classList.remove('active'));
+          e.target.classList.add('active');
+          selectedCategory = e.target.getAttribute('data-category');
+          applyFilters();
+        });
+      });
     }
 
     function openPdfReader(filePath, title) {
@@ -550,10 +636,8 @@
       document.getElementById('pdfFrame').src = '';
     });
 
-    // Share & APA Citation Functions
     function shareBook(title, filePath) {
       const directUrl = window.location.href.split('#')[0];
-
       if (navigator.share) {
         navigator.share({
           title: title,
@@ -596,6 +680,25 @@
       }
     }
 
+    // Search Bar Input Clearing
+    const searchInput = document.getElementById('searchInput');
+    const btnClearSearch = document.getElementById('btnClearSearch');
+
+    searchInput.addEventListener('input', () => {
+      if (searchInput.value.trim() !== '') {
+        btnClearSearch.classList.remove('d-none');
+      } else {
+        btnClearSearch.classList.add('d-none');
+      }
+      applyFilters();
+    });
+
+    btnClearSearch.addEventListener('click', () => {
+      searchInput.value = '';
+      btnClearSearch.classList.add('d-none');
+      applyFilters();
+    });
+
     function renderBooks(books) {
       const container = document.getElementById('booksDisplayContainer');
       const t = i18n[currentLang];
@@ -608,7 +711,6 @@
         return;
       }
 
-      // Render Grid Mode
       if (currentViewMode === 'grid') {
         const gridHtml = books.map(book => {
           let title = book.title;
@@ -632,16 +734,16 @@
 
           return `
           <div class="col-lg-6">
-            <div class="card h-100 book-card p-3 d-flex flex-column justify-content-between">
+            <div class="card h-100 book-card d-flex flex-column justify-content-between">
               <div class="d-flex gap-3 mb-3">
                 <div class="cover-container shadow-sm">${coverHtml}</div>
                 <div class="d-flex flex-column justify-content-between flex-grow-1">
                   <div>
                     <div class="d-flex justify-content-between align-items-center mb-1">
-                      <span class="category-badge">${category}</span>
-                      <span class="file-size-badge"><i class="bi bi-file-earmark-pdf me-1"></i>${book.file_size || 'PDF'}</span>
+                      <span class="badge-tag">${category}</span>
+                      <span class="text-muted small fw-bold"><i class="bi bi-file-earmark-pdf text-danger me-1"></i>${book.file_size || 'PDF'}</span>
                     </div>
-                    <h3 class="book-title mt-1">${title}</h3>
+                    <h3 class="book-title">${title}</h3>
                     <p class="book-author mb-2"><i class="bi bi-person me-1"></i>${author}</p>
                   </div>
                   <div class="text-muted small">
@@ -654,22 +756,22 @@
               </div>
               <div class="row g-2 mt-auto">
                 <div class="col-4">
-                  <button onclick="openPdfReader('${book.file_path}', '${title}')" class="btn btn-action w-100">
+                  <button onclick="openPdfReader('${book.file_path}', '${title}')" class="btn btn-iar-action w-100">
                     <i class="bi bi-eye me-1"></i> ${t.readBtn}
                   </button>
                 </div>
                 <div class="col-4">
-                  <a href="${book.file_path}" download class="btn btn-download w-100 text-center">
+                  <a href="${book.file_path}" download class="btn btn-iar-primary w-100 text-center">
                     <i class="bi bi-download me-1"></i> ${t.downloadBtn}
                   </a>
                 </div>
                 <div class="col-2">
-                  <button onclick="citeAPA('${author}', '${book.year}', '${title}', '${publisher}')" class="btn btn-action w-100" title="${t.citeBtn}">
+                  <button onclick="citeAPA('${author}', '${book.year}', '${title}', '${publisher}')" class="btn btn-iar-action w-100" title="${t.citeBtn}">
                     <i class="bi bi-quote"></i>
                   </button>
                 </div>
                 <div class="col-2">
-                  <button onclick="shareBook('${title}', '${book.file_path}')" class="btn btn-action w-100" title="${t.shareBtn}">
+                  <button onclick="shareBook('${title}', '${book.file_path}')" class="btn btn-iar-action w-100" title="${t.shareBtn}">
                     <i class="bi bi-share"></i>
                   </button>
                 </div>
@@ -679,9 +781,7 @@
         }).join('');
 
         container.innerHTML = `<div class="row g-4" id="booksGrid">${gridHtml}</div>`;
-      } 
-      // Render List / Table Mode
-      else {
+      } else {
         const listRowsHtml = books.map(book => {
           let title = book.title;
           let author = book.author;
@@ -700,7 +800,7 @@
           <tr>
             <td class="fw-bold align-middle">${title}</td>
             <td class="align-middle small text-muted">${author}</td>
-            <td class="align-middle"><span class="category-badge">${category}</span></td>
+            <td class="align-middle"><span class="badge-tag">${category}</span></td>
             <td class="align-middle small text-muted">${publisher} (${book.year || '2026'})</td>
             <td class="align-middle text-end">
               <div class="btn-group btn-group-sm">
@@ -732,8 +832,7 @@
     }
 
     function applyFilters() {
-      const query = document.getElementById('searchInput').value.toLowerCase();
-      const selectedCat = document.getElementById('categoryFilter').value;
+      const query = searchInput.value.toLowerCase();
       const sortValue = document.getElementById('sortOrder').value;
       const isEn = currentLang === 'en';
 
@@ -751,7 +850,7 @@
 
         const matchesSearch = (title && title.toLowerCase().includes(query)) ||
                               (author && author.toLowerCase().includes(query));
-        const matchesCat = selectedCat === 'all' || category === selectedCat;
+        const matchesCat = selectedCategory === 'all' || category === selectedCategory;
         return matchesSearch && matchesCat;
       });
 
@@ -768,8 +867,6 @@
       renderBooks(filtered);
     }
 
-    document.getElementById('searchInput').addEventListener('input', applyFilters);
-    document.getElementById('categoryFilter').addEventListener('change', applyFilters);
     document.getElementById('sortOrder').addEventListener('change', applyFilters);
 
     fetchBooks();
