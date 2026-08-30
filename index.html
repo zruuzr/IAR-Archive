@@ -9,7 +9,7 @@
   <meta name="description" content="أرشيف المراجع الإدارية العراقية (IAR Archive) هو مستودع رقمي متخصص في العلوم الإدارية، يوفر الكتب والمراجع والموارد الأكاديمية للطلاب والباحثين والمهنيين.">
 
   <!-- Bootstrap 5 RTL CSS & Icons -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" id="bootstrapCSS">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -131,10 +131,23 @@
       cursor: pointer;
     }
 
-    .cover-container:hover .cover-img {
+    /* Pop-up Image positioning for RTL and LTR */
+    html[dir="rtl"] .cover-container:hover .cover-img {
       position: absolute;
       top: 0;
       right: 0;
+      width: 260px;
+      height: 370px;
+      z-index: 9999;
+      box-shadow: 0 20px 35px rgba(0, 0, 0, 0.4);
+      border: 3px solid var(--card-bg);
+      border-radius: 12px;
+    }
+
+    html[dir="ltr"] .cover-container:hover .cover-img {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 260px;
       height: 370px;
       z-index: 9999;
@@ -241,10 +254,15 @@
           </div>
           <div>
             <div class="brand-title">IAR Archive</div>
-            <div class="brand-subtitle">الأرشيف الإداري العراقي</div>
+            <div class="brand-subtitle" id="txt-subtitle">الأرشيف الإداري العراقي</div>
           </div>
         </div>
         <div class="d-flex align-items-center gap-2">
+          <!-- Language Toggle Button -->
+          <button id="langToggleBtn" class="btn btn-outline-light btn-sm fw-bold px-2.5 py-1">
+            <i class="bi bi-translate me-1"></i> <span id="langLabel">EN</span>
+          </button>
+          <!-- Dark Mode Toggle -->
           <button id="themeToggleBtn" class="btn btn-outline-light btn-sm rounded-circle p-2" title="تبديل المظهر">
             <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
           </button>
@@ -258,14 +276,14 @@
     <div class="about-banner mb-4">
       <div class="row align-items-center g-3">
         <div class="col-lg-8">
-          <h2 class="h5 fw-bold mb-1">حول المستودع الرقمي</h2>
-          <p class="mb-0 small text-muted">
-            <strong>IAR Archive (الأرشيف الإداري العراقي)</strong> هو مستودع رقمي متخصص في علوم الإدارة والتطوير المؤسسي، يوفر الكتب والمراجع والموارد الأكاديمية للطلاب والباحثين والمهنيين.
+          <h2 class="h5 fw-bold mb-1" id="txt-about-title">حول المستودع الرقمي</h2>
+          <p class="mb-0 small text-muted" id="txt-about-desc">
+            <strong>IAR Archive (Iraqi Administrative Reference)</strong> is a digital repository for management and administrative sciences, providing books, references, and academic resources for students, researchers, professionals, and management enthusiasts.
           </p>
         </div>
         <div class="col-lg-4 text-lg-end">
           <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-2 rounded-pill fs-6">
-            <i class="bi bi-journal-text me-1"></i> الإجمالي: <span id="booksCounter">0</span> مرجع إداري
+            <i class="bi bi-journal-text me-1"></i> <span id="txt-total-label">الإجمالي</span>: <span id="booksCounter">0</span> <span id="txt-items-label">مرجع إداري</span>
           </span>
         </div>
       </div>
@@ -283,8 +301,8 @@
       </div>
       <div class="col-md-3">
         <select id="sortOrder" class="form-select filter-select">
-          <option value="default">الترتيب الافتراضي</option>
-          <option value="title">حسب العنوان (أبجدي)</option>
+          <option value="default" id="opt-sort-default">الترتيب الافتراضي</option>
+          <option value="title" id="opt-sort-title">حسب العنوان (أبجدي)</option>
         </select>
       </div>
     </div>
@@ -311,7 +329,7 @@
   <footer class="text-center">
     <div class="container">
       <p class="mb-1 fw-semibold text-light">IAR Archive &copy; 2026</p>
-      <p class="mb-0 small text-muted">الأرشيف الإداري العراقي - مستودع رقمي متخصص في العلوم الإدارية</p>
+      <p class="mb-0 small text-muted" id="txt-footer">الأرشيف الإداري العراقي - مستودع رقمي متخصص في العلوم الإدارية</p>
     </div>
   </footer>
 
@@ -319,7 +337,54 @@
 
   <script>
     let booksData = [];
+    let currentLang = localStorage.getItem('iar_lang') || 'ar';
     const pdfModal = new bootstrap.Modal(document.getElementById('pdfReaderModal'));
+
+    // Dictionary Translations
+    const i18n = {
+      ar: {
+        subtitle: "الأرشيف الإداري العراقي",
+        aboutTitle: "حول المستودع الرقمي",
+        aboutDesc: "<strong>IAR Archive (الأرشيف الإداري العراقي)</strong> هو مستودع رقمي متخصص في علوم الإدارة والتطوير المؤسسي، يوفر الكتب والمراجع والموارد الأكاديمية للطلاب والباحثين والمهنيين والمهتمين بالعلوم الإدارية.",
+        totalLabel: "الإجمالي",
+        itemsLabel: "مرجع إداري",
+        searchPlaceholder: "ابحث بعنوان الكتاب، اسم المؤلف، أو الكلمات المفتاحية...",
+        allCategories: "جميع التصنيفات الإدارية",
+        sortDefault: "الترتيب الافتراضي",
+        sortTitle: "حسب العنوان (أبجدي)",
+        readBtn: "قراءة",
+        downloadBtn: "تحميل",
+        shareBtn: "مشاركة",
+        readModalTitle: "قراءة الكتاب",
+        noBooks: "لم يتم العثور على كتب مطابقة لخيارات البحث.",
+        errorMsg: "تعذر تحميل قائمة الكتب.",
+        footerText: "الأرشيف الإداري العراقي - مستودع رقمي متخصص في العلوم الإدارية",
+        toastCopied: "تم نسخ رابط الموقع المباشر إلى الحافظة بنجاح.",
+        generalCat: "عام",
+        defaultPublisher: "الأرشيف الإداري العراقي"
+      },
+      en: {
+        subtitle: "Iraqi Administrative Reference",
+        aboutTitle: "About Digital Repository",
+        aboutDesc: "<strong>IAR Archive (Iraqi Administrative Reference)</strong> is a digital repository for management and administrative sciences, providing books, references, and academic resources for students, researchers, professionals, and management enthusiasts.",
+        totalLabel: "Total",
+        itemsLabel: "References",
+        searchPlaceholder: "Search by book title, author name, or keywords...",
+        allCategories: "All Administrative Categories",
+        sortDefault: "Default Sorting",
+        sortTitle: "Sort by Title (Alphabetical)",
+        readBtn: "Read",
+        downloadBtn: "Download",
+        shareBtn: "Share",
+        readModalTitle: "Reading Book",
+        noBooks: "No matching books found for search criteria.",
+        errorMsg: "Failed to load books list.",
+        footerText: "Iraqi Administrative Reference - Digital Repository for Management Sciences",
+        toastCopied: "Direct repository link copied to clipboard successfully.",
+        generalCat: "General",
+        defaultPublisher: "IAR Archive"
+      }
+    };
 
     // Dark Mode Script
     const themeToggleBtn = document.getElementById('themeToggleBtn');
@@ -340,22 +405,64 @@
       themeIcon.className = theme === 'dark' ? 'bi bi-sun-fill' : 'bi bi-moon-stars-fill';
     }
 
+    // Language Script
+    const langToggleBtn = document.getElementById('langToggleBtn');
+    const bootstrapCSS = document.getElementById('bootstrapCSS');
+
+    function applyLanguage(lang) {
+      currentLang = lang;
+      localStorage.setItem('iar_lang', lang);
+
+      const html = document.documentElement;
+      html.setAttribute('lang', lang);
+      html.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+
+      if (lang === 'ar') {
+        bootstrapCSS.href = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css";
+        document.getElementById('langLabel').innerText = "EN";
+      } else {
+        bootstrapCSS.href = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css";
+        document.getElementById('langLabel').innerText = "عربي";
+      }
+
+      // Static Elements Update
+      const t = i18n[lang];
+      document.getElementById('txt-subtitle').innerText = t.subtitle;
+      document.getElementById('txt-about-title').innerText = t.aboutTitle;
+      document.getElementById('txt-about-desc').innerHTML = t.aboutDesc;
+      document.getElementById('txt-total-label').innerText = t.totalLabel;
+      document.getElementById('txt-items-label').innerText = t.itemsLabel;
+      document.getElementById('searchInput').placeholder = t.searchPlaceholder;
+      document.getElementById('opt-sort-default').innerText = t.sortDefault;
+      document.getElementById('opt-sort-title').innerText = t.sortTitle;
+      document.getElementById('modalBookTitle').innerText = t.readModalTitle;
+      document.getElementById('txt-footer').innerText = t.footerText;
+
+      setupCategories();
+      applyFilters();
+    }
+
+    langToggleBtn.addEventListener('click', () => {
+      applyLanguage(currentLang === 'ar' ? 'en' : 'ar');
+    });
+
     // Fetch Books
     async function fetchBooks() {
       try {
         const response = await fetch('books.json');
         booksData = await response.json();
-        setupCategories();
-        applyFilters();
+        applyLanguage(currentLang);
       } catch (error) {
-        document.getElementById('booksGrid').innerHTML = `<p class="text-center text-danger py-5">تعذر تحميل قائمة الكتب.</p>`;
+        document.getElementById('booksGrid').innerHTML = `<p class="text-center text-danger py-5">${i18n[currentLang].errorMsg}</p>`;
       }
     }
 
     function setupCategories() {
-      const categories = ['all', ...new Set(booksData.map(b => b.category))];
+      const isEn = currentLang === 'en';
+      const categories = ['all', ...new Set(booksData.map(b => isEn && b.category_en ? b.category_en : b.category))];
+      
       document.getElementById('categoryFilter').innerHTML = categories.map(cat => 
-        `<option value="${cat}">${cat === 'all' ? 'جميع التصنيفات الإدارية' : cat}</option>`
+        `<option value="${cat}">${cat === 'all' ? i18n[currentLang].allCategories : cat}</option>`
       ).join('');
     }
 
@@ -369,19 +476,19 @@
       document.getElementById('pdfFrame').src = '';
     });
 
-    // Share Functionality (Direct URL Fix)
+    // Share Functionality
     function shareBook(title, filePath) {
       const directUrl = window.location.href.split('#')[0];
 
       if (navigator.share) {
         navigator.share({
           title: title,
-          text: `شاهد هذا المرجع الإداري على IAR Archive: ${title}`,
+          text: `IAR Archive: ${title}`,
           url: directUrl
         }).catch(() => {});
       } else {
         navigator.clipboard.writeText(directUrl).then(() => {
-          showToast('تم نسخ رابط الموقع المباشر إلى الحافظة بنجاح.');
+          showToast(i18n[currentLang].toastCopied);
         }).catch(() => {
           const tempInput = document.createElement('input');
           tempInput.value = directUrl;
@@ -389,7 +496,7 @@
           tempInput.select();
           document.execCommand('copy');
           document.body.removeChild(tempInput);
-          showToast('تم نسخ رابط الموقع المباشر إلى الحافظة.');
+          showToast(i18n[currentLang].toastCopied);
         });
       }
     }
@@ -418,16 +525,25 @@
 
     function renderBooks(books) {
       const grid = document.getElementById('booksGrid');
+      const t = i18n[currentLang];
+      const isEn = currentLang === 'en';
+
       document.getElementById('booksCounter').innerText = books.length;
 
       if (books.length === 0) {
-        grid.innerHTML = `<p class="text-center text-muted py-5">لم يتم العثور على كتب مطابقة لخيارات البحث.</p>`;
+        grid.innerHTML = `<p class="text-center text-muted py-5">${t.noBooks}</p>`;
         return;
       }
 
       grid.innerHTML = books.map(book => {
+        const title = isEn && book.title_en ? book.title_en : book.title;
+        const author = isEn && book.author_en ? book.author_en : book.author;
+        const category = isEn && book.category_en ? book.category_en : (book.category || t.generalCat);
+        const description = isEn && book.description_en ? book.description_en : (book.description || '');
+        const publisher = isEn && book.publisher_en ? book.publisher_en : (book.publisher || t.defaultPublisher);
+
         const coverHtml = book.cover_image 
-          ? `<div class="cover-img-wrapper"><img src="${book.cover_image}" alt="${book.title}" class="cover-img"></div>`
+          ? `<div class="cover-img-wrapper"><img src="${book.cover_image}" alt="${title}" class="cover-img"></div>`
           : `<i class="bi bi-book cover-placeholder"></i>`;
 
         return `
@@ -437,31 +553,31 @@
               <div class="cover-container shadow-sm">${coverHtml}</div>
               <div class="d-flex flex-column justify-content-between flex-grow-1">
                 <div>
-                  <span class="category-badge">${book.category || 'عام'}</span>
-                  <h3 class="book-title mt-1">${book.title}</h3>
-                  <p class="book-author mb-2"><i class="bi bi-person me-1"></i>${book.author}</p>
+                  <span class="category-badge">${category}</span>
+                  <h3 class="book-title mt-1">${title}</h3>
+                  <p class="book-author mb-2"><i class="bi bi-person me-1"></i>${author}</p>
                 </div>
                 <div class="text-muted small">
-                  <span><i class="bi bi-building me-1"></i>${book.publisher || 'IAR Archive'}</span>
+                  <span><i class="bi bi-building me-1"></i>${publisher}</span>
                 </div>
               </div>
             </div>
             <div class="mb-3 pt-2 border-top border-light-subtle">
-              <p class="book-desc mb-0">${book.description || ''}</p>
+              <p class="book-desc mb-0">${description}</p>
             </div>
             <div class="row g-2 mt-auto">
               <div class="col-5">
-                <button onclick="openPdfReader('${book.file_path}', '${book.title}')" class="btn btn-read w-100">
-                  <i class="bi bi-eye me-1"></i> قراءة
+                <button onclick="openPdfReader('${book.file_path}', '${title}')" class="btn btn-read w-100">
+                  <i class="bi bi-eye me-1"></i> ${t.readBtn}
                 </button>
               </div>
               <div class="col-5">
                 <a href="${book.file_path}" download class="btn btn-download w-100 text-center">
-                  <i class="bi bi-download me-1"></i> تحميل
+                  <i class="bi bi-download me-1"></i> ${t.downloadBtn}
                 </a>
               </div>
               <div class="col-2">
-                <button onclick="shareBook('${book.title}', '${book.file_path}')" class="btn btn-share w-100" title="مشاركة">
+                <button onclick="shareBook('${title}', '${book.file_path}')" class="btn btn-share w-100" title="${t.shareBtn}">
                   <i class="bi bi-share"></i>
                 </button>
               </div>
@@ -475,16 +591,25 @@
       const query = document.getElementById('searchInput').value.toLowerCase();
       const selectedCat = document.getElementById('categoryFilter').value;
       const sortValue = document.getElementById('sortOrder').value;
+      const isEn = currentLang === 'en';
 
       let filtered = booksData.filter(book => {
-        const matchesSearch = (book.title && book.title.toLowerCase().includes(query)) ||
-                              (book.author && book.author.toLowerCase().includes(query));
-        const matchesCat = selectedCat === 'all' || book.category === selectedCat;
+        const title = isEn && book.title_en ? book.title_en : book.title;
+        const author = isEn && book.author_en ? book.author_en : book.author;
+        const category = isEn && book.category_en ? book.category_en : book.category;
+
+        const matchesSearch = (title && title.toLowerCase().includes(query)) ||
+                              (author && author.toLowerCase().includes(query));
+        const matchesCat = selectedCat === 'all' || category === selectedCat;
         return matchesSearch && matchesCat;
       });
 
       if (sortValue === 'title') {
-        filtered.sort((a, b) => a.title.localeCompare(b.title, 'ar'));
+        filtered.sort((a, b) => {
+          const titleA = isEn && a.title_en ? a.title_en : a.title;
+          const titleB = isEn && b.title_en ? b.title_en : b.title;
+          return titleA.localeCompare(titleB, isEn ? 'en' : 'ar');
+        });
       }
 
       renderBooks(filtered);
