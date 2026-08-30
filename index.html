@@ -131,7 +131,6 @@
       cursor: pointer;
     }
 
-    /* Pop-up Image positioning for RTL and LTR */
     html[dir="rtl"] .cover-container:hover .cover-img {
       position: absolute;
       top: 0;
@@ -189,7 +188,6 @@
       line-height: 1.55;
     }
 
-    /* Buttons Style */
     .btn-read {
       background-color: rgba(148, 163, 184, 0.12);
       color: var(--text-main);
@@ -258,13 +256,13 @@
           </div>
         </div>
         <div class="d-flex align-items-center gap-2">
-          <!-- Language Toggle Button -->
+          <!-- Language Button -->
           <button id="langToggleBtn" class="btn btn-outline-light btn-sm fw-bold px-2.5 py-1">
             <i class="bi bi-translate me-1"></i> <span id="langLabel">EN</span>
           </button>
-          <!-- Dark Mode Toggle -->
-          <button id="themeToggleBtn" class="btn btn-outline-light btn-sm rounded-circle p-2" title="تبديل المظهر">
-            <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
+          <!-- Theme Button with Dynamic Title -->
+          <button id="themeToggleBtn" class="btn btn-outline-light btn-sm rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 34px; height: 34px;">
+            <i class="bi bi-moon fs-6" id="themeIcon"></i>
           </button>
         </div>
       </div>
@@ -340,7 +338,7 @@
     let currentLang = localStorage.getItem('iar_lang') || 'ar';
     const pdfModal = new bootstrap.Modal(document.getElementById('pdfReaderModal'));
 
-    // Dictionary Translations
+    // Translations Dictionary
     const i18n = {
       ar: {
         subtitle: "الأرشيف الإداري العراقي",
@@ -361,7 +359,8 @@
         footerText: "الأرشيف الإداري العراقي - مستودع رقمي متخصص في العلوم الإدارية",
         toastCopied: "تم نسخ رابط الموقع المباشر إلى الحافظة بنجاح.",
         generalCat: "عام",
-        defaultPublisher: "الأرشيف الإداري العراقي"
+        defaultPublisher: "الأرشيف الإداري العراقي",
+        themeTooltip: "تبديل المظهر"
       },
       en: {
         subtitle: "Iraqi Administrative Reference",
@@ -382,11 +381,12 @@
         footerText: "Iraqi Administrative Reference - Digital Repository for Management Sciences",
         toastCopied: "Direct repository link copied to clipboard successfully.",
         generalCat: "General",
-        defaultPublisher: "IAR Archive"
+        defaultPublisher: "IAR Archive",
+        themeTooltip: "Toggle Theme"
       }
     };
 
-    // Dark Mode Script
+    // Dark Mode Controller
     const themeToggleBtn = document.getElementById('themeToggleBtn');
     const themeIcon = document.getElementById('themeIcon');
     const currentTheme = localStorage.getItem('iar_theme') || 'light';
@@ -402,10 +402,10 @@
     });
 
     function updateThemeIcon(theme) {
-      themeIcon.className = theme === 'dark' ? 'bi bi-sun-fill' : 'bi bi-moon-stars-fill';
+      themeIcon.className = theme === 'dark' ? 'bi bi-sun fs-6' : 'bi bi-moon fs-6';
     }
 
-    // Language Script
+    // Language Controller
     const langToggleBtn = document.getElementById('langToggleBtn');
     const bootstrapCSS = document.getElementById('bootstrapCSS');
 
@@ -425,7 +425,6 @@
         document.getElementById('langLabel').innerText = "عربي";
       }
 
-      // Static Elements Update
       const t = i18n[lang];
       document.getElementById('txt-subtitle').innerText = t.subtitle;
       document.getElementById('txt-about-title').innerText = t.aboutTitle;
@@ -437,6 +436,9 @@
       document.getElementById('opt-sort-title').innerText = t.sortTitle;
       document.getElementById('modalBookTitle').innerText = t.readModalTitle;
       document.getElementById('txt-footer').innerText = t.footerText;
+      
+      // Update theme button title tooltip according to language
+      themeToggleBtn.setAttribute('title', t.themeTooltip);
 
       setupCategories();
       applyFilters();
@@ -476,7 +478,7 @@
       document.getElementById('pdfFrame').src = '';
     });
 
-    // Share Functionality
+    // Share Function
     function shareBook(title, filePath) {
       const directUrl = window.location.href.split('#')[0];
 
