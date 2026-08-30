@@ -335,9 +335,16 @@
 
   <script>
     let booksData = [];
-    let autoTranslations = {}; // Cache for Auto-translated content
+    let autoTranslations = {};
     let currentLang = localStorage.getItem('iar_lang') || 'ar';
     const pdfModal = new bootstrap.Modal(document.getElementById('pdfReaderModal'));
+
+    // Manual Translations Dictionary for titles and phrases
+    const manualTitleTranslations = {
+      "فن الخطابة": "The Art of Public Speaking",
+      "مبادئ الإدارة العامة وتطبيقاتها": "Principles and Applications of Public Administration",
+      "إدارة الموارد البشرية والقيادة الإدارية": "Human Resource Management and Leadership"
+    };
 
     // Static UI Dictionary
     const i18n = {
@@ -387,9 +394,15 @@
       }
     };
 
-    // Auto Translation Engine for Dynamic Arabic Content
-    async function translateText(text) {
+    // Auto Translation Engine
+    async function translateText(text, isTitle = false) {
       if (!text || text.trim() === '') return text;
+
+      // Check manual overrides for titles first
+      if (isTitle && manualTitleTranslations[text.trim()]) {
+        return manualTitleTranslations[text.trim()];
+      }
+
       if (autoTranslations[text]) return autoTranslations[text];
 
       try {
@@ -399,7 +412,7 @@
         autoTranslations[text] = translatedStr;
         return translatedStr;
       } catch (e) {
-        return text; // Fallback to original text if offline/error
+        return text;
       }
     }
 
@@ -552,7 +565,6 @@
         return;
       }
 
-      // Show loader while auto-translating if English is selected
       if (isEn) {
         grid.innerHTML = `
           <div class="text-center py-5">
@@ -570,9 +582,8 @@
         let description = isEn && book.description_en ? book.description_en : (book.description || '');
         let publisher = isEn && book.publisher_en ? book.publisher_en : (book.publisher || t.defaultPublisher);
 
-        // Auto Translate Fallback for Dynamic Arabic Fields
         if (isEn) {
-          if (!book.title_en) title = await translateText(title);
+          if (!book.title_en) title = await translateText(title, true);
           if (!book.author_en) author = await translateText(author);
           if (!book.category_en) category = await translateText(category);
           if (!book.description_en) description = await translateText(description);
