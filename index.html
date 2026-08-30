@@ -260,7 +260,7 @@
           <button id="langToggleBtn" class="btn btn-outline-light btn-sm fw-bold px-2.5 py-1">
             <i class="bi bi-translate me-1"></i> <span id="langLabel">EN</span>
           </button>
-          <!-- Theme Button with Dynamic Title -->
+          <!-- Theme Button -->
           <button id="themeToggleBtn" class="btn btn-outline-light btn-sm rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 34px; height: 34px;">
             <i class="bi bi-moon fs-6" id="themeIcon"></i>
           </button>
@@ -339,11 +339,13 @@
     let currentLang = localStorage.getItem('iar_lang') || 'ar';
     const pdfModal = new bootstrap.Modal(document.getElementById('pdfReaderModal'));
 
-    // Manual Translations Dictionary for titles and phrases
-    const manualTitleTranslations = {
+    // Comprehensive Dictionary Fallback for Books Details
+    const customDictionary = {
       "فن الخطابة": "The Art of Public Speaking",
-      "مبادئ الإدارة العامة وتطبيقاتها": "Principles and Applications of Public Administration",
-      "إدارة الموارد البشرية والقيادة الإدارية": "Human Resource Management and Leadership"
+      "اسم المؤلف": "Author Name",
+      "المهارات القيادية والإدارية": "Leadership & Management Skills",
+      "الأرشيف الإداري العراقي": "IAR Archive",
+      "عام": "General"
     };
 
     // Static UI Dictionary
@@ -394,25 +396,26 @@
       }
     };
 
-    // Auto Translation Engine
-    async function translateText(text, isTitle = false) {
+    // Robust Translation Function
+    async function translateText(text) {
       if (!text || text.trim() === '') return text;
+      const cleanText = text.trim();
 
-      // Check manual overrides for titles first
-      if (isTitle && manualTitleTranslations[text.trim()]) {
-        return manualTitleTranslations[text.trim()];
+      // Check Local Dictionary First
+      if (customDictionary[cleanText]) {
+        return customDictionary[cleanText];
       }
 
-      if (autoTranslations[text]) return autoTranslations[text];
+      if (autoTranslations[cleanText]) return autoTranslations[cleanText];
 
       try {
-        const res = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=ar&tl=en&dt=t&q=${encodeURIComponent(text)}`);
+        const res = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=ar&tl=en&dt=t&q=${encodeURIComponent(cleanText)}`);
         const data = await res.json();
         const translatedStr = data[0].map(item => item[0]).join('');
-        autoTranslations[text] = translatedStr;
+        autoTranslations[cleanText] = translatedStr;
         return translatedStr;
       } catch (e) {
-        return text;
+        return cleanText;
       }
     }
 
@@ -582,12 +585,13 @@
         let description = isEn && book.description_en ? book.description_en : (book.description || '');
         let publisher = isEn && book.publisher_en ? book.publisher_en : (book.publisher || t.defaultPublisher);
 
+        // Force translate all Arabic fields when English is active
         if (isEn) {
-          if (!book.title_en) title = await translateText(title, true);
-          if (!book.author_en) author = await translateText(author);
-          if (!book.category_en) category = await translateText(category);
-          if (!book.description_en) description = await translateText(description);
-          if (!book.publisher_en && book.publisher) publisher = await translateText(publisher);
+          title = await translateText(title);
+          author = await translateText(author);
+          category = await translateText(category);
+          description = await translateText(description);
+          publisher = await translateText(publisher);
         }
 
         const coverHtml = book.cover_image 
