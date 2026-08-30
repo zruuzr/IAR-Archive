@@ -3,42 +3,262 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>مكتبة العلوم الإدارية</title>
-  <!-- Bootstrap 5 RTL CSS -->
+  <title>IAR Archive | Iraqi Administrative Reference</title>
+  
+  <!-- SEO & Meta -->
+  <meta name="description" content="IAR Archive (Iraqi Administrative Reference) is a digital repository for management and administrative sciences, providing books, references, and academic resources for students, researchers, professionals, and management enthusiasts.">
+  
+  <!-- Bootstrap 5 RTL CSS & Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  
   <style>
-    body { background-color: #f8f9fa; font-family: system-ui, -apple-system, sans-serif; }
-    .hero-section { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: white; padding: 40px 0; }
-    .book-card { transition: transform 0.2s, box-shadow 0.2s; border: none; border-radius: 12px; }
-    .book-card:hover { transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0,0,0,0.08); }
-    .badge-category { background-color: #eef2ff; color: #3730a3; font-weight: 500; }
+    :root {
+      --primary-color: #0f172a;
+      --accent-color: #2563eb;
+      --bg-color: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      font-family: 'Cairo', 'Inter', system-ui, -apple-system, sans-serif;
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .navbar-iar {
+      background-color: var(--primary-color);
+      border-bottom: 3px solid var(--accent-color);
+      padding: 1rem 0;
+    }
+
+    .brand-title {
+      font-weight: 800;
+      font-size: 1.6rem;
+      letter-spacing: -0.5px;
+      color: #ffffff;
+    }
+
+    .brand-subtitle {
+      color: #94a3b8;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .about-banner {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    }
+
+    .search-box .form-control {
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--border-color);
+      font-size: 0.95rem;
+    }
+
+    .search-box .form-control:focus {
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .filter-select {
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--border-color);
+      font-size: 0.95rem;
+    }
+
+    /* Book Cards Design */
+    .book-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      transition: all 0.25s ease-in-out;
+      overflow: hidden;
+    }
+
+    .book-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.08);
+      border-color: #cbd5e1;
+    }
+
+    .cover-container {
+      width: 110px;
+      height: 155px;
+      flex-shrink: 0;
+      border-radius: 8px;
+      overflow: hidden;
+      background-color: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cover-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .cover-placeholder {
+      color: #94a3b8;
+      font-size: 2.2rem;
+    }
+
+    .category-badge {
+      background-color: #eff6ff;
+      color: #1d4ed8;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.3rem 0.65rem;
+      border-radius: 20px;
+      display: inline-block;
+    }
+
+    .book-title {
+      font-weight: 700;
+      font-size: 1.05rem;
+      line-height: 1.4;
+      color: var(--primary-color);
+      margin-bottom: 0.25rem;
+    }
+
+    .book-author {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .book-desc {
+      font-size: 0.85rem;
+      color: #475569;
+      line-height: 1.55;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .meta-item {
+      font-size: 0.8rem;
+      color: #94a3b8;
+    }
+
+    /* Action Buttons */
+    .btn-read {
+      background-color: #f1f5f9;
+      color: var(--primary-color);
+      font-weight: 700;
+      font-size: 0.88rem;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 0.55rem 0.75rem;
+      transition: all 0.2s ease;
+    }
+
+    .btn-read:hover {
+      background-color: #e2e8f0;
+      color: var(--primary-color);
+    }
+
+    .btn-download {
+      background-color: var(--accent-color);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 0.88rem;
+      border: none;
+      border-radius: 8px;
+      padding: 0.55rem 0.75rem;
+      transition: background-color 0.2s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-download:hover {
+      background-color: #1d4ed8;
+      color: #ffffff;
+    }
+
+    footer {
+      margin-top: auto;
+      background-color: var(--primary-color);
+      color: #94a3b8;
+      padding: 2rem 0;
+      border-top: 1px solid #1e293b;
+    }
   </style>
 </head>
 <body>
 
   <!-- Header -->
-  <header class="hero-section text-center mb-4">
+  <header class="navbar-iar">
     <div class="container">
-      <h1 class="fw-bold mb-2"><i class="bi bi-journal-bookmark-fill me-2"></i>مكتبة العلوم الإدارية</h1>
-      <p class="lead opacity-75 mb-0">منصة رقمية متخصصة في كتب ومراجع الإدارة والتطوير المؤسسي</p>
+      <div class="d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center gap-3">
+          <div class="bg-primary text-white rounded-3 p-2.5 d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; background-color: var(--accent-color) !important;">
+            <i class="bi bi-journal-bookmark-fill fs-4"></i>
+          </div>
+          <div>
+            <div class="brand-title">IAR Archive</div>
+            <div class="brand-subtitle">Iraqi Administrative Reference</div>
+          </div>
+        </div>
+        <div class="d-none d-md-block text-end">
+          <span class="badge bg-secondary bg-opacity-25 text-light border border-secondary border-opacity-25 px-3 py-2 rounded-pill font-monospace">
+            <i class="bi bi-database-check me-1 text-success"></i> Direct Access Repository
+          </span>
+        </div>
+      </div>
     </div>
   </header>
 
   <!-- Main Content -->
-  <main class="container mb-5">
-    
-    <!-- Controls (Search & Filter) -->
+  <main class="container my-4">
+
+    <!-- About Section -->
+    <div class="about-banner mb-4">
+      <div class="row align-items-center g-3">
+        <div class="col-lg-8">
+          <h2 class="h5 fw-bold mb-1 text-dark">حول المستودع الرقمي</h2>
+          <p class="mb-0 small text-secondary">
+            <strong>IAR Archive (Iraqi Administrative Reference)</strong> is a digital repository for management and administrative sciences, providing books, references, and academic resources for students, researchers, professionals, and management enthusiasts.
+          </p>
+        </div>
+        <div class="col-lg-4 text-lg-end">
+          <span class="text-muted small"><i class="bi bi-shield-check text-primary me-1"></i> المراجع متاحة للقراءة والتحميل المباشر</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search Controls -->
     <div class="row g-3 mb-4">
-      <div class="col-md-8">
+      <div class="col-md-8 search-box">
         <div class="input-group">
-          <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-muted"></i></span>
-          <input type="text" id="searchInput" class="form-control border-start-0 ps-0" placeholder="ابحث باسم الكتاب أو المؤلف...">
+          <span class="input-group-text bg-white border-end-0 text-muted pe-1"><i class="bi bi-search"></i></span>
+          <input type="text" id="searchInput" class="form-control border-start-0 ps-2" placeholder="ابحث بعنوان الكتاب، اسم المؤلف، أو الكلمات المفتاحية...">
         </div>
       </div>
       <div class="col-md-4">
-        <select id="categoryFilter" class="form-select">
-          <option value="all">جميع التصنيفات</option>
+        <select id="categoryFilter" class="form-select filter-select">
+          <option value="all">جميع التصنيفات الإدارية</option>
         </select>
       </div>
     </div>
@@ -47,79 +267,155 @@
     <div class="row g-4" id="booksGrid">
       <div class="text-center py-5">
         <div class="spinner-border text-primary" role="status">
-          <span class="visually-hidden">جاري التحميل...</span>
+          <span class="visually-hidden">جاري تحميل الكتب...</span>
         </div>
       </div>
     </div>
 
   </main>
 
+  <!-- PDF Reader Modal -->
+  <div class="modal fade" id="pdfReaderModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered" style="height: 90vh;">
+      <div class="modal-content h-100">
+        <div class="modal-header py-2 bg-light">
+          <h5 class="modal-title fs-6 fw-bold text-dark" id="modalBookTitle">قراءة الكتاب</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+        </div>
+        <div class="modal-body p-0 h-100 bg-dark">
+          <iframe id="pdfFrame" src="" style="width:100%; height:100%; border:none;"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="text-center">
+    <div class="container">
+      <p class="mb-1 fw-semibold text-light">IAR Archive &copy; 2026</p>
+      <p class="mb-0 small text-muted">Iraqi Administrative Reference - Digital Repository for Management Sciences</p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Logic & Scripts -->
   <script>
     let booksData = [];
+    const pdfModal = new bootstrap.Modal(document.getElementById('pdfReaderModal'));
 
-    async function loadBooks() {
+    async function fetchBooks() {
       try {
         const response = await fetch('books.json');
         booksData = await response.json();
         
-        populateCategories();
+        setupCategories();
         renderBooks(booksData);
       } catch (error) {
         document.getElementById('booksGrid').innerHTML = `
           <div class="col-12 text-center text-danger py-5">
-            <i class="bi bi-exclamation-triangle display-4"></i>
-            <p class="mt-2">حدث خطأ في تحميل قائمة الكتب.</p>
+            <i class="bi bi-exclamation-circle display-4"></i>
+            <p class="mt-3 font-semibold">تعذر تحميل بيانات الكتب، يرجى التأكد من وجود ملف books.json</p>
           </div>`;
       }
     }
 
-    function populateCategories() {
+    function setupCategories() {
       const categories = ['all', ...new Set(booksData.map(b => b.category))];
       const filterSelect = document.getElementById('categoryFilter');
       filterSelect.innerHTML = categories.map(cat => 
-        `<option value="${cat}">${cat === 'all' ? 'جميع التصنيفات' : cat}</option>`
+        `<option value="${cat}">${cat === 'all' ? 'جميع التصنيفات الإدارية' : cat}</option>`
       ).join('');
     }
 
+    function openPdfReader(filePath, title) {
+      document.getElementById('modalBookTitle').innerText = title;
+      document.getElementById('pdfFrame').src = filePath;
+      pdfModal.show();
+    }
+
+    // Reset iframe source on modal close to free memory
+    document.getElementById('pdfReaderModal').addEventListener('hidden.bs.modal', function () {
+      document.getElementById('pdfFrame').src = '';
+    });
+
     function renderBooks(books) {
       const grid = document.getElementById('booksGrid');
+      
       if (books.length === 0) {
         grid.innerHTML = `
           <div class="col-12 text-center text-muted py-5">
-            <i class="bi bi-inbox display-4"></i>
-            <p class="mt-2">لم يتم العثور على كتب مطابقة.</p>
+            <i class="bi bi-inbox display-3 opacity-50"></i>
+            <p class="mt-2">لم يتم العثور على كتب مطابقة لخيارات البحث.</p>
           </div>`;
         return;
       }
 
-      grid.innerHTML = books.map(book => `
-        <div class="col-md-6 col-lg-4">
-          <div class="card h-100 book-card shadow-sm p-3">
-            <div class="card-body d-flex flex-column">
-              <div class="d-flex justify-content-between align-items-start mb-2">
-                <span class="badge badge-category px-2.5 py-1.5 rounded-pill">${book.category || 'عام'}</span>
-                <small class="text-muted"><i class="bi bi-calendar3 me-1"></i>${book.date || ''}</small>
+      grid.innerHTML = books.map(book => {
+        const coverHtml = book.cover_image 
+          ? `<img src="${book.cover_image}" alt="${book.title}" class="cover-img" onerror="this.onerror=null; this.parentElement.innerHTML='<i class=\\'bi bi-book cover-placeholder\\'></i>';">`
+          : `<i class="bi bi-book cover-placeholder"></i>`;
+
+        return `
+        <div class="col-lg-6">
+          <div class="card h-100 book-card p-3 d-flex flex-column justify-content-between">
+            
+            <div class="d-flex gap-3 mb-3">
+              <div class="cover-container shadow-sm">
+                ${coverHtml}
               </div>
-              <h5 class="card-title fw-bold text-dark mb-1">${book.title}</h5>
-              <p class="text-secondary small mb-2"><i class="bi bi-person me-1"></i>${book.author}</p>
-              <p class="card-text text-muted small flex-grow-1 mb-3">${book.description || ''}</p>
-              <a href="${book.download_url}" target="_blank" class="btn btn-primary w-100 mt-auto">
-                <i class="bi bi-download me-2"></i>تحميل الكتاب (PDF)
-              </a>
+
+              <div class="d-flex flex-column justify-content-between flex-grow-1">
+                <div>
+                  <div class="d-flex justify-content-between align-items-center mb-1">
+                    <span class="category-badge">${book.category || 'عام'}</span>
+                    <span class="meta-item"><i class="bi bi-file-earmark-pdf text-danger me-1"></i>${book.file_size || 'PDF'}</span>
+                  </div>
+                  
+                  <h3 class="book-title">${book.title}</h3>
+                  <p class="book-author mb-2"><i class="bi bi-person me-1"></i>${book.author}</p>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center text-muted small">
+                  <span><i class="bi bi-building me-1"></i>${book.publisher || 'IAR Archive'}</span>
+                  <span><i class="bi bi-calendar-event me-1"></i>${book.year || ''}</span>
+                </div>
+              </div>
             </div>
+
+            <div class="mb-3 pt-2 border-top border-light">
+              <p class="book-desc mb-0">${book.description || 'لا تتوفر نبذة مختصرة لهذا الكتاب في الوقت الحالي.'}</p>
+            </div>
+
+            <!-- Action Buttons Row -->
+            <div class="row g-2 mt-auto">
+              <div class="col-6">
+                <button onclick="openPdfReader('${book.file_path}', '${book.title}')" class="btn btn-read w-100">
+                  <i class="bi bi-eye me-1"></i> قراءة الكتاب
+                </button>
+              </div>
+              <div class="col-6">
+                <a href="${book.file_path}" download class="btn btn-download w-100">
+                  <i class="bi bi-download me-1"></i> تحميل (PDF)
+                </a>
+              </div>
+            </div>
+
           </div>
         </div>
-      `).join('');
+      `;
+      }).join('');
     }
 
-    // Filter and Search Logic
-    function filterBooks() {
-      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+    function applyFilters() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
       const selectedCat = document.getElementById('categoryFilter').value;
 
       const filtered = booksData.filter(book => {
-        const matchesSearch = book.title.toLowerCase().includes(searchTerm) || 
-                              book.author.toLowerCase().includes(searchTerm);
+        const matchesSearch = (book.title && book.title.toLowerCase().includes(query)) ||
+                              (book.author && book.author.toLowerCase().includes(query)) ||
+                              (book.description && book.description.toLowerCase().includes(query));
         const matchesCat = selectedCat === 'all' || book.category === selectedCat;
         return matchesSearch && matchesCat;
       });
@@ -127,10 +423,10 @@
       renderBooks(filtered);
     }
 
-    document.getElementById('searchInput').addEventListener('input', filterBooks);
-    document.getElementById('categoryFilter').addEventListener('change', filterBooks);
+    document.getElementById('searchInput').addEventListener('input', applyFilters);
+    document.getElementById('categoryFilter').addEventListener('change', applyFilters);
 
-    loadBooks();
+    fetchBooks();
   </script>
 
 </body>
