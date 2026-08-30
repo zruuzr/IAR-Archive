@@ -6,7 +6,7 @@
   <title>IAR Archive | الأرشيف الإداري العراقي</title>
 
   <!-- SEO & Meta -->
-  <meta name="description" content="أرشيف المراجع الإدارية العراقية (IAR Archive) هو مستودع رقمي متخصص في العلوم الإدارية، يوفر الكتب والمراجع والموارد الأكاديمية للطلاب والباحثين والمهنيين.">
+  <meta name="description" content="IAR Archive (Iraqi Administrative Reference) is a digital repository for management and administrative sciences, providing books, references, and academic resources.">
 
   <!-- Bootstrap 5 RTL CSS & Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" id="bootstrapCSS">
@@ -44,6 +44,15 @@
       display: flex;
       flex-direction: column;
       transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* Announcement Bar */
+    .announcement-bar {
+      background: linear-gradient(90deg, #1e3a8a 0%, #2563eb 100%);
+      color: #ffffff;
+      font-size: 0.82rem;
+      padding: 0.4rem 0;
+      font-weight: 600;
     }
 
     .navbar-iar {
@@ -86,7 +95,7 @@
       border-color: var(--accent-color);
     }
 
-    /* Book Card & Cover Pop-up */
+    /* Book Card & 3D Cover Styling */
     .book-card {
       background: var(--card-bg);
       border: 1px solid var(--border-color);
@@ -113,6 +122,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      box-shadow: -4px 6px 12px rgba(0, 0, 0, 0.08); /* 3D effect shadow */
     }
 
     .cover-img-wrapper {
@@ -169,6 +179,15 @@
       border-radius: 20px;
     }
 
+    .file-size-badge {
+      background-color: rgba(220, 38, 38, 0.1);
+      color: #dc2626;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.25rem 0.55rem;
+      border-radius: 6px;
+    }
+
     .book-title {
       font-weight: 700;
       font-size: 1.05rem;
@@ -188,7 +207,7 @@
       line-height: 1.55;
     }
 
-    .btn-read {
+    .btn-action {
       background-color: rgba(148, 163, 184, 0.12);
       color: var(--text-main);
       font-weight: 700;
@@ -196,9 +215,10 @@
       border: 1px solid var(--border-color);
       border-radius: 8px;
       padding: 0.5rem;
+      transition: all 0.2s ease;
     }
 
-    .btn-read:hover {
+    .btn-action:hover {
       background-color: rgba(148, 163, 184, 0.25);
       color: var(--text-main);
     }
@@ -218,20 +238,6 @@
       color: #ffffff;
     }
 
-    .btn-share {
-      background-color: transparent;
-      color: var(--text-muted);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 0.5rem;
-      font-size: 0.85rem;
-    }
-
-    .btn-share:hover {
-      background-color: rgba(148, 163, 184, 0.12);
-      color: var(--text-main);
-    }
-
     footer {
       margin-top: auto;
       background-color: var(--primary-color);
@@ -241,6 +247,13 @@
   </style>
 </head>
 <body>
+
+  <!-- Top Announcement Bar -->
+  <div class="announcement-bar text-center">
+    <div class="container">
+      <i class="bi bi-bell-fill me-1"></i> <span id="txt-announcement">أهلاً بكم في المستودع الرقمي للعلوم الإدارية - تحديثات دورية للمراجع الأكاديمية</span>
+    </div>
+  </div>
 
   <!-- Navbar -->
   <header class="navbar-iar">
@@ -256,11 +269,9 @@
           </div>
         </div>
         <div class="d-flex align-items-center gap-2">
-          <!-- Language Button -->
           <button id="langToggleBtn" class="btn btn-outline-light btn-sm fw-bold px-2.5 py-1">
             <i class="bi bi-translate me-1"></i> <span id="langLabel">EN</span>
           </button>
-          <!-- Theme Button -->
           <button id="themeToggleBtn" class="btn btn-outline-light btn-sm rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 34px; height: 34px;">
             <i class="bi bi-moon fs-6" id="themeIcon"></i>
           </button>
@@ -288,11 +299,11 @@
     </div>
 
     <!-- Controls Row -->
-    <div class="row g-3 mb-4">
-      <div class="col-md-5 search-box">
+    <div class="row g-3 mb-4 align-items-center">
+      <div class="col-md-4 search-box">
         <input type="text" id="searchInput" class="form-control" placeholder="ابحث بعنوان الكتاب، اسم المؤلف، أو الكلمات المفتاحية...">
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3">
         <select id="categoryFilter" class="form-select filter-select">
           <option value="all">جميع التصنيفات الإدارية</option>
         </select>
@@ -303,13 +314,22 @@
           <option value="title" id="opt-sort-title">حسب العنوان (أبجدي)</option>
         </select>
       </div>
+      <div class="col-md-2 text-end">
+        <!-- View Toggle (Grid / List) -->
+        <div class="btn-group w-100" role="group">
+          <button type="button" class="btn btn-outline-secondary active" id="btnViewGrid" title="عرض شبكي"><i class="bi bi-grid-fill"></i></button>
+          <button type="button" class="btn btn-outline-secondary" id="btnViewList" title="عرض قائمة"><i class="bi bi-list-task"></i></button>
+        </div>
+      </div>
     </div>
 
-    <!-- Books Grid -->
-    <div class="row g-4" id="booksGrid"></div>
+    <!-- Books Display Area -->
+    <div id="booksDisplayContainer">
+      <div class="row g-4" id="booksGrid"></div>
+    </div>
   </main>
 
-  <!-- PDF Modal -->
+  <!-- PDF Reader Modal -->
   <div class="modal fade" id="pdfReaderModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-centered" style="height: 90vh;">
       <div class="modal-content h-100">
@@ -336,22 +356,24 @@
   <script>
     let booksData = [];
     let currentLang = localStorage.getItem('iar_lang') || 'ar';
+    let currentViewMode = localStorage.getItem('iar_view_mode') || 'grid'; // grid or list
     const pdfModal = new bootstrap.Modal(document.getElementById('pdfReaderModal'));
 
-    // Instant Local Dictionary Mapping
+    // Instant Dictionary Mapping
     const dictionary = {
       "فن الخطابة": {
         title: "The Art of Public Speaking",
         author: "Author Name",
         category: "Leadership & Management Skills",
-        description: "Overview: A practical book explaining the principles of public speaking, effective communication, speech preparation, and leadership influence.",
+        description: "Overview: A practical guide detailing principles of public speaking, effective rhetoric, speech preparation, and leadership communication.",
         publisher: "IAR Archive"
       }
     };
 
-    // Static UI Translations
+    // Static UI Dictionary
     const i18n = {
       ar: {
+        announcement: "أهلاً بكم في المستودع الرقمي للعلوم الإدارية - تحديثات دورية للمراجع الأكاديمية",
         subtitle: "الأرشيف الإداري العراقي",
         aboutTitle: "حول المستودع الرقمي",
         aboutDesc: "<strong>IAR Archive (الأرشيف الإداري العراقي)</strong> هو مستودع رقمي متخصص في علوم الإدارة والتطوير المؤسسي، يوفر الكتب والمراجع والموارد الأكاديمية للطلاب والباحثين والمهنيين والمهتمين بالعلوم الإدارية.",
@@ -364,16 +386,19 @@
         readBtn: "قراءة",
         downloadBtn: "تحميل",
         shareBtn: "مشاركة",
+        citeBtn: "توثيق (APA)",
         readModalTitle: "قراءة الكتاب",
         noBooks: "لم يتم العثور على كتب مطابقة لخيارات البحث.",
         errorMsg: "تعذر تحميل قائمة الكتب.",
         footerText: "الأرشيف الإداري العراقي - مستودع رقمي متخصص في العلوم الإدارية",
         toastCopied: "تم نسخ رابط الموقع المباشر إلى الحافظة بنجاح.",
+        toastCiteCopied: "تم نسخ التوثيق الأكاديمي (APA) إلى الحافظة.",
         generalCat: "عام",
         defaultPublisher: "الأرشيف الإداري العراقي",
         themeTooltip: "تبديل المظهر"
       },
       en: {
+        announcement: "Welcome to IAR Archive - Regular updates for administrative & academic references",
         subtitle: "Iraqi Administrative Reference",
         aboutTitle: "About Digital Repository",
         aboutDesc: "<strong>IAR Archive (Iraqi Administrative Reference)</strong> is a digital repository for management and administrative sciences, providing books, references, and academic resources for students, researchers, professionals, and management enthusiasts.",
@@ -386,11 +411,13 @@
         readBtn: "Read",
         downloadBtn: "Download",
         shareBtn: "Share",
+        citeBtn: "Cite (APA)",
         readModalTitle: "Reading Book",
         noBooks: "No matching books found for search criteria.",
         errorMsg: "Failed to load books list.",
         footerText: "Iraqi Administrative Reference - Digital Repository for Management Sciences",
         toastCopied: "Direct repository link copied to clipboard successfully.",
+        toastCiteCopied: "APA Academic Citation copied to clipboard.",
         generalCat: "General",
         defaultPublisher: "IAR Archive",
         themeTooltip: "Toggle Theme"
@@ -437,6 +464,7 @@
       }
 
       const t = i18n[lang];
+      document.getElementById('txt-announcement').innerText = t.announcement;
       document.getElementById('txt-subtitle').innerText = t.subtitle;
       document.getElementById('txt-about-title').innerText = t.aboutTitle;
       document.getElementById('txt-about-desc').innerHTML = t.aboutDesc;
@@ -457,13 +485,44 @@
       applyLanguage(currentLang === 'ar' ? 'en' : 'ar');
     });
 
+    // View Mode Switcher (Grid / List)
+    const btnViewGrid = document.getElementById('btnViewGrid');
+    const btnViewList = document.getElementById('btnViewList');
+
+    btnViewGrid.addEventListener('click', () => {
+      currentViewMode = 'grid';
+      localStorage.setItem('iar_view_mode', 'grid');
+      btnViewGrid.classList.add('active');
+      btnViewList.classList.remove('active');
+      applyFilters();
+    });
+
+    btnViewList.addEventListener('click', () => {
+      currentViewMode = 'list';
+      localStorage.setItem('iar_view_mode', 'list');
+      btnViewList.classList.add('active');
+      btnViewGrid.classList.remove('active');
+      applyFilters();
+    });
+
+    function updateViewModeUI() {
+      if (currentViewMode === 'list') {
+        btnViewList.classList.add('active');
+        btnViewGrid.classList.remove('active');
+      } else {
+        btnViewGrid.classList.add('active');
+        btnViewList.classList.remove('active');
+      }
+    }
+
     async function fetchBooks() {
       try {
         const response = await fetch('books.json');
         booksData = await response.json();
+        updateViewModeUI();
         applyLanguage(currentLang);
       } catch (error) {
-        document.getElementById('booksGrid').innerHTML = `<p class="text-center text-danger py-5">${i18n[currentLang].errorMsg}</p>`;
+        document.getElementById('booksDisplayContainer').innerHTML = `<p class="text-center text-danger py-5">${i18n[currentLang].errorMsg}</p>`;
       }
     }
 
@@ -491,6 +550,7 @@
       document.getElementById('pdfFrame').src = '';
     });
 
+    // Share & APA Citation Functions
     function shareBook(title, filePath) {
       const directUrl = window.location.href.split('#')[0];
 
@@ -503,16 +563,15 @@
       } else {
         navigator.clipboard.writeText(directUrl).then(() => {
           showToast(i18n[currentLang].toastCopied);
-        }).catch(() => {
-          const tempInput = document.createElement('input');
-          tempInput.value = directUrl;
-          document.body.appendChild(tempInput);
-          tempInput.select();
-          document.execCommand('copy');
-          document.body.removeChild(tempInput);
-          showToast(i18n[currentLang].toastCopied);
         });
       }
+    }
+
+    function citeAPA(author, year, title, publisher) {
+      const apaText = `${author} (${year || '2026'}). ${title}. ${publisher || 'IAR Archive'}.`;
+      navigator.clipboard.writeText(apaText).then(() => {
+        showToast(i18n[currentLang].toastCiteCopied);
+      });
     }
 
     function showToast(message) {
@@ -538,77 +597,138 @@
     }
 
     function renderBooks(books) {
-      const grid = document.getElementById('booksGrid');
+      const container = document.getElementById('booksDisplayContainer');
       const t = i18n[currentLang];
       const isEn = currentLang === 'en';
 
       document.getElementById('booksCounter').innerText = books.length;
 
       if (books.length === 0) {
-        grid.innerHTML = `<p class="text-center text-muted py-5">${t.noBooks}</p>`;
+        container.innerHTML = `<p class="text-center text-muted py-5">${t.noBooks}</p>`;
         return;
       }
 
-      grid.innerHTML = books.map(book => {
-        let title = book.title;
-        let author = book.author;
-        let category = book.category || t.generalCat;
-        let description = book.description || '';
-        let publisher = book.publisher || t.defaultPublisher;
+      // Render Grid Mode
+      if (currentViewMode === 'grid') {
+        const gridHtml = books.map(book => {
+          let title = book.title;
+          let author = book.author;
+          let category = book.category || t.generalCat;
+          let description = book.description || '';
+          let publisher = book.publisher || t.defaultPublisher;
 
-        // Instant Translation Lookup without Remote Servers
-        if (isEn) {
-          const dict = dictionary[book.title];
-          title = book.title_en || (dict ? dict.title : book.title);
-          author = book.author_en || (dict ? dict.author : book.author);
-          category = book.category_en || (dict ? dict.category : category);
-          description = book.description_en || (dict ? dict.description : description);
-          publisher = book.publisher_en || (dict ? dict.publisher : publisher);
-        }
+          if (isEn) {
+            const dict = dictionary[book.title];
+            title = book.title_en || (dict ? dict.title : book.title);
+            author = book.author_en || (dict ? dict.author : book.author);
+            category = book.category_en || (dict ? dict.category : category);
+            description = book.description_en || (dict ? dict.description : description);
+            publisher = book.publisher_en || (dict ? dict.publisher : publisher);
+          }
 
-        const coverHtml = book.cover_image 
-          ? `<div class="cover-img-wrapper"><img src="${book.cover_image}" alt="${title}" class="cover-img"></div>`
-          : `<i class="bi bi-book cover-placeholder"></i>`;
+          const coverHtml = book.cover_image 
+            ? `<div class="cover-img-wrapper"><img src="${book.cover_image}" alt="${title}" class="cover-img"></div>`
+            : `<i class="bi bi-book cover-placeholder"></i>`;
 
-        return `
-        <div class="col-lg-6">
-          <div class="card h-100 book-card p-3 d-flex flex-column justify-content-between">
-            <div class="d-flex gap-3 mb-3">
-              <div class="cover-container shadow-sm">${coverHtml}</div>
-              <div class="d-flex flex-column justify-content-between flex-grow-1">
-                <div>
-                  <span class="category-badge">${category}</span>
-                  <h3 class="book-title mt-1">${title}</h3>
-                  <p class="book-author mb-2"><i class="bi bi-person me-1"></i>${author}</p>
+          return `
+          <div class="col-lg-6">
+            <div class="card h-100 book-card p-3 d-flex flex-column justify-content-between">
+              <div class="d-flex gap-3 mb-3">
+                <div class="cover-container shadow-sm">${coverHtml}</div>
+                <div class="d-flex flex-column justify-content-between flex-grow-1">
+                  <div>
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <span class="category-badge">${category}</span>
+                      <span class="file-size-badge"><i class="bi bi-file-earmark-pdf me-1"></i>${book.file_size || 'PDF'}</span>
+                    </div>
+                    <h3 class="book-title mt-1">${title}</h3>
+                    <p class="book-author mb-2"><i class="bi bi-person me-1"></i>${author}</p>
+                  </div>
+                  <div class="text-muted small">
+                    <span><i class="bi bi-building me-1"></i>${publisher} (${book.year || '2026'})</span>
+                  </div>
                 </div>
-                <div class="text-muted small">
-                  <span><i class="bi bi-building me-1"></i>${publisher}</span>
+              </div>
+              <div class="mb-3 pt-2 border-top border-light-subtle">
+                <p class="book-desc mb-0">${description}</p>
+              </div>
+              <div class="row g-2 mt-auto">
+                <div class="col-4">
+                  <button onclick="openPdfReader('${book.file_path}', '${title}')" class="btn btn-action w-100">
+                    <i class="bi bi-eye me-1"></i> ${t.readBtn}
+                  </button>
+                </div>
+                <div class="col-4">
+                  <a href="${book.file_path}" download class="btn btn-download w-100 text-center">
+                    <i class="bi bi-download me-1"></i> ${t.downloadBtn}
+                  </a>
+                </div>
+                <div class="col-2">
+                  <button onclick="citeAPA('${author}', '${book.year}', '${title}', '${publisher}')" class="btn btn-action w-100" title="${t.citeBtn}">
+                    <i class="bi bi-quote"></i>
+                  </button>
+                </div>
+                <div class="col-2">
+                  <button onclick="shareBook('${title}', '${book.file_path}')" class="btn btn-action w-100" title="${t.shareBtn}">
+                    <i class="bi bi-share"></i>
+                  </button>
                 </div>
               </div>
             </div>
-            <div class="mb-3 pt-2 border-top border-light-subtle">
-              <p class="book-desc mb-0">${description}</p>
-            </div>
-            <div class="row g-2 mt-auto">
-              <div class="col-5">
-                <button onclick="openPdfReader('${book.file_path}', '${title}')" class="btn btn-read w-100">
-                  <i class="bi bi-eye me-1"></i> ${t.readBtn}
-                </button>
+          </div>`;
+        }).join('');
+
+        container.innerHTML = `<div class="row g-4" id="booksGrid">${gridHtml}</div>`;
+      } 
+      // Render List / Table Mode
+      else {
+        const listRowsHtml = books.map(book => {
+          let title = book.title;
+          let author = book.author;
+          let category = book.category || t.generalCat;
+          let publisher = book.publisher || t.defaultPublisher;
+
+          if (isEn) {
+            const dict = dictionary[book.title];
+            title = book.title_en || (dict ? dict.title : book.title);
+            author = book.author_en || (dict ? dict.author : book.author);
+            category = book.category_en || (dict ? dict.category : category);
+            publisher = book.publisher_en || (dict ? dict.publisher : publisher);
+          }
+
+          return `
+          <tr>
+            <td class="fw-bold align-middle">${title}</td>
+            <td class="align-middle small text-muted">${author}</td>
+            <td class="align-middle"><span class="category-badge">${category}</span></td>
+            <td class="align-middle small text-muted">${publisher} (${book.year || '2026'})</td>
+            <td class="align-middle text-end">
+              <div class="btn-group btn-group-sm">
+                <button onclick="openPdfReader('${book.file_path}', '${title}')" class="btn btn-outline-primary"><i class="bi bi-eye"></i></button>
+                <a href="${book.file_path}" download class="btn btn-primary"><i class="bi bi-download"></i></a>
+                <button onclick="citeAPA('${author}', '${book.year}', '${title}', '${publisher}')" class="btn btn-outline-secondary" title="${t.citeBtn}"><i class="bi bi-quote"></i></button>
+                <button onclick="shareBook('${title}', '${book.file_path}')" class="btn btn-outline-secondary" title="${t.shareBtn}"><i class="bi bi-share"></i></button>
               </div>
-              <div class="col-5">
-                <a href="${book.file_path}" download class="btn btn-download w-100 text-center">
-                  <i class="bi bi-download me-1"></i> ${t.downloadBtn}
-                </a>
-              </div>
-              <div class="col-2">
-                <button onclick="shareBook('${title}', '${book.file_path}')" class="btn btn-share w-100" title="${t.shareBtn}">
-                  <i class="bi bi-share"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>`;
-      }).join('');
+            </td>
+          </tr>`;
+        }).join('');
+
+        container.innerHTML = `
+          <div class="table-responsive bg-body rounded-3 border p-2">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>${isEn ? 'Book Title' : 'عنوان الكتاب'}</th>
+                  <th>${isEn ? 'Author' : 'المؤلف'}</th>
+                  <th>${isEn ? 'Category' : 'التصنيف'}</th>
+                  <th>${isEn ? 'Publisher' : 'الناشر'}</th>
+                  <th class="text-end">${isEn ? 'Actions' : 'الإجراءات'}</th>
+                </tr>
+              </thead>
+              <tbody>${listRowsHtml}</tbody>
+            </table>
+          </div>`;
+      }
     }
 
     function applyFilters() {
