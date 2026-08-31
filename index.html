@@ -3,10 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Apply the saved language/theme BEFORE anything renders, to avoid a flash of the wrong direction/theme -->
+  <script>
+    (function () {
+      var lang = localStorage.getItem('iar_lang') || 'ar';
+      var theme = localStorage.getItem('iar_theme') || 'light';
+      var html = document.documentElement;
+      html.setAttribute('lang', lang);
+      html.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+      html.setAttribute('data-bs-theme', theme);
+      var bsHref = lang === 'ar'
+        ? 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css'
+        : 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css';
+      document.write('<link rel="stylesheet" href="' + bsHref + '" id="bootstrapCSS">');
+    })();
+  </script>
+
   <title>IAR Archive | Iraqi Administrative Reference</title>
 
-  <!-- Bootstrap 5 RTL CSS & Icons -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" id="bootstrapCSS">
+  <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -161,14 +177,13 @@
     .cover-img-wrapper { width: 100%; height: 100%; border-radius: 10px; position: relative; }
     .cover-img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; }
 
-    html[dir="rtl"] .cover-container:hover .cover-img {
-      position: absolute; top: 0; right: 0; width: 250px; height: 350px; z-index: 9999;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45); border: 3px solid var(--card-bg); border-radius: 12px;
-    }
-
-    html[dir="ltr"] .cover-container:hover .cover-img {
-      position: absolute; top: 0; left: 0; width: 250px; height: 350px; z-index: 9999;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45); border: 3px solid var(--card-bg); border-radius: 12px;
+    /* Zoom-on-hover is only enabled for devices with real hover + a precise pointer (mouse),
+       so it can't get "stuck" open on touch/mobile screens. */
+    @media (hover: hover) and (pointer: fine) {
+      .cover-container:hover .cover-img {
+        position: absolute; top: 0; inset-inline-start: 0; width: 250px; height: 350px; z-index: 9999;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45); border: 3px solid var(--card-bg); border-radius: 12px;
+      }
     }
 
     .badge-tag { background: rgba(37, 99, 235, 0.1); color: var(--accent); font-size: 0.75rem; font-weight: 700; padding: 0.3rem 0.65rem; border-radius: 20px; }
@@ -224,7 +239,7 @@
           <button id="langToggleBtn" class="btn btn-outline-light btn-sm fw-bold px-3 py-1.5 rounded-3">
             <i class="bi bi-translate me-1"></i> <span id="langLabel">EN</span>
           </button>
-          <button id="themeToggleBtn" class="btn btn-outline-light btn-sm rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+          <button id="themeToggleBtn" class="btn btn-outline-light btn-sm rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;" aria-label="تبديل المظهر" title="تبديل المظهر">
             <i class="bi bi-moon fs-6" id="themeIcon"></i>
           </button>
         </div>
@@ -452,6 +467,35 @@
       return text || '';
     }
 
+    // Escapes any value before it is inserted via innerHTML, so book data (titles, authors, etc.)
+    // can never break out of the markup or be interpreted as HTML/JS.
+    function escapeHtml(value) {
+      return String(value ?? '').replace(/[&<>"']/g, (c) => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[c]));
+    }
+
+    function debounce(fn, delay) {
+      let timer;
+      return function (...args) {
+        clearTimeout(timer);
+        timer = setTimeout(() => fn.apply(this, args), delay);
+      };
+    }
+
+    // A language-independent key for grouping/filtering by category (trimmed, with a stable
+    // fallback for uncategorized books) — the translated label is only used for display.
+    function getCategoryKey(book) {
+      const raw = (book.category || '').trim();
+      return raw !== '' ? raw : '__general__';
+    }
+
+    function getCategoryLabel(book) {
+      const t = i18n[currentLang];
+      const label = translateDynamicText(book.category, book.category_en);
+      return label && label.trim() !== '' ? label : t.generalCat;
+    }
+
     // Theme Controller
     const themeToggleBtn = document.getElementById('themeToggleBtn');
     const themeIcon = document.getElementById('themeIcon');
@@ -512,6 +556,9 @@
       document.getElementById('txt-modal-apa-title').innerHTML = t.modalAPATitle;
       document.getElementById('txt-modal-close').innerText = t.modalClose;
 
+      themeToggleBtn.setAttribute('aria-label', t.themeTooltip);
+      themeToggleBtn.setAttribute('title', t.themeTooltip);
+
       setupChipsCategories();
       applyFilters();
     }
@@ -544,7 +591,8 @@
       try {
         const response = await fetch('books.json');
         booksData = await response.json();
-        applyLanguage(currentLang);
+        setupChipsCategories();
+        applyFilters();
       } catch (error) {
         document.getElementById('booksDisplayContainer').innerHTML = `<p class="text-center text-danger py-5">${i18n[currentLang].errorMsg}</p>`;
       }
@@ -552,21 +600,28 @@
 
     function setupChipsCategories() {
       const container = document.getElementById('categoryChips');
-      const categories = ['all', ...new Set(booksData.map(b => translateDynamicText(b.category, b.category_en)))];
+      const t = i18n[currentLang];
 
-      document.getElementById('catCounter').innerText = categories.length - 1;
+      const labelsByKey = new Map();
+      booksData.forEach(book => {
+        const key = getCategoryKey(book);
+        if (!labelsByKey.has(key)) labelsByKey.set(key, getCategoryLabel(book));
+      });
 
-      container.innerHTML = categories.map(cat => {
-        const label = cat === 'all' ? i18n[currentLang].allCategories : cat;
-        const activeClass = cat === selectedCategory ? 'active' : '';
-        return `<div class="chip-item ${activeClass}" data-category="${cat}">${label}</div>`;
+      const keys = ['all', ...labelsByKey.keys()];
+      document.getElementById('catCounter').innerText = keys.length - 1;
+
+      container.innerHTML = keys.map(key => {
+        const label = key === 'all' ? t.allCategories : labelsByKey.get(key);
+        const activeClass = key === selectedCategory ? 'active' : '';
+        return `<div class="chip-item ${activeClass}" data-category="${escapeHtml(key)}">${escapeHtml(label)}</div>`;
       }).join('');
 
-      document.querySelectorAll('.chip-item').forEach(chip => {
+      container.querySelectorAll('.chip-item').forEach(chip => {
         chip.addEventListener('click', (e) => {
-          document.querySelectorAll('.chip-item').forEach(c => c.classList.remove('active'));
-          e.target.classList.add('active');
-          selectedCategory = e.target.getAttribute('data-category');
+          container.querySelectorAll('.chip-item').forEach(c => c.classList.remove('active'));
+          e.currentTarget.classList.add('active');
+          selectedCategory = e.currentTarget.getAttribute('data-category');
           applyFilters();
         });
       });
@@ -597,7 +652,7 @@
 
       document.getElementById('summaryBookTitle').innerText = title;
       document.getElementById('summaryBookAuthor').innerText = author;
-      document.getElementById('summaryCategory').innerText = category || (currentLang === 'en' ? 'General' : 'عام');
+      document.getElementById('summaryCategory').innerText = category || t.generalCat;
       document.getElementById('summaryType').innerText = type;
       document.getElementById('summaryPages').innerHTML = `<i class="bi bi-file-earmark-text me-1"></i>${book.pages || '-'} ${t.pagesSuffix}`;
       document.getElementById('summarySize').innerHTML = `<i class="bi bi-hdd me-1"></i>${book.file_size || '-'}`;
@@ -610,7 +665,7 @@
         ? book.key_points_en
         : (book.key_points && book.key_points.length > 0 ? book.key_points : t.defaultPoints);
 
-      pointsList.innerHTML = points.map(pt => `<li>${pt}</li>`).join('');
+      pointsList.innerHTML = points.map(pt => `<li>${escapeHtml(pt)}</li>`).join('');
 
       summaryModal.show();
     }
@@ -665,12 +720,49 @@
       }
     }
 
+    // Delegated handlers for book actions (read / cite / summary / bundle checkbox).
+    // Registered once on the static container, so they keep working across every re-render
+    // without needing per-book inline onclick attributes (which broke on quote characters).
+    const booksDisplayContainer = document.getElementById('booksDisplayContainer');
+
+    booksDisplayContainer.addEventListener('click', (e) => {
+      const trigger = e.target.closest('[data-action]');
+      if (!trigger) return;
+      const id = Number(trigger.getAttribute('data-id'));
+      const book = booksData.find(b => b.id === id);
+      if (!book) return;
+
+      const t = i18n[currentLang];
+      const title = translateDynamicText(book.title, book.title_en);
+      const author = translateDynamicText(book.author, book.author_en);
+      const publisher = translateDynamicText(book.publisher || t.defaultPublisher, book.publisher_en);
+
+      switch (trigger.getAttribute('data-action')) {
+        case 'read':
+          openPdfReader(book.file_path, title);
+          break;
+        case 'summary':
+          openSummaryModal(book.id);
+          break;
+        case 'cite':
+          citeAPA(author, book.year, title, publisher);
+          break;
+      }
+    });
+
+    booksDisplayContainer.addEventListener('change', (e) => {
+      const trigger = e.target.closest('[data-action="bundle"]');
+      if (!trigger) return;
+      toggleBundleSelection(Number(trigger.getAttribute('data-id')));
+    });
+
     const searchInput = document.getElementById('searchInput');
     const btnClearSearch = document.getElementById('btnClearSearch');
+    const debouncedApplyFilters = debounce(applyFilters, 200);
 
     searchInput.addEventListener('input', () => {
       if (searchInput.value.trim() !== '') { btnClearSearch.classList.remove('d-none'); } else { btnClearSearch.classList.add('d-none'); }
-      applyFilters();
+      debouncedApplyFilters();
     });
 
     btnClearSearch.addEventListener('click', () => {
@@ -692,15 +784,16 @@
 
       if (currentViewMode === 'grid') {
         const gridHtml = books.map(book => {
-          let title = translateDynamicText(book.title, book.title_en);
-          let author = translateDynamicText(book.author, book.author_en);
-          let category = translateDynamicText(book.category || t.generalCat, book.category_en);
-          let description = translateDynamicText(book.description || '', book.description_en);
-          let publisher = translateDynamicText(book.publisher || t.defaultPublisher, book.publisher_en);
-          let type = translateDynamicText(book.type || 'مرجع منهجي', book.type_en);
+          let title = escapeHtml(translateDynamicText(book.title, book.title_en));
+          let author = escapeHtml(translateDynamicText(book.author, book.author_en));
+          let category = escapeHtml(translateDynamicText(book.category, book.category_en) || t.generalCat);
+          let description = escapeHtml(translateDynamicText(book.description || '', book.description_en));
+          let publisher = escapeHtml(translateDynamicText(book.publisher || t.defaultPublisher, book.publisher_en));
+          let type = escapeHtml(translateDynamicText(book.type || 'مرجع منهجي', book.type_en));
+          let filePath = escapeHtml(book.file_path || '');
 
           const coverHtml = book.cover_image 
-            ? `<div class="cover-img-wrapper"><img src="${book.cover_image}" alt="${title}" class="cover-img"></div>`
+            ? `<div class="cover-img-wrapper"><img src="${escapeHtml(book.cover_image)}" alt="${title}" class="cover-img"></div>`
             : `<i class="bi bi-book cover-placeholder"></i>`;
 
           const isChecked = selectedBundleIds.has(book.id) ? 'checked' : '';
@@ -712,7 +805,7 @@
               <div class="d-flex justify-content-between align-items-center mb-2">
                 <span class="badge-type"><i class="bi bi-journal-check me-1"></i>${type}</span>
                 <div class="form-check" title="تحديد لإضافته للحزمة البحثية">
-                  <input class="form-check-input" type="checkbox" ${isChecked} onchange="toggleBundleSelection(${book.id})">
+                  <input class="form-check-input" type="checkbox" ${isChecked} data-action="bundle" data-id="${book.id}">
                 </div>
               </div>
 
@@ -725,9 +818,9 @@
                     <p class="book-author mb-2"><i class="bi bi-person me-1"></i>${author}</p>
                   </div>
                   <div class="d-flex flex-wrap gap-2 mt-1">
-                    <span class="meta-spec-chip"><i class="bi bi-building me-1"></i>${publisher} (${book.year || '2026'})</span>
-                    ${book.pages ? `<span class="meta-spec-chip"><i class="bi bi-file-earmark-text me-1"></i>${book.pages} ${t.pagesSuffix}</span>` : ''}
-                    ${book.file_size ? `<span class="meta-spec-chip"><i class="bi bi-hdd me-1"></i>${book.file_size}</span>` : ''}
+                    <span class="meta-spec-chip"><i class="bi bi-building me-1"></i>${publisher} (${escapeHtml(book.year || '2026')})</span>
+                    ${book.pages ? `<span class="meta-spec-chip"><i class="bi bi-file-earmark-text me-1"></i>${escapeHtml(book.pages)} ${t.pagesSuffix}</span>` : ''}
+                    ${book.file_size ? `<span class="meta-spec-chip"><i class="bi bi-hdd me-1"></i>${escapeHtml(book.file_size)}</span>` : ''}
                   </div>
                 </div>
               </div>
@@ -738,22 +831,22 @@
 
               <div class="row g-2 mt-auto">
                 <div class="col-3">
-                  <button onclick="openPdfReader('${book.file_path}', '${title}')" class="btn btn-iar-action w-100">
+                  <button data-action="read" data-id="${book.id}" class="btn btn-iar-action w-100">
                     <i class="bi bi-eye me-1"></i> ${t.readBtn}
                   </button>
                 </div>
                 <div class="col-3">
-                  <a href="${book.file_path}" download class="btn btn-iar-primary w-100 text-center">
+                  <a href="${filePath}" download class="btn btn-iar-primary w-100 text-center">
                     <i class="bi bi-download me-1"></i> ${t.downloadBtn}
                   </a>
                 </div>
                 <div class="col-4">
-                  <button onclick="openSummaryModal(${book.id})" class="btn btn-iar-action w-100">
+                  <button data-action="summary" data-id="${book.id}" class="btn btn-iar-action w-100">
                     <i class="bi bi-card-text me-1"></i> ${t.summaryBtn}
                   </button>
                 </div>
                 <div class="col-2">
-                  <button onclick="citeAPA('${author}', '${book.year}', '${title}', '${publisher}')" class="btn btn-iar-action w-100" title="${t.citeBtn}">
+                  <button data-action="cite" data-id="${book.id}" class="btn btn-iar-action w-100" title="${t.citeBtn}">
                     <i class="bi bi-quote"></i>
                   </button>
                 </div>
@@ -766,28 +859,29 @@
         container.innerHTML = `<div class="row g-4" id="booksGrid">${gridHtml}</div>`;
       } else {
         const listRowsHtml = books.map(book => {
-          let title = translateDynamicText(book.title, book.title_en);
-          let author = translateDynamicText(book.author, book.author_en);
-          let category = translateDynamicText(book.category || t.generalCat, book.category_en);
-          let publisher = translateDynamicText(book.publisher || t.defaultPublisher, book.publisher_en);
+          let title = escapeHtml(translateDynamicText(book.title, book.title_en));
+          let author = escapeHtml(translateDynamicText(book.author, book.author_en));
+          let category = escapeHtml(translateDynamicText(book.category, book.category_en) || t.generalCat);
+          let publisher = escapeHtml(translateDynamicText(book.publisher || t.defaultPublisher, book.publisher_en));
+          let filePath = escapeHtml(book.file_path || '');
 
           const isChecked = selectedBundleIds.has(book.id) ? 'checked' : '';
 
           return `
           <tr>
             <td class="align-middle">
-              <input class="form-check-input" type="checkbox" ${isChecked} onchange="toggleBundleSelection(${book.id})">
+              <input class="form-check-input" type="checkbox" ${isChecked} data-action="bundle" data-id="${book.id}">
             </td>
             <td class="fw-bold align-middle">${title}</td>
             <td class="align-middle small text-muted">${author}</td>
             <td class="align-middle"><span class="badge-tag">${category}</span></td>
-            <td class="align-middle small text-muted">${publisher} (${book.year || '2026'}) - ${book.pages || '-'} ${t.pagesSuffix} (${book.file_size || '-'})</td>
+            <td class="align-middle small text-muted">${publisher} (${escapeHtml(book.year || '2026')}) - ${escapeHtml(book.pages || '-')} ${t.pagesSuffix} (${escapeHtml(book.file_size || '-')})</td>
             <td class="align-middle text-end">
               <div class="btn-group btn-group-sm">
-                <button onclick="openPdfReader('${book.file_path}', '${title}')" class="btn btn-outline-primary"><i class="bi bi-eye"></i></button>
-                <a href="${book.file_path}" download class="btn btn-primary"><i class="bi bi-download"></i></a>
-                <button onclick="openSummaryModal(${book.id})" class="btn btn-outline-secondary"><i class="bi bi-card-text"></i></button>
-                <button onclick="citeAPA('${author}', '${book.year}', '${title}', '${publisher}')" class="btn btn-outline-secondary" title="${t.citeBtn}"><i class="bi bi-quote"></i></button>
+                <button data-action="read" data-id="${book.id}" class="btn btn-outline-primary"><i class="bi bi-eye"></i></button>
+                <a href="${filePath}" download class="btn btn-primary"><i class="bi bi-download"></i></a>
+                <button data-action="summary" data-id="${book.id}" class="btn btn-outline-secondary"><i class="bi bi-card-text"></i></button>
+                <button data-action="cite" data-id="${book.id}" class="btn btn-outline-secondary" title="${t.citeBtn}"><i class="bi bi-quote"></i></button>
               </div>
             </td>
           </tr>`;
@@ -817,13 +911,15 @@
       const sortValue = document.getElementById('sortOrder').value;
 
       let filtered = booksData.filter(book => {
-        let title = translateDynamicText(book.title, book.title_en);
-        let author = translateDynamicText(book.author, book.author_en);
-        let category = translateDynamicText(book.category, book.category_en);
+        const title = translateDynamicText(book.title, book.title_en);
+        const author = translateDynamicText(book.author, book.author_en);
+        const keywords = Array.isArray(book.keywords) ? book.keywords.join(' ') : (book.keywords || '');
 
-        const matchesSearch = (title && title.toLowerCase().includes(query)) ||
-                              (author && author.toLowerCase().includes(query));
-        const matchesCat = selectedCategory === 'all' || category === selectedCategory;
+        const matchesSearch = query === '' ||
+                              (title && title.toLowerCase().includes(query)) ||
+                              (author && author.toLowerCase().includes(query)) ||
+                              (keywords && keywords.toLowerCase().includes(query));
+        const matchesCat = selectedCategory === 'all' || getCategoryKey(book) === selectedCategory;
         return matchesSearch && matchesCat;
       });
 
@@ -840,6 +936,7 @@
 
     document.getElementById('sortOrder').addEventListener('change', applyFilters);
 
+    applyLanguage(currentLang);
     fetchBooks();
   </script>
 </body>
