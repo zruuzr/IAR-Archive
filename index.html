@@ -177,6 +177,19 @@
     .book-author { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; }
     .book-desc { font-size: 0.84rem; color: var(--text-muted); line-height: 1.55; }
 
+    .meta-spec-chip {
+      font-size: 0.73rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 0.2rem 0.5rem;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
     .btn-iar-action { background: var(--bg); color: var(--text); font-weight: 700; font-size: 0.82rem; border: 1px solid var(--border); border-radius: 8px; padding: 0.45rem; transition: all 0.2s ease; }
     .btn-iar-action:hover { background: rgba(37, 99, 235, 0.1); color: var(--accent); border-color: var(--accent); }
     .btn-iar-primary { background: var(--accent); color: #ffffff; font-weight: 700; font-size: 0.82rem; border-radius: 8px; padding: 0.45rem; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
@@ -221,7 +234,7 @@
 
   <main class="container my-4">
 
-    <!-- Stats Banner -->
+    <!-- Stats Card -->
     <div class="hero-stats-card mb-4">
       <div class="row align-items-center g-3">
         <div class="col-lg-7">
@@ -304,9 +317,11 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
         </div>
         <div class="modal-body p-4">
-          <div class="mb-3">
-            <span class="badge bg-primary-subtle text-primary border me-1" id="summaryCategory">تصنيف</span>
+          <div class="mb-3 d-flex gap-2 align-items-center">
+            <span class="badge bg-primary-subtle text-primary border" id="summaryCategory">تصنيف</span>
             <span class="badge bg-success-subtle text-success border" id="summaryType">مرجع منهجي</span>
+            <span class="meta-spec-chip" id="summaryPages"><i class="bi bi-file-earmark-text"></i> - صفحة</span>
+            <span class="meta-spec-chip" id="summarySize"><i class="bi bi-hdd"></i> - MB</span>
           </div>
           <h4 class="h5 fw-bold mb-2" id="summaryBookTitle">عنوان الكتاب</h4>
           <p class="text-muted small mb-4" id="summaryBookAuthor">المؤلف</p>
@@ -398,7 +413,9 @@
         modalClose: "إغلاق",
         p1: "التحليل الهيكلي والتنظيمي للمؤسسات الحديثة.",
         p2: "طرق صياغة القرارات الإدارية وتوزيع الصلاحيات.",
-        p3: "آليات التقييم والتطوير المؤسسي المستمر."
+        p3: "آليات التقييم والتطوير المؤسسي المستمر.",
+        pagesSuffix: "صفحة",
+        sizeSuffix: "ميغابايت"
       },
       en: {
         announcement: "IAR Archive - Interactive Digital Repository for Management & Reference Sciences",
@@ -425,11 +442,12 @@
         modalClose: "Close",
         p1: "Structural and organizational analysis of modern institutions.",
         p2: "Methods of administrative decision-making and delegation of authority.",
-        p3: "Continuous institutional assessment and development mechanisms."
+        p3: "Continuous institutional assessment and development mechanisms.",
+        pagesSuffix: "Pages",
+        sizeSuffix: "MB"
       }
     };
 
-    // Strict Field-First Translation Engine
     function translateDynamicText(text, enField) {
       if (currentLang !== 'en') return text || '';
       if (enField && enField.trim() !== '') return enField;
@@ -575,6 +593,7 @@
       const book = booksData.find(b => b.id === id);
       if (!book) return;
 
+      const t = i18n[currentLang];
       const title = translateDynamicText(book.title, book.title_en);
       const author = translateDynamicText(book.author, book.author_en);
       const category = translateDynamicText(book.category, book.category_en);
@@ -585,6 +604,8 @@
       document.getElementById('summaryBookAuthor').innerText = author;
       document.getElementById('summaryCategory').innerText = category || (currentLang === 'en' ? 'General' : 'عام');
       document.getElementById('summaryType').innerText = type;
+      document.getElementById('summaryPages').innerHTML = `<i class="bi bi-file-earmark-text me-1"></i>${book.pages || '-'} ${t.pagesSuffix}`;
+      document.getElementById('summarySize').innerHTML = `<i class="bi bi-hdd me-1"></i>${book.file_size || '-'}`;
       document.getElementById('summaryAPA').innerText = `${author} (${book.year || '2026'}). ${title}. ${publisher}.`;
 
       summaryModal.show();
@@ -699,8 +720,10 @@
                     <h3 class="book-title">${title}</h3>
                     <p class="book-author mb-2"><i class="bi bi-person me-1"></i>${author}</p>
                   </div>
-                  <div class="text-muted small">
-                    <span><i class="bi bi-building me-1"></i>${publisher} (${book.year || '2026'})</span>
+                  <div class="d-flex flex-wrap gap-2 mt-1">
+                    <span class="meta-spec-chip"><i class="bi bi-building me-1"></i>${publisher} (${book.year || '2026'})</span>
+                    ${book.pages ? `<span class="meta-spec-chip"><i class="bi bi-file-earmark-text me-1"></i>${book.pages} ${t.pagesSuffix}</span>` : ''}
+                    ${book.file_size ? `<span class="meta-spec-chip"><i class="bi bi-hdd me-1"></i>${book.file_size}</span>` : ''}
                   </div>
                 </div>
               </div>
@@ -754,7 +777,7 @@
             <td class="fw-bold align-middle">${title}</td>
             <td class="align-middle small text-muted">${author}</td>
             <td class="align-middle"><span class="badge-tag">${category}</span></td>
-            <td class="align-middle small text-muted">${publisher} (${book.year || '2026'})</td>
+            <td class="align-middle small text-muted">${publisher} (${book.year || '2026'}) - ${book.pages || '-'} ${t.pagesSuffix} (${book.file_size || '-'})</td>
             <td class="align-middle text-end">
               <div class="btn-group btn-group-sm">
                 <button onclick="openPdfReader('${book.file_path}', '${title}')" class="btn btn-outline-primary"><i class="bi bi-eye"></i></button>
@@ -775,7 +798,7 @@
                   <th>${currentLang === 'en' ? 'Book Title' : 'عنوان الكتاب'}</th>
                   <th>${currentLang === 'en' ? 'Author' : 'المؤلف'}</th>
                   <th>${currentLang === 'en' ? 'Category' : 'التصنيف'}</th>
-                  <th>${currentLang === 'en' ? 'Publisher' : 'الناشر'}</th>
+                  <th>${currentLang === 'en' ? 'Details' : 'التفاصيل والناشر'}</th>
                   <th class="text-end">${currentLang === 'en' ? 'Actions' : 'الإجراءات'}</th>
                 </tr>
               </thead>
