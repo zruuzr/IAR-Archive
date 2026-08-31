@@ -1,26 +1,100 @@
-{
-  "id": 2,
-  "title": "عنوان الكتاب",
-  "title_en": "Book Title",
-  "author": "المؤلف",
-  "author_en": "Author",
-  "category": "التصنيف",
-  "category_en": "Category",
-  "type": "نوع المرجع",
-  "type_en": "Type",
-  "description": "وصف عربي",
-  "description_en": "English description",
-  "publisher": "الناشر",
-  "publisher_en": "Publisher",
-  "year": "2026",
-  "pages": "250",
-  "file_size": "3.1 MB",
-  "keywords": ["كلمة1", "كلمة2"],
-  "keywords_en": ["keyword1", "keyword2"],
-  "key_points": ["نقطة1", "نقطة2"],
-  "key_points_en": ["point1", "point2"],
-  "target_audience": "الجمهور المستهدف",
-  "target_audience_en": "Target audience",
-  "cover_image": "covers/2.png",
-  "file_path": "pdf/book2.pdf"
-}
+[
+  {
+    "id": 1,
+    "title": "فن الخطابة",
+    "title_en": "The Art of Public Speaking",
+    "author": "ديل كارنيجي",
+    "author_en": "Dale Carnegie",
+    "category": "المهارات القيادية والإدارية",
+    "category_en": "Leadership & Management Skills",
+    "type": "دليل تطبيقي",
+    "type_en": "Practical Guide",
+    "description": "نبذة مختصرة: كتاب يوضح أصول ومبادئ فن الخطابة والتواصل الفعّال مع الجمهور وتطوير المهارات القيادية.",
+    "description_en": "Overview: A practical guide detailing the principles of public speaking, rhetoric, and effective communication with public audiences.",
+    "publisher": "الأرشيف الإداري العراقي",
+    "publisher_en": "IAR Archive",
+    "year": "2026",
+    "pages": "340",
+    "file_size": "4.2 MB",
+    "file_type": "PDF",
+    "isbn": "978-0-123456-78-9",
+    "keywords": [
+      "فن الخطابة",
+      "التواصل",
+      "القيادة",
+      "الإلقاء"
+    ],
+    "keywords_en": [
+      "Public Speaking",
+      "Communication",
+      "Leadership",
+      "Presentation"
+    ],
+    "key_points": [
+      "كسر حاجز الخوف والرهاب أثناء مواجهة الجمهور.",
+      "آليات إعداد وبناء المادة الصوتية والخطابية بأسلوب سلس.",
+      "تكتيكات التأثير والإقناع واستخدام لغة الجسد بنجاح."
+    ],
+    "key_points_en": [
+      "Overcoming fear and stage fright before public audiences.",
+      "Techniques for structuring and preparing speeches smoothly.",
+      "Tactics of persuasion and effective body language utilization."
+    ],
+    "target_audience": "المتحدثون الرسميون، المدراء التنفيذيون، وجميع الراغبين بتطوير مهارات العرض والإلقاء.",
+    "target_audience_en": "Official spokespersons, executive managers, and anyone aiming to master presentation skills.",
+    "cover_image": "covers/1.png",
+    "file_path": "pdf/فن_الخطابة.pdf"
+  },
+  {
+    "id": 2,
+    "title": "ثقافة إدارية",
+    "title_en": "Administrative Culture",
+    "author": "يوسف بن محمد القبلان",
+    "author_en": "Yousef Bin Mohammad Al-Qablan",
+    "category": "العلوم والإدارة العامة",
+    "category_en": "Public Administration & Governance",
+    "type": "دليل إداري متكامل",
+    "type_en": "Comprehensive Administrative Guide",
+    "description": "دليل إداري شامل يجمع 15 عدداً من النشرات التثقيفية الصادرة عن التخطيط والتطوير الإداري بوزارة المعارف، يستعرض مهارات القيادة، التنظيم، التفويض، والتخطيط الإداري.",
+    "description_en": "A comprehensive administrative guide compiling 15 issues of educational bulletins published by Administrative Planning and Development, covering leadership skills, organization, delegation, and planning.",
+    "publisher": "وزارة المعارف - التخطيط والتطوير الإداري",
+    "publisher_en": "Ministry of Education - Administrative Planning & Development",
+    "year": "1998",
+    "pages": "360",
+    "file_size": "7.8 MB",
+    "file_type": "PDF",
+    "isbn": "",
+    "keywords": [
+      "ثقافة إدارية",
+      "التطوير الإداري",
+      "القيادة",
+      "التفويض",
+      "التنظيم الجيد",
+      "إدارة الوقت"
+    ],
+    "keywords_en": [
+      "Administrative Culture",
+      "Administrative Development",
+      "Leadership",
+      "Delegation",
+      "Good Organization",
+      "Time Management"
+    ],
+    "key_points": [
+      "آليات القيادة الكفؤة وتمكين الموظفين من اتخاذ القرارات.",
+      "التمييز بين أعراض التنظيم السليم والتنظيم المريض في المؤسسات.",
+      "مقومات التخطيط الناجح وعوائق الإنجاز وكيفية معالجتها.",
+      "أهمية التفويض الفعال لبناء الثقة وتنمية مهارات فريق العمل."
+    ],
+    "key_points_en": [
+      "Efficient leadership mechanisms and empowering employees in decision-making.",
+      "Distinguishing between symptoms of good and unhealthy organizational structures.",
+      "Elements of successful planning and overcoming barriers to achievement.",
+      "The importance of effective delegation in building trust and team skills."
+    ],
+    "target_audience": "المدراء التنفيذيون، القادة الإداريون، المستشارون، وجميع العاملين في قطاعات التطوير والتخطيط الإداري.",
+    "target_audience_en": "Executive managers, administrative leaders, consultants, and personnel in organizational development.",
+    "cover_image": "covers/2.png",
+    "file_path": "pdf/ثقافة إدارية.pdf"
+  }
+]
