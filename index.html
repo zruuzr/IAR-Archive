@@ -3,10 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IAR Archive | الأرشيف الإداري العراقي</title>
-
-  <!-- SEO & Meta -->
-  <meta name="description" content="IAR Archive (Iraqi Administrative Reference) هو المستودع الرقمي التفاعلي الأول المتخصص في المراجع والعلوم الإدارية والتطوير المؤسسي.">
+  <title>IAR Archive | Iraqi Administrative Reference</title>
 
   <!-- Bootstrap 5 RTL CSS & Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" id="bootstrapCSS">
@@ -79,17 +76,8 @@
       box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
     }
 
-    .brand-title {
-      font-weight: 900;
-      font-size: 1.45rem;
-      color: #ffffff;
-    }
-
-    .brand-subtitle {
-      color: #94a3b8;
-      font-size: 0.8rem;
-      font-weight: 600;
-    }
+    .brand-title { font-weight: 900; font-size: 1.45rem; color: #ffffff; }
+    .brand-subtitle { color: #94a3b8; font-size: 0.8rem; font-weight: 600; }
 
     .hero-stats-card {
       background: var(--card-bg);
@@ -108,15 +96,8 @@
       background: var(--accent);
     }
 
-    .stat-box {
-      padding: 0.4rem 0.8rem;
-      border-left: 1px solid var(--border);
-    }
-
-    html[dir="ltr"] .stat-box {
-      border-left: none;
-      border-right: 1px solid var(--border);
-    }
+    .stat-box { padding: 0.4rem 0.8rem; border-left: 1px solid var(--border); }
+    html[dir="ltr"] .stat-box { border-left: none; border-right: 1px solid var(--border); }
 
     .bundle-bar {
       background: var(--accent);
@@ -131,13 +112,8 @@
     }
 
     .chips-wrapper {
-      display: flex;
-      gap: 0.5rem;
-      overflow-x: auto;
-      padding-bottom: 0.5rem;
-      scrollbar-width: none;
+      display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.5rem; scrollbar-width: none;
     }
-
     .chips-wrapper::-webkit-scrollbar { display: none; }
 
     .chip-item {
@@ -177,147 +153,48 @@
     }
 
     .cover-container {
-      width: 110px;
-      height: 155px;
-      flex-shrink: 0;
-      border-radius: 10px;
-      position: relative;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      width: 110px; height: 155px; flex-shrink: 0; border-radius: 10px; position: relative;
+      background: var(--bg); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center;
       box-shadow: -5px 8px 16px rgba(0, 0, 0, 0.12);
     }
 
-    .cover-img-wrapper {
-      width: 100%;
-      height: 100%;
-      border-radius: 10px;
-      position: relative;
-    }
-
-    .cover-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 10px;
-      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      cursor: pointer;
-    }
+    .cover-img-wrapper { width: 100%; height: 100%; border-radius: 10px; position: relative; }
+    .cover-img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; }
 
     html[dir="rtl"] .cover-container:hover .cover-img {
-      position: absolute;
-      top: 0; right: 0;
-      width: 250px; height: 350px;
-      z-index: 9999;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
-      border: 3px solid var(--card-bg);
-      border-radius: 12px;
+      position: absolute; top: 0; right: 0; width: 250px; height: 350px; z-index: 9999;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45); border: 3px solid var(--card-bg); border-radius: 12px;
     }
 
     html[dir="ltr"] .cover-container:hover .cover-img {
-      position: absolute;
-      top: 0; left: 0;
-      width: 250px; height: 350px;
-      z-index: 9999;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
-      border: 3px solid var(--card-bg);
-      border-radius: 12px;
+      position: absolute; top: 0; left: 0; width: 250px; height: 350px; z-index: 9999;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45); border: 3px solid var(--card-bg); border-radius: 12px;
     }
 
-    .badge-tag {
-      background: rgba(37, 99, 235, 0.1);
-      color: var(--accent);
-      font-size: 0.75rem;
-      font-weight: 700;
-      padding: 0.3rem 0.65rem;
-      border-radius: 20px;
-    }
+    .badge-tag { background: rgba(37, 99, 235, 0.1); color: var(--accent); font-size: 0.75rem; font-weight: 700; padding: 0.3rem 0.65rem; border-radius: 20px; }
+    .badge-type { background: rgba(16, 185, 129, 0.1); color: #10b981; font-size: 0.72rem; font-weight: 700; padding: 0.25rem 0.55rem; border-radius: 6px; }
+    .book-title { font-weight: 800; font-size: 1.08rem; color: var(--text); line-height: 1.4; margin-top: 0.3rem; }
+    .book-author { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; }
+    .book-desc { font-size: 0.84rem; color: var(--text-muted); line-height: 1.55; }
 
-    .badge-type {
-      background: rgba(16, 185, 129, 0.1);
-      color: #10b981;
-      font-size: 0.72rem;
-      font-weight: 700;
-      padding: 0.25rem 0.55rem;
-      border-radius: 6px;
-    }
+    .btn-iar-action { background: var(--bg); color: var(--text); font-weight: 700; font-size: 0.82rem; border: 1px solid var(--border); border-radius: 8px; padding: 0.45rem; transition: all 0.2s ease; }
+    .btn-iar-action:hover { background: rgba(37, 99, 235, 0.1); color: var(--accent); border-color: var(--accent); }
+    .btn-iar-primary { background: var(--accent); color: #ffffff; font-weight: 700; font-size: 0.82rem; border-radius: 8px; padding: 0.45rem; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
+    .btn-iar-primary:hover { background: var(--accent-hover); color: #ffffff; }
 
-    .book-title {
-      font-weight: 800;
-      font-size: 1.08rem;
-      color: var(--text);
-      line-height: 1.4;
-      margin-top: 0.3rem;
-    }
-
-    .book-author {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      font-weight: 600;
-    }
-
-    .book-desc {
-      font-size: 0.84rem;
-      color: var(--text-muted);
-      line-height: 1.55;
-    }
-
-    .btn-iar-action {
-      background: var(--bg);
-      color: var(--text);
-      font-weight: 700;
-      font-size: 0.82rem;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 0.45rem;
-      transition: all 0.2s ease;
-    }
-
-    .btn-iar-action:hover {
-      background: rgba(37, 99, 235, 0.1);
-      color: var(--accent);
-      border-color: var(--accent);
-    }
-
-    .btn-iar-primary {
-      background: var(--accent);
-      color: #ffffff;
-      font-weight: 700;
-      font-size: 0.82rem;
-      border-radius: 8px;
-      padding: 0.45rem;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .btn-iar-primary:hover {
-      background: var(--accent-hover);
-      color: #ffffff;
-    }
-
-    footer {
-      margin-top: auto;
-      background-color: var(--primary);
-      color: #94a3b8;
-      padding: 2rem 0;
-      border-top: 1px solid var(--border);
-    }
+    footer { margin-top: auto; background-color: var(--primary); color: #94a3b8; padding: 2rem 0; border-top: 1px solid var(--border); }
   </style>
 </head>
 <body>
 
-  <!-- Top Announcement Bar -->
+  <!-- Announcement Bar -->
   <div class="top-live-bar text-center">
     <div class="container">
       <i class="bi bi-diagram-3-fill me-1"></i> <span id="txt-announcement">IAR Archive - المستودع الرقمي التفاعلي لربط المراجع الإدارية بالتحليل والمفاهيم</span>
     </div>
   </div>
 
-  <!-- Header -->
+  <!-- Navbar -->
   <header class="navbar-iar">
     <div class="container">
       <div class="d-flex align-items-center justify-content-between">
@@ -344,7 +221,7 @@
 
   <main class="container my-4">
 
-    <!-- Interactive Stats Banner -->
+    <!-- Stats Card -->
     <div class="hero-stats-card mb-4">
       <div class="row align-items-center g-3">
         <div class="col-lg-7">
@@ -411,14 +288,14 @@
       <div class="chip-item active" data-category="all" id="chip-all">جميع التصنيفات</div>
     </div>
 
-    <!-- Dynamic Display Area -->
+    <!-- Books Grid -->
     <div id="booksDisplayContainer">
       <div class="row g-4" id="booksGrid"></div>
     </div>
 
   </main>
 
-  <!-- Micro-Summary & Details Modal -->
+  <!-- Summary Modal -->
   <div class="modal fade" id="summaryModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
       <div class="modal-content">
@@ -495,46 +372,22 @@
     const pdfModal = new bootstrap.Modal(document.getElementById('pdfReaderModal'));
     const summaryModal = new bootstrap.Modal(document.getElementById('summaryModal'));
 
-    // Broad Local Translation Mapping for Descriptions, Names & Tags
-    const dictionary = {
-      "فن الخطابة": "The Art of Public Speaking",
-      "اسم المؤلف": "Author Name",
-      "المهارات القيادية والإدارية": "Leadership & Management Skills",
-      "الأرشيف الإداري العراقي": "IAR Archive",
-      "مرجع أكاديمي": "Academic Reference",
-      "دليل تطبيقي": "Practical Guide",
-      "مرجع منهجي": "Methodological Reference",
-      "عام": "General",
-      "نبذة مختصرة: كتاب يوضح أصول ومبادئ فن الخطابة والتواصل الفعّال مع الجمهور.": "Overview: A practical guide detailing principles of public speaking, rhetoric, and leadership communication."
-    };
-
     const i18n = {
       ar: {
         announcement: "IAR Archive - المستودع الرقمي التفاعلي لربط المراجع الإدارية بالتحليل والمفاهيم",
         subtitle: "الأرشيف الإداري العراقي",
         aboutTitle: "الأرشيف الرقمي لعلوم الإدارة",
         aboutDesc: "منصة معرفية مخصصة لأرشفة وربط المراجع الإدارية، توفر ملخصات 3 دقائق، التوثيق الأكاديمي المباشر، وإنشاء حزم البحوث.",
-        statBooks: "مرجع إداري",
-        statCats: "تصنيف إداري",
-        statYear: "سنة الأرشفة",
+        statBooks: "مرجع إداري", statCats: "تصنيف إداري", statYear: "سنة الأرشفة",
         searchPlaceholder: "ابحث بعنوان الكتاب، اسم المؤلف، أو الكلمات المفتاحية...",
-        allCategories: "جميع التصنيفات",
-        sortDefault: "الترتيب الافتراضي",
-        sortTitle: "حسب العنوان (أبجدي)",
-        readBtn: "قراءة",
-        downloadBtn: "تحميل",
-        shareBtn: "مشاركة",
-        citeBtn: "توثيق APA",
-        summaryBtn: "ملخص 3 دقائق",
-        noBooks: "لم يتم العثور على كتب مطابقة لخيارات البحث.",
-        errorMsg: "تعذر تحميل قائمة الكتب.",
+        allCategories: "جميع التصنيفات", sortDefault: "الترتيب الافتراضي", sortTitle: "حسب العنوان (أبجدي)",
+        readBtn: "قراءة", downloadBtn: "تحميل", shareBtn: "مشاركة", citeBtn: "توثيق APA", summaryBtn: "ملخص 3 دقائق",
+        noBooks: "لم يتم العثور على كتب مطابقة لخيارات البحث.", errorMsg: "تعذر تحميل قائمة الكتب.",
         footerText: "الأرشيف الإداري العراقي - المستودع الرقمي المتخصص في العلوم الإدارية",
         toastCopied: "تم نسخ رابط الموقع المباشر إلى الحافظة بنجاح.",
         toastCiteCopied: "تم نسخ التوثيق الأكاديمي (APA) إلى الحافظة.",
         toastBundleCopied: "تم نسخ رابط الحزمة البحثية المجمعة بنجاح.",
-        generalCat: "عام",
-        defaultPublisher: "الأرشيف الإداري العراقي",
-        themeTooltip: "تبديل المظهر",
+        generalCat: "عام", defaultPublisher: "الأرشيف الإداري العراقي", themeTooltip: "تبديل المظهر",
         bundleText: "تم تحديد <strong id='bundleCount'>0</strong> مراجع لإنشاء حزمة بحثية",
         bundleBtn: "نسخ رابط الحزمة المجمعة",
         modalTitle: "ملخص المرجع الإداري (3 دقائق)",
@@ -552,27 +405,16 @@
         subtitle: "Iraqi Administrative Reference",
         aboutTitle: "Digital Repository for Management Sciences",
         aboutDesc: "A knowledge platform dedicated to archiving administrative references, providing 3-minute summaries, direct APA citations, and research bundle creation.",
-        statBooks: "References Available",
-        statCats: "Categories",
-        statYear: "Archived Year",
+        statBooks: "References Available", statCats: "Categories", statYear: "Archived Year",
         searchPlaceholder: "Search by title, author name, or keywords...",
-        allCategories: "All Categories",
-        sortDefault: "Default Sorting",
-        sortTitle: "Sort by Title (Alphabetical)",
-        readBtn: "Read",
-        downloadBtn: "Download",
-        shareBtn: "Share",
-        citeBtn: "Cite APA",
-        summaryBtn: "3-Min Summary",
-        noBooks: "No matching references found.",
-        errorMsg: "Failed to load repository data.",
+        allCategories: "All Categories", sortDefault: "Default Sorting", sortTitle: "Sort by Title (Alphabetical)",
+        readBtn: "Read", downloadBtn: "Download", shareBtn: "Share", citeBtn: "Cite APA", summaryBtn: "3-Min Summary",
+        noBooks: "No matching references found.", errorMsg: "Failed to load repository data.",
         footerText: "Iraqi Administrative Reference - Digital Repository for Management Sciences",
         toastCopied: "Direct repository link copied to clipboard.",
         toastCiteCopied: "APA Citation copied to clipboard.",
         toastBundleCopied: "Research bundle link copied successfully.",
-        generalCat: "General",
-        defaultPublisher: "IAR Archive",
-        themeTooltip: "Toggle Theme",
+        generalCat: "General", defaultPublisher: "IAR Archive", themeTooltip: "Toggle Theme",
         bundleText: "Selected <strong id='bundleCount'>0</strong> references for research bundle",
         bundleBtn: "Copy Bundle Share Link",
         modalTitle: "Administrative Reference Summary (3 Minutes)",
@@ -587,16 +429,40 @@
       }
     };
 
-    // Helper Translation Function
-    function getTranslatedText(text, enField) {
-      if (currentLang === 'en') {
-        if (enField) return enField;
-        if (dictionary[text]) return dictionary[text];
+    // Advanced Dynamic Description & Text Translation Engine
+    function translateDynamicText(text, enField) {
+      if (currentLang !== 'en') return text;
+      if (enField && enField.trim() !== '') return enField;
+      if (!text) return '';
+
+      // Pattern replacements for descriptions
+      let t = text.trim();
+      if (t.includes("نبذة مختصرة: كتاب يوضح أصول ومبادئ فن الخطابة والتواصل الفعّال مع الجمهور.")) {
+        return "Overview: A practical guide detailing principles of public speaking, rhetoric, and leadership communication.";
       }
-      return text;
+      
+      // Generic Fallback Translator for descriptions starting with "نبذة مختصرة:"
+      if (t.startsWith("نبذة مختصرة:")) {
+        return t.replace("نبذة مختصرة:", "Overview:").replace("كتاب يوضح", "A reference covering").replace("مع الجمهور", "with audiences.");
+      }
+
+      // Keyword Mappings
+      const map = {
+        "فن الخطابة": "The Art of Public Speaking",
+        "اسم المؤلف": "Author Name",
+        "المهارات القيادية والإدارية": "Leadership & Management Skills",
+        "الإدارة العامة": "Public Administration",
+        "الأرشيف الإداري العراقي": "IAR Archive",
+        "مرجع أكاديمي": "Academic Reference",
+        "دليل تطبيقي": "Practical Guide",
+        "مرجع منهجي": "Methodological Reference",
+        "عام": "General"
+      };
+
+      return map[t] || t;
     }
 
-    // Dark Mode Controller
+    // Theme Controller
     const themeToggleBtn = document.getElementById('themeToggleBtn');
     const themeIcon = document.getElementById('themeIcon');
     const currentTheme = localStorage.getItem('iar_theme') || 'light';
@@ -650,7 +516,6 @@
       document.getElementById('txt-bundle-text').innerHTML = t.bundleText;
       document.getElementById('txt-bundle-btn').innerText = t.bundleBtn;
 
-      // Modal translations
       document.getElementById('summaryModalTitle').innerText = t.modalTitle;
       document.getElementById('txt-modal-ideas-title').innerHTML = t.modalIdeasTitle;
       document.getElementById('txt-modal-audience-title').innerHTML = t.modalAudienceTitle;
@@ -702,7 +567,7 @@
 
     function setupChipsCategories() {
       const container = document.getElementById('categoryChips');
-      const categories = ['all', ...new Set(booksData.map(b => getTranslatedText(b.category, b.category_en)))];
+      const categories = ['all', ...new Set(booksData.map(b => translateDynamicText(b.category, b.category_en)))];
 
       document.getElementById('catCounter').innerText = categories.length - 1;
 
@@ -736,11 +601,11 @@
       const book = booksData.find(b => b.id === id);
       if (!book) return;
 
-      const title = getTranslatedText(book.title, book.title_en);
-      const author = getTranslatedText(book.author, book.author_en);
-      const category = getTranslatedText(book.category, book.category_en);
-      const publisher = getTranslatedText(book.publisher || 'الأرشيف الإداري العراقي', book.publisher_en);
-      const type = getTranslatedText(book.type || 'مرجع منهجي', book.type_en);
+      const title = translateDynamicText(book.title, book.title_en);
+      const author = translateDynamicText(book.author, book.author_en);
+      const category = translateDynamicText(book.category, book.category_en);
+      const publisher = translateDynamicText(book.publisher || 'الأرشيف الإداري العراقي', book.publisher_en);
+      const type = translateDynamicText(book.type || 'مرجع منهجي', book.type_en);
 
       document.getElementById('summaryBookTitle').innerText = title;
       document.getElementById('summaryBookAuthor').innerText = author;
@@ -752,29 +617,17 @@
     }
 
     function toggleBundleSelection(id) {
-      if (selectedBundleIds.has(id)) {
-        selectedBundleIds.delete(id);
-      } else {
-        selectedBundleIds.add(id);
-      }
-
+      if (selectedBundleIds.has(id)) { selectedBundleIds.delete(id); } else { selectedBundleIds.add(id); }
       const bundleBar = document.getElementById('bundleBar');
       const bundleCount = document.getElementById('bundleCount');
-      
       bundleCount.innerText = selectedBundleIds.size;
-      if (selectedBundleIds.size > 0) {
-        bundleBar.classList.remove('d-none');
-      } else {
-        bundleBar.classList.add('d-none');
-      }
+      if (selectedBundleIds.size > 0) { bundleBar.classList.remove('d-none'); } else { bundleBar.classList.add('d-none'); }
     }
 
     function copyResearchBundle() {
       const idsArray = Array.from(selectedBundleIds).join(',');
       const bundleUrl = `${window.location.origin}${window.location.pathname}?bundle=${idsArray}`;
-      navigator.clipboard.writeText(bundleUrl).then(() => {
-        showToast(i18n[currentLang].toastBundleCopied);
-      });
+      navigator.clipboard.writeText(bundleUrl).then(() => { showToast(i18n[currentLang].toastBundleCopied); });
     }
 
     function shareBook(title, filePath) {
@@ -817,11 +670,7 @@
     const btnClearSearch = document.getElementById('btnClearSearch');
 
     searchInput.addEventListener('input', () => {
-      if (searchInput.value.trim() !== '') {
-        btnClearSearch.classList.remove('d-none');
-      } else {
-        btnClearSearch.classList.add('d-none');
-      }
+      if (searchInput.value.trim() !== '') { btnClearSearch.classList.remove('d-none'); } else { btnClearSearch.classList.add('d-none'); }
       applyFilters();
     });
 
@@ -844,12 +693,12 @@
 
       if (currentViewMode === 'grid') {
         const gridHtml = books.map(book => {
-          let title = getTranslatedText(book.title, book.title_en);
-          let author = getTranslatedText(book.author, book.author_en);
-          let category = getTranslatedText(book.category || t.generalCat, book.category_en);
-          let description = getTranslatedText(book.description || '', book.description_en);
-          let publisher = getTranslatedText(book.publisher || t.defaultPublisher, book.publisher_en);
-          let type = getTranslatedText(book.type || 'مرجع منهجي', book.type_en);
+          let title = translateDynamicText(book.title, book.title_en);
+          let author = translateDynamicText(book.author, book.author_en);
+          let category = translateDynamicText(book.category || t.generalCat, book.category_en);
+          let description = translateDynamicText(book.description || '', book.description_en);
+          let publisher = translateDynamicText(book.publisher || t.defaultPublisher, book.publisher_en);
+          let type = translateDynamicText(book.type || 'مرجع منهجي', book.type_en);
 
           const coverHtml = book.cover_image 
             ? `<div class="cover-img-wrapper"><img src="${book.cover_image}" alt="${title}" class="cover-img"></div>`
@@ -916,10 +765,10 @@
         container.innerHTML = `<div class="row g-4" id="booksGrid">${gridHtml}</div>`;
       } else {
         const listRowsHtml = books.map(book => {
-          let title = getTranslatedText(book.title, book.title_en);
-          let author = getTranslatedText(book.author, book.author_en);
-          let category = getTranslatedText(book.category || t.generalCat, book.category_en);
-          let publisher = getTranslatedText(book.publisher || t.defaultPublisher, book.publisher_en);
+          let title = translateDynamicText(book.title, book.title_en);
+          let author = translateDynamicText(book.author, book.author_en);
+          let category = translateDynamicText(book.category || t.generalCat, book.category_en);
+          let publisher = translateDynamicText(book.publisher || t.defaultPublisher, book.publisher_en);
 
           const isChecked = selectedBundleIds.has(book.id) ? 'checked' : '';
 
@@ -967,9 +816,9 @@
       const sortValue = document.getElementById('sortOrder').value;
 
       let filtered = booksData.filter(book => {
-        let title = getTranslatedText(book.title, book.title_en);
-        let author = getTranslatedText(book.author, book.author_en);
-        let category = getTranslatedText(book.category, book.category_en);
+        let title = translateDynamicText(book.title, book.title_en);
+        let author = translateDynamicText(book.author, book.author_en);
+        let category = translateDynamicText(book.category, book.category_en);
 
         const matchesSearch = (title && title.toLowerCase().includes(query)) ||
                               (author && author.toLowerCase().includes(query));
@@ -979,8 +828,8 @@
 
       if (sortValue === 'title') {
         filtered.sort((a, b) => {
-          const titleA = getTranslatedText(a.title, a.title_en);
-          const titleB = getTranslatedText(b.title, b.title_en);
+          const titleA = translateDynamicText(a.title, a.title_en);
+          const titleB = translateDynamicText(b.title, b.title_en);
           return titleA.localeCompare(titleB, currentLang === 'en' ? 'en' : 'ar');
         });
       }
