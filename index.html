@@ -437,9 +437,9 @@
           <div class="card bg-body-tertiary border-0 p-3 mb-3">
             <h6 class="fw-bold fs-6 text-primary mb-2" id="txt-modal-ideas-title"><i class="bi bi-lightbulb me-1"></i> أهم 3 أفكار رئيسية يقدمها الكتاب:</h6>
             <ul class="mb-0 small text-muted ps-3" id="summaryKeyPoints">
-              <li>التحليل الهيكلي والتنظيمي للمؤسسات الحديثة.</li>
-              <li>طرق صياغة القرارات الإدارية وتوزيع الصلاحيات.</li>
-              <li>آليات التقييم والتطوير المؤسسي المستمر.</li>
+              <li id="point-1">التحليل الهيكلي والتنظيمي للمؤسسات الحديثة.</li>
+              <li id="point-2">طرق صياغة القرارات الإدارية وتوزيع الصلاحيات.</li>
+              <li id="point-3">آليات التقييم والتطوير المؤسسي المستمر.</li>
             </ul>
           </div>
 
@@ -495,19 +495,17 @@
     const pdfModal = new bootstrap.Modal(document.getElementById('pdfReaderModal'));
     const summaryModal = new bootstrap.Modal(document.getElementById('summaryModal'));
 
-    // Universal Arabic-to-English Auto Translation Map for all types and phrases
-    const autoTranslateMap = {
+    // Broad Local Translation Mapping for Descriptions, Names & Tags
+    const dictionary = {
+      "فن الخطابة": "The Art of Public Speaking",
+      "اسم المؤلف": "Author Name",
+      "المهارات القيادية والإدارية": "Leadership & Management Skills",
+      "الأرشيف الإداري العراقي": "IAR Archive",
       "مرجع أكاديمي": "Academic Reference",
       "دليل تطبيقي": "Practical Guide",
       "مرجع منهجي": "Methodological Reference",
-      "تشريع إداري": "Administrative Legislation",
-      "المهارات القيادية والإدارية": "Leadership & Management Skills",
-      "الإدارة العامة": "Public Administration",
-      "الموارد البشرية": "Human Resources",
-      "فن الخطابة": "The Art of Public Speaking",
-      "اسم المؤلف": "Author Name",
-      "الأرشيف الإداري العراقي": "IAR Archive",
-      "عام": "General"
+      "عام": "General",
+      "نبذة مختصرة: كتاب يوضح أصول ومبادئ فن الخطابة والتواصل الفعّال مع الجمهور.": "Overview: A practical guide detailing principles of public speaking, rhetoric, and leadership communication."
     };
 
     const i18n = {
@@ -544,7 +542,10 @@
         modalAudienceTitle: "<i class='bi bi-award me-1'></i> الفئة الأكثر استفادة:",
         modalAudienceText: "المدراء التنفيذيون، الباحثون في العلوم الإدارية، وطلاب الدراسات العليا.",
         modalAPATitle: "<i class='bi bi-quote me-1'></i> التوثيق الأكاديمي المباشر (APA):",
-        modalClose: "إغلاق"
+        modalClose: "إغلاق",
+        p1: "التحليل الهيكلي والتنظيمي للمؤسسات الحديثة.",
+        p2: "طرق صياغة القرارات الإدارية وتوزيع الصلاحيات.",
+        p3: "آليات التقييم والتطوير المؤسسي المستمر."
       },
       en: {
         announcement: "IAR Archive - Interactive Digital Repository for Management & Reference Sciences",
@@ -579,9 +580,21 @@
         modalAudienceTitle: "<i class='bi bi-award me-1'></i> Target Audience:",
         modalAudienceText: "Executive managers, administrative researchers, and postgraduate students.",
         modalAPATitle: "<i class='bi bi-quote me-1'></i> Direct Academic Citation (APA):",
-        modalClose: "Close"
+        modalClose: "Close",
+        p1: "Structural and organizational analysis of modern institutions.",
+        p2: "Methods of administrative decision-making and delegation of authority.",
+        p3: "Continuous institutional assessment and development mechanisms."
       }
     };
+
+    // Helper Translation Function
+    function getTranslatedText(text, enField) {
+      if (currentLang === 'en') {
+        if (enField) return enField;
+        if (dictionary[text]) return dictionary[text];
+      }
+      return text;
+    }
 
     // Dark Mode Controller
     const themeToggleBtn = document.getElementById('themeToggleBtn');
@@ -637,13 +650,17 @@
       document.getElementById('txt-bundle-text').innerHTML = t.bundleText;
       document.getElementById('txt-bundle-btn').innerText = t.bundleBtn;
 
-      // Modal elements translation
+      // Modal translations
       document.getElementById('summaryModalTitle').innerText = t.modalTitle;
       document.getElementById('txt-modal-ideas-title').innerHTML = t.modalIdeasTitle;
       document.getElementById('txt-modal-audience-title').innerHTML = t.modalAudienceTitle;
       document.getElementById('summaryAudience').innerText = t.modalAudienceText;
       document.getElementById('txt-modal-apa-title').innerHTML = t.modalAPATitle;
       document.getElementById('txt-modal-close').innerText = t.modalClose;
+
+      document.getElementById('point-1').innerText = t.p1;
+      document.getElementById('point-2').innerText = t.p2;
+      document.getElementById('point-3').innerText = t.p3;
 
       setupChipsCategories();
       applyFilters();
@@ -684,14 +701,8 @@
     }
 
     function setupChipsCategories() {
-      const isEn = currentLang === 'en';
       const container = document.getElementById('categoryChips');
-      const categories = ['all', ...new Set(booksData.map(b => {
-        if (isEn) {
-          return b.category_en || autoTranslateMap[b.category] || b.category;
-        }
-        return b.category;
-      }))];
+      const categories = ['all', ...new Set(booksData.map(b => getTranslatedText(b.category, b.category_en)))];
 
       document.getElementById('catCounter').innerText = categories.length - 1;
 
@@ -721,29 +732,25 @@
       document.getElementById('pdfFrame').src = '';
     });
 
-    // Micro-Summary Modal Handler
     function openSummaryModal(id) {
       const book = booksData.find(b => b.id === id);
       if (!book) return;
 
-      const isEn = currentLang === 'en';
-
-      const title = isEn ? (book.title_en || autoTranslateMap[book.title] || book.title) : book.title;
-      const author = isEn ? (book.author_en || autoTranslateMap[book.author] || book.author) : book.author;
-      const category = isEn ? (book.category_en || autoTranslateMap[book.category] || book.category) : book.category;
-      const publisher = isEn ? (book.publisher_en || autoTranslateMap[book.publisher] || book.publisher) : (book.publisher || 'IAR Archive');
-      const type = isEn ? (book.type_en || autoTranslateMap[book.type] || 'Academic Reference') : (book.type || 'مرجع منهجي');
+      const title = getTranslatedText(book.title, book.title_en);
+      const author = getTranslatedText(book.author, book.author_en);
+      const category = getTranslatedText(book.category, book.category_en);
+      const publisher = getTranslatedText(book.publisher || 'الأرشيف الإداري العراقي', book.publisher_en);
+      const type = getTranslatedText(book.type || 'مرجع منهجي', book.type_en);
 
       document.getElementById('summaryBookTitle').innerText = title;
       document.getElementById('summaryBookAuthor').innerText = author;
-      document.getElementById('summaryCategory').innerText = category || (isEn ? 'General' : 'عام');
+      document.getElementById('summaryCategory').innerText = category || (currentLang === 'en' ? 'General' : 'عام');
       document.getElementById('summaryType').innerText = type;
       document.getElementById('summaryAPA').innerText = `${author} (${book.year || '2026'}). ${title}. ${publisher}.`;
 
       summaryModal.show();
     }
 
-    // Research Bundle Handler
     function toggleBundleSelection(id) {
       if (selectedBundleIds.has(id)) {
         selectedBundleIds.delete(id);
@@ -806,7 +813,6 @@
       }
     }
 
-    // Search bar input clear
     const searchInput = document.getElementById('searchInput');
     const btnClearSearch = document.getElementById('btnClearSearch');
 
@@ -828,7 +834,6 @@
     function renderBooks(books) {
       const container = document.getElementById('booksDisplayContainer');
       const t = i18n[currentLang];
-      const isEn = currentLang === 'en';
 
       document.getElementById('booksCounter').innerText = books.length;
 
@@ -839,12 +844,12 @@
 
       if (currentViewMode === 'grid') {
         const gridHtml = books.map(book => {
-          let title = isEn ? (book.title_en || autoTranslateMap[book.title] || book.title) : book.title;
-          let author = isEn ? (book.author_en || autoTranslateMap[book.author] || book.author) : book.author;
-          let category = isEn ? (book.category_en || autoTranslateMap[book.category] || book.category) : (book.category || t.generalCat);
-          let description = isEn ? (book.description_en || autoTranslateMap[book.description] || book.description) : (book.description || '');
-          let publisher = isEn ? (book.publisher_en || autoTranslateMap[book.publisher] || book.publisher) : (book.publisher || t.defaultPublisher);
-          let type = isEn ? (book.type_en || autoTranslateMap[book.type] || 'Academic Reference') : (book.type || 'مرجع منهجي');
+          let title = getTranslatedText(book.title, book.title_en);
+          let author = getTranslatedText(book.author, book.author_en);
+          let category = getTranslatedText(book.category || t.generalCat, book.category_en);
+          let description = getTranslatedText(book.description || '', book.description_en);
+          let publisher = getTranslatedText(book.publisher || t.defaultPublisher, book.publisher_en);
+          let type = getTranslatedText(book.type || 'مرجع منهجي', book.type_en);
 
           const coverHtml = book.cover_image 
             ? `<div class="cover-img-wrapper"><img src="${book.cover_image}" alt="${title}" class="cover-img"></div>`
@@ -911,10 +916,10 @@
         container.innerHTML = `<div class="row g-4" id="booksGrid">${gridHtml}</div>`;
       } else {
         const listRowsHtml = books.map(book => {
-          let title = isEn ? (book.title_en || autoTranslateMap[book.title] || book.title) : book.title;
-          let author = isEn ? (book.author_en || autoTranslateMap[book.author] || book.author) : book.author;
-          let category = isEn ? (book.category_en || autoTranslateMap[book.category] || book.category) : (book.category || t.generalCat);
-          let publisher = isEn ? (book.publisher_en || autoTranslateMap[book.publisher] || book.publisher) : (book.publisher || t.defaultPublisher);
+          let title = getTranslatedText(book.title, book.title_en);
+          let author = getTranslatedText(book.author, book.author_en);
+          let category = getTranslatedText(book.category || t.generalCat, book.category_en);
+          let publisher = getTranslatedText(book.publisher || t.defaultPublisher, book.publisher_en);
 
           const isChecked = selectedBundleIds.has(book.id) ? 'checked' : '';
 
@@ -944,11 +949,11 @@
               <thead class="table-light">
                 <tr>
                   <th style="width: 40px;"></th>
-                  <th>${isEn ? 'Book Title' : 'عنوان الكتاب'}</th>
-                  <th>${isEn ? 'Author' : 'المؤلف'}</th>
-                  <th>${isEn ? 'Category' : 'التصنيف'}</th>
-                  <th>${isEn ? 'Publisher' : 'الناشر'}</th>
-                  <th class="text-end">${isEn ? 'Actions' : 'الإجراءات'}</th>
+                  <th>${currentLang === 'en' ? 'Book Title' : 'عنوان الكتاب'}</th>
+                  <th>${currentLang === 'en' ? 'Author' : 'المؤلف'}</th>
+                  <th>${currentLang === 'en' ? 'Category' : 'التصنيف'}</th>
+                  <th>${currentLang === 'en' ? 'Publisher' : 'الناشر'}</th>
+                  <th class="text-end">${currentLang === 'en' ? 'Actions' : 'الإجراءات'}</th>
                 </tr>
               </thead>
               <tbody>${listRowsHtml}</tbody>
@@ -960,12 +965,11 @@
     function applyFilters() {
       const query = searchInput.value.toLowerCase();
       const sortValue = document.getElementById('sortOrder').value;
-      const isEn = currentLang === 'en';
 
       let filtered = booksData.filter(book => {
-        let title = isEn ? (book.title_en || autoTranslateMap[book.title] || book.title) : book.title;
-        let author = isEn ? (book.author_en || autoTranslateMap[book.author] || book.author) : book.author;
-        let category = isEn ? (book.category_en || autoTranslateMap[book.category] || book.category) : book.category;
+        let title = getTranslatedText(book.title, book.title_en);
+        let author = getTranslatedText(book.author, book.author_en);
+        let category = getTranslatedText(book.category, book.category_en);
 
         const matchesSearch = (title && title.toLowerCase().includes(query)) ||
                               (author && author.toLowerCase().includes(query));
@@ -975,9 +979,9 @@
 
       if (sortValue === 'title') {
         filtered.sort((a, b) => {
-          const titleA = isEn ? (a.title_en || autoTranslateMap[a.title] || a.title) : a.title;
-          const titleB = isEn ? (b.title_en || autoTranslateMap[b.title] || b.title) : b.title;
-          return titleA.localeCompare(titleB, isEn ? 'en' : 'ar');
+          const titleA = getTranslatedText(a.title, a.title_en);
+          const titleB = getTranslatedText(b.title, b.title_en);
+          return titleA.localeCompare(titleB, currentLang === 'en' ? 'en' : 'ar');
         });
       }
 
