@@ -50,7 +50,6 @@
       transition: background-color 0.25s ease, color 0.25s ease;
     }
 
-    /* Top Announcement Bar */
     .top-live-bar {
       background: linear-gradient(90deg, #1e1b4b 0%, #312e81 50%, #1e1b4b 100%);
       color: #e0e7ff;
@@ -119,7 +118,6 @@
       border-right: 1px solid var(--border);
     }
 
-    /* Bundle Bar Floating */
     .bundle-bar {
       background: var(--accent);
       color: #ffffff;
@@ -132,7 +130,6 @@
       margin-bottom: 1.5rem;
     }
 
-    /* Chips Navigation */
     .chips-wrapper {
       display: flex;
       gap: 0.5rem;
@@ -162,7 +159,6 @@
       border-color: var(--accent);
     }
 
-    /* Book Cards & 3D Effect */
     .book-card {
       background: var(--card-bg);
       border: 1px solid var(--border);
@@ -376,14 +372,14 @@
       </div>
     </div>
 
-    <!-- Research Bundle Bar (Appears when books are selected) -->
+    <!-- Bundle Bar -->
     <div class="bundle-bar d-none" id="bundleBar">
       <div>
         <i class="bi bi-collection-fill me-2"></i>
-        <span>تم تحديد <strong id="bundleCount">0</strong> مراجع لإنشاء حزمة بحثية</span>
+        <span id="txt-bundle-text">تم تحديد <strong id="bundleCount">0</strong> مراجع لإنشاء حزمة بحثية</span>
       </div>
       <button class="btn btn-light btn-sm fw-bold" onclick="copyResearchBundle()">
-        <i class="bi bi-share-fill me-1"></i> نسخ رابط الحزمة المجمعة
+        <i class="bi bi-share-fill me-1"></i> <span id="txt-bundle-btn">نسخ رابط الحزمة المجمعة</span>
       </button>
     </div>
 
@@ -439,7 +435,7 @@
           <p class="text-muted small mb-4" id="summaryBookAuthor">المؤلف</p>
           
           <div class="card bg-body-tertiary border-0 p-3 mb-3">
-            <h6 class="fw-bold fs-6 text-primary mb-2"><i class="bi bi-lightbulb me-1"></i> أهم 3 أفكار رئيسية يقدمها الكتاب:</h6>
+            <h6 class="fw-bold fs-6 text-primary mb-2" id="txt-modal-ideas-title"><i class="bi bi-lightbulb me-1"></i> أهم 3 أفكار رئيسية يقدمها الكتاب:</h6>
             <ul class="mb-0 small text-muted ps-3" id="summaryKeyPoints">
               <li>التحليل الهيكلي والتنظيمي للمؤسسات الحديثة.</li>
               <li>طرق صياغة القرارات الإدارية وتوزيع الصلاحيات.</li>
@@ -448,17 +444,17 @@
           </div>
 
           <div class="card bg-body-tertiary border-0 p-3 mb-3">
-            <h6 class="fw-bold fs-6 text-success mb-2"><i class="bi bi-award me-1"></i> الفئة الأكثر استفادة:</h6>
+            <h6 class="fw-bold fs-6 text-success mb-2" id="txt-modal-audience-title"><i class="bi bi-award me-1"></i> الفئة الأكثر استفادة:</h6>
             <p class="mb-0 small text-muted" id="summaryAudience">المدراء التنفيذيون، الباحثون في العلوم الإدارية، وطلاب الدراسات العليا.</p>
           </div>
 
           <div class="card bg-body-tertiary border-0 p-3">
-            <h6 class="fw-bold fs-6 text-dark mb-2"><i class="bi bi-quote me-1"></i> التوثيق الأكاديمي المباشر (APA):</h6>
+            <h6 class="fw-bold fs-6 text-dark mb-2" id="txt-modal-apa-title"><i class="bi bi-quote me-1"></i> التوثيق الأكاديمي المباشر (APA):</h6>
             <code class="d-block p-2 bg-dark text-light rounded small" id="summaryAPA">T. (2026). Title. Publisher.</code>
           </div>
         </div>
         <div class="modal-footer py-2">
-          <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">إغلاق</button>
+          <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal" id="txt-modal-close">إغلاق</button>
         </div>
       </div>
     </div>
@@ -499,15 +495,19 @@
     const pdfModal = new bootstrap.Modal(document.getElementById('pdfReaderModal'));
     const summaryModal = new bootstrap.Modal(document.getElementById('summaryModal'));
 
-    // Fast Local Dictionary Fallback
-    const dictionary = {
-      "فن الخطابة": {
-        title: "The Art of Public Speaking",
-        author: "Author Name",
-        category: "Leadership & Management Skills",
-        description: "Overview: A practical guide detailing principles of public speaking, rhetoric, and leadership communication.",
-        publisher: "IAR Archive"
-      }
+    // Universal Arabic-to-English Auto Translation Map for all types and phrases
+    const autoTranslateMap = {
+      "مرجع أكاديمي": "Academic Reference",
+      "دليل تطبيقي": "Practical Guide",
+      "مرجع منهجي": "Methodological Reference",
+      "تشريع إداري": "Administrative Legislation",
+      "المهارات القيادية والإدارية": "Leadership & Management Skills",
+      "الإدارة العامة": "Public Administration",
+      "الموارد البشرية": "Human Resources",
+      "فن الخطابة": "The Art of Public Speaking",
+      "اسم المؤلف": "Author Name",
+      "الأرشيف الإداري العراقي": "IAR Archive",
+      "عام": "General"
     };
 
     const i18n = {
@@ -536,7 +536,15 @@
         toastBundleCopied: "تم نسخ رابط الحزمة البحثية المجمعة بنجاح.",
         generalCat: "عام",
         defaultPublisher: "الأرشيف الإداري العراقي",
-        themeTooltip: "تبديل المظهر"
+        themeTooltip: "تبديل المظهر",
+        bundleText: "تم تحديد <strong id='bundleCount'>0</strong> مراجع لإنشاء حزمة بحثية",
+        bundleBtn: "نسخ رابط الحزمة المجمعة",
+        modalTitle: "ملخص المرجع الإداري (3 دقائق)",
+        modalIdeasTitle: "<i class='bi bi-lightbulb me-1'></i> أهم 3 أفكار رئيسية يقدمها الكتاب:",
+        modalAudienceTitle: "<i class='bi bi-award me-1'></i> الفئة الأكثر استفادة:",
+        modalAudienceText: "المدراء التنفيذيون، الباحثون في العلوم الإدارية، وطلاب الدراسات العليا.",
+        modalAPATitle: "<i class='bi bi-quote me-1'></i> التوثيق الأكاديمي المباشر (APA):",
+        modalClose: "إغلاق"
       },
       en: {
         announcement: "IAR Archive - Interactive Digital Repository for Management & Reference Sciences",
@@ -563,7 +571,15 @@
         toastBundleCopied: "Research bundle link copied successfully.",
         generalCat: "General",
         defaultPublisher: "IAR Archive",
-        themeTooltip: "Toggle Theme"
+        themeTooltip: "Toggle Theme",
+        bundleText: "Selected <strong id='bundleCount'>0</strong> references for research bundle",
+        bundleBtn: "Copy Bundle Share Link",
+        modalTitle: "Administrative Reference Summary (3 Minutes)",
+        modalIdeasTitle: "<i class='bi bi-lightbulb me-1'></i> Top 3 Key Concepts in This Reference:",
+        modalAudienceTitle: "<i class='bi bi-award me-1'></i> Target Audience:",
+        modalAudienceText: "Executive managers, administrative researchers, and postgraduate students.",
+        modalAPATitle: "<i class='bi bi-quote me-1'></i> Direct Academic Citation (APA):",
+        modalClose: "Close"
       }
     };
 
@@ -618,6 +634,16 @@
       document.getElementById('opt-sort-default').innerText = t.sortDefault;
       document.getElementById('opt-sort-title').innerText = t.sortTitle;
       document.getElementById('txt-footer').innerText = t.footerText;
+      document.getElementById('txt-bundle-text').innerHTML = t.bundleText;
+      document.getElementById('txt-bundle-btn').innerText = t.bundleBtn;
+
+      // Modal elements translation
+      document.getElementById('summaryModalTitle').innerText = t.modalTitle;
+      document.getElementById('txt-modal-ideas-title').innerHTML = t.modalIdeasTitle;
+      document.getElementById('txt-modal-audience-title').innerHTML = t.modalAudienceTitle;
+      document.getElementById('summaryAudience').innerText = t.modalAudienceText;
+      document.getElementById('txt-modal-apa-title').innerHTML = t.modalAPATitle;
+      document.getElementById('txt-modal-close').innerText = t.modalClose;
 
       setupChipsCategories();
       applyFilters();
@@ -662,7 +688,7 @@
       const container = document.getElementById('categoryChips');
       const categories = ['all', ...new Set(booksData.map(b => {
         if (isEn) {
-          return b.category_en || (dictionary[b.title] ? dictionary[b.title].category : b.category);
+          return b.category_en || autoTranslateMap[b.category] || b.category;
         }
         return b.category;
       }))];
@@ -695,29 +721,29 @@
       document.getElementById('pdfFrame').src = '';
     });
 
-    // Micro-Summary Modal Trigger
+    // Micro-Summary Modal Handler
     function openSummaryModal(id) {
       const book = booksData.find(b => b.id === id);
       if (!book) return;
 
       const isEn = currentLang === 'en';
-      const dict = dictionary[book.title];
 
-      const title = isEn ? (book.title_en || (dict ? dict.title : book.title)) : book.title;
-      const author = isEn ? (book.author_en || (dict ? dict.author : book.author)) : book.author;
-      const category = isEn ? (book.category_en || (dict ? dict.category : book.category)) : book.category;
-      const publisher = isEn ? (book.publisher_en || (dict ? dict.publisher : book.publisher)) : (book.publisher || 'IAR Archive');
+      const title = isEn ? (book.title_en || autoTranslateMap[book.title] || book.title) : book.title;
+      const author = isEn ? (book.author_en || autoTranslateMap[book.author] || book.author) : book.author;
+      const category = isEn ? (book.category_en || autoTranslateMap[book.category] || book.category) : book.category;
+      const publisher = isEn ? (book.publisher_en || autoTranslateMap[book.publisher] || book.publisher) : (book.publisher || 'IAR Archive');
+      const type = isEn ? (book.type_en || autoTranslateMap[book.type] || 'Academic Reference') : (book.type || 'مرجع منهجي');
 
       document.getElementById('summaryBookTitle').innerText = title;
       document.getElementById('summaryBookAuthor').innerText = author;
-      document.getElementById('summaryCategory').innerText = category || 'عام';
-      document.getElementById('summaryType').innerText = book.type || 'مرجع أكاديمي';
+      document.getElementById('summaryCategory').innerText = category || (isEn ? 'General' : 'عام');
+      document.getElementById('summaryType').innerText = type;
       document.getElementById('summaryAPA').innerText = `${author} (${book.year || '2026'}). ${title}. ${publisher}.`;
 
       summaryModal.show();
     }
 
-    // Research Bundle Handlers
+    // Research Bundle Handler
     function toggleBundleSelection(id) {
       if (selectedBundleIds.has(id)) {
         selectedBundleIds.delete(id);
@@ -780,7 +806,7 @@
       }
     }
 
-    // Search input handlers
+    // Search bar input clear
     const searchInput = document.getElementById('searchInput');
     const btnClearSearch = document.getElementById('btnClearSearch');
 
@@ -813,20 +839,12 @@
 
       if (currentViewMode === 'grid') {
         const gridHtml = books.map(book => {
-          let title = book.title;
-          let author = book.author;
-          let category = book.category || t.generalCat;
-          let description = book.description || '';
-          let publisher = book.publisher || t.defaultPublisher;
-
-          if (isEn) {
-            const dict = dictionary[book.title];
-            title = book.title_en || (dict ? dict.title : book.title);
-            author = book.author_en || (dict ? dict.author : book.author);
-            category = book.category_en || (dict ? dict.category : category);
-            description = book.description_en || (dict ? dict.description : description);
-            publisher = book.publisher_en || (dict ? dict.publisher : publisher);
-          }
+          let title = isEn ? (book.title_en || autoTranslateMap[book.title] || book.title) : book.title;
+          let author = isEn ? (book.author_en || autoTranslateMap[book.author] || book.author) : book.author;
+          let category = isEn ? (book.category_en || autoTranslateMap[book.category] || book.category) : (book.category || t.generalCat);
+          let description = isEn ? (book.description_en || autoTranslateMap[book.description] || book.description) : (book.description || '');
+          let publisher = isEn ? (book.publisher_en || autoTranslateMap[book.publisher] || book.publisher) : (book.publisher || t.defaultPublisher);
+          let type = isEn ? (book.type_en || autoTranslateMap[book.type] || 'Academic Reference') : (book.type || 'مرجع منهجي');
 
           const coverHtml = book.cover_image 
             ? `<div class="cover-img-wrapper"><img src="${book.cover_image}" alt="${title}" class="cover-img"></div>`
@@ -839,7 +857,7 @@
             <div class="card h-100 book-card d-flex flex-column justify-content-between">
               
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <span class="badge-type"><i class="bi bi-journal-check me-1"></i>${book.type || 'مرجع أكاديمي'}</span>
+                <span class="badge-type"><i class="bi bi-journal-check me-1"></i>${type}</span>
                 <div class="form-check" title="تحديد لإضافته للحزمة البحثية">
                   <input class="form-check-input" type="checkbox" ${isChecked} onchange="toggleBundleSelection(${book.id})">
                 </div>
@@ -893,18 +911,10 @@
         container.innerHTML = `<div class="row g-4" id="booksGrid">${gridHtml}</div>`;
       } else {
         const listRowsHtml = books.map(book => {
-          let title = book.title;
-          let author = book.author;
-          let category = book.category || t.generalCat;
-          let publisher = book.publisher || t.defaultPublisher;
-
-          if (isEn) {
-            const dict = dictionary[book.title];
-            title = book.title_en || (dict ? dict.title : book.title);
-            author = book.author_en || (dict ? dict.author : book.author);
-            category = book.category_en || (dict ? dict.category : category);
-            publisher = book.publisher_en || (dict ? dict.publisher : publisher);
-          }
+          let title = isEn ? (book.title_en || autoTranslateMap[book.title] || book.title) : book.title;
+          let author = isEn ? (book.author_en || autoTranslateMap[book.author] || book.author) : book.author;
+          let category = isEn ? (book.category_en || autoTranslateMap[book.category] || book.category) : (book.category || t.generalCat);
+          let publisher = isEn ? (book.publisher_en || autoTranslateMap[book.publisher] || book.publisher) : (book.publisher || t.defaultPublisher);
 
           const isChecked = selectedBundleIds.has(book.id) ? 'checked' : '';
 
@@ -953,16 +963,9 @@
       const isEn = currentLang === 'en';
 
       let filtered = booksData.filter(book => {
-        let title = book.title;
-        let author = book.author;
-        let category = book.category;
-
-        if (isEn) {
-          const dict = dictionary[book.title];
-          title = book.title_en || (dict ? dict.title : book.title);
-          author = book.author_en || (dict ? dict.author : book.author);
-          category = book.category_en || (dict ? dict.category : book.category);
-        }
+        let title = isEn ? (book.title_en || autoTranslateMap[book.title] || book.title) : book.title;
+        let author = isEn ? (book.author_en || autoTranslateMap[book.author] || book.author) : book.author;
+        let category = isEn ? (book.category_en || autoTranslateMap[book.category] || book.category) : book.category;
 
         const matchesSearch = (title && title.toLowerCase().includes(query)) ||
                               (author && author.toLowerCase().includes(query));
@@ -972,10 +975,8 @@
 
       if (sortValue === 'title') {
         filtered.sort((a, b) => {
-          const dictA = dictionary[a.title];
-          const dictB = dictionary[b.title];
-          const titleA = isEn ? (a.title_en || (dictA ? dictA.title : a.title)) : a.title;
-          const titleB = isEn ? (b.title_en || (dictB ? dictB.title : b.title)) : b.title;
+          const titleA = isEn ? (a.title_en || autoTranslateMap[a.title] || a.title) : a.title;
+          const titleB = isEn ? (b.title_en || autoTranslateMap[b.title] || b.title) : b.title;
           return titleA.localeCompare(titleB, isEn ? 'en' : 'ar');
         });
       }
