@@ -221,7 +221,7 @@
 
   <main class="container my-4">
 
-    <!-- Stats Card -->
+    <!-- Stats Banner -->
     <div class="hero-stats-card mb-4">
       <div class="row align-items-center g-3">
         <div class="col-lg-7">
@@ -288,7 +288,7 @@
       <div class="chip-item active" data-category="all" id="chip-all">جميع التصنيفات</div>
     </div>
 
-    <!-- Books Display -->
+    <!-- Books Grid -->
     <div id="booksDisplayContainer">
       <div class="row g-4" id="booksGrid"></div>
     </div>
@@ -429,42 +429,11 @@
       }
     };
 
-    // Smart Universal Translation Fallback Logic
+    // Strict Field-First Translation Engine
     function translateDynamicText(text, enField) {
-      if (currentLang !== 'en') return text;
+      if (currentLang !== 'en') return text || '';
       if (enField && enField.trim() !== '') return enField;
-      if (!text) return '';
-
-      let t = text.trim();
-
-      // Dictionary Mapping
-      const exactMap = {
-        "فن الخطابة": "The Art of Public Speaking",
-        "اسم المؤلف": "Author Name",
-        "المهارات القيادية والإدارية": "Leadership & Management Skills",
-        "الإدارة العامة": "Public Administration",
-        "الموارد البشرية": "Human Resources",
-        "الأرشيف الإداري العراقي": "IAR Archive",
-        "مرجع أكاديمي": "Academic Reference",
-        "دليل تطبيقي": "Practical Guide",
-        "مرجع منهجي": "Methodological Reference",
-        "عام": "General"
-      };
-
-      if (exactMap[t]) return exactMap[t];
-
-      // Auto-translate any Description dynamically
-      if (t.includes("نبذة مختصرة:") || t.includes("نبذة")) {
-        let cleanText = t.replace("نبذة مختصرة:", "Overview:").replace("نبذة:", "Overview:");
-        cleanText = cleanText
-          .replace(/كتاب يوضح/g, "A reference detailing")
-          .replace(/أصول ومبادئ/g, "the principles of")
-          .replace(/التواصل الفعّال/g, "effective communication")
-          .replace(/مع الجمهور/g, "with public audiences");
-        return cleanText;
-      }
-
-      return t;
+      return text || '';
     }
 
     // Theme Controller
