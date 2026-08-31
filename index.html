@@ -628,7 +628,6 @@
       html.setAttribute('lang', lang);
       html.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
 
-      // Bootstrap RTL/LTR
       if (lang === 'ar') {
         bootstrapCSS.href = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css";
         document.getElementById('langLabel').innerText = "EN";
@@ -639,52 +638,38 @@
 
       const t = i18n[lang];
 
-      // تحديث جميع العناصر الثابتة
-      const textElements = {
-        'txt-announcement': 'innerText',
-        'txt-subtitle': 'innerText',
-        'txt-about-title': 'innerText',
-        'txt-about-desc': 'innerText',
-        'txt-stat-books': 'innerText',
-        'txt-stat-cats': 'innerText',
-        'txt-stat-year': 'innerText',
-        'opt-sort-default': 'innerText',
-        'opt-sort-title': 'innerText',
-        'txt-footer': 'innerText',
-        'txt-bundle-btn': 'innerText',
-        'summaryModalTitle': 'innerText',
-        'txt-modal-close': 'innerText',
-        'txt-loading': 'innerText'
-      };
-
-      for (const [id, prop] of Object.entries(textElements)) {
-        const el = document.getElementById(id);
-        if (el) el[prop] = t[id] || '';
-      }
-
-      // عناصر تحتوي HTML
+      // تحديث النصوص الثابتة بشكل صريح
+      document.getElementById('txt-announcement').innerText = t.announcement;
+      document.getElementById('txt-subtitle').innerText = t.subtitle;
+      document.getElementById('txt-about-title').innerText = t.aboutTitle;
+      document.getElementById('txt-about-desc').innerText = t.aboutDesc;
+      document.getElementById('txt-stat-books').innerText = t.statBooks;
+      document.getElementById('txt-stat-cats').innerText = t.statCats;
+      document.getElementById('txt-stat-year').innerText = t.statYear;
+      document.getElementById('searchInput').placeholder = t.searchPlaceholder;
+      document.getElementById('searchLabel').innerText = t.searchLabel;
+      document.getElementById('btnClearSearch').setAttribute('aria-label', t.clearSearch);
+      document.getElementById('opt-sort-default').innerText = t.sortDefault;
+      document.getElementById('opt-sort-title').innerText = t.sortTitle;
+      document.getElementById('txt-footer').innerText = t.footerText;
       document.getElementById('txt-bundle-text').innerHTML = t.bundleText;
+      document.getElementById('txt-bundle-btn').innerText = t.bundleBtn;
+
+      document.getElementById('summaryModalTitle').innerText = t.modalTitle;
       document.getElementById('txt-modal-ideas-title').innerHTML = t.modalIdeasTitle;
       document.getElementById('txt-modal-audience-title').innerHTML = t.modalAudienceTitle;
       document.getElementById('txt-modal-apa-title').innerHTML = t.modalAPATitle;
-
-      // placeholder خاص بحقل البحث
-      document.getElementById('searchInput').placeholder = t.searchPlaceholder;
-      document.getElementById('searchLabel').innerText = t.searchLabel;
-
-      // سمات الوصول
-      document.getElementById('btnClearSearch').setAttribute('aria-label', t.clearSearch);
+      document.getElementById('txt-modal-close').innerText = t.modalClose;
       document.getElementById('summaryDismissBtn').setAttribute('aria-label', t.modalClose);
       document.getElementById('pdfDismissBtn').setAttribute('aria-label', t.modalClose);
       document.getElementById('pdfFrame').setAttribute('title', t.readBtn);
+      document.getElementById('txt-loading').innerText = t.loading;
+
       themeToggleBtn.setAttribute('aria-label', t.themeTooltip);
       themeToggleBtn.setAttribute('title', t.themeTooltip);
 
-      // تحديث حالة الأزرار
       updateViewControls();
       syncBundleUI();
-
-      // إعادة بناء التصنيفات والكتب إذا كانت البيانات محملة
       if (booksLoaded && booksData.length > 0) {
         setupChipsCategories();
         applyFilters();
@@ -1157,7 +1142,7 @@
     }
 
     function applyFilters() {
-      if (!booksData.length) return; // لا توجد كتب بعد
+      if (!booksData.length) return; // no books yet
 
       const query = searchInput.value.trim().toLocaleLowerCase(currentLang === 'en' ? 'en' : 'ar');
       const sortValue = document.getElementById('sortOrder').value;
