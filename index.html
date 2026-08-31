@@ -511,13 +511,15 @@
       return value === null || value === undefined ? '' : String(value).trim();
     }
 
-    // Only same-origin image/PDF files may be supplied by books.json. Escaping alone does not
-    // make a URL safe for an href or iframe src.
+    // Resolves relative URLs based on the location of books.json instead of window.location.
+    // This ensures correct paths when books.json is in a subfolder.
     function safeAssetUrl(value, allowedExtensions) {
       const source = asText(value);
       if (!source) return '';
       try {
-        const url = new URL(source, window.location.href);
+        // Determine base URL from the books.json path
+        const booksJsonUrl = new URL('./books.json', window.location.href);
+        const url = new URL(source, booksJsonUrl);
         if (url.origin !== window.location.origin || !allowedExtensions.test(url.pathname)) return '';
         return `${url.pathname}${url.search}${url.hash}`;
       } catch (_) {
@@ -533,10 +535,11 @@
       if (!raw || typeof raw !== 'object') return null;
       const id = Number(raw.id);
       if (!Number.isSafeInteger(id) || id < 0) return null;
-
+      const title = asText(raw.title);
+      if (!title) return null; // skip books without a title
       return {
         id,
-        title: asText(raw.title), title_en: asText(raw.title_en),
+        title, title_en: asText(raw.title_en),
         author: asText(raw.author), author_en: asText(raw.author_en),
         category: asText(raw.category), category_en: asText(raw.category_en),
         description: asText(raw.description), description_en: asText(raw.description_en),
@@ -566,8 +569,6 @@
       };
     }
 
-    // A language-independent key for grouping/filtering by category (trimmed, with a stable
-    // fallback for uncategorized books) — the translated label is only used for display.
     function getCategoryKey(book) {
       const raw = (book.category || '').trim();
       return raw !== '' ? raw : '__general__';
@@ -708,6 +709,7 @@
         });
         booksLoaded = true;
         hydrateBundleFromUrl();
+        syncBundleUI(); // <-- FIX: ensure bundle bar appears if URL had bundle param
         setupChipsCategories();
         updateArchiveCounters();
         applyFilters();
@@ -760,15 +762,18 @@
         return;
       }
       document.getElementById('modalBookTitle').innerText = title;
-      document.getElementById('pdfFrame').src = filePath;
+      const iframe = document.getElementById('pdfFrame');
+      iframe.src = filePath;
+      iframe.onerror = () => showToast(i18n[currentLang].fileUnavailable, 'danger');
       pdfModal.show();
     }
 
     document.getElementById('pdfReaderModal').addEventListener('hidden.bs.modal', function () {
-      document.getElementById('pdfFrame').src = '';
+      const iframe = document.getElementById('pdfFrame');
+      iframe.src = '';
+      iframe.onerror = null;
     });
 
-    // Dynamic 3-Min Summary Modal Engine
     function openSummaryModal(id) {
       const book = booksData.find(b => b.id === id);
       if (!book) return;
@@ -790,7 +795,6 @@
       document.getElementById('summaryAudience').innerText = audience;
       document.getElementById('summaryAPA').innerText = `${author} (${book.year || '2026'}). ${title}. ${publisher}.`;
 
-      // Render Dynamic Key Points
       const pointsList = document.getElementById('summaryKeyPoints');
       let points = (currentLang === 'en' && book.key_points_en && book.key_points_en.length > 0)
         ? book.key_points_en
@@ -810,9 +814,12 @@
     function syncBundleUI() {
       const bundleBar = document.getElementById('bundleBar');
       const bundleCount = document.getElementById('bundleCount');
+      const copyBundleBtn = document.getElementById('copyBundleBtn');
       if (!bundleCount) return;
+      const hasItems = selectedBundleIds.size > 0;
       bundleCount.innerText = selectedBundleIds.size;
-      bundleBar.classList.toggle('d-none', selectedBundleIds.size === 0);
+      bundleBar.classList.toggle('d-none', !hasItems);
+      copyBundleBtn.disabled = !hasItems; // disable when no items
     }
 
     function hydrateBundleFromUrl() {
@@ -865,50 +872,40 @@
       return copyText(apaText, i18n[currentLang].toastCiteCopied);
     }
 
+    // Improved toast: creates a new toast element each time to avoid reuse issues
     function showToast(message, variant = 'primary') {
-      let toastHost = document.getElementById('iarToast');
-      if (!toastHost) {
-        toastHost = document.createElement('div');
-        toastHost.id = 'iarToast';
-        toastHost.className = 'position-fixed bottom-0 start-50 translate-middle-x p-3';
-        toastHost.style.zIndex = '99999';
+      const toastHost = document.createElement('div');
+      toastHost.className = 'position-fixed bottom-0 start-50 translate-middle-x p-3';
+      toastHost.style.zIndex = '99999';
 
-        const toast = document.createElement('div');
-        toast.className = 'toast align-items-center border-0';
-        toast.setAttribute('role', 'alert');
-        toast.setAttribute('aria-live', 'assertive');
-        toast.setAttribute('aria-atomic', 'true');
-        const row = document.createElement('div');
-        row.className = 'd-flex';
-        const body = document.createElement('div');
-        body.className = 'toast-body';
-        const closeButton = document.createElement('button');
-        closeButton.type = 'button';
-        closeButton.className = 'btn-close btn-close-white me-2 m-auto';
-        closeButton.setAttribute('data-bs-dismiss', 'toast');
-        closeButton.setAttribute('aria-label', i18n[currentLang].modalClose);
-        row.append(body, closeButton);
-        toast.appendChild(row);
-        toastHost.appendChild(toast);
-        toast.addEventListener('hidden.bs.toast', () => toastHost.remove());
-        document.body.appendChild(toastHost);
-      }
-
-      const toast = toastHost.querySelector('.toast');
+      const toast = document.createElement('div');
       toast.className = `toast align-items-center text-bg-${variant} border-0`;
-      const body = toast.querySelector('.toast-body');
-      body.replaceChildren();
+      toast.setAttribute('role', 'alert');
+      toast.setAttribute('aria-live', 'assertive');
+      toast.setAttribute('aria-atomic', 'true');
+      const row = document.createElement('div');
+      row.className = 'd-flex';
+      const body = document.createElement('div');
+      body.className = 'toast-body';
       const icon = document.createElement('i');
       icon.className = `bi ${variant === 'danger' ? 'bi-exclamation-circle' : 'bi-check-circle'} me-2`;
       body.append(icon, document.createTextNode(message));
+      const closeButton = document.createElement('button');
+      closeButton.type = 'button';
+      closeButton.className = 'btn-close btn-close-white me-2 m-auto';
+      closeButton.setAttribute('data-bs-dismiss', 'toast');
+      closeButton.setAttribute('aria-label', i18n[currentLang].modalClose);
+      row.append(body, closeButton);
+      toast.appendChild(row);
+      toastHost.appendChild(toast);
+      document.body.appendChild(toastHost);
+
+      toast.addEventListener('hidden.bs.toast', () => toastHost.remove());
       bootstrap.Toast.getOrCreateInstance(toast, { delay: 4000 }).show();
     }
 
     document.getElementById('copyBundleBtn').addEventListener('click', copyResearchBundle);
 
-    // Delegated handlers for book actions (read / cite / summary / bundle checkbox).
-    // Registered once on the static container, so they keep working across every re-render
-    // without needing per-book inline onclick attributes (which broke on quote characters).
     const booksDisplayContainer = document.getElementById('booksDisplayContainer');
 
     booksDisplayContainer.addEventListener('click', (e) => {
@@ -977,7 +974,7 @@
           let filePath = escapeHtml(book.file_path || '');
 
           const coverHtml = book.cover_image 
-            ? `<div class="cover-img-wrapper"><img src="${escapeHtml(book.cover_image)}" alt="${title}" class="cover-img"></div>`
+            ? `<div class="cover-img-wrapper"><img src="${escapeHtml(book.cover_image)}" alt="${title}" class="cover-img" loading="lazy" onerror="this.parentElement.innerHTML='<i class=\'bi bi-book\'></i>'"></div>`
             : `<i class="bi bi-book cover-placeholder"></i>`;
 
           const isChecked = selectedBundleIds.has(book.id) ? 'checked' : '';
