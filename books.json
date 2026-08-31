@@ -104,3 +104,53 @@
     "file_path": "pdf/ثقافة إدارية.pdf"
   }
 ]
+{
+  "id": 3,
+  "title": "مناهج البحث العلمي: تطبيقات إدارية واقتصادية",
+  "title_en": "Scientific Research Methodology: Administrative and Economic Applications",
+  "author": "أحمد حسين الرفاعي",
+  "author_en": "Ahmad Hussein Al-Rifai",
+  "category": "مناهج البحث العلمي والعلوم الإدارية والاقتصادية",
+  "category_en": "Research Methodology, Administrative & Economic Sciences",
+  "type": "كتاب أكاديمي / مرجع جامعي",
+  "type_en": "Academic Book / University Reference",
+  "description": "مرجع أكاديمي شمول يهدف إلى تزويد الباحث والطالب بالمعرفة المتكاملة لإعداد البحوث والتقارير العلمية المتخصصة في العلوم الإدارية والاقتصادية، مع التركيز على طبيعة البحث العلمي، صياغة الفروض، مناهج البحث، أساليب جمع البيانات والعينات، والتحليل الإحصائي للبيانات.",
+  "description_en": "A comprehensive academic reference aimed at equipping students and researchers with integrated knowledge for preparing scientific research and specialized reports in administrative and economic sciences. It covers research nature, hypothesis formulation, research methodologies, sampling and data collection methods, and statistical data analysis.",
+  "publisher": "دار وائل للنشر والتوزيع",
+  "publisher_en": "Dar Wael for Publishing and Distribution",
+  "year": "1999",
+  "pages": "312",
+  "file_size": "3.1 MB",
+  "keywords": [
+    "مناهج البحث العلمي",
+    "تطبيقات إدارية واقتصادية",
+    "اختبار الفرضيات",
+    "جمع البيانات والعينات",
+    "التحليل الإحصائي"
+  ],
+  "keywords_en": [
+    "Scientific Research Methodology",
+    "Administrative and Economic Applications",
+    "Hypothesis Testing",
+    "Data Collection and Sampling",
+    "Statistical Analysis"
+  ],
+  "key_points": [
+    "طبيعة البحث العلمي وتطبيقاته في العلوم الإدارية والاقتصادية وواقع البحث في الوطن العربي",
+    "الاستقراء والاستنتاج، الصياغة العلمية للفرضيات، وتصميم البحوث",
+    "أنواع مناهج البحث (المنهج الوصفي والمنهج التجريبي)",
+    "وسائل جمع البيانات الميدانية (العينات، الاستبيان، المقابلة، الملاحظة، واستخدام المكتبة)",
+    "تبويب البيانات وتحليلها إحصائياً (اختبار الفرضيات، الانحدار، والارتباط) والنواحي الفنية لكتابة التقرير"
+  ],
+  "key_points_en": [
+    "Nature of scientific research and its applications in administrative and economic sciences",
+    "Induction and deduction, scientific hypothesis formulation, and research design",
+    "Research methodologies (Descriptive and Experimental methods)",
+    "Field data collection tools (Sampling, Questionnaires, Interviews, Observation, and Library use)",
+    "Data tabulation, statistical analysis (Hypothesis testing, Regression, Correlation), and technical aspects of report writing"
+  ],
+  "target_audience": "طلاب الدراسات الأولية والعليا، والباحثون والمتخصصون في مجالات العلوم الإدارية والاقتصادية والاجتماعية",
+  "target_audience_en": "Undergraduate and postgraduate students, researchers, and specialists in administrative, economic, and social sciences",
+  "cover_image": "covers/3.png",
+  "file_path": "pdf/مناهج البحث العلمي.pdf"
+}
