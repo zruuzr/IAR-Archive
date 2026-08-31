@@ -4,11 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Apply the saved language/theme BEFORE anything renders, to avoid a flash of the wrong direction/theme -->
+  <!-- Apply saved preferences before the page is painted. Storage can be unavailable in private/restricted contexts. -->
   <script>
     (function () {
-      var lang = localStorage.getItem('iar_lang') || 'ar';
-      var theme = localStorage.getItem('iar_theme') || 'light';
+      var lang = 'ar';
+      var theme = 'light';
+      try {
+        lang = localStorage.getItem('iar_lang') || lang;
+        theme = localStorage.getItem('iar_theme') || theme;
+      } catch (_) {}
+      lang = lang === 'en' ? 'en' : 'ar';
+      theme = theme === 'dark' ? 'dark' : 'light';
       var html = document.documentElement;
       html.setAttribute('lang', lang);
       html.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
@@ -16,7 +22,11 @@
       var bsHref = lang === 'ar'
         ? 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css'
         : 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css';
-      document.write('<link rel="stylesheet" href="' + bsHref + '" id="bootstrapCSS">');
+      var bootstrapLink = document.createElement('link');
+      bootstrapLink.rel = 'stylesheet';
+      bootstrapLink.href = bsHref;
+      bootstrapLink.id = 'bootstrapCSS';
+      document.head.appendChild(bootstrapLink);
     })();
   </script>
 
@@ -111,6 +121,7 @@
       width: 4px; height: 100%;
       background: var(--accent);
     }
+    html[dir="ltr"] .hero-stats-card::before { right: auto; left: 0; }
 
     .stat-box { padding: 0.4rem 0.8rem; border-left: 1px solid var(--border); }
     html[dir="ltr"] .stat-box { border-left: none; border-right: 1px solid var(--border); }
@@ -175,7 +186,7 @@
     }
 
     .cover-img-wrapper { width: 100%; height: 100%; border-radius: 10px; position: relative; }
-    .cover-img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; }
+    .cover-img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 
     /* Zoom-on-hover is only enabled for devices with real hover + a precise pointer (mouse),
        so it can't get "stuck" open on touch/mobile screens. */
@@ -211,6 +222,10 @@
     .btn-iar-primary:hover { background: var(--accent-hover); color: #ffffff; }
 
     footer { margin-top: auto; background-color: var(--primary); color: #94a3b8; padding: 2rem 0; border-top: 1px solid var(--border); }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+    }
   </style>
 </head>
 <body>
@@ -236,7 +251,7 @@
           </div>
         </div>
         <div class="d-flex align-items-center gap-2">
-          <button id="langToggleBtn" class="btn btn-outline-light btn-sm fw-bold px-3 py-1.5 rounded-3">
+          <button type="button" id="langToggleBtn" class="btn btn-outline-light btn-sm fw-bold px-3 py-2 rounded-3" aria-label="تبديل اللغة">
             <i class="bi bi-translate me-1"></i> <span id="langLabel">EN</span>
           </button>
           <button id="themeToggleBtn" class="btn btn-outline-light btn-sm rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;" aria-label="تبديل المظهر" title="تبديل المظهر">
@@ -253,7 +268,7 @@
     <div class="hero-stats-card mb-4">
       <div class="row align-items-center g-3">
         <div class="col-lg-7">
-          <h1 class="h5 fw-extrabold mb-1" id="txt-about-title">الأرشيف الرقمي لعلوم الإدارة</h1>
+          <h1 class="h5 fw-bold mb-1" id="txt-about-title">الأرشيف الرقمي لعلوم الإدارة</h1>
           <p class="mb-0 small text-muted" id="txt-about-desc">
             منصة معرفية مخصصة لأرشفة وربط المراجع الإدارية، توفر ملخصات 3 دقائق، التوثيق الأكاديمي المباشر، وإنشاء حزم البحوث.
           </p>
@@ -261,15 +276,15 @@
         <div class="col-lg-5">
           <div class="d-flex justify-content-lg-end gap-3 text-center">
             <div class="stat-box">
-              <div class="fs-4 fw-extrabold text-primary" id="booksCounter">0</div>
+              <div class="fs-4 fw-bold text-primary" id="booksCounter">0</div>
               <div class="small text-muted" id="txt-stat-books">مرجع إداري</div>
             </div>
             <div class="stat-box">
-              <div class="fs-4 fw-extrabold text-primary" id="catCounter">0</div>
+              <div class="fs-4 fw-bold text-primary" id="catCounter">0</div>
               <div class="small text-muted" id="txt-stat-cats">تصنيف إداري</div>
             </div>
             <div class="stat-box">
-              <div class="fs-4 fw-extrabold text-success">2026</div>
+              <div class="fs-4 fw-bold text-success">2026</div>
               <div class="small text-muted" id="txt-stat-year">سنة الأرشفة</div>
             </div>
           </div>
@@ -283,7 +298,7 @@
         <i class="bi bi-collection-fill me-2"></i>
         <span id="txt-bundle-text">تم تحديد <strong id="bundleCount">0</strong> مراجع لإنشاء حزمة بحثية</span>
       </div>
-      <button class="btn btn-light btn-sm fw-bold" onclick="copyResearchBundle()">
+      <button type="button" class="btn btn-light btn-sm fw-bold" id="copyBundleBtn">
         <i class="bi bi-share-fill me-1"></i> <span id="txt-bundle-btn">نسخ رابط الحزمة المجمعة</span>
       </button>
     </div>
@@ -293,8 +308,9 @@
       <div class="col-md-7">
         <div class="input-group">
           <span class="input-group-text bg-body border-end-0 text-muted"><i class="bi bi-search"></i></span>
-          <input type="text" id="searchInput" class="form-control border-start-0 ps-0" placeholder="ابحث بعنوان الكتاب، اسم المؤلف، أو الكلمات المفتاحية...">
-          <button class="btn btn-outline-secondary border-start-0 d-none" type="button" id="btnClearSearch"><i class="bi bi-x-circle-fill"></i></button>
+          <label class="visually-hidden" for="searchInput" id="searchLabel">البحث في المراجع</label>
+          <input type="search" id="searchInput" class="form-control border-start-0 ps-0" placeholder="ابحث بعنوان الكتاب، اسم المؤلف، أو الكلمات المفتاحية...">
+          <button class="btn btn-outline-secondary border-start-0 d-none" type="button" id="btnClearSearch" aria-label="مسح البحث"><i class="bi bi-x-circle-fill" aria-hidden="true"></i></button>
         </div>
       </div>
       <div class="col-md-3 col-8">
@@ -305,31 +321,31 @@
       </div>
       <div class="col-md-2 col-4 text-end">
         <div class="btn-group w-100" role="group">
-          <button type="button" class="btn btn-outline-secondary active" id="btnViewGrid" title="عرض شبكي"><i class="bi bi-grid-fill"></i></button>
-          <button type="button" class="btn btn-outline-secondary" id="btnViewList" title="عرض قائمة"><i class="bi bi-list-task"></i></button>
+          <button type="button" class="btn btn-outline-secondary active" id="btnViewGrid" title="عرض شبكي" aria-label="عرض شبكي" aria-pressed="true"><i class="bi bi-grid-fill" aria-hidden="true"></i></button>
+          <button type="button" class="btn btn-outline-secondary" id="btnViewList" title="عرض قائمة" aria-label="عرض قائمة" aria-pressed="false"><i class="bi bi-list-task" aria-hidden="true"></i></button>
         </div>
       </div>
     </div>
 
     <!-- Category Chips -->
     <div class="chips-wrapper mb-4" id="categoryChips">
-      <div class="chip-item active" data-category="all" id="chip-all">جميع التصنيفات</div>
+      <button type="button" class="chip-item active" data-category="all" id="chip-all" aria-pressed="true">جميع التصنيفات</button>
     </div>
 
     <!-- Books Grid -->
     <div id="booksDisplayContainer">
-      <div class="row g-4" id="booksGrid"></div>
+      <div class="text-center text-muted py-5" role="status" id="booksLoading"><span class="spinner-border spinner-border-sm ms-2" aria-hidden="true"></span><span id="txt-loading">جارٍ تحميل المراجع…</span></div>
     </div>
 
   </main>
 
   <!-- Summary Modal (3 Minutes Summary) -->
-  <div class="modal fade" id="summaryModal" tabindex="-1" aria-hidden="true">
+  <div class="modal fade" id="summaryModal" tabindex="-1" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="summaryModalTitle">
     <div class="modal-dialog modal-lg modal-dialog-centered">
       <div class="modal-content">
-        <div class="modal-header py-2.5 bg-body-tertiary">
+        <div class="modal-header py-2 bg-body-tertiary">
           <h5 class="modal-title fs-6 fw-bold" id="summaryModalTitle">ملخص المرجع الإداري (3 دقائق)</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق" id="summaryDismissBtn"></button>
         </div>
         <div class="modal-body p-4">
           <div class="mb-3 d-flex flex-wrap gap-2 align-items-center">
@@ -364,15 +380,15 @@
   </div>
 
   <!-- PDF Reader Modal -->
-  <div class="modal fade" id="pdfReaderModal" tabindex="-1" aria-hidden="true">
+  <div class="modal fade" id="pdfReaderModal" tabindex="-1" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modalBookTitle">
     <div class="modal-dialog modal-xl modal-dialog-centered" style="height: 90vh;">
       <div class="modal-content h-100">
         <div class="modal-header py-2 bg-body-tertiary">
           <h5 class="modal-title fs-6 fw-bold" id="modalBookTitle">قراءة الكتاب</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق" id="pdfDismissBtn"></button>
         </div>
         <div class="modal-body p-0 h-100 bg-dark">
-          <iframe id="pdfFrame" src="" style="width:100%; height:100%; border:none;"></iframe>
+          <iframe id="pdfFrame" src="" title="قارئ ملف PDF" style="width:100%; height:100%; border:none;"></iframe>
         </div>
       </div>
     </div>
@@ -389,11 +405,21 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
   <script>
+    const storage = {
+      get(key, fallback) {
+        try { return localStorage.getItem(key) || fallback; } catch (_) { return fallback; }
+      },
+      set(key, value) {
+        try { localStorage.setItem(key, value); } catch (_) {}
+      }
+    };
+
     let booksData = [];
     let selectedBundleIds = new Set();
-    let currentLang = localStorage.getItem('iar_lang') || 'ar';
-    let currentViewMode = localStorage.getItem('iar_view_mode') || 'grid';
+    let currentLang = storage.get('iar_lang', 'ar') === 'en' ? 'en' : 'ar';
+    let currentViewMode = storage.get('iar_view_mode', 'grid') === 'list' ? 'list' : 'grid';
     let selectedCategory = 'all';
+    let booksLoaded = false;
 
     const pdfModal = new bootstrap.Modal(document.getElementById('pdfReaderModal'));
     const summaryModal = new bootstrap.Modal(document.getElementById('summaryModal'));
@@ -413,7 +439,9 @@
         toastCopied: "تم نسخ رابط الموقع المباشر إلى الحافظة بنجاح.",
         toastCiteCopied: "تم نسخ التوثيق الأكاديمي (APA) إلى الحافظة.",
         toastBundleCopied: "تم نسخ رابط الحزمة البحثية المجمعة بنجاح.",
-        generalCat: "عام", defaultPublisher: "الأرشيف الإداري العراقي", themeTooltip: "تبديل المظهر",
+        generalCat: "عام", defaultPublisher: "الأرشيف الإداري العراقي", defaultType: "مرجع منهجي", themeTooltip: "تبديل المظهر",
+        loading: "جارٍ تحميل المراجع…", fileUnavailable: "ملف المرجع غير متاح حاليًا.", searchLabel: "البحث في المراجع", clearSearch: "مسح البحث",
+        gridView: "عرض شبكي", listView: "عرض قائمة", selectBundle: "تحديد المرجع لإضافته إلى الحزمة البحثية",
         bundleText: "تم تحديد <strong id='bundleCount'>0</strong> مراجع لإنشاء حزمة بحثية",
         bundleBtn: "نسخ رابط الحزمة المجمعة",
         modalTitle: "ملخص المرجع الإداري (3 دقائق)",
@@ -427,7 +455,8 @@
           "طرق صياغة القرارات الإدارية وتوزيع الصلاحيات.",
           "آليات التقييم والتطوير المؤسسي المستمر."
         ],
-        pagesSuffix: "صفحة"
+        pagesSuffix: "صفحة",
+        toastCopyFailed: "تعذّر النسخ تلقائيًا. انسخ الرابط من شريط العنوان."
       },
       en: {
         announcement: "IAR Archive - Interactive Digital Repository for Management & Reference Sciences",
@@ -443,7 +472,9 @@
         toastCopied: "Direct repository link copied to clipboard.",
         toastCiteCopied: "APA Citation copied to clipboard.",
         toastBundleCopied: "Research bundle link copied successfully.",
-        generalCat: "General", defaultPublisher: "IAR Archive", themeTooltip: "Toggle Theme",
+        generalCat: "General", defaultPublisher: "IAR Archive", defaultType: "Methodological Reference", themeTooltip: "Toggle Theme",
+        loading: "Loading references…", fileUnavailable: "This reference file is currently unavailable.", searchLabel: "Search references", clearSearch: "Clear search",
+        gridView: "Grid view", listView: "List view", selectBundle: "Select this reference for the research bundle",
         bundleText: "Selected <strong id='bundleCount'>0</strong> references for research bundle",
         bundleBtn: "Copy Bundle Share Link",
         modalTitle: "Administrative Reference Summary (3 Minutes)",
@@ -457,7 +488,8 @@
           "Methods of administrative decision-making and delegation of authority.",
           "Continuous institutional assessment and development mechanisms."
         ],
-        pagesSuffix: "Pages"
+        pagesSuffix: "Pages",
+        toastCopyFailed: "Automatic copy failed. Please copy the link from the address bar."
       }
     };
 
@@ -473,6 +505,57 @@
       return String(value ?? '').replace(/[&<>"']/g, (c) => ({
         '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
       }[c]));
+    }
+
+    function asText(value) {
+      return value === null || value === undefined ? '' : String(value).trim();
+    }
+
+    // Only same-origin image/PDF files may be supplied by books.json. Escaping alone does not
+    // make a URL safe for an href or iframe src.
+    function safeAssetUrl(value, allowedExtensions) {
+      const source = asText(value);
+      if (!source) return '';
+      try {
+        const url = new URL(source, window.location.href);
+        if (url.origin !== window.location.origin || !allowedExtensions.test(url.pathname)) return '';
+        return `${url.pathname}${url.search}${url.hash}`;
+      } catch (_) {
+        return '';
+      }
+    }
+
+    function textArray(value) {
+      return Array.isArray(value) ? value.map(asText).filter(Boolean) : [];
+    }
+
+    function normalizeBook(raw) {
+      if (!raw || typeof raw !== 'object') return null;
+      const id = Number(raw.id);
+      if (!Number.isSafeInteger(id) || id < 0) return null;
+
+      return {
+        id,
+        title: asText(raw.title), title_en: asText(raw.title_en),
+        author: asText(raw.author), author_en: asText(raw.author_en),
+        category: asText(raw.category), category_en: asText(raw.category_en),
+        description: asText(raw.description), description_en: asText(raw.description_en),
+        publisher: asText(raw.publisher), publisher_en: asText(raw.publisher_en),
+        type: asText(raw.type), type_en: asText(raw.type_en),
+        target_audience: asText(raw.target_audience), target_audience_en: asText(raw.target_audience_en),
+        year: asText(raw.year), pages: asText(raw.pages), file_size: asText(raw.file_size),
+        keywords: textArray(raw.keywords), keywords_en: textArray(raw.keywords_en),
+        key_points: textArray(raw.key_points), key_points_en: textArray(raw.key_points_en),
+        file_path: safeAssetUrl(raw.file_path, /\.pdf$/i),
+        cover_image: safeAssetUrl(raw.cover_image, /\.(avif|gif|jpe?g|png|webp)$/i)
+      };
+    }
+
+    function setMetadataChip(elementId, iconClass, text) {
+      const element = document.getElementById(elementId);
+      const icon = document.createElement('i');
+      icon.className = `bi ${iconClass} me-1`;
+      element.replaceChildren(icon, document.createTextNode(` ${text}`));
     }
 
     function debounce(fn, delay) {
@@ -499,7 +582,7 @@
     // Theme Controller
     const themeToggleBtn = document.getElementById('themeToggleBtn');
     const themeIcon = document.getElementById('themeIcon');
-    const currentTheme = localStorage.getItem('iar_theme') || 'light';
+    let currentTheme = storage.get('iar_theme', 'light') === 'dark' ? 'dark' : 'light';
 
     document.documentElement.setAttribute('data-bs-theme', currentTheme);
     updateThemeIcon(currentTheme);
@@ -507,7 +590,8 @@
     themeToggleBtn.addEventListener('click', () => {
       const theme = document.documentElement.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-bs-theme', theme);
-      localStorage.setItem('iar_theme', theme);
+      currentTheme = theme;
+      storage.set('iar_theme', theme);
       updateThemeIcon(theme);
     });
 
@@ -520,8 +604,9 @@
     const bootstrapCSS = document.getElementById('bootstrapCSS');
 
     function applyLanguage(lang) {
+      if (!i18n[lang]) lang = 'ar';
       currentLang = lang;
-      localStorage.setItem('iar_lang', lang);
+      storage.set('iar_lang', lang);
 
       const html = document.documentElement;
       html.setAttribute('lang', lang);
@@ -544,6 +629,8 @@
       document.getElementById('txt-stat-cats').innerText = t.statCats;
       document.getElementById('txt-stat-year').innerText = t.statYear;
       document.getElementById('searchInput').placeholder = t.searchPlaceholder;
+      document.getElementById('searchLabel').innerText = t.searchLabel;
+      document.getElementById('btnClearSearch').setAttribute('aria-label', t.clearSearch);
       document.getElementById('opt-sort-default').innerText = t.sortDefault;
       document.getElementById('opt-sort-title').innerText = t.sortTitle;
       document.getElementById('txt-footer').innerText = t.footerText;
@@ -555,12 +642,20 @@
       document.getElementById('txt-modal-audience-title').innerHTML = t.modalAudienceTitle;
       document.getElementById('txt-modal-apa-title').innerHTML = t.modalAPATitle;
       document.getElementById('txt-modal-close').innerText = t.modalClose;
+      document.getElementById('summaryDismissBtn').setAttribute('aria-label', t.modalClose);
+      document.getElementById('pdfDismissBtn').setAttribute('aria-label', t.modalClose);
+      document.getElementById('pdfFrame').setAttribute('title', t.readBtn);
+      document.getElementById('txt-loading').innerText = t.loading;
 
       themeToggleBtn.setAttribute('aria-label', t.themeTooltip);
       themeToggleBtn.setAttribute('title', t.themeTooltip);
 
-      setupChipsCategories();
-      applyFilters();
+      updateViewControls();
+      syncBundleUI();
+      if (booksLoaded) {
+        setupChipsCategories();
+        applyFilters();
+      }
     }
 
     langToggleBtn.addEventListener('click', () => {
@@ -571,31 +666,59 @@
     const btnViewGrid = document.getElementById('btnViewGrid');
     const btnViewList = document.getElementById('btnViewList');
 
+    function updateViewControls() {
+      const isGrid = currentViewMode === 'grid';
+      btnViewGrid.classList.toggle('active', isGrid);
+      btnViewList.classList.toggle('active', !isGrid);
+      btnViewGrid.setAttribute('aria-pressed', String(isGrid));
+      btnViewList.setAttribute('aria-pressed', String(!isGrid));
+      btnViewGrid.setAttribute('aria-label', i18n[currentLang].gridView);
+      btnViewGrid.setAttribute('title', i18n[currentLang].gridView);
+      btnViewList.setAttribute('aria-label', i18n[currentLang].listView);
+      btnViewList.setAttribute('title', i18n[currentLang].listView);
+    }
+
     btnViewGrid.addEventListener('click', () => {
       currentViewMode = 'grid';
-      localStorage.setItem('iar_view_mode', 'grid');
-      btnViewGrid.classList.add('active');
-      btnViewList.classList.remove('active');
+      storage.set('iar_view_mode', 'grid');
+      updateViewControls();
       applyFilters();
     });
 
     btnViewList.addEventListener('click', () => {
       currentViewMode = 'list';
-      localStorage.setItem('iar_view_mode', 'list');
-      btnViewList.classList.add('active');
-      btnViewGrid.classList.remove('active');
+      storage.set('iar_view_mode', 'list');
+      updateViewControls();
       applyFilters();
     });
 
     async function fetchBooks() {
       try {
-        const response = await fetch('books.json');
-        booksData = await response.json();
+        const response = await fetch('./books.json', { headers: { Accept: 'application/json' } });
+        if (!response.ok) throw new Error(`books.json request failed (${response.status})`);
+
+        const payload = await response.json();
+        if (!Array.isArray(payload)) throw new Error('books.json must contain an array');
+
+        const usedIds = new Set();
+        booksData = payload.map(normalizeBook).filter(Boolean).filter(book => {
+          if (usedIds.has(book.id)) return false;
+          usedIds.add(book.id);
+          return true;
+        });
+        booksLoaded = true;
+        hydrateBundleFromUrl();
         setupChipsCategories();
+        updateArchiveCounters();
         applyFilters();
       } catch (error) {
+        console.error(error);
         document.getElementById('booksDisplayContainer').innerHTML = `<p class="text-center text-danger py-5">${i18n[currentLang].errorMsg}</p>`;
       }
+    }
+
+    function updateArchiveCounters() {
+      document.getElementById('booksCounter').innerText = booksData.length;
     }
 
     function setupChipsCategories() {
@@ -614,13 +737,17 @@
       container.innerHTML = keys.map(key => {
         const label = key === 'all' ? t.allCategories : labelsByKey.get(key);
         const activeClass = key === selectedCategory ? 'active' : '';
-        return `<div class="chip-item ${activeClass}" data-category="${escapeHtml(key)}">${escapeHtml(label)}</div>`;
+        return `<button type="button" class="chip-item ${activeClass}" data-category="${escapeHtml(key)}" aria-pressed="${key === selectedCategory}">${escapeHtml(label)}</button>`;
       }).join('');
 
       container.querySelectorAll('.chip-item').forEach(chip => {
         chip.addEventListener('click', (e) => {
-          container.querySelectorAll('.chip-item').forEach(c => c.classList.remove('active'));
+          container.querySelectorAll('.chip-item').forEach(c => {
+            c.classList.remove('active');
+            c.setAttribute('aria-pressed', 'false');
+          });
           e.currentTarget.classList.add('active');
+          e.currentTarget.setAttribute('aria-pressed', 'true');
           selectedCategory = e.currentTarget.getAttribute('data-category');
           applyFilters();
         });
@@ -628,6 +755,10 @@
     }
 
     function openPdfReader(filePath, title) {
+      if (!filePath) {
+        showToast(i18n[currentLang].fileUnavailable, 'danger');
+        return;
+      }
       document.getElementById('modalBookTitle').innerText = title;
       document.getElementById('pdfFrame').src = filePath;
       pdfModal.show();
@@ -646,16 +777,16 @@
       const title = translateDynamicText(book.title, book.title_en);
       const author = translateDynamicText(book.author, book.author_en);
       const category = translateDynamicText(book.category, book.category_en);
-      const publisher = translateDynamicText(book.publisher || 'الأرشيف الإداري العراقي', book.publisher_en);
-      const type = translateDynamicText(book.type || 'مرجع منهجي', book.type_en);
+      const publisher = translateDynamicText(book.publisher || t.defaultPublisher, book.publisher_en);
+      const type = translateDynamicText(book.type || t.defaultType, book.type_en);
       const audience = translateDynamicText(book.target_audience || t.defaultAudience, book.target_audience_en);
 
       document.getElementById('summaryBookTitle').innerText = title;
       document.getElementById('summaryBookAuthor').innerText = author;
       document.getElementById('summaryCategory').innerText = category || t.generalCat;
       document.getElementById('summaryType').innerText = type;
-      document.getElementById('summaryPages').innerHTML = `<i class="bi bi-file-earmark-text me-1"></i>${book.pages || '-'} ${t.pagesSuffix}`;
-      document.getElementById('summarySize').innerHTML = `<i class="bi bi-hdd me-1"></i>${book.file_size || '-'}`;
+      setMetadataChip('summaryPages', 'bi-file-earmark-text', `${book.pages || '-'} ${t.pagesSuffix}`);
+      setMetadataChip('summarySize', 'bi-hdd', book.file_size || '-');
       document.getElementById('summaryAudience').innerText = audience;
       document.getElementById('summaryAPA').innerText = `${author} (${book.year || '2026'}). ${title}. ${publisher}.`;
 
@@ -671,54 +802,109 @@
     }
 
     function toggleBundleSelection(id) {
+      if (!booksData.some(book => book.id === id)) return;
       if (selectedBundleIds.has(id)) { selectedBundleIds.delete(id); } else { selectedBundleIds.add(id); }
+      syncBundleUI();
+    }
+
+    function syncBundleUI() {
       const bundleBar = document.getElementById('bundleBar');
       const bundleCount = document.getElementById('bundleCount');
+      if (!bundleCount) return;
       bundleCount.innerText = selectedBundleIds.size;
-      if (selectedBundleIds.size > 0) { bundleBar.classList.remove('d-none'); } else { bundleBar.classList.add('d-none'); }
+      bundleBar.classList.toggle('d-none', selectedBundleIds.size === 0);
+    }
+
+    function hydrateBundleFromUrl() {
+      const rawIds = new URL(window.location.href).searchParams.get('bundle');
+      if (!rawIds) return;
+      const availableIds = new Set(booksData.map(book => book.id));
+      selectedBundleIds = new Set(
+        rawIds.split(',')
+          .map(value => Number(value))
+          .filter(id => Number.isSafeInteger(id) && availableIds.has(id))
+      );
+    }
+
+    function researchBundleUrl() {
+      const url = new URL(window.location.href);
+      const ids = Array.from(selectedBundleIds).join(',');
+      if (ids) url.searchParams.set('bundle', ids);
+      else url.searchParams.delete('bundle');
+      return url.toString();
+    }
+
+    async function copyText(text, successMessage) {
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(text);
+        } else {
+          const helper = document.createElement('textarea');
+          helper.value = text;
+          helper.setAttribute('readonly', '');
+          helper.style.position = 'fixed';
+          helper.style.opacity = '0';
+          document.body.appendChild(helper);
+          helper.select();
+          const copied = document.execCommand('copy');
+          helper.remove();
+          if (!copied) throw new Error('Copy command failed');
+        }
+        showToast(successMessage);
+      } catch (_) {
+        showToast(i18n[currentLang].toastCopyFailed, 'danger');
+      }
     }
 
     function copyResearchBundle() {
-      const idsArray = Array.from(selectedBundleIds).join(',');
-      const bundleUrl = `${window.location.origin}${window.location.pathname}?bundle=${idsArray}`;
-      navigator.clipboard.writeText(bundleUrl).then(() => { showToast(i18n[currentLang].toastBundleCopied); });
-    }
-
-    function shareBook(title, filePath) {
-      const directUrl = window.location.href.split('#')[0];
-      if (navigator.share) {
-        navigator.share({ title: title, text: `IAR Archive: ${title}`, url: directUrl }).catch(() => {});
-      } else {
-        navigator.clipboard.writeText(directUrl).then(() => { showToast(i18n[currentLang].toastCopied); });
-      }
+      return copyText(researchBundleUrl(), i18n[currentLang].toastBundleCopied);
     }
 
     function citeAPA(author, year, title, publisher) {
       const apaText = `${author} (${year || '2026'}). ${title}. ${publisher || 'IAR Archive'}.`;
-      navigator.clipboard.writeText(apaText).then(() => { showToast(i18n[currentLang].toastCiteCopied); });
+      return copyText(apaText, i18n[currentLang].toastCiteCopied);
     }
 
-    function showToast(message) {
-      let toastEl = document.getElementById('iarToast');
-      if (!toastEl) {
-        toastEl = document.createElement('div');
-        toastEl.id = 'iarToast';
-        toastEl.className = 'position-fixed bottom-0 start-50 translate-middle-x p-3';
-        toastEl.style.zIndex = '99999';
-        toastEl.innerHTML = `
-          <div class="toast align-items-center text-bg-primary border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="d-flex">
-              <div class="toast-body"><i class="bi bi-check-circle me-2"></i>${message}</div>
-              <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-            </div>
-          </div>`;
-        document.body.appendChild(toastEl);
-      } else {
-        toastEl.querySelector('.toast-body').innerHTML = `<i class="bi bi-check-circle me-2"></i>${message}`;
-        const bsToast = new bootstrap.Toast(toastEl.querySelector('.toast'));
-        bsToast.show();
+    function showToast(message, variant = 'primary') {
+      let toastHost = document.getElementById('iarToast');
+      if (!toastHost) {
+        toastHost = document.createElement('div');
+        toastHost.id = 'iarToast';
+        toastHost.className = 'position-fixed bottom-0 start-50 translate-middle-x p-3';
+        toastHost.style.zIndex = '99999';
+
+        const toast = document.createElement('div');
+        toast.className = 'toast align-items-center border-0';
+        toast.setAttribute('role', 'alert');
+        toast.setAttribute('aria-live', 'assertive');
+        toast.setAttribute('aria-atomic', 'true');
+        const row = document.createElement('div');
+        row.className = 'd-flex';
+        const body = document.createElement('div');
+        body.className = 'toast-body';
+        const closeButton = document.createElement('button');
+        closeButton.type = 'button';
+        closeButton.className = 'btn-close btn-close-white me-2 m-auto';
+        closeButton.setAttribute('data-bs-dismiss', 'toast');
+        closeButton.setAttribute('aria-label', i18n[currentLang].modalClose);
+        row.append(body, closeButton);
+        toast.appendChild(row);
+        toastHost.appendChild(toast);
+        toast.addEventListener('hidden.bs.toast', () => toastHost.remove());
+        document.body.appendChild(toastHost);
       }
+
+      const toast = toastHost.querySelector('.toast');
+      toast.className = `toast align-items-center text-bg-${variant} border-0`;
+      const body = toast.querySelector('.toast-body');
+      body.replaceChildren();
+      const icon = document.createElement('i');
+      icon.className = `bi ${variant === 'danger' ? 'bi-exclamation-circle' : 'bi-check-circle'} me-2`;
+      body.append(icon, document.createTextNode(message));
+      bootstrap.Toast.getOrCreateInstance(toast, { delay: 4000 }).show();
     }
+
+    document.getElementById('copyBundleBtn').addEventListener('click', copyResearchBundle);
 
     // Delegated handlers for book actions (read / cite / summary / bundle checkbox).
     // Registered once on the static container, so they keep working across every re-render
@@ -775,8 +961,6 @@
       const container = document.getElementById('booksDisplayContainer');
       const t = i18n[currentLang];
 
-      document.getElementById('booksCounter').innerText = books.length;
-
       if (books.length === 0) {
         container.innerHTML = `<p class="text-center text-muted py-5">${t.noBooks}</p>`;
         return;
@@ -789,7 +973,7 @@
           let category = escapeHtml(translateDynamicText(book.category, book.category_en) || t.generalCat);
           let description = escapeHtml(translateDynamicText(book.description || '', book.description_en));
           let publisher = escapeHtml(translateDynamicText(book.publisher || t.defaultPublisher, book.publisher_en));
-          let type = escapeHtml(translateDynamicText(book.type || 'مرجع منهجي', book.type_en));
+          let type = escapeHtml(translateDynamicText(book.type || t.defaultType, book.type_en));
           let filePath = escapeHtml(book.file_path || '');
 
           const coverHtml = book.cover_image 
@@ -797,6 +981,9 @@
             : `<i class="bi bi-book cover-placeholder"></i>`;
 
           const isChecked = selectedBundleIds.has(book.id) ? 'checked' : '';
+          const downloadControl = book.file_path
+            ? `<a href="${filePath}" download class="btn btn-iar-primary w-100 text-center"><i class="bi bi-download me-1" aria-hidden="true"></i> ${t.downloadBtn}</a>`
+            : `<button type="button" class="btn btn-iar-primary w-100" disabled aria-disabled="true">${t.downloadBtn}</button>`;
 
           return `
           <div class="col-lg-6">
@@ -804,8 +991,8 @@
               
               <div class="d-flex justify-content-between align-items-center mb-2">
                 <span class="badge-type"><i class="bi bi-journal-check me-1"></i>${type}</span>
-                <div class="form-check" title="تحديد لإضافته للحزمة البحثية">
-                  <input class="form-check-input" type="checkbox" ${isChecked} data-action="bundle" data-id="${book.id}">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" ${isChecked} data-action="bundle" data-id="${book.id}" aria-label="${escapeHtml(t.selectBundle)}">
                 </div>
               </div>
 
@@ -830,24 +1017,22 @@
               </div>
 
               <div class="row g-2 mt-auto">
-                <div class="col-3">
-                  <button data-action="read" data-id="${book.id}" class="btn btn-iar-action w-100">
-                    <i class="bi bi-eye me-1"></i> ${t.readBtn}
+                <div class="col-6 col-md-3">
+                  <button type="button" data-action="read" data-id="${book.id}" class="btn btn-iar-action w-100">
+                    <i class="bi bi-eye me-1" aria-hidden="true"></i> ${t.readBtn}
                   </button>
                 </div>
-                <div class="col-3">
-                  <a href="${filePath}" download class="btn btn-iar-primary w-100 text-center">
-                    <i class="bi bi-download me-1"></i> ${t.downloadBtn}
-                  </a>
+                <div class="col-6 col-md-3">
+                  ${downloadControl}
                 </div>
-                <div class="col-4">
-                  <button data-action="summary" data-id="${book.id}" class="btn btn-iar-action w-100">
-                    <i class="bi bi-card-text me-1"></i> ${t.summaryBtn}
+                <div class="col-6 col-md-3">
+                  <button type="button" data-action="summary" data-id="${book.id}" class="btn btn-iar-action w-100">
+                    <i class="bi bi-card-text me-1" aria-hidden="true"></i> ${t.summaryBtn}
                   </button>
                 </div>
-                <div class="col-2">
-                  <button data-action="cite" data-id="${book.id}" class="btn btn-iar-action w-100" title="${t.citeBtn}">
-                    <i class="bi bi-quote"></i>
+                <div class="col-6 col-md-3">
+                  <button type="button" data-action="cite" data-id="${book.id}" class="btn btn-iar-action w-100" title="${t.citeBtn}" aria-label="${t.citeBtn}">
+                    <i class="bi bi-quote" aria-hidden="true"></i>
                   </button>
                 </div>
               </div>
@@ -866,11 +1051,14 @@
           let filePath = escapeHtml(book.file_path || '');
 
           const isChecked = selectedBundleIds.has(book.id) ? 'checked' : '';
+          const downloadControl = book.file_path
+            ? `<a href="${filePath}" download class="btn btn-primary" aria-label="${t.downloadBtn}"><i class="bi bi-download" aria-hidden="true"></i></a>`
+            : `<button type="button" class="btn btn-primary" disabled aria-disabled="true" aria-label="${t.downloadBtn}"><i class="bi bi-download" aria-hidden="true"></i></button>`;
 
           return `
           <tr>
             <td class="align-middle">
-              <input class="form-check-input" type="checkbox" ${isChecked} data-action="bundle" data-id="${book.id}">
+              <input class="form-check-input" type="checkbox" ${isChecked} data-action="bundle" data-id="${book.id}" aria-label="${escapeHtml(t.selectBundle)}">
             </td>
             <td class="fw-bold align-middle">${title}</td>
             <td class="align-middle small text-muted">${author}</td>
@@ -878,10 +1066,10 @@
             <td class="align-middle small text-muted">${publisher} (${escapeHtml(book.year || '2026')}) - ${escapeHtml(book.pages || '-')} ${t.pagesSuffix} (${escapeHtml(book.file_size || '-')})</td>
             <td class="align-middle text-end">
               <div class="btn-group btn-group-sm">
-                <button data-action="read" data-id="${book.id}" class="btn btn-outline-primary"><i class="bi bi-eye"></i></button>
-                <a href="${filePath}" download class="btn btn-primary"><i class="bi bi-download"></i></a>
-                <button data-action="summary" data-id="${book.id}" class="btn btn-outline-secondary"><i class="bi bi-card-text"></i></button>
-                <button data-action="cite" data-id="${book.id}" class="btn btn-outline-secondary" title="${t.citeBtn}"><i class="bi bi-quote"></i></button>
+                <button type="button" data-action="read" data-id="${book.id}" class="btn btn-outline-primary" aria-label="${t.readBtn}"><i class="bi bi-eye" aria-hidden="true"></i></button>
+                ${downloadControl}
+                <button type="button" data-action="summary" data-id="${book.id}" class="btn btn-outline-secondary" aria-label="${t.summaryBtn}"><i class="bi bi-card-text" aria-hidden="true"></i></button>
+                <button type="button" data-action="cite" data-id="${book.id}" class="btn btn-outline-secondary" title="${t.citeBtn}" aria-label="${t.citeBtn}"><i class="bi bi-quote" aria-hidden="true"></i></button>
               </div>
             </td>
           </tr>`;
@@ -907,18 +1095,20 @@
     }
 
     function applyFilters() {
-      const query = searchInput.value.toLowerCase();
+      const query = searchInput.value.trim().toLocaleLowerCase(currentLang === 'en' ? 'en' : 'ar');
       const sortValue = document.getElementById('sortOrder').value;
 
       let filtered = booksData.filter(book => {
         const title = translateDynamicText(book.title, book.title_en);
         const author = translateDynamicText(book.author, book.author_en);
-        const keywords = Array.isArray(book.keywords) ? book.keywords.join(' ') : (book.keywords || '');
+        const keywords = currentLang === 'en' && book.keywords_en.length > 0
+          ? book.keywords_en.join(' ')
+          : book.keywords.join(' ');
 
         const matchesSearch = query === '' ||
-                              (title && title.toLowerCase().includes(query)) ||
-                              (author && author.toLowerCase().includes(query)) ||
-                              (keywords && keywords.toLowerCase().includes(query));
+                              (title && title.toLocaleLowerCase(currentLang).includes(query)) ||
+                              (author && author.toLocaleLowerCase(currentLang).includes(query)) ||
+                              (keywords && keywords.toLocaleLowerCase(currentLang).includes(query));
         const matchesCat = selectedCategory === 'all' || getCategoryKey(book) === selectedCategory;
         return matchesSearch && matchesCat;
       });
