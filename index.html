@@ -234,7 +234,7 @@
 
   <main class="container my-4">
 
-    <!-- Stats Card -->
+    <!-- Hero Card -->
     <div class="hero-stats-card mb-4">
       <div class="row align-items-center g-3">
         <div class="col-lg-7">
@@ -308,7 +308,7 @@
 
   </main>
 
-  <!-- Summary Modal -->
+  <!-- Summary Modal (3 Minutes Summary) -->
   <div class="modal fade" id="summaryModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
       <div class="modal-content">
@@ -317,32 +317,28 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
         </div>
         <div class="modal-body p-4">
-          <div class="mb-3 d-flex gap-2 align-items-center">
+          <div class="mb-3 d-flex flex-wrap gap-2 align-items-center">
             <span class="badge bg-primary-subtle text-primary border" id="summaryCategory">تصنيف</span>
             <span class="badge bg-success-subtle text-success border" id="summaryType">مرجع منهجي</span>
-            <span class="meta-spec-chip" id="summaryPages"><i class="bi bi-file-earmark-text"></i> - صفحة</span>
-            <span class="meta-spec-chip" id="summarySize"><i class="bi bi-hdd"></i> - MB</span>
+            <span class="meta-spec-chip" id="summaryPages"><i class="bi bi-file-earmark-text"></i> -</span>
+            <span class="meta-spec-chip" id="summarySize"><i class="bi bi-hdd"></i> -</span>
           </div>
           <h4 class="h5 fw-bold mb-2" id="summaryBookTitle">عنوان الكتاب</h4>
           <p class="text-muted small mb-4" id="summaryBookAuthor">المؤلف</p>
           
           <div class="card bg-body-tertiary border-0 p-3 mb-3">
-            <h6 class="fw-bold fs-6 text-primary mb-2" id="txt-modal-ideas-title"><i class="bi bi-lightbulb me-1"></i> أهم 3 أفكار رئيسية يقدمها الكتاب:</h6>
-            <ul class="mb-0 small text-muted ps-3" id="summaryKeyPoints">
-              <li id="point-1">التحليل الهيكلي والتنظيمي للمؤسسات الحديثة.</li>
-              <li id="point-2">طرق صياغة القرارات الإدارية وتوزيع الصلاحيات.</li>
-              <li id="point-3">آليات التقييم والتطوير المؤسسي المستمر.</li>
-            </ul>
+            <h6 class="fw-bold fs-6 text-primary mb-2" id="txt-modal-ideas-title"><i class="bi bi-lightbulb me-1"></i> أهم الأفكار الرئيسية في هذا المرجع:</h6>
+            <ul class="mb-0 small text-muted ps-3" id="summaryKeyPoints"></ul>
           </div>
 
           <div class="card bg-body-tertiary border-0 p-3 mb-3">
             <h6 class="fw-bold fs-6 text-success mb-2" id="txt-modal-audience-title"><i class="bi bi-award me-1"></i> الفئة الأكثر استفادة:</h6>
-            <p class="mb-0 small text-muted" id="summaryAudience">المدراء التنفيذيون، الباحثون في العلوم الإدارية، وطلاب الدراسات العليا.</p>
+            <p class="mb-0 small text-muted" id="summaryAudience"></p>
           </div>
 
           <div class="card bg-body-tertiary border-0 p-3">
             <h6 class="fw-bold fs-6 text-dark mb-2" id="txt-modal-apa-title"><i class="bi bi-quote me-1"></i> التوثيق الأكاديمي المباشر (APA):</h6>
-            <code class="d-block p-2 bg-dark text-light rounded small" id="summaryAPA">T. (2026). Title. Publisher.</code>
+            <code class="d-block p-2 bg-dark text-light rounded small" id="summaryAPA"></code>
           </div>
         </div>
         <div class="modal-footer py-2">
@@ -352,7 +348,7 @@
     </div>
   </div>
 
-  <!-- PDF Modal -->
+  <!-- PDF Reader Modal -->
   <div class="modal fade" id="pdfReaderModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-centered" style="height: 90vh;">
       <div class="modal-content h-100">
@@ -406,16 +402,17 @@
         bundleText: "تم تحديد <strong id='bundleCount'>0</strong> مراجع لإنشاء حزمة بحثية",
         bundleBtn: "نسخ رابط الحزمة المجمعة",
         modalTitle: "ملخص المرجع الإداري (3 دقائق)",
-        modalIdeasTitle: "<i class='bi bi-lightbulb me-1'></i> أهم 3 أفكار رئيسية يقدمها الكتاب:",
+        modalIdeasTitle: "<i class='bi bi-lightbulb me-1'></i> أهم الأفكار الرئيسية في هذا المرجع:",
         modalAudienceTitle: "<i class='bi bi-award me-1'></i> الفئة الأكثر استفادة:",
-        modalAudienceText: "المدراء التنفيذيون، الباحثون في العلوم الإدارية، وطلاب الدراسات العليا.",
+        defaultAudience: "المدراء التنفيذيون، الباحثون في العلوم الإدارية، وطلاب الدراسات العليا.",
         modalAPATitle: "<i class='bi bi-quote me-1'></i> التوثيق الأكاديمي المباشر (APA):",
         modalClose: "إغلاق",
-        p1: "التحليل الهيكلي والتنظيمي للمؤسسات الحديثة.",
-        p2: "طرق صياغة القرارات الإدارية وتوزيع الصلاحيات.",
-        p3: "آليات التقييم والتطوير المؤسسي المستمر.",
-        pagesSuffix: "صفحة",
-        sizeSuffix: "ميغابايت"
+        defaultPoints: [
+          "التحليل الهيكلي والتنظيمي للمؤسسات الحديثة.",
+          "طرق صياغة القرارات الإدارية وتوزيع الصلاحيات.",
+          "آليات التقييم والتطوير المؤسسي المستمر."
+        ],
+        pagesSuffix: "صفحة"
       },
       en: {
         announcement: "IAR Archive - Interactive Digital Repository for Management & Reference Sciences",
@@ -435,16 +432,17 @@
         bundleText: "Selected <strong id='bundleCount'>0</strong> references for research bundle",
         bundleBtn: "Copy Bundle Share Link",
         modalTitle: "Administrative Reference Summary (3 Minutes)",
-        modalIdeasTitle: "<i class='bi bi-lightbulb me-1'></i> Top 3 Key Concepts in This Reference:",
+        modalIdeasTitle: "<i class='bi bi-lightbulb me-1'></i> Key Concepts in This Reference:",
         modalAudienceTitle: "<i class='bi bi-award me-1'></i> Target Audience:",
-        modalAudienceText: "Executive managers, administrative researchers, and postgraduate students.",
+        defaultAudience: "Executive managers, administrative researchers, and postgraduate students.",
         modalAPATitle: "<i class='bi bi-quote me-1'></i> Direct Academic Citation (APA):",
         modalClose: "Close",
-        p1: "Structural and organizational analysis of modern institutions.",
-        p2: "Methods of administrative decision-making and delegation of authority.",
-        p3: "Continuous institutional assessment and development mechanisms.",
-        pagesSuffix: "Pages",
-        sizeSuffix: "MB"
+        defaultPoints: [
+          "Structural and organizational analysis of modern institutions.",
+          "Methods of administrative decision-making and delegation of authority.",
+          "Continuous institutional assessment and development mechanisms."
+        ],
+        pagesSuffix: "Pages"
       }
     };
 
@@ -511,13 +509,8 @@
       document.getElementById('summaryModalTitle').innerText = t.modalTitle;
       document.getElementById('txt-modal-ideas-title').innerHTML = t.modalIdeasTitle;
       document.getElementById('txt-modal-audience-title').innerHTML = t.modalAudienceTitle;
-      document.getElementById('summaryAudience').innerText = t.modalAudienceText;
       document.getElementById('txt-modal-apa-title').innerHTML = t.modalAPATitle;
       document.getElementById('txt-modal-close').innerText = t.modalClose;
-
-      document.getElementById('point-1').innerText = t.p1;
-      document.getElementById('point-2').innerText = t.p2;
-      document.getElementById('point-3').innerText = t.p3;
 
       setupChipsCategories();
       applyFilters();
@@ -589,6 +582,7 @@
       document.getElementById('pdfFrame').src = '';
     });
 
+    // Dynamic 3-Min Summary Modal Engine
     function openSummaryModal(id) {
       const book = booksData.find(b => b.id === id);
       if (!book) return;
@@ -599,6 +593,7 @@
       const category = translateDynamicText(book.category, book.category_en);
       const publisher = translateDynamicText(book.publisher || 'الأرشيف الإداري العراقي', book.publisher_en);
       const type = translateDynamicText(book.type || 'مرجع منهجي', book.type_en);
+      const audience = translateDynamicText(book.target_audience || t.defaultAudience, book.target_audience_en);
 
       document.getElementById('summaryBookTitle').innerText = title;
       document.getElementById('summaryBookAuthor').innerText = author;
@@ -606,7 +601,16 @@
       document.getElementById('summaryType').innerText = type;
       document.getElementById('summaryPages').innerHTML = `<i class="bi bi-file-earmark-text me-1"></i>${book.pages || '-'} ${t.pagesSuffix}`;
       document.getElementById('summarySize').innerHTML = `<i class="bi bi-hdd me-1"></i>${book.file_size || '-'}`;
+      document.getElementById('summaryAudience').innerText = audience;
       document.getElementById('summaryAPA').innerText = `${author} (${book.year || '2026'}). ${title}. ${publisher}.`;
+
+      // Render Dynamic Key Points
+      const pointsList = document.getElementById('summaryKeyPoints');
+      let points = (currentLang === 'en' && book.key_points_en && book.key_points_en.length > 0)
+        ? book.key_points_en
+        : (book.key_points && book.key_points.length > 0 ? book.key_points : t.defaultPoints);
+
+      pointsList.innerHTML = points.map(pt => `<li>${pt}</li>`).join('');
 
       summaryModal.show();
     }
