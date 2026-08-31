@@ -1,36 +1,26 @@
-[
-  {
-    "id": 1,
-    "title": "فن الخطابة",
-    "title_en": "The Art of Public Speaking",
-    "author": "ديل كارنيجي",
-    "author_en": "Dale Carnegie",
-    "category": "المهارات القيادية والإدارية",
-    "category_en": "Leadership & Management Skills",
-    "type": "دليل تطبيقي",
-    "type_en": "Practical Guide",
-    "description": "نبذة مختصرة: كتاب يوضح أصول ومبادئ فن الخطابة والتواصل الفعّال مع الجمهور وتطوير المهارات القيادية.",
-    "description_en": "Overview: A practical guide detailing the principles of public speaking, rhetoric, and effective communication with public audiences.",
-    "publisher": "الأرشيف الإداري العراقي",
-    "publisher_en": "IAR Archive",
-    "year": "2026",
-    "pages": "340",
-    "file_size": "4.2 MB",
-    "file_type": "PDF",
-    "isbn": "978-0-123456-78-9",
-    "key_points": [
-      "كسر حاجز الخوف والرهاب أثناء مواجهة الجمهور.",
-      "آليات إعداد وبناء المادة الصوتية والخطابية بأسلوب سلس.",
-      "تكتيكات التأثير والإقناع واستخدام لغة الجسد بنجاح."
-    ],
-    "key_points_en": [
-      "Overcoming fear and stage fright before public audiences.",
-      "Techniques for structuring and preparing speeches smoothly.",
-      "Tactics of persuasion and effective body language utilization."
-    ],
-    "target_audience": "المتحدثون الرسميون، المدراء التنفيذيون، وجميع الراغبين بتطوير مهارات العرض والإلقاء.",
-    "target_audience_en": "Official spokespersons, executive managers, and anyone aiming to master presentation skills.",
-    "cover_image": "covers/1.png",
-    "file_path": "pdf/فن_الخطابة.pdf"
-  }
-]
+{
+  "id": 2,
+  "title": "عنوان الكتاب",
+  "title_en": "Book Title",
+  "author": "المؤلف",
+  "author_en": "Author",
+  "category": "التصنيف",
+  "category_en": "Category",
+  "type": "نوع المرجع",
+  "type_en": "Type",
+  "description": "وصف عربي",
+  "description_en": "English description",
+  "publisher": "الناشر",
+  "publisher_en": "Publisher",
+  "year": "2026",
+  "pages": "250",
+  "file_size": "3.1 MB",
+  "keywords": ["كلمة1", "كلمة2"],
+  "keywords_en": ["keyword1", "keyword2"],
+  "key_points": ["نقطة1", "نقطة2"],
+  "key_points_en": ["point1", "point2"],
+  "target_audience": "الجمهور المستهدف",
+  "target_audience_en": "Target audience",
+  "cover_image": "covers/2.png",
+  "file_path": "pdf/book2.pdf"
+}
