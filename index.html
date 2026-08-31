@@ -288,7 +288,7 @@
       <div class="chip-item active" data-category="all" id="chip-all">جميع التصنيفات</div>
     </div>
 
-    <!-- Books Grid -->
+    <!-- Books Display -->
     <div id="booksDisplayContainer">
       <div class="row g-4" id="booksGrid"></div>
     </div>
@@ -429,29 +429,21 @@
       }
     };
 
-    // Advanced Dynamic Description & Text Translation Engine
+    // Smart Universal Translation Fallback Logic
     function translateDynamicText(text, enField) {
       if (currentLang !== 'en') return text;
       if (enField && enField.trim() !== '') return enField;
       if (!text) return '';
 
-      // Pattern replacements for descriptions
       let t = text.trim();
-      if (t.includes("نبذة مختصرة: كتاب يوضح أصول ومبادئ فن الخطابة والتواصل الفعّال مع الجمهور.")) {
-        return "Overview: A practical guide detailing principles of public speaking, rhetoric, and leadership communication.";
-      }
-      
-      // Generic Fallback Translator for descriptions starting with "نبذة مختصرة:"
-      if (t.startsWith("نبذة مختصرة:")) {
-        return t.replace("نبذة مختصرة:", "Overview:").replace("كتاب يوضح", "A reference covering").replace("مع الجمهور", "with audiences.");
-      }
 
-      // Keyword Mappings
-      const map = {
+      // Dictionary Mapping
+      const exactMap = {
         "فن الخطابة": "The Art of Public Speaking",
         "اسم المؤلف": "Author Name",
         "المهارات القيادية والإدارية": "Leadership & Management Skills",
         "الإدارة العامة": "Public Administration",
+        "الموارد البشرية": "Human Resources",
         "الأرشيف الإداري العراقي": "IAR Archive",
         "مرجع أكاديمي": "Academic Reference",
         "دليل تطبيقي": "Practical Guide",
@@ -459,7 +451,20 @@
         "عام": "General"
       };
 
-      return map[t] || t;
+      if (exactMap[t]) return exactMap[t];
+
+      // Auto-translate any Description dynamically
+      if (t.includes("نبذة مختصرة:") || t.includes("نبذة")) {
+        let cleanText = t.replace("نبذة مختصرة:", "Overview:").replace("نبذة:", "Overview:");
+        cleanText = cleanText
+          .replace(/كتاب يوضح/g, "A reference detailing")
+          .replace(/أصول ومبادئ/g, "the principles of")
+          .replace(/التواصل الفعّال/g, "effective communication")
+          .replace(/مع الجمهور/g, "with public audiences");
+        return cleanText;
+      }
+
+      return t;
     }
 
     // Theme Controller
