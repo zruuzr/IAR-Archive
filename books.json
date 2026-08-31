@@ -1,50 +1,55 @@
-[
-  {
-    "id": 1,
-    "title": "فن الخطابة",
-    "title_en": "The Art of Public Speaking",
-    "author": "ديل كارنيجي",
-    "author_en": "Dale Carnegie",
-    "category": "المهارات القيادية والإدارية",
-    "category_en": "Leadership & Management Skills",
-    "type": "دليل تطبيقي",
-    "type_en": "Practical Guide",
-    "description": "نبذة مختصرة: كتاب يوضح أصول ومبادئ فن الخطابة والتواصل الفعّال مع الجمهور وتطوير المهارات القيادية.",
-    "description_en": "Overview: A practical guide detailing the principles of public speaking, rhetoric, and effective communication with public audiences.",
-    "publisher": "الأرشيف الإداري العراقي",
-    "publisher_en": "IAR Archive",
-    "year": "2026",
-    "pages": "340",
-    "file_size": "4.2 MB",
-    "file_type": "PDF",
-    "isbn": "978-0-123456-78-9",
-    "keywords": [
-      "فن الخطابة",
-      "التواصل",
-      "القيادة",
-      "الإلقاء"
-    ],
-    "keywords_en": [
-      "Public Speaking",
-      "Communication",
-      "Leadership",
-      "Presentation"
-    ],
-    "key_points": [
-      "كسر حاجز الخوف والرهاب أثناء مواجهة الجمهور.",
-      "آليات إعداد وبناء المادة الصوتية والخطابية بأسلوب سلس.",
-      "تكتيكات التأثير والإقناع واستخدام لغة الجسد بنجاح."
-    ],
-    "key_points_en": [
-      "Overcoming fear and stage fright before public audiences.",
-      "Techniques for structuring and preparing speeches smoothly.",
-      "Tactics of persuasion and effective body language utilization."
-    ],
-    "target_audience": "المتحدثون الرسميون، المدراء التنفيذيون، وجميع الراغبين بتطوير مهارات العرض والإلقاء.",
-    "target_audience_en": "Official spokespersons, executive managers, and anyone aiming to master presentation skills.",
-    "cover_image": "covers/1.png",
-    "file_path": "pdf/فن_الخطابة.pdf"
-  },
+{
+  "id": 1,
+  "title": "فن الخطابة",
+  "title_en": "The Art of Public Speaking",
+  "author": "ديل كارنيجي",
+  "author_en": "Dale Carnegie",
+  "category": "المهارات القيادية والإدارية",
+  "category_en": "Leadership & Management Skills",
+  "type": "دليل تطبيقي",
+  "type_en": "Practical Guide",
+  "description": "دليل عملي وتطبيقي يهدف إلى التغلب على الخوف من مواجهة الجمهور، وتنمية الشجاعة والثقة بالنفس، وإتقان مهارات الإلقاء والتحضير الفعّال للخطب للتأثير في الآخرين.",
+  "description_en": "A practical guide aiming to overcome stage fright, build self-confidence, and master public speaking and speech preparation skills to effectively influence audiences.",
+  "publisher": "الأهلية للنشر والتوزيع",
+  "publisher_en": "Al-Ahlia Publishing & Distribution",
+  "year": "1998",
+  "pages": "173",
+  "file_size": "4.2 MB",
+  "file_type": "PDF",
+  "isbn": "",
+  "keywords": [
+    "فن الخطابة",
+    "الثقة بالنفس",
+    "تنمية الشجاعة",
+    "التأثير بالناس",
+    "تحضير الخطاب",
+    "تحسين الذاكرة"
+  ],
+  "keywords_en": [
+    "Public Speaking",
+    "Self-Confidence",
+    "Developing Courage",
+    "Influencing People",
+    "Speech Preparation",
+    "Memory Improvement"
+  ],
+  "key_points": [
+    "آليات التغلب على التوتر والتصرف بشجاعة أمام الجمهور.",
+    "طرق التحضير الصحيح للخطاب واختيار الموضوع والتفكير الهادف.",
+    "قوانين التذكر الطبيعية (الانطباع، التكرار، ترابط الأفكار) لترتيب عناصر الخطاب.",
+    "مبادئ الإلقاء الجيد، وتنسيق الصوت، وتجنب التكلف لاستحواذ اهتمام المستمعين."
+  ],
+  "key_points_en": [
+    "Mechanisms for overcoming anxiety and acting courageously before an audience.",
+    "Methods for proper speech preparation, topic selection, and purposeful thinking.",
+    "Natural memory laws (impression, repetition, association) for structuring speech points.",
+    "Principles of good delivery, vocal variety, and avoiding artificiality to captivate listeners."
+  ],
+  "target_audience": "المتحدثون الرسميون، المدراء التنفيذيون، الخطباء، وكل من يرغب في كسر حاجز الخوف وتطوير مهارات التواصل والعرض.",
+  "target_audience_en": "Official spokespersons, executive managers, speakers, and anyone looking to overcome fear and improve presentation skills.",
+  "cover_image": "covers/1.png",
+  "file_path": "pdf/فن_الخطابة.pdf"
+}
   {
     "id": 2,
     "title": "ثقافة إدارية",
