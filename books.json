@@ -2,13 +2,16 @@
   {
     "id": 1,
     "title": "فن الخطابة",
-    "author": "اسم المؤلف",
+    "title_en": "The Art of Public Speaking",
+    "author": "ديل كارنيجي",
+    "author_en": "Del Karnegey",
     "category": "المهارات القيادية والإدارية",
-    "description": "نبذة مختصرة: كتاب يوضح أصول ومبادئ فن الخطابة والتواصل الفعّال مع الجمهور، وكيفية صياغة الخطب وتأثيرها في الإدارة والقيادة.",
-    "publisher": "IAR Archive",
+    "category_en": "Leadership & Management Skills",
+    "description": "نبذة مختصرة: كتاب يوضح أصول ومبادئ فن الخطابة والتواصل الفعّال مع الجمهور.",
+    "description_en": "Overview: A practical guide detailing the principles of public speaking, rhetoric, and effective communication with audiences.",
+    "publisher": "الأرشيف الإداري العراقي",
+    "publisher_en": "IAR Archive",
     "year": "2026",
-    "file_size": "PDF",
-    "cover_image": "covers/1.png",
     "file_path": "pdf/فن_الخطابة.pdf"
   }
 ]
