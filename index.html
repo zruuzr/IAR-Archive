@@ -185,7 +185,7 @@
       box-shadow: -5px 8px 16px rgba(0, 0, 0, 0.12);
     }
 
-    .cover-img-wrapper { width: 100%; height: 100%; border-radius: 10px; position: relative; }
+    .cover-img-wrapper { width: 100%; height: 100%; border-radius: 10px; position: relative; cursor: pointer; }
     .cover-img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 
     /* Zoom-on-hover is only enabled for devices with real hover + a precise pointer (mouse),
@@ -394,6 +394,20 @@
     </div>
   </div>
 
+  <!-- Cover Image Modal -->
+  <div class="modal fade" id="coverImageModal" tabindex="-1" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="coverImageModalLabel">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content bg-transparent border-0">
+        <div class="modal-body p-0 d-flex justify-content-center position-relative">
+          <img id="coverImageLarge" src="" alt="" class="img-fluid rounded shadow" style="max-height: 90vh;">
+          <button type="button" class="btn btn-light position-absolute top-0 end-0 m-2 rounded-circle" data-bs-dismiss="modal" aria-label="إغلاق">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Footer -->
   <footer class="text-center">
     <div class="container">
@@ -423,6 +437,7 @@
 
     const pdfModal = new bootstrap.Modal(document.getElementById('pdfReaderModal'));
     const summaryModal = new bootstrap.Modal(document.getElementById('summaryModal'));
+    const coverModal = new bootstrap.Modal(document.getElementById('coverImageModal'));
 
     const i18n = {
       ar: {
@@ -456,7 +471,8 @@
           "آليات التقييم والتطوير المؤسسي المستمر."
         ],
         pagesSuffix: "صفحة",
-        toastCopyFailed: "تعذّر النسخ تلقائيًا. انسخ الرابط من شريط العنوان."
+        toastCopyFailed: "تعذّر النسخ تلقائيًا. انسخ الرابط من شريط العنوان.",
+        viewCover: "عرض الغلاف"
       },
       en: {
         announcement: "IAR Archive - Interactive Digital Repository for Management & Reference Sciences",
@@ -489,7 +505,8 @@
           "Continuous institutional assessment and development mechanisms."
         ],
         pagesSuffix: "Pages",
-        toastCopyFailed: "Automatic copy failed. Please copy the link from the address bar."
+        toastCopyFailed: "Automatic copy failed. Please copy the link from the address bar.",
+        viewCover: "View cover"
       }
     };
 
@@ -499,8 +516,6 @@
       return text || '';
     }
 
-    // Escapes any value before it is inserted via innerHTML, so book data (titles, authors, etc.)
-    // can never break out of the markup or be interpreted as HTML/JS.
     function escapeHtml(value) {
       return String(value ?? '').replace(/[&<>"']/g, (c) => ({
         '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
@@ -511,13 +526,10 @@
       return value === null || value === undefined ? '' : String(value).trim();
     }
 
-    // Resolves relative URLs based on the location of books.json instead of window.location.
-    // This ensures correct paths when books.json is in a subfolder.
     function safeAssetUrl(value, allowedExtensions) {
       const source = asText(value);
       if (!source) return '';
       try {
-        // Determine base URL from the books.json path
         const booksJsonUrl = new URL('./books.json', window.location.href);
         const url = new URL(source, booksJsonUrl);
         if (url.origin !== window.location.origin || !allowedExtensions.test(url.pathname)) return '';
@@ -536,7 +548,7 @@
       const id = Number(raw.id);
       if (!Number.isSafeInteger(id) || id < 0) return null;
       const title = asText(raw.title);
-      if (!title) return null; // skip books without a title
+      if (!title) return null;
       return {
         id,
         title, title_en: asText(raw.title_en),
@@ -693,6 +705,12 @@
       applyFilters();
     });
 
+    // Check if mobile device
+    function isMobileDevice() {
+      return /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
+             (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    }
+
     async function fetchBooks() {
       try {
         const response = await fetch('./books.json', { headers: { Accept: 'application/json' } });
@@ -709,7 +727,7 @@
         });
         booksLoaded = true;
         hydrateBundleFromUrl();
-        syncBundleUI(); // <-- FIX: ensure bundle bar appears if URL had bundle param
+        syncBundleUI(); // FIX: ensure bundle bar appears if URL had bundle param
         setupChipsCategories();
         updateArchiveCounters();
         applyFilters();
@@ -763,7 +781,15 @@
       }
       document.getElementById('modalBookTitle').innerText = title;
       const iframe = document.getElementById('pdfFrame');
-      iframe.src = filePath;
+      
+      if (isMobileDevice()) {
+        // Use Google Docs Viewer for mobile to render PDF inside iframe
+        const fullUrl = new URL(filePath, window.location.href).href;
+        iframe.src = `https://docs.google.com/viewer?url=${encodeURIComponent(fullUrl)}&embedded=true`;
+      } else {
+        iframe.src = filePath;
+      }
+      
       iframe.onerror = () => showToast(i18n[currentLang].fileUnavailable, 'danger');
       pdfModal.show();
     }
@@ -773,6 +799,13 @@
       iframe.src = '';
       iframe.onerror = null;
     });
+
+    function openCoverImage(imageSrc, title) {
+      const img = document.getElementById('coverImageLarge');
+      img.src = imageSrc;
+      img.alt = title;
+      coverModal.show();
+    }
 
     function openSummaryModal(id) {
       const book = booksData.find(b => b.id === id);
@@ -819,7 +852,7 @@
       const hasItems = selectedBundleIds.size > 0;
       bundleCount.innerText = selectedBundleIds.size;
       bundleBar.classList.toggle('d-none', !hasItems);
-      copyBundleBtn.disabled = !hasItems; // disable when no items
+      copyBundleBtn.disabled = !hasItems;
     }
 
     function hydrateBundleFromUrl() {
@@ -872,7 +905,6 @@
       return copyText(apaText, i18n[currentLang].toastCiteCopied);
     }
 
-    // Improved toast: creates a new toast element each time to avoid reuse issues
     function showToast(message, variant = 'primary') {
       const toastHost = document.createElement('div');
       toastHost.className = 'position-fixed bottom-0 start-50 translate-middle-x p-3';
@@ -930,6 +962,11 @@
         case 'cite':
           citeAPA(author, book.year, title, publisher);
           break;
+        case 'cover-zoom':
+          if (book.cover_image) {
+            openCoverImage(book.cover_image, title);
+          }
+          break;
       }
     });
 
@@ -974,7 +1011,9 @@
           let filePath = escapeHtml(book.file_path || '');
 
           const coverHtml = book.cover_image 
-            ? `<div class="cover-img-wrapper"><img src="${escapeHtml(book.cover_image)}" alt="${title}" class="cover-img" loading="lazy" onerror="this.parentElement.innerHTML='<i class=\'bi bi-book\'></i>'"></div>`
+            ? `<div class="cover-img-wrapper" data-action="cover-zoom" data-id="${book.id}" title="${escapeHtml(t.viewCover)}">
+                 <img src="${escapeHtml(book.cover_image)}" alt="${title}" class="cover-img" loading="lazy" onerror="this.parentElement.innerHTML='<i class=\'bi bi-book\'></i>'">
+               </div>`
             : `<i class="bi bi-book cover-placeholder"></i>`;
 
           const isChecked = selectedBundleIds.has(book.id) ? 'checked' : '';
