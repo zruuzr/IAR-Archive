@@ -1,2 +1,26 @@
-# IAR-Archive
-IAR Archive (Iraqi Administrative Reference) is a digital repository for management and administrative sciences, providing books, references, and academic resources for students, researchers, professionals, and management enthusiasts.
+# 📚 IAR-Archive (Iraqi Administrative Reference Archive)
+
+**أرشيف العلوم الإدارية العراقي** هو منصة رقمية ومكتبة مفتوحة المصدر مخصصة لإتاحة المراجع، الكتب، والبحوث الأكاديمية في مجالات الإدارة والتطوير الإداري للطلاب، الباحثين، والمهنيين.
+## 🚀 المميزات
+* 🔍 **بحث سريع:** إمكانية البحث الفوري في قائمة الكتب والمراجع.
+* ⭐️ **نظام تقييم تفاعلي:** تقييم الكتب وتخزين التقييمات عبر **Firebase Cloud Firestore**.
+* ⚡️ **تحميل واستعراض مباشر:** معاينة وتنزيل ملفات الـ PDF بسرعة.
+* 📱 **تصميم متجاوب:** يعمل بكفاءة على الهواتف والشاشات المختلفة.
+* ## 📁 بنية المشروع
+
+```text
+IAR-Archive/
+├── covers/        # صور أغلفة الكتب
+├── pdf/           # ملفات الكتب بصيغة PDF
+├── books.json     # قاعدة بيانات الكتب (العنوان، المؤلف، الملاحظات)
+├── index.html     # الصفحة الرئيسية للموقع
+└── README.md      # دليل المشروع
+---
+
+**4. التقنيات المستخدمة (Tech Stack)**
+قائمة بالتقنيات والأدوات المستخدمة في المشروع:
+
+```markdown
+## 🛠 التقنيات المستخدمة
+* **Frontend:** HTML5, CSS3, JavaScript (ES6+)
+* **Database & Services:** Firebase Firestore, GitHub Pages (Hosting)
