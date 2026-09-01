@@ -52,6 +52,7 @@
       --text-muted: #64748b;
       --border: #e2e8f0;
       --card-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+      --star: #f59e0b;
     }
 
     [data-bs-theme="dark"] {
@@ -64,6 +65,7 @@
       --text-muted: #9ca3af;
       --border: #1f2937;
       --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
+      --star: #fbbf24;
     }
 
     body {
@@ -222,6 +224,24 @@
     .btn-iar-primary { background: var(--accent); color: #ffffff; font-weight: 700; font-size: 0.82rem; border-radius: 8px; padding: 0.45rem; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
     .btn-iar-primary:hover { background: var(--accent-hover); color: #ffffff; }
 
+    /* Rating stars */
+    .rating-stars {
+      display: inline-flex;
+      gap: 0.2rem;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    .rating-stars i {
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+    .rating-stars i.active {
+      color: var(--star);
+    }
+    .rating-stars i:hover {
+      transform: scale(1.2);
+    }
+
     footer { margin-top: auto; background-color: var(--primary); color: #94a3b8; padding: 2rem 0; border-top: 1px solid var(--border); }
 
     @media (prefers-reduced-motion: reduce) {
@@ -325,6 +345,8 @@
           <option value="year" id="opt-sort-year">حسب السنة</option>
           <option value="pages" id="opt-sort-pages">حسب عدد الصفحات</option>
           <option value="downloads" id="opt-sort-downloads">حسب التحميلات</option>
+          <option value="favorites" id="opt-sort-favorites">حسب المفضلة</option>
+          <option value="rating" id="opt-sort-rating">حسب التقييم</option>
         </select>
       </div>
       <div class="col-md-2 col-4 text-end">
@@ -444,6 +466,7 @@
     let booksData = [];
     let selectedBundleIds = new Set();
     let favoriteIds = new Set(JSON.parse(storage.get('iar_favorites', '[]')));
+    let ratings = JSON.parse(storage.get('iar_ratings', '{}'));
     let currentLang = storage.get('iar_lang', 'ar') === 'en' ? 'en' : 'ar';
     let currentViewMode = storage.get('iar_view_mode', 'grid') === 'list' ? 'list' : 'grid';
     let selectedCategory = 'all';
@@ -466,8 +489,10 @@
         searchPlaceholder: "ابحث بعنوان الكتاب، اسم المؤلف، الناشر، أو الكلمات المفتاحية...",
         allCategories: "جميع التصنيفات", sortDefault: "الترتيب الافتراضي", sortTitle: "حسب العنوان (أبجدي)",
         sortYear: "حسب السنة", sortPages: "حسب عدد الصفحات", sortDownloads: "حسب التحميلات",
+        sortFavorites: "حسب المفضلة", sortRating: "حسب التقييم",
         readBtn: "قراءة", downloadBtn: "تحميل", shareBtn: "مشاركة", citeBtn: "توثيق APA", summaryBtn: "ملخص 3 دقائق",
         favoriteBtn: "أضف إلى المفضلة", unfavoriteBtn: "إزالة من المفضلة",
+        rateBtn: "تقييم الكتاب",
         noBooks: "لم يتم العثور على كتب مطابقة لخيارات البحث.", errorMsg: "تعذر تحميل قائمة الكتب.",
         footerText: "الأرشيف الإداري العراقي - المستودع الرقمي المتخصص في العلوم الإدارية",
         toastCopied: "تم نسخ رابط الموقع المباشر إلى الحافظة بنجاح.",
@@ -475,6 +500,7 @@
         toastBundleCopied: "تم نسخ رابط الحزمة البحثية المجمعة بنجاح.",
         toastFavoriteAdded: "تمت إضافة الكتاب إلى المفضلة.",
         toastFavoriteRemoved: "تمت إزالة الكتاب من المفضلة.",
+        toastRated: "تم حفظ تقييمك.",
         generalCat: "عام", defaultPublisher: "الأرشيف الإداري العراقي", defaultType: "مرجع منهجي", themeTooltip: "تبديل المظهر",
         loading: "جارٍ تحميل المراجع…", fileUnavailable: "ملف المرجع غير متاح حاليًا.", searchLabel: "البحث في المراجع", clearSearch: "مسح البحث",
         gridView: "عرض شبكي", listView: "عرض قائمة", selectBundle: "تحديد المرجع لإضافته إلى الحزمة البحثية",
@@ -506,8 +532,10 @@
         searchPlaceholder: "Search by title, author, publisher, or keywords...",
         allCategories: "All Categories", sortDefault: "Default Sorting", sortTitle: "Sort by Title (Alphabetical)",
         sortYear: "Sort by Year", sortPages: "Sort by Pages", sortDownloads: "Sort by Downloads",
+        sortFavorites: "Sort by Favorites", sortRating: "Sort by Rating",
         readBtn: "Read", downloadBtn: "Download", shareBtn: "Share", citeBtn: "Cite APA", summaryBtn: "3-Min Summary",
         favoriteBtn: "Add to Favorites", unfavoriteBtn: "Remove from Favorites",
+        rateBtn: "Rate this book",
         noBooks: "No matching references found.", errorMsg: "Failed to load repository data.",
         footerText: "Iraqi Administrative Reference - Digital Repository for Management Sciences",
         toastCopied: "Direct repository link copied to clipboard.",
@@ -515,6 +543,7 @@
         toastBundleCopied: "Research bundle link copied successfully.",
         toastFavoriteAdded: "Book added to favorites.",
         toastFavoriteRemoved: "Book removed from favorites.",
+        toastRated: "Your rating has been saved.",
         generalCat: "General", defaultPublisher: "IAR Archive", defaultType: "Methodological Reference", themeTooltip: "Toggle Theme",
         loading: "Loading references…", fileUnavailable: "This reference file is currently unavailable.", searchLabel: "Search references", clearSearch: "Clear search",
         gridView: "Grid view", listView: "List view", selectBundle: "Select this reference for the research bundle",
@@ -592,8 +621,10 @@
         keywords: textArray(raw.keywords), keywords_en: textArray(raw.keywords_en),
         key_points: textArray(raw.key_points), key_points_en: textArray(raw.key_points_en),
         file_path: safeAssetUrl(raw.file_path, /\.pdf$/i),
+        file_name: asText(raw.file_name) || (raw.file_path ? decodeURIComponent(asText(raw.file_path).split('/').pop() || '') : ''),
         cover_image: safeAssetUrl(raw.cover_image, /\.(avif|gif|jpe?g|png|webp)$/i),
-        downloadCount: 0
+        downloadCount: 0,
+        rating: ratings[id] || 0 // من localStorage أو 0
       };
     }
 
@@ -621,6 +652,39 @@
       const t = i18n[currentLang];
       const label = translateDynamicText(book.category, book.category_en);
       return label && label.trim() !== '' ? label : t.generalCat;
+    }
+
+    // ===== Rating Functions =====
+    function getRating(bookId) {
+      return ratings[bookId] || 0;
+    }
+
+    function setRating(bookId, rating) {
+      ratings[bookId] = rating;
+      storage.set('iar_ratings', JSON.stringify(ratings));
+      // تحديث عرض النجوم في الصفحة إذا لزم
+      const book = booksData.find(b => b.id === bookId);
+      if (book) book.rating = rating;
+    }
+
+    function renderStars(bookId, container) {
+      const currentRating = getRating(bookId);
+      container.innerHTML = '';
+      for (let i = 1; i <= 5; i++) {
+        const star = document.createElement('i');
+        star.className = `bi ${i <= currentRating ? 'bi-star-fill active' : 'bi-star'}`;
+        star.dataset.value = i;
+        star.setAttribute('role', 'button');
+        star.setAttribute('aria-label', `${i} ${i18n[currentLang].rateBtn}`);
+        star.addEventListener('click', (e) => {
+          e.stopPropagation();
+          setRating(bookId, i);
+          renderStars(bookId, container);
+          showToast(i18n[currentLang].toastRated);
+          applyFilters(); // إعادة ترتيب إذا كان الفرز حسب التقييم
+        });
+        container.appendChild(star);
+      }
     }
 
     // ===== Theme Controller =====
@@ -682,6 +746,8 @@
       document.getElementById('opt-sort-year').innerText = t.sortYear;
       document.getElementById('opt-sort-pages').innerText = t.sortPages;
       document.getElementById('opt-sort-downloads').innerText = t.sortDownloads;
+      document.getElementById('opt-sort-favorites').innerText = t.sortFavorites;
+      document.getElementById('opt-sort-rating').innerText = t.sortRating;
       document.getElementById('txt-footer').innerText = t.footerText;
       document.getElementById('txt-bundle-text').innerHTML = t.bundleText;
       document.getElementById('txt-bundle-btn').innerText = t.bundleBtn;
@@ -814,13 +880,12 @@
       applyFilters();
     }
 
-    async function handleDownload(bookId, filePath) {
+    async function handleDownload(bookId, filePath, fileName) {
       if (!filePath) {
         showToast(i18n[currentLang].fileUnavailable, 'danger');
         return;
       }
 
-      // زيادة العداد
       const key = `download-${bookId}`;
       const newCount = await hitCounter(key);
       const book = booksData.find(b => b.id === bookId);
@@ -834,7 +899,6 @@
         if (countEl) countEl.innerText = book.downloadCount;
       }
 
-      // جلب الملف كـ blob وتنزيله
       try {
         const response = await fetch(filePath);
         if (!response.ok) throw new Error('Download failed');
@@ -842,7 +906,7 @@
         const blobUrl = URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = blobUrl;
-        link.download = filePath.split('/').pop() || `book-${bookId}.pdf`;
+        link.download = fileName || `book-${bookId}.pdf`;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -1158,7 +1222,7 @@
           shareBook(book);
           break;
         case 'download':
-          handleDownload(book.id, book.file_path);
+          handleDownload(book.id, book.file_path, book.file_name);
           break;
       }
     });
@@ -1204,6 +1268,7 @@
           let type = escapeHtml(translateDynamicText(book.type || t.defaultType, book.type_en));
           let filePath = escapeHtml(book.file_path || '');
           const isFav = isFavorite(book.id);
+          const rating = getRating(book.id);
 
           const coverHtml = book.cover_image 
             ? `<div class="cover-img-wrapper" data-action="cover-zoom" data-id="${book.id}" title="${escapeHtml(t.viewCover)}">
@@ -1213,7 +1278,7 @@
 
           const isChecked = selectedBundleIds.has(book.id) ? 'checked' : '';
           const downloadControl = book.file_path
-            ? `<button type="button" data-action="download" data-id="${book.id}" class="btn btn-iar-primary w-100 text-center">
+            ? `<button type="button" data-action="download" data-id="${book.id}" data-filename="${escapeHtml(book.file_name)}" class="btn btn-iar-primary w-100 text-center">
                 <i class="bi bi-download me-1" aria-hidden="true"></i> ${t.downloadBtn}
                 <span class="badge bg-light text-dark ms-1" id="downloadCount-${book.id}">${book.downloadCount || 0}</span>
               </button>`
@@ -1228,6 +1293,10 @@
             <button type="button" data-action="share" data-id="${book.id}" class="btn btn-iar-action w-100" title="${t.shareBtn}" aria-label="${t.shareBtn}">
               <i class="bi bi-share" aria-hidden="true"></i>
             </button>`;
+
+          // Rating stars
+          const starsContainerId = `stars-${book.id}`;
+          const starsHtml = `<div class="rating-stars" id="${starsContainerId}" title="${t.rateBtn}"></div>`;
 
           return `
           <div class="col-lg-6">
@@ -1247,6 +1316,7 @@
                     <span class="badge-tag">${category}</span>
                     <h3 class="book-title">${title}</h3>
                     <p class="book-author mb-2"><i class="bi bi-person me-1"></i>${author}</p>
+                    ${starsHtml}
                   </div>
                   <div class="d-flex flex-wrap gap-2 mt-1">
                     <span class="meta-spec-chip"><i class="bi bi-building me-1"></i>${publisher} (${escapeHtml(book.year || '2026')})</span>
@@ -1292,6 +1362,11 @@
         }).join('');
 
         container.innerHTML = `<div class="row g-4" id="booksGrid">${gridHtml}</div>`;
+        // تهيئة النجوم بعد الإدراج
+        books.forEach(book => {
+          const starsEl = document.getElementById(`stars-${book.id}`);
+          if (starsEl) renderStars(book.id, starsEl);
+        });
       } else {
         const listRowsHtml = books.map(book => {
           let title = escapeHtml(translateDynamicText(book.title, book.title_en));
@@ -1303,7 +1378,7 @@
 
           const isChecked = selectedBundleIds.has(book.id) ? 'checked' : '';
           const downloadControl = book.file_path
-            ? `<button type="button" data-action="download" data-id="${book.id}" class="btn btn-primary btn-sm" aria-label="${t.downloadBtn}">
+            ? `<button type="button" data-action="download" data-id="${book.id}" data-filename="${escapeHtml(book.file_name)}" class="btn btn-primary btn-sm" aria-label="${t.downloadBtn}">
                 <i class="bi bi-download" aria-hidden="true"></i>
                 <span class="badge bg-light text-dark ms-1" id="downloadCount-${book.id}">${book.downloadCount || 0}</span>
               </button>`
@@ -1319,6 +1394,9 @@
               <i class="bi bi-share" aria-hidden="true"></i>
             </button>`;
 
+          const starsContainerId = `stars-${book.id}`;
+          const starsHtml = `<div class="rating-stars" id="${starsContainerId}"></div>`;
+
           return `
           <tr>
             <td class="align-middle">
@@ -1329,7 +1407,7 @@
             <td class="align-middle"><span class="badge-tag">${category}</span></td>
             <td class="align-middle small text-muted">${publisher} (${escapeHtml(book.year || '2026')}) - ${escapeHtml(book.pages || '-')} ${t.pagesSuffix} (${escapeHtml(book.file_size || '-')})</td>
             <td class="align-middle text-end">
-              <div class="btn-group btn-group-sm">
+              <div class="btn-group btn-group-sm flex-wrap">
                 <button type="button" data-action="read" data-id="${book.id}" class="btn btn-outline-primary" aria-label="${t.readBtn}"><i class="bi bi-eye" aria-hidden="true"></i></button>
                 ${downloadControl}
                 <button type="button" data-action="summary" data-id="${book.id}" class="btn btn-outline-secondary" aria-label="${t.summaryBtn}"><i class="bi bi-card-text" aria-hidden="true"></i></button>
@@ -1337,6 +1415,7 @@
                 ${favoriteBtn}
                 ${shareBtn}
               </div>
+              <div class="mt-1">${starsHtml}</div>
             </td>
           </tr>`;
         }).join('');
@@ -1357,6 +1436,11 @@
               <tbody>${listRowsHtml}</tbody>
             </table>
           </div>`;
+        // تهيئة النجوم
+        books.forEach(book => {
+          const starsEl = document.getElementById(`stars-${book.id}`);
+          if (starsEl) renderStars(book.id, starsEl);
+        });
       }
     }
 
@@ -1394,6 +1478,18 @@
           break;
         case 'downloads':
           filtered.sort((a, b) => (b.downloadCount || 0) - (a.downloadCount || 0));
+          break;
+        case 'favorites':
+          // المفضلة أولاً، ثم حسب العنوان
+          filtered.sort((a, b) => {
+            const aFav = isFavorite(a.id) ? 1 : 0;
+            const bFav = isFavorite(b.id) ? 1 : 0;
+            if (aFav !== bFav) return bFav - aFav;
+            return translateDynamicText(a.title, a.title_en).localeCompare(translateDynamicText(b.title, b.title_en), currentLang);
+          });
+          break;
+        case 'rating':
+          filtered.sort((a, b) => (b.rating || 0) - (a.rating || 0));
           break;
         default:
           filtered.sort((a, b) => a.id - b.id);
