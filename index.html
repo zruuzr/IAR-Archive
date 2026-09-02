@@ -528,6 +528,28 @@
       remove(key) { try { localStorage.removeItem(key); } catch (_) {} }
     };
 
+    // ===== DOM Safe Helper =====
+    function setText(id, value) {
+      const el = document.getElementById(id);
+      if (el) el.innerText = value;
+    }
+    function setHTML(id, value) {
+      const el = document.getElementById(id);
+      if (el) el.innerHTML = value;
+    }
+    function setAttribute(id, attr, value) {
+      const el = document.getElementById(id);
+      if (el) el.setAttribute(attr, value);
+    }
+    function showEl(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('d-none');
+    }
+    function hideEl(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.add('d-none');
+    }
+
     // ===== State Variables =====
     let booksData = [];
     let selectedBundleIds = new Set();
@@ -693,6 +715,7 @@
 
     function setMetadataChip(elementId, iconClass, text) {
       const element = document.getElementById(elementId);
+      if (!element) return;
       const icon = document.createElement('i');
       icon.className = `bi ${iconClass} me-1`;
       element.replaceChildren(icon, document.createTextNode(` ${text}`));
@@ -733,12 +756,12 @@
     function updatePageTitle(book) {
       if (book) {
         const title = translateDynamicText(book.title, book.title_en);
-        document.getElementById('pageTitle').innerText = `${title} | IAR Archive`;
+        setText('pageTitle', `${title} | IAR Archive`);
         const desc = translateDynamicText(book.description, book.description_en);
         let metaDesc = document.querySelector('meta[name="description"]');
         if (metaDesc) metaDesc.setAttribute('content', desc.substring(0, 160));
       } else {
-        document.getElementById('pageTitle').innerText = 'IAR Archive | Iraqi Administrative Reference';
+        setText('pageTitle', 'IAR Archive | Iraqi Administrative Reference');
       }
     }
 
@@ -819,15 +842,15 @@
         if (isNewVisit()) {
           storage.set('iar_last_visit', Date.now());
           const count = await incrementUniqueVisit();
-          document.getElementById('siteVisitsCounter').innerText = count;
+          setText('siteVisitsCounter', count);
         } else {
           const count = await getSiteVisits();
-          document.getElementById('siteVisitsCounter').innerText = count;
+          setText('siteVisitsCounter', count);
         }
       } catch (error) {
         console.error('Error updating site visits:', error);
         const local = parseInt(storage.get('iar_site_visits', '0')) || 0;
-        document.getElementById('siteVisitsCounter').innerText = local;
+        setText('siteVisitsCounter', local);
       }
     }
 
@@ -887,6 +910,7 @@
     }
 
     function renderStars(bookId, container) {
+      if (!container) return;
       const book = booksData.find(b => b.id === bookId);
       const currentRating = book ? Math.round(book.publicRating || 0) : 0;
       
@@ -903,7 +927,7 @@
           if (success) {
             renderStars(bookId, container);
             showToast(i18n[currentLang].toastRated);
-            if (document.getElementById('sortOrder').value === 'rating') {
+            if (document.getElementById('sortOrder')?.value === 'rating') {
               applyFilters();
             }
           }
@@ -924,14 +948,17 @@
     document.documentElement.setAttribute('data-bs-theme', currentTheme);
     updateThemeIcon(currentTheme);
 
-    themeToggleBtn.addEventListener('click', () => {
+    themeToggleBtn?.addEventListener('click', () => {
       currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-bs-theme', currentTheme);
       storage.set('iar_theme', currentTheme);
       updateThemeIcon(currentTheme);
     });
 
-    function updateThemeIcon(theme) { document.getElementById('themeIcon').className = theme === 'dark' ? 'bi bi-sun fs-6' : 'bi bi-moon fs-6'; }
+    function updateThemeIcon(theme) {
+      const icon = document.getElementById('themeIcon');
+      if (icon) icon.className = theme === 'dark' ? 'bi bi-sun fs-6' : 'bi bi-moon fs-6';
+    }
 
     const langToggleBtn = document.getElementById('langToggleBtn');
     function applyLanguage(lang) {
@@ -940,61 +967,64 @@
       document.documentElement.setAttribute('lang', currentLang);
       document.documentElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
 
-      document.getElementById('bootstrapCSS').href = currentLang === 'ar' 
-        ? "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" 
-        : "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css";
+      const bootstrapCSS = document.getElementById('bootstrapCSS');
+      if (bootstrapCSS) {
+        bootstrapCSS.href = currentLang === 'ar' 
+          ? "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" 
+          : "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css";
+      }
       
-      document.getElementById('langLabel').innerText = currentLang === 'ar' ? "EN" : "عربي";
+      setText('langLabel', currentLang === 'ar' ? "EN" : "عربي");
 
       const t = i18n[currentLang];
       
-      document.getElementById('txt-announcement').innerText = t.announcement;
-      document.getElementById('txt-subtitle').innerText = t.subtitle;
-      document.getElementById('txt-about-title').innerText = t.aboutTitle;
-      document.getElementById('txt-about-desc').innerText = t.aboutDesc;
-      document.getElementById('txt-stat-books').innerText = t.statBooks;
-      document.getElementById('txt-stat-cats').innerText = t.statCats;
-      document.getElementById('txt-stat-year').innerText = t.statYear;
-      document.getElementById('txt-stat-visits').innerText = t.statVisits;
-      document.getElementById('searchLabel').innerText = t.searchLabel;
-      document.getElementById('opt-sort-default').innerText = t.sortDefault;
-      document.getElementById('opt-sort-title').innerText = t.sortTitle;
-      document.getElementById('opt-sort-year').innerText = t.sortYear;
-      document.getElementById('opt-sort-pages').innerText = t.sortPages;
-      document.getElementById('opt-sort-downloads').innerText = t.sortDownloads;
-      document.getElementById('opt-sort-favorites').innerText = t.sortFavorites;
-      document.getElementById('opt-sort-rating').innerText = t.sortRating;
-      document.getElementById('txt-footer').innerText = t.footerText;
-      document.getElementById('txt-bundle-text').innerHTML = t.bundleText;
-      document.getElementById('txt-bundle-btn').innerText = t.bundleBtn;
-      document.getElementById('summaryModalTitle').innerText = t.modalTitle;
-      document.getElementById('txt-modal-ideas-title').innerHTML = t.modalIdeasTitle;
-      document.getElementById('txt-modal-audience-title').innerHTML = t.modalAudienceTitle;
-      document.getElementById('txt-modal-apa-title').innerHTML = t.modalAPATitle;
-      document.getElementById('txt-modal-close').innerText = t.modalClose;
-      document.getElementById('summaryDismissBtn').setAttribute('aria-label', t.modalClose);
-      document.getElementById('pdfDismissBtn').setAttribute('aria-label', t.modalClose);
-      document.getElementById('txt-loading').innerText = t.loading;
-      document.getElementById('searchInput').placeholder = t.searchPlaceholder;
-      document.getElementById('btnClearSearch').setAttribute('aria-label', t.clearSearch);
-      themeToggleBtn.setAttribute('aria-label', t.themeTooltip);
-      themeToggleBtn.setAttribute('title', t.themeTooltip);
-      document.getElementById('txt-share-modal-btn').innerText = t.shareModalBtn;
-      document.getElementById('txt-back-to-list').innerText = t.backToList;
-      document.getElementById('singleDescLabel').innerText = t.descLabel;
-      document.getElementById('singleKeyPointsLabel').innerText = t.keyPointsLabel;
-      document.getElementById('singleAudienceLabel').innerText = t.audienceLabel;
-      document.getElementById('singleReadLabel').innerText = t.readLabel;
-      document.getElementById('singleDownloadLabel').innerText = t.downloadLabel;
-      document.getElementById('singleCiteLabel').innerText = t.citeLabel;
-      document.getElementById('singleShareLabel').innerText = t.shareLabel;
+      // استخدام الدوال الآمنة
+      setText('txt-announcement', t.announcement);
+      setText('txt-subtitle', t.subtitle);
+      setText('txt-about-title', t.aboutTitle);
+      setText('txt-about-desc', t.aboutDesc);
+      setText('txt-stat-books', t.statBooks);
+      setText('txt-stat-cats', t.statCats);
+      setText('txt-stat-year', t.statYear);
+      setText('txt-stat-visits', t.statVisits);
+      setText('searchLabel', t.searchLabel);
+      setText('opt-sort-default', t.sortDefault);
+      setText('opt-sort-title', t.sortTitle);
+      setText('opt-sort-year', t.sortYear);
+      setText('opt-sort-pages', t.sortPages);
+      setText('opt-sort-downloads', t.sortDownloads);
+      setText('opt-sort-favorites', t.sortFavorites);
+      setText('opt-sort-rating', t.sortRating);
+      setHTML('txt-bundle-text', t.bundleText);
+      setText('txt-bundle-btn', t.bundleBtn);
+      setText('summaryModalTitle', t.modalTitle);
+      setHTML('txt-modal-ideas-title', t.modalIdeasTitle);
+      setHTML('txt-modal-audience-title', t.modalAudienceTitle);
+      setHTML('txt-modal-apa-title', t.modalAPATitle);
+      setText('txt-modal-close', t.modalClose);
+      setAttribute('summaryDismissBtn', 'aria-label', t.modalClose);
+      setAttribute('pdfDismissBtn', 'aria-label', t.modalClose);
+      setText('txt-loading', t.loading);
+      setAttribute('searchInput', 'placeholder', t.searchPlaceholder);
+      setAttribute('btnClearSearch', 'aria-label', t.clearSearch);
+      setAttribute('themeToggleBtn', 'aria-label', t.themeTooltip);
+      setAttribute('themeToggleBtn', 'title', t.themeTooltip);
+      setText('txt-share-modal-btn', t.shareModalBtn);
+      setText('txt-back-to-list', t.backToList);
+      setText('singleDescLabel', t.descLabel);
+      setText('singleKeyPointsLabel', t.keyPointsLabel);
+      setText('singleAudienceLabel', t.audienceLabel);
+      setText('singleReadLabel', t.readLabel);
+      setText('singleDownloadLabel', t.downloadLabel);
+      setText('singleCiteLabel', t.citeLabel);
+      setText('singleShareLabel', t.shareLabel);
       
       updateViewControls();
       syncBundleUI();
       if (booksLoaded && booksData.length > 0) { setupChipsCategories(); applyFilters(); }
     }
 
-    langToggleBtn.addEventListener('click', () => {
+    langToggleBtn?.addEventListener('click', () => {
       const newLang = currentLang === 'ar' ? 'en' : 'ar';
       storage.set('iar_lang', newLang);
       window.location.reload();
@@ -1005,15 +1035,19 @@
     const btnViewList = document.getElementById('btnViewList');
     function updateViewControls() {
       const isGrid = currentViewMode === 'grid';
-      btnViewGrid.classList.toggle('active', isGrid);
-      btnViewList.classList.toggle('active', !isGrid);
-      btnViewGrid.setAttribute('aria-pressed', String(isGrid));
-      btnViewList.setAttribute('aria-pressed', String(!isGrid));
-      btnViewGrid.setAttribute('aria-label', i18n[currentLang].gridView);
-      btnViewList.setAttribute('aria-label', i18n[currentLang].listView);
+      if (btnViewGrid) {
+        btnViewGrid.classList.toggle('active', isGrid);
+        btnViewGrid.setAttribute('aria-pressed', String(isGrid));
+        btnViewGrid.setAttribute('aria-label', i18n[currentLang].gridView);
+      }
+      if (btnViewList) {
+        btnViewList.classList.toggle('active', !isGrid);
+        btnViewList.setAttribute('aria-pressed', String(!isGrid));
+        btnViewList.setAttribute('aria-label', i18n[currentLang].listView);
+      }
     }
-    btnViewGrid.addEventListener('click', () => { currentViewMode = 'grid'; storage.set('iar_view_mode', 'grid'); updateViewControls(); applyFilters(); });
-    btnViewList.addEventListener('click', () => { currentViewMode = 'list'; storage.set('iar_view_mode', 'list'); updateViewControls(); applyFilters(); });
+    btnViewGrid?.addEventListener('click', () => { currentViewMode = 'grid'; storage.set('iar_view_mode', 'grid'); updateViewControls(); applyFilters(); });
+    btnViewList?.addEventListener('click', () => { currentViewMode = 'list'; storage.set('iar_view_mode', 'list'); updateViewControls(); applyFilters(); });
 
     // ===== Device Detection =====
     function isMobileDevice() {
@@ -1024,37 +1058,43 @@
     // ===== Single Book View =====
     function showSingleBookView(book) {
       isSingleView = true;
-      document.getElementById('booksDisplayContainer').classList.add('d-none');
-      document.getElementById('controlsRow').classList.add('d-none');
-      document.getElementById('categoryChips').classList.add('d-none');
-      document.getElementById('bundleBar').classList.add('d-none');
-      document.getElementById('singleBookView').classList.remove('d-none');
+      hideEl('booksDisplayContainer');
+      hideEl('controlsRow');
+      hideEl('categoryChips');
+      hideEl('bundleBar');
+      showEl('singleBookView');
       
       const t = i18n[currentLang];
-      document.getElementById('singleBookCover').src = book.cover_image || '';
-      document.getElementById('singleBookCover').alt = translateDynamicText(book.title, book.title_en);
-      document.getElementById('singleBookTitle').innerText = translateDynamicText(book.title, book.title_en);
-      document.getElementById('singleBookAuthor').innerText = translateDynamicText(book.author, book.author_en);
-      document.getElementById('singleBookCategory').innerText = translateDynamicText(book.category, book.category_en) || t.generalCat;
-      document.getElementById('singleBookType').innerText = translateDynamicText(book.type || t.defaultType, book.type_en);
-      document.getElementById('singleBookDescription').innerText = translateDynamicText(book.description, book.description_en);
-      document.getElementById('singleBookAudience').innerText = translateDynamicText(book.target_audience || t.defaultAudience, book.target_audience_en);
+      setAttribute('singleBookCover', 'src', book.cover_image || '');
+      setAttribute('singleBookCover', 'alt', translateDynamicText(book.title, book.title_en));
+      setText('singleBookTitle', translateDynamicText(book.title, book.title_en));
+      setText('singleBookAuthor', translateDynamicText(book.author, book.author_en));
+      setText('singleBookCategory', translateDynamicText(book.category, book.category_en) || t.generalCat);
+      setText('singleBookType', translateDynamicText(book.type || t.defaultType, book.type_en));
+      setText('singleBookDescription', translateDynamicText(book.description, book.description_en));
+      setText('singleBookAudience', translateDynamicText(book.target_audience || t.defaultAudience, book.target_audience_en));
       
       const keyPointsList = document.getElementById('singleBookKeyPoints');
-      const points = (currentLang === 'en' && book.key_points_en && book.key_points_en.length > 0)
-        ? book.key_points_en
-        : (book.key_points && book.key_points.length > 0 ? book.key_points : t.defaultPoints);
-      keyPointsList.innerHTML = points.map(pt => `<li>${escapeHtml(pt)}</li>`).join('');
+      if (keyPointsList) {
+        const points = (currentLang === 'en' && book.key_points_en && book.key_points_en.length > 0)
+          ? book.key_points_en
+          : (book.key_points && book.key_points.length > 0 ? book.key_points : t.defaultPoints);
+        keyPointsList.innerHTML = points.map(pt => `<li>${escapeHtml(pt)}</li>`).join('');
+      }
       
-      document.getElementById('singleDownloadCount').innerText = book.downloadCount || 0;
+      setText('singleDownloadCount', book.downloadCount || 0);
       
       const starsContainer = document.getElementById('singleBookStars');
-      renderStars(book.id, starsContainer);
+      if (starsContainer) renderStars(book.id, starsContainer);
       
-      document.getElementById('singleReadBtn').onclick = () => openPdfReader(book.file_path, translateDynamicText(book.title, book.title_en));
-      document.getElementById('singleDownloadBtn').onclick = () => handleDownload(book.id, book.file_path, book.file_name);
-      document.getElementById('singleCiteBtn').onclick = () => copyText(`${translateDynamicText(book.author, book.author_en)} (${book.year || '2026'}). ${translateDynamicText(book.title, book.title_en)}. ${translateDynamicText(book.publisher, book.publisher_en) || 'IAR Archive'}.`, t.toastCiteCopied);
-      document.getElementById('singleShareBtn').onclick = () => shareBook(book);
+      const readBtn = document.getElementById('singleReadBtn');
+      if (readBtn) readBtn.onclick = () => openPdfReader(book.file_path, translateDynamicText(book.title, book.title_en));
+      const downloadBtn = document.getElementById('singleDownloadBtn');
+      if (downloadBtn) downloadBtn.onclick = () => handleDownload(book.id, book.file_path, book.file_name);
+      const citeBtn = document.getElementById('singleCiteBtn');
+      if (citeBtn) citeBtn.onclick = () => copyText(`${translateDynamicText(book.author, book.author_en)} (${book.year || '2026'}). ${translateDynamicText(book.title, book.title_en)}. ${translateDynamicText(book.publisher, book.publisher_en) || 'IAR Archive'}.`, t.toastCiteCopied);
+      const shareBtn = document.getElementById('singleShareBtn');
+      if (shareBtn) shareBtn.onclick = () => shareBook(book);
       
       updatePageTitle(book);
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1062,10 +1102,10 @@
 
     function hideSingleBookView() {
       isSingleView = false;
-      document.getElementById('singleBookView').classList.add('d-none');
-      document.getElementById('booksDisplayContainer').classList.remove('d-none');
-      document.getElementById('controlsRow').classList.remove('d-none');
-      document.getElementById('categoryChips').classList.remove('d-none');
+      hideEl('singleBookView');
+      showEl('booksDisplayContainer');
+      showEl('controlsRow');
+      showEl('categoryChips');
       updatePageTitle(null);
       const url = new URL(window.location.href);
       url.searchParams.delete('book');
@@ -1135,7 +1175,7 @@
       }
     }
 
-    document.getElementById('modalShareBtn').addEventListener('click', () => {
+    document.getElementById('modalShareBtn')?.addEventListener('click', () => {
       if (currentOpenBookId !== null) {
         const book = booksData.find(b => b.id === currentOpenBookId);
         if (book) shareBook(book);
@@ -1152,10 +1192,12 @@
 
     function setupChipsCategories() {
       const container = document.getElementById('categoryChips');
+      if (!container) return;
       const labelsByKey = new Map();
       booksData.forEach(book => labelsByKey.set(getCategoryKey(book), getCategoryLabel(book)));
       const keys = ['all', ...labelsByKey.keys()];
-      document.getElementById('catCounter').innerText = keys.length - 1;
+      const catCounter = document.getElementById('catCounter');
+      if (catCounter) catCounter.innerText = keys.length - 1;
 
       container.innerHTML = keys.map(key => `
         <button type="button" class="chip-item ${key === selectedCategory ? 'active' : ''}" 
@@ -1176,10 +1218,11 @@
 
     function openPdfReader(filePath, title) {
       if (!filePath) return showToast(i18n[currentLang].fileUnavailable, 'danger');
-      document.getElementById('modalBookTitle').innerText = title;
+      setText('modalBookTitle', title);
       const iframe = document.getElementById('pdfFrame');
       const fallbackContainer = document.getElementById('pdfFallbackContainer');
       const fallbackLink = document.getElementById('pdfFallbackLink');
+      if (!iframe || !fallbackContainer || !fallbackLink) return;
       
       fallbackLink.href = filePath;
       
@@ -1194,11 +1237,15 @@
       iframe.onerror = () => { fallbackContainer.style.display = 'block'; };
       pdfModal.show();
     }
-    document.getElementById('pdfReaderModal').addEventListener('hidden.bs.modal', () => document.getElementById('pdfFrame').src = '');
+    document.getElementById('pdfReaderModal')?.addEventListener('hidden.bs.modal', () => {
+      const iframe = document.getElementById('pdfFrame');
+      if (iframe) iframe.src = '';
+    });
 
     function openCoverImage(imageSrc, title) {
       const img = document.getElementById('coverImageLarge');
-      img.src = imageSrc; img.alt = title; coverModal.show();
+      if (img) { img.src = imageSrc; img.alt = title; }
+      coverModal.show();
     }
 
     function openSummaryModal(id) {
@@ -1210,17 +1257,20 @@
       const author = translateDynamicText(book.author, book.author_en);
       const publisher = translateDynamicText(book.publisher || t.defaultPublisher, book.publisher_en);
 
-      document.getElementById('summaryBookTitle').innerText = title;
-      document.getElementById('summaryBookAuthor').innerText = author;
-      document.getElementById('summaryCategory').innerText = translateDynamicText(book.category, book.category_en) || t.generalCat;
-      document.getElementById('summaryType').innerText = translateDynamicText(book.type || t.defaultType, book.type_en);
+      setText('summaryBookTitle', title);
+      setText('summaryBookAuthor', author);
+      setText('summaryCategory', translateDynamicText(book.category, book.category_en) || t.generalCat);
+      setText('summaryType', translateDynamicText(book.type || t.defaultType, book.type_en));
       setMetadataChip('summaryPages', 'bi-file-earmark-text', `${book.pages || '-'} ${t.pagesSuffix}`);
       setMetadataChip('summarySize', 'bi-hdd', book.file_size || '-');
-      document.getElementById('summaryAudience').innerText = translateDynamicText(book.target_audience || t.defaultAudience, book.target_audience_en);
-      document.getElementById('summaryAPA').innerText = `${author} (${book.year || '2026'}). ${title}. ${publisher}.`;
+      setText('summaryAudience', translateDynamicText(book.target_audience || t.defaultAudience, book.target_audience_en));
+      setText('summaryAPA', `${author} (${book.year || '2026'}). ${title}. ${publisher}.`);
 
-      let points = (currentLang === 'en' && book.key_points_en && book.key_points_en.length > 0) ? book.key_points_en : (book.key_points && book.key_points.length > 0 ? book.key_points : t.defaultPoints);
-      document.getElementById('summaryKeyPoints').innerHTML = points.map(pt => `<li>${escapeHtml(pt)}</li>`).join('');
+      const pointsList = document.getElementById('summaryKeyPoints');
+      if (pointsList) {
+        let points = (currentLang === 'en' && book.key_points_en && book.key_points_en.length > 0) ? book.key_points_en : (book.key_points && book.key_points.length > 0 ? book.key_points : t.defaultPoints);
+        pointsList.innerHTML = points.map(pt => `<li>${escapeHtml(pt)}</li>`).join('');
+      }
       summaryModal.show();
     }
 
@@ -1231,8 +1281,10 @@
     function syncBundleUI() {
       const countEl = document.getElementById('bundleCount');
       if (countEl) countEl.innerText = selectedBundleIds.size;
-      document.getElementById('bundleBar').classList.toggle('d-none', selectedBundleIds.size === 0);
-      document.getElementById('copyBundleBtn').disabled = selectedBundleIds.size === 0;
+      const bundleBar = document.getElementById('bundleBar');
+      if (bundleBar) bundleBar.classList.toggle('d-none', selectedBundleIds.size === 0);
+      const copyBtn = document.getElementById('copyBundleBtn');
+      if (copyBtn) copyBtn.disabled = selectedBundleIds.size === 0;
     }
     function hydrateBundleFromUrl() {
       const rawIds = new URL(window.location.href).searchParams.get('bundle');
@@ -1241,7 +1293,7 @@
       selectedBundleIds = new Set(rawIds.split(',').map(Number).filter(id => Number.isSafeInteger(id) && availableIds.has(id)));
     }
     
-    document.getElementById('copyBundleBtn').addEventListener('click', async () => {
+    document.getElementById('copyBundleBtn')?.addEventListener('click', async () => {
       const url = new URL(window.location.href);
       url.searchParams.set('bundle', Array.from(selectedBundleIds).join(','));
       copyText(url.toString(), i18n[currentLang].toastBundleCopied);
@@ -1306,7 +1358,7 @@
       bootstrap.Toast.getOrCreateInstance(toast, { delay: 4000 }).show();
     }
 
-    document.getElementById('booksDisplayContainer').addEventListener('click', (e) => {
+    document.getElementById('booksDisplayContainer')?.addEventListener('click', (e) => {
       const trigger = e.target.closest('[data-action]');
       if (!trigger) return;
       const book = booksData.find(b => b.id === Number(trigger.getAttribute('data-id')));
@@ -1329,13 +1381,14 @@
       }
     });
 
-    document.getElementById('booksDisplayContainer').addEventListener('change', (e) => {
+    document.getElementById('booksDisplayContainer')?.addEventListener('change', (e) => {
       const trigger = e.target.closest('[data-action="bundle"]');
       if (trigger) toggleBundleSelection(Number(trigger.getAttribute('data-id')));
     });
 
     function renderBooks(books) {
       const container = document.getElementById('booksDisplayContainer');
+      if (!container) return;
       const t = i18n[currentLang];
       if (books.length === 0) return container.innerHTML = `<p class="text-center text-muted py-5">${t.noBooks}</p>`;
 
@@ -1438,7 +1491,10 @@
             </table>
           </div>`;
       }
-      books.forEach(b => renderStars(b.id, document.getElementById(`stars-${b.id}`)));
+      books.forEach(b => {
+        const starsEl = document.getElementById(`stars-${b.id}`);
+        if (starsEl) renderStars(b.id, starsEl);
+      });
     }
 
     const searchInput = document.getElementById('searchInput');
@@ -1446,8 +1502,8 @@
     
     function applyFilters() {
       if (!booksData.length || isSingleView) return;
-      const query = searchInput.value.trim().toLocaleLowerCase(currentLang);
-      const sortValue = document.getElementById('sortOrder').value;
+      const query = searchInput?.value.trim().toLocaleLowerCase(currentLang) || '';
+      const sortValue = document.getElementById('sortOrder')?.value || 'default';
 
       let filtered = booksData.filter(book => {
         const keywords = currentLang === 'en' && book.keywords_en.length > 0 ? book.keywords_en.join(' ') : book.keywords.join(' ');
@@ -1472,15 +1528,19 @@
       renderBooks(filtered);
     }
 
-    searchInput.addEventListener('input', () => {
-      btnClearSearch.classList.toggle('d-none', searchInput.value.trim() === '');
+    searchInput?.addEventListener('input', () => {
+      if (btnClearSearch) btnClearSearch.classList.toggle('d-none', searchInput.value.trim() === '');
       debounce(applyFilters, 200)();
     });
-    btnClearSearch.addEventListener('click', () => { searchInput.value = ''; btnClearSearch.classList.add('d-none'); applyFilters(); });
-    document.getElementById('sortOrder').addEventListener('change', applyFilters);
+    btnClearSearch?.addEventListener('click', () => { 
+      if (searchInput) searchInput.value = '';
+      if (btnClearSearch) btnClearSearch.classList.add('d-none');
+      applyFilters(); 
+    });
+    document.getElementById('sortOrder')?.addEventListener('change', applyFilters);
 
     // ===== زر العودة للقائمة =====
-    document.getElementById('btnBackToList').addEventListener('click', hideSingleBookView);
+    document.getElementById('btnBackToList')?.addEventListener('click', hideSingleBookView);
 
     // ===== Fetch and Process Books (محسنة مع فصل Firebase وعرض محلي فوري) =====
     async function fetchBooks() {
@@ -1508,7 +1568,7 @@
         hydrateBundleFromUrl();
         syncBundleUI();
         setupChipsCategories();
-        document.getElementById('booksCounter').innerText = booksData.length;
+        setText('booksCounter', booksData.length);
 
         applyFilters();
 
@@ -1535,10 +1595,12 @@
 
       } catch (error) {
         console.error('Critical error loading books.json:', error);
-        container.innerHTML = `<div class="alert alert-danger text-center py-5">
-          <i class="bi bi-exclamation-triangle me-2"></i> 
-          ${i18n[currentLang].errorMsg || 'تعذر تحميل البيانات المحلية'}
-        </div>`;
+        if (container) {
+          container.innerHTML = `<div class="alert alert-danger text-center py-5">
+            <i class="bi bi-exclamation-triangle me-2"></i> 
+            ${i18n[currentLang].errorMsg || 'تعذر تحميل البيانات المحلية'}
+          </div>`;
+        }
         if (loadingEl) loadingEl.style.display = 'none';
       } finally {
         if (loadingEl) loadingEl.style.display = 'none';
