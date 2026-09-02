@@ -3,6 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="IAR Archive - المستودع الرقمي العراقي للمراجع الإدارية - ملخصات 3 دقائق، توثيق APA، تحميل مباشر">
+  <meta property="og:title" content="IAR Archive | Iraqi Administrative Reference">
+  <meta property="og:description" content="منصة معرفية لأرشفة وربط المراجع الإدارية مع ملخصات وتوثيق أكاديمي">
+  <meta property="og:type" content="website">
 
   <script>
     (function () {
@@ -32,9 +36,8 @@
     })();
   </script>
 
-  <title>IAR Archive | Iraqi Administrative Reference</title>
+  <title id="pageTitle">IAR Archive | Iraqi Administrative Reference</title>
 
-  <!-- Bootstrap Icons & Fonts -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -279,7 +282,10 @@
             <code class="d-block p-2 bg-dark text-light rounded small" id="summaryAPA"></code>
           </div>
         </div>
-        <div class="modal-footer py-2">
+        <div class="modal-footer py-2 d-flex justify-content-between">
+          <button type="button" class="btn btn-outline-primary btn-sm" id="modalShareBtn">
+            <i class="bi bi-share me-1"></i> <span id="txt-share-modal-btn">مشاركة</span>
+          </button>
           <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal" id="txt-modal-close">إغلاق</button>
         </div>
       </div>
@@ -365,6 +371,7 @@
     let selectedCategory = 'all';
     let booksLoaded = false;
     let currentUser = null;
+    let currentOpenBookId = null; // لتتبع الكتاب المفتوح حالياً في الملخص
 
     // ===== Firebase Auth =====
     async function initAuth() {
@@ -413,7 +420,8 @@
         modalAPATitle: "<i class='bi bi-quote me-1'></i> التوثيق الأكاديمي المباشر (APA):", modalClose: "إغلاق",
         defaultPoints: ["التحليل الهيكلي والتنظيمي للمؤسسات الحديثة.", "طرق صياغة القرارات الإدارية وتوزيع الصلاحيات.", "آليات التقييم والتطوير المؤسسي المستمر."],
         pagesSuffix: "صفحة", toastCopyFailed: "تعذّر النسخ تلقائيًا. انسخ الرابط من شريط العنوان.",
-        viewCover: "عرض الغلاف", shareTitle: "مشاركة الكتاب", shareText: "ألق نظرة على هذا الكتاب:"
+        viewCover: "عرض الغلاف", shareTitle: "مشاركة الكتاب", shareText: "ألق نظرة على هذا الكتاب:",
+        shareModalBtn: "مشاركة"
       },
       en: {
         announcement: "IAR Archive - Interactive Digital Repository for Management & Reference Sciences",
@@ -442,7 +450,8 @@
         modalAPATitle: "<i class='bi bi-quote me-1'></i> Direct Academic Citation (APA):", modalClose: "Close",
         defaultPoints: ["Structural and organizational analysis of modern institutions.", "Methods of administrative decision-making and delegation of authority.", "Continuous institutional assessment and development mechanisms."],
         pagesSuffix: "Pages", toastCopyFailed: "Automatic copy failed. Please copy the link from the address bar.",
-        viewCover: "View cover", shareTitle: "Share this book", shareText: "Check out this book:"
+        viewCover: "View cover", shareTitle: "Share this book", shareText: "Check out this book:",
+        shareModalBtn: "Share"
       }
     };
 
@@ -517,8 +526,39 @@
       return label && label.trim() !== '' ? label : i18n[currentLang].generalCat;
     }
 
-    // ===== Firebase Functions =====
+    // ===== URL Parameter Handling =====
+    function getBookIdFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      const bookParam = params.get('book');
+      if (bookParam !== null) {
+        const id = Number(bookParam);
+        if (Number.isSafeInteger(id) && id >= 0) {
+          return id;
+        }
+      }
+      return null;
+    }
 
+    function generateBookUrl(bookId) {
+      const url = new URL(window.location.href);
+      url.searchParams.set('book', bookId);
+      return url.toString();
+    }
+
+    function updatePageTitle(book) {
+      if (book) {
+        const title = translateDynamicText(book.title, book.title_en);
+        document.getElementById('pageTitle').innerText = `${title} | IAR Archive`;
+        // تحديث meta description
+        const desc = translateDynamicText(book.description, book.description_en);
+        let metaDesc = document.querySelector('meta[name="description"]');
+        if (metaDesc) metaDesc.setAttribute('content', desc.substring(0, 160));
+      } else {
+        document.getElementById('pageTitle').innerText = 'IAR Archive | Iraqi Administrative Reference';
+      }
+    }
+
+    // ===== Firebase Functions =====
     async function getSiteVisits() {
       try {
         const doc = await db.collection('stats').doc('visits').get();
@@ -741,17 +781,17 @@
       document.getElementById('btnClearSearch').setAttribute('aria-label', t.clearSearch);
       themeToggleBtn.setAttribute('aria-label', t.themeTooltip);
       themeToggleBtn.setAttribute('title', t.themeTooltip);
+      document.getElementById('txt-share-modal-btn').innerText = t.shareModalBtn;
       
       updateViewControls();
       syncBundleUI();
       if (booksLoaded && booksData.length > 0) { setupChipsCategories(); applyFilters(); }
     }
 
-    // ===== تعديل زر اللغة: حفظ اللغة ثم إعادة تحميل الصفحة تلقائيًا =====
     langToggleBtn.addEventListener('click', () => {
       const newLang = currentLang === 'ar' ? 'en' : 'ar';
-      storage.set('iar_lang', newLang); // حفظ اللغة الجديدة
-      window.location.reload(); // إعادة التحميل
+      storage.set('iar_lang', newLang);
+      window.location.reload();
     });
 
     // ===== View Mode =====
@@ -797,11 +837,65 @@
         
         await Promise.all([ loadPublicRatings(), loadDownloadCounts(), updateSiteVisits() ]);
         applyFilters();
+        
+        // ===== معالجة Deep Linking =====
+        handleDeepLinking();
       } catch (error) {
         console.error('Fetch error:', error);
         document.getElementById('booksDisplayContainer').innerHTML = `<p class="text-center text-danger py-5">${i18n[currentLang].errorMsg}</p>`;
       }
     }
+
+    // ===== Deep Linking Handler =====
+    function handleDeepLinking() {
+      const bookId = getBookIdFromUrl();
+      if (bookId === null) return;
+      
+      const book = booksData.find(b => b.id === bookId);
+      if (!book) {
+        // معرف غير موجود: تجاهل وعد للصفحة الرئيسية
+        console.warn('Book ID not found:', bookId);
+        return;
+      }
+      
+      // تحديث عنوان الصفحة
+      updatePageTitle(book);
+      
+      // فتح نافذة الملخص تلقائياً
+      currentOpenBookId = book.id;
+      openSummaryModal(book.id);
+      
+      // تمرير للنافذة بعد فتحها
+      setTimeout(() => {
+        const modalEl = document.getElementById('summaryModal');
+        if (modalEl && modalEl.classList.contains('show')) {
+          // تم الفتح
+        }
+      }, 300);
+    }
+
+    // ===== Share Function =====
+    function shareBook(book) {
+      if (!book) return;
+      const title = translateDynamicText(book.title, book.title_en);
+      const author = translateDynamicText(book.author, book.author_en);
+      const url = generateBookUrl(book.id);
+      const shareText = `${i18n[currentLang].shareText} "${title}" - ${author}\n${url}`;
+      
+      if (navigator.share) {
+        navigator.share({ title, text: shareText, url: url }).catch(() => {});
+      } else {
+        copyText(shareText, i18n[currentLang].toastCopied);
+      }
+    }
+
+    // ===== Modal Share Button =====
+    document.getElementById('modalShareBtn').addEventListener('click', () => {
+      if (currentOpenBookId !== null) {
+        const book = booksData.find(b => b.id === currentOpenBookId);
+        if (book) shareBook(book);
+      }
+    });
 
     async function handleDownload(bookId, filePath, fileName) {
       if (!filePath) return showToast(i18n[currentLang].fileUnavailable, 'danger');
@@ -899,6 +993,7 @@
     function openSummaryModal(id) {
       const book = booksData.find(b => b.id === id);
       if (!book) return;
+      currentOpenBookId = id;
       const t = i18n[currentLang];
       const title = translateDynamicText(book.title, book.title_en);
       const author = translateDynamicText(book.author, book.author_en);
@@ -1018,14 +1113,7 @@
           break;
         case 'cover-zoom': if (book.cover_image) openCoverImage(book.cover_image, title); break;
         case 'favorite': toggleFavorite(book.id); break;
-        case 'share': 
-          const shareText = `${t.shareText} "${title}" - ${author}\n${window.location.href}`;
-          if (navigator.share) {
-            navigator.share({ title, text: shareText, url: window.location.href }).catch(() => {});
-          } else {
-            copyText(shareText, t.toastCopied);
-          }
-          break;
+        case 'share': shareBook(book); break;
         case 'download': handleDownload(book.id, book.file_path, book.file_name); break;
       }
     });
