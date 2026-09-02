@@ -861,25 +861,27 @@
       return (now - lastVisit > oneDay);
     }
 
-    // ===== دالة التقييم المحسّنة =====
+    // ===== دالة التقييم المحسّنة (مع التحقق الصريح واستخدام set و merge) =====
     async function submitPublicRating(bookId, newRating) {
-      // التحقق من صحة القيمة
       if (typeof newRating !== 'number' || newRating < 1 || newRating > 5) {
         showToast(currentLang === 'ar' ? 'قيمة التقييم غير صحيحة' : 'Invalid rating value', 'danger');
         return false;
       }
 
-      // التحقق من المستخدم
-      if (!currentUser || !currentUser.uid) {
-        showToast(currentLang === 'ar' ? 'يرجى الانتظار حتى اكتمال تسجيل الدخول.' : 'Please wait for authentication to complete.', 'danger');
+      // التحقق الصريح من وجود auth.currentUser
+      if (!auth.currentUser) {
+        showToast(currentLang === 'ar' ? 'لم يتم تسجيل الدخول بعد' : 'Not logged in yet', 'danger');
         return false;
       }
+
+      const uid = auth.currentUser.uid;
+      console.log('Submitting rating with UID:', uid);
 
       const book = booksData.find(b => b.id === bookId);
       if (!book) return false;
 
-      // فحص محلي سريع
-      if (book.voters && book.voters.includes(currentUser.uid)) {
+      // فحص سريع محلي
+      if (book.voters && book.voters.includes(uid)) {
         showToast(currentLang === 'ar' ? 'لقد قمت بتقييم هذا الكتاب مسبقاً.' : 'You have already rated this book.', 'danger');
         return false;
       }
@@ -889,36 +891,36 @@
 
         await db.runTransaction(async (transaction) => {
           const doc = await transaction.get(docRef);
-          let newSum = newRating;
-          let newCount = 1;
-          let currentVoters = [currentUser.uid];
-
-          if (doc.exists) {
-            const data = doc.data();
-            const existingVoters = Array.isArray(data.voters) ? data.voters : []; // دعم المستندات القديمة
-
-            if (existingVoters.includes(currentUser.uid)) {
-              throw new Error('Already voted');
-            }
-
-            newSum = (data.ratingSum || 0) + newRating;
-            newCount = (data.ratingCount || 0) + 1;
-            currentVoters = [...existingVoters, currentUser.uid];
-
-            transaction.update(docRef, {
-              ratingSum: newSum,
-              ratingCount: newCount,
-              average: newSum / newCount,
-              voters: currentVoters
-            });
-          } else {
+          
+          if (!doc.exists) {
+            // إنشاء مستند جديد
             transaction.set(docRef, {
-              ratingSum: newSum,
-              ratingCount: newCount,
+              ratingSum: newRating,
+              ratingCount: 1,
               average: newRating,
-              voters: currentVoters
+              voters: [uid]
             });
+            return;
           }
+
+          const data = doc.data() || {};
+          const existingVoters = Array.isArray(data.voters) ? data.voters : [];
+
+          if (existingVoters.includes(uid)) {
+            throw new Error('Already voted');
+          }
+
+          const newSum = (data.ratingSum || 0) + newRating;
+          const newCount = (data.ratingCount || 0) + 1;
+          const newVoters = [...existingVoters, uid];
+
+          // استخدام set مع merge بدلاً من update
+          transaction.set(docRef, {
+            ratingSum: newSum,
+            ratingCount: newCount,
+            average: newSum / newCount,
+            voters: newVoters
+          }, { merge: true });
         });
 
         // تحديث محلي
@@ -926,7 +928,7 @@
         book.ratingCount = (book.ratingCount || 0) + 1;
         book.publicRating = book.ratingSum / book.ratingCount;
         if (!book.voters) book.voters = [];
-        book.voters.push(currentUser.uid);
+        book.voters.push(uid);
 
         return true;
 
