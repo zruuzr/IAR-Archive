@@ -34,6 +34,7 @@
 
   <title>IAR Archive | Iraqi Administrative Reference</title>
 
+  <!-- Bootstrap Icons & Fonts -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -99,7 +100,7 @@
     .book-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 1.25rem; transition: transform 0.25s ease, box-shadow 0.25s ease; position: relative; overflow: visible !important; z-index: 1; }
     .book-card:hover { z-index: 20; transform: translateY(-4px); box-shadow: 0 16px 30px -10px rgba(15, 23, 42, 0.12); }
 
-    .cover-container { width: 110px; height: 155px; flex-shrink: 0; border-radius: 10px; position: relative; background: var(--bg); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; box-shadow: -5px 8px 16px rgba(0, 0, 0, 0.12); overflow: hidden; }
+    .cover-container { width: 110px; height: 155px; flex-shrink: 0; border-radius: 10px; position: relative; background: var(--bg); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; box-shadow: -5px 8px 16px rgba(0, 0, 0, 0.12); }
     .cover-img-wrapper { width: 100%; height: 100%; border-radius: 10px; position: relative; cursor: pointer; }
     .cover-img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
     .cover-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: var(--text-muted); background-color: var(--bg); }
@@ -746,7 +747,12 @@
       if (booksLoaded && booksData.length > 0) { setupChipsCategories(); applyFilters(); }
     }
 
-    langToggleBtn.addEventListener('click', () => applyLanguage(currentLang === 'ar' ? 'en' : 'ar'));
+    // ===== تعديل زر اللغة: حفظ اللغة ثم إعادة تحميل الصفحة تلقائيًا =====
+    langToggleBtn.addEventListener('click', () => {
+      const newLang = currentLang === 'ar' ? 'en' : 'ar';
+      storage.set('iar_lang', newLang); // حفظ اللغة الجديدة
+      window.location.reload(); // إعادة التحميل
+    });
 
     // ===== View Mode =====
     const btnViewGrid = document.getElementById('btnViewGrid');
