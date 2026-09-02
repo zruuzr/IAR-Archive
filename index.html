@@ -34,6 +34,7 @@
 
   <title>IAR Archive | Iraqi Administrative Reference</title>
 
+  <!-- Bootstrap Icons & Fonts -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -327,10 +328,12 @@
 
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
   <script>
+    // ===== Firebase Configuration =====
     const firebaseConfig = {
       apiKey: "AIzaSyAug0yFzjQ4ud6zX2ugK_T7Lj7LfuO04tw",
       authDomain: "iar-archive-328bc.firebaseapp.com",
@@ -343,12 +346,16 @@
 
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
+    const auth = firebase.auth();
 
+    // ===== Storage Helper =====
     const storage = {
       get(key, fallback) { try { return localStorage.getItem(key) || fallback; } catch (_) { return fallback; } },
-      set(key, value) { try { localStorage.setItem(key, value); } catch (_) {} }
+      set(key, value) { try { localStorage.setItem(key, value); } catch (_) {} },
+      remove(key) { try { localStorage.removeItem(key); } catch (_) {} }
     };
 
+    // ===== State Variables =====
     let booksData = [];
     let selectedBundleIds = new Set();
     let favoriteIds = new Set(JSON.parse(storage.get('iar_favorites', '[]')));
@@ -357,18 +364,26 @@
     let currentViewMode = storage.get('iar_view_mode', 'grid') === 'list' ? 'list' : 'grid';
     let selectedCategory = 'all';
     let booksLoaded = false;
-    
-    // معرف مميز مجهول للمستخدم لمنع تكرار التقييم بذكاء دون الحاجة لتسجيل دخول معقد
-    let userId = storage.get('iar_uid', '');
-    if (!userId) {
-      userId = 'user_' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-      storage.set('iar_uid', userId);
+    let currentUser = null;
+
+    // ===== Firebase Auth =====
+    async function initAuth() {
+      try {
+        // تسجيل دخول مجهول تلقائي
+        const userCredential = await auth.signInAnonymously();
+        currentUser = userCredential.user;
+        console.log('Anonymous auth successful:', currentUser.uid);
+      } catch (error) {
+        console.warn('Anonymous auth failed:', error);
+      }
     }
 
+    // ===== Modal Instances =====
     const pdfModal = new bootstrap.Modal(document.getElementById('pdfReaderModal'));
     const summaryModal = new bootstrap.Modal(document.getElementById('summaryModal'));
     const coverModal = new bootstrap.Modal(document.getElementById('coverImageModal'));
 
+    // ===== i18n Dictionary =====
     const i18n = {
       ar: {
         announcement: "IAR Archive - المستودع الرقمي التفاعلي لربط المراجع الإدارية بالتحليل والمفاهيم",
@@ -432,6 +447,7 @@
       }
     };
 
+    // ===== Helper Functions =====
     function translateDynamicText(text, enField) {
       if (currentLang !== 'en') return text || '';
       if (enField && enField.trim() !== '') return enField;
@@ -502,13 +518,18 @@
       return label && label.trim() !== '' ? label : i18n[currentLang].generalCat;
     }
 
+    // ===== Firebase Functions =====
     async function incrementSiteVisits() {
       try {
         const visitsRef = db.collection('stats').doc('visits');
         await visitsRef.set({ count: firebase.firestore.FieldValue.increment(1) }, { merge: true });
         const doc = await visitsRef.get();
-        return doc.exists ? doc.data().count || 0 : 0;
-      } catch (error) { return null; }
+        const count = doc.exists ? doc.data().count || 0 : 0;
+        storage.set('iar_site_visits', count);
+        return count;
+      } catch (error) {
+        return parseInt(storage.get('iar_site_visits', '0')) + 1;
+      }
     }
 
     async function incrementDownloadCount(bookId) {
@@ -547,39 +568,49 @@
     }
 
     async function submitPublicRating(bookId, newRating) {
-      try {
-        const book = booksData.find(b => b.id === bookId);
-        if (!book) return false;
-        
-        if (book.voters && book.voters.includes(userId)) {
-          showToast(currentLang === 'ar' ? 'لقد قمت بتقييم هذا الكتاب مسبقاً.' : 'You have already rated this book.', 'danger');
-          return false;
-        }
+      if (!currentUser) {
+        showToast(currentLang === 'ar' ? 'يرجى الانتظار حتى اكتمال تسجيل الدخول.' : 'Please wait for authentication to complete.', 'danger');
+        return false;
+      }
 
+      const book = booksData.find(b => b.id === bookId);
+      if (!book) return false;
+
+      if (book.voters && book.voters.includes(currentUser.uid)) {
+        showToast(currentLang === 'ar' ? 'لقد قمت بتقييم هذا الكتاب مسبقاً.' : 'You have already rated this book.', 'danger');
+        return false;
+      }
+
+      try {
         const docRef = db.collection('ratings').doc(String(bookId));
         await db.runTransaction(async (transaction) => {
           const doc = await transaction.get(docRef);
-          let newSum = newRating, newCount = 1, currentVoters = [userId];
-          
+          let newSum = newRating, newCount = 1, currentVoters = [currentUser.uid];
+
           if (doc.exists) {
             const data = doc.data();
-            if (data.voters && data.voters.includes(userId)) throw new Error('Already voted');
+            if (data.voters && data.voters.includes(currentUser.uid)) {
+              throw new Error('Already voted');
+            }
             newSum = (data.ratingSum || 0) + newRating;
             newCount = (data.ratingCount || 0) + 1;
-            currentVoters = [...(data.voters || []), userId];
+            currentVoters = [...(data.voters || []), currentUser.uid];
             transaction.update(docRef, { ratingSum: newSum, ratingCount: newCount, average: newSum / newCount, voters: currentVoters });
           } else {
             transaction.set(docRef, { ratingSum: newSum, ratingCount: newCount, average: newRating, voters: currentVoters });
           }
         });
-        
+
         book.ratingSum += newRating;
         book.ratingCount += 1;
         book.publicRating = book.ratingSum / book.ratingCount;
-        book.voters.push(userId);
+        book.voters.push(currentUser.uid);
         return true;
-      } catch (error) { 
+      } catch (error) {
         console.error('Error submitting rating:', error);
+        if (error.message === 'Already voted') {
+          showToast(currentLang === 'ar' ? 'لقد قمت بتقييم هذا الكتاب مسبقاً.' : 'You have already rated this book.', 'danger');
+        }
         return false;
       }
     }
@@ -616,6 +647,7 @@
       }
     }
 
+    // ===== Theme & Language =====
     const themeToggleBtn = document.getElementById('themeToggleBtn');
     let currentTheme = storage.get('iar_theme', 'light') === 'dark' ? 'dark' : 'light';
     document.documentElement.setAttribute('data-bs-theme', currentTheme);
@@ -645,7 +677,6 @@
 
       const t = i18n[currentLang];
       
-      // التعيين الصريح والصحيح بدلاً من الاعتماد على المعرفات المركبة المعقدة
       document.getElementById('txt-announcement').innerText = t.announcement;
       document.getElementById('txt-subtitle').innerText = t.subtitle;
       document.getElementById('txt-about-title').innerText = t.aboutTitle;
@@ -675,6 +706,8 @@
       document.getElementById('txt-loading').innerText = t.loading;
       document.getElementById('searchInput').placeholder = t.searchPlaceholder;
       document.getElementById('btnClearSearch').setAttribute('aria-label', t.clearSearch);
+      themeToggleBtn.setAttribute('aria-label', t.themeTooltip);
+      themeToggleBtn.setAttribute('title', t.themeTooltip);
       
       updateViewControls();
       syncBundleUI();
@@ -683,6 +716,7 @@
 
     langToggleBtn.addEventListener('click', () => applyLanguage(currentLang === 'ar' ? 'en' : 'ar'));
 
+    // ===== View Mode =====
     const btnViewGrid = document.getElementById('btnViewGrid');
     const btnViewList = document.getElementById('btnViewList');
     function updateViewControls() {
@@ -697,11 +731,13 @@
     btnViewGrid.addEventListener('click', () => { currentViewMode = 'grid'; storage.set('iar_view_mode', 'grid'); updateViewControls(); applyFilters(); });
     btnViewList.addEventListener('click', () => { currentViewMode = 'list'; storage.set('iar_view_mode', 'list'); updateViewControls(); applyFilters(); });
 
+    // ===== Device Detection =====
     function isMobileDevice() {
       return /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Tablet/i.test(navigator.userAgent) || 
              (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
     }
 
+    // ===== App Init =====
     async function fetchBooks() {
       try {
         const response = await fetch('./books.json', { headers: { Accept: 'application/json' } });
@@ -731,14 +767,12 @@
 
     async function updateSiteVisits() {
       const count = await incrementSiteVisits();
-      const finalCount = count !== null ? count : (parseInt(storage.get('iar_site_visits', '0')) + 1);
-      storage.set('iar_site_visits', finalCount);
-      document.getElementById('siteVisitsCounter').innerText = finalCount;
+      document.getElementById('siteVisitsCounter').innerText = count;
     }
 
-    // تنزيل الملف فعلياً وآمناً باستخدام fetch + Blob لضمان التنزيل وعدم الفتح في نافذة جديدة
     async function handleDownload(bookId, filePath, fileName) {
       if (!filePath) return showToast(i18n[currentLang].fileUnavailable, 'danger');
+      
       const newCount = await incrementDownloadCount(bookId);
       const book = booksData.find(b => b.id === bookId);
       if (book && newCount !== null) {
@@ -760,7 +794,6 @@
         document.body.removeChild(link);
         window.URL.revokeObjectURL(blobUrl);
       } catch (err) {
-        // Fallback إذا فشل الـ Blob بسبب سياسات CORS
         const link = document.createElement('a');
         link.href = filePath;
         link.download = fileName || `book-${bookId}.pdf`;
@@ -897,7 +930,6 @@
       }
     }
 
-    // آمنة ضد XSS تماماً باستخدام textContent وعدم استخدام innerHTML في التوست
     function showToast(message, variant = 'primary') {
       const host = document.createElement('div');
       host.className = 'position-fixed bottom-0 start-50 translate-middle-x p-3';
@@ -984,7 +1016,6 @@
           let type = escapeHtml(translateDynamicText(book.type || t.defaultType, book.type_en));
           const isFav = isFavorite(book.id);
           
-          // حل مشاكل onerror للصور عبر إخفاء الصورة وعرض العنصر البديل المنفصل لتفادي الكسور
           const coverHtml = book.cover_image 
             ? `<div class="cover-img-wrapper" data-action="cover-zoom" data-id="${book.id}">
                  <img src="${escapeHtml(book.cover_image)}" class="cover-img" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
@@ -992,7 +1023,6 @@
                </div>`
             : `<div class="cover-placeholder"><i class="bi bi-book"></i></div>`;
 
-          // تم تعديل الزر هنا ليكون العداد منفصلاً بمسافة ومصمماً بشكل سليم تماماً لمنع الالتصاق
           const downloadControl = book.file_path
             ? `<button type="button" data-action="download" data-id="${book.id}" class="btn btn-iar-primary w-100 text-center d-flex align-items-center justify-content-center">
                  <i class="bi bi-download me-1" aria-hidden="true"></i>
@@ -1088,7 +1118,6 @@
       const sortValue = document.getElementById('sortOrder').value;
 
       let filtered = booksData.filter(book => {
-        // بحث شامل يشمل الوصف والكلمات المفتاحية إلى جانب العنوان والمؤلف والناشر
         const keywords = currentLang === 'en' && book.keywords_en.length > 0 ? book.keywords_en.join(' ') : book.keywords.join(' ');
         const searchableText = `${translateDynamicText(book.title, book.title_en)} ${translateDynamicText(book.author, book.author_en)} ${translateDynamicText(book.publisher, book.publisher_en)} ${translateDynamicText(book.description, book.description_en)} ${keywords}`.toLocaleLowerCase(currentLang);
         return (query === '' || searchableText.includes(query)) && (selectedCategory === 'all' || getCategoryKey(book) === selectedCategory);
@@ -1100,7 +1129,6 @@
         'pages': (a, b) => (parseInt(a.pages) || 0) - (parseInt(b.pages) || 0),
         'downloads': (a, b) => (b.downloadCount || 0) - (a.downloadCount || 0),
         'rating': (a, b) => (b.publicRating || 0) - (a.publicRating || 0),
-        // تم تصحيح فرز المفضلة ليرتب أبجديًا بعد وضع المفضلة أولاً
         'favorites': (a, b) => {
           const aFav = isFavorite(a.id) ? 1 : 0;
           const bFav = isFavorite(b.id) ? 1 : 0;
@@ -1119,8 +1147,14 @@
     btnClearSearch.addEventListener('click', () => { searchInput.value = ''; btnClearSearch.classList.add('d-none'); applyFilters(); });
     document.getElementById('sortOrder').addEventListener('change', applyFilters);
 
-    applyLanguage(currentLang);
-    fetchBooks();
+    // ===== Initialize =====
+    initAuth().then(() => {
+      applyLanguage(currentLang);
+      fetchBooks();
+    }).catch(() => {
+      applyLanguage(currentLang);
+      fetchBooks();
+    });
   </script>
 </body>
 </html>
