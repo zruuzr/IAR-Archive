@@ -563,7 +563,7 @@
     let currentOpenBookId = null;
     let isSingleView = false;
 
-    // ===== Firebase Auth (محسنة) =====
+    // ===== Firebase Auth =====
     async function initAuth() {
       try {
         const userCredential = await Promise.race([
@@ -765,7 +765,7 @@
       }
     }
 
-    // ===== Firebase Functions (محسنة) =====
+    // ===== Firebase Functions =====
     async function getSiteVisits() {
       try {
         const doc = await db.collection('stats').doc('visits').get();
@@ -861,13 +861,15 @@
       return (now - lastVisit > oneDay);
     }
 
-    // ===== دالة التقييم المحسّنة (منع التكرار والسباق) =====
+    // ===== دالة التقييم المحسّنة =====
     async function submitPublicRating(bookId, newRating) {
+      // التحقق من صحة القيمة
       if (typeof newRating !== 'number' || newRating < 1 || newRating > 5) {
         showToast(currentLang === 'ar' ? 'قيمة التقييم غير صحيحة' : 'Invalid rating value', 'danger');
         return false;
       }
 
+      // التحقق من المستخدم
       if (!currentUser || !currentUser.uid) {
         showToast(currentLang === 'ar' ? 'يرجى الانتظار حتى اكتمال تسجيل الدخول.' : 'Please wait for authentication to complete.', 'danger');
         return false;
@@ -876,7 +878,8 @@
       const book = booksData.find(b => b.id === bookId);
       if (!book) return false;
 
-      if (book.voters && Array.isArray(book.voters) && book.voters.includes(currentUser.uid)) {
+      // فحص محلي سريع
+      if (book.voters && book.voters.includes(currentUser.uid)) {
         showToast(currentLang === 'ar' ? 'لقد قمت بتقييم هذا الكتاب مسبقاً.' : 'You have already rated this book.', 'danger');
         return false;
       }
@@ -892,13 +895,15 @@
 
           if (doc.exists) {
             const data = doc.data();
-            if (data.voters && data.voters.includes(currentUser.uid)) {
+            const existingVoters = Array.isArray(data.voters) ? data.voters : []; // دعم المستندات القديمة
+
+            if (existingVoters.includes(currentUser.uid)) {
               throw new Error('Already voted');
             }
 
             newSum = (data.ratingSum || 0) + newRating;
             newCount = (data.ratingCount || 0) + 1;
-            currentVoters = [...(data.voters || []), currentUser.uid];
+            currentVoters = [...existingVoters, currentUser.uid];
 
             transaction.update(docRef, {
               ratingSum: newSum,
