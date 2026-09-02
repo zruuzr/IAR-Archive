@@ -1,338 +1,3 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl" data-bs-theme="light">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <script>
-    (function () {
-      var lang = 'ar';
-      var theme = 'light';
-      try {
-        lang = localStorage.getItem('iar_lang') || lang;
-        theme = localStorage.getItem('iar_theme') || theme;
-        if (!localStorage.getItem('iar_theme') && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          theme = 'dark';
-        }
-      } catch (_) {}
-      lang = lang === 'en' ? 'en' : 'ar';
-      theme = theme === 'dark' ? 'dark' : 'light';
-      var html = document.documentElement;
-      html.setAttribute('lang', lang);
-      html.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-      html.setAttribute('data-bs-theme', theme);
-      var bsHref = lang === 'ar'
-        ? 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css'
-        : 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css';
-      var bootstrapLink = document.createElement('link');
-      bootstrapLink.rel = 'stylesheet';
-      bootstrapLink.href = bsHref;
-      bootstrapLink.id = 'bootstrapCSS';
-      document.head.appendChild(bootstrapLink);
-    })();
-  </script>
-
-  <title>IAR Archive | Iraqi Administrative Reference</title>
-
-  <!-- Bootstrap Icons & Fonts -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
-
-  <style>
-    :root {
-      --primary: #0a0f1d;
-      --accent: #2563eb;
-      --accent-hover: #1d4ed8;
-      --bg: #f8fafc;
-      --card-bg: #ffffff;
-      --text: #0f172a;
-      --text-muted: #64748b;
-      --border: #e2e8f0;
-      --card-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
-      --star: #f59e0b;
-    }
-
-    [data-bs-theme="dark"] {
-      --primary: #030712;
-      --accent: #3b82f6;
-      --accent-hover: #60a5fa;
-      --bg: #0b0f19;
-      --card-bg: #111827;
-      --text: #f9fafb;
-      --text-muted: #9ca3af;
-      --border: #1f2937;
-      --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
-      --star: #fbbf24;
-    }
-
-    body {
-      background-color: var(--bg);
-      font-family: 'Cairo', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-      color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      transition: background-color 0.25s ease, color 0.25s ease;
-    }
-
-    .top-live-bar { background: linear-gradient(90deg, #1e1b4b 0%, #312e81 50%, #1e1b4b 100%); color: #e0e7ff; font-size: 0.8rem; padding: 0.45rem 0; font-weight: 600; }
-    .navbar-iar { background-color: var(--primary); border-bottom: 2px solid var(--border); padding: 1rem 0; position: sticky; top: 0; z-index: 1020; }
-    
-    .brand-logo-icon { width: 44px; height: 44px; background: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 100%); color: #ffffff; border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35); }
-    .brand-title { font-weight: 900; font-size: 1.45rem; color: #ffffff; }
-    .brand-subtitle { color: #94a3b8; font-size: 0.8rem; font-weight: 600; }
-
-    .hero-stats-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 1.25rem 1.5rem; box-shadow: var(--card-shadow); position: relative; }
-    .hero-stats-card::before { content: ''; position: absolute; top: 0; right: 0; width: 4px; height: 100%; background: var(--accent); }
-    html[dir="ltr"] .hero-stats-card::before { right: auto; left: 0; }
-    .stat-box { padding: 0.4rem 0.8rem; border-left: 1px solid var(--border); }
-    html[dir="ltr"] .stat-box { border-left: none; border-right: 1px solid var(--border); }
-
-    .bundle-bar { background: var(--accent); color: #ffffff; border-radius: 12px; padding: 0.75rem 1.25rem; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3); margin-bottom: 1.5rem; }
-    
-    .chips-wrapper { display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.5rem; scrollbar-width: none; }
-    .chips-wrapper::-webkit-scrollbar { display: none; }
-    .chip-item { background: var(--card-bg); border: 1px solid var(--border); color: var(--text-muted); padding: 0.45rem 1rem; border-radius: 30px; font-size: 0.85rem; font-weight: 700; white-space: nowrap; cursor: pointer; transition: all 0.2s ease; }
-    .chip-item:hover, .chip-item.active { background: var(--accent); color: #ffffff; border-color: var(--accent); }
-
-    .book-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 1.25rem; transition: transform 0.25s ease, box-shadow 0.25s ease; position: relative; overflow: visible !important; z-index: 1; }
-    .book-card:hover { z-index: 20; transform: translateY(-4px); box-shadow: 0 16px 30px -10px rgba(15, 23, 42, 0.12); }
-
-    .cover-container { width: 110px; height: 155px; flex-shrink: 0; border-radius: 10px; position: relative; background: var(--bg); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; box-shadow: -5px 8px 16px rgba(0, 0, 0, 0.12); overflow: hidden; }
-    .cover-img-wrapper { width: 100%; height: 100%; border-radius: 10px; position: relative; cursor: pointer; }
-    .cover-img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-    .cover-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: var(--text-muted); background-color: var(--bg); }
-
-    @media (hover: hover) and (pointer: fine) {
-      .cover-container:hover .cover-img { position: absolute; top: 0; inset-inline-start: 0; width: 250px; height: 350px; z-index: 9999; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45); border: 3px solid var(--card-bg); border-radius: 12px; }
-    }
-
-    .badge-tag { background: rgba(37, 99, 235, 0.1); color: var(--accent); font-size: 0.75rem; font-weight: 700; padding: 0.3rem 0.65rem; border-radius: 20px; }
-    .badge-type { background: rgba(16, 185, 129, 0.1); color: #10b981; font-size: 0.72rem; font-weight: 700; padding: 0.25rem 0.55rem; border-radius: 6px; }
-    .book-title { font-weight: 800; font-size: 1.08rem; color: var(--text); line-height: 1.4; margin-top: 0.3rem; }
-    .book-author { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; }
-    .book-desc { font-size: 0.84rem; color: var(--text-muted); line-height: 1.55; }
-    .meta-spec-chip { font-size: 0.73rem; font-weight: 600; color: var(--text-muted); background: var(--bg); border: 1px solid var(--border); padding: 0.2rem 0.5rem; border-radius: 6px; display: inline-flex; align-items: center; gap: 0.25rem; }
-
-    .btn-iar-action { background: var(--bg); color: var(--text); font-weight: 700; font-size: 0.82rem; border: 1px solid var(--border); border-radius: 8px; padding: 0.45rem; transition: all 0.2s ease; }
-    .btn-iar-action:hover { background: rgba(37, 99, 235, 0.1); color: var(--accent); border-color: var(--accent); }
-    .btn-iar-primary { background: var(--accent); color: #ffffff; font-weight: 700; font-size: 0.82rem; border-radius: 8px; padding: 0.45rem; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
-    .btn-iar-primary:hover { background: var(--accent-hover); color: #ffffff; }
-
-    .rating-stars { display: inline-flex; gap: 0.2rem; cursor: pointer; font-size: 1rem; }
-    .rating-stars i { color: var(--text-muted); transition: color 0.2s; }
-    .rating-stars i.active { color: var(--star); }
-    .rating-stars i:hover { transform: scale(1.2); }
-
-    footer { margin-top: auto; background-color: var(--primary); color: #94a3b8; padding: 2rem 0; border-top: 1px solid var(--border); }
-    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; } }
-  </style>
-</head>
-<body>
-
-  <!-- Announcement Bar -->
-  <div class="top-live-bar text-center">
-    <div class="container">
-      <i class="bi bi-diagram-3-fill me-1"></i> <span id="txt-announcement">IAR Archive - المستودع الرقمي التفاعلي لربط المراجع الإدارية بالتحليل والمفاهيم</span>
-    </div>
-  </div>
-
-  <!-- Navbar -->
-  <header class="navbar-iar">
-    <div class="container">
-      <div class="d-flex align-items-center justify-content-between">
-        <div class="d-flex align-items-center gap-3">
-          <div class="brand-logo-icon"><i class="bi bi-journal-bookmark-fill fs-4"></i></div>
-          <div>
-            <div class="brand-title">IAR Archive</div>
-            <div class="brand-subtitle" id="txt-subtitle">الأرشيف الإداري العراقي</div>
-          </div>
-        </div>
-        <div class="d-flex align-items-center gap-2">
-          <button type="button" id="langToggleBtn" class="btn btn-outline-light btn-sm fw-bold px-3 py-2 rounded-3" aria-label="تبديل اللغة">
-            <i class="bi bi-translate me-1"></i> <span id="langLabel">EN</span>
-          </button>
-          <button id="themeToggleBtn" class="btn btn-outline-light btn-sm rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;" aria-label="تبديل المظهر" title="تبديل المظهر">
-            <i class="bi bi-moon fs-6" id="themeIcon"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <main class="container my-4">
-
-    <!-- Hero Card -->
-    <div class="hero-stats-card mb-4">
-      <div class="row align-items-center g-3">
-        <div class="col-lg-7">
-          <h1 class="h5 fw-bold mb-1" id="txt-about-title">الأرشيف الرقمي لعلوم الإدارة</h1>
-          <p class="mb-0 small text-muted" id="txt-about-desc">
-            منصة معرفية مخصصة لأرشفة وربط المراجع الإدارية، توفر ملخصات 3 دقائق، التوثيق الأكاديمي المباشر، وإنشاء حزم البحوث.
-          </p>
-        </div>
-        <div class="col-lg-5">
-          <div class="d-flex justify-content-lg-end gap-3 text-center">
-            <div class="stat-box">
-              <div class="fs-4 fw-bold text-primary" id="booksCounter">0</div>
-              <div class="small text-muted" id="txt-stat-books">مرجع إداري</div>
-            </div>
-            <div class="stat-box">
-              <div class="fs-4 fw-bold text-primary" id="catCounter">0</div>
-              <div class="small text-muted" id="txt-stat-cats">تصنيف إداري</div>
-            </div>
-            <div class="stat-box">
-              <div class="fs-4 fw-bold text-primary" id="siteVisitsCounter">0</div>
-              <div class="small text-muted" id="txt-stat-visits">زائر فريد</div>
-            </div>
-            <div class="stat-box">
-              <div class="fs-4 fw-bold text-success">2026</div>
-              <div class="small text-muted" id="txt-stat-year">سنة الأرشفة</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Bundle Bar -->
-    <div class="bundle-bar d-none" id="bundleBar">
-      <div>
-        <i class="bi bi-collection-fill me-2"></i>
-        <span id="txt-bundle-text">تم تحديد <strong id="bundleCount">0</strong> مراجع لإنشاء حزمة بحثية</span>
-      </div>
-      <button type="button" class="btn btn-light btn-sm fw-bold" id="copyBundleBtn">
-        <i class="bi bi-share-fill me-1"></i> <span id="txt-bundle-btn">نسخ رابط الحزمة المجمعة</span>
-      </button>
-    </div>
-
-    <!-- Controls Row -->
-    <div class="row g-3 mb-3 align-items-center">
-      <div class="col-md-7">
-        <div class="input-group">
-          <span class="input-group-text bg-body border-end-0 text-muted"><i class="bi bi-search"></i></span>
-          <label class="visually-hidden" for="searchInput" id="searchLabel">البحث في المراجع</label>
-          <input type="search" id="searchInput" class="form-control border-start-0 ps-0" placeholder="ابحث بعنوان الكتاب، اسم المؤلف، الناشر، أو الكلمات المفتاحية...">
-          <button class="btn btn-outline-secondary border-start-0 d-none" type="button" id="btnClearSearch" aria-label="مسح البحث"><i class="bi bi-x-circle-fill" aria-hidden="true"></i></button>
-        </div>
-      </div>
-      <div class="col-md-3 col-8">
-        <select id="sortOrder" class="form-select">
-          <option value="default" id="opt-sort-default">الترتيب الافتراضي</option>
-          <option value="title" id="opt-sort-title">حسب العنوان (أبجدي)</option>
-          <option value="year" id="opt-sort-year">حسب السنة</option>
-          <option value="pages" id="opt-sort-pages">حسب عدد الصفحات</option>
-          <option value="downloads" id="opt-sort-downloads">حسب التحميلات</option>
-          <option value="favorites" id="opt-sort-favorites">حسب المفضلة</option>
-          <option value="rating" id="opt-sort-rating">حسب التقييم</option>
-        </select>
-      </div>
-      <div class="col-md-2 col-4 text-end">
-        <div class="btn-group w-100" role="group">
-          <button type="button" class="btn btn-outline-secondary active" id="btnViewGrid" title="عرض شبكي" aria-label="عرض شبكي" aria-pressed="true"><i class="bi bi-grid-fill" aria-hidden="true"></i></button>
-          <button type="button" class="btn btn-outline-secondary" id="btnViewList" title="عرض قائمة" aria-label="عرض قائمة" aria-pressed="false"><i class="bi bi-list-task" aria-hidden="true"></i></button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Category Chips -->
-    <div class="chips-wrapper mb-4" id="categoryChips">
-      <button type="button" class="chip-item active" data-category="all" id="chip-all" aria-pressed="true">جميع التصنيفات</button>
-    </div>
-
-    <!-- Books Grid -->
-    <div id="booksDisplayContainer">
-      <div class="text-center text-muted py-5" role="status" id="booksLoading"><span class="spinner-border spinner-border-sm ms-2" aria-hidden="true"></span><span id="txt-loading">جارٍ تحميل المراجع…</span></div>
-    </div>
-
-  </main>
-
-  <!-- Summary Modal -->
-  <div class="modal fade" id="summaryModal" tabindex="-1" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="summaryModalTitle">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header py-2 bg-body-tertiary">
-          <h5 class="modal-title fs-6 fw-bold" id="summaryModalTitle">ملخص المرجع الإداري (3 دقائق)</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق" id="summaryDismissBtn"></button>
-        </div>
-        <div class="modal-body p-4">
-          <div class="mb-3 d-flex flex-wrap gap-2 align-items-center">
-            <span class="badge bg-primary-subtle text-primary border" id="summaryCategory">تصنيف</span>
-            <span class="badge bg-success-subtle text-success border" id="summaryType">مرجع منهجي</span>
-            <span class="meta-spec-chip" id="summaryPages"><i class="bi bi-file-earmark-text"></i> -</span>
-            <span class="meta-spec-chip" id="summarySize"><i class="bi bi-hdd"></i> -</span>
-          </div>
-          <h4 class="h5 fw-bold mb-2" id="summaryBookTitle">عنوان الكتاب</h4>
-          <p class="text-muted small mb-4" id="summaryBookAuthor">المؤلف</p>
-          
-          <div class="card bg-body-tertiary border-0 p-3 mb-3">
-            <h6 class="fw-bold fs-6 text-primary mb-2" id="txt-modal-ideas-title"><i class="bi bi-lightbulb me-1"></i> أهم الأفكار الرئيسية في هذا المرجع:</h6>
-            <ul class="mb-0 small text-muted ps-3" id="summaryKeyPoints"></ul>
-          </div>
-          <div class="card bg-body-tertiary border-0 p-3 mb-3">
-            <h6 class="fw-bold fs-6 text-success mb-2" id="txt-modal-audience-title"><i class="bi bi-award me-1"></i> الفئة الأكثر استفادة:</h6>
-            <p class="mb-0 small text-muted" id="summaryAudience"></p>
-          </div>
-          <div class="card bg-body-tertiary border-0 p-3">
-            <h6 class="fw-bold fs-6 text-dark mb-2" id="txt-modal-apa-title"><i class="bi bi-quote me-1"></i> التوثيق الأكاديمي المباشر (APA):</h6>
-            <code class="d-block p-2 bg-dark text-light rounded small" id="summaryAPA"></code>
-          </div>
-        </div>
-        <div class="modal-footer py-2">
-          <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal" id="txt-modal-close">إغلاق</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- PDF Reader Modal -->
-  <div class="modal fade" id="pdfReaderModal" tabindex="-1" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modalBookTitle">
-    <div class="modal-dialog modal-xl modal-dialog-centered" style="height: 90vh;">
-      <div class="modal-content h-100">
-        <div class="modal-header py-2 bg-body-tertiary">
-          <h5 class="modal-title fs-6 fw-bold" id="modalBookTitle">قراءة الكتاب</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق" id="pdfDismissBtn"></button>
-        </div>
-        <div class="modal-body p-0 d-flex flex-column h-100 bg-dark">
-          <div id="pdfFallbackContainer" class="bg-dark text-center py-2 px-3 border-bottom border-secondary" style="display: none;">
-             <a id="pdfFallbackLink" href="" target="_blank" class="btn btn-outline-light btn-sm"><i class="bi bi-box-arrow-up-right me-1"></i> فتح الملف في المتصفح إذا واجهت مشكلة بالعرض</a>
-          </div>
-          <iframe id="pdfFrame" src="" title="قارئ ملف PDF" class="flex-grow-1 w-100 border-0"></iframe>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Cover Image Modal -->
-  <div class="modal fade" id="coverImageModal" tabindex="-1" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="coverImageModalLabel">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-      <div class="modal-content bg-transparent border-0">
-        <div class="modal-body p-0 d-flex justify-content-center position-relative">
-          <img id="coverImageLarge" src="" alt="" class="img-fluid rounded shadow" style="max-height: 90vh;">
-          <button type="button" class="btn btn-light position-absolute top-0 end-0 m-2 rounded-circle" data-bs-dismiss="modal" aria-label="إغلاق">
-            <i class="bi bi-x-lg"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Footer -->
-  <footer class="text-center">
-    <div class="container">
-      <div class="brand-title mb-1">IAR Archive</div>
-      <p class="mb-0 small text-muted" id="txt-footer">الأرشيف الإداري العراقي - المستودع الرقمي المتخصص في العلوم الإدارية</p>
-    </div>
-  </footer>
-
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-  <script>
     // ===== Firebase Configuration =====
     const firebaseConfig = {
       apiKey: "AIzaSyAug0yFzjQ4ud6zX2ugK_T7Lj7LfuO04tw",
@@ -382,8 +47,69 @@
     const summaryModal = new bootstrap.Modal(document.getElementById('summaryModal'));
     const coverModal = new bootstrap.Modal(document.getElementById('coverImageModal'));
 
-    // ===== i18n Dictionary (نفس ما سبق، مختصر هنا للتركيز على العداد) =====
-    const i18n = { ar: {}, en: {} }; // سيتم ملؤها كما في النسخة السابقة
+    // ===== i18n Dictionary (كامل) =====
+    const i18n = {
+      ar: {
+        announcement: "IAR Archive - المستودع الرقمي التفاعلي لربط المراجع الإدارية بالتحليل والمفاهيم",
+        subtitle: "الأرشيف الإداري العراقي",
+        aboutTitle: "الأرشيف الرقمي لعلوم الإدارة",
+        aboutDesc: "منصة معرفية مخصصة لأرشفة وربط المراجع الإدارية، توفر ملخصات 3 دقائق، التوثيق الأكاديمي المباشر، وإنشاء حزم البحوث.",
+        statBooks: "مرجع إداري", statCats: "تصنيف إداري", statYear: "سنة الأرشفة", statVisits: "زائر فريد",
+        searchPlaceholder: "ابحث بعنوان الكتاب، اسم المؤلف، الناشر، أو الكلمات المفتاحية...",
+        allCategories: "جميع التصنيفات", sortDefault: "الترتيب الافتراضي", sortTitle: "حسب العنوان (أبجدي)",
+        sortYear: "حسب السنة", sortPages: "حسب عدد الصفحات", sortDownloads: "حسب التحميلات",
+        sortFavorites: "حسب المفضلة", sortRating: "حسب التقييم",
+        readBtn: "قراءة", downloadBtn: "تحميل", shareBtn: "مشاركة", citeBtn: "توثيق APA", summaryBtn: "ملخص 3 دقائق",
+        favoriteBtn: "أضف إلى المفضلة", unfavoriteBtn: "إزالة من المفضلة", rateBtn: "تقييم الكتاب",
+        noBooks: "لم يتم العثور على كتب مطابقة لخيارات البحث.", errorMsg: "تعذر تحميل قائمة الكتب.",
+        footerText: "الأرشيف الإداري العراقي - المستودع الرقمي المتخصص في العلوم الإدارية",
+        toastCopied: "تم النسخ إلى الحافظة بنجاح.",
+        toastCiteCopied: "تم نسخ التوثيق الأكاديمي (APA) إلى الحافظة.",
+        toastBundleCopied: "تم نسخ رابط الحزمة البحثية المجمعة بنجاح.",
+        toastFavoriteAdded: "تمت إضافة الكتاب إلى المفضلة.", toastFavoriteRemoved: "تمت إزالة الكتاب من المفضلة.",
+        toastRated: "تم حفظ تقييمك بنجاح.", generalCat: "عام", defaultPublisher: "الأرشيف الإداري العراقي", defaultType: "مرجع منهجي", themeTooltip: "تبديل المظهر",
+        loading: "جارٍ تحميل المراجع…", fileUnavailable: "ملف المرجع غير متاح حاليًا.", searchLabel: "البحث في المراجع", clearSearch: "مسح البحث",
+        gridView: "عرض شبكي", listView: "عرض قائمة", selectBundle: "تحديد المرجع لإضافته إلى الحزمة البحثية",
+        bundleText: "تم تحديد <strong id='bundleCount'>0</strong> مراجع لإنشاء حزمة بحثية",
+        bundleBtn: "نسخ رابط الحزمة المجمعة", modalTitle: "ملخص المرجع الإداري (3 دقائق)",
+        modalIdeasTitle: "<i class='bi bi-lightbulb me-1'></i> أهم الأفكار الرئيسية في هذا المرجع:",
+        modalAudienceTitle: "<i class='bi bi-award me-1'></i> الفئة الأكثر استفادة:",
+        defaultAudience: "المدراء التنفيذيون، الباحثون في العلوم الإدارية، وطلاب الدراسات العليا.",
+        modalAPATitle: "<i class='bi bi-quote me-1'></i> التوثيق الأكاديمي المباشر (APA):", modalClose: "إغلاق",
+        defaultPoints: ["التحليل الهيكلي والتنظيمي للمؤسسات الحديثة.", "طرق صياغة القرارات الإدارية وتوزيع الصلاحيات.", "آليات التقييم والتطوير المؤسسي المستمر."],
+        pagesSuffix: "صفحة", toastCopyFailed: "تعذّر النسخ تلقائيًا. انسخ الرابط من شريط العنوان.",
+        viewCover: "عرض الغلاف", shareTitle: "مشاركة الكتاب", shareText: "ألق نظرة على هذا الكتاب:"
+      },
+      en: {
+        announcement: "IAR Archive - Interactive Digital Repository for Management & Reference Sciences",
+        subtitle: "Iraqi Administrative Reference", aboutTitle: "Digital Repository for Management Sciences",
+        aboutDesc: "A knowledge platform dedicated to archiving administrative references, providing 3-minute summaries, direct APA citations, and research bundle creation.",
+        statBooks: "References Available", statCats: "Categories", statYear: "Archived Year", statVisits: "Unique Visitors",
+        searchPlaceholder: "Search by title, author, publisher, or keywords...",
+        allCategories: "All Categories", sortDefault: "Default Sorting", sortTitle: "Sort by Title (Alphabetical)",
+        sortYear: "Sort by Year", sortPages: "Sort by Pages", sortDownloads: "Sort by Downloads",
+        sortFavorites: "Sort by Favorites", sortRating: "Sort by Rating",
+        readBtn: "Read", downloadBtn: "Download", shareBtn: "Share", citeBtn: "Cite APA", summaryBtn: "3-Min Summary",
+        favoriteBtn: "Add to Favorites", unfavoriteBtn: "Remove from Favorites", rateBtn: "Rate this book",
+        noBooks: "No matching references found.", errorMsg: "Failed to load repository data.",
+        footerText: "Iraqi Administrative Reference - Digital Repository for Management Sciences",
+        toastCopied: "Copied to clipboard.", toastCiteCopied: "APA Citation copied to clipboard.",
+        toastBundleCopied: "Research bundle link copied successfully.",
+        toastFavoriteAdded: "Book added to favorites.", toastFavoriteRemoved: "Book removed from favorites.",
+        toastRated: "Your rating has been saved.", generalCat: "General", defaultPublisher: "IAR Archive", defaultType: "Methodological Reference", themeTooltip: "Toggle Theme",
+        loading: "Loading references…", fileUnavailable: "This reference file is currently unavailable.", searchLabel: "Search references", clearSearch: "Clear search",
+        gridView: "Grid view", listView: "List view", selectBundle: "Select this reference for the research bundle",
+        bundleText: "Selected <strong id='bundleCount'>0</strong> references for research bundle",
+        bundleBtn: "Copy Bundle Share Link", modalTitle: "Administrative Reference Summary (3 Minutes)",
+        modalIdeasTitle: "<i class='bi bi-lightbulb me-1'></i> Key Concepts in This Reference:",
+        modalAudienceTitle: "<i class='bi bi-award me-1'></i> Target Audience:",
+        defaultAudience: "Executive managers, administrative researchers, and postgraduate students.",
+        modalAPATitle: "<i class='bi bi-quote me-1'></i> Direct Academic Citation (APA):", modalClose: "Close",
+        defaultPoints: ["Structural and organizational analysis of modern institutions.", "Methods of administrative decision-making and delegation of authority.", "Continuous institutional assessment and development mechanisms."],
+        pagesSuffix: "Pages", toastCopyFailed: "Automatic copy failed. Please copy the link from the address bar.",
+        viewCover: "View cover", shareTitle: "Share this book", shareText: "Check out this book:"
+      }
+    };
 
     // ===== Helper Functions =====
     function translateDynamicText(text, enField) {
@@ -458,7 +184,6 @@
 
     // ===== Firebase Functions =====
 
-    // دالة جلب عدد الزوار الحالي دون زيادته
     async function getSiteVisits() {
       try {
         const doc = await db.collection('stats').doc('visits').get();
@@ -468,7 +193,6 @@
       }
     }
 
-    // دالة زيادة عدد الزوار الفريدين
     async function incrementUniqueVisit() {
       const visitsRef = db.collection('stats').doc('visits');
       try {
@@ -483,33 +207,24 @@
         return newCount;
       } catch (error) {
         console.error('Unique visit increment failed:', error);
-        // fallback إلى localStorage
         const local = parseInt(storage.get('iar_site_visits', '0')) || 0;
         return local + 1;
       }
     }
 
-    // دالة تحديد ما إذا كانت الزيارة جديدة أم لا
     function isNewVisit() {
       const lastVisit = parseInt(storage.get('iar_last_visit', '0')) || 0;
       const now = Date.now();
-      const oneDay = 24 * 60 * 60 * 1000; // 24 ساعة
-
-      if (now - lastVisit > oneDay) {
-        return true;
-      }
-      return false;
+      const oneDay = 24 * 60 * 60 * 1000;
+      return (now - lastVisit > oneDay);
     }
 
-    // دالة تحديث عداد الزوار الفريدين في الواجهة
     async function updateSiteVisits() {
       if (isNewVisit()) {
-        // زيارة جديدة: نزيد العداد ونحدّث آخر زيارة
         storage.set('iar_last_visit', Date.now());
         const count = await incrementUniqueVisit();
         document.getElementById('siteVisitsCounter').innerText = count;
       } else {
-        // ليست زيارة جديدة: نعرض العدد الحالي فقط
         const count = await getSiteVisits();
         document.getElementById('siteVisitsCounter').innerText = count;
       }
@@ -1133,6 +848,3 @@
       applyLanguage(currentLang);
       fetchBooks();
     });
-  </script>
-</body>
-</html>
