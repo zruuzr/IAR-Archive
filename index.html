@@ -861,26 +861,23 @@
       return (now - lastVisit > oneDay);
     }
 
-    // ===== دالة التقييم المحسّنة (مع التحقق الصريح واستخدام set و merge) =====
+    // ===== دالة التقييم المحسّنة للتعامل الآمن مع القواعد =====
     async function submitPublicRating(bookId, newRating) {
       if (typeof newRating !== 'number' || newRating < 1 || newRating > 5) {
         showToast(currentLang === 'ar' ? 'قيمة التقييم غير صحيحة' : 'Invalid rating value', 'danger');
         return false;
       }
 
-      // التحقق الصريح من وجود auth.currentUser
       if (!auth.currentUser) {
         showToast(currentLang === 'ar' ? 'لم يتم تسجيل الدخول بعد' : 'Not logged in yet', 'danger');
         return false;
       }
 
       const uid = auth.currentUser.uid;
-      console.log('Submitting rating with UID:', uid);
-
       const book = booksData.find(b => b.id === bookId);
       if (!book) return false;
 
-      // فحص سريع محلي
+      // فحص سريع محلي لمنع الإرسال المزدوج
       if (book.voters && book.voters.includes(uid)) {
         showToast(currentLang === 'ar' ? 'لقد قمت بتقييم هذا الكتاب مسبقاً.' : 'You have already rated this book.', 'danger');
         return false;
@@ -888,45 +885,36 @@
 
       try {
         const docRef = db.collection('ratings').doc(String(bookId));
+        const doc = await docRef.get();
+        
+        let newSum = newRating;
+        let newCount = 1;
+        
+        if (doc.exists) {
+            const data = doc.data();
+            const existingVoters = Array.isArray(data.voters) ? data.voters : [];
+            
+            // تحقق إضافي من قاعدة البيانات لمنع التكرار
+            if (existingVoters.includes(uid)) {
+                showToast(currentLang === 'ar' ? 'لقد قمت بتقييم هذا الكتاب مسبقاً.' : 'You have already rated this book.', 'danger');
+                return false;
+            }
+            newSum = (data.ratingSum || 0) + newRating;
+            newCount = (data.ratingCount || 0) + 1;
+        }
 
-        await db.runTransaction(async (transaction) => {
-          const doc = await transaction.get(docRef);
-          
-          if (!doc.exists) {
-            // إنشاء مستند جديد
-            transaction.set(docRef, {
-              ratingSum: newRating,
-              ratingCount: 1,
-              average: newRating,
-              voters: [uid]
-            });
-            return;
-          }
+        // الإرسال الآمن عبر set مع merge لضمان التوافق وتفادي الخطأ 403
+        await docRef.set({
+          ratingSum: newSum,
+          ratingCount: newCount,
+          average: newSum / newCount,
+          voters: firebase.firestore.FieldValue.arrayUnion(uid)
+        }, { merge: true });
 
-          const data = doc.data() || {};
-          const existingVoters = Array.isArray(data.voters) ? data.voters : [];
-
-          if (existingVoters.includes(uid)) {
-            throw new Error('Already voted');
-          }
-
-          const newSum = (data.ratingSum || 0) + newRating;
-          const newCount = (data.ratingCount || 0) + 1;
-          const newVoters = [...existingVoters, uid];
-
-          // استخدام set مع merge بدلاً من update
-          transaction.set(docRef, {
-            ratingSum: newSum,
-            ratingCount: newCount,
-            average: newSum / newCount,
-            voters: newVoters
-          }, { merge: true });
-        });
-
-        // تحديث محلي
-        book.ratingSum = (book.ratingSum || 0) + newRating;
-        book.ratingCount = (book.ratingCount || 0) + 1;
-        book.publicRating = book.ratingSum / book.ratingCount;
+        // التحديث المحلي
+        book.ratingSum = newSum;
+        book.ratingCount = newCount;
+        book.publicRating = newSum / newCount;
         if (!book.voters) book.voters = [];
         book.voters.push(uid);
 
@@ -934,11 +922,7 @@
 
       } catch (error) {
         console.error('Error submitting rating:', error);
-        if (error.message === 'Already voted') {
-          showToast(currentLang === 'ar' ? 'لقد قمت بتقييم هذا الكتاب مسبقاً.' : 'You have already rated this book.', 'danger');
-        } else {
-          showToast(currentLang === 'ar' ? 'حدث خطأ أثناء حفظ التقييم.' : 'Error saving rating.', 'danger');
-        }
+        showToast(currentLang === 'ar' ? 'حدث خطأ أثناء حفظ التقييم.' : 'Error saving rating.', 'danger');
         return false;
       }
     }
