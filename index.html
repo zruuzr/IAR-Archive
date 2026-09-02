@@ -485,14 +485,17 @@
     let currentOpenBookId = null;
     let isSingleView = false;
 
-    // ===== Firebase Auth =====
+    // ===== Firebase Auth (محسنة) =====
     async function initAuth() {
       try {
-        const userCredential = await auth.signInAnonymously();
+        const userCredential = await Promise.race([
+          auth.signInAnonymously(),
+          new Promise((_, reject) => setTimeout(() => reject(new Error('Auth timeout after 5s')), 5000))
+        ]);
         currentUser = userCredential.user;
         console.log('Anonymous auth successful:', currentUser.uid);
       } catch (error) {
-        console.warn('Anonymous auth failed:', error);
+        console.error('Anonymous auth failed or timed out:', error);
       }
     }
 
@@ -683,12 +686,13 @@
       }
     }
 
-    // ===== Firebase Functions =====
+    // ===== Firebase Functions (محسنة مع try/catch و console.error) =====
     async function getSiteVisits() {
       try {
         const doc = await db.collection('stats').doc('visits').get();
         return doc.exists ? doc.data().count || 0 : 0;
       } catch (error) {
+        console.error('Error fetching site visits:', error);
         return parseInt(storage.get('iar_site_visits', '0')) || 0;
       }
     }
@@ -712,31 +716,16 @@
       }
     }
 
-    function isNewVisit() {
-      const lastVisit = parseInt(storage.get('iar_last_visit', '0')) || 0;
-      const now = Date.now();
-      const oneDay = 24 * 60 * 60 * 1000;
-      return (now - lastVisit > oneDay);
-    }
-
-    async function updateSiteVisits() {
-      if (isNewVisit()) {
-        storage.set('iar_last_visit', Date.now());
-        const count = await incrementUniqueVisit();
-        document.getElementById('siteVisitsCounter').innerText = count;
-      } else {
-        const count = await getSiteVisits();
-        document.getElementById('siteVisitsCounter').innerText = count;
-      }
-    }
-
     async function incrementDownloadCount(bookId) {
       try {
         const docRef = db.collection('downloads').doc(String(bookId));
         await docRef.set({ count: firebase.firestore.FieldValue.increment(1) }, { merge: true });
         const doc = await docRef.get();
         return doc.exists ? doc.data().count || 0 : 0;
-      } catch (error) { return null; }
+      } catch (error) {
+        console.error('Error incrementing download count:', error);
+        return null;
+      }
     }
 
     async function loadPublicRatings() {
@@ -752,7 +741,9 @@
             book.voters = data.voters || [];
           }
         });
-      } catch (error) { console.warn('Error loading ratings:', error); }
+      } catch (error) {
+        console.error('Error loading public ratings from Firebase:', error);
+      }
     }
 
     async function loadDownloadCounts() {
@@ -762,7 +753,33 @@
           const book = booksData.find(b => b.id === Number(doc.id));
           if (book) book.downloadCount = doc.data().count || 0;
         });
-      } catch (error) { console.warn('Error loading downloads:', error); }
+      } catch (error) {
+        console.error('Error loading download counts from Firebase:', error);
+      }
+    }
+
+    async function updateSiteVisits() {
+      try {
+        if (isNewVisit()) {
+          storage.set('iar_last_visit', Date.now());
+          const count = await incrementUniqueVisit();
+          document.getElementById('siteVisitsCounter').innerText = count;
+        } else {
+          const count = await getSiteVisits();
+          document.getElementById('siteVisitsCounter').innerText = count;
+        }
+      } catch (error) {
+        console.error('Error updating site visits:', error);
+        const local = parseInt(storage.get('iar_site_visits', '0')) || 0;
+        document.getElementById('siteVisitsCounter').innerText = local;
+      }
+    }
+
+    function isNewVisit() {
+      const lastVisit = parseInt(storage.get('iar_last_visit', '0')) || 0;
+      const now = Date.now();
+      const oneDay = 24 * 60 * 60 * 1000;
+      return (now - lastVisit > oneDay);
     }
 
     async function submitPublicRating(bookId, newRating) {
@@ -770,20 +787,26 @@
         showToast(currentLang === 'ar' ? 'يرجى الانتظار حتى اكتمال تسجيل الدخول.' : 'Please wait for authentication to complete.', 'danger');
         return false;
       }
+
       const book = booksData.find(b => b.id === bookId);
       if (!book) return false;
+
       if (book.voters && book.voters.includes(currentUser.uid)) {
         showToast(currentLang === 'ar' ? 'لقد قمت بتقييم هذا الكتاب مسبقاً.' : 'You have already rated this book.', 'danger');
         return false;
       }
+
       try {
         const docRef = db.collection('ratings').doc(String(bookId));
         await db.runTransaction(async (transaction) => {
           const doc = await transaction.get(docRef);
           let newSum = newRating, newCount = 1, currentVoters = [currentUser.uid];
+
           if (doc.exists) {
             const data = doc.data();
-            if (data.voters && data.voters.includes(currentUser.uid)) throw new Error('Already voted');
+            if (data.voters && data.voters.includes(currentUser.uid)) {
+              throw new Error('Already voted');
+            }
             newSum = (data.ratingSum || 0) + newRating;
             newCount = (data.ratingCount || 0) + 1;
             currentVoters = [...(data.voters || []), currentUser.uid];
@@ -792,6 +815,7 @@
             transaction.set(docRef, { ratingSum: newSum, ratingCount: newCount, average: newRating, voters: currentVoters });
           }
         });
+
         book.ratingSum += newRating;
         book.ratingCount += 1;
         book.publicRating = book.ratingSum / book.ratingCount;
@@ -809,19 +833,23 @@
     function renderStars(bookId, container) {
       const book = booksData.find(b => b.id === bookId);
       const currentRating = book ? Math.round(book.publicRating || 0) : 0;
+      
       container.innerHTML = '';
       for (let i = 1; i <= 5; i++) {
         const star = document.createElement('i');
         star.className = `bi ${i <= currentRating ? 'bi-star-fill active' : 'bi-star'}`;
         star.setAttribute('role', 'button');
         star.setAttribute('aria-label', `${i} ${i18n[currentLang].rateBtn}`);
+        
         star.addEventListener('click', async (e) => {
           e.stopPropagation();
           const success = await submitPublicRating(bookId, i);
           if (success) {
             renderStars(bookId, container);
             showToast(i18n[currentLang].toastRated);
-            if (document.getElementById('sortOrder').value === 'rating') applyFilters();
+            if (document.getElementById('sortOrder').value === 'rating') {
+              applyFilters();
+            }
           }
         });
         container.appendChild(star);
@@ -834,19 +862,118 @@
       }
     }
 
+    // ===== Theme & Language =====
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    let currentTheme = storage.get('iar_theme', 'light') === 'dark' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-bs-theme', currentTheme);
+    updateThemeIcon(currentTheme);
+
+    themeToggleBtn.addEventListener('click', () => {
+      currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-bs-theme', currentTheme);
+      storage.set('iar_theme', currentTheme);
+      updateThemeIcon(currentTheme);
+    });
+
+    function updateThemeIcon(theme) { document.getElementById('themeIcon').className = theme === 'dark' ? 'bi bi-sun fs-6' : 'bi bi-moon fs-6'; }
+
+    const langToggleBtn = document.getElementById('langToggleBtn');
+    function applyLanguage(lang) {
+      currentLang = i18n[lang] ? lang : 'ar';
+      storage.set('iar_lang', currentLang);
+      document.documentElement.setAttribute('lang', currentLang);
+      document.documentElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+
+      document.getElementById('bootstrapCSS').href = currentLang === 'ar' 
+        ? "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" 
+        : "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css";
+      
+      document.getElementById('langLabel').innerText = currentLang === 'ar' ? "EN" : "عربي";
+
+      const t = i18n[currentLang];
+      
+      document.getElementById('txt-announcement').innerText = t.announcement;
+      document.getElementById('txt-subtitle').innerText = t.subtitle;
+      document.getElementById('txt-about-title').innerText = t.aboutTitle;
+      document.getElementById('txt-about-desc').innerText = t.aboutDesc;
+      document.getElementById('txt-stat-books').innerText = t.statBooks;
+      document.getElementById('txt-stat-cats').innerText = t.statCats;
+      document.getElementById('txt-stat-year').innerText = t.statYear;
+      document.getElementById('txt-stat-visits').innerText = t.statVisits;
+      document.getElementById('searchLabel').innerText = t.searchLabel;
+      document.getElementById('opt-sort-default').innerText = t.sortDefault;
+      document.getElementById('opt-sort-title').innerText = t.sortTitle;
+      document.getElementById('opt-sort-year').innerText = t.sortYear;
+      document.getElementById('opt-sort-pages').innerText = t.sortPages;
+      document.getElementById('opt-sort-downloads').innerText = t.sortDownloads;
+      document.getElementById('opt-sort-favorites').innerText = t.sortFavorites;
+      document.getElementById('opt-sort-rating').innerText = t.sortRating;
+      document.getElementById('txt-footer').innerText = t.footerText;
+      document.getElementById('txt-bundle-text').innerHTML = t.bundleText;
+      document.getElementById('txt-bundle-btn').innerText = t.bundleBtn;
+      document.getElementById('summaryModalTitle').innerText = t.modalTitle;
+      document.getElementById('txt-modal-ideas-title').innerHTML = t.modalIdeasTitle;
+      document.getElementById('txt-modal-audience-title').innerHTML = t.modalAudienceTitle;
+      document.getElementById('txt-modal-apa-title').innerHTML = t.modalAPATitle;
+      document.getElementById('txt-modal-close').innerText = t.modalClose;
+      document.getElementById('summaryDismissBtn').setAttribute('aria-label', t.modalClose);
+      document.getElementById('pdfDismissBtn').setAttribute('aria-label', t.modalClose);
+      document.getElementById('txt-loading').innerText = t.loading;
+      document.getElementById('searchInput').placeholder = t.searchPlaceholder;
+      document.getElementById('btnClearSearch').setAttribute('aria-label', t.clearSearch);
+      themeToggleBtn.setAttribute('aria-label', t.themeTooltip);
+      themeToggleBtn.setAttribute('title', t.themeTooltip);
+      document.getElementById('txt-share-modal-btn').innerText = t.shareModalBtn;
+      document.getElementById('txt-back-to-list').innerText = t.backToList;
+      document.getElementById('singleDescLabel').innerText = t.descLabel;
+      document.getElementById('singleKeyPointsLabel').innerText = t.keyPointsLabel;
+      document.getElementById('singleAudienceLabel').innerText = t.audienceLabel;
+      document.getElementById('singleReadLabel').innerText = t.readLabel;
+      document.getElementById('singleDownloadLabel').innerText = t.downloadLabel;
+      document.getElementById('singleCiteLabel').innerText = t.citeLabel;
+      document.getElementById('singleShareLabel').innerText = t.shareLabel;
+      
+      updateViewControls();
+      syncBundleUI();
+      if (booksLoaded && booksData.length > 0) { setupChipsCategories(); applyFilters(); }
+    }
+
+    langToggleBtn.addEventListener('click', () => {
+      const newLang = currentLang === 'ar' ? 'en' : 'ar';
+      storage.set('iar_lang', newLang);
+      window.location.reload();
+    });
+
+    // ===== View Mode =====
+    const btnViewGrid = document.getElementById('btnViewGrid');
+    const btnViewList = document.getElementById('btnViewList');
+    function updateViewControls() {
+      const isGrid = currentViewMode === 'grid';
+      btnViewGrid.classList.toggle('active', isGrid);
+      btnViewList.classList.toggle('active', !isGrid);
+      btnViewGrid.setAttribute('aria-pressed', String(isGrid));
+      btnViewList.setAttribute('aria-pressed', String(!isGrid));
+      btnViewGrid.setAttribute('aria-label', i18n[currentLang].gridView);
+      btnViewList.setAttribute('aria-label', i18n[currentLang].listView);
+    }
+    btnViewGrid.addEventListener('click', () => { currentViewMode = 'grid'; storage.set('iar_view_mode', 'grid'); updateViewControls(); applyFilters(); });
+    btnViewList.addEventListener('click', () => { currentViewMode = 'list'; storage.set('iar_view_mode', 'list'); updateViewControls(); applyFilters(); });
+
+    // ===== Device Detection =====
+    function isMobileDevice() {
+      return /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Tablet/i.test(navigator.userAgent) || 
+             (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    }
+
     // ===== Single Book View =====
     function showSingleBookView(book) {
       isSingleView = true;
-      // إخفاء القائمة والفلاتر
       document.getElementById('booksDisplayContainer').classList.add('d-none');
       document.getElementById('controlsRow').classList.add('d-none');
       document.getElementById('categoryChips').classList.add('d-none');
       document.getElementById('bundleBar').classList.add('d-none');
-      document.getElementById('hero-stats-card')?.classList.add('d-none'); // إذا أردت إخفاء الإحصائيات أيضاً، لكننا نتركها
-      // إظهار حاوية الكتاب الفردي
       document.getElementById('singleBookView').classList.remove('d-none');
       
-      // تعبئة البيانات
       const t = i18n[currentLang];
       document.getElementById('singleBookCover').src = book.cover_image || '';
       document.getElementById('singleBookCover').alt = translateDynamicText(book.title, book.title_en);
@@ -857,30 +984,23 @@
       document.getElementById('singleBookDescription').innerText = translateDynamicText(book.description, book.description_en);
       document.getElementById('singleBookAudience').innerText = translateDynamicText(book.target_audience || t.defaultAudience, book.target_audience_en);
       
-      // Key Points
       const keyPointsList = document.getElementById('singleBookKeyPoints');
       const points = (currentLang === 'en' && book.key_points_en && book.key_points_en.length > 0)
         ? book.key_points_en
         : (book.key_points && book.key_points.length > 0 ? book.key_points : t.defaultPoints);
       keyPointsList.innerHTML = points.map(pt => `<li>${escapeHtml(pt)}</li>`).join('');
       
-      // العدادات
       document.getElementById('singleDownloadCount').innerText = book.downloadCount || 0;
       
-      // النجوم
       const starsContainer = document.getElementById('singleBookStars');
       renderStars(book.id, starsContainer);
       
-      // أزرار
       document.getElementById('singleReadBtn').onclick = () => openPdfReader(book.file_path, translateDynamicText(book.title, book.title_en));
       document.getElementById('singleDownloadBtn').onclick = () => handleDownload(book.id, book.file_path, book.file_name);
       document.getElementById('singleCiteBtn').onclick = () => copyText(`${translateDynamicText(book.author, book.author_en)} (${book.year || '2026'}). ${translateDynamicText(book.title, book.title_en)}. ${translateDynamicText(book.publisher, book.publisher_en) || 'IAR Archive'}.`, t.toastCiteCopied);
       document.getElementById('singleShareBtn').onclick = () => shareBook(book);
       
-      // تحديث عنوان الصفحة
       updatePageTitle(book);
-      
-      // تمرير للأعلى
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -890,9 +1010,7 @@
       document.getElementById('booksDisplayContainer').classList.remove('d-none');
       document.getElementById('controlsRow').classList.remove('d-none');
       document.getElementById('categoryChips').classList.remove('d-none');
-      // bundleBar يبقى مخفي حسب الحالة
       updatePageTitle(null);
-      // إزالة المعامل من الرابط دون إعادة تحميل
       const url = new URL(window.location.href);
       url.searchParams.delete('book');
       window.history.replaceState({}, '', url);
@@ -905,7 +1023,6 @@
       const book = booksData.find(b => b.id === bookId);
       if (!book) {
         console.warn('Book ID not found:', bookId);
-        // إذا لم يوجد، نعرض المكتبة الطبيعية
         hideSingleBookView();
         return;
       }
@@ -928,16 +1045,17 @@
 
     async function handleDownload(bookId, filePath, fileName) {
       if (!filePath) return showToast(i18n[currentLang].fileUnavailable, 'danger');
+      
       const newCount = await incrementDownloadCount(bookId);
       const book = booksData.find(b => b.id === bookId);
       if (book && newCount !== null) {
         book.downloadCount = newCount;
         const countEl = document.getElementById(`downloadCount-${bookId}`);
         if (countEl) countEl.innerText = book.downloadCount;
-        // تحديث العداد في صفحة الكتاب الفردي
         const singleCount = document.getElementById('singleDownloadCount');
         if (singleCount && isSingleView && currentOpenBookId === bookId) singleCount.innerText = book.downloadCount;
       }
+      
       try {
         const response = await fetch(filePath);
         if (!response.ok) throw new Error('Network response was not ok');
@@ -961,7 +1079,6 @@
       }
     }
 
-    // ===== Modal Share Button (لن يستخدم في وضع الصفحة الفردية، لكن نبقيه) =====
     document.getElementById('modalShareBtn').addEventListener('click', () => {
       if (currentOpenBookId !== null) {
         const book = booksData.find(b => b.id === currentOpenBookId);
@@ -983,11 +1100,13 @@
       booksData.forEach(book => labelsByKey.set(getCategoryKey(book), getCategoryLabel(book)));
       const keys = ['all', ...labelsByKey.keys()];
       document.getElementById('catCounter').innerText = keys.length - 1;
+
       container.innerHTML = keys.map(key => `
         <button type="button" class="chip-item ${key === selectedCategory ? 'active' : ''}" 
                 data-category="${escapeHtml(key)}" aria-pressed="${key === selectedCategory}">
           ${escapeHtml(key === 'all' ? i18n[currentLang].allCategories : labelsByKey.get(key))}
         </button>`).join('');
+
       container.querySelectorAll('.chip-item').forEach(chip => {
         chip.addEventListener('click', (e) => {
           container.querySelectorAll('.chip-item').forEach(c => { c.classList.remove('active'); c.setAttribute('aria-pressed', 'false'); });
@@ -1005,7 +1124,9 @@
       const iframe = document.getElementById('pdfFrame');
       const fallbackContainer = document.getElementById('pdfFallbackContainer');
       const fallbackLink = document.getElementById('pdfFallbackLink');
+      
       fallbackLink.href = filePath;
+      
       if (isMobileDevice()) {
         fallbackContainer.style.display = 'block';
         iframe.src = `https://docs.google.com/viewer?url=${encodeURIComponent(new URL(filePath, window.location.href).href)}&embedded=true`;
@@ -1013,6 +1134,7 @@
         fallbackContainer.style.display = 'none';
         iframe.src = filePath;
       }
+      
       iframe.onerror = () => { fallbackContainer.style.display = 'block'; };
       pdfModal.show();
     }
@@ -1031,6 +1153,7 @@
       const title = translateDynamicText(book.title, book.title_en);
       const author = translateDynamicText(book.author, book.author_en);
       const publisher = translateDynamicText(book.publisher || t.defaultPublisher, book.publisher_en);
+
       document.getElementById('summaryBookTitle').innerText = title;
       document.getElementById('summaryBookAuthor').innerText = author;
       document.getElementById('summaryCategory').innerText = translateDynamicText(book.category, book.category_en) || t.generalCat;
@@ -1039,6 +1162,7 @@
       setMetadataChip('summarySize', 'bi-hdd', book.file_size || '-');
       document.getElementById('summaryAudience').innerText = translateDynamicText(book.target_audience || t.defaultAudience, book.target_audience_en);
       document.getElementById('summaryAPA').innerText = `${author} (${book.year || '2026'}). ${title}. ${publisher}.`;
+
       let points = (currentLang === 'en' && book.key_points_en && book.key_points_en.length > 0) ? book.key_points_en : (book.key_points && book.key_points.length > 0 ? book.key_points : t.defaultPoints);
       document.getElementById('summaryKeyPoints').innerHTML = points.map(pt => `<li>${escapeHtml(pt)}</li>`).join('');
       summaryModal.show();
@@ -1060,6 +1184,7 @@
       const availableIds = new Set(booksData.map(b => b.id));
       selectedBundleIds = new Set(rawIds.split(',').map(Number).filter(id => Number.isSafeInteger(id) && availableIds.has(id)));
     }
+    
     document.getElementById('copyBundleBtn').addEventListener('click', async () => {
       const url = new URL(window.location.href);
       url.searchParams.set('bundle', Array.from(selectedBundleIds).join(','));
@@ -1092,27 +1217,35 @@
       const host = document.createElement('div');
       host.className = 'position-fixed bottom-0 start-50 translate-middle-x p-3';
       host.style.zIndex = '99999';
+
       const toast = document.createElement('div');
       toast.className = `toast align-items-center text-bg-${variant} border-0`;
       toast.setAttribute('role', 'alert');
       toast.setAttribute('aria-live', 'assertive');
       toast.setAttribute('aria-atomic', 'true');
+
       const row = document.createElement('div');
       row.className = 'd-flex';
+
       const body = document.createElement('div');
       body.className = 'toast-body';
+
       const icon = document.createElement('i');
       icon.className = `bi ${variant === 'danger' ? 'bi-exclamation-circle' : 'bi-check-circle'} me-2`;
+
       body.append(icon, document.createTextNode(message));
+
       const closeButton = document.createElement('button');
       closeButton.type = 'button';
       closeButton.className = 'btn-close btn-close-white me-2 m-auto';
       closeButton.setAttribute('data-bs-dismiss', 'toast');
       closeButton.setAttribute('aria-label', i18n[currentLang].modalClose);
+
       row.append(body, closeButton);
       toast.appendChild(row);
       host.appendChild(toast);
       document.body.appendChild(host);
+
       toast.addEventListener('hidden.bs.toast', () => host.remove());
       bootstrap.Toast.getOrCreateInstance(toast, { delay: 4000 }).show();
     }
@@ -1126,10 +1259,13 @@
       const title = translateDynamicText(book.title, book.title_en);
       const author = translateDynamicText(book.author, book.author_en);
       const publisher = translateDynamicText(book.publisher || t.defaultPublisher, book.publisher_en);
+      
       switch (trigger.getAttribute('data-action')) {
         case 'read': openPdfReader(book.file_path, title); break;
         case 'summary': openSummaryModal(book.id); break;
-        case 'cite': copyText(`${author} (${book.year || '2026'}). ${title}. ${publisher}.`, t.toastCiteCopied); break;
+        case 'cite': 
+          copyText(`${author} (${book.year || '2026'}). ${title}. ${publisher}.`, t.toastCiteCopied);
+          break;
         case 'cover-zoom': if (book.cover_image) openCoverImage(book.cover_image, title); break;
         case 'favorite': toggleFavorite(book.id); break;
         case 'share': shareBook(book); break;
@@ -1146,6 +1282,7 @@
       const container = document.getElementById('booksDisplayContainer');
       const t = i18n[currentLang];
       if (books.length === 0) return container.innerHTML = `<p class="text-center text-muted py-5">${t.noBooks}</p>`;
+
       if (currentViewMode === 'grid') {
         container.innerHTML = `<div class="row g-4">${books.map(book => {
           let title = escapeHtml(translateDynamicText(book.title, book.title_en));
@@ -1154,12 +1291,14 @@
           let publisher = escapeHtml(translateDynamicText(book.publisher || t.defaultPublisher, book.publisher_en));
           let type = escapeHtml(translateDynamicText(book.type || t.defaultType, book.type_en));
           const isFav = isFavorite(book.id);
+          
           const coverHtml = book.cover_image 
             ? `<div class="cover-img-wrapper" data-action="cover-zoom" data-id="${book.id}">
                  <img src="${escapeHtml(book.cover_image)}" class="cover-img" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                  <div class="cover-placeholder" style="display:none;"><i class="bi bi-journal-x"></i></div>
                </div>`
             : `<div class="cover-placeholder"><i class="bi bi-book"></i></div>`;
+
           const downloadControl = book.file_path
             ? `<button type="button" data-action="download" data-id="${book.id}" class="btn btn-iar-primary w-100 text-center d-flex align-items-center justify-content-center">
                  <i class="bi bi-download me-1" aria-hidden="true"></i>
@@ -1167,6 +1306,7 @@
                  <span class="badge bg-light text-dark ms-2 px-2 py-1" id="downloadCount-${book.id}">${book.downloadCount || 0}</span>
                </button>`
             : `<button type="button" class="btn btn-iar-primary w-100" disabled aria-disabled="true"><i class="bi bi-download me-1"></i>${t.downloadBtn}</button>`;
+
           return `
             <div class="col-lg-6">
               <div class="card h-100 book-card d-flex flex-column justify-content-between">
@@ -1219,6 +1359,7 @@
                        <span class="badge bg-light text-dark ms-1 px-1" id="downloadCount-${book.id}">${book.downloadCount || 0}</span>
                      </button>`
                   : `<button type="button" class="btn btn-primary btn-sm" disabled aria-disabled="true" aria-label="${t.downloadBtn}"><i class="bi bi-download"></i></button>`;
+
                 return `
                 <tr>
                   <td><input class="form-check-input" type="checkbox" ${selectedBundleIds.has(book.id) ? 'checked' : ''} data-action="bundle" data-id="${book.id}" aria-label="${escapeHtml(t.selectBundle)}"></td>
@@ -1251,11 +1392,13 @@
       if (!booksData.length || isSingleView) return;
       const query = searchInput.value.trim().toLocaleLowerCase(currentLang);
       const sortValue = document.getElementById('sortOrder').value;
+
       let filtered = booksData.filter(book => {
         const keywords = currentLang === 'en' && book.keywords_en.length > 0 ? book.keywords_en.join(' ') : book.keywords.join(' ');
         const searchableText = `${translateDynamicText(book.title, book.title_en)} ${translateDynamicText(book.author, book.author_en)} ${translateDynamicText(book.publisher, book.publisher_en)} ${translateDynamicText(book.description, book.description_en)} ${keywords}`.toLocaleLowerCase(currentLang);
         return (query === '' || searchableText.includes(query)) && (selectedCategory === 'all' || getCategoryKey(book) === selectedCategory);
       });
+
       const sortMap = {
         'title': (a, b) => translateDynamicText(a.title, a.title_en).localeCompare(translateDynamicText(b.title, b.title_en), currentLang),
         'year': (a, b) => (parseInt(b.year) || 0) - (parseInt(a.year) || 0),
@@ -1283,14 +1426,74 @@
     // ===== زر العودة للقائمة =====
     document.getElementById('btnBackToList').addEventListener('click', hideSingleBookView);
 
+    // ===== Fetch and Process Books (محسنة مع فصل Firebase وعرض محلي فوري) =====
+    async function fetchBooks() {
+      const loadingEl = document.getElementById('booksLoading');
+      const container = document.getElementById('booksDisplayContainer');
+
+      if (loadingEl) loadingEl.style.display = 'none';
+
+      try {
+        const response = await fetch('./books.json', { headers: { Accept: 'application/json' } });
+        if (!response.ok) throw new Error(`books.json request failed (${response.status})`);
+
+        const payload = await response.json();
+        if (!Array.isArray(payload)) throw new Error('books.json must contain an array');
+
+        const usedIds = new Set();
+        booksData = payload.map(normalizeBook).filter(Boolean).filter(book => {
+          if (usedIds.has(book.id)) return false;
+          usedIds.add(book.id);
+          return true;
+        });
+
+        booksLoaded = true;
+
+        hydrateBundleFromUrl();
+        syncBundleUI();
+        setupChipsCategories();
+        document.getElementById('booksCounter').innerText = booksData.length;
+
+        applyFilters();
+
+        if (loadingEl) loadingEl.style.display = 'none';
+
+        const firebaseTasks = [
+          loadPublicRatings(),
+          loadDownloadCounts(),
+          updateSiteVisits()
+        ];
+
+        Promise.allSettled(firebaseTasks).then(results => {
+          results.forEach((result, index) => {
+            if (result.status === 'rejected') {
+              console.error(`Firebase task ${index} failed:`, result.reason);
+            }
+          });
+          if (booksLoaded) {
+            applyFilters();
+          }
+        });
+
+        handleDeepLinking();
+
+      } catch (error) {
+        console.error('Critical error loading books.json:', error);
+        container.innerHTML = `<div class="alert alert-danger text-center py-5">
+          <i class="bi bi-exclamation-triangle me-2"></i> 
+          ${i18n[currentLang].errorMsg || 'تعذر تحميل البيانات المحلية'}
+        </div>`;
+        if (loadingEl) loadingEl.style.display = 'none';
+      } finally {
+        if (loadingEl) loadingEl.style.display = 'none';
+      }
+    }
+
     // ===== Initialize =====
-    initAuth().then(() => {
-      applyLanguage(currentLang);
-      fetchBooks();
-    }).catch(() => {
-      applyLanguage(currentLang);
-      fetchBooks();
-    });
+    initAuth(); // في الخلفية
+
+    applyLanguage(currentLang);
+    fetchBooks(); // تشغيل مباشر دون انتظار
   </script>
 </body>
 </html>
