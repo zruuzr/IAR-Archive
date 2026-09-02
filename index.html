@@ -129,7 +129,55 @@
     .rating-stars i.active { color: var(--star); }
     .rating-stars i:hover { transform: scale(1.2); }
 
-    footer { margin-top: auto; background-color: var(--primary); color: #94a3b8; padding: 2rem 0; border-top: 1px solid var(--border); }
+    /* ===== تنسيقات الـ Footer المحسّنة ===== */
+    .footer-iar {
+      background-color: var(--primary);
+      border-top: 1px solid var(--border);
+      color: #e2e8f0;
+      padding: 2rem 0;
+      margin-top: auto;
+    }
+
+    .footer-iar .brand-title {
+      color: #ffffff !important;
+      font-weight: 900;
+      font-size: 1.45rem;
+    }
+
+    .footer-iar .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-iar .social-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.05);
+      color: #e2e8f0;
+      font-size: 1.4rem;
+      text-decoration: none;
+      transition: all 0.25s ease;
+    }
+
+    .footer-iar .social-icon:hover {
+      background-color: rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .footer-iar .copyright {
+      color: #94a3b8;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
 
     /* تنسيقات صفحة الكتاب الفردي */
     #singleBookView {
@@ -436,10 +484,18 @@
   </div>
 
   <!-- Footer -->
-  <footer class="text-center">
-    <div class="container">
-      <div class="brand-title mb-1">IAR Archive</div>
-      <p class="mb-0 small text-muted" id="txt-footer">الأرشيف الإداري العراقي - المستودع الرقمي المتخصص في العلوم الإدارية</p>
+  <footer class="footer-iar text-center">
+    <div class="container py-4">
+      <div class="brand-title mb-2">IAR Archive</div>
+      <div class="social-links mb-3">
+        <a href="https://t.me/iarArchive" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Telegram">
+          <i class="bi bi-telegram"></i>
+        </a>
+        <a href="https://github.com/zruuzr/IAR-Archive" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="GitHub">
+          <i class="bi bi-github"></i>
+        </a>
+      </div>
+      <p class="copyright mb-0">© 2026 Zenvex</p>
     </div>
   </footer>
 
