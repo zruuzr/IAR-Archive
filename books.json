@@ -36,7 +36,7 @@
     ],
     "key_points": [
       "آليات التغلب على التوتر والتصرف بشجاعة أمام الجمهور.",
-      "طرق التحضير الصحيح للخطاب واختيار الموضوع والتفكير الهادف.",
+      "طرق التحضير الصحيح للخطاب وااختيار الموضوع والتفكير الهادف.",
       "قوانين التذكر الطبيعية (الانطباع، التكرار، ترابط الأفكار) لترتيب عناصر الخطاب.",
       "مبادئ الإلقاء الجيد، وتنسيق الصوت، وتجنب التكلف لاستحواذ اهتمام المستمعين."
     ],
@@ -213,5 +213,61 @@
     "target_audience_en": "Executive managers, academics, researchers in management thought & social theory, and business students.",
     "cover_image": "covers/4.png",
     "file_path": "pdf/Peter Drucker and Management.pdf"
+  },
+  {
+    "id": 5,
+    "title": "الناس والأداء: أفضل ما كتب بيتر دروكر في الإدارة",
+    "title_en": "People and Performance: The Best of Peter Drucker on Management",
+    "author": "بيتر ف. دروكر",
+    "author_en": "Peter F. Drucker",
+    "category": "الإدارة العامة والسلوك التنظيمي",
+    "category_en": "General Management & Organizational Behavior",
+    "type": "مرجع إداري شامل / مختارات إدارية",
+    "type_en": "Comprehensive Management Reference / Selected Readings",
+    "description": "مجموعة مختارة من أبرز مقالات وكتابات بيتر دروكر في الإدارة، تقدم إطاراً متكاملاً حول مفهوم الإدارة ونشأتها، مهام ووظائف المدير، أهداف وطبيعة المؤسسة التجارية، إدارة عمال المعرفة، والتنظيم الفعال، بالإضافة إلى المسئولية الاجتماعية والأخلاقية للإدارة في المجتمع المعاصر.",
+    "description_en": "A curated selection of Peter Drucker's foundational writings on management, providing an integrated framework on the concept and emergence of management, the manager's role and tasks, defining business purpose, managing knowledge workers, effective organization, and social responsibility.",
+    "publisher": "روتليدج (مجموعة تايلور وفرانسيس)",
+    "publisher_en": "Routledge (Taylor & Francis Group)",
+    "year": "1977",
+    "pages": "368",
+    "file_size": "38.4 MB",
+    "file_type": "PDF",
+    "isbn": "9780750625029",
+    "keywords": [
+      "الناس والأداء",
+      "بيتر دروكر",
+      "الإدارة بالأهداف",
+      "عمال المعرفة",
+      "التسويق والابتكار",
+      "الإدارة التنفيذية",
+      "المسؤولية الاجتماعية"
+    ],
+    "keywords_en": [
+      "People and Performance",
+      "Peter Drucker",
+      "Management by Objectives",
+      "Knowledge Workers",
+      "Marketing and Innovation",
+      "Executive Management",
+      "Social Responsibility"
+    ],
+    "key_points": [
+      "مفهوم الإدارة ونشأتها التاريخية كعضو حاسم في المجتمع المؤسسي الحديث.",
+      "الأبعاد الرئيسية لعمل المدير: تحديد الأهداف، التنظيم، التحفيز، قياس الأداء، وتطوير الأفراد.",
+      "تحديد غرض المؤسسة التجارية (خلق العميل) ووظيفتيها الأساسيتين (التسويق والابتكار).",
+      "مبادئ التنظيم الفعال وإدارة عمال المعرفة واستغلال نقاط القوة الشخصية لتحقيق الإنجاز.",
+      "المسؤولية الاجتماعية وأخلاقيات الإدارة والتكيف مع التغيرات في البيئات متعددة الثقافات."
+    ],
+    "key_points_en": [
+      "Core concepts of management and its historical evolution in modern institutional society.",
+      "Major dimensions of a manager's job: setting objectives, organizing, motivating, measuring, and developing people.",
+      "Defining business purpose (creating a customer) through its primary functions: marketing and innovation.",
+      "Principles of effective organization, managing knowledge workers, and leveraging human strengths.",
+      "Social responsibilities, ethics of management, and navigating multicultural global environments."
+    ],
+    "target_audience": "المدراء التنفيذيون، القادة الإداريون، عمال المعرفة، أساتذة وطلاب إدارة الأعمال، والمهتمون بفلسفة وتطبيقات الإدارة الحديثة.",
+    "target_audience_en": "Executive managers, organizational leaders, knowledge workers, business academics, students, and professionals interested in management theory and practice.",
+    "cover_image": "covers/5.png",
+    "file_path": "pdf/People and performance.pdf"
   }
 ]
