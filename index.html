@@ -130,6 +130,73 @@
     .rating-stars i:hover { transform: scale(1.2); }
 
     footer { margin-top: auto; background-color: var(--primary); color: #94a3b8; padding: 2rem 0; border-top: 1px solid var(--border); }
+
+    /* تنسيقات صفحة الكتاب الفردي */
+    #singleBookView {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: var(--card-shadow);
+    }
+    .single-cover {
+      width: 100%;
+      max-width: 320px;
+      margin: 0 auto;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+    .single-cover img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+    .single-book-title {
+      font-size: 1.75rem;
+      font-weight: 900;
+      color: var(--text);
+    }
+    .single-book-author {
+      font-size: 1rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+    .single-detail-section {
+      background: var(--bg);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .single-detail-section h6 {
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+    .single-detail-section p,
+    .single-detail-section li {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      border-radius: 30px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-back:hover {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; } }
   </style>
 </head>
@@ -211,7 +278,7 @@
     </div>
 
     <!-- Controls Row -->
-    <div class="row g-3 mb-3 align-items-center">
+    <div class="row g-3 mb-3 align-items-center" id="controlsRow">
       <div class="col-md-7">
         <div class="input-group">
           <span class="input-group-text bg-body border-end-0 text-muted"><i class="bi bi-search"></i></span>
@@ -247,6 +314,50 @@
     <!-- Books Grid -->
     <div id="booksDisplayContainer">
       <div class="text-center text-muted py-5" role="status" id="booksLoading"><span class="spinner-border spinner-border-sm ms-2" aria-hidden="true"></span><span id="txt-loading">جارٍ تحميل المراجع…</span></div>
+    </div>
+
+    <!-- Single Book View (مخفي افتراضياً) -->
+    <div id="singleBookView" class="d-none">
+      <button class="btn-back mb-4" id="btnBackToList" type="button">
+        <i class="bi bi-arrow-right"></i> <span id="txt-back-to-list">العودة إلى جميع المراجع</span>
+      </button>
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <div class="single-cover">
+            <img id="singleBookCover" src="" alt="غلاف الكتاب">
+          </div>
+          <div class="text-center mt-3">
+            <div class="rating-stars justify-content-center" id="singleBookStars"></div>
+            <small class="text-muted" id="singleBookRatingCount"></small>
+          </div>
+        </div>
+        <div class="col-lg-8">
+          <h1 class="single-book-title mb-2" id="singleBookTitle"></h1>
+          <p class="single-book-author mb-3"><i class="bi bi-person me-1"></i> <span id="singleBookAuthor"></span></p>
+          <div class="d-flex flex-wrap gap-2 mb-3">
+            <span class="badge-tag" id="singleBookCategory"></span>
+            <span class="badge-type" id="singleBookType"></span>
+          </div>
+          <div class="single-detail-section">
+            <h6><i class="bi bi-file-earmark-text me-1"></i> <span id="singleDescLabel">الوصف</span></h6>
+            <p id="singleBookDescription"></p>
+          </div>
+          <div class="single-detail-section">
+            <h6><i class="bi bi-lightbulb me-1"></i> <span id="singleKeyPointsLabel">الأفكار الرئيسية</span></h6>
+            <ul id="singleBookKeyPoints" class="mb-0"></ul>
+          </div>
+          <div class="single-detail-section">
+            <h6><i class="bi bi-award me-1"></i> <span id="singleAudienceLabel">الفئة المستهدفة</span></h6>
+            <p id="singleBookAudience"></p>
+          </div>
+          <div class="d-flex flex-wrap gap-2 mt-4">
+            <button class="btn btn-iar-primary px-4 py-2" id="singleReadBtn"><i class="bi bi-eye me-1"></i> <span id="singleReadLabel">قراءة</span></button>
+            <button class="btn btn-iar-primary px-4 py-2" id="singleDownloadBtn"><i class="bi bi-download me-1"></i> <span id="singleDownloadLabel">تحميل</span> <span id="singleDownloadCount" class="badge bg-light text-dark ms-1"></span></button>
+            <button class="btn btn-iar-action px-4 py-2" id="singleCiteBtn"><i class="bi bi-quote me-1"></i> <span id="singleCiteLabel">توثيق APA</span></button>
+            <button class="btn btn-iar-action px-4 py-2" id="singleShareBtn"><i class="bi bi-share me-1"></i> <span id="singleShareLabel">مشاركة</span></button>
+          </div>
+        </div>
+      </div>
     </div>
 
   </main>
@@ -371,7 +482,8 @@
     let selectedCategory = 'all';
     let booksLoaded = false;
     let currentUser = null;
-    let currentOpenBookId = null; // لتتبع الكتاب المفتوح حالياً في الملخص
+    let currentOpenBookId = null;
+    let isSingleView = false;
 
     // ===== Firebase Auth =====
     async function initAuth() {
@@ -421,7 +533,15 @@
         defaultPoints: ["التحليل الهيكلي والتنظيمي للمؤسسات الحديثة.", "طرق صياغة القرارات الإدارية وتوزيع الصلاحيات.", "آليات التقييم والتطوير المؤسسي المستمر."],
         pagesSuffix: "صفحة", toastCopyFailed: "تعذّر النسخ تلقائيًا. انسخ الرابط من شريط العنوان.",
         viewCover: "عرض الغلاف", shareTitle: "مشاركة الكتاب", shareText: "ألق نظرة على هذا الكتاب:",
-        shareModalBtn: "مشاركة"
+        shareModalBtn: "مشاركة",
+        backToList: "العودة إلى جميع المراجع",
+        descLabel: "الوصف",
+        keyPointsLabel: "الأفكار الرئيسية",
+        audienceLabel: "الفئة المستهدفة",
+        readLabel: "قراءة",
+        downloadLabel: "تحميل",
+        citeLabel: "توثيق APA",
+        shareLabel: "مشاركة"
       },
       en: {
         announcement: "IAR Archive - Interactive Digital Repository for Management & Reference Sciences",
@@ -451,7 +571,15 @@
         defaultPoints: ["Structural and organizational analysis of modern institutions.", "Methods of administrative decision-making and delegation of authority.", "Continuous institutional assessment and development mechanisms."],
         pagesSuffix: "Pages", toastCopyFailed: "Automatic copy failed. Please copy the link from the address bar.",
         viewCover: "View cover", shareTitle: "Share this book", shareText: "Check out this book:",
-        shareModalBtn: "Share"
+        shareModalBtn: "Share",
+        backToList: "Back to all references",
+        descLabel: "Description",
+        keyPointsLabel: "Key Concepts",
+        audienceLabel: "Target Audience",
+        readLabel: "Read",
+        downloadLabel: "Download",
+        citeLabel: "Cite APA",
+        shareLabel: "Share"
       }
     };
 
@@ -532,9 +660,7 @@
       const bookParam = params.get('book');
       if (bookParam !== null) {
         const id = Number(bookParam);
-        if (Number.isSafeInteger(id) && id >= 0) {
-          return id;
-        }
+        if (Number.isSafeInteger(id) && id >= 0) return id;
       }
       return null;
     }
@@ -549,7 +675,6 @@
       if (book) {
         const title = translateDynamicText(book.title, book.title_en);
         document.getElementById('pageTitle').innerText = `${title} | IAR Archive`;
-        // تحديث meta description
         const desc = translateDynamicText(book.description, book.description_en);
         let metaDesc = document.querySelector('meta[name="description"]');
         if (metaDesc) metaDesc.setAttribute('content', desc.substring(0, 160));
@@ -645,26 +770,20 @@
         showToast(currentLang === 'ar' ? 'يرجى الانتظار حتى اكتمال تسجيل الدخول.' : 'Please wait for authentication to complete.', 'danger');
         return false;
       }
-
       const book = booksData.find(b => b.id === bookId);
       if (!book) return false;
-
       if (book.voters && book.voters.includes(currentUser.uid)) {
         showToast(currentLang === 'ar' ? 'لقد قمت بتقييم هذا الكتاب مسبقاً.' : 'You have already rated this book.', 'danger');
         return false;
       }
-
       try {
         const docRef = db.collection('ratings').doc(String(bookId));
         await db.runTransaction(async (transaction) => {
           const doc = await transaction.get(docRef);
           let newSum = newRating, newCount = 1, currentVoters = [currentUser.uid];
-
           if (doc.exists) {
             const data = doc.data();
-            if (data.voters && data.voters.includes(currentUser.uid)) {
-              throw new Error('Already voted');
-            }
+            if (data.voters && data.voters.includes(currentUser.uid)) throw new Error('Already voted');
             newSum = (data.ratingSum || 0) + newRating;
             newCount = (data.ratingCount || 0) + 1;
             currentVoters = [...(data.voters || []), currentUser.uid];
@@ -673,7 +792,6 @@
             transaction.set(docRef, { ratingSum: newSum, ratingCount: newCount, average: newRating, voters: currentVoters });
           }
         });
-
         book.ratingSum += newRating;
         book.ratingCount += 1;
         book.publicRating = book.ratingSum / book.ratingCount;
@@ -691,23 +809,19 @@
     function renderStars(bookId, container) {
       const book = booksData.find(b => b.id === bookId);
       const currentRating = book ? Math.round(book.publicRating || 0) : 0;
-      
       container.innerHTML = '';
       for (let i = 1; i <= 5; i++) {
         const star = document.createElement('i');
         star.className = `bi ${i <= currentRating ? 'bi-star-fill active' : 'bi-star'}`;
         star.setAttribute('role', 'button');
         star.setAttribute('aria-label', `${i} ${i18n[currentLang].rateBtn}`);
-        
         star.addEventListener('click', async (e) => {
           e.stopPropagation();
           const success = await submitPublicRating(bookId, i);
           if (success) {
             renderStars(bookId, container);
             showToast(i18n[currentLang].toastRated);
-            if (document.getElementById('sortOrder').value === 'rating') {
-              applyFilters();
-            }
+            if (document.getElementById('sortOrder').value === 'rating') applyFilters();
           }
         });
         container.appendChild(star);
@@ -720,158 +834,82 @@
       }
     }
 
-    // ===== Theme & Language =====
-    const themeToggleBtn = document.getElementById('themeToggleBtn');
-    let currentTheme = storage.get('iar_theme', 'light') === 'dark' ? 'dark' : 'light';
-    document.documentElement.setAttribute('data-bs-theme', currentTheme);
-    updateThemeIcon(currentTheme);
-
-    themeToggleBtn.addEventListener('click', () => {
-      currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-bs-theme', currentTheme);
-      storage.set('iar_theme', currentTheme);
-      updateThemeIcon(currentTheme);
-    });
-
-    function updateThemeIcon(theme) { document.getElementById('themeIcon').className = theme === 'dark' ? 'bi bi-sun fs-6' : 'bi bi-moon fs-6'; }
-
-    const langToggleBtn = document.getElementById('langToggleBtn');
-    function applyLanguage(lang) {
-      currentLang = i18n[lang] ? lang : 'ar';
-      storage.set('iar_lang', currentLang);
-      document.documentElement.setAttribute('lang', currentLang);
-      document.documentElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
-
-      document.getElementById('bootstrapCSS').href = currentLang === 'ar' 
-        ? "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" 
-        : "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css";
+    // ===== Single Book View =====
+    function showSingleBookView(book) {
+      isSingleView = true;
+      // إخفاء القائمة والفلاتر
+      document.getElementById('booksDisplayContainer').classList.add('d-none');
+      document.getElementById('controlsRow').classList.add('d-none');
+      document.getElementById('categoryChips').classList.add('d-none');
+      document.getElementById('bundleBar').classList.add('d-none');
+      document.getElementById('hero-stats-card')?.classList.add('d-none'); // إذا أردت إخفاء الإحصائيات أيضاً، لكننا نتركها
+      // إظهار حاوية الكتاب الفردي
+      document.getElementById('singleBookView').classList.remove('d-none');
       
-      document.getElementById('langLabel').innerText = currentLang === 'ar' ? "EN" : "عربي";
-
+      // تعبئة البيانات
       const t = i18n[currentLang];
+      document.getElementById('singleBookCover').src = book.cover_image || '';
+      document.getElementById('singleBookCover').alt = translateDynamicText(book.title, book.title_en);
+      document.getElementById('singleBookTitle').innerText = translateDynamicText(book.title, book.title_en);
+      document.getElementById('singleBookAuthor').innerText = translateDynamicText(book.author, book.author_en);
+      document.getElementById('singleBookCategory').innerText = translateDynamicText(book.category, book.category_en) || t.generalCat;
+      document.getElementById('singleBookType').innerText = translateDynamicText(book.type || t.defaultType, book.type_en);
+      document.getElementById('singleBookDescription').innerText = translateDynamicText(book.description, book.description_en);
+      document.getElementById('singleBookAudience').innerText = translateDynamicText(book.target_audience || t.defaultAudience, book.target_audience_en);
       
-      document.getElementById('txt-announcement').innerText = t.announcement;
-      document.getElementById('txt-subtitle').innerText = t.subtitle;
-      document.getElementById('txt-about-title').innerText = t.aboutTitle;
-      document.getElementById('txt-about-desc').innerText = t.aboutDesc;
-      document.getElementById('txt-stat-books').innerText = t.statBooks;
-      document.getElementById('txt-stat-cats').innerText = t.statCats;
-      document.getElementById('txt-stat-year').innerText = t.statYear;
-      document.getElementById('txt-stat-visits').innerText = t.statVisits;
-      document.getElementById('searchLabel').innerText = t.searchLabel;
-      document.getElementById('opt-sort-default').innerText = t.sortDefault;
-      document.getElementById('opt-sort-title').innerText = t.sortTitle;
-      document.getElementById('opt-sort-year').innerText = t.sortYear;
-      document.getElementById('opt-sort-pages').innerText = t.sortPages;
-      document.getElementById('opt-sort-downloads').innerText = t.sortDownloads;
-      document.getElementById('opt-sort-favorites').innerText = t.sortFavorites;
-      document.getElementById('opt-sort-rating').innerText = t.sortRating;
-      document.getElementById('txt-footer').innerText = t.footerText;
-      document.getElementById('txt-bundle-text').innerHTML = t.bundleText;
-      document.getElementById('txt-bundle-btn').innerText = t.bundleBtn;
-      document.getElementById('summaryModalTitle').innerText = t.modalTitle;
-      document.getElementById('txt-modal-ideas-title').innerHTML = t.modalIdeasTitle;
-      document.getElementById('txt-modal-audience-title').innerHTML = t.modalAudienceTitle;
-      document.getElementById('txt-modal-apa-title').innerHTML = t.modalAPATitle;
-      document.getElementById('txt-modal-close').innerText = t.modalClose;
-      document.getElementById('summaryDismissBtn').setAttribute('aria-label', t.modalClose);
-      document.getElementById('pdfDismissBtn').setAttribute('aria-label', t.modalClose);
-      document.getElementById('txt-loading').innerText = t.loading;
-      document.getElementById('searchInput').placeholder = t.searchPlaceholder;
-      document.getElementById('btnClearSearch').setAttribute('aria-label', t.clearSearch);
-      themeToggleBtn.setAttribute('aria-label', t.themeTooltip);
-      themeToggleBtn.setAttribute('title', t.themeTooltip);
-      document.getElementById('txt-share-modal-btn').innerText = t.shareModalBtn;
+      // Key Points
+      const keyPointsList = document.getElementById('singleBookKeyPoints');
+      const points = (currentLang === 'en' && book.key_points_en && book.key_points_en.length > 0)
+        ? book.key_points_en
+        : (book.key_points && book.key_points.length > 0 ? book.key_points : t.defaultPoints);
+      keyPointsList.innerHTML = points.map(pt => `<li>${escapeHtml(pt)}</li>`).join('');
       
-      updateViewControls();
-      syncBundleUI();
-      if (booksLoaded && booksData.length > 0) { setupChipsCategories(); applyFilters(); }
+      // العدادات
+      document.getElementById('singleDownloadCount').innerText = book.downloadCount || 0;
+      
+      // النجوم
+      const starsContainer = document.getElementById('singleBookStars');
+      renderStars(book.id, starsContainer);
+      
+      // أزرار
+      document.getElementById('singleReadBtn').onclick = () => openPdfReader(book.file_path, translateDynamicText(book.title, book.title_en));
+      document.getElementById('singleDownloadBtn').onclick = () => handleDownload(book.id, book.file_path, book.file_name);
+      document.getElementById('singleCiteBtn').onclick = () => copyText(`${translateDynamicText(book.author, book.author_en)} (${book.year || '2026'}). ${translateDynamicText(book.title, book.title_en)}. ${translateDynamicText(book.publisher, book.publisher_en) || 'IAR Archive'}.`, t.toastCiteCopied);
+      document.getElementById('singleShareBtn').onclick = () => shareBook(book);
+      
+      // تحديث عنوان الصفحة
+      updatePageTitle(book);
+      
+      // تمرير للأعلى
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    langToggleBtn.addEventListener('click', () => {
-      const newLang = currentLang === 'ar' ? 'en' : 'ar';
-      storage.set('iar_lang', newLang);
-      window.location.reload();
-    });
-
-    // ===== View Mode =====
-    const btnViewGrid = document.getElementById('btnViewGrid');
-    const btnViewList = document.getElementById('btnViewList');
-    function updateViewControls() {
-      const isGrid = currentViewMode === 'grid';
-      btnViewGrid.classList.toggle('active', isGrid);
-      btnViewList.classList.toggle('active', !isGrid);
-      btnViewGrid.setAttribute('aria-pressed', String(isGrid));
-      btnViewList.setAttribute('aria-pressed', String(!isGrid));
-      btnViewGrid.setAttribute('aria-label', i18n[currentLang].gridView);
-      btnViewList.setAttribute('aria-label', i18n[currentLang].listView);
-    }
-    btnViewGrid.addEventListener('click', () => { currentViewMode = 'grid'; storage.set('iar_view_mode', 'grid'); updateViewControls(); applyFilters(); });
-    btnViewList.addEventListener('click', () => { currentViewMode = 'list'; storage.set('iar_view_mode', 'list'); updateViewControls(); applyFilters(); });
-
-    // ===== Device Detection =====
-    function isMobileDevice() {
-      return /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Tablet/i.test(navigator.userAgent) || 
-             (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-    }
-
-    // ===== App Init =====
-    async function fetchBooks() {
-      try {
-        const response = await fetch('./books.json', { headers: { Accept: 'application/json' } });
-        if (!response.ok) throw new Error(`books.json request failed (${response.status})`);
-        const payload = await response.json();
-        
-        const usedIds = new Set();
-        booksData = payload.map(normalizeBook).filter(Boolean).filter(book => {
-          if (usedIds.has(book.id)) return false;
-          usedIds.add(book.id);
-          return true;
-        });
-        
-        booksLoaded = true;
-        hydrateBundleFromUrl();
-        syncBundleUI();
-        setupChipsCategories();
-        document.getElementById('booksCounter').innerText = booksData.length;
-        
-        await Promise.all([ loadPublicRatings(), loadDownloadCounts(), updateSiteVisits() ]);
-        applyFilters();
-        
-        // ===== معالجة Deep Linking =====
-        handleDeepLinking();
-      } catch (error) {
-        console.error('Fetch error:', error);
-        document.getElementById('booksDisplayContainer').innerHTML = `<p class="text-center text-danger py-5">${i18n[currentLang].errorMsg}</p>`;
-      }
+    function hideSingleBookView() {
+      isSingleView = false;
+      document.getElementById('singleBookView').classList.add('d-none');
+      document.getElementById('booksDisplayContainer').classList.remove('d-none');
+      document.getElementById('controlsRow').classList.remove('d-none');
+      document.getElementById('categoryChips').classList.remove('d-none');
+      // bundleBar يبقى مخفي حسب الحالة
+      updatePageTitle(null);
+      // إزالة المعامل من الرابط دون إعادة تحميل
+      const url = new URL(window.location.href);
+      url.searchParams.delete('book');
+      window.history.replaceState({}, '', url);
     }
 
     // ===== Deep Linking Handler =====
     function handleDeepLinking() {
       const bookId = getBookIdFromUrl();
       if (bookId === null) return;
-      
       const book = booksData.find(b => b.id === bookId);
       if (!book) {
-        // معرف غير موجود: تجاهل وعد للصفحة الرئيسية
         console.warn('Book ID not found:', bookId);
+        // إذا لم يوجد، نعرض المكتبة الطبيعية
+        hideSingleBookView();
         return;
       }
-      
-      // تحديث عنوان الصفحة
-      updatePageTitle(book);
-      
-      // فتح نافذة الملخص تلقائياً
-      currentOpenBookId = book.id;
-      openSummaryModal(book.id);
-      
-      // تمرير للنافذة بعد فتحها
-      setTimeout(() => {
-        const modalEl = document.getElementById('summaryModal');
-        if (modalEl && modalEl.classList.contains('show')) {
-          // تم الفتح
-        }
-      }, 300);
+      showSingleBookView(book);
     }
 
     // ===== Share Function =====
@@ -881,7 +919,6 @@
       const author = translateDynamicText(book.author, book.author_en);
       const url = generateBookUrl(book.id);
       const shareText = `${i18n[currentLang].shareText} "${title}" - ${author}\n${url}`;
-      
       if (navigator.share) {
         navigator.share({ title, text: shareText, url: url }).catch(() => {});
       } else {
@@ -889,25 +926,18 @@
       }
     }
 
-    // ===== Modal Share Button =====
-    document.getElementById('modalShareBtn').addEventListener('click', () => {
-      if (currentOpenBookId !== null) {
-        const book = booksData.find(b => b.id === currentOpenBookId);
-        if (book) shareBook(book);
-      }
-    });
-
     async function handleDownload(bookId, filePath, fileName) {
       if (!filePath) return showToast(i18n[currentLang].fileUnavailable, 'danger');
-      
       const newCount = await incrementDownloadCount(bookId);
       const book = booksData.find(b => b.id === bookId);
       if (book && newCount !== null) {
         book.downloadCount = newCount;
         const countEl = document.getElementById(`downloadCount-${bookId}`);
         if (countEl) countEl.innerText = book.downloadCount;
+        // تحديث العداد في صفحة الكتاب الفردي
+        const singleCount = document.getElementById('singleDownloadCount');
+        if (singleCount && isSingleView && currentOpenBookId === bookId) singleCount.innerText = book.downloadCount;
       }
-      
       try {
         const response = await fetch(filePath);
         if (!response.ok) throw new Error('Network response was not ok');
@@ -931,6 +961,14 @@
       }
     }
 
+    // ===== Modal Share Button (لن يستخدم في وضع الصفحة الفردية، لكن نبقيه) =====
+    document.getElementById('modalShareBtn').addEventListener('click', () => {
+      if (currentOpenBookId !== null) {
+        const book = booksData.find(b => b.id === currentOpenBookId);
+        if (book) shareBook(book);
+      }
+    });
+
     function toggleFavorite(bookId) {
       favoriteIds.has(bookId) ? favoriteIds.delete(bookId) : favoriteIds.add(bookId);
       showToast(favoriteIds.has(bookId) ? i18n[currentLang].toastFavoriteAdded : i18n[currentLang].toastFavoriteRemoved);
@@ -945,13 +983,11 @@
       booksData.forEach(book => labelsByKey.set(getCategoryKey(book), getCategoryLabel(book)));
       const keys = ['all', ...labelsByKey.keys()];
       document.getElementById('catCounter').innerText = keys.length - 1;
-
       container.innerHTML = keys.map(key => `
         <button type="button" class="chip-item ${key === selectedCategory ? 'active' : ''}" 
                 data-category="${escapeHtml(key)}" aria-pressed="${key === selectedCategory}">
           ${escapeHtml(key === 'all' ? i18n[currentLang].allCategories : labelsByKey.get(key))}
         </button>`).join('');
-
       container.querySelectorAll('.chip-item').forEach(chip => {
         chip.addEventListener('click', (e) => {
           container.querySelectorAll('.chip-item').forEach(c => { c.classList.remove('active'); c.setAttribute('aria-pressed', 'false'); });
@@ -969,9 +1005,7 @@
       const iframe = document.getElementById('pdfFrame');
       const fallbackContainer = document.getElementById('pdfFallbackContainer');
       const fallbackLink = document.getElementById('pdfFallbackLink');
-      
       fallbackLink.href = filePath;
-      
       if (isMobileDevice()) {
         fallbackContainer.style.display = 'block';
         iframe.src = `https://docs.google.com/viewer?url=${encodeURIComponent(new URL(filePath, window.location.href).href)}&embedded=true`;
@@ -979,7 +1013,6 @@
         fallbackContainer.style.display = 'none';
         iframe.src = filePath;
       }
-      
       iframe.onerror = () => { fallbackContainer.style.display = 'block'; };
       pdfModal.show();
     }
@@ -998,7 +1031,6 @@
       const title = translateDynamicText(book.title, book.title_en);
       const author = translateDynamicText(book.author, book.author_en);
       const publisher = translateDynamicText(book.publisher || t.defaultPublisher, book.publisher_en);
-
       document.getElementById('summaryBookTitle').innerText = title;
       document.getElementById('summaryBookAuthor').innerText = author;
       document.getElementById('summaryCategory').innerText = translateDynamicText(book.category, book.category_en) || t.generalCat;
@@ -1007,7 +1039,6 @@
       setMetadataChip('summarySize', 'bi-hdd', book.file_size || '-');
       document.getElementById('summaryAudience').innerText = translateDynamicText(book.target_audience || t.defaultAudience, book.target_audience_en);
       document.getElementById('summaryAPA').innerText = `${author} (${book.year || '2026'}). ${title}. ${publisher}.`;
-
       let points = (currentLang === 'en' && book.key_points_en && book.key_points_en.length > 0) ? book.key_points_en : (book.key_points && book.key_points.length > 0 ? book.key_points : t.defaultPoints);
       document.getElementById('summaryKeyPoints').innerHTML = points.map(pt => `<li>${escapeHtml(pt)}</li>`).join('');
       summaryModal.show();
@@ -1029,7 +1060,6 @@
       const availableIds = new Set(booksData.map(b => b.id));
       selectedBundleIds = new Set(rawIds.split(',').map(Number).filter(id => Number.isSafeInteger(id) && availableIds.has(id)));
     }
-    
     document.getElementById('copyBundleBtn').addEventListener('click', async () => {
       const url = new URL(window.location.href);
       url.searchParams.set('bundle', Array.from(selectedBundleIds).join(','));
@@ -1062,35 +1092,27 @@
       const host = document.createElement('div');
       host.className = 'position-fixed bottom-0 start-50 translate-middle-x p-3';
       host.style.zIndex = '99999';
-
       const toast = document.createElement('div');
       toast.className = `toast align-items-center text-bg-${variant} border-0`;
       toast.setAttribute('role', 'alert');
       toast.setAttribute('aria-live', 'assertive');
       toast.setAttribute('aria-atomic', 'true');
-
       const row = document.createElement('div');
       row.className = 'd-flex';
-
       const body = document.createElement('div');
       body.className = 'toast-body';
-
       const icon = document.createElement('i');
       icon.className = `bi ${variant === 'danger' ? 'bi-exclamation-circle' : 'bi-check-circle'} me-2`;
-
       body.append(icon, document.createTextNode(message));
-
       const closeButton = document.createElement('button');
       closeButton.type = 'button';
       closeButton.className = 'btn-close btn-close-white me-2 m-auto';
       closeButton.setAttribute('data-bs-dismiss', 'toast');
       closeButton.setAttribute('aria-label', i18n[currentLang].modalClose);
-
       row.append(body, closeButton);
       toast.appendChild(row);
       host.appendChild(toast);
       document.body.appendChild(host);
-
       toast.addEventListener('hidden.bs.toast', () => host.remove());
       bootstrap.Toast.getOrCreateInstance(toast, { delay: 4000 }).show();
     }
@@ -1104,13 +1126,10 @@
       const title = translateDynamicText(book.title, book.title_en);
       const author = translateDynamicText(book.author, book.author_en);
       const publisher = translateDynamicText(book.publisher || t.defaultPublisher, book.publisher_en);
-      
       switch (trigger.getAttribute('data-action')) {
         case 'read': openPdfReader(book.file_path, title); break;
         case 'summary': openSummaryModal(book.id); break;
-        case 'cite': 
-          copyText(`${author} (${book.year || '2026'}). ${title}. ${publisher}.`, t.toastCiteCopied);
-          break;
+        case 'cite': copyText(`${author} (${book.year || '2026'}). ${title}. ${publisher}.`, t.toastCiteCopied); break;
         case 'cover-zoom': if (book.cover_image) openCoverImage(book.cover_image, title); break;
         case 'favorite': toggleFavorite(book.id); break;
         case 'share': shareBook(book); break;
@@ -1127,7 +1146,6 @@
       const container = document.getElementById('booksDisplayContainer');
       const t = i18n[currentLang];
       if (books.length === 0) return container.innerHTML = `<p class="text-center text-muted py-5">${t.noBooks}</p>`;
-
       if (currentViewMode === 'grid') {
         container.innerHTML = `<div class="row g-4">${books.map(book => {
           let title = escapeHtml(translateDynamicText(book.title, book.title_en));
@@ -1136,14 +1154,12 @@
           let publisher = escapeHtml(translateDynamicText(book.publisher || t.defaultPublisher, book.publisher_en));
           let type = escapeHtml(translateDynamicText(book.type || t.defaultType, book.type_en));
           const isFav = isFavorite(book.id);
-          
           const coverHtml = book.cover_image 
             ? `<div class="cover-img-wrapper" data-action="cover-zoom" data-id="${book.id}">
                  <img src="${escapeHtml(book.cover_image)}" class="cover-img" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                  <div class="cover-placeholder" style="display:none;"><i class="bi bi-journal-x"></i></div>
                </div>`
             : `<div class="cover-placeholder"><i class="bi bi-book"></i></div>`;
-
           const downloadControl = book.file_path
             ? `<button type="button" data-action="download" data-id="${book.id}" class="btn btn-iar-primary w-100 text-center d-flex align-items-center justify-content-center">
                  <i class="bi bi-download me-1" aria-hidden="true"></i>
@@ -1151,7 +1167,6 @@
                  <span class="badge bg-light text-dark ms-2 px-2 py-1" id="downloadCount-${book.id}">${book.downloadCount || 0}</span>
                </button>`
             : `<button type="button" class="btn btn-iar-primary w-100" disabled aria-disabled="true"><i class="bi bi-download me-1"></i>${t.downloadBtn}</button>`;
-
           return `
             <div class="col-lg-6">
               <div class="card h-100 book-card d-flex flex-column justify-content-between">
@@ -1204,7 +1219,6 @@
                        <span class="badge bg-light text-dark ms-1 px-1" id="downloadCount-${book.id}">${book.downloadCount || 0}</span>
                      </button>`
                   : `<button type="button" class="btn btn-primary btn-sm" disabled aria-disabled="true" aria-label="${t.downloadBtn}"><i class="bi bi-download"></i></button>`;
-
                 return `
                 <tr>
                   <td><input class="form-check-input" type="checkbox" ${selectedBundleIds.has(book.id) ? 'checked' : ''} data-action="bundle" data-id="${book.id}" aria-label="${escapeHtml(t.selectBundle)}"></td>
@@ -1234,16 +1248,14 @@
     const btnClearSearch = document.getElementById('btnClearSearch');
     
     function applyFilters() {
-      if (!booksData.length) return;
+      if (!booksData.length || isSingleView) return;
       const query = searchInput.value.trim().toLocaleLowerCase(currentLang);
       const sortValue = document.getElementById('sortOrder').value;
-
       let filtered = booksData.filter(book => {
         const keywords = currentLang === 'en' && book.keywords_en.length > 0 ? book.keywords_en.join(' ') : book.keywords.join(' ');
         const searchableText = `${translateDynamicText(book.title, book.title_en)} ${translateDynamicText(book.author, book.author_en)} ${translateDynamicText(book.publisher, book.publisher_en)} ${translateDynamicText(book.description, book.description_en)} ${keywords}`.toLocaleLowerCase(currentLang);
         return (query === '' || searchableText.includes(query)) && (selectedCategory === 'all' || getCategoryKey(book) === selectedCategory);
       });
-
       const sortMap = {
         'title': (a, b) => translateDynamicText(a.title, a.title_en).localeCompare(translateDynamicText(b.title, b.title_en), currentLang),
         'year': (a, b) => (parseInt(b.year) || 0) - (parseInt(a.year) || 0),
@@ -1267,6 +1279,9 @@
     });
     btnClearSearch.addEventListener('click', () => { searchInput.value = ''; btnClearSearch.classList.add('d-none'); applyFilters(); });
     document.getElementById('sortOrder').addEventListener('change', applyFilters);
+
+    // ===== زر العودة للقائمة =====
+    document.getElementById('btnBackToList').addEventListener('click', hideSingleBookView);
 
     // ===== Initialize =====
     initAuth().then(() => {
