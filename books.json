@@ -154,41 +154,46 @@
     "target_audience_en": "Undergraduate and postgraduate students, researchers, and specialists in administrative, economic, and social sciences",
     "cover_image": "covers/3.png",
     "file_path": "pdf/مناهج البحث العلمي.pdf"
-  }
+  },
   {
-  "id": "peter-drucker-and-management-2024",
-  "title": {
-    "ar": "بيتر دروكر والإدارة",
-    "en": "Peter Drucker and Management"
-  },
-  "author": {
-    "ar": "كارين إي. لينكلتر",
-    "en": "Karen E. Linkletter"
-  },
-  "publisher": {
-    "ar": "روتليدج (مجموعة تايلور وفرانسيس)",
-    "en": "Routledge (Taylor & Francis Group)"
-  },
-  "year": 2024,
-  "pages_count": 205,
-  "category": {
-    "ar": "الإدارة والنظرية الاجتماعية",
-    "en": "Management & Social Theory"
-  },
-  "type": {
-    "ar": "كتاب أكاديمي / دراسة بيوغرافية",
-    "en": "Academic Book / Biographical Study"
-  },
-  "target_audience": {
-    "ar": "المدراء التنفيذيون، الأكاديميون، الباحثون في الفكر الإداري والنظرية الاجتماعية، وطلاب إدارة الأعمال.",
-    "en": "Executive managers, academics, researchers in management thought & social theory, and business students."
-  },
-  "description": {
-    "ar": "يقدم الكتاب دراسة تحليلية شاملة للمفكر بيتر دروكر، موضّحاً أنه لم يكن مجرد خبير إداري بل منظراً اجتماعياً وفيلسوفاً، حيث يستعرض جذوره الأوروبية، وتأثير تجربته في العصر بين الحربين العالميين على صياغة مفاهيمه حول المجتمع المؤسسي، مجتمع المعرفة، الابتكار، والقيادة الفعالة.",
-    "en": "Presents a comprehensive analytical study of Peter Drucker, highlighting him not merely as a management expert but as a social theorist and philosopher. It explores his European roots and how his interwar experiences shaped his concepts of a functioning society, the knowledge society, innovation, and effective leadership."
-  },
-  "key_points": {
-    "ar": [
+    "id": 4,
+    "title": "بيتر دروكر والإدارة",
+    "title_en": "Peter Drucker and Management",
+    "author": "كارين إي. لينكلتر",
+    "author_en": "Karen E. Linkletter",
+    "category": "الإدارة والنظرية الاجتماعية",
+    "category_en": "Management & Social Theory",
+    "type": "كتاب أكاديمي / دراسة بيوغرافية",
+    "type_en": "Academic Book / Biographical Study",
+    "description": "يقدم الكتاب دراسة تحليلية شاملة للمفكر بيتر دروكر، موضّحاً أنه لم يكن مجرد خبير إداري بل منظراً اجتماعياً وفيلسوفاً، حيث يستعرض جذوره الأوروبية، وتأثير تجربته في العصر بين الحربين العالميين على صياغة مفاهيمه حول المجتمع المؤسسي، مجتمع المعرفة، الابتكار، والقيادة الفعالة.",
+    "description_en": "Presents a comprehensive analytical study of Peter Drucker, highlighting him not merely as a management expert but as a social theorist and philosopher. It explores his European roots and how his interwar experiences shaped his concepts of a functioning society, the knowledge society, innovation, and effective leadership.",
+    "publisher": "روتليدج (مجموعة تايلور وفرانسيس)",
+    "publisher_en": "Routledge (Taylor & Francis Group)",
+    "year": "2024",
+    "pages": "205",
+    "file_size": "1.8 MB",
+    "file_type": "PDF",
+    "isbn": "9781032531335",
+    "keywords": [
+      "بيتر دروكر",
+      "الإدارة",
+      "النظرية الاجتماعية",
+      "مجتمع المعرفة",
+      "الابتكار",
+      "الريادة",
+      "القيادة"
+    ],
+    "keywords_en": [
+      "Peter Drucker",
+      "Management",
+      "Social Theory",
+      "Knowledge Society",
+      "Innovation",
+      "Entrepreneurship",
+      "Leadership",
+      "Social Ecology"
+    ],
+    "key_points": [
       "تأصيل بيتر دروكر كمنظر اجتماعي وباحث إكولوجي قبل كونه كاتباً إدارياً.",
       "تأثير الخلفية النمساوية والألمانية وتجربة الهروب من الفاشية في تشكيل رؤيته للمجتمع المؤسسي.",
       "مفهوم 'الإدارة كفن حر' (Management as a Liberal Art) والربط بين القيم الأخلاقية والإنتاجية.",
@@ -196,35 +201,17 @@
       "نقد القيادة الكاريزمية والتركيز على القيادة القائمة على الأخلاق والأداء والمسؤولية.",
       "مفهوم الابتكار المنظم و'التدمير الخلاق' المتأثر بأفكار جوزيف شومبيتر."
     ],
-    "en": [
+    "key_points_en": [
       "Positioning Peter Drucker as a social theorist and social ecologist rather than strictly a management writer.",
       "The impact of his Austrian/German background and escape from fascism on shaping his view of a functioning society.",
       "The concept of 'Management as a Liberal Art' integrating moral values with organizational productivity.",
       "The shift from an industrial/manual economy to the 'Knowledge Society' and managing knowledge workers.",
       "Critique of charismatic leadership in favor of character, ethical performance, and responsibility.",
       "Systematic innovation and 'Creative Destruction' influenced by Joseph Schumpeter's economic theories."
-    ]
-  },
-  "keywords": [
-    "Peter Drucker",
-    "Management",
-    "Social Theory",
-    "Knowledge Society",
-    "Innovation",
-    "Entrepreneurship",
-    "Leadership",
-    "Social Ecology",
-    "بيتر دروكر",
-    "الإدارة",
-    "النظرية الاجتماعية",
-    "مجتمع المعرفة",
-    "الابتكار",
-    "الريادة",
-    "القيادة"
-  ],
-  "file_path": "pdf/Peter Drucker and Management.pdf",
-  "cover_image": "covers/4.png",
-  "file_type": "pdf",
-  "isbn": "9781032531335"
-}
+    ],
+    "target_audience": "المدراء التنفيذيون، الأكاديميون، الباحثون في الفكر الإداري والنظرية الاجتماعية، وطلاب إدارة الأعمال.",
+    "target_audience_en": "Executive managers, academics, researchers in management thought & social theory, and business students.",
+    "cover_image": "covers/4.png",
+    "file_path": "pdf/Peter Drucker and Management.pdf"
+  }
 ]
