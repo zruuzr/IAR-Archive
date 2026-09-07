@@ -6,7 +6,7 @@ from pypdf import PdfReader
 
 client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
 
-JSON_PATH = "data.json"
+JSON_PATH = "books.json"
 PDF_DIR = "pdf"
 
 def extract_first_pages_text(pdf_path, max_pages=10):
