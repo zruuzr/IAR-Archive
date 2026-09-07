@@ -269,5 +269,53 @@
     "target_audience_en": "Executive managers, organizational leaders, knowledge workers, business academics, students, and professionals interested in management theory and practice.",
     "cover_image": "covers/5.png",
     "file_path": "pdf/People and performance.pdf"
+  },
+  {
+    "id": 6,
+    "title": "التحليل المالي : وجهة نظر إدارية محاسبية",
+    "title_en": "Financial Analysis: A Managerial Accounting Perspective",
+    "author": "محمد الصيرفي",
+    "author_en": "Mohamed Al-Sairafi",
+    "category": "المحاسبة والتمويل",
+    "category_en": "Accounting and Finance",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Book",
+    "description": "كتاب متخصص يتناول موضوع التحليل المالي من منظوري الإدارة والمحاسبة، لاستعراض المفاهيم والأدوات الأساسية التي تساعد الإدارة في تقييم الأداء المالي واتخاذ القرارات الرشيدة.",
+    "description_en": "A specialized book addressing financial analysis from managerial and accounting perspectives, highlighting key concepts and tools used to evaluate financial performance and support management decision-making.",
+    "publisher": "المنهل",
+    "publisher_en": "Al Manhal",
+    "year": "2018",
+    "pages": "240",
+    "file_size": "8.5 MB",
+    "file_type": "PDF",
+    "isbn": "",
+    "keywords": [
+      "التحليل المالي",
+      "المحاسبة الإدارية",
+      "الإدارة المالية",
+      "القوائم المالية",
+      "اتخاذ القرارات"
+    ],
+    "keywords_en": [
+      "Financial Analysis",
+      "Managerial Accounting",
+      "Financial Management",
+      "Financial Statements",
+      "Decision Making"
+    ],
+    "key_points": [
+      "دراسة التحليل المالي وأهميته في بيئة الأعمال المعاصرة.",
+      "توضيح دور المحاسبة الإدارية في توفير البيانات المالية الدقيقة للتحليل.",
+      "استعراض أدوات تقييم الأداء المالي وكيفية استخدامها في التخطيط والرقابة."
+    ],
+    "key_points_en": [
+      "Studying financial analysis and its importance in modern business environments.",
+      "Clarifying the role of managerial accounting in providing accurate financial data for analysis.",
+      "Reviewing tools for evaluating financial performance and their application in planning and control."
+    ],
+    "target_audience": "طلاب المحاسبة وإدارة الأعمال، المدراء الماليون والمحاسبون، والمحللون الماليون والباحثون.",
+    "target_audience_en": "Accounting and Business Administration Students, Financial Managers and Accountants, Financial Analysts and Researchers.",
+    "cover_image": "covers/6.png",
+    "file_path": "pdf/كتاب التحليل المالي وجهة نظر ادارية محاسبية.pdf"
   }
 ]
