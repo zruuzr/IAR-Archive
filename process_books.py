@@ -5,12 +5,14 @@ from google import genai
 from google.genai import types
 from pypdf import PdfReader
 
+# إعداد عميل Gemini باستخدام المفتاح الممرر من أسرار GitHub
 client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
 
 JSON_PATH = "books.json"
 PDF_DIR = "pdf"
 
 def get_file_info(file_path):
+    """حساب عدد الصفحات وحجم الملف برمجياً بدقة"""
     pages_count = 0
     file_size_str = "غير معروف"
     try:
@@ -29,6 +31,7 @@ def get_file_info(file_path):
     return str(pages_count) if pages_count > 0 else None, file_size_str
 
 def extract_first_pages_text(pdf_path, max_pages=10):
+    """استخراج نص أول بضعة صفحات محلياً لتوفير الاستهلاك وسرعة المعالجة"""
     text = ""
     try:
         reader = PdfReader(pdf_path)
@@ -41,12 +44,14 @@ def extract_first_pages_text(pdf_path, max_pages=10):
         print(f"تعذر استخراج النص محلياً من {pdf_path}: {e}")
     return text.strip()
 
+# قراءة البيانات الحالية من ملف books.json
 if os.path.exists(JSON_PATH):
     with open(JSON_PATH, "r", encoding="utf-8") as f:
         books_data = json.load(f)
 else:
     books_data = []
 
+# توحيد مسارات الملفات لتفادي تكرار المعالجة
 existing_files = [os.path.normpath(book.get("file_path", "")) for book in books_data]
 
 if os.path.exists(PDF_DIR):
@@ -56,7 +61,7 @@ if os.path.exists(PDF_DIR):
             normalized_path = os.path.normpath(file_path)
             
             if normalized_path not in existing_files:
-                print(f"جاري معالجة الكتاب: {file_name}")
+                print(f"جاري معالجة الكتاب الجديد: {file_name}")
                 
                 pages_count, file_size_str = get_file_info(file_path)
                 sample_text = extract_first_pages_text(file_path, max_pages=10)
@@ -65,22 +70,43 @@ if os.path.exists(PDF_DIR):
                 temp_pdf = "temp_upload.pdf"
                 
                 try:
-                    # إذا كان الملف مصوراً ولم يخرج نصاً محلياً، نرفعه للذكاء الاصطناعي مباشرة
+                    # إذا كان الملف مصوراً ولم يخرج منه نص، يتم الرفع المباشر
                     if not sample_text:
-                        print("الملف مصور أو لا يحتوي نصاً المباشر، جاري الرفع للتحليل الشامل...")
+                        print("الملف مصور، جاري الرفع للتحليل الشامل...")
                         shutil.copyfile(file_path, temp_pdf)
                         uploaded_file = client.files.upload(file=temp_pdf)
                         contents_payload = [
                             uploaded_file,
-                            "استخرج بيانات الكتاب المرفق بصيغة JSON حصرية تحوي الحقول المعيارية."
+                            "استخرج بيانات هذا الكتاب المرفق بنفس هيكلية JSON المعتادة حصراً."
                         ]
                     else:
                         prompt = f"""
-أنت مفهرس كتب محترف. بناءً على النص التالي، استخرج بيانات الكتاب وصغها داخل JSON حصراً.
-الحقول المطلوبة:
-(title, title_en, author, author_en, category, category_en, type, type_en, description, description_en, publisher, publisher_en, year, isbn, keywords, keywords_en, key_points, key_points_en, target_audience, target_audience_en)
+أنت مفهرس كتب محترف. قم باستخراج بيانات الكتاب بناءً على النص وصغ البيانات داخل JSON يلتزم بالهيكل التالي حرفياً وبدون أي تغيير في أسماء الحقول أو إضافة حقول خارجية:
 
-النص:
+{{
+  "title": "العنوان بالعربية",
+  "title_en": "العنوان بالإنجليزية",
+  "author": "اسم المؤلف بالعربية",
+  "author_en": "اسم المؤلف بالإنجليزية",
+  "category": "التصنيف بالعربية",
+  "category_en": "التصنيف بالإنجليزية",
+  "type": "نوع الكتاب بالعربية",
+  "type_en": "نوع الكتاب بالإنجليزية",
+  "description": "وصف شامل بالعربية",
+  "description_en": "وصف شامل بالإنجليزية",
+  "publisher": "الناشر بالعربية",
+  "publisher_en": "الناشر بالإنجليزية",
+  "year": "سنة النشر",
+  "isbn": "الرقم الدولي المعياري أو نص فارغ",
+  "keywords": ["كلمة1", "كلمة2"],
+  "keywords_en": ["Word1", "Word2"],
+  "key_points": ["نقطة1", "نقطة2"],
+  "key_points_en": ["Point1", "Point2"],
+  "target_audience": "الجمهور المستهدف بالعربية",
+  "target_audience_en": "الجمهور المستهدف بالإنجليزية"
+}}
+
+النص المستخرج من الكتاب:
 {sample_text[:12000]}
 """
                         contents_payload = prompt
@@ -96,6 +122,7 @@ if os.path.exists(PDF_DIR):
                     if response and response.text:
                         new_book = json.loads(response.text.strip())
                         
+                        # إسناد المعرف والبيانات المحسوبة برمجياً
                         new_book["id"] = len(books_data) + 1
                         new_book["pages"] = pages_count if pages_count else new_book.get("pages")
                         new_book["file_size"] = file_size_str
@@ -104,7 +131,7 @@ if os.path.exists(PDF_DIR):
                         new_book["cover_image"] = f"covers/{new_book['id']}.png"
                         
                         books_data.append(new_book)
-                        print(f"تم إضافة الكتاب بنجاح: {new_book.get('title')}")
+                        print(f"تمت إضافة الكتاب بنجاح: {new_book.get('title')}")
                         
                 except Exception as e:
                     print(f"خطأ أثناء معالجة الملف {file_name}: {e}")
@@ -117,5 +144,6 @@ if os.path.exists(PDF_DIR):
                     if os.path.exists(temp_pdf):
                         os.remove(temp_pdf)
 
+# حفظ القائمة المحدثة في books.json
 with open(JSON_PATH, "w", encoding="utf-8") as f:
     json.dump(books_data, f, ensure_ascii=False, indent=2)
