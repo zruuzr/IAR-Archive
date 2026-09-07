@@ -365,5 +365,60 @@
     "target_audience_en": "Academics, researchers, postgraduate business students, and managers seeking to keep up with modern administrative issues.",
     "cover_image": "covers/7.png",
     "file_path": "pdf/بحوث ودراسات فى قضايا ادارية معاصرة.pdf"
+  },
+  {
+    "title": "الإدارة والتقنية: شركاء في مواجهة تحديات عصر الانترنت",
+    "title_en": "Management & Technology: Partners for Survival in the Internet Age",
+    "author": "د. محمد حسن عمر",
+    "author_en": "Mohammed H. Omar",
+    "author_role": "استشاري نظم تقنية المعلومات",
+    "publication_year_gregorian": 1997,
+    "publication_year_hijri": 1418,
+    "publication_place": "الرياض",
+    "isbn_group": "9960-34-259-X",
+    "isbn_volume": "9960-34-270-0",
+    "deposit_number": "18/1357",
+    "dewey_decimal_classification": "350",
+    "subjects": [
+      "شبكة المعلومات العالمية",
+      "الإدارة والتقنية"
+    ],
+    "table_of_contents": [
+      {
+        "part": "الجزء الأول",
+        "chapters": [
+          "الفصل الأول: العلاقة بين الإدارة التنفيذية ودائرة التقنية",
+          "الفصل الثاني: الشركة السايبرناتية",
+          "الفصل الثالث: التسويق السايبرناتي",
+          "الفصل الرابع: البنية التنظيمية للشركات السايبرناتية",
+          "الفصل الخامس: النظم الاقتصادية في عصر السايبرناتية"
+        ]
+      },
+      {
+        "part": "الجزء الثاني",
+        "chapters": [
+          "الفصل السادس: مبادئ تقنية المعلومات المعاصرة",
+          "الفصل السابع: شبكة الاتصالات الداخلية (الانترانت)",
+          "الفصل الثامن: شبكة الانترنت العالمية"
+        ]
+      },
+      {
+        "part": "الجزء الثالث",
+        "title": "إدارة الجودة لتقنية المعلومات",
+        "chapters": [
+          "مقدمة",
+          "نظرات في دائرة تقنية المعلومات",
+          "مبادئ إدارة الجودة الشاملة",
+          "إدارة الجودة والمعايير القياسية للتطبيقات",
+          "الدليل في تطوير وإعادة هندسة النظم التطبيقية"
+        ]
+      }
+    ],
+    "id": 8,
+    "pages": "253",
+    "file_size": "3.49 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/الادارة و التقنية.pdf",
+    "cover_image": "covers/8.png"
   }
 ]
