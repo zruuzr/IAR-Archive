@@ -420,5 +420,55 @@
     "file_type": "PDF",
     "file_path": "pdf/الادارة و التقنية.pdf",
     "cover_image": "covers/8.png"
+  },
+  {
+    "title": "مبادئ الإدارة والتنظيم",
+    "title_en": "Principles of Management and Organization",
+    "author": "دكتور مجدي عبد الله شراره",
+    "author_en": "Dr. Magdy Abdullah Sharara",
+    "category": "إدارة الأعمال",
+    "category_en": "Business Administration",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Book",
+    "description": "يتناول هذا الكتاب المدخل لعلم الإدارة وتطور الفكر الإداري عبر العصور ومفهوم التنظيم، مع التركيز على أهمية الإدارة في مواكبة التغيرات الاجتماعية والاقتصادية والتكنولوجية والمنافسة الشديدة في الأسواق الحديثة.",
+    "description_en": "This book covers the introduction to management science, the evolution of management thought through the ages, and the concept of organization, emphasizing the importance of management in keeping pace with social, economic, technological changes, and fierce market competition.",
+    "publisher": "",
+    "publisher_en": "",
+    "year": "2018",
+    "isbn": "",
+    "keywords": [
+      "الإدارة",
+      "التنظيم",
+      "الفكر الإداري",
+      "مدارس الإدارة",
+      "تطوير المنظمات"
+    ],
+    "keywords_en": [
+      "Management",
+      "Organization",
+      "Management Thought",
+      "Management Schools",
+      "Organizational Development"
+    ],
+    "key_points": [
+      "تاريخ الإدارة وأهميتها منذ الحضارات القديمة وحتى العصر الحديث.",
+      "تطور الفكر الإداري ومدارس الإدارة المختلفة.",
+      "ضرورة مواكبة المنظمات للتغيرات التكنولوجية والجودة والتنافسية.",
+      "دور المدير والتنظيم في ظل الأسواق المفتوحة والتطور المستمر."
+    ],
+    "key_points_en": [
+      "The history and importance of management from ancient civilizations to the modern era.",
+      "The evolution of administrative thought and various management schools.",
+      "The necessity for organizations to keep pace with technological changes, quality, and competitiveness.",
+      "The role of management and organization in open markets and continuous development."
+    ],
+    "target_audience": "الطلاب والباحثون والعاملون في مجالات الإدارة والتنظيم وتطوير الأعمال.",
+    "target_audience_en": "Students, researchers, and professionals in management, organization, and business development.",
+    "id": 9,
+    "pages": "201",
+    "file_size": "3.26 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/كتاب الادارة والتنظيم.pdf",
+    "cover_image": "covers/9.png"
   }
 ]
