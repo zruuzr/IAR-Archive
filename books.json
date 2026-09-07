@@ -319,21 +319,51 @@
     "file_path": "pdf/كتاب التحليل المالي وجهة نظر ادارية محاسبية.pdf"
   },
   {
-    "title": "بحوث ودراسات في قضايا إدارية معاصرة",
-    "author": "عبد السلام أبو قحف",
-    "author_title": "دكتور",
-    "author_role": "أستاذ إدارة الأعمال الدولية - كلية التجارة - جامعة الإسكندرية",
-    "publisher": "دار الجامعة الجديدة للنشر",
-    "publication_place": "الإسكندرية",
-    "publication_year": "2002",
-    "isbn": "977-328-068-3",
-    "legal_deposit_number": "10625 - 2001",
-    "part_number": "الجزء الأول",
     "id": 7,
+    "title": "بحوث ودراسات في قضايا إدارية معاصرة",
+    "title_en": "Researches and Studies in Contemporary Administrative Issues",
+    "author": "عبد السلام أبو قحف",
+    "author_en": "Abdel Salam Abu Keif",
+    "category": "الإدارة العامة وإدارة الأعمال",
+    "category_en": "Public Administration & Business Management",
+    "type": "كتاب أكاديمي / دراسات وبحوث",
+    "type_en": "Academic Book / Research & Studies",
+    "description": "مجموعة شاملة من البحوث والدراسات المتخصصة التي تناقش القضايا والتحديات الإدارية المعاصرة في بيئات الأعمال الحديثة، مع التركيز على التطبيقات العملية والإدارية.",
+    "description_en": "A comprehensive collection of specialized research and studies discussing contemporary administrative issues and challenges in modern business environments, with a focus on practical administrative applications.",
+    "publisher": "دار الجامعة الجديدة للنشر",
+    "publisher_en": "New University Publishing House",
+    "year": "2002",
     "pages": "337",
     "file_size": "15.60 MB",
     "file_type": "PDF",
-    "file_path": "pdf/بحوث ودراسات فى قضايا ادارية معاصرة.pdf",
-    "cover_image": "covers/7.png"
+    "isbn": "977-328-068-3",
+    "keywords": [
+      "قضايا إدارية معاصرة",
+      "إدارة الأعمال الدولية",
+      "البحوث الإدارية",
+      "التطوير الإداري",
+      "المؤسسات الإدارية"
+    ],
+    "keywords_en": [
+      "Contemporary Administrative Issues",
+      "International Business Management",
+      "Administrative Research",
+      "Administrative Development",
+      "Administrative Institutions"
+    ],
+    "key_points": [
+      "دراسة وتحليل القضايا الإدارية الحديثة والتحديات التي تواجه المؤسسات.",
+      "تقديم رؤى وأبحاث أكاديمية معتمدة لتطوير كفاءة الإدارة والأعمال.",
+      "ربط المفاهيم النظرية للإدارة بالتطبيقات العملية الميدانية."
+    ],
+    "key_points_en": [
+      "Studying and analyzing modern administrative issues and organizational challenges.",
+      "Providing verified academic research to enhance management and business efficiency.",
+      "Linking theoretical management concepts with field-based practical applications."
+    ],
+    "target_audience": "الأكاديميون، والباحثون، وطلاب الدراسات العليا في الإدارة، والمدراء الراغبون في مواكبة القضايا الإدارية الحديثة.",
+    "target_audience_en": "Academics, researchers, postgraduate business students, and managers seeking to keep up with modern administrative issues.",
+    "cover_image": "covers/7.png",
+    "file_path": "pdf/بحوث ودراسات فى قضايا ادارية معاصرة.pdf"
   }
 ]
