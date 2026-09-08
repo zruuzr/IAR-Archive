@@ -569,5 +569,53 @@
     "target_audience_en": "Students and faculty in Industrial Engineering, Mechanical Engineering, and Management Science",
     "cover_image": "covers/11.png",
     "file_path": "pdf/Operations Research.pdf"
+  },
+  {
+    "title": "إدارة المشاريع الحديثة: الدمج الناجح لمجالات معرفة وعمليات إدارة المشاريع",
+    "title_en": "Modern Project Management: Successfully Integrating Project Management Knowledge Areas and Processes",
+    "author": "نورمان ر. هاوز",
+    "author_en": "Norman R. Howes",
+    "category": "إدارة الأعمال والقيادة",
+    "category_en": "Business & Leadership",
+    "type": "كتاب أكاديمي / مهني",
+    "type_en": "Academic / Professional Book",
+    "description": "يقدم هذا الكتاب دليلاً شاملاً حول كيفية دمج مجالات المعرفة والعمليات المختلفة في إدارة المشاريع الحديثة، مع التركيز على التخطيط، والمراقبة، وتقييم الأداء، وقياس الإنتاجية، وإدارة المخاطر، وإعادة توجيه المشاريع المتعثرة.",
+    "description_en": "This book provides a comprehensive guide on integrating various project management knowledge areas and processes in modern practice, focusing on planning, monitoring, performance evaluation, productivity measurement, risk management, and rescuing failing projects.",
+    "publisher": "أماكوم (AMACOM)",
+    "publisher_en": "AMACOM",
+    "year": "2001",
+    "isbn": "0-8144-0632-7",
+    "keywords": [
+      "إدارة المشاريع",
+      "التخطيط",
+      "تقييم الأداء",
+      "إدارة المخاطر",
+      "هيكل تجزئة العمل"
+    ],
+    "keywords_en": [
+      "Project Management",
+      "Planning",
+      "Performance Evaluation",
+      "Risk Management",
+      "Work Breakdown Structure"
+    ],
+    "key_points": [
+      "شرح كيفية تقسيط العمل وجدولته وميزانيته باستخدام أدوات إدارة المشاريع الحديثة.",
+      "تحديد أساليب قياس الإنتاجية وتحليل الانحرافات في التكلفة والجدول الزمني.",
+      "تقديم استراتيجيات لإدارة المخاطر وإنقاذ المشاريع المتعثرة."
+    ],
+    "key_points_en": [
+      "Explains how to subdivide, schedule, and budget work using modern project tools.",
+      "Identifies methods for measuring productivity and analyzing cost and schedule variances.",
+      "Provides strategies for risk management and rescuing failing projects."
+    ],
+    "target_audience": "مديرو المشاريع، والمهنيون في مجال إدارة الأعمال، والطلاب والمتخصصون في الإدارة.",
+    "target_audience_en": "Project managers, business management professionals, students, and practitioners in administration.",
+    "id": 12,
+    "pages": "306",
+    "file_size": "12.62 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/Modern Project Management.pdf",
+    "cover_image": "covers/12.png"
   }
 ]
