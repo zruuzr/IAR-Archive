@@ -11,6 +11,34 @@ client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
 JSON_PATH = "books.json"
 PDF_DIR = "pdf"
 
+# قالب الهيكل الموحد والصارم لضمان عدم اختلاف مخرجات الـ AI أبداً
+JSON_SCHEMA_INSTRUCTIONS = """
+قم باستخراج بيانات الكتاب وصغ البيانات داخل كائن JSON يلتزم بالهيكل التالي حرفياً وبدون أي تغيير في أسماء الحقول أو إضافة حقول خارجية، واجعل قيمة حقل الناشر (publisher) دائماً نصاً (String) وليست كائناً:
+
+{
+  "title": "العنوان بالعربية",
+  "title_en": "العنوان بالإنجليزية",
+  "author": "اسم المؤلف بالعربية",
+  "author_en": "اسم المؤلف بالإنجليزية",
+  "category": "التصنيف بالعربية",
+  "category_en": "التصنيف بالإنجليزية",
+  "type": "نوع الكتاب بالعربية",
+  "type_en": "نوع الكتاب بالإنجليزية",
+  "description": "وصف شامل بالعربية",
+  "description_en": "وصف شامل بالإنجليزية",
+  "publisher": "اسم الناشر نصاً بالعربية فقط",
+  "publisher_en": "اسم الناشر بالإنجليزية فقط",
+  "year": "سنة النشر كـ نص مثل '2015'",
+  "isbn": "الرقم الدولي المعياري أو نص فارغ",
+  "keywords": ["كلمة1", "كلمة2"],
+  "keywords_en": ["Word1", "Word2"],
+  "key_points": ["نقطة1", "نقطة2"],
+  "key_points_en": ["Point1", "Point2"],
+  "target_audience": "الجمهور المستهدف بالعربية",
+  "target_audience_en": "الجمهور المستهدف بالإنجليزية"
+}
+"""
+
 def get_file_info(file_path):
     """حساب عدد الصفحات وحجم الملف برمجياً بدقة"""
     pages_count = 0
@@ -44,6 +72,41 @@ def extract_first_pages_text(pdf_path, max_pages=10):
         print(f"تعذر استخراج النص محلياً من {pdf_path}: {e}")
     return text.strip()
 
+def sanitize_book_data(book):
+    """دالة تنقية للتأكد من أن البيانات الناتجة مطابقة لهيكل الموقع تماماً وتجنب أي أخطاء كائنية"""
+    if not isinstance(book, dict):
+        return {}
+
+    # معالجة الناشر لو عاد كـ كائن بالخطأ
+    pub = book.get("publisher", "")
+    if isinstance(pub, dict):
+        book["publisher"] = pub.get("name", "الأرشيف الإداري العراقي")
+    elif not pub:
+        book["publisher"] = "الأرشيف الإداري العراقي"
+
+    pub_en = book.get("publisher_en", "")
+    if isinstance(pub_en, dict):
+        book["publisher_en"] = pub_en.get("name", "IAR Archive")
+    elif not pub_en:
+        book["publisher_en"] = "IAR Archive"
+
+    # ضمان وجود الحقول النصية الأساسية لتجنب الانهيار في الواجهة
+    if not book.get("category"):
+        book["category"] = "عام"
+    if not book.get("description"):
+        book["description"] = "لا يتوفر وصف تفصيلي لهذا المرجع حالياً."
+    if not book.get("type"):
+        book["type"] = "مرجع منهجي"
+    if not book.get("year"):
+        book["year"] = "2026"
+
+    # التأكد من المصفوفات
+    for field in ["keywords", "keywords_en", "key_points", "key_points_en"]:
+        if not isinstance(book.get(field), list):
+            book[field] = []
+
+    return book
+
 # قراءة البيانات الحالية من ملف books.json
 if os.path.exists(JSON_PATH):
     with open(JSON_PATH, "r", encoding="utf-8") as f:
@@ -70,41 +133,17 @@ if os.path.exists(PDF_DIR):
                 temp_pdf = "temp_upload.pdf"
                 
                 try:
-                    # إذا كان الملف مصوراً ولم يخرج منه نص، يتم الرفع المباشر
                     if not sample_text:
-                        print("الملف مصور، جاري الرفع للتحليل الشامل...")
+                        print("الملف مصور، جاري الرفع للتحليل الشامل عبر الموديل متعدد الوسائط...")
                         shutil.copyfile(file_path, temp_pdf)
                         uploaded_file = client.files.upload(file=temp_pdf)
                         contents_payload = [
                             uploaded_file,
-                            "استخرج بيانات هذا الكتاب المرفق بنفس هيكلية JSON المعتادة حصراً."
+                            f"أنت مفهرس كتب محترف. {JSON_SCHEMA_INSTRUCTIONS}"
                         ]
                     else:
                         prompt = f"""
-أنت مفهرس كتب محترف. قم باستخراج بيانات الكتاب بناءً على النص وصغ البيانات داخل JSON يلتزم بالهيكل التالي حرفياً وبدون أي تغيير في أسماء الحقول أو إضافة حقول خارجية:
-
-{{
-  "title": "العنوان بالعربية",
-  "title_en": "العنوان بالإنجليزية",
-  "author": "اسم المؤلف بالعربية",
-  "author_en": "اسم المؤلف بالإنجليزية",
-  "category": "التصنيف بالعربية",
-  "category_en": "التصنيف بالإنجليزية",
-  "type": "نوع الكتاب بالعربية",
-  "type_en": "نوع الكتاب بالإنجليزية",
-  "description": "وصف شامل بالعربية",
-  "description_en": "وصف شامل بالإنجليزية",
-  "publisher": "الناشر بالعربية",
-  "publisher_en": "الناشر بالإنجليزية",
-  "year": "سنة النشر",
-  "isbn": "الرقم الدولي المعياري أو نص فارغ",
-  "keywords": ["كلمة1", "كلمة2"],
-  "keywords_en": ["Word1", "Word2"],
-  "key_points": ["نقطة1", "نقطة2"],
-  "key_points_en": ["Point1", "Point2"],
-  "target_audience": "الجمهور المستهدف بالعربية",
-  "target_audience_en": "الجمهور المستهدف بالإنجليزية"
-}}
+أنت مفهرس كتب محترف. {JSON_SCHEMA_INSTRUCTIONS}
 
 النص المستخرج من الكتاب:
 {sample_text[:12000]}
@@ -112,7 +151,7 @@ if os.path.exists(PDF_DIR):
                         contents_payload = prompt
 
                     response = client.models.generate_content(
-                        model="gemini-3.6-flash",
+                        model="gemini-2.5-flash",  # تم اعتماد موديل موثوق ومستقر
                         contents=contents_payload,
                         config=types.GenerateContentConfig(
                             response_mime_type="application/json"
@@ -120,11 +159,12 @@ if os.path.exists(PDF_DIR):
                     )
                     
                     if response and response.text:
-                        new_book = json.loads(response.text.strip())
+                        raw_book = json.loads(response.text.strip())
+                        new_book = sanitize_book_data(raw_book)
                         
-                        # إسناد المعرف والبيانات المحسوبة برمجياً
+                        # إسناد المعرف والبيانات المحسوبة برمجياً بدقة
                         new_book["id"] = len(books_data) + 1
-                        new_book["pages"] = pages_count if pages_count else new_book.get("pages")
+                        new_book["pages"] = pages_count if pages_count else new_book.get("pages", "0")
                         new_book["file_size"] = file_size_str
                         new_book["file_type"] = "PDF"
                         new_book["file_path"] = file_path
@@ -144,6 +184,6 @@ if os.path.exists(PDF_DIR):
                     if os.path.exists(temp_pdf):
                         os.remove(temp_pdf)
 
-# حفظ القائمة المحدثة في books.json
+# حفظ القائمة المحدثة في books.json بشكل مرتب ويدعم العربية
 with open(JSON_PATH, "w", encoding="utf-8") as f:
     json.dump(books_data, f, ensure_ascii=False, indent=2)
