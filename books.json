@@ -367,61 +367,57 @@
     "file_path": "pdf/بحوث ودراسات فى قضايا ادارية معاصرة.pdf"
   },
   {
+    "id": 8,
     "title": "الإدارة والتقنية: شركاء في مواجهة تحديات عصر الانترنت",
     "title_en": "Management & Technology: Partners for Survival in the Internet Age",
     "author": "د. محمد حسن عمر",
     "author_en": "Mohammed H. Omar",
-    "author_role": "استشاري نظم تقنية المعلومات",
-    "publication_year_gregorian": 1997,
-    "publication_year_hijri": 1418,
-    "publication_place": "الرياض",
-    "isbn_group": "9960-34-259-X",
-    "isbn_volume": "9960-34-270-0",
-    "deposit_number": "18/1357",
-    "dewey_decimal_classification": "350",
-    "subjects": [
-      "شبكة المعلومات العالمية",
-      "الإدارة والتقنية"
-    ],
-    "table_of_contents": [
-      {
-        "part": "الجزء الأول",
-        "chapters": [
-          "الفصل الأول: العلاقة بين الإدارة التنفيذية ودائرة التقنية",
-          "الفصل الثاني: الشركة السايبرناتية",
-          "الفصل الثالث: التسويق السايبرناتي",
-          "الفصل الرابع: البنية التنظيمية للشركات السايبرناتية",
-          "الفصل الخامس: النظم الاقتصادية في عصر السايبرناتية"
-        ]
-      },
-      {
-        "part": "الجزء الثاني",
-        "chapters": [
-          "الفصل السادس: مبادئ تقنية المعلومات المعاصرة",
-          "الفصل السابع: شبكة الاتصالات الداخلية (الانترانت)",
-          "الفصل الثامن: شبكة الانترنت العالمية"
-        ]
-      },
-      {
-        "part": "الجزء الثالث",
-        "title": "إدارة الجودة لتقنية المعلومات",
-        "chapters": [
-          "مقدمة",
-          "نظرات في دائرة تقنية المعلومات",
-          "مبادئ إدارة الجودة الشاملة",
-          "إدارة الجودة والمعايير القياسية للتطبيقات",
-          "الدليل في تطوير وإعادة هندسة النظم التطبيقية"
-        ]
-      }
-    ],
-    "id": 8,
+    "category": "نظم المعلومات الإدارية والتقنية",
+    "category_en": "Management Information Systems & Technology",
+    "type": "كتاب متخصص",
+    "type_en": "Specialized Book",
+    "description": "كتاب متخصص يستعرض العلاقة بين الإدارة التنفيذية ودوائر تقنية المعلومات، ومفهوم الشركة السايبرناتية والتسويق السايبرناتي وإدارة الجودة الشاملة للتقنية في عصر الإنترنت.",
+    "description_en": "A specialized book exploring the relationship between executive management and IT departments, cybernetic companies, cybernetic marketing, and total quality management in the internet age.",
+    "publisher": "مكتبة العبيكان",
+    "publisher_en": "Obeikan Library",
+    "year": "1997",
     "pages": "253",
     "file_size": "3.49 MB",
     "file_type": "PDF",
-    "file_path": "pdf/الادارة و التقنية.pdf",
-    "cover_image": "covers/8.png"
+    "isbn": "9960-34-259-X",
+    "keywords": [
+      "الإدارة والتقنية",
+      "عصر الإنترنت",
+      "الشركات السايبرناتية",
+      "تقنية المعلومات",
+      "إدارة الجودة الشاملة"
+    ],
+    "keywords_en": [
+      "Management & Technology",
+      "Internet Age",
+      "Cybernetic Companies",
+      "Information Technology",
+      "Total Quality Management"
+    ],
+    "key_points": [
+      "العلاقة التنظيمية بين الإدارة التنفيذية ودائرة تقنية المعلومات.",
+      "مفاهيم الشركة السايبرناتية والتسويق السايبرناتي والبنية التنظيمية الحديثة.",
+      "تطبيقات شبكات الإنترانت والإنترنت في بيئة الأعمال.",
+      "مبادئ إدارة الجودة الشاملة وتطوير وإعادة هندسة النظم التطبيقية."
+    ],
+    "key_points_en": [
+      "Organizational relationship between executive management and IT departments.",
+      "Concepts of cybernetic companies, cybernetic marketing, and modern organizational structures.",
+      "Applications of intranet and internet networks in business environments.",
+      "Principles of TQM and re-engineering of application systems."
+    ],
+    "target_audience": "المدراء التنفيذيون، مسؤولو تقنية المعلومات، والباحثون في نظم المعلومات الإدارية.",
+    "target_audience_en": "Executive managers, IT professionals, and researchers in management information systems.",
+    "cover_image": "covers/8.png",
+    "file_path": "pdf/الادارة و التقنية.pdf"
   },
   {
+    "id": 9,
     "title": "مبادئ الإدارة والتنظيم",
     "title_en": "Principles of Management and Organization",
     "author": "دكتور مجدي عبد الله شراره",
@@ -432,9 +428,12 @@
     "type_en": "Academic Book",
     "description": "يتناول هذا الكتاب المدخل لعلم الإدارة وتطور الفكر الإداري عبر العصور ومفهوم التنظيم، مع التركيز على أهمية الإدارة في مواكبة التغيرات الاجتماعية والاقتصادية والتكنولوجية والمنافسة الشديدة في الأسواق الحديثة.",
     "description_en": "This book covers the introduction to management science, the evolution of management thought through the ages, and the concept of organization, emphasizing the importance of management in keeping pace with social, economic, technological changes, and fierce market competition.",
-    "publisher": "",
-    "publisher_en": "",
+    "publisher": "دار الفكر العربي",
+    "publisher_en": "Dar Al Fikr Al Arabi",
     "year": "2018",
+    "pages": "201",
+    "file_size": "3.26 MB",
+    "file_type": "PDF",
     "isbn": "",
     "keywords": [
       "الإدارة",
@@ -464,95 +463,63 @@
     ],
     "target_audience": "الطلاب والباحثون والعاملون في مجالات الإدارة والتنظيم وتطوير الأعمال.",
     "target_audience_en": "Students, researchers, and professionals in management, organization, and business development.",
-    "id": 9,
-    "pages": "201",
-    "file_size": "3.26 MB",
-    "file_type": "PDF",
-    "file_path": "pdf/كتاب الادارة والتنظيم.pdf",
-    "cover_image": "covers/9.png"
+    "cover_image": "covers/9.png",
+    "file_path": "pdf/كتاب الادارة والتنظيم.pdf"
   },
   {
-    "title": "قضايا إدارية وتنموية معاصرة",
-    "subtitle": "تأصيل علمي وتطبيق عملي",
-    "author": "مصطفى محمود أبو بكر",
-    "author_title": "أستاذ إدارة الأعمال وخبير التخطيط الاستراتيجي والتنظيم الإداري",
-    "author_bio": {
-      "birth_place": "قرية شباس عمير - محافظة كفر الشيخ",
-      "academic_qualification": "دكتوراة في إدارة الأعمال - التخطيط الاستراتيجي",
-      "academic_position": "عضو هيئة التدريس / قسم إدارة الأعمال / جامعة المنوفية",
-      "experience": [
-        "خبير تدريب في مجالات التسويق والبيع والمهارات الإدارية",
-        "مستشار التنظيم والموارد البشرية لعدد من الشركات في مصر والدول العربية",
-        "خبير التنظيم الإداري في البنك الدولي",
-        "خبير تنظيم وإدارة مؤسسة ماس الدولية للاستشارات الإدارية",
-        "المدير التنفيذي لمركز الاستشارات الإدارية وإعداد القادة بالجامعة",
-        "رئيس وحدة تقييم وتطوير الأداء الجامعي بالكلية",
-        "مدير مكتب ليدر للاستشارات",
-        "معار بجامعة القصيم",
-        "معار حالياً بجامعة الملك سعود (المملكة العربية السعودية)"
-      ]
-    },
-    "publisher": {
-      "name": "الدار الجامعية",
-      "city": "الإسكندرية",
-      "address": "84 شارع زكريا غنيم - الإبراهيمية - الإسكندرية",
-      "phone_fax": "002035907466 - 002035917882",
-      "email": "m20ibrahim@yahoo.com",
-      "website": "www.eldarelgamaya.net"
-    },
-    "publication_year": 2015,
-    "deposit_number": "25523",
-    "isbn": "978-977-422-326-6",
-    "table_of_contents": [
-      {
-        "title": "مقدمة",
-        "page": 13
-      },
-      {
-        "title": "الفصل الأول: الحوكمة والمتطلبات التنظيمية والإدارية لتفعيلها",
-        "page": 17
-      },
-      {
-        "title": "الفصل الثاني: التفكير الابتكاري الإبداعي ودوره في تطوير جودة الخدمة العامة",
-        "page": 69
-      },
-      {
-        "title": "الفصل الثالث: الإدارة الإستراتيجية وتنمية المزايا التنافسية بالتطبيق علي صناعة السياحة",
-        "page": 109
-      },
-      {
-        "title": "الفصل الرابع: اتفاقية الكويز وأبعادها التنموية والإدارية",
-        "page": 151
-      },
-      {
-        "title": "الفصل الخامس: المتطلبات التنظيمية والإدارية لنجاح الشركات العائلية",
-        "page": 189
-      },
-      {
-        "title": "الفصل السادس: ريادة الأعمال والمشروعات الصغيرة (أفكار أساسية وقضايا متنوعة)",
-        "page": 243
-      },
-      {
-        "title": "الفصل السابع: أساسيات ريادة الأعمال",
-        "page": 283
-      },
-      {
-        "title": "الفصل الثامن: ريادة الأعمال ومواجهة التحديات والمخاطر أمام المشروعات الصغيرة",
-        "page": 313
-      },
-      {
-        "title": "المراجع",
-        "page": 343
-      }
-    ],
     "id": 10,
+    "title": "قضايا إدارية وتنموية معاصرة",
+    "title_en": "Contemporary Administrative and Developmental Issues",
+    "author": "مصطفى محمود أبو بكر",
+    "author_en": "Mostafa Mahmoud Abu Bakr",
+    "category": "الإدارة العامة والتنمية الإدارية",
+    "category_en": "Public Administration & Administrative Development",
+    "type": "مرجع أكاديمي",
+    "type_en": "Academic Reference",
+    "description": "مرجع شامل يناقش القضايا الإدارية والتنموية المعاصرة، مثل الحوكمة، التفكير الابتكاري، الإدارة الاستراتيجية، الشركات العائلية، وريادة الأعمال والمشروعات الصغيرة.",
+    "description_en": "A comprehensive reference discussing contemporary administrative and developmental issues, such as governance, innovative thinking, strategic management, family businesses, and entrepreneurship.",
+    "publisher": "الدار الجامعية",
+    "publisher_en": "Al-Dar Al-Jamia",
+    "year": "2015",
     "pages": "356",
     "file_size": "14.93 MB",
     "file_type": "PDF",
-    "file_path": "pdf/قضايا إدارية وتنموية معاصرة تأصيل علمي وتطبيق عملي.pdf",
-    "cover_image": "covers/10.png"
+    "isbn": "978-977-422-326-6",
+    "keywords": [
+      "قضايا إدارية معاصرة",
+      "الحوكمة",
+      "الإدارة الاستراتيجية",
+      "ريادة الأعمال",
+      "الشركات العائلية",
+      "التفكير الابتكاري"
+    ],
+    "keywords_en": [
+      "Contemporary Administrative Issues",
+      "Governance",
+      "Strategic Management",
+      "Entrepreneurship",
+      "Family Businesses",
+      "Innovative Thinking"
+    ],
+    "key_points": [
+      "متطلبات تفعيل الحوكمة المؤسسية في الإدارة.",
+      "دور التفكير الابتكاري في تطوير جودة الخدمة العامة.",
+      "الإدارة الاستراتيجية وتنمية المزايا التنافسية.",
+      "المتطلبات التنظيمية لنجاح الشركات العائلية والمشروعات الصغيرة."
+    ],
+    "key_points_en": [
+      "Requirements for implementing corporate governance in management.",
+      "The role of innovative thinking in improving public service quality.",
+      "Strategic management and developing competitive advantages.",
+      "Organizational requirements for the success of family businesses and small projects."
+    ],
+    "target_audience": "الباحثون الأكاديميون، طلاب الدراسات العليا في إدارة الأعمال، والمدراء والمستشارون الإداريون.",
+    "target_audience_en": "Academic researchers, postgraduate business students, and administrative managers and consultants.",
+    "cover_image": "covers/10.png",
+    "file_path": "pdf/قضايا إدارية وتنموية معاصرة تأصيل علمي وتطبيق عملي.pdf"
   },
   {
+    "id": 11,
     "title": "بحوث العمليات",
     "title_en": "Operations Research",
     "author": "ب. راما مورثي",
@@ -566,6 +533,9 @@
     "publisher": "نيو إيج إنترناشيونال للنشر",
     "publisher_en": "New Age International (P) Ltd., Publishers",
     "year": "2007",
+    "pages": "716",
+    "file_size": "3.18 MB",
+    "file_type": "PDF",
     "isbn": "978-81-224-2944-2",
     "keywords": [
       "بحوث العمليات",
@@ -597,11 +567,7 @@
     ],
     "target_audience": "طلاب وأساتذة الهندسة الصناعية، الهندسة الميكانيكية، وإدارة الأعمال",
     "target_audience_en": "Students and faculty in Industrial Engineering, Mechanical Engineering, and Management Science",
-    "id": 11,
-    "pages": "716",
-    "file_size": "3.18 MB",
-    "file_type": "PDF",
-    "file_path": "pdf/Operations Research.pdf",
-    "cover_image": "covers/11.png"
+    "cover_image": "covers/11.png",
+    "file_path": "pdf/Operations Research.pdf"
   }
 ]
