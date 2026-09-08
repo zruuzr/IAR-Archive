@@ -83,7 +83,6 @@ html[dir="ltr"] .stat-box { border-left: none; border-right: 1px solid var(--bor
 .rating-stars i.active { color: var(--star); }
 .rating-stars i:hover { transform: scale(1.2); }
 
-/* ===== تنسيقات الـ Footer ===== */
 .footer-iar {
   background-color: var(--primary);
   border-top: 1px solid var(--border);
@@ -112,7 +111,7 @@ html[dir="ltr"] .stat-box { border-left: none; border-right: 1px solid var(--bor
   width: 42px;
   height: 42px;
   border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.15); /* تم زيادة الوضوح للوضع النهاري */
+  background-color: rgba(255, 255, 255, 0.15);
   color: #ffffff;
   font-size: 1.4rem;
   text-decoration: none;
@@ -133,7 +132,6 @@ html[dir="ltr"] .stat-box { border-left: none; border-right: 1px solid var(--bor
   letter-spacing: 0.5px;
 }
 
-/* تنسيقات صفحة الكتاب الفردي */
 #singleBookView {
   background: var(--card-bg);
   border: 1px solid var(--border);
