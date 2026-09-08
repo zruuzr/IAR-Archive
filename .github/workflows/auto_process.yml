@@ -34,6 +34,17 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # سحب أحدث التحديثات لتفادي حدوث تعارضات (Race Conditions)
+          git pull --rebase origin main || git pull --rebase origin master || true
+          
           git add books.json
-          git commit -m "Auto-update books.json with new book info" || exit 0
+          
+          # التحقق مما إذا كان هناك تغيير حقيقي في الملف قبل الـ commit
+          if git diff --staged --quiet; then
+            echo "لم يتم العثور على أي تغييرات جديدة لتسجيلها."
+            exit 0
+          fi
+          
+          git commit -m "Auto-update books.json with new book info"
           git push
