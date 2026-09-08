@@ -151,7 +151,7 @@ if os.path.exists(PDF_DIR):
                         contents_payload = prompt
 
                     response = client.models.generate_content(
-                        model="gemini-2.5-flash",  # تم اعتماد موديل موثوق ومستقر
+                        model="gemini-3.6-flash",  # تم التحديث إلى الموديل الصحيح والمدعوم
                         contents=contents_payload,
                         config=types.GenerateContentConfig(
                             response_mime_type="application/json"
