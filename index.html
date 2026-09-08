@@ -23,7 +23,6 @@
   <link rel="stylesheet" href="style.css">
 
   <script>
-    // سكربت التهيئ السريع (يعمل قبل تحميل الصفحة لمنع الوميض)
     (function () {
       var lang = localStorage.getItem('iar_lang') || 'ar';
       var theme = localStorage.getItem('iar_theme') || 'light';
@@ -116,6 +115,9 @@
       </button>
     </div>
 
+    <!-- شريط تنبيه وضع الحزمة البحثية -->
+    <div id="bundleModeAlertContainer"></div>
+
     <!-- Controls Row -->
     <div class="row g-3 mb-3 align-items-center" id="controlsRow">
       <div class="col-md-7">
@@ -154,6 +156,11 @@
     <div id="booksDisplayContainer">
       <div class="text-center text-muted py-5" role="status" id="booksLoading"><span class="spinner-border spinner-border-sm ms-2" aria-hidden="true"></span><span id="txt-loading">جارٍ تحميل المراجع…</span></div>
     </div>
+
+    <!-- أزرار ترقيم الصفحات -->
+    <nav aria-label="Page navigation" class="mt-4">
+      <ul class="pagination justify-content-center" id="paginationContainer"></ul>
+    </nav>
 
     <!-- Single Book View -->
     <div id="singleBookView" class="d-none">
@@ -296,7 +303,6 @@
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-  <!-- ربط ملف الجافاسكريبت الخاص بك المنفصل والمحمي -->
   <script src="app.js"></script>
 </body>
 </html>
