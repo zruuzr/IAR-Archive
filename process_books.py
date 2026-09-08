@@ -1,6 +1,7 @@
 import os
 import json
 import shutil
+import time
 from google import genai
 from google.genai import types
 from pypdf import PdfReader
@@ -150,13 +151,29 @@ if os.path.exists(PDF_DIR):
 """
                         contents_payload = prompt
 
-                    response = client.models.generate_content(
-                        model="gemini-3.6-flash",  # تم التحديث إلى الموديل الصحيح والمدعوم
-                        contents=contents_payload,
-                        config=types.GenerateContentConfig(
-                            response_mime_type="application/json"
-                        )
-                    )
+                    # نظام محاولات متكررة (Retry Logic) لتجاوز أخطاء الضغط 503 المؤقتة
+                    max_retries = 3
+                    retry_delay = 10
+                    response = None
+
+                    for attempt in range(max_retries):
+                        try:
+                            response = client.models.generate_content(
+                                model="gemini-3.6-flash",
+                                contents=contents_payload,
+                                config=types.GenerateContentConfig(
+                                    response_mime_type="application/json"
+                                )
+                            )
+                            break
+                        except Exception as api_err:
+                            print(f"المحاولة ({attempt + 1}/{max_retries}) فشلت بسبب الضغط على الخادم: {api_err}")
+                            if attempt < max_retries - 1:
+                                print(waiting_msg := f"الانتظار لمدة {retry_delay} ثوانٍ ثم إعادة المحاولة...")
+                                time.sleep(retry_delay)
+                                retry_delay *= 2 # مضاعفة وقت الانتظار تدريجياً
+                            else:
+                                raise api_err
                     
                     if response and response.text:
                         raw_book = json.loads(response.text.strip())
@@ -174,7 +191,7 @@ if os.path.exists(PDF_DIR):
                         print(f"تمت إضافة الكتاب بنجاح: {new_book.get('title')}")
                         
                 except Exception as e:
-                    print(f"خطأ أثناء معالجة الملف {file_name}: {e}")
+                    print(f"خطأ نهائي أثناء معالجة الملف {file_name}: {e}")
                 finally:
                     if uploaded_file:
                         try:
