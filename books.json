@@ -551,5 +551,57 @@
     "file_type": "PDF",
     "file_path": "pdf/قضايا إدارية وتنموية معاصرة تأصيل علمي وتطبيق عملي.pdf",
     "cover_image": "covers/10.png"
+  },
+  {
+    "title": "بحوث العمليات",
+    "title_en": "Operations Research",
+    "author": "ب. راما مورثي",
+    "author_en": "P. Rama Murthy",
+    "category": "الهندسة الصناعية وبحوث العمليات",
+    "category_en": "Industrial Engineering & Operations Research",
+    "type": "كتاب دراسي",
+    "type_en": "Textbook",
+    "description": "كتاب دراسي شامل يغطي موضوعات بحوث العمليات مثل البرمجة الخطية، نماذج النقل والتعيين، التحكم في المخزون، نظرية الصفوف، نظرية الألعاب، والبرمجة الديناميكية وتقنية PERT/CPM، صُمم لمساعدة طلاب الهندسة الصناعية والميكانيكية والمعلمين على فهم واستيعاب المادة بسهولة.",
+    "description_en": "A comprehensive textbook covering key Operations Research topics including Linear Programming, Transportation and Assignment models, Inventory Control, Queuing Theory, Game Theory, Dynamic Programming, and PERT/CPM, designed to help engineering students and instructors master the subject.",
+    "publisher": "نيو إيج إنترناشيونال للنشر",
+    "publisher_en": "New Age International (P) Ltd., Publishers",
+    "year": "2007",
+    "isbn": "978-81-224-2944-2",
+    "keywords": [
+      "بحوث العمليات",
+      "البرمجة الخطية",
+      "التحكم في المخزون",
+      "نظرية الصفوف",
+      "نظرية الألعاب",
+      "إدارة المشاريع"
+    ],
+    "keywords_en": [
+      "Operations Research",
+      "Linear Programming",
+      "Inventory Control",
+      "Queuing Theory",
+      "Game Theory",
+      "Project Management"
+    ],
+    "key_points": [
+      "تغطية شاملة لنموذج البرمجة الخطية وطريقة السيمبلكس",
+      "شرح مفصل لنماذج النقل، التعيين، التتابع، والإحلال",
+      "دراسة أنظمة التحكم في المخزون ونظرية الانتظار (الصفوف)",
+      "تطبيقات اتخاذ القرار، المحاكاة، وتقنيات إدارة المشاريع (PERT و CPM)"
+    ],
+    "key_points_en": [
+      "Comprehensive coverage of Linear Programming models and Simplex method",
+      "Detailed explanation of Transportation, Assignment, Sequencing, and Replacement models",
+      "Study of Inventory Control systems and Queuing Theory",
+      "Applications in Decision Theory, Simulation, and Project Management (PERT and CPM)"
+    ],
+    "target_audience": "طلاب وأساتذة الهندسة الصناعية، الهندسة الميكانيكية، وإدارة الأعمال",
+    "target_audience_en": "Students and faculty in Industrial Engineering, Mechanical Engineering, and Management Science",
+    "id": 11,
+    "pages": "716",
+    "file_size": "3.18 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/Operations Research.pdf",
+    "cover_image": "covers/11.png"
   }
 ]
