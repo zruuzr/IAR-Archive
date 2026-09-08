@@ -1,8 +1,6 @@
-// التغليف بواسطة IIFE لمنع تلوث النطاق العام (Global Namespace Pollution)
 (function () {
   'use strict';
 
-  // ===== Firebase Configuration =====
   const firebaseConfig = {
     apiKey: "AIzaSyAug0yFzjQ4ud6zX2ugK_T7Lj7LfuO04tw",
     authDomain: "iar-archive-328bc.firebaseapp.com",
@@ -17,14 +15,12 @@
   const db = firebase.firestore();
   const auth = firebase.auth();
 
-  // ===== Storage Helper =====
   const storage = {
     get(key, fallback) { try { return localStorage.getItem(key) || fallback; } catch (_) { return fallback; } },
     set(key, value) { try { localStorage.setItem(key, value); } catch (_) {} },
     remove(key) { try { localStorage.removeItem(key); } catch (_) {} }
   };
 
-  // ===== DOM Safe Helper =====
   function setText(id, value) {
     const el = document.getElementById(id);
     if (el) el.innerText = value;
@@ -46,7 +42,7 @@
     if (el) el.classList.add('d-none');
   }
 
-  // ===== State Variables =====
+  // متغيرات الحالة والنظام
   let booksData = [];
   let selectedBundleIds = new Set();
   let favoriteIds = new Set(JSON.parse(storage.get('iar_favorites', '[]')));
@@ -58,7 +54,11 @@
   let currentOpenBookId = null;
   let isSingleView = false;
 
-  // ===== Firebase Auth =====
+  // متغيرات الترقيم ووضع الحزمة
+  let currentPage = 1;
+  const itemsPerPage = 10;
+  let isBundleMode = false;
+
   async function initAuth() {
     try {
       const userCredential = await Promise.race([
@@ -66,18 +66,15 @@
         new Promise((_, reject) => setTimeout(() => reject(new Error('Auth timeout after 5s')), 5000))
       ]);
       currentUser = userCredential.user;
-      console.log('Anonymous auth successful:', currentUser.uid);
     } catch (error) {
-      console.error('Anonymous auth failed or timed out:', error);
+      console.error('Auth failed:', error);
     }
   }
 
-  // ===== Modal Instances =====
   const pdfModal = new bootstrap.Modal(document.getElementById('pdfReaderModal'));
   const summaryModal = new bootstrap.Modal(document.getElementById('summaryModal'));
   const coverModal = new bootstrap.Modal(document.getElementById('coverImageModal'));
 
-  // ===== i18n Dictionary =====
   const i18n = {
     ar: {
       announcement: "IAR Archive - المستودع الرقمي التفاعلي لربط المراجع الإدارية بالتحليل والمفاهيم",
@@ -92,7 +89,6 @@
       readBtn: "قراءة", downloadBtn: "تحميل", shareBtn: "مشاركة", citeBtn: "توثيق APA", summaryBtn: "ملخص 3 دقائق",
       favoriteBtn: "أضف إلى المفضلة", unfavoriteBtn: "إزالة من المفضلة", rateBtn: "تقييم الكتاب",
       noBooks: "لم يتم العثور على كتب مطابقة لخيارات البحث.", errorMsg: "تعذر تحميل قائمة الكتب.",
-      footerText: "الأرشيف الإداري العراقي - المستودع الرقمي المتخصص في العلوم الإدارية",
       toastCopied: "تم النسخ إلى الحافظة بنجاح.",
       toastCiteCopied: "تم نسخ التوثيق الأكاديمي (APA) إلى الحافظة.",
       toastBundleCopied: "تم نسخ رابط الحزمة البحثية المجمعة بنجاح.",
@@ -109,15 +105,9 @@
       defaultPoints: ["التحليل الهيكلي والتنظيمي للمؤسسات الحديثة.", "طرق صياغة القرارات الإدارية وتوزيع الصلاحيات.", "آليات التقييم والتطوير المؤسسي المستمر."],
       pagesSuffix: "صفحة", toastCopyFailed: "تعذّر النسخ تلقائيًا. انسخ الرابط من شريط العنوان.",
       viewCover: "عرض الغلاف", shareTitle: "مشاركة الكتاب", shareText: "ألق نظرة على هذا الكتاب:",
-      shareModalBtn: "مشاركة",
-      backToList: "العودة إلى جميع المراجع",
-      descLabel: "الوصف",
-      keyPointsLabel: "الأفكار الرئيسية",
-      audienceLabel: "الفئة المستهدفة",
-      readLabel: "قراءة",
-      downloadLabel: "تحميل",
-      citeLabel: "توثيق APA",
-      shareLabel: "مشاركة"
+      shareModalBtn: "مشاركة", backToList: "العودة إلى جميع المراجع",
+      descLabel: "الوصف", keyPointsLabel: "الأفكار الرئيسية", audienceLabel: "الفئة المستهدفة",
+      readLabel: "قراءة", downloadLabel: "تحميل", citeLabel: "توثيق APA", shareLabel: "مشاركة"
     },
     en: {
       announcement: "IAR Archive - Interactive Digital Repository for Management & Reference Sciences",
@@ -131,7 +121,6 @@
       readBtn: "Read", downloadBtn: "Download", shareBtn: "Share", citeBtn: "Cite APA", summaryBtn: "3-Min Summary",
       favoriteBtn: "Add to Favorites", unfavoriteBtn: "Remove from Favorites", rateBtn: "Rate this book",
       noBooks: "No matching references found.", errorMsg: "Failed to load repository data.",
-      footerText: "Iraqi Administrative Reference - Digital Repository for Management Sciences",
       toastCopied: "Copied to clipboard.", toastCiteCopied: "APA Citation copied to clipboard.",
       toastBundleCopied: "Research bundle link copied successfully.",
       toastFavoriteAdded: "Book added to favorites.", toastFavoriteRemoved: "Book removed from favorites.",
@@ -147,19 +136,12 @@
       defaultPoints: ["Structural and organizational analysis of modern institutions.", "Methods of administrative decision-making and delegation of authority.", "Continuous institutional assessment and development mechanisms."],
       pagesSuffix: "Pages", toastCopyFailed: "Automatic copy failed. Please copy the link from the address bar.",
       viewCover: "View cover", shareTitle: "Share this book", shareText: "Check out this book:",
-      shareModalBtn: "Share",
-      backToList: "Back to all references",
-      descLabel: "Description",
-      keyPointsLabel: "Key Concepts",
-      audienceLabel: "Target Audience",
-      readLabel: "Read",
-      downloadLabel: "Download",
-      citeLabel: "Cite APA",
-      shareLabel: "Share"
+      shareModalBtn: "Share", backToList: "Back to all references",
+      descLabel: "Description", keyPointsLabel: "Key Concepts", audienceLabel: "Target Audience",
+      readLabel: "Read", downloadLabel: "Download", citeLabel: "Cite APA", shareLabel: "Share"
     }
   };
 
-  // ===== Helper Functions =====
   function translateDynamicText(text, enField) {
     if (currentLang !== 'en') return text || '';
     if (enField && enField.trim() !== '') return enField;
@@ -231,7 +213,6 @@
     return label && label.trim() !== '' ? label : i18n[currentLang].generalCat;
   }
 
-  // ===== URL Parameter Handling =====
   function getBookIdFromUrl() {
     const params = new URLSearchParams(window.location.search);
     const bookParam = params.get('book');
@@ -260,13 +241,11 @@
     }
   }
 
-  // ===== Firebase Functions =====
   async function getSiteVisits() {
     try {
       const doc = await db.collection('stats').doc('visits').get();
       return doc.exists ? doc.data().count || 0 : 0;
     } catch (error) {
-      console.error('Error fetching site visits:', error);
       return parseInt(storage.get('iar_site_visits', '0')) || 0;
     }
   }
@@ -284,7 +263,6 @@
       storage.set('iar_site_visits', newCount);
       return newCount;
     } catch (error) {
-      console.error('Unique visit increment failed:', error);
       const local = parseInt(storage.get('iar_site_visits', '0')) || 0;
       return local + 1;
     }
@@ -297,7 +275,6 @@
       const doc = await docRef.get();
       return doc.exists ? doc.data().count || 0 : 0;
     } catch (error) {
-      console.error('Error incrementing download count:', error);
       return null;
     }
   }
@@ -315,9 +292,7 @@
           book.voters = data.voters || [];
         }
       });
-    } catch (error) {
-      console.error('Error loading public ratings from Firebase:', error);
-    }
+    } catch (error) {}
   }
 
   async function loadDownloadCounts() {
@@ -327,9 +302,7 @@
         const book = booksData.find(b => b.id === Number(doc.id));
         if (book) book.downloadCount = doc.data().count || 0;
       });
-    } catch (error) {
-      console.error('Error loading download counts from Firebase:', error);
-    }
+    } catch (error) {}
   }
 
   async function updateSiteVisits() {
@@ -343,7 +316,6 @@
         setText('siteVisitsCounter', count);
       }
     } catch (error) {
-      console.error('Error updating site visits:', error);
       const local = parseInt(storage.get('iar_site_visits', '0')) || 0;
       setText('siteVisitsCounter', local);
     }
@@ -356,23 +328,14 @@
     return (now - lastVisit > oneDay);
   }
 
-  // ===== دالة التقييم المحسّنة للتعامل الآمن مع القواعد =====
   async function submitPublicRating(bookId, newRating) {
-    if (typeof newRating !== 'number' || newRating < 1 || newRating > 5) {
-      showToast(currentLang === 'ar' ? 'قيمة التقييم غير صحيحة' : 'Invalid rating value', 'danger');
-      return false;
-    }
-
-    if (!auth.currentUser) {
-      showToast(currentLang === 'ar' ? 'لم يتم تسجيل الدخول بعد' : 'Not logged in yet', 'danger');
-      return false;
-    }
+    if (typeof newRating !== 'number' || newRating < 1 || newRating > 5) return false;
+    if (!auth.currentUser) return false;
 
     const uid = auth.currentUser.uid;
     const book = booksData.find(b => b.id === bookId);
     if (!book) return false;
 
-    // فحص سريع محلي لمنع الإرسال المزدوج
     if (book.voters && book.voters.includes(uid)) {
       showToast(currentLang === 'ar' ? 'لقد قمت بتقييم هذا الكتاب مسبقاً.' : 'You have already rated this book.', 'danger');
       return false;
@@ -388,11 +351,7 @@
       if (doc.exists) {
           const data = doc.data();
           const existingVoters = Array.isArray(data.voters) ? data.voters : [];
-          
-          if (existingVoters.includes(uid)) {
-              showToast(currentLang === 'ar' ? 'لقد قمت بتقييم هذا الكتاب مسبقاً.' : 'You have already rated this book.', 'danger');
-              return false;
-          }
+          if (existingVoters.includes(uid)) return false;
           newSum = (data.ratingSum || 0) + newRating;
           newCount = (data.ratingCount || 0) + 1;
       }
@@ -411,10 +370,7 @@
       book.voters.push(uid);
 
       return true;
-
     } catch (error) {
-      console.error('Error submitting rating:', error);
-      showToast(currentLang === 'ar' ? 'حدث خطأ أثناء حفظ التقييم.' : 'Error saving rating.', 'danger');
       return false;
     }
   }
@@ -433,13 +389,10 @@
       
       star.addEventListener('click', async (e) => {
         e.stopPropagation();
-        
-        // إصلاح مشكلة النقرات المتكررة (Race Condition Fix)
         if (container.style.pointerEvents === 'none') return; 
-        container.style.pointerEvents = 'none'; // قفل الواجهة مؤقتاً
+        container.style.pointerEvents = 'none';
         
         const success = await submitPublicRating(bookId, i);
-        
         if (success) {
           renderStars(bookId, container);
           showToast(i18n[currentLang].toastRated);
@@ -447,7 +400,6 @@
             applyFilters();
           }
         } else {
-          // فتح الواجهة مرة أخرى في حالة الفشل
           container.style.pointerEvents = 'auto'; 
         }
       });
@@ -461,7 +413,6 @@
     }
   }
 
-  // ===== Theme & Language =====
   const themeToggleBtn = document.getElementById('themeToggleBtn');
   let currentTheme = storage.get('iar_theme', 'light') === 'dark' ? 'dark' : 'light';
   document.documentElement.setAttribute('data-bs-theme', currentTheme);
@@ -496,7 +447,6 @@
     setText('langLabel', currentLang === 'ar' ? "EN" : "عربي");
 
     const t = i18n[currentLang];
-    
     setText('txt-announcement', t.announcement);
     setText('txt-subtitle', t.subtitle);
     setText('txt-about-title', t.aboutTitle);
@@ -539,6 +489,7 @@
     
     updateViewControls();
     syncBundleUI();
+    updateBundleAlertUI();
     if (booksLoaded && booksData.length > 0) { setupChipsCategories(); applyFilters(); }
   }
 
@@ -548,7 +499,6 @@
     window.location.reload();
   });
 
-  // ===== View Mode =====
   const btnViewGrid = document.getElementById('btnViewGrid');
   const btnViewList = document.getElementById('btnViewList');
   function updateViewControls() {
@@ -567,19 +517,19 @@
   btnViewGrid?.addEventListener('click', () => { currentViewMode = 'grid'; storage.set('iar_view_mode', 'grid'); updateViewControls(); applyFilters(); });
   btnViewList?.addEventListener('click', () => { currentViewMode = 'list'; storage.set('iar_view_mode', 'list'); updateViewControls(); applyFilters(); });
 
-  // ===== Device Detection =====
   function isMobileDevice() {
     return /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Tablet/i.test(navigator.userAgent) || 
            (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
   }
 
-  // ===== Single Book View =====
   function showSingleBookView(book) {
     isSingleView = true;
     hideEl('booksDisplayContainer');
     hideEl('controlsRow');
     hideEl('categoryChips');
     hideEl('bundleBar');
+    hideEl('bundleModeAlertContainer');
+    document.getElementById('paginationContainer').parentElement.classList.add('d-none');
     showEl('singleBookView');
     
     const t = i18n[currentLang];
@@ -601,7 +551,6 @@
     }
     
     setText('singleDownloadCount', book.downloadCount || 0);
-    
     const starsContainer = document.getElementById('singleBookStars');
     if (starsContainer) renderStars(book.id, starsContainer);
     
@@ -624,26 +573,25 @@
     showEl('booksDisplayContainer');
     showEl('controlsRow');
     showEl('categoryChips');
+    document.getElementById('paginationContainer').parentElement.classList.remove('d-none');
+    updateBundleAlertUI();
     updatePageTitle(null);
     const url = new URL(window.location.href);
     url.searchParams.delete('book');
     window.history.replaceState({}, '', url);
   }
 
-  // ===== Deep Linking Handler =====
   function handleDeepLinking() {
     const bookId = getBookIdFromUrl();
     if (bookId === null) return;
     const book = booksData.find(b => b.id === bookId);
     if (!book) {
-      console.warn('Book ID not found:', bookId);
       hideSingleBookView();
       return;
     }
     showSingleBookView(book);
   }
 
-  // ===== Share Function =====
   function shareBook(book) {
     if (!book) return;
     const title = translateDynamicText(book.title, book.title_en);
@@ -729,6 +677,7 @@
         e.currentTarget.classList.add('active');
         e.currentTarget.setAttribute('aria-pressed', 'true');
         selectedCategory = e.currentTarget.getAttribute('data-category');
+        currentPage = 1; // العودة للصفحة الأولى عند تغيير التصنيف
         applyFilters();
       });
     });
@@ -743,7 +692,6 @@
     if (!iframe || !fallbackContainer || !fallbackLink) return;
     
     fallbackLink.href = filePath;
-    
     if (isMobileDevice()) {
       fallbackContainer.style.display = 'block';
       iframe.src = `https://docs.google.com/viewer?url=${encodeURIComponent(new URL(filePath, window.location.href).href)}&embedded=true`;
@@ -751,8 +699,6 @@
       fallbackContainer.style.display = 'none';
       iframe.src = filePath;
     }
-    
-    iframe.onerror = () => { fallbackContainer.style.display = 'block'; };
     pdfModal.show();
   }
   document.getElementById('pdfReaderModal')?.addEventListener('hidden.bs.modal', () => {
@@ -804,11 +750,48 @@
     const copyBtn = document.getElementById('copyBundleBtn');
     if (copyBtn) copyBtn.disabled = selectedBundleIds.size === 0;
   }
+
+  function updateBundleAlertUI() {
+    const alertContainer = document.getElementById('bundleModeAlertContainer');
+    if (!alertContainer || isSingleView) return;
+
+    if (isBundleMode) {
+      alertContainer.innerHTML = `
+        <div class="alert alert-info d-flex justify-content-between align-items-center mb-4 shadow-sm">
+          <div>
+            <i class="bi bi-collection-fill me-2"></i>
+            <span>${currentLang === 'en' ? `Viewing a custom research bundle containing <strong>${selectedBundleIds.size}</strong> references.` : `أنت تستعرض حزمة بحثية مخصصة تضم <strong>${selectedBundleIds.size}</strong> مرجعاً.`}</span>
+          </div>
+          <button class="btn btn-outline-dark btn-sm fw-bold" id="exitBundleBtn">
+            <i class="bi bi-x-circle me-1"></i> ${currentLang === 'en' ? 'View All References' : 'العودة لجميع المراجع'}
+          </button>
+        </div>
+      `;
+      document.getElementById('exitBundleBtn')?.addEventListener('click', () => {
+        isBundleMode = false;
+        selectedBundleIds.clear();
+        syncBundleUI();
+        const url = new URL(window.location.href);
+        url.searchParams.delete('bundle');
+        window.history.replaceState({}, '', url);
+        alertContainer.innerHTML = '';
+        currentPage = 1;
+        applyFilters();
+      });
+    } else {
+      alertContainer.innerHTML = '';
+    }
+  }
+
   function hydrateBundleFromUrl() {
     const rawIds = new URL(window.location.href).searchParams.get('bundle');
     if (!rawIds) return;
     const availableIds = new Set(booksData.map(b => b.id));
     selectedBundleIds = new Set(rawIds.split(',').map(Number).filter(id => Number.isSafeInteger(id) && availableIds.has(id)));
+    if (selectedBundleIds.size > 0) {
+      isBundleMode = true;
+      updateBundleAlertUI();
+    }
   }
   
   document.getElementById('copyBundleBtn')?.addEventListener('click', async () => {
@@ -904,14 +887,64 @@
     if (trigger) toggleBundleSelection(Number(trigger.getAttribute('data-id')));
   });
 
+  // دوام عرض و ترقيم الصفحات
+  function renderPaginationControls(totalPages) {
+    const paginationEl = document.getElementById('paginationContainer');
+    if (!paginationEl) return;
+    
+    if (totalPages <= 1) {
+      paginationEl.innerHTML = '';
+      return;
+    }
+
+    let html = '';
+    html += `<li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+               <button class="page-link" data-page="${currentPage - 1}">${currentLang === 'en' ? 'Previous' : 'السابق'}</button>
+             </li>`;
+
+    for (let i = 1; i <= totalPages; i++) {
+      html += `<li class="page-item ${currentPage === i ? 'active' : ''}">
+                 <button class="page-link" data-page="${i}">${i}</button>
+               </li>`;
+    }
+
+    html += `<li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+               <button class="page-link" data-page="${currentPage + 1}">${currentLang === 'en' ? 'Next' : 'التالي'}</button>
+             </li>`;
+
+    paginationEl.innerHTML = html;
+
+    paginationEl.querySelectorAll('button.page-link').forEach(btn => {
+      btn.onclick = (e) => {
+        const targetPage = Number(e.currentTarget.getAttribute('data-page'));
+        if (targetPage >= 1 && targetPage <= totalPages && targetPage !== currentPage) {
+          currentPage = targetPage;
+          applyFilters();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      };
+    });
+  }
+
   function renderBooks(books) {
     const container = document.getElementById('booksDisplayContainer');
     if (!container) return;
     const t = i18n[currentLang];
-    if (books.length === 0) return container.innerHTML = `<p class="text-center text-muted py-5">${t.noBooks}</p>`;
+    
+    if (books.length === 0) {
+      container.innerHTML = `<p class="text-center text-muted py-5">${t.noBooks}</p>`;
+      renderPaginationControls(0);
+      return;
+    }
+
+    const totalPages = Math.ceil(books.length / itemsPerPage);
+    if (currentPage > totalPages) currentPage = Math.max(1, totalPages);
+    
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const paginatedBooks = books.slice(startIndex, startIndex + itemsPerPage);
 
     if (currentViewMode === 'grid') {
-      container.innerHTML = `<div class="row g-4">${books.map(book => {
+      container.innerHTML = `<div class="row g-4">${paginatedBooks.map(book => {
         let title = escapeHtml(translateDynamicText(book.title, book.title_en));
         let author = escapeHtml(translateDynamicText(book.author, book.author_en));
         let category = escapeHtml(translateDynamicText(book.category, book.category_en) || t.generalCat);
@@ -978,7 +1011,7 @@
                 <th class="text-end">${currentLang==='en'?'Actions':'الإجراءات'}</th>
               </tr>
             </thead>
-            <tbody>${books.map(book => {
+            <tbody>${paginatedBooks.map(book => {
               const isFav = isFavorite(book.id);
               const downloadControl = book.file_path
                 ? `<button type="button" data-action="download" data-id="${book.id}" class="btn btn-primary btn-sm d-inline-flex align-items-center" aria-label="${t.downloadBtn}">
@@ -1009,7 +1042,10 @@
           </table>
         </div>`;
     }
-    books.forEach(b => {
+
+    renderPaginationControls(totalPages);
+
+    paginatedBooks.forEach(b => {
       const starsEl = document.getElementById(`stars-${b.id}`);
       if (starsEl) renderStars(b.id, starsEl);
     });
@@ -1024,6 +1060,10 @@
     const sortValue = document.getElementById('sortOrder')?.value || 'default';
 
     let filtered = booksData.filter(book => {
+      // إذا كنا في وضع الحزمة البحثية، اعرض حصراً الكتب الموجودة في الحزمة
+      if (isBundleMode && !selectedBundleIds.has(book.id)) {
+        return false;
+      }
       const keywords = currentLang === 'en' && book.keywords_en.length > 0 ? book.keywords_en.join(' ') : book.keywords.join(' ');
       const searchableText = `${translateDynamicText(book.title, book.title_en)} ${translateDynamicText(book.author, book.author_en)} ${translateDynamicText(book.publisher, book.publisher_en)} ${translateDynamicText(book.description, book.description_en)} ${keywords}`.toLocaleLowerCase(currentLang);
       return (query === '' || searchableText.includes(query)) && (selectedCategory === 'all' || getCategoryKey(book) === selectedCategory);
@@ -1048,19 +1088,22 @@
 
   searchInput?.addEventListener('input', () => {
     if (btnClearSearch) btnClearSearch.classList.toggle('d-none', searchInput.value.trim() === '');
+    currentPage = 1; // العودة للصفحة الأولى عند البحث
     debounce(applyFilters, 200)();
   });
   btnClearSearch?.addEventListener('click', () => { 
     if (searchInput) searchInput.value = '';
     if (btnClearSearch) btnClearSearch.classList.add('d-none');
+    currentPage = 1;
     applyFilters(); 
   });
-  document.getElementById('sortOrder')?.addEventListener('change', applyFilters);
+  document.getElementById('sortOrder')?.addEventListener('change', () => {
+    currentPage = 1;
+    applyFilters();
+  });
 
-  // ===== زر العودة للقائمة =====
   document.getElementById('btnBackToList')?.addEventListener('click', hideSingleBookView);
 
-  // ===== Fetch and Process Books (إصلاح الكاش) =====
   async function fetchBooks() {
     const loadingEl = document.getElementById('booksLoading');
     const container = document.getElementById('booksDisplayContainer');
@@ -1068,7 +1111,6 @@
     if (loadingEl) loadingEl.style.display = 'none';
 
     try {
-      // إصلاح مشكلة الكاش (Cache Busting) بجلب التحديثات الجديدة دائماً
       const timestamp = new Date().getTime();
       const response = await fetch(`./books.json?v=${timestamp}`, { 
         headers: { 
@@ -1097,8 +1139,6 @@
 
       applyFilters();
 
-      if (loadingEl) loadingEl.style.display = 'none';
-
       const firebaseTasks = [
         loadPublicRatings(),
         loadDownloadCounts(),
@@ -1106,35 +1146,25 @@
       ];
 
       Promise.allSettled(firebaseTasks).then(results => {
-        results.forEach((result, index) => {
-          if (result.status === 'rejected') {
-            console.error(`Firebase task ${index} failed:`, result.reason);
-          }
-        });
-        if (booksLoaded) {
-          applyFilters();
-        }
+        if (booksLoaded) applyFilters();
       });
 
       handleDeepLinking();
 
     } catch (error) {
-      console.error('Critical error loading books.json:', error);
       if (container) {
         container.innerHTML = `<div class="alert alert-danger text-center py-5">
           <i class="bi bi-exclamation-triangle me-2"></i> 
           ${i18n[currentLang].errorMsg || 'تعذر تحميل البيانات المحلية'}
         </div>`;
       }
-      if (loadingEl) loadingEl.style.display = 'none';
     } finally {
       if (loadingEl) loadingEl.style.display = 'none';
     }
   }
 
-  // ===== Initialize =====
-  initAuth(); // في الخلفية
+  initAuth();
   applyLanguage(currentLang);
-  fetchBooks(); // تشغيل مباشر دون انتظار
+  fetchBooks();
 
-})(); // نهاية التغليف IIFE
+})();
