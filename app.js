@@ -154,12 +154,27 @@
 
   function asText(value) { return value === null || value === undefined ? '' : String(value).trim(); }
 
+  // تعديل مسارات الأصول: توجيه ملفات PDF مباشرة إلى GitHub Raw وتخزين الأغلفة محلياً
   function safeAssetUrl(value, allowedExtensions) {
     const source = asText(value);
     if (!source) return '';
     try {
-      const url = new URL(source, new URL('./books.json', window.location.href));
-      if (url.origin !== window.location.origin || !allowedExtensions.test(url.pathname)) return '';
+      if (source.startsWith('http://') || source.startsWith('https://')) {
+        const url = new URL(source);
+        if (allowedExtensions.test(url.pathname)) return source;
+        return '';
+      }
+      const cleanPath = source.replace(/^\/+/, '');
+      if (!allowedExtensions.test(cleanPath)) return '';
+
+      // إذا كان الملف PDF، يتم توجيهه إلى رابط مستودع GitHub الخام مباشرة
+      if (/\.pdf$/i.test(cleanPath)) {
+        return `https://raw.githubusercontent.com/zruuzr/IAR-Archive/main/${cleanPath}`;
+      }
+
+      // للأغلفة والملفات الأخرى، تبقى محلية
+      const url = new URL(cleanPath, new URL('./books.json', window.location.href));
+      if (url.origin !== window.location.origin) return '';
       return `${url.pathname}${url.search}${url.hash}`;
     } catch (_) { return ''; }
   }
@@ -677,7 +692,7 @@
         e.currentTarget.classList.add('active');
         e.currentTarget.setAttribute('aria-pressed', 'true');
         selectedCategory = e.currentTarget.getAttribute('data-category');
-        currentPage = 1; // العودة للصفحة الأولى عند تغيير التصنيف
+        currentPage = 1;
         applyFilters();
       });
     });
@@ -887,7 +902,6 @@
     if (trigger) toggleBundleSelection(Number(trigger.getAttribute('data-id')));
   });
 
-  // دوام عرض و ترقيم الصفحات
   function renderPaginationControls(totalPages) {
     const paginationEl = document.getElementById('paginationContainer');
     if (!paginationEl) return;
@@ -1060,7 +1074,6 @@
     const sortValue = document.getElementById('sortOrder')?.value || 'default';
 
     let filtered = booksData.filter(book => {
-      // إذا كنا في وضع الحزمة البحثية، اعرض حصراً الكتب الموجودة في الحزمة
       if (isBundleMode && !selectedBundleIds.has(book.id)) {
         return false;
       }
@@ -1088,7 +1101,7 @@
 
   searchInput?.addEventListener('input', () => {
     if (btnClearSearch) btnClearSearch.classList.toggle('d-none', searchInput.value.trim() === '');
-    currentPage = 1; // العودة للصفحة الأولى عند البحث
+    currentPage = 1;
     debounce(applyFilters, 200)();
   });
   btnClearSearch?.addEventListener('click', () => { 
