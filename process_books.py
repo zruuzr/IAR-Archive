@@ -5,7 +5,11 @@ from google import genai
 from google.genai import types
 from pypdf import PdfReader
 
-# إعداد عميل Gemini باستخدام المفتاح الممرر من أسرار GitHub
+# ✅ التحقق المبكر من وجود مفتاح API لتجنب الانهيار المفاجئ
+if "GEMINI_API_KEY" not in os.environ:
+    raise ValueError("خطأ: متغير البيئة GEMINI_API_KEY غير موجود. يرجى إعداده في أسرار مستودع GitHub.")
+
+# إعداد عميل Gemini باستخدام المفتاح الممرر
 client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
 
 JSON_PATH = "books.json"
@@ -72,10 +76,13 @@ def extract_first_pages_text(pdf_path, max_pages=10):
         print(f"تعذر استخراج النص محلياً من {pdf_path}: {e}")
     return text.strip()
 
-# قراءة البيانات الحالية من ملف books.json
+# قراءة البيانات الحالية من ملف books.json بأمان
 if os.path.exists(JSON_PATH):
-    with open(JSON_PATH, "r", encoding="utf-8") as f:
-        books_data = json.load(f)
+    try:
+        with open(JSON_PATH, "r", encoding="utf-8") as f:
+            books_data = json.load(f)
+    except Exception:
+        books_data = []
 else:
     books_data = []
 
@@ -110,8 +117,9 @@ if os.path.exists(PDF_DIR):
                     else:
                         contents_payload = f"{JSON_SCHEMA_PROMPT}\n\nالنص المستخرج من الكتاب:\n{sample_text[:12000]}"
 
+                    # استخدام اسم نموذج مستقر ومعتمد
                     response = client.models.generate_content(
-                        model="gemini-3.6-flash",
+                        model="gemini-3.5-flash",
                         contents=contents_payload,
                         config=types.GenerateContentConfig(
                             response_mime_type="application/json"
@@ -121,8 +129,14 @@ if os.path.exists(PDF_DIR):
                     if response and response.text:
                         new_book = json.loads(response.text.strip())
                         
-                        # إسناد المعرف والبيانات المحسوبة برمجياً
-                        new_book["id"] = len(books_data) + 1
+                        # التحقق من أن الاستجابة عبارة عن قاموس (dict)
+                        if not isinstance(new_book, dict):
+                            raise ValueError("استجابة نموذج Gemini لم تكن بصيغة كائن JSON صالح.")
+                        
+                        # توليد ID آمن ومتسلسل لا يتأثر بالحذف اليدوي
+                        max_id = max((book.get("id", 0) for book in books_data), default=0)
+                        new_book["id"] = max_id + 1
+                        
                         new_book["pages"] = pages_count if pages_count else new_book.get("pages")
                         new_book["file_size"] = file_size_str
                         new_book["file_type"] = "PDF"
@@ -130,19 +144,26 @@ if os.path.exists(PDF_DIR):
                         new_book["cover_image"] = f"covers/{new_book['id']}.png"
                         
                         books_data.append(new_book)
-                        print(f"تمت إضافة الكتاب بنجاح: {new_book.get('title')}")
+                        
+                        # حفظ تدريجي للبيانات بعد إضافة كل كتاب (لحماية التقدم وضمان عدم ضياعه)
+                        with open(JSON_PATH, "w", encoding="utf-8") as f:
+                            json.dump(books_data, f, ensure_ascii=False, indent=2)
+                            
+                        print(f"تمت إضافة وحفظ الكتاب بنجاح: {new_book.get('title')}")
                         
                 except Exception as e:
                     print(f"خطأ أثناء معالجة الملف {file_name}: {e}")
                 finally:
+                    # التنظيف الآمن للملفات المؤقتة
                     if uploaded_file:
                         try:
                             client.files.delete(name=uploaded_file.name)
                         except Exception:
                             pass
                     if os.path.exists(temp_pdf):
-                        os.remove(temp_pdf)
+                        try:
+                            os.remove(temp_pdf)
+                        except Exception:
+                            pass
 
-# حفظ القائمة المحدثة في books.json
-with open(JSON_PATH, "w", encoding="utf-8") as f:
-    json.dump(books_data, f, ensure_ascii=False, indent=2)
+print("اكتملت عملية معالجة المراجع بنجاح.")
