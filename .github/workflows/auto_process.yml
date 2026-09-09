@@ -9,12 +9,21 @@ on:
 permissions:
   contents: write
 
+# ✅ منع تداخل التشغيلات المتزامنة لحماية بيانات books.json من التلف
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   process-pdf:
     runs-on: ubuntu-latest
+    timeout-minutes: 10 # ✅ إيقاف الـ Job تلقائياً إذا تجاوزت 10 دقائق لمنع استنزاف الموارد
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # ✅ جلب السجل الكامل لتفادي أخطاء الـ rebase
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -35,16 +44,17 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
-          # سحب أحدث التحديثات لتفادي حدوث تعارضات (Race Conditions)
-          git pull --rebase origin main || git pull --rebase origin master || true
+          # ✅ سحب أحدث التحديثات باستخدام اسم الفرع الحالي ديناميكياً
+          git pull --rebase origin ${{ github.ref_name }}
           
-          git add books.json
+          # ✅ إضافة ملف البيانات وأي صور أغلفة جديدة تم إنشاؤها
+          git add books.json covers/
           
-          # التحقق مما إذا كان هناك تغيير حقيقي في الملف قبل الـ commit
+          # التحقق مما إذا كان هناك تغيير حقيقي قبل الـ commit لمنع الـ commits الفارغة
           if git diff --staged --quiet; then
             echo "لم يتم العثور على أي تغييرات جديدة لتسجيلها."
             exit 0
           fi
           
-          git commit -m "Auto-update books.json with new book info"
-          git push
+          git commit -m "Auto-update books.json and covers with new book info"
+          git push origin ${{ github.ref_name }}
