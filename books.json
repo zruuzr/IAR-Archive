@@ -885,5 +885,13 @@
     "file_type": "PDF",
     "file_path": "pdf/دراسات ميدانية في إدارة الأعمال.pdf",
     "cover_image": "covers/17.png"
+  },
+  {
+    "id": 18,
+    "pages": "135",
+    "file_size": "1.63 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/المائة كلمة في الإدارة.pdf",
+    "cover_image": "covers/18.png"
   }
 ]
