@@ -154,7 +154,7 @@
 
   function asText(value) { return value === null || value === undefined ? '' : String(value).trim(); }
 
-  // تعديل مسارات الأصول: توجيه ملفات PDF مباشرة إلى GitHub Raw وتخزين الأغلفة محلياً
+  // دالة مسارات الأصول مع ترميز روابط الـ PDF لمنع أخطاء المسافات (404)
   function safeAssetUrl(value, allowedExtensions) {
     const source = asText(value);
     if (!source) return '';
@@ -167,9 +167,9 @@
       const cleanPath = source.replace(/^\/+/, '');
       if (!allowedExtensions.test(cleanPath)) return '';
 
-      // إذا كان الملف PDF، يتم توجيهه إلى رابط مستودع GitHub الخام مباشرة
+      // توجيه ملفات PDF إلى GitHub Raw مع ترميز المسافات
       if (/\.pdf$/i.test(cleanPath)) {
-        return `https://raw.githubusercontent.com/zruuzr/IAR-Archive/main/${cleanPath}`;
+        return `https://raw.githubusercontent.com/zruuzr/IAR-Archive/main/${encodeURI(cleanPath)}`;
       }
 
       // للأغلفة والملفات الأخرى، تبقى محلية
