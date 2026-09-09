@@ -985,5 +985,59 @@
     "file_type": "PDF",
     "file_path": "pdf/المرجع المتكامل في إدارة الأعمال.pdf",
     "cover_image": "covers/19.png"
+  },
+  {
+    "title": "مبادئ إدارة الأعمال",
+    "title_en": "Principles of Business Administration",
+    "author": "غير مذكور",
+    "author_en": "Not Specified",
+    "category": "إدارة الأعمال",
+    "category_en": "Business Administration",
+    "type": "حقيبة تدريبية / كتاب تعليمي",
+    "type_en": "Training Manual / Educational Book",
+    "description": "حقيبة تدريبية ودليل تعليمي يغطي أساسيات ومبادئ إدارة الأعمال. يتناول الكتاب مفاهيم الإدارة وأهميتها وتطورها التاريخي، مع التركيز على النظريات الإدارية الكلاسيكية كالبيروقراطية لماكس فيبر، والإدارة العلمية، ومبادئ التنظيم والإدارة لهنري فايول.",
+    "description_en": "A training manual and educational handbook covering the fundamentals and principles of business administration. It addresses management concepts, importance, and historical evolution, focusing on classical management theories such as Max Weber's bureaucracy, scientific management, and Henri Fayol's administrative principles.",
+    "publisher": "غير مذكور",
+    "publisher_en": "Not Specified",
+    "year": "غير مؤرخ",
+    "isbn": "",
+    "keywords": [
+      "مبادئ الإدارة",
+      "إدارة الأعمال",
+      "النظريات الإدارية",
+      "هنري فايول",
+      "ماكس فيبر",
+      "التنظيم الإداري",
+      "حقيبة تدريبية"
+    ],
+    "keywords_en": [
+      "Principles of Management",
+      "Business Administration",
+      "Management Theories",
+      "Henri Fayol",
+      "Max Weber",
+      "Administrative Organization",
+      "Training Manual"
+    ],
+    "key_points": [
+      "التعريف بمفهوم الإدارة وأهميتها ودورها في تحقيق الكفاءة والفاعلية.",
+      "استعراض التطور التاريخي للفكر الإداري والنظريات الكلاسيكية.",
+      "تسليط الضوء على نموذج البيروقراطية عند ماكس فيبر وتطبيقاته.",
+      "شرح مبادئ هنري فايول الإدارية مثل تسلسل القيادة، وحدة الأمر، وتكافؤ السلطة والمسؤولية."
+    ],
+    "key_points_en": [
+      "Introduction to management concept, importance, and role in achieving efficiency and effectiveness.",
+      "Reviewing the historical development of management thought and classical theories.",
+      "Highlighting Max Weber's bureaucratic model and its applications.",
+      "Explaining Henri Fayol's management principles such as chain of command, unity of command, and authority-responsibility balance."
+    ],
+    "target_audience": "طلاب ومعاهِد إدارة الأعمال، الموظفون والمتدربون في المجال الإداري، والمهتمون بفهم أساسيات التنظيم والقيادة الإدارية.",
+    "target_audience_en": "Business administration students and institutes, management trainees and employees, and anyone interested in understanding organizational and management fundamentals.",
+    "id": 20,
+    "pages": "125",
+    "file_size": "1.20 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/مبــادئ إدارة الأعمـال.pdf",
+    "cover_image": "covers/20.png"
   }
 ]
