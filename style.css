@@ -24,6 +24,12 @@
   --star: #fbbf24;
 }
 
+/* 🟢 تحسين الوصول: إضافة إطار تركيز واضح عند التنقل بلوحة المفاتيح */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
 body {
   background-color: var(--bg);
   font-family: 'Cairo', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
@@ -68,6 +74,15 @@ html[dir="ltr"] .stat-box { border-left: none; border-right: 1px solid var(--bor
 
 .badge-tag { background: rgba(37, 99, 235, 0.1); color: var(--accent); font-size: 0.75rem; font-weight: 700; padding: 0.3rem 0.65rem; border-radius: 20px; }
 .badge-type { background: rgba(16, 185, 129, 0.1); color: #10b981; font-size: 0.72rem; font-weight: 700; padding: 0.25rem 0.55rem; border-radius: 6px; }
+
+/* 🟢 تحسين التباين في الوضع الداكن للشارات */
+[data-bs-theme="dark"] .badge-tag {
+  background: rgba(59, 130, 246, 0.2);
+}
+[data-bs-theme="dark"] .badge-type {
+  background: rgba(16, 185, 129, 0.2);
+}
+
 .book-title { font-weight: 800; font-size: 1.08rem; color: var(--text); line-height: 1.4; margin-top: 0.3rem; }
 .book-author { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; }
 .book-desc { font-size: 0.84rem; color: var(--text-muted); line-height: 1.55; }
@@ -75,11 +90,20 @@ html[dir="ltr"] .stat-box { border-left: none; border-right: 1px solid var(--bor
 
 .btn-iar-action { background: var(--bg); color: var(--text); font-weight: 700; font-size: 0.82rem; border: 1px solid var(--border); border-radius: 8px; padding: 0.45rem; transition: all 0.2s ease; }
 .btn-iar-action:hover { background: rgba(37, 99, 235, 0.1); color: var(--accent); border-color: var(--accent); }
+
 .btn-iar-primary { background: var(--accent); color: #ffffff; font-weight: 700; font-size: 0.82rem; border-radius: 8px; padding: 0.45rem; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
 .btn-iar-primary:hover { background: var(--accent-hover); color: #ffffff; }
 
+/* 🟢 تنسيق الحالات المعطلة (Disabled) للأزرار المخصصة */
+.btn-iar-primary:disabled,
+.btn-iar-action:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 .rating-stars { display: inline-flex; gap: 0.2rem; cursor: pointer; font-size: 1rem; }
-.rating-stars i { color: var(--text-muted); transition: color 0.2s; }
+.rating-stars i { color: var(--text-muted); transition: color 0.2s ease, transform 0.2s ease; } /* 🟢 سلاسة حركة التكبير */
 .rating-stars i.active { color: var(--star); }
 .rating-stars i:hover { transform: scale(1.2); }
 
@@ -136,7 +160,7 @@ html[dir="ltr"] .stat-box { border-left: none; border-right: 1px solid var(--bor
   background: var(--card-bg);
   border: 1px solid var(--border);
   border-radius: 20px;
-  padding: 2rem;
+  padding: clamp(1rem, 3vw, 2rem); /* 🟢 حشوة متجاوبة على الشاشات المختلفة */
   box-shadow: var(--card-shadow);
 }
 .single-cover {
