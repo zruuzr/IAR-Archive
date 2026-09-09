@@ -91,7 +91,7 @@
       toastCiteCopied: "تم نسخ التوثيق الأكاديمي (APA) إلى الحافظة.",
       toastBundleCopied: "تم نسخ رابط الحزمة البحثية المجمعة بنجاح.",
       toastFavoriteAdded: "تمت إضافة الكتاب إلى المفضلة.", toastFavoriteRemoved: "تمت إزالة الكتاب من المفضلة.",
-      toastRated: "تم حفظ تقييمك بنجاح.", generalCat: "عام", defaultPublisher: "الأرشيف الإداري العراقي", defaultType: "مرجع منهجي", themeTooltip: "تبديل المظهر",
+      toastRated: "تم حفظ تقييمك بنجاح.", toastRateFailed: "حدث خطأ أثناء حفظ التقييم.", toastAlreadyRated: "لقد قمت بتقييم هذا الكتاب مسبقاً.", generalCat: "عام", defaultPublisher: "الأرشيف الإداري العراقي", defaultType: "مرجع منهجي", themeTooltip: "تبديل المظهر",
       loading: "جارٍ تحميل المراجع…", fileUnavailable: "ملف المرجع غير متاح حاليًا.", searchLabel: "البحث في المراجع", clearSearch: "مسح البحث",
       gridView: "عرض شبكي", listView: "عرض قائمة", selectBundle: "تحديد المرجع لإضافته إلى الحزمة البحثية",
       bundleText: "تم تحديد <strong id='bundleCount'>0</strong> مراجع لإنشاء حزمة بحثية",
@@ -122,7 +122,7 @@
       toastCopied: "Copied to clipboard.", toastCiteCopied: "APA Citation copied to clipboard.",
       toastBundleCopied: "Research bundle link copied successfully.",
       toastFavoriteAdded: "Book added to favorites.", toastFavoriteRemoved: "Book removed from favorites.",
-      toastRated: "Your rating has been saved.", generalCat: "General", defaultPublisher: "IAR Archive", defaultType: "Methodological Reference", themeTooltip: "Toggle Theme",
+      toastRated: "Your rating has been saved.", toastRateFailed: "Error saving rating.", toastAlreadyRated: "You have already rated this book.", generalCat: "General", defaultPublisher: "IAR Archive", defaultType: "Methodological Reference", themeTooltip: "Toggle Theme",
       loading: "Loading references…", fileUnavailable: "This reference file is currently unavailable.", searchLabel: "Search references", clearSearch: "Clear search",
       gridView: "Grid view", listView: "List view", selectBundle: "Select this reference for the research bundle",
       bundleText: "Selected <strong id='bundleCount'>0</strong> references for research bundle",
@@ -152,20 +152,27 @@
 
   function asText(value) { return value === null || value === undefined ? '' : String(value).trim(); }
 
+  // ✅ التوصية 2 و 9: تأمين النطاقات المسموحة للملفات وتصحيح ترميز الروابط النسبية (Security fix)
+  const TRUSTED_DOMAINS = ['raw.githubusercontent.com', 'drive.google.com', 'docs.google.com']; 
+  
   function safeAssetUrl(value, allowedExtensions) {
     const source = asText(value);
     if (!source) return '';
     try {
       if (source.startsWith('http://') || source.startsWith('https://')) {
         const url = new URL(source);
-        if (allowedExtensions.test(url.pathname)) return source;
+        if (TRUSTED_DOMAINS.includes(url.hostname)) {
+          if (allowedExtensions.test(url.pathname)) return source;
+        }
         return '';
       }
+      
       const cleanPath = source.replace(/^\/+/, '');
       if (!allowedExtensions.test(cleanPath)) return '';
 
       if (/\.pdf$/i.test(cleanPath)) {
-        return `https://raw.githubusercontent.com/zruuzr/IAR-Archive/main/${encodeURI(cleanPath)}`;
+        const encodedPath = cleanPath.split('/').map(encodeURIComponent).join('/');
+        return `https://raw.githubusercontent.com/zruuzr/IAR-Archive/main/${encodedPath}`;
       }
 
       const url = new URL(cleanPath, new URL('./books.json', window.location.href));
@@ -296,10 +303,11 @@
         const book = booksData.find(b => b.id === Number(doc.id));
         if (book) {
           const data = doc.data();
-          book.publicRating = data.average || 0;
-          book.ratingCount = data.ratingCount || 0;
-          book.ratingSum = data.ratingSum || 0;
-          book.voters = data.voters || [];
+          // ✅ التوصية 3: التأكد من أنواع البيانات للحماية
+          if(typeof data.average === 'number') book.publicRating = data.average;
+          if(typeof data.ratingCount === 'number') book.ratingCount = data.ratingCount;
+          if(typeof data.ratingSum === 'number') book.ratingSum = data.ratingSum;
+          book.voters = Array.isArray(data.voters) ? data.voters : [];
         }
       });
     } catch (error) {}
@@ -310,7 +318,10 @@
       const snapshot = await db.collection('downloads').get();
       snapshot.forEach(doc => {
         const book = booksData.find(b => b.id === Number(doc.id));
-        if (book) book.downloadCount = doc.data().count || 0;
+        if (book) {
+           const data = doc.data();
+           if(typeof data.count === 'number') book.downloadCount = data.count;
+        }
       });
     } catch (error) {}
   }
@@ -338,6 +349,7 @@
     return (now - lastVisit > oneDay);
   }
 
+  // ✅ التوصية 1 و 11: تم استخدام Transactions لمعالجة Race Condition بشكل جذري مع رسائل أخطاء
   async function submitPublicRating(bookId, newRating) {
     if (typeof newRating !== 'number' || newRating < 1 || newRating > 5) return false;
     if (!auth.currentUser) return false;
@@ -347,40 +359,56 @@
     if (!book) return false;
 
     if (book.voters && book.voters.includes(uid)) {
-      showToast(currentLang === 'ar' ? 'لقد قمت بتقييم هذا الكتاب مسبقاً.' : 'You have already rated this book.', 'danger');
+      showToast(i18n[currentLang].toastAlreadyRated, 'danger');
       return false;
     }
 
     try {
       const docRef = db.collection('ratings').doc(String(bookId));
-      const doc = await docRef.get();
       
-      let newSum = newRating;
-      let newCount = 1;
-      
-      if (doc.exists) {
+      let finalSum = 0;
+      let finalCount = 0;
+
+      await db.runTransaction(async (transaction) => {
+        const doc = await transaction.get(docRef);
+        let newSum = newRating;
+        let newCount = 1;
+        
+        if (doc.exists) {
           const data = doc.data();
           const existingVoters = Array.isArray(data.voters) ? data.voters : [];
-          if (existingVoters.includes(uid)) return false;
-          newSum = (data.ratingSum || 0) + newRating;
-          newCount = (data.ratingCount || 0) + 1;
-      }
+          if (existingVoters.includes(uid)) {
+            throw new Error('already_rated');
+          }
+          newSum = (typeof data.ratingSum === 'number' ? data.ratingSum : 0) + newRating;
+          newCount = (typeof data.ratingCount === 'number' ? data.ratingCount : 0) + 1;
+        }
 
-      await docRef.set({
-        ratingSum: newSum,
-        ratingCount: newCount,
-        average: newSum / newCount,
-        voters: firebase.firestore.FieldValue.arrayUnion(uid)
-      }, { merge: true });
+        finalSum = newSum;
+        finalCount = newCount;
 
-      book.ratingSum = newSum;
-      book.ratingCount = newCount;
-      book.publicRating = newSum / newCount;
+        transaction.set(docRef, {
+          ratingSum: newSum,
+          ratingCount: newCount,
+          average: newSum / newCount,
+          voters: firebase.firestore.FieldValue.arrayUnion(uid)
+        }, { merge: true });
+      });
+
+      // تحديث الواجهة المحلية بعد نجاح المعاملة
+      book.ratingSum = finalSum;
+      book.ratingCount = finalCount;
+      book.publicRating = finalSum / finalCount;
       if (!book.voters) book.voters = [];
       book.voters.push(uid);
 
       return true;
     } catch (error) {
+      if(error.message === 'already_rated') {
+        showToast(i18n[currentLang].toastAlreadyRated, 'danger');
+      } else {
+        showToast(i18n[currentLang].toastRateFailed, 'danger');
+      }
       return false;
     }
   }
@@ -409,9 +437,8 @@
           if (document.getElementById('sortOrder')?.value === 'rating') {
             applyFilters();
           }
-        } else {
-          container.style.pointerEvents = 'auto'; 
         }
+        container.style.pointerEvents = 'auto'; 
       });
       container.appendChild(star);
     }
@@ -615,7 +642,7 @@
     }
   }
 
-  // تم تحديث الدالة للتحميل المباشر الآمن وتجاوز مشاكل CORS و 404
+  // ✅ التوصية 5: إجبار التحميل الفعلي (Forced Download) باستخدام Fetch وفي حال الـ CORS يتم الفتح بتبويب جديد
   async function handleDownload(bookId, filePath, fileName) {
     if (!filePath) return showToast(i18n[currentLang].fileUnavailable, 'danger');
     
@@ -629,14 +656,28 @@
       if (singleCount && isSingleView && currentOpenBookId === bookId) singleCount.innerText = book.downloadCount;
     }
     
-    // استخدام التحميل المباشر عبر المتصفح لتجنب أخطاء fetch و CORS للأسّتودعات الخارجية
-    const link = document.createElement('a');
-    link.href = filePath;
-    link.download = fileName || `book-${bookId}.pdf`;
-    link.target = '_blank';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    try {
+      const response = await fetch(filePath);
+      if(!response.ok) throw new Error('Network error');
+      const blob = await response.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = fileName || `book-${bookId}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(blobUrl);
+    } catch (e) {
+      // Fallback
+      const link = document.createElement('a');
+      link.href = filePath;
+      link.download = fileName || `book-${bookId}.pdf`;
+      link.target = '_blank';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
   }
 
   document.getElementById('modalShareBtn')?.addEventListener('click', () => {
