@@ -933,5 +933,57 @@
     "target_audience_en": "Managers, leaders, researchers, and students interested in mastering modern management terminology.",
     "cover_image": "covers/18.png",
     "file_path": "pdf/المائة كلمة في الإدارة.pdf"
+  },
+  {
+    "title": "المرجع المتكامل في إدارة الأعمال: منظور كلي",
+    "title_en": "The Comprehensive Reference in Business Administration: A Holistic Perspective",
+    "author": "شوقي ناجي جواد",
+    "author_en": "Shawqi Naji Jawad",
+    "category": "إدارة الأعمال",
+    "category_en": "Business Administration",
+    "type": "كتاب مرجعي أكاديمي",
+    "type_en": "Academic Reference Book",
+    "description": "كتاب مرجعي شامل في مجال إدارة الأعمال يقدم رؤية كليّة ومتكاملة لمفاهيم الإدارة المعاصرة، حيث يناقش واقع إدارة الأعمال في الحاضر، وتطور الفكر الإداري عبر التاريخ، وتأثير الكتل البيئية والعالمية على Mمارسة الإدارة، بالإضافة إلى أخلاقيات العمل والمسؤولية الاجتماعية للمؤسسات.",
+    "description_en": "A comprehensive reference book in business administration offering a holistic perspective on contemporary management concepts. It covers modern business management realities, the evolution of management thought, the impact of environmental and global blocs on management practices, as well as business ethics and corporate social responsibility.",
+    "publisher": "",
+    "publisher_en": "",
+    "year": "",
+    "isbn": "",
+    "keywords": [
+      "إدارة الأعمال",
+      "الفكر الإداري",
+      "البيئة الإدارية",
+      "الكتل العالمية",
+      "أخلاقيات العمل",
+      "المسؤولية الاجتماعية"
+    ],
+    "keywords_en": [
+      "Business Administration",
+      "Management Thought",
+      "Administrative Environment",
+      "Global Blocs",
+      "Business Ethics",
+      "Social Responsibility"
+    ],
+    "key_points": [
+      "تقديم مفهوم شامل لإدارة الأعمال من منظور كلي معاصر.",
+      "تتبع التطور التاريخي والنظري للفكر الإداري.",
+      "تحليل أثر الكتل البيئية والعالمية في التطبيقات الإدارية الحديثة.",
+      "مناقشة أهمية الأخلاقيات والمسؤولية الاجتماعية في بيئة الأعمال."
+    ],
+    "key_points_en": [
+      "Providing a comprehensive concept of business administration from a modern holistic perspective.",
+      "Tracing the historical and theoretical evolution of management thought.",
+      "Analyzing the impact of environmental and global blocs on modern management practices.",
+      "Discussing the importance of ethics and social responsibility in the business environment."
+    ],
+    "target_audience": "طلاب الكليات والمعاهد المتخصصة في إدارة الأعمال، والباحثون الأكاديميون، والمديرون والتنفيذيون الساعون لتطوير معارفهم الإدارية.",
+    "target_audience_en": "Students and faculty in business schools, academic researchers, and managers or executives seeking to enhance their managerial knowledge.",
+    "id": 19,
+    "pages": "553",
+    "file_size": "30.60 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/المرجع المتكامل في إدارة الأعمال.pdf",
+    "cover_image": "covers/19.png"
   }
 ]
