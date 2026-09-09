@@ -36,7 +36,7 @@
     ],
     "key_points": [
       "آليات التغلب على التوتر والتصرف بشجاعة أمام الجمهور.",
-      "طرق التحضير الصحيح للخطاب وااختيار الموضوع والتفكير الهادف.",
+      "طرق التحضير الصحيح للخطاب واختيار الموضوع والتفكير الهادف.",
       "قوانين التذكر الطبيعية (الانطباع، التكرار، ترابط الأفكار) لترتيب عناصر الخطاب.",
       "مبادئ الإلقاء الجيد، وتنسيق الصوت، وتجنب التكلف لاستحواذ اهتمام المستمعين."
     ],
@@ -119,7 +119,7 @@
     "publisher_en": "Dar Wael for Publishing and Distribution",
     "year": "1999",
     "pages": "312",
-    "file_size": "23 MB",
+    "file_size": "23.00 MB",
     "file_type": "PDF",
     "isbn": "",
     "keywords": [
@@ -171,7 +171,7 @@
     "publisher_en": "Routledge (Taylor & Francis Group)",
     "year": "2024",
     "pages": "205",
-    "file_size": "13 MB",
+    "file_size": "13.00 MB",
     "file_type": "PDF",
     "isbn": "9781032531335",
     "keywords": [
@@ -230,7 +230,7 @@
     "publisher_en": "Routledge (Taylor & Francis Group)",
     "year": "1977",
     "pages": "368",
-    "file_size": "38.4 MB",
+    "file_size": "38.40 MB",
     "file_type": "PDF",
     "isbn": "9780750625029",
     "keywords": [
@@ -286,7 +286,7 @@
     "publisher_en": "Al Manhal",
     "year": "2018",
     "pages": "240",
-    "file_size": "36.4 MB",
+    "file_size": "36.40 MB",
     "file_type": "PDF",
     "isbn": "",
     "keywords": [
@@ -763,7 +763,7 @@
       "تاريخ وتطور الفكر الإداري ومفهوم الإدارة العلمية بعد الثورة الصناعية.",
       "دراسة إسهامات فريدريك تايلور في تطوير الإدارة وتطبيق دراسة الوقت والحركة.",
       "أهمية تقسيم العمل والتخصص في تحسين الكفاءة الإنتاجية والتفريق بين العمل الفكري والتنفيذي.",
-      "توضيح الوظائف الإدارية الرئيسية من تخطيط وتنظيم ورقابة وقياذة."
+      "توضيح الوظائف الإدارية الرئيسية من تخطيط وتنظيم ورقابة وقيادة."
     ],
     "key_points_en": [
       "History and evolution of administrative thought and scientific management after the Industrial Revolution.",
@@ -778,8 +778,8 @@
   },
   {
     "id": 16,
-    "title": "كيف تجعل من نفسك عامل فعال في منظمتك؟",
-    "title_en": "How to make your self a key player within an Organization",
+    "title": "كيف تجعل من نفسك عاملاً فعالاً في منظمتك؟",
+    "title_en": "How to make yourself a key player within an Organization",
     "author": "د. مؤيد الفضل، د. فيصل الفضل",
     "author_en": "Dr. Muayad Al-Fadhl, Dr. Faisal Al-Fadhl",
     "category": "إدارة الأعمال وتطوير الذات",
@@ -935,6 +935,7 @@
     "file_path": "pdf/المائة كلمة في الإدارة.pdf"
   },
   {
+    "id": 19,
     "title": "المرجع المتكامل في إدارة الأعمال: منظور كلي",
     "title_en": "The Comprehensive Reference in Business Administration: A Holistic Perspective",
     "author": "شوقي ناجي جواد",
@@ -943,11 +944,14 @@
     "category_en": "Business Administration",
     "type": "كتاب مرجعي أكاديمي",
     "type_en": "Academic Reference Book",
-    "description": "كتاب مرجعي شامل في مجال إدارة الأعمال يقدم رؤية كليّة ومتكاملة لمفاهيم الإدارة المعاصرة، حيث يناقش واقع إدارة الأعمال في الحاضر، وتطور الفكر الإداري عبر التاريخ، وتأثير الكتل البيئية والعالمية على Mمارسة الإدارة، بالإضافة إلى أخلاقيات العمل والمسؤولية الاجتماعية للمؤسسات.",
+    "description": "كتاب مرجعي شامل في مجال إدارة الأعمال يقدم رؤية كليّة ومتكاملة لمفاهيم الإدارة المعاصرة، حيث يناقش واقع إدارة الأعمال في الحاضر، وتطور الفكر الإداري عبر التاريخ، وتأثير الكتل البيئية والعالمية على ممارسة الإدارة، بالإضافة إلى أخلاقيات العمل والمسؤولية الاجتماعية للمؤسسات.",
     "description_en": "A comprehensive reference book in business administration offering a holistic perspective on contemporary management concepts. It covers modern business management realities, the evolution of management thought, the impact of environmental and global blocs on management practices, as well as business ethics and corporate social responsibility.",
     "publisher": "",
     "publisher_en": "",
     "year": "",
+    "pages": "553",
+    "file_size": "30.60 MB",
+    "file_type": "PDF",
     "isbn": "",
     "keywords": [
       "إدارة الأعمال",
@@ -979,14 +983,11 @@
     ],
     "target_audience": "طلاب الكليات والمعاهد المتخصصة في إدارة الأعمال، والباحثون الأكاديميون، والمديرون والتنفيذيون الساعون لتطوير معارفهم الإدارية.",
     "target_audience_en": "Students and faculty in business schools, academic researchers, and managers or executives seeking to enhance their managerial knowledge.",
-    "id": 19,
-    "pages": "553",
-    "file_size": "30.60 MB",
-    "file_type": "PDF",
-    "file_path": "pdf/المرجع المتكامل في إدارة الأعمال.pdf",
-    "cover_image": "covers/19.png"
+    "cover_image": "covers/19.png",
+    "file_path": "pdf/المرجع المتكامل في إدارة الأعمال.pdf"
   },
   {
+    "id": 20,
     "title": "مبادئ إدارة الأعمال",
     "title_en": "Principles of Business Administration",
     "author": "غير مذكور",
@@ -1000,6 +1001,9 @@
     "publisher": "غير مذكور",
     "publisher_en": "Not Specified",
     "year": "غير مؤرخ",
+    "pages": "125",
+    "file_size": "1.20 MB",
+    "file_type": "PDF",
     "isbn": "",
     "keywords": [
       "مبادئ الإدارة",
@@ -1033,11 +1037,7 @@
     ],
     "target_audience": "طلاب ومعاهِد إدارة الأعمال، الموظفون والمتدربون في المجال الإداري، والمهتمون بفهم أساسيات التنظيم والقيادة الإدارية.",
     "target_audience_en": "Business administration students and institutes, management trainees and employees, and anyone interested in understanding organizational and management fundamentals.",
-    "id": 20,
-    "pages": "125",
-    "file_size": "1.20 MB",
-    "file_type": "PDF",
-    "file_path": "pdf/مبــادئ إدارة الأعمـال.pdf",
-    "cover_image": "covers/20.png"
+    "cover_image": "covers/20.png",
+    "file_path": "pdf/مبــادئ إدارة الأعمـال.pdf"
   }
 ]
