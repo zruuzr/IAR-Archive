@@ -1,7 +1,6 @@
 import os
 import json
 import shutil
-import time
 from google import genai
 from google.genai import types
 from pypdf import PdfReader
@@ -12,9 +11,9 @@ client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
 JSON_PATH = "books.json"
 PDF_DIR = "pdf"
 
-# قالب الهيكل الموحد والصارم لضمان عدم اختلاف مخرجات الـ AI أبداً
-JSON_SCHEMA_INSTRUCTIONS = """
-قم باستخراج بيانات الكتاب وصغ البيانات داخل كائن JSON يلتزم بالهيكل التالي حرفياً وبدون أي تغيير في أسماء الحقول أو إضافة حقول خارجية، واجعل قيمة حقل الناشر (publisher) دائماً نصاً (String) وليست كائناً:
+# القالب الهيكلي الموحد لضمان التزام النموذج بالحقول المطلوبة
+JSON_SCHEMA_PROMPT = """
+أنت مفهرس كتب محترف. قم باستخراج بيانات الكتاب وصغ البيانات داخل JSON يلتزم بالهيكل التالي حرفياً وبدون أي تغيير في أسماء الحقول أو إضافة حقول خارجية:
 
 {
   "title": "العنوان بالعربية",
@@ -27,9 +26,9 @@ JSON_SCHEMA_INSTRUCTIONS = """
   "type_en": "نوع الكتاب بالإنجليزية",
   "description": "وصف شامل بالعربية",
   "description_en": "وصف شامل بالإنجليزية",
-  "publisher": "اسم الناشر نصاً بالعربية فقط",
-  "publisher_en": "اسم الناشر بالإنجليزية فقط",
-  "year": "سنة النشر كـ نص مثل '2015'",
+  "publisher": "الناشر بالعربية",
+  "publisher_en": "الناشر بالإنجليزية",
+  "year": "سنة النشر",
   "isbn": "الرقم الدولي المعياري أو نص فارغ",
   "keywords": ["كلمة1", "كلمة2"],
   "keywords_en": ["Word1", "Word2"],
@@ -73,41 +72,6 @@ def extract_first_pages_text(pdf_path, max_pages=10):
         print(f"تعذر استخراج النص محلياً من {pdf_path}: {e}")
     return text.strip()
 
-def sanitize_book_data(book):
-    """دالة تنقية للتأكد من أن البيانات الناتجة مطابقة لهيكل الموقع تماماً وتجنب أي أخطاء كائنية"""
-    if not isinstance(book, dict):
-        return {}
-
-    # معالجة الناشر لو عاد كـ كائن بالخطأ
-    pub = book.get("publisher", "")
-    if isinstance(pub, dict):
-        book["publisher"] = pub.get("name", "الأرشيف الإداري العراقي")
-    elif not pub:
-        book["publisher"] = "الأرشيف الإداري العراقي"
-
-    pub_en = book.get("publisher_en", "")
-    if isinstance(pub_en, dict):
-        book["publisher_en"] = pub_en.get("name", "IAR Archive")
-    elif not pub_en:
-        book["publisher_en"] = "IAR Archive"
-
-    # ضمان وجود الحقول النصية الأساسية لتجنب الانهيار في الواجهة
-    if not book.get("category"):
-        book["category"] = "عام"
-    if not book.get("description"):
-        book["description"] = "لا يتوفر وصف تفصيلي لهذا المرجع حالياً."
-    if not book.get("type"):
-        book["type"] = "مرجع منهجي"
-    if not book.get("year"):
-        book["year"] = "2026"
-
-    # التأكد من المصفوفات
-    for field in ["keywords", "keywords_en", "key_points", "key_points_en"]:
-        if not isinstance(book.get(field), list):
-            book[field] = []
-
-    return book
-
 # قراءة البيانات الحالية من ملف books.json
 if os.path.exists(JSON_PATH):
     with open(JSON_PATH, "r", encoding="utf-8") as f:
@@ -134,54 +98,32 @@ if os.path.exists(PDF_DIR):
                 temp_pdf = "temp_upload.pdf"
                 
                 try:
-                    if not sample_text:
-                        print("الملف مصور، جاري الرفع للتحليل الشامل عبر الموديل متعدد الوسائط...")
+                    # اعتبار الملف مصوراً إذا كان النص المستخرج منه أقل من 100 حرف
+                    if len(sample_text.strip()) < 100:
+                        print("الملف مصور أو النص المحلي غير كافٍ، جاري الرفع للتحليل الشامل عبر Gemini...")
                         shutil.copyfile(file_path, temp_pdf)
                         uploaded_file = client.files.upload(file=temp_pdf)
                         contents_payload = [
                             uploaded_file,
-                            f"أنت مفهرس كتب محترف. {JSON_SCHEMA_INSTRUCTIONS}"
+                            JSON_SCHEMA_PROMPT
                         ]
                     else:
-                        prompt = f"""
-أنت مفهرس كتب محترف. {JSON_SCHEMA_INSTRUCTIONS}
+                        contents_payload = f"{JSON_SCHEMA_PROMPT}\n\nالنص المستخرج من الكتاب:\n{sample_text[:12000]}"
 
-النص المستخرج من الكتاب:
-{sample_text[:12000]}
-"""
-                        contents_payload = prompt
-
-                    # نظام محاولات متكررة (Retry Logic) لتجاوز أخطاء الضغط 503 المؤقتة
-                    max_retries = 3
-                    retry_delay = 10
-                    response = None
-
-                    for attempt in range(max_retries):
-                        try:
-                            response = client.models.generate_content(
-                                model="gemini-3.6-flash",
-                                contents=contents_payload,
-                                config=types.GenerateContentConfig(
-                                    response_mime_type="application/json"
-                                )
-                            )
-                            break
-                        except Exception as api_err:
-                            print(f"المحاولة ({attempt + 1}/{max_retries}) فشلت بسبب الضغط على الخادم: {api_err}")
-                            if attempt < max_retries - 1:
-                                print(waiting_msg := f"الانتظار لمدة {retry_delay} ثوانٍ ثم إعادة المحاولة...")
-                                time.sleep(retry_delay)
-                                retry_delay *= 2 # مضاعفة وقت الانتظار تدريجياً
-                            else:
-                                raise api_err
+                    response = client.models.generate_content(
+                        model="gemini-3.6-flash",
+                        contents=contents_payload,
+                        config=types.GenerateContentConfig(
+                            response_mime_type="application/json"
+                        )
+                    )
                     
                     if response and response.text:
-                        raw_book = json.loads(response.text.strip())
-                        new_book = sanitize_book_data(raw_book)
+                        new_book = json.loads(response.text.strip())
                         
-                        # إسناد المعرف والبيانات المحسوبة برمجياً بدقة
+                        # إسناد المعرف والبيانات المحسوبة برمجياً
                         new_book["id"] = len(books_data) + 1
-                        new_book["pages"] = pages_count if pages_count else new_book.get("pages", "0")
+                        new_book["pages"] = pages_count if pages_count else new_book.get("pages")
                         new_book["file_size"] = file_size_str
                         new_book["file_type"] = "PDF"
                         new_book["file_path"] = file_path
@@ -191,7 +133,7 @@ if os.path.exists(PDF_DIR):
                         print(f"تمت إضافة الكتاب بنجاح: {new_book.get('title')}")
                         
                 except Exception as e:
-                    print(f"خطأ نهائي أثناء معالجة الملف {file_name}: {e}")
+                    print(f"خطأ أثناء معالجة الملف {file_name}: {e}")
                 finally:
                     if uploaded_file:
                         try:
@@ -201,6 +143,6 @@ if os.path.exists(PDF_DIR):
                     if os.path.exists(temp_pdf):
                         os.remove(temp_pdf)
 
-# حفظ القائمة المحدثة في books.json بشكل مرتب ويدعم العربية
+# حفظ القائمة المحدثة في books.json
 with open(JSON_PATH, "w", encoding="utf-8") as f:
     json.dump(books_data, f, ensure_ascii=False, indent=2)

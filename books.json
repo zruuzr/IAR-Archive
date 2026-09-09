@@ -571,6 +571,7 @@
     "file_path": "pdf/Operations Research.pdf"
   },
   {
+    "id": 12,
     "title": "إدارة المشاريع الحديثة: الدمج الناجح لمجالات معرفة وعمليات إدارة المشاريع",
     "title_en": "Modern Project Management: Successfully Integrating Project Management Knowledge Areas and Processes",
     "author": "نورمان ر. هاوز",
@@ -584,6 +585,9 @@
     "publisher": "أماكوم (AMACOM)",
     "publisher_en": "AMACOM",
     "year": "2001",
+    "pages": "306",
+    "file_size": "12.62 MB",
+    "file_type": "PDF",
     "isbn": "0-8144-0632-7",
     "keywords": [
       "إدارة المشاريع",
@@ -611,14 +615,11 @@
     ],
     "target_audience": "مديرو المشاريع، والمهنيون في مجال إدارة الأعمال، والطلاب والمتخصصون في الإدارة.",
     "target_audience_en": "Project managers, business management professionals, students, and practitioners in administration.",
-    "id": 12,
-    "pages": "306",
-    "file_size": "12.62 MB",
-    "file_type": "PDF",
-    "file_path": "pdf/Modern Project Management.pdf",
-    "cover_image": "covers/12.png"
+    "cover_image": "covers/12.png",
+    "file_path": "pdf/Modern Project Management.pdf"
   },
   {
+    "id": 13,
     "title": "التقنيات الكمية في إدارة الأعمال: محاضرات وتمارين (الجزء الأول)",
     "title_en": "Quantitative Techniques in Business Administration: Lectures and Exercises (Part 1)",
     "author": "د. مفيدة يحياوي",
@@ -632,6 +633,9 @@
     "publisher": "جامعة بسكرة",
     "publisher_en": "University of Biskra",
     "year": "2026",
+    "pages": "188",
+    "file_size": "3.60 MB",
+    "file_type": "PDF",
     "isbn": "",
     "keywords": [
       "التقنيات الكمية",
@@ -667,14 +671,11 @@
     ],
     "target_audience": "طلبة وباحثو العلوم الاقتصادية والتجارية وعلوم التسيير، والمسيرون ومتخذو القرارات في المؤسسات والتنظيمات.",
     "target_audience_en": "Students and researchers in Economics, Commercial, and Management Sciences, as well as institutional managers and decision-makers.",
-    "id": 13,
-    "pages": "188",
-    "file_size": "3.60 MB",
-    "file_type": "PDF",
-    "file_path": "pdf/التقنيات الكمية في ادارة الاعمال.pdf",
-    "cover_image": "covers/13.png"
+    "cover_image": "covers/13.png",
+    "file_path": "pdf/التقنيات الكمية في ادارة الاعمال.pdf"
   },
   {
+    "id": 14,
     "title": "إدارة الأعمال 101",
     "title_en": "Principles of Business Administration",
     "author": "المؤسسة العامة للتعليم الفني والتدريب المهني",
@@ -688,6 +689,9 @@
     "publisher": "المؤسسة العامة للتعليم الفني والتدريب المهني",
     "publisher_en": "General Organization for Technical Education and Vocational Training",
     "year": "2026",
+    "pages": "117",
+    "file_size": "1.23 MB",
+    "file_type": "PDF",
     "isbn": "",
     "keywords": [
       "إدارة الأعمال",
@@ -717,14 +721,11 @@
     ],
     "target_audience": "طلاب المتدربين في المعاهد التقنية والمتخصصين في مجال إدارة الأعمال والمبتدئين في الإدارة",
     "target_audience_en": "Vocational and technical trainees, business administration students, and entry-level managers",
-    "id": 14,
-    "pages": "117",
-    "file_size": "1.23 MB",
-    "file_type": "PDF",
-    "file_path": "pdf/مبادئ إدارة الأعمال.pdf",
-    "cover_image": "covers/14.png"
+    "cover_image": "covers/14.png",
+    "file_path": "pdf/مبادئ إدارة الأعمال.pdf"
   },
   {
+    "id": 15,
     "title": "مبادئ إدارة الأعمال",
     "title_en": "Principles of Business Administration",
     "author": "رائد محمد عبدربه",
@@ -738,6 +739,9 @@
     "publisher": "دار الجنادرية للنشر والتوزيع",
     "publisher_en": "Dar Al-Janadria Publishing and Distribution",
     "year": "2013",
+    "pages": "227",
+    "file_size": "18.26 MB",
+    "file_type": "PDF",
     "isbn": "",
     "keywords": [
       "إدارة الأعمال",
@@ -769,14 +773,11 @@
     ],
     "target_audience": "طلاب وتخصصات إدارة الأعمال، والمديرون، والمسيرون، والمهتمون بالتطوير الإداري وبحوث العلوم الإدارية.",
     "target_audience_en": "Business administration students, managers, executives, and researchers interested in administrative development and management sciences.",
-    "id": 15,
-    "pages": "227",
-    "file_size": "18.26 MB",
-    "file_type": "PDF",
-    "file_path": "pdf/مبـادئ إدارة الأعمـال.pdf",
-    "cover_image": "covers/15.png"
+    "cover_image": "covers/15.png",
+    "file_path": "pdf/مبـادئ إدارة الأعمـال.pdf"
   },
   {
+    "id": 16,
     "title": "كيف تجعل من نفسك عامل فعال في منظمتك؟",
     "title_en": "How to make your self a key player within an Organization",
     "author": "د. مؤيد الفضل، د. فيصل الفضل",
@@ -790,6 +791,9 @@
     "publisher": "تك تل",
     "publisher_en": "Teck Tel",
     "year": "2026",
+    "pages": "82",
+    "file_size": "8.79 MB",
+    "file_type": "PDF",
     "isbn": "",
     "keywords": [
       "إدارة الأعمال",
@@ -827,14 +831,11 @@
     ],
     "target_audience": "الموظفون والعاملون في مختلف المنظمات والشركات، والمدراء، والباحثون والطلاب في مجال إدارة الأعمال.",
     "target_audience_en": "Employees, corporate staff, managers, researchers, and students in the field of business administration.",
-    "id": 16,
-    "pages": "82",
-    "file_size": "8.79 MB",
-    "file_type": "PDF",
-    "file_path": "pdf/كيف تجعل من نفسك عامل فعال في منظمتك.pdf",
-    "cover_image": "covers/16.png"
+    "cover_image": "covers/16.png",
+    "file_path": "pdf/كيف تجعل من نفسك عامل فعال في منظمتك.pdf"
   },
   {
+    "id": 17,
     "title": "دراسات ميدانية في إدارة الأعمال",
     "title_en": "Field Studies in Business Administration",
     "author": "بلكبير بومدين",
@@ -848,6 +849,9 @@
     "publisher": "الأرشيف الإداري العراقي",
     "publisher_en": "IAR Archive",
     "year": "2026",
+    "pages": "203",
+    "file_size": "1.92 MB",
+    "file_type": "PDF",
     "isbn": "",
     "keywords": [
       "إدارة الأعمال",
@@ -879,11 +883,55 @@
     ],
     "target_audience": "طلبة إدارة الأعمال والتسويق، الباحثون والمهتمون بالتطوير الإداري، إضافة إلى الممارسين ومدراء الشركات.",
     "target_audience_en": "Business administration and marketing students, researchers, management developers, practitioners, and company managers.",
-    "id": 17,
-    "pages": "203",
-    "file_size": "1.92 MB",
+    "cover_image": "covers/17.png",
+    "file_path": "pdf/دراسات ميدانية في إدارة الأعمال.pdf"
+  },
+  {
+    "id": 18,
+    "title": "المائة كلمة في الإدارة",
+    "title_en": "The Top 100 Words in Management",
+    "author": "غير محدد",
+    "author_en": "Unknown",
+    "category": "الإدارة والأعمال",
+    "category_en": "Management & Business",
+    "type": "دليل إداري",
+    "type_en": "Management Guide",
+    "description": "دليل إداري موجز يقدم شروحاً وتعاريف لأبرز مائة مصطلح ومفهوم جوهري في علوم الإدارة والأعمال الحديثة لتطوير الحصيلة الإدارية للممارسين والباحثين.",
+    "description_en": "A concise management guide offering explanations and definitions for the top 100 essential terms and concepts in modern business and management science.",
+    "publisher": "الأرشيف الإداري العراقي",
+    "publisher_en": "IAR Archive",
+    "year": "2026",
+    "pages": "135",
+    "file_size": "1.63 MB",
     "file_type": "PDF",
-    "file_path": "pdf/دراسات ميدانية في إدارة الأعمال.pdf",
-    "cover_image": "covers/17.png"
+    "isbn": "",
+    "keywords": [
+      "الإدارة",
+      "المصطلحات الإدارية",
+      "مفاهيم إدارية",
+      "تطوير الذات",
+      "عالم الأعمال"
+    ],
+    "keywords_en": [
+      "Management",
+      "Management Terms",
+      "Business Concepts",
+      "Self-Development",
+      "Business World"
+    ],
+    "key_points": [
+      "شرح أهم وأبرز المصطلحات والمفاهيم الأساسية في علم الإدارة.",
+      "تبسيط المفاهيم المعقدة وتسهيل فهم المصطلحات الإدارية الحديثة.",
+      "مرجع سريع وشامل لمصطلحات وممارسات الإدارة والأعمال."
+    ],
+    "key_points_en": [
+      "Explanation of key terms and core concepts in management science.",
+      "Simplifying complex terminology for beginners and professionals.",
+      "Comprehensive quick reference guide for business and management terms."
+    ],
+    "target_audience": "المدراء، القادة، الباحثون، والطلاب المهتمون بإتقان مصطلحات ومفاهيم الإدارة الحديثة.",
+    "target_audience_en": "Managers, leaders, researchers, and students interested in mastering modern management terminology.",
+    "cover_image": "covers/18.png",
+    "file_path": "pdf/المائة كلمة في الإدارة.pdf"
   }
 ]
