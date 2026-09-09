@@ -42,7 +42,6 @@
     if (el) el.classList.add('d-none');
   }
 
-  // متغيرات الحالة والنظام
   let booksData = [];
   let selectedBundleIds = new Set();
   let favoriteIds = new Set(JSON.parse(storage.get('iar_favorites', '[]')));
@@ -54,7 +53,6 @@
   let currentOpenBookId = null;
   let isSingleView = false;
 
-  // متغيرات الترقيم ووضع الحزمة
   let currentPage = 1;
   const itemsPerPage = 10;
   let isBundleMode = false;
@@ -154,7 +152,6 @@
 
   function asText(value) { return value === null || value === undefined ? '' : String(value).trim(); }
 
-  // دالة مسارات الأصول مع ترميز روابط الـ PDF لمنع أخطاء المسافات (404)
   function safeAssetUrl(value, allowedExtensions) {
     const source = asText(value);
     if (!source) return '';
@@ -167,12 +164,10 @@
       const cleanPath = source.replace(/^\/+/, '');
       if (!allowedExtensions.test(cleanPath)) return '';
 
-      // توجيه ملفات PDF إلى GitHub Raw مع ترميز المسافات
       if (/\.pdf$/i.test(cleanPath)) {
         return `https://raw.githubusercontent.com/zruuzr/IAR-Archive/main/${encodeURI(cleanPath)}`;
       }
 
-      // للأغلفة والملفات الأخرى، تبقى محلية
       const url = new URL(cleanPath, new URL('./books.json', window.location.href));
       if (url.origin !== window.location.origin) return '';
       return `${url.pathname}${url.search}${url.hash}`;
@@ -620,6 +615,7 @@
     }
   }
 
+  // تم تحديث الدالة للتحميل المباشر الآمن وتجاوز مشاكل CORS و 404
   async function handleDownload(bookId, filePath, fileName) {
     if (!filePath) return showToast(i18n[currentLang].fileUnavailable, 'danger');
     
@@ -633,27 +629,14 @@
       if (singleCount && isSingleView && currentOpenBookId === bookId) singleCount.innerText = book.downloadCount;
     }
     
-    try {
-      const response = await fetch(filePath);
-      if (!response.ok) throw new Error('Network response was not ok');
-      const blob = await response.blob();
-      const blobUrl = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = blobUrl;
-      link.download = fileName || `book-${bookId}.pdf`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(blobUrl);
-    } catch (err) {
-      const link = document.createElement('a');
-      link.href = filePath;
-      link.download = fileName || `book-${bookId}.pdf`;
-      link.target = '_blank';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
+    // استخدام التحميل المباشر عبر المتصفح لتجنب أخطاء fetch و CORS للأسّتودعات الخارجية
+    const link = document.createElement('a');
+    link.href = filePath;
+    link.download = fileName || `book-${bookId}.pdf`;
+    link.target = '_blank';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 
   document.getElementById('modalShareBtn')?.addEventListener('click', () => {
