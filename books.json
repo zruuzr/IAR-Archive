@@ -833,5 +833,57 @@
     "file_type": "PDF",
     "file_path": "pdf/كيف تجعل من نفسك عامل فعال في منظمتك.pdf",
     "cover_image": "covers/16.png"
+  },
+  {
+    "title": "دراسات ميدانية في إدارة الأعمال",
+    "title_en": "Field Studies in Business Administration",
+    "author": "بلكبير بومدين",
+    "author_en": "Belkbir Boumediene",
+    "category": "إدارة الأعمال",
+    "category_en": "Business Administration",
+    "type": "دراسة أكاديمية",
+    "type_en": "Academic Study",
+    "description": "كتاب يتناول أسس وقضايا إدارة الأعمال في المنظمات المعاصرة، مع التركيز على أهمية الثقافة التنظيمية، وإدارة التغيير، والتوجه نحو السوق، والابتكار لتحقيق الميزة التنافسية والأداء المتميز في المؤسسات.",
+    "description_en": "A book addressing the foundations and issues of business administration in contemporary organizations, focusing on the importance of organizational culture, change management, market orientation, and innovation to achieve competitive advantage and superior performance.",
+    "publisher": "الأرشيف الإداري العراقي",
+    "publisher_en": "IAR Archive",
+    "year": "2026",
+    "isbn": "",
+    "keywords": [
+      "إدارة الأعمال",
+      "الثقافة التنظيمية",
+      "الابتكار",
+      "الأداء التنظيمي",
+      "التوجه نحو السوق",
+      "إدارة التغيير"
+    ],
+    "keywords_en": [
+      "Business Administration",
+      "Organizational Culture",
+      "Innovation",
+      "Organizational Performance",
+      "Market Orientation",
+      "Change Management"
+    ],
+    "key_points": [
+      "دور الثقافة التنظيمية القوية في دعم الابتكار وتحسين مستويات الأداء المالي والتشغيلي.",
+      "أهمية التوجه نحو السوق كفلسفة إدارية تركز على إشباع رغبات الزبائن بدرجة أفضل من المنافسين.",
+      "ضرورة إدارة التغيير بكفاءة للاستفادة من الفرص وتقليل التهديدات البيئية.",
+      "تشجيع ورعاية التميز والمبدعين للنهوض بواقع المنظمات في البيئة العربية."
+    ],
+    "key_points_en": [
+      "The role of strong organizational culture in supporting innovation and improving financial and operational performance.",
+      "The importance of market orientation as a management philosophy focused on customer satisfaction better than competitors.",
+      "The necessity of efficient change management to leverage opportunities and reduce environmental threats.",
+      "Encouraging and nurturing excellence and innovators to advance organizations in the Arab environment."
+    ],
+    "target_audience": "طلبة إدارة الأعمال والتسويق، الباحثون والمهتمون بالتطوير الإداري، إضافة إلى الممارسين ومدراء الشركات.",
+    "target_audience_en": "Business administration and marketing students, researchers, management developers, practitioners, and company managers.",
+    "id": 17,
+    "pages": "203",
+    "file_size": "1.92 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/دراسات ميدانية في إدارة الأعمال.pdf",
+    "cover_image": "covers/17.png"
   }
 ]
