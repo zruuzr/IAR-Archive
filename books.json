@@ -775,5 +775,63 @@
     "file_type": "PDF",
     "file_path": "pdf/مبـادئ إدارة الأعمـال.pdf",
     "cover_image": "covers/15.png"
+  },
+  {
+    "title": "كيف تجعل من نفسك عامل فعال في منظمتك؟",
+    "title_en": "How to make your self a key player within an Organization",
+    "author": "د. مؤيد الفضل، د. فيصل الفضل",
+    "author_en": "Dr. Muayad Al-Fadhl, Dr. Faisal Al-Fadhl",
+    "category": "إدارة الأعمال وتطوير الذات",
+    "category_en": "Business Administration & Self-Development",
+    "type": "كتاب",
+    "type_en": "Book",
+    "description": "مؤلف علمي ودليل عملي يهدف إلى بيان كيفية تفعيل دور الفرد داخل منظمة الأعمال ليكون عنصراً جوهرياً وفعالاً. يتناول الكتاب الخصائص الأساسية للمنظمات، والولاء التنظيمي، والثقة بالقيادة، وأخلاقيات العمل، وقوة مهارات الاتصال، إضافة إلى تطبيقات إدارة الجودة الشاملة، وإدارة المعرفة، وإدارة الوقت، وكيفية بناء وإدارة فريق العمل الكفء.",
+    "description_en": "A scientific guide and practical book aimed at illustrating how individuals can maximize their effectiveness within business organizations to become key players. It covers fundamental organizational characteristics, organizational loyalty, trust in leadership, business ethics, communication skills, Total Quality Management, Knowledge Management, Time Management, and building efficient work teams.",
+    "publisher": "تك تل",
+    "publisher_en": "Teck Tel",
+    "year": "2026",
+    "isbn": "",
+    "keywords": [
+      "إدارة الأعمال",
+      "الولاء التنظيمي",
+      "أخلاقيات العمل",
+      "مهارات الاتصال",
+      "إدارة الوقت",
+      "فريق العمل",
+      "إدارة الجودة الشاملة",
+      "إدارة المعرفة"
+    ],
+    "keywords_en": [
+      "Business Administration",
+      "Organizational Loyalty",
+      "Business Ethics",
+      "Communication Skills",
+      "Time Management",
+      "Teamwork",
+      "Total Quality Management",
+      "Knowledge Management"
+    ],
+    "key_points": [
+      "فهم العناصر والخصائص الأساسية لمنظمة الأعمال (الأفراد، الهدف، الهيكل)",
+      "تعزيز الولاء التنظيمي والثقة بالقيادة والمحافظة على انضباط العمل",
+      "الالتزام بأخلاقيات الأعمال كالشرف والتكامل والصدق والاتزان السلوكي",
+      "تطوير مهارات الاتصال الفعال وتطبيق إدارة الجودة الشاملة والمعرفة والوقت",
+      "معرفة شروط وكيفية بناء فريق عمل كفء وفعال لدعم أهداف المنظمة"
+    ],
+    "key_points_en": [
+      "Understanding the essential components of a business organization (people, purpose, structure)",
+      "Enhancing organizational loyalty, trust in leadership, and maintaining order",
+      "Adhering to business ethics including integrity, honesty, and balanced behavior",
+      "Developing effective communication skills and applying quality, knowledge, and time management",
+      "Learning the requirements and methods for building efficient and effective work teams"
+    ],
+    "target_audience": "الموظفون والعاملون في مختلف المنظمات والشركات، والمدراء، والباحثون والطلاب في مجال إدارة الأعمال.",
+    "target_audience_en": "Employees, corporate staff, managers, researchers, and students in the field of business administration.",
+    "id": 16,
+    "pages": "82",
+    "file_size": "8.79 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/كيف تجعل من نفسك عامل فعال في منظمتك.pdf",
+    "cover_image": "covers/16.png"
   }
 ]
