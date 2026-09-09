@@ -723,5 +723,57 @@
     "file_type": "PDF",
     "file_path": "pdf/مبادئ إدارة الأعمال.pdf",
     "cover_image": "covers/14.png"
+  },
+  {
+    "title": "مبادئ إدارة الأعمال",
+    "title_en": "Principles of Business Administration",
+    "author": "رائد محمد عبدربه",
+    "author_en": "Raed Muhammad Abdrabou",
+    "category": "إدارة الأعمال",
+    "category_en": "Business Administration",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Book",
+    "description": "كتاب يستعرض مبادئ وأساسيات علم إدارة الأعمال، متناولاً التطور التاريخي للإدارة منذ القُدم وحتى ظهور حركة الإدارة العلمية الحديثة. كما يسلط الضوء على إسهامات رواد الإدارة مثل فريدريك تايلور، وهنري فايول، وفرانك جيلبرت، ويشرح المفاهيم الرئيسية للإدارة كالتخطيط، والتنظيم، والرقابة، والقيادة، وتقسيم العمل وتحقيق الكفاية الإنتاجية.",
+    "description_en": "A book reviewing the principles and fundamentals of business administration, covering the historical development of management from ancient times to the emergence of the modern scientific management movement. It highlights the contributions of management pioneers such as Frederick Taylor, Henri Fayol, and Frank Gilbreth, explaining core managerial functions including planning, organizing, controlling, leadership, division of labor, and achieving productive efficiency.",
+    "publisher": "دار الجنادرية للنشر والتوزيع",
+    "publisher_en": "Dar Al-Janadria Publishing and Distribution",
+    "year": "2013",
+    "isbn": "",
+    "keywords": [
+      "إدارة الأعمال",
+      "مبادئ الإدارة",
+      "الإدارة العلمية",
+      "فريدريك تايلور",
+      "الكفاية الإنتاجية",
+      "تقسيم العمل"
+    ],
+    "keywords_en": [
+      "Business Administration",
+      "Management Principles",
+      "Scientific Management",
+      "Frederick Taylor",
+      "Productive Efficiency",
+      "Division of Labor"
+    ],
+    "key_points": [
+      "تاريخ وتطور الفكر الإداري ومفهوم الإدارة العلمية بعد الثورة الصناعية.",
+      "دراسة إسهامات فريدريك تايلور في تطوير الإدارة وتطبيق دراسة الوقت والحركة.",
+      "أهمية تقسيم العمل والتخصص في تحسين الكفاءة الإنتاجية والتفريق بين العمل الفكري والتنفيذي.",
+      "توضيح الوظائف الإدارية الرئيسية من تخطيط وتنظيم ورقابة وقياذة."
+    ],
+    "key_points_en": [
+      "History and evolution of administrative thought and scientific management after the Industrial Revolution.",
+      "Study of Frederick Taylor's contributions to management development through time and motion studies.",
+      "The importance of specialization and division of labor in improving efficiency and separating intellectual work from execution.",
+      "Explanation of core administrative functions including planning, organizing, controlling, and leadership."
+    ],
+    "target_audience": "طلاب وتخصصات إدارة الأعمال، والمديرون، والمسيرون، والمهتمون بالتطوير الإداري وبحوث العلوم الإدارية.",
+    "target_audience_en": "Business administration students, managers, executives, and researchers interested in administrative development and management sciences.",
+    "id": 15,
+    "pages": "227",
+    "file_size": "18.26 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/مبـادئ إدارة الأعمـال.pdf",
+    "cover_image": "covers/15.png"
   }
 ]
