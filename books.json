@@ -617,5 +617,61 @@
     "file_type": "PDF",
     "file_path": "pdf/Modern Project Management.pdf",
     "cover_image": "covers/12.png"
+  },
+  {
+    "title": "التقنيات الكمية في إدارة الأعمال: محاضرات وتمارين (الجزء الأول)",
+    "title_en": "Quantitative Techniques in Business Administration: Lectures and Exercises (Part 1)",
+    "author": "د. مفيدة يحياوي",
+    "author_en": "Dr. Mofida Yahiaoui",
+    "category": "علوم التسيير وإدارة الأعمال",
+    "category_en": "Management Sciences & Business Administration",
+    "type": "كتاب جامعي / محاضرات وتمارين",
+    "type_en": "Academic Textbook / Lectures and Exercises",
+    "description": "كتاب أكاديمي يتناول التقنيات الكمية ونماذجها العلمية المستعملة في اتخاذ القرارات ومعالجة مشاكل التسيير في المؤسسات. يغطي الجزء الأول أساليب التنبؤ قصير الأجل (النوعية والكمية)، والبرمجة الخطية وطرق حلها المختلفة، والبرمجة بالأعداد الصحيحة، إضافة إلى مسألة النقل وحالاتها الخاصة، مرفقة بمحاضرات ومجموعة من التمارين المحلولة.",
+    "description_en": "An academic textbook covering quantitative techniques and scientific models used for decision-making and solving management problems in organizations. Part One covers short-term forecasting methods (qualitative and quantitative), linear programming and its solution methods, integer programming, and transportation problems with special cases, supported by lectures and solved exercises.",
+    "publisher": "جامعة بسكرة",
+    "publisher_en": "University of Biskra",
+    "year": "2026",
+    "isbn": "",
+    "keywords": [
+      "التقنيات الكمية",
+      "إدارة الأعمال",
+      "التنبؤ قصير الأجل",
+      "البرمجة الخطية",
+      "طريقة السمبلاكس",
+      "مسألة النقل",
+      "علوم التسيير",
+      "اتخاذ القرارات"
+    ],
+    "keywords_en": [
+      "Quantitative Techniques",
+      "Business Administration",
+      "Short-term Forecasting",
+      "Linear Programming",
+      "Simplex Method",
+      "Transportation Problem",
+      "Management Sciences",
+      "Decision Making"
+    ],
+    "key_points": [
+      "تقديم الطرق العلمية والتقنيات النظامية للتعامل مع مشكلات التسيير واتخاذ القرارات الإدارية المثلى.",
+      "استعراض أساليب التنبؤ في الأجل القصير بشقيها النوعي (طريقة دلفي، مسح السوق) والكمي (المتوسطات المتحركة، الانحدار البسيط، التمهيد الأسي).",
+      "شرح مفصل للبرمجة الخطية وطرق حلها البيانية والجبرية والسمبلاكس مع تحليل الحساسية.",
+      "دراسة البرمجة بالأعداد الصحيحة (طريقة جوموري) ومسألة النقل وتطبيق تمارين محلولة في مجال التسيير."
+    ],
+    "key_points_en": [
+      "Presenting scientific methods and systematic quantitative techniques for handling management problems and making optimal administrative decisions.",
+      "Reviewing short-term forecasting techniques, both qualitative (Delphi method, market survey) and quantitative (moving averages, simple regression, exponential smoothing).",
+      "Detailed explanation of linear programming, its graphical, algebraic, and simplex solution methods, along with sensitivity analysis.",
+      "Studying integer programming (Gomory's method) and transportation problems, supported by solved practical management exercises."
+    ],
+    "target_audience": "طلبة وباحثو العلوم الاقتصادية والتجارية وعلوم التسيير، والمسيرون ومتخذو القرارات في المؤسسات والتنظيمات.",
+    "target_audience_en": "Students and researchers in Economics, Commercial, and Management Sciences, as well as institutional managers and decision-makers.",
+    "id": 13,
+    "pages": "188",
+    "file_size": "3.60 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/التقنيات الكمية في ادارة الاعمال.pdf",
+    "cover_image": "covers/13.png"
   }
 ]
