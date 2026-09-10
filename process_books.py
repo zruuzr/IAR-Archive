@@ -4,6 +4,7 @@ import shutil
 import tempfile
 import zipfile
 import re
+import time
 from google import genai
 from google.genai import types
 from pypdf import PdfReader
@@ -17,6 +18,9 @@ JSON_PATH = "books.json"
 PDF_DIR = "pdf"
 MODEL_NAME = "gemini-3.6-flash"
 MAX_UPLOAD_SIZE_MB = 20
+MAX_RETRIES = 5
+INITIAL_BACKOFF = 5
+
 
 JSON_SCHEMA_PROMPT = """
 أنت مفهرس كتب محترف. قم باستخراج بيانات الكتاب الحقيقية من المحتوى المرفق وصغ البيانات داخل JSON يلتزم بالهيكل التالي حرفياً:
@@ -51,6 +55,11 @@ JSON_SCHEMA_PROMPT = """
 4. إذا كان المحتوى غير كافٍ للتعرف على الكتاب، أعد العنوان "غير معروف" مع بقية الحقول فارغة.
 5. أعد فقط كائن JSON واحد بدون أي نص إضافي قبله أو بعده.
 """
+
+
+class ApiUnavailableError(Exception):
+    """يُرفع عند فشل الاتصال بـ API (503, 429, timeout) — يجب إعادة المحاولة لاحقًا."""
+    pass
 
 
 def fix_zip_filename(name):
@@ -228,9 +237,18 @@ def build_payload(file_path, file_name, sample_text, use_upload=False, uploaded_
         return f"{JSON_SCHEMA_PROMPT}{file_hint}\n\nExtracted Text:\n{sample_text[:25000]}"
 
 
-def call_gemini(contents_payload):
+def is_retryable_error(error):
+    """كشف الأخطاء التي تستحق إعادة المحاولة (503, 429, timeout)."""
+    error_str = str(error).upper()
+    retryable_codes = ["503", "429", "500", "502", "504", "UNAVAILABLE", "RESOURCE_EXHAUSTED", "DEADLINE_EXCEEDED", "TIMEOUT"]
+    return any(code in error_str for code in retryable_codes)
+
+
+def call_gemini(contents_payload, max_retries=MAX_RETRIES):
+    """استدعاء Gemini مع إعادة محاولة متدرجة للأخطاء المؤقتة."""
     last_error = None
-    for attempt in range(1, 3):
+
+    for attempt in range(1, max_retries + 1):
         try:
             response = client.models.generate_content(
                 model=MODEL_NAME,
@@ -241,10 +259,28 @@ def call_gemini(contents_payload):
             )
             if response and response.text:
                 return response
-        except Exception as inner_error:
-            last_error = inner_error
-            print(f"  Attempt {attempt} failed: {inner_error}")
-    raise ValueError(f"No valid response after retries. Last error: {last_error}")
+            last_error = ValueError("Empty response from Gemini")
+
+        except Exception as e:
+            last_error = e
+            error_str = str(e)
+
+            if is_retryable_error(e):
+                if attempt < max_retries:
+                    delay = INITIAL_BACKOFF * (2 ** (attempt - 1))
+                    print(f"  Attempt {attempt}/{max_retries} failed (retryable): {error_str[:120]}")
+                    print(f"  Waiting {delay}s before retry...")
+                    time.sleep(delay)
+                    continue
+                else:
+                    print(f"  All {max_retries} attempts failed with retryable error.")
+                    raise ApiUnavailableError(f"API unavailable after {max_retries} attempts: {error_str[:200]}")
+            else:
+                print(f"  Attempt {attempt}/{max_retries} failed (non-retryable): {error_str[:200]}")
+                raise
+
+    if last_error:
+        raise ApiUnavailableError(f"API call failed: {last_error}")
 
 
 extract_zip_files(PDF_DIR)
@@ -271,7 +307,7 @@ if os.path.exists(PDF_DIR):
         if normalized_path in existing_files:
             continue
 
-        print(f"Processing new book: {file_name}")
+        print(f"\nProcessing new book: {file_name}")
 
         pages_count, file_size_str = get_file_info(file_path)
         sample_text = extract_first_pages_text(file_path, max_pages=15)
@@ -281,6 +317,7 @@ if os.path.exists(PDF_DIR):
 
         uploaded_file = None
         temp_pdf = None
+        api_unavailable = False
 
         try:
             file_size_mb = os.path.getsize(file_path) / (1024 * 1024)
@@ -297,12 +334,16 @@ if os.path.exists(PDF_DIR):
                 uploaded_file = client.files.upload(file=temp_pdf)
                 contents_payload = build_payload(file_path, file_name, "", use_upload=True, uploaded_file=uploaded_file)
             else:
-                print(f"  Skipping full upload: file too large ({file_size_mb:.1f} MB > {MAX_UPLOAD_SIZE_MB} MB)")
-                print("  Falling back to longest possible local text sample.")
+                print(f"  Skipping full upload: file too large ({file_size_mb:.1f} MB)")
                 contents_payload = build_payload(file_path, file_name, sample_text, use_upload=False)
 
-            response = call_gemini(contents_payload)
-            new_book = extract_json_object(response.text)
+            try:
+                response = call_gemini(contents_payload)
+                new_book = extract_json_object(response.text)
+            except ApiUnavailableError as api_err:
+                print(f"  API unavailable, will retry next run: {api_err}")
+                api_unavailable = True
+                continue
 
             if is_generic_response(new_book, file_name):
                 print("  Generic/failed response detected. Trying alternative strategy...")
@@ -318,8 +359,13 @@ if os.path.exists(PDF_DIR):
                 else:
                     fallback_payload = build_payload(file_path, file_name, sample_text[:25000], use_upload=False)
 
-                response = call_gemini(fallback_payload)
-                new_book = extract_json_object(response.text)
+                try:
+                    response = call_gemini(fallback_payload)
+                    new_book = extract_json_object(response.text)
+                except ApiUnavailableError as api_err:
+                    print(f"  API unavailable during fallback, will retry next run: {api_err}")
+                    api_unavailable = True
+                    continue
 
                 if is_generic_response(new_book, file_name):
                     print(f"  Skipping {file_name}: Gemini could not identify the book content.")
@@ -343,7 +389,7 @@ if os.path.exists(PDF_DIR):
             with open(JSON_PATH, "w", encoding="utf-8") as f:
                 json.dump(books_data, f, ensure_ascii=False, indent=2)
 
-            print(f"Successfully added and saved: {new_book.get('title')}")
+            print(f"  Successfully added and saved: {new_book.get('title')}")
 
         except Exception as e:
             print(f"Error processing file {file_name}: {type(e).__name__}: {e}")
@@ -364,4 +410,7 @@ if os.path.exists(PDF_DIR):
                 except Exception:
                     pass
 
-print("Processing completed successfully.")
+if not api_unavailable:
+    print("\nProcessing completed successfully.")
+else:
+    print("\nProcessing completed with API availability issues. Some files were skipped and will be retried on the next run.")
