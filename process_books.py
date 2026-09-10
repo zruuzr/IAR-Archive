@@ -14,7 +14,7 @@ client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
 
 JSON_PATH = "books.json"
 PDF_DIR = "pdf"
-MODEL_NAME = "gemini-2.5-flash"
+MODEL_NAME = "gemini-3.6-flash"
 
 JSON_SCHEMA_PROMPT = """
 أنت مفهرس كتب محترف. قم باستخراج بيانات الكتاب وصغ البيانات داخل JSON يلتزم بالهيكل التالي حرفياً وبدون أي تغيير في أسماء الحقول أو إضافة حقول خارجية:
