@@ -64,5 +64,5 @@ jobs:
             exit 0
           fi
 
-          git commit -m "Auto-update books.json with new book info [skip ci]"
+          git commit -m "Auto-update books.json with new book info"
           git push origin "$BRANCH"
