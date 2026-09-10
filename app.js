@@ -797,7 +797,8 @@
     fallbackContainer.style.display = 'block';
 
     const absoluteUrl = new URL(filePath, window.location.href).href;
-    iframe.src = `https://docs.google.com/viewer?url=${encodeURIComponent(absoluteUrl)}&embedded=true`;
+    // استخدام قارئ المتصفح المدمج مباشرة لدعم الملفات الكبيرة (تخطي قيود عارض جوجل)
+    iframe.src = absoluteUrl;
 
     pdfModal.show();
   }
@@ -1218,7 +1219,7 @@
     applyFilters();
   });
 
-  document.getElementById('btnBackToList')?.addEventListener('click', hideSingleBookView);
+  document.getElementById('btnBack')?.addEventListener('click', hideSingleBookView);
 
   async function fetchBooks() {
     const loadingEl = document.getElementById('booksLoading');
