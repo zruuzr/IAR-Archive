@@ -1095,5 +1095,53 @@
     "target_audience_en": "Students and professors of economics and economic geography, urban and regional planning researchers, and economic decision-makers.",
     "cover_image": "covers/21.png",
     "file_path": "pdf/النظرية_المكانية_في_اختيار_المكان_المناسب_للنشاط_الاقتصادي.pdf"
+  },
+  {
+    "id": 22,
+    "title": "الموازنات التقديرية",
+    "title_en": "Estimated Budgets",
+    "author": "د. طارق عبد العال حماد",
+    "author_en": "Dr. Tarek Abdel Aal Hammad",
+    "category": "محاسبة وإدارة مالية",
+    "category_en": "Accounting and Financial Management",
+    "type": "كتاب تعليمي ومتخصص",
+    "type_en": "Educational and Specialized Book",
+    "description": "كتاب يتناول موضوع الموازنات التقديرية وكيفية إعدادها والتخطيط لها في المنشآت الاقتصادية، بالإضافة إلى دورها المحوري في الرقابة المالية وإدارة التكاليف واتخاذ القرارات الإدارية الاستراتيجية.",
+    "description_en": "A book covering the concept of estimated budgets, budget planning and preparation in business organizations, and their vital role in financial control, cost management, and strategic decision-making.",
+    "publisher": "الدار الجامعية-الاسكندرية",
+    "publisher_en": "Al-Dar Al-Jamia",
+    "year": "2006",
+    "isbn": "",
+    "keywords": [
+      "الموازنات التقديرية",
+      "التخطيط المالي",
+      "الرقابة المالية",
+      "المحاسبة الإدارية",
+      "إدارة التكاليف"
+    ],
+    "keywords_en": [
+      "Budgeting",
+      "Financial Planning",
+      "Financial Control",
+      "Managerial Accounting",
+      "Cost Management"
+    ],
+    "key_points": [
+      "مفهوم وأهمية الموازنات التقديرية في تخطيط الأعمال",
+      "خطوات وإجراءات إعداد الموازنات التشغيلية والمالية",
+      "استخدام الموازنات كأداة فعالة للرقابة وتقييم الأداء"
+    ],
+    "key_points_en": [
+      "Concept and importance of master budgets in business planning",
+      "Steps and procedures for preparing operational and financial budgets",
+      "Using budgets as an effective tool for control and performance evaluation"
+    ],
+    "target_audience": "المدراء الماليون، المحاسبون، والمختصون في الإدارة المالية وطلاب العلوم التجارية والاقتصادية",
+    "target_audience_en": "Financial managers, accountants, financial management specialists, and students of business and economics",
+    "pages": "1218",
+    "file_size": "65.21 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/الموازنات_التقديرية.pdf",
+    "cover_image": "covers/22.png"
   }
 ]
