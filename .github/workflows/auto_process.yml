@@ -44,8 +44,14 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
+          # ✅ حفظ التعديلات المحلية (books.json) مؤقتاً لتفريغ مساحة العمل قبل السحب
+          git stash
+          
           # ✅ سحب أحدث التحديثات باستخدام اسم الفرع الحالي ديناميكياً
           git pull --rebase origin ${{ github.ref_name }}
+          
+          # ✅ استعادة التعديلات المحفوظة دمجها مع التحديثات الجديدة
+          git stash pop || true
           
           # ✅ إضافة ملف البيانات وأي صور أغلفة جديدة تم إنشاؤها
           git add books.json covers/
