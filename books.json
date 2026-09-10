@@ -1039,5 +1039,61 @@
     "file_type": "PDF",
     "file_path": "pdf/استراتيجيات_الإعلان.pdf",
     "cover_image": "covers/20.png"
+  },
+  {
+    "title": "النظرية المكانية : في اختيار المكان المناسب للنشاط الاقتصادي",
+    "title_en": "The Location of Economic Activity",
+    "author": "إدجار هوفر",
+    "author_en": "Edgar M. Hoover",
+    "category": "الاقتصاد والجغرافيا الاقتصادية",
+    "category_en": "Economics & Economic Geography",
+    "type": "كتاب مترجم / دراسة أكاديمية",
+    "type_en": "Translated Book / Academic Study",
+    "description": "دراسة اقتصادية وجغرافية متخصصة تبحث في التوزيع المكاني للأنشطة الاقتصادية وكيفية اختيار الموقع المناسب للمنشآت والمصانع والأسواق. يتناول الكتاب أثر تكاليف النقل، والتكتلات الصناعية، وأسواق الأيدي العاملة، والتغيرات التكنولوجية، والسياسات والحدود السياسية على توزيع الأنشطة الاقتصادية واستقرارها.",
+    "description_en": "A specialized economic and geographical study examining the spatial distribution of economic activities and the choice of optimal locations for enterprises, factories, and markets. The book addresses the impact of transfer costs, industrial agglomeration, labor markets, technological change, and political boundaries and policies on the location and stability of economic activities.",
+    "publisher": "دار الآفاق الجديدة - بيروت",
+    "publisher_en": "Dar Al-Afaq Al-Jadida - Beirut",
+    "year": "1974",
+    "isbn": "",
+    "keywords": [
+      "النظرية المكانية",
+      "اختيار الموقع الاقتصادي",
+      "تكاليف النقل",
+      "التكتل الصناعي",
+      "الجغرافيا الاقتصادية",
+      "التخطيط الاقتصادي",
+      "سوق العمل"
+    ],
+    "keywords_en": [
+      "Location Theory",
+      "Economic Activity Location",
+      "Transfer Costs",
+      "Industrial Agglomeration",
+      "Economic Geography",
+      "Economic Planning",
+      "Labor Market"
+    ],
+    "key_points": [
+      "تحليل تكاليف النقل وأثرها المباشر على التجاذب المكاني بين مصادر المواد الخام والأسواق.",
+      "دراسة أثر تكاليف الإنتاج ومجموعات عوامل الإنتاج (الأرض، العمل، رأس المال) على اختيار موقع المنشأة.",
+      "توضيح أسباب التكتل والتجمعات الصناعية وأنماط التوزع المكاني للأسواق.",
+      "تحليل أسباب التغير المكاني والتعديلات الهيكلية الناتجة عن التطور التكنولوجي وتغير نمو السكان.",
+      "بيان أهمية الحدود السياسية والسياسات الحكومية العامة في توجيه التوزيع الجغرافي للأنشطة الاقتصادية."
+    ],
+    "key_points_en": [
+      "Analysis of transfer costs and their direct impact on spatial attraction between raw material sources and markets.",
+      "Examination of production costs and input combinations (land, labor, capital) on site selection.",
+      "Explanation of industrial agglomeration, market patterns, and spatial competition.",
+      "Assessment of spatial changes and structural adjustments driven by technological progress and demographic shifts.",
+      "Evaluation of the role of political boundaries and public policies in shaping the geographical distribution of economic activities."
+    ],
+    "target_audience": "طلاب وأساتذة الاقتصاد والجغرافيا الاقتصادية، والباحثون في التخطيط العمراني والإقليمي وصناع القرار الاقتصادي.",
+    "target_audience_en": "Students and professors of economics and economic geography, urban and regional planning researchers, and economic decision-makers.",
+    "id": 21,
+    "pages": "176",
+    "file_size": "12.60 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/النظرية_المكانية_في_اختيار_المكان_المناسب_للنشاط_الاقتصادي.pdf",
+    "cover_image": "covers/21.png"
   }
 ]
