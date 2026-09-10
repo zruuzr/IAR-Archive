@@ -1,6 +1,7 @@
 import os
 import json
 import shutil
+import tempfile
 from google import genai
 from google.genai import types
 from pypdf import PdfReader
@@ -38,7 +39,10 @@ JSON_SCHEMA_PROMPT = """
   "target_audience": "الجمهور المستهدف بالعربية",
   "target_audience_en": "الجمهور المستهدف بالإنجليزية"
 }
+
+أعد فقط كائن JSON واحد بدون أي نص إضافي قبله أو بعده.
 """
+
 
 def get_file_info(file_path):
     pages_count = 0
@@ -55,8 +59,9 @@ def get_file_info(file_path):
         file_size_str = f"{size_mb:.2f} MB"
     except Exception:
         pass
-        
+
     return str(pages_count) if pages_count > 0 else None, file_size_str
+
 
 def extract_first_pages_text(pdf_path, max_pages=10):
     text = ""
@@ -71,6 +76,31 @@ def extract_first_pages_text(pdf_path, max_pages=10):
         print(f"Error extracting text from {pdf_path}: {e}")
     return text.strip()
 
+
+def extract_json_object(raw_text):
+    if not raw_text:
+        raise ValueError("Empty response from Gemini.")
+
+    text = raw_text.strip()
+
+    if text.startswith("```json"):
+        text = text[7:]
+    elif text.startswith("```"):
+        text = text[3:]
+    if text.endswith("```"):
+        text = text[:-3]
+    text = text.strip()
+
+    first_brace = text.find("{")
+    last_brace = text.rfind("}")
+
+    if first_brace == -1 or last_brace == -1 or last_brace <= first_brace:
+        raise ValueError("Could not locate a valid JSON object in Gemini response.")
+
+    json_str = text[first_brace:last_brace + 1]
+    return json.loads(json_str)
+
+
 if os.path.exists(JSON_PATH):
     try:
         with open(JSON_PATH, "r", encoding="utf-8") as f:
@@ -80,86 +110,100 @@ if os.path.exists(JSON_PATH):
 else:
     books_data = []
 
-existing_files = [os.path.normpath(book.get("file_path", "")) for book in books_data]
+existing_files = {os.path.normpath(book.get("file_path", "")) for book in books_data}
 
 if os.path.exists(PDF_DIR):
-    for file_name in os.listdir(PDF_DIR):
-        if file_name.lower().endswith(".pdf"):
-            file_path = f"{PDF_DIR}/{file_name}"
-            normalized_path = os.path.normpath(file_path)
-            
-            if normalized_path not in existing_files:
-                print(f"Processing new book: {file_name}")
-                
-                pages_count, file_size_str = get_file_info(file_path)
-                sample_text = extract_first_pages_text(file_path, max_pages=10)
-                
-                uploaded_file = None
-                temp_pdf = "temp_upload.pdf"
-                
-                try:
-                    if len(sample_text.strip()) < 100:
-                        print("File is scanned or local text is insufficient, uploading for comprehensive analysis...")
-                        shutil.copyfile(file_path, temp_pdf)
-                        uploaded_file = client.files.upload(file=temp_pdf)
-                        contents_payload = [
-                            uploaded_file,
-                            JSON_SCHEMA_PROMPT
-                        ]
-                    else:
-                        contents_payload = f"{JSON_SCHEMA_PROMPT}\n\nExtracted Text:\n{sample_text[:12000]}"
+    for file_name in sorted(os.listdir(PDF_DIR)):
+        if not file_name.lower().endswith(".pdf"):
+            continue
 
+        file_path = f"{PDF_DIR}/{file_name}"
+        normalized_path = os.path.normpath(file_path)
+
+        if normalized_path in existing_files:
+            continue
+
+        print(f"Processing new book: {file_name}")
+
+        pages_count, file_size_str = get_file_info(file_path)
+        sample_text = extract_first_pages_text(file_path, max_pages=10)
+
+        uploaded_file = None
+        temp_pdf = None
+
+        try:
+            if len(sample_text.strip()) < 100:
+                print("File is scanned or local text is insufficient, uploading for comprehensive analysis...")
+                with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as tmp:
+                    temp_pdf = tmp.name
+                shutil.copyfile(file_path, temp_pdf)
+                uploaded_file = client.files.upload(file=temp_pdf)
+                contents_payload = [uploaded_file, JSON_SCHEMA_PROMPT]
+            else:
+                contents_payload = f"{JSON_SCHEMA_PROMPT}\n\nExtracted Text:\n{sample_text[:12000]}"
+
+            response = None
+            last_error = None
+
+            for attempt in range(1, 3):
+                try:
                     response = client.models.generate_content(
                         model="gemini-2.5-flash",
                         contents=contents_payload,
                         config=types.GenerateContentConfig(
-                            response_mime_type="application/json"
+                            response_mime_type="application/json",
+                            automatic_function_calling=types.AutomaticFunctionCallingConfig(disable=True)
                         )
                     )
-                    
                     if response and response.text:
-                        raw_text = response.text.strip()
-                        
-                        if raw_text.startswith("```json"):
-                            raw_text = raw_text[7:]
-                        elif raw_text.startswith("```"):
-                            raw_text = raw_text[3:]
-                        if raw_text.endswith("```"):
-                            raw_text = raw_text[:-3]
-                            
-                        new_book = json.loads(raw_text.strip())
-                        
-                        if not isinstance(new_book, dict):
-                            raise ValueError("Invalid JSON object response.")
-                        
-                        max_id = max((book.get("id", 0) for book in books_data), default=0)
-                        new_book["id"] = max_id + 1
-                        
-                        new_book["pages"] = pages_count if pages_count else new_book.get("pages")
-                        new_book["file_size"] = file_size_str
-                        new_book["file_type"] = "PDF"
-                        new_book["file_path"] = file_path
-                        new_book["cover_image"] = f"covers/{new_book['id']}.png"
-                        
-                        books_data.append(new_book)
-                        
-                        with open(JSON_PATH, "w", encoding="utf-8") as f:
-                            json.dump(books_data, f, ensure_ascii=False, indent=2)
-                            
-                        print(f"Successfully added and saved: {new_book.get('title')}")
-                        
-                except Exception as e:
-                    print(f"Error processing file {file_name}: {e}")
-                finally:
-                    if uploaded_file:
-                        try:
-                            client.files.delete(name=uploaded_file.name)
-                        except Exception:
-                            pass
-                    if os.path.exists(temp_pdf):
-                        try:
-                            os.remove(temp_pdf)
-                        except Exception:
-                            pass
+                        break
+                except Exception as inner_error:
+                    last_error = inner_error
+                    print(f"Attempt {attempt} failed for {file_name}: {inner_error}")
+
+            if not response or not response.text:
+                raise ValueError(f"No valid response after retries. Last error: {last_error}")
+
+            new_book = extract_json_object(response.text)
+
+            if not isinstance(new_book, dict):
+                raise ValueError("Invalid JSON object response.")
+
+            max_id = max((book.get("id", 0) for book in books_data), default=0)
+            new_book["id"] = max_id + 1
+
+            new_book["pages"] = pages_count if pages_count else new_book.get("pages")
+            new_book["file_size"] = file_size_str
+            new_book["file_type"] = "PDF"
+            new_book["file_path"] = file_path
+            new_book["cover_image"] = f"covers/{new_book['id']}.png"
+
+            books_data.append(new_book)
+
+            with open(JSON_PATH, "w", encoding="utf-8") as f:
+                json.dump(books_data, f, ensure_ascii=False, indent=2)
+
+            existing_files.add(normalized_path)
+
+            print(f"Successfully added and saved: {new_book.get('title')}")
+
+        except Exception as e:
+            print(f"Error processing file {file_name}: {type(e).__name__}: {e}")
+            if 'response' in locals() and response and getattr(response, "text", None):
+                print("--- Raw response (first 500 chars) ---")
+                print(response.text[:500])
+                print("--- End of raw response ---")
+
+        finally:
+            if uploaded_file:
+                try:
+                    client.files.delete(name=uploaded_file.name)
+                except Exception:
+                    pass
+            if temp_pdf and os.path.exists(temp_pdf):
+                try:
+                    os.remove(temp_pdf)
+                except Exception:
+                    pass
 
 print("Processing completed successfully.")
