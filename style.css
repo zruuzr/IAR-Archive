@@ -112,47 +112,53 @@ html[dir="ltr"] .chips-container {
   display: none;
 }
 
+/* ===== Scroll Buttons ===== */
 .chips-scroll-btn {
   position: absolute;
   top: 50%;
-  transform: translateY(-50%) scale(0.9);
-  width: 28px;
-  height: 28px;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   background: var(--card-bg);
   border: 1px solid var(--border);
-  color: var(--text-muted);
+  color: var(--text);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  z-index: 4;
+  z-index: 5;
   padding: 0;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.12);
-  transition: opacity 0.25s ease, transform 0.25s ease, background 0.2s ease, color 0.2s ease, visibility 0.25s ease;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.15);
+  transition: opacity 0.25s ease, transform 0.2s ease, background 0.2s ease, color 0.2s ease, visibility 0.25s ease;
 }
 
-.chips-container:hover .chips-scroll-btn.can-show,
-.chips-scroll-btn:focus-visible {
+/* الزر يظهر فقط عندما يحمل class can-show */
+.chips-scroll-btn.can-show {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
-  transform: translateY(-50%) scale(1);
 }
 
 .chips-scroll-btn:hover {
   background: var(--accent);
   color: #ffffff;
   border-color: var(--accent);
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+}
+
+.chips-scroll-btn:active {
+  transform: translateY(-50%) scale(0.95);
 }
 
 .chips-scroll-btn i {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   line-height: 1;
+  font-weight: 900;
 }
 
 .chips-scroll-left {
@@ -163,6 +169,7 @@ html[dir="ltr"] .chips-container {
   inset-inline-end: 8px;
 }
 
+/* ===== Chip Items ===== */
 .chip-item {
   background: var(--card-bg);
   border: 1px solid var(--border);
