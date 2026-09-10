@@ -42,6 +42,11 @@
     if (el) el.classList.add('d-none');
   }
 
+  // دالة تقريب المتوسط إلى رقمين عشريين
+  function roundRating(value) {
+    return Number((Number(value) || 0).toFixed(2));
+  }
+
   let booksData = [];
   let selectedBundleIds = new Set();
   let favoriteIds = new Set(JSON.parse(storage.get('iar_favorites', '[]')));
@@ -107,7 +112,8 @@
       shareModalBtn: "مشاركة", backToList: "العودة إلى جميع المراجع",
       descLabel: "الوصف", keyPointsLabel: "الأفكار الرئيسية", audienceLabel: "الفئة المستهدفة",
       readLabel: "قراءة", downloadLabel: "تحميل", citeLabel: "توثيق APA", shareLabel: "مشاركة",
-      unknown: "غير متوفر"
+      unknown: "غير متوفر",
+      ratingLabel: "تقييم"
     },
     en: {
       announcement: "IAR Archive - Interactive Digital Repository for Management & Reference Sciences",
@@ -139,7 +145,8 @@
       shareModalBtn: "Share", backToList: "Back to all references",
       descLabel: "Description", keyPointsLabel: "Key Concepts", audienceLabel: "Target Audience",
       readLabel: "Read", downloadLabel: "Download", citeLabel: "Cite APA", shareLabel: "Share",
-      unknown: "N/A"
+      unknown: "N/A",
+      ratingLabel: "Rating"
     }
   };
 
@@ -302,7 +309,7 @@
         const book = booksData.find(b => b.id === Number(doc.id));
         if (book) {
           const data = doc.data();
-          book.publicRating = data.average || 0;
+          book.publicRating = roundRating(data.average || 0);
           book.ratingCount = data.ratingCount || 0;
           book.ratingSum = data.ratingSum || 0;
           book.voters = data.voters || [];
@@ -348,7 +355,7 @@
     return (now - lastVisit > oneDay);
   }
 
-  // ===== دالة إرسال التقييم =====
+  // ===== دالة إرسال التقييم مع تقريب المتوسط =====
   async function submitPublicRating(bookId, newRating) {
     if (typeof newRating !== 'number' || newRating < 1 || newRating > 5) {
       showToast(currentLang === 'ar' ? 'قيمة التقييم غير صحيحة.' : 'Invalid rating value.', 'danger');
@@ -378,19 +385,19 @@
 
         const newSum = (data.ratingSum || 0) + newRating;
         const newCount = (data.ratingCount || 0) + 1;
+        const roundedAverage = roundRating(newSum / newCount);
 
         transaction.set(docRef, {
           ratingSum: newSum,
           ratingCount: newCount,
-          average: newSum / newCount,
+          average: roundedAverage,
           voters: [...existingVoters, uid]
         });
       });
 
-      // تحديث الحالة المحلية
       book.ratingSum = (book.ratingSum || 0) + newRating;
       book.ratingCount = (book.ratingCount || 0) + 1;
-      book.publicRating = book.ratingSum / book.ratingCount;
+      book.publicRating = roundRating(book.ratingSum / book.ratingCount);
       if (!book.voters) book.voters = [];
       if (!book.voters.includes(uid)) book.voters.push(uid);
 
@@ -415,7 +422,7 @@
     }
   }
 
-  // ===== دالة رسم النجوم =====
+  // ===== دالة رسم النجوم مع عرض المتوسط المقرب =====
   function renderStars(bookId, container) {
     if (!container) return;
     const book = booksData.find(b => b.id === bookId);
@@ -460,7 +467,8 @@
     if (book && book.ratingCount) {
       const countSpan = document.createElement('small');
       countSpan.className = 'text-muted ms-2';
-      countSpan.textContent = `(${book.ratingCount})`;
+      const avg = book.publicRating ? book.publicRating.toFixed(2) : '0.00';
+      countSpan.textContent = `(${avg} · ${book.ratingCount} ${i18n[currentLang].ratingLabel})`;
       container.appendChild(countSpan);
     }
   }
