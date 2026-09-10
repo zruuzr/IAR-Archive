@@ -1095,5 +1095,49 @@
     "file_type": "PDF",
     "file_path": "pdf/النظرية_المكانية_في_اختيار_المكان_المناسب_للنشاط_الاقتصادي.pdf",
     "cover_image": "covers/21.png"
+  },
+  {
+    "title": "وثيقة نصية مجزأة (نص غير محدد)",
+    "title_en": "Fragmented Text Document (Unidentified)",
+    "author": "غير معروف",
+    "author_en": "Unknown",
+    "category": "مخطوطات ووثائق نادرة",
+    "category_en": "Manuscripts & Rare Documents",
+    "type": "وثيقة ممسوحة ضوئياً",
+    "type_en": "Scanned Document",
+    "description": "يتضمن هذا السجل نصاً غير واضح ناتجاً عن مسح ضوئي لرموز ونصوص تالفة أو غير محددة اللغة بشكل كامل، وتتعذر قراءة البيانات التوثيقية المباشرة منها.",
+    "description_en": "This record contains fragmented text resulting from a degraded optical character recognition (OCR) scan of unclear symbols and text fragments.",
+    "publisher": "غير محدد",
+    "publisher_en": "Unspecified",
+    "year": "غير محدد",
+    "isbn": "",
+    "keywords": [
+      "مخطوطة",
+      "نص متلف",
+      "فهرسة",
+      "وثائق نادرة"
+    ],
+    "keywords_en": [
+      "Manuscript",
+      "Corrupted Text",
+      "Cataloging",
+      "Rare Documents"
+    ],
+    "key_points": [
+      "النص المستخرج يعاني من تشوه كبير جراء المسح الضوئي الرديء",
+      "غياب بيانات النشر الواضحة في الصفحات المتاحة"
+    ],
+    "key_points_en": [
+      "Extracted text suffers from heavy degradation due to poor OCR scanning",
+      "Lack of clear publication data within the provided pages"
+    ],
+    "target_audience": "الباحثون والمفهرسون والمهتمون بترميم النصوص",
+    "target_audience_en": "Researchers, Catalogers, and Text Restoration Specialists",
+    "id": 22,
+    "pages": "1218",
+    "file_size": "65.21 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/الموازنات_التقديرية.pdf",
+    "cover_image": "covers/22.png"
   }
 ]
