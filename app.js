@@ -42,7 +42,6 @@
     if (el) el.classList.add('d-none');
   }
 
-  // دالة تقريب المتوسط إلى رقمين عشريين
   function roundRating(value) {
     return Number((Number(value) || 0).toFixed(2));
   }
@@ -113,7 +112,8 @@
       descLabel: "الوصف", keyPointsLabel: "الأفكار الرئيسية", audienceLabel: "الفئة المستهدفة",
       readLabel: "قراءة", downloadLabel: "تحميل", citeLabel: "توثيق APA", shareLabel: "مشاركة",
       unknown: "غير متوفر",
-      ratingLabel: "تقييم"
+      ratingLabel: "تقييم",
+      clearBundle: "إلغاء الحزمة والعودة للرئيسية"
     },
     en: {
       announcement: "IAR Archive - Interactive Digital Repository for Management & Reference Sciences",
@@ -146,7 +146,8 @@
       descLabel: "Description", keyPointsLabel: "Key Concepts", audienceLabel: "Target Audience",
       readLabel: "Read", downloadLabel: "Download", citeLabel: "Cite APA", shareLabel: "Share",
       unknown: "N/A",
-      ratingLabel: "Rating"
+      ratingLabel: "Rating",
+      clearBundle: "Clear Bundle & Go Home"
     }
   };
 
@@ -355,7 +356,6 @@
     return (now - lastVisit > oneDay);
   }
 
-  // ===== دالة إرسال التقييم مع تقريب المتوسط =====
   async function submitPublicRating(bookId, newRating) {
     if (typeof newRating !== 'number' || newRating < 1 || newRating > 5) {
       showToast(currentLang === 'ar' ? 'قيمة التقييم غير صحيحة.' : 'Invalid rating value.', 'danger');
@@ -404,16 +404,10 @@
       return true;
 
     } catch (error) {
-      console.error('Rating error:', {
-        code: error.code,
-        message: error.message,
-        name: error.name,
-        full: error
-      });
-
+      console.error('Rating error:', { code: error.code, message: error.message });
       if (error.message === 'ALREADY_VOTED') {
         showToast(currentLang === 'ar' ? 'لقد قمت بتقييم هذا الكتاب مسبقاً.' : 'You have already rated this book.', 'danger');
-      } else if (error.code === 'permission-denied' || (error.message && error.message.includes('permission'))) {
+      } else if (error.code === 'permission-denied') {
         showToast(currentLang === 'ar' ? 'صلاحيات غير كافية. تحقق من قواعد Firestore.' : 'Permission denied. Check Firestore rules.', 'danger');
       } else {
         showToast(currentLang === 'ar' ? `خطأ: ${error.message || 'غير معروف'}` : `Error: ${error.message || 'unknown'}`, 'danger');
@@ -422,7 +416,6 @@
     }
   }
 
-  // ===== دالة رسم النجوم مع عرض المتوسط المقرب =====
   function renderStars(bookId, container) {
     if (!container) return;
     const book = booksData.find(b => b.id === bookId);
@@ -525,6 +518,7 @@
     setText('opt-sort-rating', t.sortRating);
     setHTML('txt-bundle-text', t.bundleText);
     setText('txt-bundle-btn', t.bundleBtn);
+    setText('txt-clear-bundle', t.clearBundle);
     setText('summaryModalTitle', t.modalTitle);
     setHTML('txt-modal-ideas-title', t.modalIdeasTitle);
     setHTML('txt-modal-audience-title', t.modalAudienceTitle);
@@ -791,6 +785,27 @@
     if (bundleBar) bundleBar.classList.toggle('d-none', selectedBundleIds.size === 0);
     const copyBtn = document.getElementById('copyBundleBtn');
     if (copyBtn) copyBtn.disabled = selectedBundleIds.size === 0;
+    const clearBtn = document.getElementById('clearBundleBtn');
+    if (clearBtn) clearBtn.disabled = selectedBundleIds.size === 0;
+  }
+
+  // ===== دالة الخروج من وضع الحزمة والعودة للصفحة الرئيسية =====
+  function exitBundleMode() {
+    isBundleMode = false;
+    selectedBundleIds.clear();
+    syncBundleUI();
+
+    const url = new URL(window.location.href);
+    url.searchParams.delete('bundle');
+    window.history.replaceState({}, '', url);
+
+    const alertContainer = document.getElementById('bundleModeAlertContainer');
+    if (alertContainer) alertContainer.innerHTML = '';
+
+    currentPage = 1;
+    applyFilters();
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   function updateBundleAlertUI() {
@@ -799,27 +814,22 @@
 
     if (isBundleMode) {
       alertContainer.innerHTML = `
-        <div class="alert alert-info d-flex justify-content-between align-items-center mb-4 shadow-sm">
-          <div>
-            <i class="bi bi-collection-fill me-2"></i>
-            <span>${currentLang === 'en' ? `Viewing a custom research bundle containing <strong>${selectedBundleIds.size}</strong> references.` : `أنت تستعرض حزمة بحثية مخصصة تضم <strong>${selectedBundleIds.size}</strong> مرجعاً.`}</span>
+        <div class="alert alert-info d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4 shadow-sm">
+          <div class="d-flex align-items-center">
+            <i class="bi bi-collection-fill me-2 fs-5"></i>
+            <span>${currentLang === 'en' 
+              ? `Viewing a custom research bundle containing <strong>${selectedBundleIds.size}</strong> references.` 
+              : `أنت تستعرض حزمة بحثية مخصصة تضم <strong>${selectedBundleIds.size}</strong> مرجعاً.`}</span>
           </div>
-          <button class="btn btn-outline-dark btn-sm fw-bold" id="exitBundleBtn">
-            <i class="bi bi-x-circle me-1"></i> ${currentLang === 'en' ? 'View All References' : 'العودة لجميع المراجع'}
-          </button>
+          <div class="d-flex gap-2 flex-wrap">
+            <button class="btn btn-primary btn-sm fw-bold" id="exitBundleBtn">
+              <i class="bi bi-house-door me-1"></i> 
+              ${currentLang === 'en' ? 'Back to Home' : 'العودة للرئيسية'}
+            </button>
+          </div>
         </div>
       `;
-      document.getElementById('exitBundleBtn')?.addEventListener('click', () => {
-        isBundleMode = false;
-        selectedBundleIds.clear();
-        syncBundleUI();
-        const url = new URL(window.location.href);
-        url.searchParams.delete('bundle');
-        window.history.replaceState({}, '', url);
-        alertContainer.innerHTML = '';
-        currentPage = 1;
-        applyFilters();
-      });
+      document.getElementById('exitBundleBtn')?.addEventListener('click', exitBundleMode);
     } else {
       alertContainer.innerHTML = '';
     }
@@ -841,6 +851,8 @@
     url.searchParams.set('bundle', Array.from(selectedBundleIds).join(','));
     copyText(url.toString(), i18n[currentLang].toastBundleCopied);
   });
+
+  document.getElementById('clearBundleBtn')?.addEventListener('click', exitBundleMode);
 
   async function copyText(text, successMessage) {
     try {
