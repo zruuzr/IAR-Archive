@@ -728,6 +728,7 @@
     });
   }
 
+  // ===== دالة تحسين أزرار التمرير للتصنيفات (مصححة) =====
   function setupChipsScrollButtons() {
     const wrapper = document.getElementById('categoryChips');
     const container = wrapper?.closest('.chips-container');
@@ -735,38 +736,45 @@
     const btnRight = document.getElementById('chipsScrollRight');
     if (!wrapper || !container || !btnLeft || !btnRight) return;
 
-    function updateButtonsVisibility() {
-      const isRTL = document.documentElement.getAttribute('dir') === 'rtl';
-      const maxScroll = wrapper.scrollWidth - wrapper.clientWidth;
+    const isRTL = document.documentElement.getAttribute('dir') === 'rtl';
 
+    function getScrollState() {
+      const maxScroll = Math.max(0, wrapper.scrollWidth - wrapper.clientWidth);
+      if (maxScroll <= 5) return { atStart: true, atEnd: true, maxScroll };
+
+      // scrollLeft موحّد: Math.abs يعمل في الوضعين (RTL الحديث + LTR)
+      const currentScroll = Math.abs(wrapper.scrollLeft);
+      return {
+        atStart: currentScroll <= 5,
+        atEnd: currentScroll >= maxScroll - 5,
+        maxScroll
+      };
+    }
+
+    function updateButtonsVisibility() {
+      const { atStart, atEnd, maxScroll } = getScrollState();
+
+      // لا يوجد تمرير مطلوب
       if (maxScroll <= 5) {
         container.classList.remove('can-scroll-start', 'can-scroll-end');
-        btnLeft.classList.add('d-none');
-        btnRight.classList.add('d-none');
         btnLeft.classList.remove('can-show');
         btnRight.classList.remove('can-show');
         return;
       }
 
-      const scrollPos = isRTL ? Math.abs(wrapper.scrollLeft) : wrapper.scrollLeft;
-      const atStart = scrollPos <= 5;
-      const atEnd = scrollPos >= maxScroll - 5;
-
+      // تدرجات التلاشي
       container.classList.toggle('can-scroll-start', !atStart);
       container.classList.toggle('can-scroll-end', !atEnd);
 
-      btnLeft.classList.remove('d-none');
-      btnRight.classList.remove('d-none');
-
-      if (isRTL) {
-        btnLeft.classList.toggle('can-show', !atEnd);
-        btnRight.classList.toggle('can-show', !atStart);
-      } else {
-        btnLeft.classList.toggle('can-show', !atStart);
-        btnRight.classList.toggle('can-show', !atEnd);
-      }
+      // btnLeft = سهم يشير نحو البداية (موجود في الجهة المقابلة للبداية بصريًا)
+      // يظهر فقط عند وجود محتوى مخفي في جهة البداية، أي عندما لا نكون في البداية
+      // btnRight = سهم يشير نحو النهاية (موجود في الجهة المقابلة للنهاية بصريًا)
+      // يظهر فقط عند وجود محتوى مخفي في جهة النهاية، أي عندما لا نكون في النهاية
+      btnLeft.classList.toggle('can-show', !atStart);
+      btnRight.classList.toggle('can-show', !atEnd);
     }
 
+    // تنظيف المستمعين السابقين
     if (wrapper._chipsScrollHandler) {
       wrapper.removeEventListener('scroll', wrapper._chipsScrollHandler);
     }
@@ -780,17 +788,21 @@
     wrapper.addEventListener('scroll', wrapper._chipsScrollHandler, { passive: true });
     window.addEventListener('resize', window._chipsResizeHandler);
 
+    // زر "البداية" (chevron-right في RTL): يحركنا نحو البداية
     btnLeft.onclick = () => {
-      const isRTL = document.documentElement.getAttribute('dir') === 'rtl';
-      wrapper.scrollBy({ left: isRTL ? 200 : -200, behavior: 'smooth' });
+      const step = isRTL ? 200 : -200;
+      wrapper.scrollBy({ left: step, behavior: 'smooth' });
     };
+    // زر "النهاية" (chevron-left في RTL): يحركنا نحو النهاية
     btnRight.onclick = () => {
-      const isRTL = document.documentElement.getAttribute('dir') === 'rtl';
-      wrapper.scrollBy({ left: isRTL ? -200 : 200, behavior: 'smooth' });
+      const step = isRTL ? -200 : 200;
+      wrapper.scrollBy({ left: step, behavior: 'smooth' });
     };
 
+    // استدعاء أولي مع تأخيرات لضمان تحميل المحتوى
     setTimeout(updateButtonsVisibility, 100);
-    setTimeout(updateButtonsVisibility, 500);
+    setTimeout(updateButtonsVisibility, 400);
+    setTimeout(updateButtonsVisibility, 1000);
   }
 
   function openPdfReader(filePath, title) {
