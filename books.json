@@ -985,6 +985,7 @@
     "file_path": "pdf/المرجع المتكامل في إدارة الأعمال.pdf"
   },
   {
+    "id": 20,
     "title": "استراتيجيات الإعلان",
     "title_en": "Advertising Strategies",
     "author": "شيراز محمد خضر",
@@ -998,6 +999,9 @@
     "publisher": "دار الأكاديمية للطباعة والنشر والتوزيع",
     "publisher_en": "Academy House for Printing, Publishing and Distribution",
     "year": "2022",
+    "pages": "155",
+    "file_size": "43.53 MB",
+    "file_type": "PDF",
     "isbn": "",
     "keywords": [
       "الإعلان",
@@ -1033,14 +1037,11 @@
     ],
     "target_audience": "الطلاب والمتخصصون والباحثون في مجالات التسويق والإعلام والإعلان وإدارة الأعمال.",
     "target_audience_en": "Students, professionals, and researchers in marketing, media, advertising, and business management.",
-    "id": 20,
-    "pages": "155",
-    "file_size": "43.53 MB",
-    "file_type": "PDF",
-    "file_path": "pdf/استراتيجيات_الإعلان.pdf",
-    "cover_image": "covers/20.png"
+    "cover_image": "covers/20.png",
+    "file_path": "pdf/استراتيجيات_الإعلان.pdf"
   },
   {
+    "id": 21,
     "title": "النظرية المكانية : في اختيار المكان المناسب للنشاط الاقتصادي",
     "title_en": "The Location of Economic Activity",
     "author": "إدجار هوفر",
@@ -1054,6 +1055,9 @@
     "publisher": "دار الآفاق الجديدة - بيروت",
     "publisher_en": "Dar Al-Afaq Al-Jadida - Beirut",
     "year": "1974",
+    "pages": "176",
+    "file_size": "12.60 MB",
+    "file_type": "PDF",
     "isbn": "",
     "keywords": [
       "النظرية المكانية",
@@ -1089,10 +1093,7 @@
     ],
     "target_audience": "طلاب وأساتذة الاقتصاد والجغرافيا الاقتصادية، والباحثون في التخطيط العمراني والإقليمي وصناع القرار الاقتصادي.",
     "target_audience_en": "Students and professors of economics and economic geography, urban and regional planning researchers, and economic decision-makers.",
-    "id": 21,
-    "pages": "176",
-    "file_size": "12.60 MB",
-    "file_type": "PDF",
-    "file_path": "pdf/النظرية_المكانية_في_اختيار_المكان_المناسب_للنشاط_الاقتصادي.pdf",
-    "cover_image": "covers/21.png"
-  },
+    "cover_image": "covers/21.png",
+    "file_path": "pdf/النظرية_المكانية_في_اختيار_المكان_المناسب_للنشاط_الاقتصادي.pdf"
+  }
+]
