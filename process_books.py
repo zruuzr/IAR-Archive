@@ -5,17 +5,14 @@ from google import genai
 from google.genai import types
 from pypdf import PdfReader
 
-# ✅ التحقق المبكر من وجود مفتاح API لتجنب الانهيار المفاجئ
 if "GEMINI_API_KEY" not in os.environ:
-    raise ValueError("خطأ: متغير البيئة GEMINI_API_KEY غير موجود. يرجى إعداده في أسرار مستودع GitHub.")
+    raise ValueError("GEMINI_API_KEY environment variable is missing.")
 
-# إعداد عميل Gemini باستخدام المفتاح الممرر
 client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
 
 JSON_PATH = "books.json"
 PDF_DIR = "pdf"
 
-# القالب الهيكلي الموحد لضمان التزام النموذج بالحقول المطلوبة
 JSON_SCHEMA_PROMPT = """
 أنت مفهرس كتب محترف. قم باستخراج بيانات الكتاب وصغ البيانات داخل JSON يلتزم بالهيكل التالي حرفياً وبدون أي تغيير في أسماء الحقول أو إضافة حقول خارجية:
 
@@ -44,9 +41,8 @@ JSON_SCHEMA_PROMPT = """
 """
 
 def get_file_info(file_path):
-    """حساب عدد الصفحات وحجم الملف برمجياً بدقة"""
     pages_count = 0
-    file_size_str = "غير معروف"
+    file_size_str = "Unknown"
     try:
         reader = PdfReader(file_path)
         pages_count = len(reader.pages)
@@ -63,7 +59,6 @@ def get_file_info(file_path):
     return str(pages_count) if pages_count > 0 else None, file_size_str
 
 def extract_first_pages_text(pdf_path, max_pages=10):
-    """استخراج نص أول بضعة صفحات محلياً لتوفير الاستهلاك وسرعة المعالجة"""
     text = ""
     try:
         reader = PdfReader(pdf_path)
@@ -71,12 +66,11 @@ def extract_first_pages_text(pdf_path, max_pages=10):
         for i in range(num_pages):
             page_text = reader.pages[i].extract_text()
             if page_text:
-                text += f"\n--- صفحة {i+1} ---\n" + page_text
+                text += f"\n--- Page {i+1} ---\n" + page_text
     except Exception as e:
-        print(f"تعذر استخراج النص محلياً من {pdf_path}: {e}")
+        print(f"Error extracting text from {pdf_path}: {e}")
     return text.strip()
 
-# قراءة البيانات الحالية من ملف books.json بأمان
 if os.path.exists(JSON_PATH):
     try:
         with open(JSON_PATH, "r", encoding="utf-8") as f:
@@ -86,7 +80,6 @@ if os.path.exists(JSON_PATH):
 else:
     books_data = []
 
-# توحيد مسارات الملفات لتفادي تكرار المعالجة
 existing_files = [os.path.normpath(book.get("file_path", "")) for book in books_data]
 
 if os.path.exists(PDF_DIR):
@@ -96,7 +89,7 @@ if os.path.exists(PDF_DIR):
             normalized_path = os.path.normpath(file_path)
             
             if normalized_path not in existing_files:
-                print(f"جاري معالجة الكتاب الجديد: {file_name}")
+                print(f"Processing new book: {file_name}")
                 
                 pages_count, file_size_str = get_file_info(file_path)
                 sample_text = extract_first_pages_text(file_path, max_pages=10)
@@ -105,9 +98,8 @@ if os.path.exists(PDF_DIR):
                 temp_pdf = "temp_upload.pdf"
                 
                 try:
-                    # اعتبار الملف مصوراً إذا كان النص المستخرج منه أقل من 100 حرف
                     if len(sample_text.strip()) < 100:
-                        print("الملف مصور أو النص المحلي غير كافٍ، جاري الرفع للتحليل الشامل عبر Gemini...")
+                        print("File is scanned or local text is insufficient, uploading for comprehensive analysis...")
                         shutil.copyfile(file_path, temp_pdf)
                         uploaded_file = client.files.upload(file=temp_pdf)
                         contents_payload = [
@@ -115,11 +107,10 @@ if os.path.exists(PDF_DIR):
                             JSON_SCHEMA_PROMPT
                         ]
                     else:
-                        contents_payload = f"{JSON_SCHEMA_PROMPT}\n\nالنص المستخرج من الكتاب:\n{sample_text[:12000]}"
+                        contents_payload = f"{JSON_SCHEMA_PROMPT}\n\nExtracted Text:\n{sample_text[:12000]}"
 
-                    # استخدام اسم نموذج مستقر ومعتمد
                     response = client.models.generate_content(
-                        model="gemini-3.5-flash",
+                        model="gemini-2.5-flash",
                         contents=contents_payload,
                         config=types.GenerateContentConfig(
                             response_mime_type="application/json"
@@ -127,13 +118,20 @@ if os.path.exists(PDF_DIR):
                     )
                     
                     if response and response.text:
-                        new_book = json.loads(response.text.strip())
+                        raw_text = response.text.strip()
                         
-                        # التحقق من أن الاستجابة عبارة عن قاموس (dict)
+                        if raw_text.startswith("```json"):
+                            raw_text = raw_text[7:]
+                        elif raw_text.startswith("```"):
+                            raw_text = raw_text[3:]
+                        if raw_text.endswith("```"):
+                            raw_text = raw_text[:-3]
+                            
+                        new_book = json.loads(raw_text.strip())
+                        
                         if not isinstance(new_book, dict):
-                            raise ValueError("استجابة نموذج Gemini لم تكن بصيغة كائن JSON صالح.")
+                            raise ValueError("Invalid JSON object response.")
                         
-                        # توليد ID آمن ومتسلسل لا يتأثر بالحذف اليدوي
                         max_id = max((book.get("id", 0) for book in books_data), default=0)
                         new_book["id"] = max_id + 1
                         
@@ -145,16 +143,14 @@ if os.path.exists(PDF_DIR):
                         
                         books_data.append(new_book)
                         
-                        # حفظ تدريجي للبيانات بعد إضافة كل كتاب (لحماية التقدم وضمان عدم ضياعه)
                         with open(JSON_PATH, "w", encoding="utf-8") as f:
                             json.dump(books_data, f, ensure_ascii=False, indent=2)
                             
-                        print(f"تمت إضافة وحفظ الكتاب بنجاح: {new_book.get('title')}")
+                        print(f"Successfully added and saved: {new_book.get('title')}")
                         
                 except Exception as e:
-                    print(f"خطأ أثناء معالجة الملف {file_name}: {e}")
+                    print(f"Error processing file {file_name}: {e}")
                 finally:
-                    # التنظيف الآمن للملفات المؤقتة
                     if uploaded_file:
                         try:
                             client.files.delete(name=uploaded_file.name)
@@ -166,4 +162,4 @@ if os.path.exists(PDF_DIR):
                         except Exception:
                             pass
 
-print("اكتملت عملية معالجة المراجع بنجاح.")
+print("Processing completed successfully.")
