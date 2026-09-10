@@ -789,16 +789,11 @@
     if (!filePath) return showToast(i18n[currentLang].fileUnavailable, 'danger');
     setText('modalBookTitle', title);
     const iframe = document.getElementById('pdfFrame');
-    const fallbackContainer = document.getElementById('pdfFallbackContainer');
-    const fallbackLink = document.getElementById('pdfFallbackLink');
-    if (!iframe || !fallbackContainer || !fallbackLink) return;
-    
-    fallbackLink.href = filePath;
-    fallbackContainer.style.display = 'block';
+    if (!iframe) return;
 
     const absoluteUrl = new URL(filePath, window.location.href).href;
     
-    // استخدام عارض Mozilla PDF.js الرسمي لعرض الملفات الكبيرة والصغيرة داخل الصفحة مباشرة بدون تحميل
+    // استخدام قارئ PDF.js الرسمي لعرض المستندات داخل النافذة مباشرة بدون أزرار أو قوائم إضافية
     iframe.src = `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(absoluteUrl)}`;
 
     pdfModal.show();
@@ -1220,7 +1215,7 @@
     applyFilters();
   });
 
-  document.getElementById('btnBack')?.addEventListener('click', hideSingleBookView);
+  document.getElementById('btnBackToList')?.addEventListener('click', hideSingleBookView);
 
   async function fetchBooks() {
     const loadingEl = document.getElementById('booksLoading');
