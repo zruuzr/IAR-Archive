@@ -544,7 +544,11 @@
     updateViewControls();
     syncBundleUI();
     updateBundleAlertUI();
-    if (booksLoaded && booksData.length > 0) { setupChipsCategories(); applyFilters(); }
+    if (booksLoaded && booksData.length > 0) { 
+      setupChipsCategories(); 
+      setupChipsScrollButtons();
+      applyFilters(); 
+    }
   }
 
   langToggleBtn?.addEventListener('click', () => {
@@ -580,6 +584,8 @@
     hideEl('bundleModeAlertContainer');
     const pag = document.getElementById('paginationContainer');
     if (pag && pag.parentElement) pag.parentElement.classList.add('d-none');
+    const chipsContainer = document.querySelector('.chips-container');
+    if (chipsContainer) chipsContainer.classList.add('d-none');
     showEl('singleBookView');
     
     const t = i18n[currentLang];
@@ -625,6 +631,8 @@
     showEl('categoryChips');
     const pag = document.getElementById('paginationContainer');
     if (pag && pag.parentElement) pag.parentElement.classList.remove('d-none');
+    const chipsContainer = document.querySelector('.chips-container');
+    if (chipsContainer) chipsContainer.classList.remove('d-none');
     updateBundleAlertUI();
     updatePageTitle(null);
     const url = new URL(window.location.href);
@@ -720,6 +728,45 @@
     });
   }
 
+  function setupChipsScrollButtons() {
+    const wrapper = document.getElementById('categoryChips');
+    const btnLeft = document.getElementById('chipsScrollLeft');
+    const btnRight = document.getElementById('chipsScrollRight');
+    if (!wrapper || !btnLeft || !btnRight) return;
+
+    function updateButtonsVisibility() {
+      const isRTL = document.documentElement.getAttribute('dir') === 'rtl';
+      const maxScroll = wrapper.scrollWidth - wrapper.clientWidth;
+      const currentScroll = Math.abs(wrapper.scrollLeft);
+
+      if (maxScroll <= 5) {
+        btnLeft.classList.add('d-none');
+        btnRight.classList.add('d-none');
+        return;
+      }
+
+      if (isRTL) {
+        btnLeft.classList.toggle('d-none', currentScroll >= maxScroll - 5);
+        btnRight.classList.toggle('d-none', currentScroll <= 5);
+      } else {
+        btnLeft.classList.toggle('d-none', currentScroll <= 5);
+        btnRight.classList.toggle('d-none', currentScroll >= maxScroll - 5);
+      }
+    }
+
+    btnLeft.onclick = () => {
+      wrapper.scrollBy({ left: -200, behavior: 'smooth' });
+    };
+    btnRight.onclick = () => {
+      wrapper.scrollBy({ left: 200, behavior: 'smooth' });
+    };
+
+    wrapper.onscroll = updateButtonsVisibility;
+    window.addEventListener('resize', updateButtonsVisibility);
+
+    setTimeout(updateButtonsVisibility, 100);
+  }
+
   function openPdfReader(filePath, title) {
     if (!filePath) return showToast(i18n[currentLang].fileUnavailable, 'danger');
     setText('modalBookTitle', title);
@@ -789,7 +836,6 @@
     if (clearBtn) clearBtn.disabled = selectedBundleIds.size === 0;
   }
 
-  // ===== دالة الخروج من وضع الحزمة والعودة للصفحة الرئيسية =====
   function exitBundleMode() {
     isBundleMode = false;
     selectedBundleIds.clear();
@@ -1187,6 +1233,7 @@
       hydrateBundleFromUrl();
       syncBundleUI();
       setupChipsCategories();
+      setupChipsScrollButtons();
       setText('booksCounter', booksData.length);
 
       applyFilters();
