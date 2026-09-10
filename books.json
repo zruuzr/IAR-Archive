@@ -675,56 +675,6 @@
     "file_path": "pdf/التقنيات الكمية في ادارة الاعمال.pdf"
   },
   {
-    "id": 14,
-    "title": "إدارة الأعمال 101",
-    "title_en": "Principles of Business Administration",
-    "author": "المؤسسة العامة للتعليم الفني والتدريب المهني",
-    "author_en": "General Organization for Technical Education and Vocational Training",
-    "category": "إدارة الأعمال",
-    "category_en": "Business Administration",
-    "type": "حقيبة تدريبية",
-    "type_en": "Training Curriculum",
-    "description": "حقيبة تدريبية متخصصة تناقش مبادئ وأساسيات إدارة الأعمال، واستعراض مفهوم الإدارة والتطور التاريخي للنظريات الإدارية الكلاسيكية والسلوكية مثل مشاركات هنري فايول وماكس فيبر وتجارب التون مايو ونظرية X وY لمكغريغور، بالإضافة إلى المبادئ العامة للإدارة ونظم المعلومات الإدارية.",
-    "description_en": "A specialized training module discussing the fundamentals and principles of business administration, covering the evolution of management theories including classical and behavioral approaches (Fayol, Weber, Mayo, McGregor), core management principles, and Management Information Systems (MIS).",
-    "publisher": "المؤسسة العامة للتعليم الفني والتدريب المهني",
-    "publisher_en": "General Organization for Technical Education and Vocational Training",
-    "year": "2026",
-    "pages": "117",
-    "file_size": "1.23 MB",
-    "file_type": "PDF",
-    "isbn": "",
-    "keywords": [
-      "إدارة الأعمال",
-      "مبادئ الإدارة",
-      "هنري فايول",
-      "النظريات الإدارية",
-      "نظم المعلومات الإدارية"
-    ],
-    "keywords_en": [
-      "Business Administration",
-      "Management Principles",
-      "Henri Fayol",
-      "Management Theories",
-      "Management Information Systems"
-    ],
-    "key_points": [
-      "التعريف بمفهوم الإدارة وأهميتها في بيئة العمل",
-      "استعراض النظريات الإدارية الكلاسيكية والسلوكية واختباراتها",
-      "شرح المبادئ العامة للإدارة وفقاً لهنري فايول",
-      "مقدمة حول نظم المعلومات الإدارية (MIS) ودورها في اتخاذ القرارات"
-    ],
-    "key_points_en": [
-      "Introduction to the concept and importance of management in the workplace",
-      "Review of classical and behavioral management theories and experiments",
-      "Explanation of Henri Fayol's general management principles",
-      "Introduction to Management Information Systems (MIS) and decision-making support"
-    ],
-    "target_audience": "طلاب المتدربين في المعاهد التقنية والمتخصصين في مجال إدارة الأعمال والمبتدئين في الإدارة",
-    "target_audience_en": "Vocational and technical trainees, business administration students, and entry-level managers",
-    "cover_image": "covers/14.png",
-    "file_path": "pdf/مبادئ إدارة الأعمال.pdf"
-  },
-  {
     "id": 15,
     "title": "مبادئ إدارة الأعمال",
     "title_en": "Principles of Business Administration",
@@ -771,7 +721,7 @@
       "The importance of specialization and division of labor in improving efficiency and separating intellectual work from execution.",
       "Explanation of core administrative functions including planning, organizing, controlling, and leadership."
     ],
-    "target_audience": "طلاب وتخصصات إدارة الأعمال، والمديرون، والمسيرون، والمهتمون بالتطوير الإداري وبحوث العلوم الإدارية.",
+    "target_audience": "طلاب وتخصصات إدارة الأعمال، والالمديرون، والمسيرون، والمهتمون بالتطوير الإداري وبحوث العلوم الإدارية.",
     "target_audience_en": "Business administration students, managers, executives, and researchers interested in administrative development and management sciences.",
     "cover_image": "covers/15.png",
     "file_path": "pdf/مبـادئ إدارة الأعمـال.pdf"
@@ -985,59 +935,5 @@
     "target_audience_en": "Students and faculty in business schools, academic researchers, and managers or executives seeking to enhance their managerial knowledge.",
     "cover_image": "covers/19.png",
     "file_path": "pdf/المرجع المتكامل في إدارة الأعمال.pdf"
-  },
-  {
-    "id": 20,
-    "title": "مبادئ إدارة الأعمال",
-    "title_en": "Principles of Business Administration",
-    "author": "غير مذكور",
-    "author_en": "Not Specified",
-    "category": "إدارة الأعمال",
-    "category_en": "Business Administration",
-    "type": "حقيبة تدريبية / كتاب تعليمي",
-    "type_en": "Training Manual / Educational Book",
-    "description": "حقيبة تدريبية ودليل تعليمي يغطي أساسيات ومبادئ إدارة الأعمال. يتناول الكتاب مفاهيم الإدارة وأهميتها وتطورها التاريخي، مع التركيز على النظريات الإدارية الكلاسيكية كالبيروقراطية لماكس فيبر، والإدارة العلمية، ومبادئ التنظيم والإدارة لهنري فايول.",
-    "description_en": "A training manual and educational handbook covering the fundamentals and principles of business administration. It addresses management concepts, importance, and historical evolution, focusing on classical management theories such as Max Weber's bureaucracy, scientific management, and Henri Fayol's administrative principles.",
-    "publisher": "غير مذكور",
-    "publisher_en": "Not Specified",
-    "year": "غير مؤرخ",
-    "pages": "125",
-    "file_size": "1.20 MB",
-    "file_type": "PDF",
-    "isbn": "",
-    "keywords": [
-      "مبادئ الإدارة",
-      "إدارة الأعمال",
-      "النظريات الإدارية",
-      "هنري فايول",
-      "ماكس فيبر",
-      "التنظيم الإداري",
-      "حقيبة تدريبية"
-    ],
-    "keywords_en": [
-      "Principles of Management",
-      "Business Administration",
-      "Management Theories",
-      "Henri Fayol",
-      "Max Weber",
-      "Administrative Organization",
-      "Training Manual"
-    ],
-    "key_points": [
-      "التعريف بمفهوم الإدارة وأهميتها ودورها في تحقيق الكفاءة والفاعلية.",
-      "استعراض التطور التاريخي للفكر الإداري والنظريات الكلاسيكية.",
-      "تسليط الضوء على نموذج البيروقراطية عند ماكس فيبر وتطبيقاته.",
-      "شرح مبادئ هنري فايول الإدارية مثل تسلسل القيادة، وحدة الأمر، وتكافؤ السلطة والمسؤولية."
-    ],
-    "key_points_en": [
-      "Introduction to management concept, importance, and role in achieving efficiency and effectiveness.",
-      "Reviewing the historical development of management thought and classical theories.",
-      "Highlighting Max Weber's bureaucratic model and its applications.",
-      "Explaining Henri Fayol's management principles such as chain of command, unity of command, and authority-responsibility balance."
-    ],
-    "target_audience": "طلاب ومعاهِد إدارة الأعمال، الموظفون والمتدربون في المجال الإداري، والمهتمون بفهم أساسيات التنظيم والقيادة الإدارية.",
-    "target_audience_en": "Business administration students and institutes, management trainees and employees, and anyone interested in understanding organizational and management fundamentals.",
-    "cover_image": "covers/20.png",
-    "file_path": "pdf/مبــادئ إدارة الأعمـال.pdf"
   }
 ]
