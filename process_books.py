@@ -22,14 +22,14 @@ MAX_RETRIES = 5
 INITIAL_BACKOFF = 5
 
 JSON_SCHEMA_PROMPT = """
-أنت مفهرس كتب محترف. مهمتك استخراج بيانات الكتاب من المحتوى المرفق، مهما كان المحتوى جزئيًا أو غير مكتمل.
+أنت مفهرس كتب محترف. مهمتك استخراج بيانات الكتاب الحقيقية بدقة من المحتوى المرفق.
 
-أعد كائن JSON واحد فقط بالهيكل التالي حرفياً:
+أعد كائن JSON واحد فقط بالهيكل التالي حرفياً وبدون أي تغيير:
 
 {
   "title": "العنوان الحقيقي بالعربية",
   "title_en": "العنوان بالإنجليزية",
-  "author": "اسم المؤلف بالعربية",
+  "author": "اسم المؤلف بالعربية أو اتركه فارغاً إذا تعذر إيجاده تماماً",
   "author_en": "اسم المؤلف بالإنجليزية",
   "category": "التصنيف بالعربية",
   "category_en": "التصنيف بالإنجليزية",
@@ -50,13 +50,10 @@ JSON_SCHEMA_PROMPT = """
 }
 
 قواعد صارمة جداً:
-1. استخرج العنوان من الغلاف أو الترويسة أو الفهرس أو أي مكان.
-2. إذا لم تجد المؤلف، اتركه "" — لكن لا تكتب "غير معروف" أو "unknown".
-3. لا تكتب أبداً في العنوان "وثيقة نصية" أو "نص مجزأ" أو "غير محدد" أو "fragment" أو "unspecified".
-4. إذا كان المحتوى جداول مالية أو إدارية، صنّفه كـ "المحاسبة والمالية" أو "الإدارة" واستخرج أي كلمات مفتاحية مفيدة.
-5. حتى لو كان المحتوى ناقصاً، استنتج الموضوع من الكلمات المفتاحية الموجودة في النص.
-6. اكتب وصفاً عاماً من 2-3 أسطر يشرح موضوع الكتاب بناءً على المحتوى الفعلي.
-7. أعد فقط كائن JSON واحد بدون أي نص إضافي.
+1. ابحث بدقة عن اسم المؤلف والناشر في صفحات الغلاف أو صفحة الحقوق والملكية الفكرية.
+2. تأكد من أن keywords و key_points هي دائماً مصفوفات (Arrays) وليست نصوصاً.
+3. لا تكتب أبداً في العنوان "وثيقة نصية" أو "نص مجزأ" أو "غير محدد".
+4. أعد فقط كائن JSON واحد بدون أي نص إضافي.
 """
 
 class ApiUnavailableError(Exception):
@@ -426,21 +423,45 @@ if os.path.exists(PDF_DIR):
                 raise ValueError("Invalid JSON object response.")
 
             max_id = max((book.get("id", 0) for book in books_data), default=0)
-            new_book["id"] = max_id + 1
-            new_book["pages"] = pages_count if pages_count else new_book.get("pages", "")
-            new_book["file_size"] = file_size_str
-            new_book["file_type"] = "PDF"
-            new_book["file_path"] = file_path
-            new_book["cover_image"] = f"covers/{new_book['id']}.png"
+            next_id = max_id + 1
 
-            books_data.append(new_book)
+            standardized_book = {
+                "id": next_id,
+                "title": new_book.get("title", ""),
+                "title_en": new_book.get("title_en", ""),
+                "author": new_book.get("author", ""),
+                "author_en": new_book.get("author_en", ""),
+                "category": new_book.get("category", "غير مصنف"),
+                "category_en": new_book.get("category_en", "Uncategorized"),
+                "type": new_book.get("type", "كتاب"),
+                "type_en": new_book.get("type_en", "Book"),
+                "description": new_book.get("description", ""),
+                "description_en": new_book.get("description_en", ""),
+                "publisher": new_book.get("publisher", ""),
+                "publisher_en": new_book.get("publisher_en", ""),
+                "year": new_book.get("year", ""),
+                "isbn": new_book.get("isbn", ""),
+                "keywords": new_book.get("keywords", []) if isinstance(new_book.get("keywords"), list) else [str(new_book.get("keywords"))],
+                "keywords_en": new_book.get("keywords_en", []) if isinstance(new_book.get("keywords_en"), list) else [],
+                "key_points": new_book.get("key_points", []) if isinstance(new_book.get("key_points"), list) else [],
+                "key_points_en": new_book.get("key_points_en", []) if isinstance(new_book.get("key_points_en"), list) else [],
+                "target_audience": new_book.get("target_audience", ""),
+                "target_audience_en": new_book.get("target_audience_en", ""),
+                "pages": pages_count if pages_count else new_book.get("pages", ""),
+                "file_size": file_size_str,
+                "file_type": "PDF",
+                "file_path": file_path,
+                "cover_image": f"covers/{next_id}.png"
+            }
+
+            books_data.append(standardized_book)
             existing_files.add(normalized_path)
 
             with open(temp_json_path, "w", encoding="utf-8") as f:
                 json.dump(books_data, f, ensure_ascii=False, indent=2)
             os.replace(temp_json_path, JSON_PATH)
 
-            print(f"  Successfully added: {new_book.get('title')}")
+            print(f"  Successfully added: {standardized_book.get('title')}")
 
         except Exception as e:
             print(f"Error processing file {file_name}: {type(e).__name__}: {e}")
