@@ -154,7 +154,6 @@
 
   function asText(value) { return value === null || value === undefined ? '' : String(value).trim(); }
 
-  // تم حل مشكلة الترميز (Garbled Text) بشكل جذري لضمان عدم ظهور أخطاء 404 للملفات العربية
   function safeAssetUrl(value, allowedExtensions) {
     const source = asText(value);
     if (!source) return '';
@@ -168,7 +167,6 @@
       if (!allowedExtensions.test(cleanPath)) return '';
 
       if (/\.pdf$/i.test(cleanPath)) {
-        // فك تشفير المسار أولاً ثم إعادة تشفير الأجزاء بدقة لتجنب الترميز المزدوج للأحرف العربية
         try { cleanPath = decodeURIComponent(cleanPath); } catch (_) {}
         const safeEncodedPath = cleanPath.split('/').map(encodeURIComponent).join('/');
         return `https://raw.githubusercontent.com/zruuzr/IAR-Archive/main/${safeEncodedPath}`;
@@ -344,83 +342,102 @@
     return (now - lastVisit > oneDay);
   }
 
+  // ===== دالة إرسال التقييم المحسّنة (مع Transaction ورسائل خطأ واضحة) =====
   async function submitPublicRating(bookId, newRating) {
     if (typeof newRating !== 'number' || newRating < 1 || newRating > 5) return false;
-    if (!auth.currentUser) return false;
+
+    if (!auth.currentUser) {
+      showToast(currentLang === 'ar' ? 'جارٍ التهيئة، يرجى المحاولة بعد لحظات.' : 'Initializing, please wait.', 'danger');
+      return false;
+    }
 
     const uid = auth.currentUser.uid;
     const book = booksData.find(b => b.id === bookId);
     if (!book) return false;
 
-    if (book.voters && book.voters.includes(uid)) {
-      showToast(currentLang === 'ar' ? 'لقد قمت بتقييم هذا الكتاب مسبقاً.' : 'You have already rated this book.', 'danger');
-      return false;
-    }
-
     try {
       const docRef = db.collection('ratings').doc(String(bookId));
-      const doc = await docRef.get();
-      
-      let newSum = newRating;
-      let newCount = 1;
-      
-      if (doc.exists) {
-          const data = doc.data();
-          const existingVoters = Array.isArray(data.voters) ? data.voters : [];
-          if (existingVoters.includes(uid)) return false;
-          newSum = (data.ratingSum || 0) + newRating;
-          newCount = (data.ratingCount || 0) + 1;
-      }
 
-      await docRef.set({
-        ratingSum: newSum,
-        ratingCount: newCount,
-        average: newSum / newCount,
-        voters: firebase.firestore.FieldValue.arrayUnion(uid)
-      }, { merge: true });
+      await db.runTransaction(async (transaction) => {
+        const doc = await transaction.get(docRef);
+        const data = doc.exists ? doc.data() : {};
+        const existingVoters = Array.isArray(data.voters) ? data.voters : [];
 
-      book.ratingSum = newSum;
-      book.ratingCount = newCount;
-      book.publicRating = newSum / newCount;
+        if (existingVoters.includes(uid)) {
+          throw new Error('AlreadyVoted');
+        }
+
+        const newSum = (data.ratingSum || 0) + newRating;
+        const newCount = (data.ratingCount || 0) + 1;
+
+        transaction.set(docRef, {
+          ratingSum: newSum,
+          ratingCount: newCount,
+          average: newSum / newCount,
+          voters: [...existingVoters, uid]
+        }, { merge: true });
+      });
+
+      book.ratingSum = (book.ratingSum || 0) + newRating;
+      book.ratingCount = (book.ratingCount || 0) + 1;
+      book.publicRating = book.ratingSum / book.ratingCount;
       if (!book.voters) book.voters = [];
-      book.voters.push(uid);
+      if (!book.voters.includes(uid)) book.voters.push(uid);
 
       return true;
     } catch (error) {
+      if (error.message === 'AlreadyVoted') {
+        showToast(currentLang === 'ar' ? 'لقد قمت بتقييم هذا الكتاب مسبقاً.' : 'You have already rated this book.', 'danger');
+      } else {
+        console.error('Error submitting rating:', error);
+        showToast(currentLang === 'ar' ? 'حدث خطأ أثناء حفظ التقييم.' : 'Error saving rating.', 'danger');
+      }
       return false;
     }
   }
 
+  // ===== دالة رسم النجوم المحسّنة (منع التجمد نهائياً) =====
   function renderStars(bookId, container) {
     if (!container) return;
     const book = booksData.find(b => b.id === bookId);
     const currentRating = book ? Math.round(book.publicRating || 0) : 0;
-    
+
     container.innerHTML = '';
+    container.dataset.busy = 'false';
+
     for (let i = 1; i <= 5; i++) {
       const star = document.createElement('i');
       star.className = `bi ${i <= currentRating ? 'bi-star-fill active' : 'bi-star'}`;
       star.setAttribute('role', 'button');
       star.setAttribute('aria-label', `${i} ${i18n[currentLang].rateBtn}`);
-      
+      star.style.cursor = 'pointer';
+
       star.addEventListener('click', async (e) => {
         e.stopPropagation();
-        if (container.style.pointerEvents === 'none') return; 
-        container.style.pointerEvents = 'none';
-        
-        const success = await submitPublicRating(bookId, i);
-        if (success) {
-          renderStars(bookId, container);
-          showToast(i18n[currentLang].toastRated);
-          if (document.getElementById('sortOrder')?.value === 'rating') {
-            applyFilters();
+        if (container.dataset.busy === 'true') return;
+        container.dataset.busy = 'true';
+
+        try {
+          const success = await submitPublicRating(bookId, i);
+          if (success) {
+            const freshContainer = document.getElementById(`stars-${bookId}`);
+            if (freshContainer) renderStars(bookId, freshContainer);
+            showToast(i18n[currentLang].toastRated);
+            if (document.getElementById('sortOrder')?.value === 'rating') {
+              applyFilters();
+            }
           }
-        } else {
-          container.style.pointerEvents = 'auto'; 
+        } catch (err) {
+          console.error('Rating error:', err);
+        } finally {
+          const resetContainer = document.getElementById(`stars-${bookId}`);
+          if (resetContainer) resetContainer.dataset.busy = 'false';
         }
       });
+
       container.appendChild(star);
     }
+
     if (book && book.ratingCount) {
       const countSpan = document.createElement('small');
       countSpan.className = 'text-muted ms-2';
@@ -540,7 +557,8 @@
     hideEl('categoryChips');
     hideEl('bundleBar');
     hideEl('bundleModeAlertContainer');
-    document.getElementById('paginationContainer').parentElement.classList.add('d-none');
+    const pag = document.getElementById('paginationContainer');
+    if (pag && pag.parentElement) pag.parentElement.classList.add('d-none');
     showEl('singleBookView');
     
     const t = i18n[currentLang];
@@ -584,7 +602,8 @@
     showEl('booksDisplayContainer');
     showEl('controlsRow');
     showEl('categoryChips');
-    document.getElementById('paginationContainer').parentElement.classList.remove('d-none');
+    const pag = document.getElementById('paginationContainer');
+    if (pag && pag.parentElement) pag.parentElement.classList.remove('d-none');
     updateBundleAlertUI();
     updatePageTitle(null);
     const url = new URL(window.location.href);
@@ -680,7 +699,6 @@
     });
   }
 
-  // تم حل مشكلة التجمد (Freeze) على الكمبيوتر بجعل عارض Google Docs إلزامياً للـ iframe
   function openPdfReader(filePath, title) {
     if (!filePath) return showToast(i18n[currentLang].fileUnavailable, 'danger');
     setText('modalBookTitle', title);
@@ -690,10 +708,8 @@
     if (!iframe || !fallbackContainer || !fallbackLink) return;
     
     fallbackLink.href = filePath;
-    // يجب دائماً إظهار رابط الطوارئ الاحتياطي للتحميل المباشر لأن الملفات الكبيرة قد لا تفتح داخل عارض جوجل
     fallbackContainer.style.display = 'block';
 
-    // استخدام Google Docs Viewer لجميع الأجهزة لتخطي مشكلة (X-Frame-Options) التي تفرضها GitHub 
     const absoluteUrl = new URL(filePath, window.location.href).href;
     iframe.src = `https://docs.google.com/viewer?url=${encodeURIComponent(absoluteUrl)}&embedded=true`;
 
