@@ -64,6 +64,7 @@
         new Promise((_, reject) => setTimeout(() => reject(new Error('Auth timeout after 5s')), 5000))
       ]);
       currentUser = userCredential.user;
+      console.log('Anonymous auth successful:', currentUser.uid);
     } catch (error) {
       console.error('Auth failed:', error);
     }
@@ -289,6 +290,7 @@
       const doc = await docRef.get();
       return doc.exists ? doc.data().count || 0 : 0;
     } catch (error) {
+      console.error('Download count error:', error);
       return null;
     }
   }
@@ -306,7 +308,9 @@
           book.voters = data.voters || [];
         }
       });
-    } catch (error) {}
+    } catch (error) {
+      console.error('Load ratings error:', error);
+    }
   }
 
   async function loadDownloadCounts() {
@@ -316,7 +320,9 @@
         const book = booksData.find(b => b.id === Number(doc.id));
         if (book) book.downloadCount = doc.data().count || 0;
       });
-    } catch (error) {}
+    } catch (error) {
+      console.error('Load downloads error:', error);
+    }
   }
 
   async function updateSiteVisits() {
@@ -342,9 +348,12 @@
     return (now - lastVisit > oneDay);
   }
 
-  // ===== دالة إرسال التقييم المحسّنة (مع Transaction ورسائل خطأ واضحة) =====
+  // ===== دالة إرسال التقييم =====
   async function submitPublicRating(bookId, newRating) {
-    if (typeof newRating !== 'number' || newRating < 1 || newRating > 5) return false;
+    if (typeof newRating !== 'number' || newRating < 1 || newRating > 5) {
+      showToast(currentLang === 'ar' ? 'قيمة التقييم غير صحيحة.' : 'Invalid rating value.', 'danger');
+      return false;
+    }
 
     if (!auth.currentUser) {
       showToast(currentLang === 'ar' ? 'جارٍ التهيئة، يرجى المحاولة بعد لحظات.' : 'Initializing, please wait.', 'danger');
@@ -364,7 +373,7 @@
         const existingVoters = Array.isArray(data.voters) ? data.voters : [];
 
         if (existingVoters.includes(uid)) {
-          throw new Error('AlreadyVoted');
+          throw new Error('ALREADY_VOTED');
         }
 
         const newSum = (data.ratingSum || 0) + newRating;
@@ -375,9 +384,10 @@
           ratingCount: newCount,
           average: newSum / newCount,
           voters: [...existingVoters, uid]
-        }, { merge: true });
+        });
       });
 
+      // تحديث الحالة المحلية
       book.ratingSum = (book.ratingSum || 0) + newRating;
       book.ratingCount = (book.ratingCount || 0) + 1;
       book.publicRating = book.ratingSum / book.ratingCount;
@@ -385,18 +395,27 @@
       if (!book.voters.includes(uid)) book.voters.push(uid);
 
       return true;
+
     } catch (error) {
-      if (error.message === 'AlreadyVoted') {
+      console.error('Rating error:', {
+        code: error.code,
+        message: error.message,
+        name: error.name,
+        full: error
+      });
+
+      if (error.message === 'ALREADY_VOTED') {
         showToast(currentLang === 'ar' ? 'لقد قمت بتقييم هذا الكتاب مسبقاً.' : 'You have already rated this book.', 'danger');
+      } else if (error.code === 'permission-denied' || (error.message && error.message.includes('permission'))) {
+        showToast(currentLang === 'ar' ? 'صلاحيات غير كافية. تحقق من قواعد Firestore.' : 'Permission denied. Check Firestore rules.', 'danger');
       } else {
-        console.error('Error submitting rating:', error);
-        showToast(currentLang === 'ar' ? 'حدث خطأ أثناء حفظ التقييم.' : 'Error saving rating.', 'danger');
+        showToast(currentLang === 'ar' ? `خطأ: ${error.message || 'غير معروف'}` : `Error: ${error.message || 'unknown'}`, 'danger');
       }
       return false;
     }
   }
 
-  // ===== دالة رسم النجوم المحسّنة (منع التجمد نهائياً) =====
+  // ===== دالة رسم النجوم =====
   function renderStars(bookId, container) {
     if (!container) return;
     const book = booksData.find(b => b.id === bookId);
@@ -428,7 +447,7 @@
             }
           }
         } catch (err) {
-          console.error('Rating error:', err);
+          console.error('Rating click error:', err);
         } finally {
           const resetContainer = document.getElementById(`stars-${bookId}`);
           if (resetContainer) resetContainer.dataset.busy = 'false';
@@ -1165,6 +1184,7 @@
       handleDeepLinking();
 
     } catch (error) {
+      console.error('Fetch books error:', error);
       if (container) {
         container.innerHTML = `<div class="alert alert-danger text-center py-5">
           <i class="bi bi-exclamation-triangle me-2"></i> 
