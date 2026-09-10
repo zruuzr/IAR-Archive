@@ -983,5 +983,61 @@
     "target_audience_en": "Students and faculty in business schools, academic researchers, and managers or executives seeking to enhance their managerial knowledge.",
     "cover_image": "covers/19.png",
     "file_path": "pdf/المرجع المتكامل في إدارة الأعمال.pdf"
+  },
+  {
+    "title": "استراتيجيات الإعلان",
+    "title_en": "Advertising Strategies",
+    "author": "شيراز محمد خضر",
+    "author_en": "Shiraz Mohammad Khadr",
+    "category": "التسويق والإعلام",
+    "category_en": "Marketing and Media",
+    "type": "كتاب أكاديمي / تعليمي",
+    "type_en": "Academic / Educational Book",
+    "description": "كتاب يتناول مفاهيم واستراتيجيات الإعلان والدعاية، وأهداف الحملات الإعلانية، وكيفية تحديد السوق المستهدف وصياغة الرسائل الإعلانية. كما يستعرض الكتاب هيكل صناعة الإعلان، ودور وكالات الإعلان والإدارة والإبداع، بالإضافة إلى دراسة تحليليّة لمختلف وسائل الإعلام التقليدية والرقمية والتغيّرات التي أحدثتها الثورة الرقمية.",
+    "description_en": "A comprehensive book exploring advertising and publicity concepts, campaign objectives, target market identification, and ad messaging strategies. It details the advertising industry structure, the role of ad agencies, account management, and creative execution, alongside an in-depth analysis of traditional and digital media channels in the digital age.",
+    "publisher": "دار الأكاديمية للطباعة والنشر والتوزيع",
+    "publisher_en": "Academy House for Printing, Publishing and Distribution",
+    "year": "2022",
+    "isbn": "",
+    "keywords": [
+      "الإعلان",
+      "استراتيجيات الإعلان",
+      "التسويق",
+      "وكالات الإعلان",
+      "الحملات الإعلانية",
+      "وسائل الإعلام",
+      "الإعلان الرقمي"
+    ],
+    "keywords_en": [
+      "Advertising",
+      "Advertising Strategies",
+      "Marketing",
+      "Ad Agencies",
+      "Advertising Campaigns",
+      "Media Channels",
+      "Digital Advertising"
+    ],
+    "key_points": [
+      "التمبيز بين الإعلان والدعاية وأهمية صياغة أهداف إعلانية دقيقة للوصول إلى الجمهور المستهدف.",
+      "استعراض هيكل صناعة الإعلان الثلاثي (المعلنون، وسائل الإعلام، وكالات الإعلان).",
+      "دور تخطيط الحسابات والعمل الإبداعي والتأثير العاطفي والوظيفي للعلامة التجارية.",
+      "تحليل القنوات الإعلانية المختلفة: الصحف، المجلات، التلفزيون، البريد المباشر، والملصقات.",
+      "أثر الإنترنت والثورة الرقمية على إنفاق الإعلانات وتطور نماذج العمل الإعلاني الحديثة."
+    ],
+    "key_points_en": [
+      "Distinguishing between advertising and publicity, and setting precise campaign objectives for target audiences.",
+      "Exploring the tripartite structure of the advertising industry: advertisers, media, and ad agencies.",
+      "The role of account planning, creative execution, and emotional versus functional brand positioning.",
+      "Comparative analysis of media channels including print, television, direct mail, and outdoor advertising.",
+      "The impact of the internet and digital revolution on ad spend and modern agency business models."
+    ],
+    "target_audience": "الطلاب والمتخصصون والباحثون في مجالات التسويق والإعلام والإعلان وإدارة الأعمال.",
+    "target_audience_en": "Students, professionals, and researchers in marketing, media, advertising, and business management.",
+    "id": 20,
+    "pages": "155",
+    "file_size": "43.53 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/استراتيجيات_الإعلان.pdf",
+    "cover_image": "covers/20.png"
   }
 ]
