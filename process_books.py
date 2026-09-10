@@ -13,6 +13,7 @@ client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
 
 JSON_PATH = "books.json"
 PDF_DIR = "pdf"
+MODEL_NAME = "gemini-3.6-flash"
 
 JSON_SCHEMA_PROMPT = """
 أنت مفهرس كتب محترف. قم باستخراج بيانات الكتاب وصغ البيانات داخل JSON يلتزم بالهيكل التالي حرفياً وبدون أي تغيير في أسماء الحقول أو إضافة حقول خارجية:
@@ -148,7 +149,7 @@ if os.path.exists(PDF_DIR):
             for attempt in range(1, 3):
                 try:
                     response = client.models.generate_content(
-                        model="gemini-2.5-flash",
+                        model=MODEL_NAME,
                         contents=contents_payload,
                         config=types.GenerateContentConfig(
                             response_mime_type="application/json",
