@@ -17,19 +17,19 @@ client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
 JSON_PATH = "books.json"
 PDF_DIR = "pdf"
 MODEL_NAME = "gemini-3.6-flash"
-MAX_UPLOAD_SIZE_MB = 100
+MAX_UPLOAD_SIZE_MB = 50
 MAX_RETRIES = 5
-INITIAL_BACKOFF = 5
+INITIAL_BACKOFF = int(os.environ.get("GEMINI_BACKOFF", "5"))
 
 JSON_SCHEMA_PROMPT = """
-أنت مفهرس كتب محترف. مهمتك استخراج بيانات الكتاب من المحتوى المرفق، مهما كان المحتوى جزئيًا أو غير مكتمل.
+أنت مفهرس كتب محترف. مهمتك استخراج بيانات الكتاب الحقيقية بدقة من المحتوى المرفق.
 
-أعد كائن JSON واحد فقط بالهيكل التالي حرفياً:
+أعد كائن JSON واحد فقط بالهيكل التالي حرفياً وبدون أي تغيير:
 
 {
   "title": "العنوان الحقيقي بالعربية",
   "title_en": "العنوان بالإنجليزية",
-  "author": "اسم المؤلف بالعربية",
+  "author": "اسم المؤلف بالعربية أو اتركه فارغاً إذا تعذر إيجاده تماماً",
   "author_en": "اسم المؤلف بالإنجليزية",
   "category": "التصنيف بالعربية",
   "category_en": "التصنيف بالإنجليزية",
@@ -50,17 +50,21 @@ JSON_SCHEMA_PROMPT = """
 }
 
 قواعد صارمة جداً:
-1. استخرج العنوان من الغلاف أو الترويسة أو الفهرس أو أي مكان.
-2. إذا لم تجد المؤلف، اتركه "" — لكن لا تكتب "غير معروف" أو "unknown".
-3. لا تكتب أبداً في العنوان "وثيقة نصية" أو "نص مجزأ" أو "غير محدد" أو "fragment" أو "unspecified".
-4. إذا كان المحتوى جداول مالية أو إدارية، صنّفه كـ "المحاسبة والمالية" أو "الإدارة" واستخرج أي كلمات مفتاحية مفيدة.
-5. حتى لو كان المحتوى ناقصاً، استنتج الموضوع من الكلمات المفتاحية الموجودة في النص.
-6. اكتب وصفاً عاماً من 2-3 أسطر يشرح موضوع الكتاب بناءً على المحتوى الفعلي.
-7. أعد فقط كائن JSON واحد بدون أي نص إضافي.
+1. ابحث بدقة عن اسم المؤلف والناشر في صفحات الغلاف أو صفحة الحقوق والملكية الفكرية.
+2. تأكد من أن keywords و key_points هي دائماً مصفوفات (Arrays) وليست نصوصاً.
+3. لا تكتب أبداً في العنوان "وثيقة نصية" أو "نص مجزأ" أو "غير محدد".
+4. أعد فقط كائن JSON واحد بدون أي نص إضافي.
 """
 
 class ApiUnavailableError(Exception):
     pass
+
+def safe_list(value):
+    if isinstance(value, list):
+        return [str(v) for v in value if v is not None and str(v).strip() != ""]
+    if value is None or value == "":
+        return []
+    return [str(value)]
 
 def fix_zip_filename(name):
     try:
@@ -177,7 +181,7 @@ def smart_extract_text(pdf_path, max_pages=30):
         for i in sorted(indices_to_try):
             try:
                 page_text = reader.pages[i].extract_text()
-                if page_text:
+                if page_text and len(page_text.strip()) > 20:
                     parts.append(f"\n--- Page {i+1} ---\n" + page_text)
             except Exception:
                 continue
@@ -238,12 +242,9 @@ def is_generic_response(book_data, file_name):
         "fragment", "unknown document", "غير محدد"
     ]
 
-    title_low = title.lower().strip()
-    if title_low in [b.lower() for b in banned_exact]:
-        return True
-
+    combined = f"{title} {description}".lower()
     for bad in banned_exact:
-        if bad.lower() in title_low and len(title_low) < len(bad) + 5:
+        if bad.lower() in combined:
             return True
 
     if not description or len(description) < 10:
@@ -260,8 +261,15 @@ def build_payload(file_name, sample_text, use_upload=False, uploaded_file=None):
 
 def is_retryable_error(error):
     error_str = str(error).upper()
-    retryable_codes = ["503", "429", "500", "502", "504", "UNAVAILABLE", "RESOURCE_EXHAUSTED", "DEADLINE_EXCEEDED", "TIMEOUT"]
-    return any(code in error_str for code in retryable_codes)
+    for code in ["503", "429", "500", "502", "504"]:
+        if re.search(rf"\b{code}\b", error_str):
+            return True
+    for kw in ["UNAVAILABLE", "RESOURCE_EXHAUSTED", "DEADLINE_EXCEEDED", "TIMEOUT", "CONNECTION"]:
+        if kw in error_str:
+            return True
+    if isinstance(error, (ConnectionError, TimeoutError)):
+        return True
+    return False
 
 def call_gemini(contents_payload, max_retries=MAX_RETRIES):
     last_error = None
@@ -272,7 +280,8 @@ def call_gemini(contents_payload, max_retries=MAX_RETRIES):
                 model=MODEL_NAME,
                 contents=contents_payload,
                 config=types.GenerateContentConfig(
-                    response_mime_type="application/json"
+                    response_mime_type="application/json",
+                    automatic_function_calling=types.AutomaticFunctionCallingConfig(disable=True)
                 )
             )
             if response and response.text:
@@ -327,137 +336,171 @@ def build_fallback_book(file_name):
         "target_audience_en": ""
     }
 
-extract_zip_files(PDF_DIR)
-
-if os.path.exists(JSON_PATH):
-    try:
-        with open(JSON_PATH, "r", encoding="utf-8") as f:
-            books_data = json.load(f)
-    except Exception:
-        books_data = []
-else:
-    books_data = []
-
-existing_files = {os.path.normpath(book.get("file_path", "")) for book in books_data}
-temp_json_path = JSON_PATH + ".tmp"
-api_unavailable = False
-
-if os.path.exists(PDF_DIR):
-    for file_name in sorted(os.listdir(PDF_DIR)):
-        if api_unavailable:
-            break
-            
-        if not file_name.lower().endswith(".pdf"):
-            continue
-
-        file_path = os.path.join(PDF_DIR, file_name)
-        normalized_path = os.path.normpath(file_path)
-
-        if normalized_path in existing_files:
-            continue
-
-        print(f"\nProcessing new book: {file_name}")
-
-        pages_count, file_size_str = get_file_info(file_path)
-        sample_text = smart_extract_text(file_path, max_pages=30)
-        text_is_meaningful = has_meaningful_text(sample_text, min_chars=150)
-        print(f"  Local text meaningful: {text_is_meaningful} (length: {len(sample_text)} chars)")
-
-        uploaded_file = None
-        temp_pdf = None
-        new_book = None
-        used_fallback = False
-
+def main():
+    temp_json_path = JSON_PATH + ".tmp"
+    if os.path.exists(temp_json_path):
         try:
-            file_size_mb = os.path.getsize(file_path) / (1024 * 1024)
-            can_upload_full = file_size_mb <= MAX_UPLOAD_SIZE_MB
+            os.remove(temp_json_path)
+        except Exception:
+            pass
 
-            if text_is_meaningful:
-                print("  Strategy 1: Using local extracted text")
-                contents_payload = build_payload(file_name, sample_text, use_upload=False)
-            elif can_upload_full:
-                print(f"  Strategy 1: Uploading full PDF ({file_size_mb:.1f} MB)")
-                with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as tmp:
-                    temp_pdf = tmp.name
-                shutil.copyfile(file_path, temp_pdf)
-                uploaded_file = client.files.upload(file=temp_pdf)
-                contents_payload = build_payload(file_name, "", use_upload=True, uploaded_file=uploaded_file)
-            else:
-                print(f"  File too large ({file_size_mb:.1f} MB) and text is not meaningful. Skipping API call.")
-                new_book = build_fallback_book(file_name)
-                used_fallback = True
+    extract_zip_files(PDF_DIR)
 
-            if not used_fallback:
-                try:
-                    response = call_gemini(contents_payload)
-                    new_book = extract_json_object(response.text)
-                except ApiUnavailableError:
-                    api_unavailable = True
-                    print("  Critical API failure. Halting further processing.")
-                    break
+    if os.path.exists(JSON_PATH):
+        try:
+            with open(JSON_PATH, "r", encoding="utf-8") as f:
+                books_data = json.load(f)
+        except Exception:
+            books_data = []
+    else:
+        books_data = []
 
-                if is_generic_response(new_book, file_name):
-                    print("  Generic response. Trying fallback strategy...")
+    existing_files = {os.path.normpath(book.get("file_path", "")) for book in books_data}
+    api_unavailable = False
 
-                    if not uploaded_file and can_upload_full:
-                        with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as tmp:
-                            temp_pdf = tmp.name
-                        shutil.copyfile(file_path, temp_pdf)
-                        uploaded_file = client.files.upload(file=temp_pdf)
+    if os.path.exists(PDF_DIR):
+        for file_name in sorted(os.listdir(PDF_DIR)):
+            if api_unavailable:
+                break
+                
+            if not file_name.lower().endswith(".pdf"):
+                continue
 
-                    if uploaded_file:
-                        fallback_payload = build_payload(file_name, "", use_upload=True, uploaded_file=uploaded_file)
-                    else:
-                        fallback_payload = build_payload(file_name, sample_text, use_upload=False)
+            file_path = os.path.join(PDF_DIR, file_name)
+            normalized_path = os.path.normpath(file_path)
 
+            if normalized_path in existing_files:
+                continue
+
+            print(f"\nProcessing new book: {file_name}")
+
+            pages_count, file_size_str = get_file_info(file_path)
+            sample_text = smart_extract_text(file_path, max_pages=30)
+            text_is_meaningful = has_meaningful_text(sample_text, min_chars=150)
+            print(f"  Local text meaningful: {text_is_meaningful} (length: {len(sample_text)} chars)")
+
+            uploaded_file = None
+            temp_pdf = None
+            new_book = None
+            used_fallback = False
+
+            try:
+                file_size_mb = os.path.getsize(file_path) / (1024 * 1024)
+                can_upload_full = file_size_mb <= MAX_UPLOAD_SIZE_MB
+
+                if text_is_meaningful:
+                    print("  Strategy 1: Using local extracted text")
+                    contents_payload = build_payload(file_name, sample_text, use_upload=False)
+                elif can_upload_full:
+                    print(f"  Strategy 1: Uploading full PDF ({file_size_mb:.1f} MB)")
+                    with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as tmp:
+                        temp_pdf = tmp.name
+                    shutil.copyfile(file_path, temp_pdf)
+                    uploaded_file = client.files.upload(file=temp_pdf)
+                    contents_payload = build_payload(file_name, "", use_upload=True, uploaded_file=uploaded_file)
+                else:
+                    print(f"  File too large ({file_size_mb:.1f} MB) and text is not meaningful. Skipping API call.")
+                    new_book = build_fallback_book(file_name)
+                    used_fallback = True
+
+                if not used_fallback:
                     try:
-                        response = call_gemini(fallback_payload)
+                        response = call_gemini(contents_payload)
                         new_book = extract_json_object(response.text)
                     except ApiUnavailableError:
                         api_unavailable = True
-                        print("  Critical API failure during fallback. Halting.")
+                        print("  Critical API failure. Halting further processing.")
                         break
 
                     if is_generic_response(new_book, file_name):
-                        print(f"  Gemini could not identify the book. Using filename as fallback.")
-                        new_book = build_fallback_book(file_name)
+                        print("  Generic response. Trying fallback strategy...")
 
-            if not isinstance(new_book, dict):
-                raise ValueError("Invalid JSON object response.")
+                        if not uploaded_file and can_upload_full:
+                            with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as tmp:
+                                temp_pdf = tmp.name
+                            shutil.copyfile(file_path, temp_pdf)
+                            uploaded_file = client.files.upload(file=temp_pdf)
 
-            max_id = max((book.get("id", 0) for book in books_data), default=0)
-            new_book["id"] = max_id + 1
-            new_book["pages"] = pages_count if pages_count else new_book.get("pages", "")
-            new_book["file_size"] = file_size_str
-            new_book["file_type"] = "PDF"
-            new_book["file_path"] = file_path
-            new_book["cover_image"] = f"covers/{new_book['id']}.png"
+                        if uploaded_file:
+                            fallback_payload = build_payload(file_name, "", use_upload=True, uploaded_file=uploaded_file)
+                        else:
+                            fallback_payload = build_payload(file_name, sample_text, use_upload=False)
 
-            books_data.append(new_book)
-            existing_files.add(normalized_path)
+                        try:
+                            response = call_gemini(fallback_payload)
+                            new_book = extract_json_object(response.text)
+                        except ApiUnavailableError:
+                            api_unavailable = True
+                            print("  Critical API failure during fallback. Halting.")
+                            break
 
-            with open(temp_json_path, "w", encoding="utf-8") as f:
-                json.dump(books_data, f, ensure_ascii=False, indent=2)
-            os.replace(temp_json_path, JSON_PATH)
+                        if is_generic_response(new_book, file_name):
+                            print(f"  Gemini could not identify the book. Using filename as fallback.")
+                            new_book = build_fallback_book(file_name)
 
-            print(f"  Successfully added: {new_book.get('title')}")
+                if not isinstance(new_book, dict):
+                    raise ValueError("Invalid JSON object response.")
 
-        except Exception as e:
-            print(f"Error processing file {file_name}: {type(e).__name__}: {e}")
+                max_id = max((book.get("id", 0) for book in books_data), default=0)
+                next_id = max_id + 1
 
-        finally:
-            if uploaded_file:
-                try:
-                    client.files.delete(name=uploaded_file.name)
-                except Exception:
-                    pass
-            if temp_pdf and os.path.exists(temp_pdf):
-                try:
-                    os.remove(temp_pdf)
-                except Exception:
-                    pass
+                standardized_book = {
+                    "id": next_id,
+                    "title": new_book.get("title", ""),
+                    "title_en": new_book.get("title_en", ""),
+                    "author": new_book.get("author", ""),
+                    "author_en": new_book.get("author_en", ""),
+                    "category": new_book.get("category", "غير مصنف"),
+                    "category_en": new_book.get("category_en", "Uncategorized"),
+                    "type": new_book.get("type", "كتاب"),
+                    "type_en": new_book.get("type_en", "Book"),
+                    "description": new_book.get("description", ""),
+                    "description_en": new_book.get("description_en", ""),
+                    "publisher": new_book.get("publisher", ""),
+                    "publisher_en": new_book.get("publisher_en", ""),
+                    "year": new_book.get("year", ""),
+                    "isbn": new_book.get("isbn", ""),
+                    "keywords": safe_list(new_book.get("keywords")),
+                    "keywords_en": safe_list(new_book.get("keywords_en")),
+                    "key_points": safe_list(new_book.get("key_points")),
+                    "key_points_en": safe_list(new_book.get("key_points_en")),
+                    "target_audience": new_book.get("target_audience", ""),
+                    "target_audience_en": new_book.get("target_audience_en", ""),
+                    "pages": pages_count if pages_count else new_book.get("pages", ""),
+                    "file_size": file_size_str,
+                    "file_type": "PDF",
+                    "file_path": file_path.replace(os.sep, "/"),
+                    "cover_image": f"covers/{next_id}.png"
+                }
 
-if not api_unavailable:
-    print("\nProcessing completed successfully.")
-else:
-    print("\nProcessing halted due to API availability issues. Progress has been safely saved.")
+                books_data.append(standardized_book)
+                existing_files.add(normalized_path)
+
+                with open(temp_json_path, "w", encoding="utf-8") as f:
+                    json.dump(books_data, f, ensure_ascii=False, indent=2)
+                os.replace(temp_json_path, JSON_PATH)
+
+                print(f"  Successfully added: {standardized_book.get('title')}")
+
+            except Exception as e:
+                print(f"Error processing file {file_name}: {type(e).__name__}: {e}")
+
+            finally:
+                if uploaded_file:
+                    try:
+                        client.files.delete(name=uploaded_file.name)
+                    except Exception:
+                        pass
+                if temp_pdf and os.path.exists(temp_pdf):
+                    try:
+                        os.remove(temp_pdf)
+                    except Exception:
+                        pass
+
+    if not api_unavailable:
+        print("\nProcessing completed successfully.")
+    else:
+        print("\nProcessing halted due to API availability issues. Progress has been safely saved.")
+
+if __name__ == "__main__":
+    main()
