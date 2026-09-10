@@ -10,16 +10,13 @@
 
   <title id="pageTitle">IAR Archive | Iraqi Administrative Reference</title>
 
-  <!-- أيقونات وخطوط -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- إعداد البوتستراب والسمة الأساسية لمنع وميض الشاشة (FOUC) -->
   <link id="bootstrapCSS" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css">
   
-  <!-- ربط ملف التنسيقات المنفصل -->
   <link rel="stylesheet" href="style.css">
 
   <script>
@@ -32,8 +29,9 @@
       document.documentElement.setAttribute('lang', lang);
       document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
       document.documentElement.setAttribute('data-bs-theme', theme);
-      if (lang === 'en') {
-        document.getElementById('bootstrapCSS').href = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css';
+      var bsLink = document.getElementById('bootstrapCSS');
+      if (bsLink && lang === 'en') {
+        bsLink.href = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css';
       }
     })();
   </script>
@@ -106,16 +104,21 @@
 
     <!-- Bundle Bar -->
     <div class="bundle-bar d-none" id="bundleBar">
-      <div>
+      <div class="d-flex align-items-center flex-wrap gap-2">
         <i class="bi bi-collection-fill me-2"></i>
         <span id="txt-bundle-text">تم تحديد <strong id="bundleCount">0</strong> مراجع لإنشاء حزمة بحثية</span>
       </div>
-      <button type="button" class="btn btn-light btn-sm fw-bold" id="copyBundleBtn">
-        <i class="bi bi-share-fill me-1"></i> <span id="txt-bundle-btn">نسخ رابط الحزمة المجمعة</span>
-      </button>
+      <div class="d-flex align-items-center gap-2 flex-wrap">
+        <button type="button" class="btn btn-light btn-sm fw-bold" id="copyBundleBtn">
+          <i class="bi bi-share-fill me-1"></i> <span id="txt-bundle-btn">نسخ رابط الحزمة المجمعة</span>
+        </button>
+        <button type="button" class="btn btn-outline-light btn-sm fw-bold" id="clearBundleBtn">
+          <i class="bi bi-x-circle me-1"></i> <span id="txt-clear-bundle">إلغاء الحزمة والعودة للرئيسية</span>
+        </button>
+      </div>
     </div>
 
-    <!-- شريط تنبيه وضع الحزمة البحثية -->
+    <!-- Bundle Mode Alert -->
     <div id="bundleModeAlertContainer"></div>
 
     <!-- Controls Row -->
@@ -157,7 +160,7 @@
       <div class="text-center text-muted py-5" role="status" id="booksLoading"><span class="spinner-border spinner-border-sm ms-2" aria-hidden="true"></span><span id="txt-loading">جارٍ تحميل المراجع…</span></div>
     </div>
 
-    <!-- أزرار ترقيم الصفحات -->
+    <!-- Pagination -->
     <nav aria-label="Page navigation" class="mt-4">
       <ul class="pagination justify-content-center" id="paginationContainer"></ul>
     </nav>
@@ -258,8 +261,8 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق" id="pdfDismissBtn"></button>
         </div>
         <div class="modal-body p-0 d-flex flex-column h-100 bg-dark">
-          <div id="pdfFallbackContainer" class="bg-dark text-center py-2 px-3 border-bottom border-secondary">
-             <a id="pdfFallbackLink" href="" target="_blank" class="btn btn-outline-light btn-sm fw-bold"><i class="bi bi-box-arrow-up-right me-1"></i> تحميل أو فتح الملف مباشرة (انقر هنا إذا واجهت مشكلة في العرض)</a>
+          <div id="pdfFallbackContainer" class="bg-dark text-center py-2 px-3 border-bottom border-secondary" style="display: none;">
+             <a id="pdfFallbackLink" href="" target="_blank" class="btn btn-outline-light btn-sm fw-bold"><i class="bi bi-box-arrow-up-right me-1"></i> تحميل أو فتح الملف مباشرة</a>
           </div>
           <iframe id="pdfFrame" src="" title="قارئ ملف PDF" class="flex-grow-1 w-100 border-0"></iframe>
         </div>
@@ -268,7 +271,7 @@
   </div>
 
   <!-- Cover Image Modal -->
-  <div class="modal fade" id="coverImageModal" tabindex="-1" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="coverImageModalLabel">
+  <div class="modal fade" id="coverImageModal" tabindex="-1" aria-hidden="true" role="dialog" aria-modal="true" aria-label="صورة الغلاف">
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content bg-transparent border-0">
         <div class="modal-body p-0 d-flex justify-content-center position-relative">

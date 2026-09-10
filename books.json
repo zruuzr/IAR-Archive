@@ -675,6 +675,54 @@
     "file_path": "pdf/التقنيات الكمية في ادارة الاعمال.pdf"
   },
   {
+    "id": 14,
+    "title": "إدارة المكاتب والسكرتارية (إدارة الأعمال المكتبية)",
+    "title_en": "Office Management and Secretarial Work (Office Business Management)",
+    "author": "عامر عبد الكريم أبو شحادة",
+    "author_en": "Amer Abdul Karim Abu Shehadeh",
+    "category": "إدارة الأعمال",
+    "category_en": "Business Administration",
+    "type": "كتاب تعليمي / مهني",
+    "type_en": "Educational / Professional Book",
+    "description": "كتاب متخصص في إدارة المكاتب والسكرتارية وإدارة الأعمال المكتبية، يقدم دراسة شاملة للمهارات والأساليب الإدارية الحديثة المتبعة في تنظيم المكاتب وتسهيل العمليات الإدارية والسكرتارية.",
+    "description_en": "A specialized book on office management, secretarial work, and office business administration, offering a comprehensive overview of modern administrative skills and techniques for organizing offices and facilitating secretarial operations.",
+    "publisher": "",
+    "publisher_en": "",
+    "year": "2019",
+    "pages": "158",
+    "file_size": "14.59 MB",
+    "file_type": "PDF",
+    "isbn": "",
+    "keywords": [
+      "إدارة المكاتب",
+      "السكرتارية",
+      "إدارة الأعمال المكتبية",
+      "الأعمال الإدارية",
+      "تنظيم المكاتب"
+    ],
+    "keywords_en": [
+      "Office Management",
+      "Secretarial Work",
+      "Office Business Management",
+      "Administrative Work",
+      "Office Organization"
+    ],
+    "key_points": [
+      "التعرف على المهارات الأساسية والمحورية لإدارة المكاتب والسكرتارية",
+      "تطوير الأداء الإداري وتنظيم الأعمال المكتبية في المؤسسات",
+      "تقديم دليل علمي وعملي لإدارة المكاتب الحديثة"
+    ],
+    "key_points_en": [
+      "Understanding the essential skills for office management and secretarial duties",
+      "Improving administrative performance and organizing office work in organizations",
+      "Providing a scientific and practical guide for modern office management"
+    ],
+    "target_audience": "مديرو المكاتب، الموظفون في مجال السكرتارية، طلاب إدارة الأعمال، والموظفون الإداريون",
+    "target_audience_en": "Office managers, secretarial staff, business administration students, and administrative employees",
+    "cover_image": "covers/14.png",
+    "file_path": "pdf/إدارة_المكاتب_والسكرتارية.pdf"
+  },
+  {
     "id": 15,
     "title": "مبادئ إدارة الأعمال",
     "title_en": "Principles of Business Administration",
@@ -721,7 +769,7 @@
       "The importance of specialization and division of labor in improving efficiency and separating intellectual work from execution.",
       "Explanation of core administrative functions including planning, organizing, controlling, and leadership."
     ],
-    "target_audience": "طلاب وتخصصات إدارة الأعمال، والالمديرون، والمسيرون، والمهتمون بالتطوير الإداري وبحوث العلوم الإدارية.",
+    "target_audience": "طلاب وتخصصات إدارة الأعمال، والمديرون، والمسيرون، والمهتمون بالتطوير الإداري وبحوث العلوم الإدارية.",
     "target_audience_en": "Business administration students, managers, executives, and researchers interested in administrative development and management sciences.",
     "cover_image": "covers/15.png",
     "file_path": "pdf/مبـادئ إدارة الأعمـال.pdf"

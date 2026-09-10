@@ -42,6 +42,10 @@
     if (el) el.classList.add('d-none');
   }
 
+  function roundRating(value) {
+    return Number((Number(value) || 0).toFixed(2));
+  }
+
   let booksData = [];
   let selectedBundleIds = new Set();
   let favoriteIds = new Set(JSON.parse(storage.get('iar_favorites', '[]')));
@@ -64,6 +68,7 @@
         new Promise((_, reject) => setTimeout(() => reject(new Error('Auth timeout after 5s')), 5000))
       ]);
       currentUser = userCredential.user;
+      console.log('Anonymous auth successful:', currentUser.uid);
     } catch (error) {
       console.error('Auth failed:', error);
     }
@@ -106,7 +111,9 @@
       shareModalBtn: "مشاركة", backToList: "العودة إلى جميع المراجع",
       descLabel: "الوصف", keyPointsLabel: "الأفكار الرئيسية", audienceLabel: "الفئة المستهدفة",
       readLabel: "قراءة", downloadLabel: "تحميل", citeLabel: "توثيق APA", shareLabel: "مشاركة",
-      unknown: "غير متوفر"
+      unknown: "غير متوفر",
+      ratingLabel: "تقييم",
+      clearBundle: "إلغاء الحزمة والعودة للرئيسية"
     },
     en: {
       announcement: "IAR Archive - Interactive Digital Repository for Management & Reference Sciences",
@@ -138,7 +145,9 @@
       shareModalBtn: "Share", backToList: "Back to all references",
       descLabel: "Description", keyPointsLabel: "Key Concepts", audienceLabel: "Target Audience",
       readLabel: "Read", downloadLabel: "Download", citeLabel: "Cite APA", shareLabel: "Share",
-      unknown: "N/A"
+      unknown: "N/A",
+      ratingLabel: "Rating",
+      clearBundle: "Clear Bundle & Go Home"
     }
   };
 
@@ -154,7 +163,6 @@
 
   function asText(value) { return value === null || value === undefined ? '' : String(value).trim(); }
 
-  // تم حل مشكلة الترميز (Garbled Text) بشكل جذري لضمان عدم ظهور أخطاء 404 للملفات العربية
   function safeAssetUrl(value, allowedExtensions) {
     const source = asText(value);
     if (!source) return '';
@@ -168,7 +176,6 @@
       if (!allowedExtensions.test(cleanPath)) return '';
 
       if (/\.pdf$/i.test(cleanPath)) {
-        // فك تشفير المسار أولاً ثم إعادة تشفير الأجزاء بدقة لتجنب الترميز المزدوج للأحرف العربية
         try { cleanPath = decodeURIComponent(cleanPath); } catch (_) {}
         const safeEncodedPath = cleanPath.split('/').map(encodeURIComponent).join('/');
         return `https://raw.githubusercontent.com/zruuzr/IAR-Archive/main/${safeEncodedPath}`;
@@ -291,6 +298,7 @@
       const doc = await docRef.get();
       return doc.exists ? doc.data().count || 0 : 0;
     } catch (error) {
+      console.error('Download count error:', error);
       return null;
     }
   }
@@ -302,13 +310,15 @@
         const book = booksData.find(b => b.id === Number(doc.id));
         if (book) {
           const data = doc.data();
-          book.publicRating = data.average || 0;
+          book.publicRating = roundRating(data.average || 0);
           book.ratingCount = data.ratingCount || 0;
           book.ratingSum = data.ratingSum || 0;
           book.voters = data.voters || [];
         }
       });
-    } catch (error) {}
+    } catch (error) {
+      console.error('Load ratings error:', error);
+    }
   }
 
   async function loadDownloadCounts() {
@@ -318,7 +328,9 @@
         const book = booksData.find(b => b.id === Number(doc.id));
         if (book) book.downloadCount = doc.data().count || 0;
       });
-    } catch (error) {}
+    } catch (error) {
+      console.error('Load downloads error:', error);
+    }
   }
 
   async function updateSiteVisits() {
@@ -345,48 +357,61 @@
   }
 
   async function submitPublicRating(bookId, newRating) {
-    if (typeof newRating !== 'number' || newRating < 1 || newRating > 5) return false;
-    if (!auth.currentUser) return false;
+    if (typeof newRating !== 'number' || newRating < 1 || newRating > 5) {
+      showToast(currentLang === 'ar' ? 'قيمة التقييم غير صحيحة.' : 'Invalid rating value.', 'danger');
+      return false;
+    }
+
+    if (!auth.currentUser) {
+      showToast(currentLang === 'ar' ? 'جارٍ التهيئة، يرجى المحاولة بعد لحظات.' : 'Initializing, please wait.', 'danger');
+      return false;
+    }
 
     const uid = auth.currentUser.uid;
     const book = booksData.find(b => b.id === bookId);
     if (!book) return false;
 
-    if (book.voters && book.voters.includes(uid)) {
-      showToast(currentLang === 'ar' ? 'لقد قمت بتقييم هذا الكتاب مسبقاً.' : 'You have already rated this book.', 'danger');
-      return false;
-    }
-
     try {
       const docRef = db.collection('ratings').doc(String(bookId));
-      const doc = await docRef.get();
-      
-      let newSum = newRating;
-      let newCount = 1;
-      
-      if (doc.exists) {
-          const data = doc.data();
-          const existingVoters = Array.isArray(data.voters) ? data.voters : [];
-          if (existingVoters.includes(uid)) return false;
-          newSum = (data.ratingSum || 0) + newRating;
-          newCount = (data.ratingCount || 0) + 1;
-      }
 
-      await docRef.set({
-        ratingSum: newSum,
-        ratingCount: newCount,
-        average: newSum / newCount,
-        voters: firebase.firestore.FieldValue.arrayUnion(uid)
-      }, { merge: true });
+      await db.runTransaction(async (transaction) => {
+        const doc = await transaction.get(docRef);
+        const data = doc.exists ? doc.data() : {};
+        const existingVoters = Array.isArray(data.voters) ? data.voters : [];
 
-      book.ratingSum = newSum;
-      book.ratingCount = newCount;
-      book.publicRating = newSum / newCount;
+        if (existingVoters.includes(uid)) {
+          throw new Error('ALREADY_VOTED');
+        }
+
+        const newSum = (data.ratingSum || 0) + newRating;
+        const newCount = (data.ratingCount || 0) + 1;
+        const roundedAverage = roundRating(newSum / newCount);
+
+        transaction.set(docRef, {
+          ratingSum: newSum,
+          ratingCount: newCount,
+          average: roundedAverage,
+          voters: [...existingVoters, uid]
+        });
+      });
+
+      book.ratingSum = (book.ratingSum || 0) + newRating;
+      book.ratingCount = (book.ratingCount || 0) + 1;
+      book.publicRating = roundRating(book.ratingSum / book.ratingCount);
       if (!book.voters) book.voters = [];
-      book.voters.push(uid);
+      if (!book.voters.includes(uid)) book.voters.push(uid);
 
       return true;
+
     } catch (error) {
+      console.error('Rating error:', { code: error.code, message: error.message });
+      if (error.message === 'ALREADY_VOTED') {
+        showToast(currentLang === 'ar' ? 'لقد قمت بتقييم هذا الكتاب مسبقاً.' : 'You have already rated this book.', 'danger');
+      } else if (error.code === 'permission-denied') {
+        showToast(currentLang === 'ar' ? 'صلاحيات غير كافية. تحقق من قواعد Firestore.' : 'Permission denied. Check Firestore rules.', 'danger');
+      } else {
+        showToast(currentLang === 'ar' ? `خطأ: ${error.message || 'غير معروف'}` : `Error: ${error.message || 'unknown'}`, 'danger');
+      }
       return false;
     }
   }
@@ -395,36 +420,48 @@
     if (!container) return;
     const book = booksData.find(b => b.id === bookId);
     const currentRating = book ? Math.round(book.publicRating || 0) : 0;
-    
+
     container.innerHTML = '';
+    container.dataset.busy = 'false';
+
     for (let i = 1; i <= 5; i++) {
       const star = document.createElement('i');
       star.className = `bi ${i <= currentRating ? 'bi-star-fill active' : 'bi-star'}`;
       star.setAttribute('role', 'button');
       star.setAttribute('aria-label', `${i} ${i18n[currentLang].rateBtn}`);
-      
+      star.style.cursor = 'pointer';
+
       star.addEventListener('click', async (e) => {
         e.stopPropagation();
-        if (container.style.pointerEvents === 'none') return; 
-        container.style.pointerEvents = 'none';
-        
-        const success = await submitPublicRating(bookId, i);
-        if (success) {
-          renderStars(bookId, container);
-          showToast(i18n[currentLang].toastRated);
-          if (document.getElementById('sortOrder')?.value === 'rating') {
-            applyFilters();
+        if (container.dataset.busy === 'true') return;
+        container.dataset.busy = 'true';
+
+        try {
+          const success = await submitPublicRating(bookId, i);
+          if (success) {
+            const freshContainer = document.getElementById(`stars-${bookId}`);
+            if (freshContainer) renderStars(bookId, freshContainer);
+            showToast(i18n[currentLang].toastRated);
+            if (document.getElementById('sortOrder')?.value === 'rating') {
+              applyFilters();
+            }
           }
-        } else {
-          container.style.pointerEvents = 'auto'; 
+        } catch (err) {
+          console.error('Rating click error:', err);
+        } finally {
+          const resetContainer = document.getElementById(`stars-${bookId}`);
+          if (resetContainer) resetContainer.dataset.busy = 'false';
         }
       });
+
       container.appendChild(star);
     }
+
     if (book && book.ratingCount) {
       const countSpan = document.createElement('small');
       countSpan.className = 'text-muted ms-2';
-      countSpan.textContent = `(${book.ratingCount})`;
+      const avg = book.publicRating ? book.publicRating.toFixed(2) : '0.00';
+      countSpan.textContent = `(${avg} · ${book.ratingCount} ${i18n[currentLang].ratingLabel})`;
       container.appendChild(countSpan);
     }
   }
@@ -481,6 +518,7 @@
     setText('opt-sort-rating', t.sortRating);
     setHTML('txt-bundle-text', t.bundleText);
     setText('txt-bundle-btn', t.bundleBtn);
+    setText('txt-clear-bundle', t.clearBundle);
     setText('summaryModalTitle', t.modalTitle);
     setHTML('txt-modal-ideas-title', t.modalIdeasTitle);
     setHTML('txt-modal-audience-title', t.modalAudienceTitle);
@@ -540,7 +578,8 @@
     hideEl('categoryChips');
     hideEl('bundleBar');
     hideEl('bundleModeAlertContainer');
-    document.getElementById('paginationContainer').parentElement.classList.add('d-none');
+    const pag = document.getElementById('paginationContainer');
+    if (pag && pag.parentElement) pag.parentElement.classList.add('d-none');
     showEl('singleBookView');
     
     const t = i18n[currentLang];
@@ -584,7 +623,8 @@
     showEl('booksDisplayContainer');
     showEl('controlsRow');
     showEl('categoryChips');
-    document.getElementById('paginationContainer').parentElement.classList.remove('d-none');
+    const pag = document.getElementById('paginationContainer');
+    if (pag && pag.parentElement) pag.parentElement.classList.remove('d-none');
     updateBundleAlertUI();
     updatePageTitle(null);
     const url = new URL(window.location.href);
@@ -680,7 +720,6 @@
     });
   }
 
-  // تم حل مشكلة التجمد (Freeze) على الكمبيوتر بجعل عارض Google Docs إلزامياً للـ iframe
   function openPdfReader(filePath, title) {
     if (!filePath) return showToast(i18n[currentLang].fileUnavailable, 'danger');
     setText('modalBookTitle', title);
@@ -690,10 +729,8 @@
     if (!iframe || !fallbackContainer || !fallbackLink) return;
     
     fallbackLink.href = filePath;
-    // يجب دائماً إظهار رابط الطوارئ الاحتياطي للتحميل المباشر لأن الملفات الكبيرة قد لا تفتح داخل عارض جوجل
     fallbackContainer.style.display = 'block';
 
-    // استخدام Google Docs Viewer لجميع الأجهزة لتخطي مشكلة (X-Frame-Options) التي تفرضها GitHub 
     const absoluteUrl = new URL(filePath, window.location.href).href;
     iframe.src = `https://docs.google.com/viewer?url=${encodeURIComponent(absoluteUrl)}&embedded=true`;
 
@@ -748,6 +785,27 @@
     if (bundleBar) bundleBar.classList.toggle('d-none', selectedBundleIds.size === 0);
     const copyBtn = document.getElementById('copyBundleBtn');
     if (copyBtn) copyBtn.disabled = selectedBundleIds.size === 0;
+    const clearBtn = document.getElementById('clearBundleBtn');
+    if (clearBtn) clearBtn.disabled = selectedBundleIds.size === 0;
+  }
+
+  // ===== دالة الخروج من وضع الحزمة والعودة للصفحة الرئيسية =====
+  function exitBundleMode() {
+    isBundleMode = false;
+    selectedBundleIds.clear();
+    syncBundleUI();
+
+    const url = new URL(window.location.href);
+    url.searchParams.delete('bundle');
+    window.history.replaceState({}, '', url);
+
+    const alertContainer = document.getElementById('bundleModeAlertContainer');
+    if (alertContainer) alertContainer.innerHTML = '';
+
+    currentPage = 1;
+    applyFilters();
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   function updateBundleAlertUI() {
@@ -756,27 +814,22 @@
 
     if (isBundleMode) {
       alertContainer.innerHTML = `
-        <div class="alert alert-info d-flex justify-content-between align-items-center mb-4 shadow-sm">
-          <div>
-            <i class="bi bi-collection-fill me-2"></i>
-            <span>${currentLang === 'en' ? `Viewing a custom research bundle containing <strong>${selectedBundleIds.size}</strong> references.` : `أنت تستعرض حزمة بحثية مخصصة تضم <strong>${selectedBundleIds.size}</strong> مرجعاً.`}</span>
+        <div class="alert alert-info d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4 shadow-sm">
+          <div class="d-flex align-items-center">
+            <i class="bi bi-collection-fill me-2 fs-5"></i>
+            <span>${currentLang === 'en' 
+              ? `Viewing a custom research bundle containing <strong>${selectedBundleIds.size}</strong> references.` 
+              : `أنت تستعرض حزمة بحثية مخصصة تضم <strong>${selectedBundleIds.size}</strong> مرجعاً.`}</span>
           </div>
-          <button class="btn btn-outline-dark btn-sm fw-bold" id="exitBundleBtn">
-            <i class="bi bi-x-circle me-1"></i> ${currentLang === 'en' ? 'View All References' : 'العودة لجميع المراجع'}
-          </button>
+          <div class="d-flex gap-2 flex-wrap">
+            <button class="btn btn-primary btn-sm fw-bold" id="exitBundleBtn">
+              <i class="bi bi-house-door me-1"></i> 
+              ${currentLang === 'en' ? 'Back to Home' : 'العودة للرئيسية'}
+            </button>
+          </div>
         </div>
       `;
-      document.getElementById('exitBundleBtn')?.addEventListener('click', () => {
-        isBundleMode = false;
-        selectedBundleIds.clear();
-        syncBundleUI();
-        const url = new URL(window.location.href);
-        url.searchParams.delete('bundle');
-        window.history.replaceState({}, '', url);
-        alertContainer.innerHTML = '';
-        currentPage = 1;
-        applyFilters();
-      });
+      document.getElementById('exitBundleBtn')?.addEventListener('click', exitBundleMode);
     } else {
       alertContainer.innerHTML = '';
     }
@@ -798,6 +851,8 @@
     url.searchParams.set('bundle', Array.from(selectedBundleIds).join(','));
     copyText(url.toString(), i18n[currentLang].toastBundleCopied);
   });
+
+  document.getElementById('clearBundleBtn')?.addEventListener('click', exitBundleMode);
 
   async function copyText(text, successMessage) {
     try {
@@ -1149,6 +1204,7 @@
       handleDeepLinking();
 
     } catch (error) {
+      console.error('Fetch books error:', error);
       if (container) {
         container.innerHTML = `<div class="alert alert-danger text-center py-5">
           <i class="bi bi-exclamation-triangle me-2"></i> 
