@@ -1143,5 +1143,63 @@
     "file_type": "PDF",
     "file_path": "pdf/الموازنات_التقديرية.pdf",
     "cover_image": "covers/22.png"
+  },
+  {
+    "id": 23,
+    "title": "إدارة المبيعات",
+    "title_en": "Sales Management",
+    "author": "أشرف خليل مصطفى",
+    "author_en": "Ashraf Khalil Mustafa",
+    "category": "إدارة الأعمال والتسويق",
+    "category_en": "Business Administration & Marketing",
+    "type": "كتاب أكاديمي تعليمي",
+    "type_en": "Academic Textbook",
+    "description": "كتاب متخصص يقدم دراسة شاملة حول إدارة المبيعات والتسويق، يتناول فيه المؤلف مفاهيم التسويق والإدارة والتطور التاريخي للبيع، إضافة إلى الأحكام والضوابط الشرعية للبيوع في الفقه الإسلامي، واستراتيجيات التخطيط والتنبؤ بالمبيعات ومهارات رجل البيع الناجح.",
+    "description_en": "A comprehensive book on sales management and marketing, covering core principles of administration and marketing, the historical and legal evolution of sales (including Islamic jurisprudence rules), sales process strategies, forecasting, and essential skills for professional salespeople.",
+    "publisher": "دار أمجد للنشر والتوزيع",
+    "publisher_en": "Dar Amjad for Publishing and Distribution",
+    "year": "2015",
+    "isbn": "",
+    "keywords": [
+      "إدارة المبيعات",
+      "التسويق",
+      "إدارة الأعمال",
+      "العملية البيعية",
+      "التنبؤ بالمبيعات",
+      "الفقه الإسلامي للبيوع",
+      "رجل البيع",
+      "استراتيجيات التسعير"
+    ],
+    "keywords_en": [
+      "Sales Management",
+      "Marketing",
+      "Business Administration",
+      "Sales Process",
+      "Sales Forecasting",
+      "Islamic Sales Jurisprudence",
+      "Salesperson",
+      "Pricing Strategies"
+    ],
+    "key_points": [
+      "مفهوم التسويق ومراحل تطوره التاريخي والعلاقة بين التسويق والبيع",
+      "عناصر العملية الإدارية ومبادئ الإدارة الحديثة ومستوياتها الوظيفية",
+      "مفهوم البيع وتطوره التاريخي والأحكام الشرعية للبيوع وشروط صحتها والبيوع المنهي عنها",
+      "خطوات العملية البيعية بدءاً من البحث عن العملاء وحتى إتمام الصفقة ومتابعة ما بعد البيع",
+      "إدارة المبيعات، أهدافها، التخطيط والتنبؤ بالمبيعات، والمهارات والخصائص المطلوبة في رجل البيع"
+    ],
+    "key_points_en": [
+      "Concepts of marketing, historical development stages, and the relationship between marketing and sales",
+      "Elements of the management process, modern management principles, and managerial levels",
+      "Concept of sales, historical evolution, and Islamic Sharia guidelines regarding valid and prohibited sales transactions",
+      "Detailed steps of the sales process from prospecting to deal closing and post-sale follow-up",
+      "Sales management, its functions, planning and forecasting techniques, and essential skills for successful sales personnel"
+    ],
+    "target_audience": "طلاب إدارة الأعمال، الأكاديميون، مدراء التسويق والمبيعات، ومندوبو البيع والمشتغلون بالمجال التجاري",
+    "target_audience_en": "Business administration students, academics, sales and marketing managers, and sales representatives",
+    "pages": "172",
+    "file_size": "27.63 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/إدارة_المبيعات.pdf",
+    "cover_image": "covers/23.png"
   }
 ]
