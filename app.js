@@ -91,7 +91,7 @@
       toastCiteCopied: "تم نسخ التوثيق الأكاديمي (APA) إلى الحافظة.",
       toastBundleCopied: "تم نسخ رابط الحزمة البحثية المجمعة بنجاح.",
       toastFavoriteAdded: "تمت إضافة الكتاب إلى المفضلة.", toastFavoriteRemoved: "تمت إزالة الكتاب من المفضلة.",
-      toastRated: "تم حفظ تقييمك بنجاح.", toastRateFailed: "حدث خطأ أثناء حفظ التقييم.", toastAlreadyRated: "لقد قمت بتقييم هذا الكتاب مسبقاً.", generalCat: "عام", defaultPublisher: "الأرشيف الإداري العراقي", defaultType: "مرجع منهجي", themeTooltip: "تبديل المظهر",
+      toastRated: "تم حفظ تقييمك بنجاح.", generalCat: "عام", defaultPublisher: "الأرشيف الإداري العراقي", defaultType: "مرجع منهجي", themeTooltip: "تبديل المظهر",
       loading: "جارٍ تحميل المراجع…", fileUnavailable: "ملف المرجع غير متاح حاليًا.", searchLabel: "البحث في المراجع", clearSearch: "مسح البحث",
       gridView: "عرض شبكي", listView: "عرض قائمة", selectBundle: "تحديد المرجع لإضافته إلى الحزمة البحثية",
       bundleText: "تم تحديد <strong id='bundleCount'>0</strong> مراجع لإنشاء حزمة بحثية",
@@ -105,7 +105,8 @@
       viewCover: "عرض الغلاف", shareTitle: "مشاركة الكتاب", shareText: "ألق نظرة على هذا الكتاب:",
       shareModalBtn: "مشاركة", backToList: "العودة إلى جميع المراجع",
       descLabel: "الوصف", keyPointsLabel: "الأفكار الرئيسية", audienceLabel: "الفئة المستهدفة",
-      readLabel: "قراءة", downloadLabel: "تحميل", citeLabel: "توثيق APA", shareLabel: "مشاركة"
+      readLabel: "قراءة", downloadLabel: "تحميل", citeLabel: "توثيق APA", shareLabel: "مشاركة",
+      unknown: "غير متوفر"
     },
     en: {
       announcement: "IAR Archive - Interactive Digital Repository for Management & Reference Sciences",
@@ -122,7 +123,7 @@
       toastCopied: "Copied to clipboard.", toastCiteCopied: "APA Citation copied to clipboard.",
       toastBundleCopied: "Research bundle link copied successfully.",
       toastFavoriteAdded: "Book added to favorites.", toastFavoriteRemoved: "Book removed from favorites.",
-      toastRated: "Your rating has been saved.", toastRateFailed: "Error saving rating.", toastAlreadyRated: "You have already rated this book.", generalCat: "General", defaultPublisher: "IAR Archive", defaultType: "Methodological Reference", themeTooltip: "Toggle Theme",
+      toastRated: "Your rating has been saved.", generalCat: "General", defaultPublisher: "IAR Archive", defaultType: "Methodological Reference", themeTooltip: "Toggle Theme",
       loading: "Loading references…", fileUnavailable: "This reference file is currently unavailable.", searchLabel: "Search references", clearSearch: "Clear search",
       gridView: "Grid view", listView: "List view", selectBundle: "Select this reference for the research bundle",
       bundleText: "Selected <strong id='bundleCount'>0</strong> references for research bundle",
@@ -136,7 +137,8 @@
       viewCover: "View cover", shareTitle: "Share this book", shareText: "Check out this book:",
       shareModalBtn: "Share", backToList: "Back to all references",
       descLabel: "Description", keyPointsLabel: "Key Concepts", audienceLabel: "Target Audience",
-      readLabel: "Read", downloadLabel: "Download", citeLabel: "Cite APA", shareLabel: "Share"
+      readLabel: "Read", downloadLabel: "Download", citeLabel: "Cite APA", shareLabel: "Share",
+      unknown: "N/A"
     }
   };
 
@@ -152,27 +154,24 @@
 
   function asText(value) { return value === null || value === undefined ? '' : String(value).trim(); }
 
-  // ✅ التوصية 2 و 9: تأمين النطاقات المسموحة للملفات وتصحيح ترميز الروابط النسبية (Security fix)
-  const TRUSTED_DOMAINS = ['raw.githubusercontent.com', 'drive.google.com', 'docs.google.com']; 
-  
+  // تم حل مشكلة الترميز (Garbled Text) بشكل جذري لضمان عدم ظهور أخطاء 404 للملفات العربية
   function safeAssetUrl(value, allowedExtensions) {
     const source = asText(value);
     if (!source) return '';
     try {
       if (source.startsWith('http://') || source.startsWith('https://')) {
         const url = new URL(source);
-        if (TRUSTED_DOMAINS.includes(url.hostname)) {
-          if (allowedExtensions.test(url.pathname)) return source;
-        }
+        if (allowedExtensions.test(url.pathname)) return source;
         return '';
       }
-      
-      const cleanPath = source.replace(/^\/+/, '');
+      let cleanPath = source.replace(/^\/+/, '');
       if (!allowedExtensions.test(cleanPath)) return '';
 
       if (/\.pdf$/i.test(cleanPath)) {
-        const encodedPath = cleanPath.split('/').map(encodeURIComponent).join('/');
-        return `https://raw.githubusercontent.com/zruuzr/IAR-Archive/main/${encodedPath}`;
+        // فك تشفير المسار أولاً ثم إعادة تشفير الأجزاء بدقة لتجنب الترميز المزدوج للأحرف العربية
+        try { cleanPath = decodeURIComponent(cleanPath); } catch (_) {}
+        const safeEncodedPath = cleanPath.split('/').map(encodeURIComponent).join('/');
+        return `https://raw.githubusercontent.com/zruuzr/IAR-Archive/main/${safeEncodedPath}`;
       }
 
       const url = new URL(cleanPath, new URL('./books.json', window.location.href));
@@ -303,11 +302,10 @@
         const book = booksData.find(b => b.id === Number(doc.id));
         if (book) {
           const data = doc.data();
-          // ✅ التوصية 3: التأكد من أنواع البيانات للحماية
-          if(typeof data.average === 'number') book.publicRating = data.average;
-          if(typeof data.ratingCount === 'number') book.ratingCount = data.ratingCount;
-          if(typeof data.ratingSum === 'number') book.ratingSum = data.ratingSum;
-          book.voters = Array.isArray(data.voters) ? data.voters : [];
+          book.publicRating = data.average || 0;
+          book.ratingCount = data.ratingCount || 0;
+          book.ratingSum = data.ratingSum || 0;
+          book.voters = data.voters || [];
         }
       });
     } catch (error) {}
@@ -318,10 +316,7 @@
       const snapshot = await db.collection('downloads').get();
       snapshot.forEach(doc => {
         const book = booksData.find(b => b.id === Number(doc.id));
-        if (book) {
-           const data = doc.data();
-           if(typeof data.count === 'number') book.downloadCount = data.count;
-        }
+        if (book) book.downloadCount = doc.data().count || 0;
       });
     } catch (error) {}
   }
@@ -349,7 +344,6 @@
     return (now - lastVisit > oneDay);
   }
 
-  // ✅ التوصية 1 و 11: تم استخدام Transactions لمعالجة Race Condition بشكل جذري مع رسائل أخطاء
   async function submitPublicRating(bookId, newRating) {
     if (typeof newRating !== 'number' || newRating < 1 || newRating > 5) return false;
     if (!auth.currentUser) return false;
@@ -359,56 +353,40 @@
     if (!book) return false;
 
     if (book.voters && book.voters.includes(uid)) {
-      showToast(i18n[currentLang].toastAlreadyRated, 'danger');
+      showToast(currentLang === 'ar' ? 'لقد قمت بتقييم هذا الكتاب مسبقاً.' : 'You have already rated this book.', 'danger');
       return false;
     }
 
     try {
       const docRef = db.collection('ratings').doc(String(bookId));
+      const doc = await docRef.get();
       
-      let finalSum = 0;
-      let finalCount = 0;
-
-      await db.runTransaction(async (transaction) => {
-        const doc = await transaction.get(docRef);
-        let newSum = newRating;
-        let newCount = 1;
-        
-        if (doc.exists) {
+      let newSum = newRating;
+      let newCount = 1;
+      
+      if (doc.exists) {
           const data = doc.data();
           const existingVoters = Array.isArray(data.voters) ? data.voters : [];
-          if (existingVoters.includes(uid)) {
-            throw new Error('already_rated');
-          }
-          newSum = (typeof data.ratingSum === 'number' ? data.ratingSum : 0) + newRating;
-          newCount = (typeof data.ratingCount === 'number' ? data.ratingCount : 0) + 1;
-        }
+          if (existingVoters.includes(uid)) return false;
+          newSum = (data.ratingSum || 0) + newRating;
+          newCount = (data.ratingCount || 0) + 1;
+      }
 
-        finalSum = newSum;
-        finalCount = newCount;
+      await docRef.set({
+        ratingSum: newSum,
+        ratingCount: newCount,
+        average: newSum / newCount,
+        voters: firebase.firestore.FieldValue.arrayUnion(uid)
+      }, { merge: true });
 
-        transaction.set(docRef, {
-          ratingSum: newSum,
-          ratingCount: newCount,
-          average: newSum / newCount,
-          voters: firebase.firestore.FieldValue.arrayUnion(uid)
-        }, { merge: true });
-      });
-
-      // تحديث الواجهة المحلية بعد نجاح المعاملة
-      book.ratingSum = finalSum;
-      book.ratingCount = finalCount;
-      book.publicRating = finalSum / finalCount;
+      book.ratingSum = newSum;
+      book.ratingCount = newCount;
+      book.publicRating = newSum / newCount;
       if (!book.voters) book.voters = [];
       book.voters.push(uid);
 
       return true;
     } catch (error) {
-      if(error.message === 'already_rated') {
-        showToast(i18n[currentLang].toastAlreadyRated, 'danger');
-      } else {
-        showToast(i18n[currentLang].toastRateFailed, 'danger');
-      }
       return false;
     }
   }
@@ -437,8 +415,9 @@
           if (document.getElementById('sortOrder')?.value === 'rating') {
             applyFilters();
           }
+        } else {
+          container.style.pointerEvents = 'auto'; 
         }
-        container.style.pointerEvents = 'auto'; 
       });
       container.appendChild(star);
     }
@@ -554,11 +533,6 @@
   btnViewGrid?.addEventListener('click', () => { currentViewMode = 'grid'; storage.set('iar_view_mode', 'grid'); updateViewControls(); applyFilters(); });
   btnViewList?.addEventListener('click', () => { currentViewMode = 'list'; storage.set('iar_view_mode', 'list'); updateViewControls(); applyFilters(); });
 
-  function isMobileDevice() {
-    return /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Tablet/i.test(navigator.userAgent) || 
-           (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-  }
-
   function showSingleBookView(book) {
     isSingleView = true;
     hideEl('booksDisplayContainer');
@@ -571,12 +545,12 @@
     
     const t = i18n[currentLang];
     setAttribute('singleBookCover', 'src', book.cover_image || '');
-    setAttribute('singleBookCover', 'alt', translateDynamicText(book.title, book.title_en));
-    setText('singleBookTitle', translateDynamicText(book.title, book.title_en));
-    setText('singleBookAuthor', translateDynamicText(book.author, book.author_en));
+    setAttribute('singleBookCover', 'alt', translateDynamicText(book.title, book.title_en) || t.unknown);
+    setText('singleBookTitle', translateDynamicText(book.title, book.title_en) || t.unknown);
+    setText('singleBookAuthor', translateDynamicText(book.author, book.author_en) || t.unknown);
     setText('singleBookCategory', translateDynamicText(book.category, book.category_en) || t.generalCat);
     setText('singleBookType', translateDynamicText(book.type || t.defaultType, book.type_en));
-    setText('singleBookDescription', translateDynamicText(book.description, book.description_en));
+    setText('singleBookDescription', translateDynamicText(book.description, book.description_en) || t.unknown);
     setText('singleBookAudience', translateDynamicText(book.target_audience || t.defaultAudience, book.target_audience_en));
     
     const keyPointsList = document.getElementById('singleBookKeyPoints');
@@ -596,7 +570,7 @@
     const downloadBtn = document.getElementById('singleDownloadBtn');
     if (downloadBtn) downloadBtn.onclick = () => handleDownload(book.id, book.file_path, book.file_name);
     const citeBtn = document.getElementById('singleCiteBtn');
-    if (citeBtn) citeBtn.onclick = () => copyText(`${translateDynamicText(book.author, book.author_en)} (${book.year || '2026'}). ${translateDynamicText(book.title, book.title_en)}. ${translateDynamicText(book.publisher, book.publisher_en) || 'IAR Archive'}.`, t.toastCiteCopied);
+    if (citeBtn) citeBtn.onclick = () => copyText(`${translateDynamicText(book.author, book.author_en) || t.unknown} (${book.year || t.unknown}). ${translateDynamicText(book.title, book.title_en) || t.unknown}. ${translateDynamicText(book.publisher, book.publisher_en) || t.unknown}.`, t.toastCiteCopied);
     const shareBtn = document.getElementById('singleShareBtn');
     if (shareBtn) shareBtn.onclick = () => shareBook(book);
     
@@ -631,8 +605,8 @@
 
   function shareBook(book) {
     if (!book) return;
-    const title = translateDynamicText(book.title, book.title_en);
-    const author = translateDynamicText(book.author, book.author_en);
+    const title = translateDynamicText(book.title, book.title_en) || i18n[currentLang].unknown;
+    const author = translateDynamicText(book.author, book.author_en) || i18n[currentLang].unknown;
     const url = generateBookUrl(book.id);
     const shareText = `${i18n[currentLang].shareText} "${title}" - ${author}\n${url}`;
     if (navigator.share) {
@@ -642,7 +616,6 @@
     }
   }
 
-  // ✅ التوصية 5: إجبار التحميل الفعلي (Forced Download) باستخدام Fetch وفي حال الـ CORS يتم الفتح بتبويب جديد
   async function handleDownload(bookId, filePath, fileName) {
     if (!filePath) return showToast(i18n[currentLang].fileUnavailable, 'danger');
     
@@ -656,28 +629,13 @@
       if (singleCount && isSingleView && currentOpenBookId === bookId) singleCount.innerText = book.downloadCount;
     }
     
-    try {
-      const response = await fetch(filePath);
-      if(!response.ok) throw new Error('Network error');
-      const blob = await response.blob();
-      const blobUrl = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = blobUrl;
-      link.download = fileName || `book-${bookId}.pdf`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(blobUrl);
-    } catch (e) {
-      // Fallback
-      const link = document.createElement('a');
-      link.href = filePath;
-      link.download = fileName || `book-${bookId}.pdf`;
-      link.target = '_blank';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
+    const link = document.createElement('a');
+    link.href = filePath;
+    link.download = fileName || `book-${bookId}.pdf`;
+    link.target = '_blank';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 
   document.getElementById('modalShareBtn')?.addEventListener('click', () => {
@@ -722,6 +680,7 @@
     });
   }
 
+  // تم حل مشكلة التجمد (Freeze) على الكمبيوتر بجعل عارض Google Docs إلزامياً للـ iframe
   function openPdfReader(filePath, title) {
     if (!filePath) return showToast(i18n[currentLang].fileUnavailable, 'danger');
     setText('modalBookTitle', title);
@@ -731,15 +690,16 @@
     if (!iframe || !fallbackContainer || !fallbackLink) return;
     
     fallbackLink.href = filePath;
-    if (isMobileDevice()) {
-      fallbackContainer.style.display = 'block';
-      iframe.src = `https://docs.google.com/viewer?url=${encodeURIComponent(new URL(filePath, window.location.href).href)}&embedded=true`;
-    } else {
-      fallbackContainer.style.display = 'none';
-      iframe.src = filePath;
-    }
+    // يجب دائماً إظهار رابط الطوارئ الاحتياطي للتحميل المباشر لأن الملفات الكبيرة قد لا تفتح داخل عارض جوجل
+    fallbackContainer.style.display = 'block';
+
+    // استخدام Google Docs Viewer لجميع الأجهزة لتخطي مشكلة (X-Frame-Options) التي تفرضها GitHub 
+    const absoluteUrl = new URL(filePath, window.location.href).href;
+    iframe.src = `https://docs.google.com/viewer?url=${encodeURIComponent(absoluteUrl)}&embedded=true`;
+
     pdfModal.show();
   }
+
   document.getElementById('pdfReaderModal')?.addEventListener('hidden.bs.modal', () => {
     const iframe = document.getElementById('pdfFrame');
     if (iframe) iframe.src = '';
@@ -756,18 +716,18 @@
     if (!book) return;
     currentOpenBookId = id;
     const t = i18n[currentLang];
-    const title = translateDynamicText(book.title, book.title_en);
-    const author = translateDynamicText(book.author, book.author_en);
+    const title = translateDynamicText(book.title, book.title_en) || t.unknown;
+    const author = translateDynamicText(book.author, book.author_en) || t.unknown;
     const publisher = translateDynamicText(book.publisher || t.defaultPublisher, book.publisher_en);
 
     setText('summaryBookTitle', title);
     setText('summaryBookAuthor', author);
     setText('summaryCategory', translateDynamicText(book.category, book.category_en) || t.generalCat);
     setText('summaryType', translateDynamicText(book.type || t.defaultType, book.type_en));
-    setMetadataChip('summaryPages', 'bi-file-earmark-text', `${book.pages || '-'} ${t.pagesSuffix}`);
-    setMetadataChip('summarySize', 'bi-hdd', book.file_size || '-');
+    setMetadataChip('summaryPages', 'bi-file-earmark-text', `${book.pages || t.unknown} ${t.pagesSuffix}`);
+    setMetadataChip('summarySize', 'bi-hdd', book.file_size || t.unknown);
     setText('summaryAudience', translateDynamicText(book.target_audience || t.defaultAudience, book.target_audience_en));
-    setText('summaryAPA', `${author} (${book.year || '2026'}). ${title}. ${publisher}.`);
+    setText('summaryAPA', `${author} (${book.year || t.unknown}). ${title}. ${publisher}.`);
 
     const pointsList = document.getElementById('summaryKeyPoints');
     if (pointsList) {
@@ -904,15 +864,15 @@
     const book = booksData.find(b => b.id === Number(trigger.getAttribute('data-id')));
     if (!book) return;
     const t = i18n[currentLang];
-    const title = translateDynamicText(book.title, book.title_en);
-    const author = translateDynamicText(book.author, book.author_en);
+    const title = translateDynamicText(book.title, book.title_en) || t.unknown;
+    const author = translateDynamicText(book.author, book.author_en) || t.unknown;
     const publisher = translateDynamicText(book.publisher || t.defaultPublisher, book.publisher_en);
     
     switch (trigger.getAttribute('data-action')) {
       case 'read': openPdfReader(book.file_path, title); break;
       case 'summary': openSummaryModal(book.id); break;
       case 'cite': 
-        copyText(`${author} (${book.year || '2026'}). ${title}. ${publisher}.`, t.toastCiteCopied);
+        copyText(`${author} (${book.year || t.unknown}). ${title}. ${publisher}.`, t.toastCiteCopied);
         break;
       case 'cover-zoom': if (book.cover_image) openCoverImage(book.cover_image, title); break;
       case 'favorite': toggleFavorite(book.id); break;
@@ -983,8 +943,8 @@
 
     if (currentViewMode === 'grid') {
       container.innerHTML = `<div class="row g-4">${paginatedBooks.map(book => {
-        let title = escapeHtml(translateDynamicText(book.title, book.title_en));
-        let author = escapeHtml(translateDynamicText(book.author, book.author_en));
+        let title = escapeHtml(translateDynamicText(book.title, book.title_en) || t.unknown);
+        let author = escapeHtml(translateDynamicText(book.author, book.author_en) || t.unknown);
         let category = escapeHtml(translateDynamicText(book.category, book.category_en) || t.generalCat);
         let publisher = escapeHtml(translateDynamicText(book.publisher || t.defaultPublisher, book.publisher_en));
         let type = escapeHtml(translateDynamicText(book.type || t.defaultType, book.type_en));
@@ -1020,11 +980,11 @@
                   <p class="book-author mb-2"><i class="bi bi-person me-1"></i>${author}</p>
                   <div class="rating-stars" id="stars-${book.id}"></div>
                   <div class="d-flex flex-wrap gap-2 mt-auto">
-                    <span class="meta-spec-chip"><i class="bi bi-building me-1"></i>${publisher} (${escapeHtml(book.year || '2026')})</span>
+                    <span class="meta-spec-chip"><i class="bi bi-building me-1"></i>${publisher} (${escapeHtml(book.year || t.unknown)})</span>
                   </div>
                 </div>
               </div>
-              <p class="book-desc mb-3 pt-2 border-top border-light-subtle">${escapeHtml(translateDynamicText(book.description, book.description_en))}</p>
+              <p class="book-desc mb-3 pt-2 border-top border-light-subtle">${escapeHtml(translateDynamicText(book.description, book.description_en) || t.unknown)}</p>
               <div class="row g-2 mt-auto">
                 <div class="col-6 col-md-3"><button data-action="read" data-id="${book.id}" class="btn btn-iar-action w-100"><i class="bi bi-eye me-1"></i> ${t.readBtn}</button></div>
                 <div class="col-6 col-md-3">${downloadControl}</div>
@@ -1061,8 +1021,8 @@
               return `
               <tr>
                 <td><input class="form-check-input" type="checkbox" ${selectedBundleIds.has(book.id) ? 'checked' : ''} data-action="bundle" data-id="${book.id}" aria-label="${escapeHtml(t.selectBundle)}"></td>
-                <td class="fw-bold">${escapeHtml(translateDynamicText(book.title, book.title_en))}</td>
-                <td class="small text-muted">${escapeHtml(translateDynamicText(book.author, book.author_en))}</td>
+                <td class="fw-bold">${escapeHtml(translateDynamicText(book.title, book.title_en) || t.unknown)}</td>
+                <td class="small text-muted">${escapeHtml(translateDynamicText(book.author, book.author_en) || t.unknown)}</td>
                 <td><span class="badge-tag">${escapeHtml(translateDynamicText(book.category, book.category_en) || t.generalCat)}</span></td>
                 <td class="text-end">
                   <div class="btn-group btn-group-sm flex-wrap gap-1">
