@@ -21,9 +21,10 @@ MAX_UPLOAD_SIZE_MB = 20
 MAX_RETRIES = 5
 INITIAL_BACKOFF = 5
 
-
 JSON_SCHEMA_PROMPT = """
-أنت مفهرس كتب محترف. قم باستخراج بيانات الكتاب الحقيقية من المحتوى المرفق وصغ البيانات داخل JSON يلتزم بالهيكل التالي حرفياً:
+أنت مفهرس كتب محترف. مهمتك استخراج بيانات الكتاب من المحتوى المرفق، مهما كان المحتوى جزئيًا أو غير مكتمل.
+
+أعد كائن JSON واحد فقط بالهيكل التالي حرفياً:
 
 {
   "title": "العنوان الحقيقي بالعربية",
@@ -48,17 +49,18 @@ JSON_SCHEMA_PROMPT = """
   "target_audience_en": "الجمهور المستهدف بالإنجليزية"
 }
 
-قواعد صارمة:
-1. استخرج العنوان الحقيقي من محتوى الكتاب (الغلاف، الصفحة الأولى، أو الترويسة)، وليس من اسم الملف.
-2. إذا لم تجد معلومة معينة (مثل ISBN)، اتركها كنص فارغ "".
-3. لا تُعد أبداً بعبارات عامة مثل "وثيقة نصية" أو "نص غير محدد".
-4. إذا كان المحتوى غير كافٍ للتعرف على الكتاب، أعد العنوان "غير معروف" مع بقية الحقول فارغة.
-5. أعد فقط كائن JSON واحد بدون أي نص إضافي قبله أو بعده.
+قواعد صارمة جداً:
+1. استخرج العنوان من الغلاف أو الترويسة أو الفهرس أو أي مكان.
+2. إذا لم تجد المؤلف، اتركه "" — لكن لا تكتب "غير معروف" أو "unknown".
+3. لا تكتب أبداً في العنوان "وثيقة نصية" أو "نص مجزأ" أو "غير محدد" أو "fragment" أو "unspecified".
+4. إذا كان المحتوى جداول مالية أو إدارية، صنّفه كـ "المحاسبة والمالية" أو "الإدارة" واستخرج أي كلمات مفتاحية مفيدة.
+5. حتى لو كان المحتوى ناقصاً، استنتج الموضوع من الكلمات المفتاحية الموجودة في النص.
+6. اكتب وصفاً عاماً من 2-3 أسطر يشرح موضوع الكتاب بناءً على المحتوى الفعلي.
+7. أعد فقط كائن JSON واحد بدون أي نص إضافي.
 """
 
 
 class ApiUnavailableError(Exception):
-    """يُرفع عند فشل الاتصال بـ API (503, 429, timeout) — يجب إعادة المحاولة لاحقًا."""
     pass
 
 
@@ -149,18 +151,49 @@ def get_file_info(file_path):
     return str(pages_count) if pages_count > 0 else None, file_size_str
 
 
-def extract_first_pages_text(pdf_path, max_pages=15):
-    text = ""
+def smart_extract_text(pdf_path, max_pages=30):
+    """استخراج ذكي: أول صفحات + آخر صفحات + صفحات تحتوي على كلمات مفتاحية مهمة."""
+    parts = []
     try:
         reader = PdfReader(pdf_path)
-        num_pages = min(len(reader.pages), max_pages)
-        for i in range(num_pages):
-            page_text = reader.pages[i].extract_text()
-            if page_text:
-                text += f"\n--- Page {i+1} ---\n" + page_text
+        total_pages = len(reader.pages)
+        if total_pages == 0:
+            return ""
+
+        keywords = ["المؤلف", "author", "الناشر", "publisher", "ISBN", "الطبعة", "edition", "الفصل", "chapter"]
+
+        indices_to_try = set()
+
+        for i in range(min(5, total_pages)):
+            indices_to_try.add(i)
+
+        for i in range(max(0, total_pages - 3), total_pages):
+            indices_to_try.add(i)
+
+        if total_pages > 15:
+            for i in range(5, min(total_pages, 20)):
+                try:
+                    txt = reader.pages[i].extract_text() or ""
+                    low = txt.lower()
+                    if any(k.lower() in low for k in keywords):
+                        indices_to_try.add(i)
+                        if len(indices_to_try) >= max_pages:
+                            break
+                except Exception:
+                    continue
+
+        for i in sorted(indices_to_try):
+            try:
+                page_text = reader.pages[i].extract_text()
+                if page_text:
+                    parts.append(f"\n--- Page {i+1} ---\n" + page_text)
+            except Exception:
+                continue
+
     except Exception as e:
-        print(f"Error extracting text from {pdf_path}: {e}")
-    return text.strip()
+        print(f"Error in smart_extract_text from {pdf_path}: {e}")
+
+    return "\n".join(parts).strip()
 
 
 def has_meaningful_text(text, min_chars=150):
@@ -201,36 +234,38 @@ def extract_json_object(raw_text):
 
 
 def is_generic_response(book_data, file_name):
+    """كشف فقط الاستجابات الفارغة تماماً. نتحمل عناوين جزئية."""
     if not isinstance(book_data, dict):
         return True
 
     title = (book_data.get("title") or "").strip()
     description = (book_data.get("description") or "").strip()
 
-    generic_patterns = [
-        r"وثيقة",
-        r"نص غير محدد",
-        r"نص مجزأ",
-        r"غير معروف",
-        r"unspecified",
-        r"fragment",
-        r"unknown document",
+    if not title or len(title) < 2:
+        return True
+
+    banned_exact = [
+        "غير معروف", "unknown", "unspecified",
+        "وثيقة نصية", "نص غير محدد", "نص مجزأ",
+        "fragment", "unknown document", "غير محدد"
     ]
 
-    combined = f"{title} {description}".lower()
-    for pattern in generic_patterns:
-        if re.search(pattern, combined):
+    title_low = title.lower().strip()
+    if title_low in [b.lower() for b in banned_exact]:
+        return True
+
+    for bad in banned_exact:
+        if bad.lower() in title_low and len(title_low) < len(bad) + 5:
             return True
 
-    if not title or len(title) < 3:
+    if not description or len(description) < 10:
         return True
 
     return False
 
 
-def build_payload(file_path, file_name, sample_text, use_upload=False, uploaded_file=None):
+def build_payload(file_name, sample_text, use_upload=False, uploaded_file=None):
     file_hint = f"\n\nملاحظة: اسم الملف الأصلي هو: {file_name}"
-
     if use_upload and uploaded_file:
         return [uploaded_file, JSON_SCHEMA_PROMPT + file_hint]
     else:
@@ -238,14 +273,12 @@ def build_payload(file_path, file_name, sample_text, use_upload=False, uploaded_
 
 
 def is_retryable_error(error):
-    """كشف الأخطاء التي تستحق إعادة المحاولة (503, 429, timeout)."""
     error_str = str(error).upper()
     retryable_codes = ["503", "429", "500", "502", "504", "UNAVAILABLE", "RESOURCE_EXHAUSTED", "DEADLINE_EXCEEDED", "TIMEOUT"]
     return any(code in error_str for code in retryable_codes)
 
 
 def call_gemini(contents_payload, max_retries=MAX_RETRIES):
-    """استدعاء Gemini مع إعادة محاولة متدرجة للأخطاء المؤقتة."""
     last_error = None
 
     for attempt in range(1, max_retries + 1):
@@ -274,13 +307,42 @@ def call_gemini(contents_payload, max_retries=MAX_RETRIES):
                     continue
                 else:
                     print(f"  All {max_retries} attempts failed with retryable error.")
-                    raise ApiUnavailableError(f"API unavailable after {max_retries} attempts: {error_str[:200]}")
+                    raise ApiUnavailableError(f"API unavailable after {max_retries} attempts")
             else:
                 print(f"  Attempt {attempt}/{max_retries} failed (non-retryable): {error_str[:200]}")
                 raise
 
     if last_error:
         raise ApiUnavailableError(f"API call failed: {last_error}")
+
+
+def build_fallback_book(file_name):
+    """بناء بيانات احتياطية من اسم الملف عند فشل كل المحاولات."""
+    base_name = os.path.splitext(file_name)[0]
+    clean_title = base_name.replace("_", " ").replace("-", " ").strip()
+
+    return {
+        "title": clean_title,
+        "title_en": "",
+        "author": "",
+        "author_en": "",
+        "category": "غير مصنف",
+        "category_en": "Uncategorized",
+        "type": "كتاب",
+        "type_en": "Book",
+        "description": f"كتاب بعنوان '{clean_title}'. لم تتمكن أداة التحليل من قراءة محتواه بشكل كامل، وقد تم استخدام اسم الملف كعنوان مؤقت.",
+        "description_en": f"A book titled '{clean_title}'. The analysis tool could not fully read its content; the filename was used as a temporary title.",
+        "publisher": "",
+        "publisher_en": "",
+        "year": "",
+        "isbn": "",
+        "keywords": [clean_title],
+        "keywords_en": [],
+        "key_points": ["يتطلب مراجعة يدوية لاستكمال البيانات."],
+        "key_points_en": ["Manual review required to complete metadata."],
+        "target_audience": "",
+        "target_audience_en": ""
+    }
 
 
 extract_zip_files(PDF_DIR)
@@ -296,6 +358,8 @@ else:
 
 existing_files = {os.path.normpath(book.get("file_path", "")) for book in books_data}
 
+api_unavailable = False
+
 if os.path.exists(PDF_DIR):
     for file_name in sorted(os.listdir(PDF_DIR)):
         if not file_name.lower().endswith(".pdf"):
@@ -310,14 +374,14 @@ if os.path.exists(PDF_DIR):
         print(f"\nProcessing new book: {file_name}")
 
         pages_count, file_size_str = get_file_info(file_path)
-        sample_text = extract_first_pages_text(file_path, max_pages=15)
+        sample_text = smart_extract_text(file_path, max_pages=30)
 
         text_is_meaningful = has_meaningful_text(sample_text, min_chars=150)
         print(f"  Local text meaningful: {text_is_meaningful} (length: {len(sample_text)} chars)")
 
         uploaded_file = None
         temp_pdf = None
-        api_unavailable = False
+        new_book = None
 
         try:
             file_size_mb = os.path.getsize(file_path) / (1024 * 1024)
@@ -325,28 +389,27 @@ if os.path.exists(PDF_DIR):
 
             if text_is_meaningful:
                 print("  Strategy 1: Using local extracted text")
-                contents_payload = build_payload(file_path, file_name, sample_text, use_upload=False)
+                contents_payload = build_payload(file_name, sample_text, use_upload=False)
             elif can_upload_full:
                 print(f"  Strategy 1: Uploading full PDF ({file_size_mb:.1f} MB)")
                 with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as tmp:
                     temp_pdf = tmp.name
                 shutil.copyfile(file_path, temp_pdf)
                 uploaded_file = client.files.upload(file=temp_pdf)
-                contents_payload = build_payload(file_path, file_name, "", use_upload=True, uploaded_file=uploaded_file)
+                contents_payload = build_payload(file_name, "", use_upload=True, uploaded_file=uploaded_file)
             else:
-                print(f"  Skipping full upload: file too large ({file_size_mb:.1f} MB)")
-                contents_payload = build_payload(file_path, file_name, sample_text, use_upload=False)
+                print(f"  File too large ({file_size_mb:.1f} MB), using local text only")
+                contents_payload = build_payload(file_name, sample_text, use_upload=False)
 
             try:
                 response = call_gemini(contents_payload)
                 new_book = extract_json_object(response.text)
-            except ApiUnavailableError as api_err:
-                print(f"  API unavailable, will retry next run: {api_err}")
+            except ApiUnavailableError:
                 api_unavailable = True
                 continue
 
             if is_generic_response(new_book, file_name):
-                print("  Generic/failed response detected. Trying alternative strategy...")
+                print("  Generic response. Trying fallback strategy...")
 
                 if not uploaded_file and can_upload_full:
                     with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as tmp:
@@ -355,21 +418,20 @@ if os.path.exists(PDF_DIR):
                     uploaded_file = client.files.upload(file=temp_pdf)
 
                 if uploaded_file:
-                    fallback_payload = build_payload(file_path, file_name, "", use_upload=True, uploaded_file=uploaded_file)
+                    fallback_payload = build_payload(file_name, "", use_upload=True, uploaded_file=uploaded_file)
                 else:
-                    fallback_payload = build_payload(file_path, file_name, sample_text[:25000], use_upload=False)
+                    fallback_payload = build_payload(file_name, sample_text, use_upload=False)
 
                 try:
                     response = call_gemini(fallback_payload)
                     new_book = extract_json_object(response.text)
-                except ApiUnavailableError as api_err:
-                    print(f"  API unavailable during fallback, will retry next run: {api_err}")
+                except ApiUnavailableError:
                     api_unavailable = True
                     continue
 
                 if is_generic_response(new_book, file_name):
-                    print(f"  Skipping {file_name}: Gemini could not identify the book content.")
-                    continue
+                    print(f"  Gemini could not identify the book. Using filename as fallback.")
+                    new_book = build_fallback_book(file_name)
 
             if not isinstance(new_book, dict):
                 raise ValueError("Invalid JSON object response.")
@@ -377,7 +439,7 @@ if os.path.exists(PDF_DIR):
             max_id = max((book.get("id", 0) for book in books_data), default=0)
             new_book["id"] = max_id + 1
 
-            new_book["pages"] = pages_count if pages_count else new_book.get("pages")
+            new_book["pages"] = pages_count if pages_count else new_book.get("pages", "")
             new_book["file_size"] = file_size_str
             new_book["file_type"] = "PDF"
             new_book["file_path"] = file_path
@@ -389,14 +451,10 @@ if os.path.exists(PDF_DIR):
             with open(JSON_PATH, "w", encoding="utf-8") as f:
                 json.dump(books_data, f, ensure_ascii=False, indent=2)
 
-            print(f"  Successfully added and saved: {new_book.get('title')}")
+            print(f"  Successfully added: {new_book.get('title')}")
 
         except Exception as e:
             print(f"Error processing file {file_name}: {type(e).__name__}: {e}")
-            if 'response' in locals() and response and getattr(response, "text", None):
-                print("--- Raw response (first 500 chars) ---")
-                print(response.text[:500])
-                print("--- End of raw response ---")
 
         finally:
             if uploaded_file:
@@ -413,4 +471,4 @@ if os.path.exists(PDF_DIR):
 if not api_unavailable:
     print("\nProcessing completed successfully.")
 else:
-    print("\nProcessing completed with API availability issues. Some files were skipped and will be retried on the next run.")
+    print("\nProcessing completed with API availability issues. Skipped files will be retried.")
