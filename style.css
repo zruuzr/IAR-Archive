@@ -24,12 +24,6 @@
   --star: #fbbf24;
 }
 
-/* 🟢 تحسين الوصول: إضافة إطار تركيز واضح عند التنقل بلوحة المفاتيح */
-:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-}
-
 body {
   background-color: var(--bg);
   font-family: 'Cairo', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
@@ -74,15 +68,6 @@ html[dir="ltr"] .stat-box { border-left: none; border-right: 1px solid var(--bor
 
 .badge-tag { background: rgba(37, 99, 235, 0.1); color: var(--accent); font-size: 0.75rem; font-weight: 700; padding: 0.3rem 0.65rem; border-radius: 20px; }
 .badge-type { background: rgba(16, 185, 129, 0.1); color: #10b981; font-size: 0.72rem; font-weight: 700; padding: 0.25rem 0.55rem; border-radius: 6px; }
-
-/* 🟢 تحسين التباين في الوضع الداكن للشارات */
-[data-bs-theme="dark"] .badge-tag {
-  background: rgba(59, 130, 246, 0.2);
-}
-[data-bs-theme="dark"] .badge-type {
-  background: rgba(16, 185, 129, 0.2);
-}
-
 .book-title { font-weight: 800; font-size: 1.08rem; color: var(--text); line-height: 1.4; margin-top: 0.3rem; }
 .book-author { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; }
 .book-desc { font-size: 0.84rem; color: var(--text-muted); line-height: 1.55; }
@@ -90,135 +75,68 @@ html[dir="ltr"] .stat-box { border-left: none; border-right: 1px solid var(--bor
 
 .btn-iar-action { background: var(--bg); color: var(--text); font-weight: 700; font-size: 0.82rem; border: 1px solid var(--border); border-radius: 8px; padding: 0.45rem; transition: all 0.2s ease; }
 .btn-iar-action:hover { background: rgba(37, 99, 235, 0.1); color: var(--accent); border-color: var(--accent); }
-
 .btn-iar-primary { background: var(--accent); color: #ffffff; font-weight: 700; font-size: 0.82rem; border-radius: 8px; padding: 0.45rem; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
 .btn-iar-primary:hover { background: var(--accent-hover); color: #ffffff; }
 
-/* 🟢 تنسيق الحالات المعطلة (Disabled) للأزرار المخصصة */
+.rating-stars { display: inline-flex; gap: 0.2rem; cursor: pointer; font-size: 1rem; align-items: center; }
+.rating-stars i { color: var(--text-muted); transition: color 0.2s ease, transform 0.2s ease; }
+.rating-stars i.active { color: var(--star); }
+.rating-stars i:hover { transform: scale(1.2); }
+
+.footer-iar { background-color: var(--primary); border-top: 1px solid var(--border); color: #e2e8f0; padding: 2rem 0; margin-top: auto; }
+.footer-iar .brand-title { color: #ffffff !important; font-weight: 900; font-size: 1.45rem; }
+.footer-iar .social-links { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+.footer-iar .social-icon { display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 50%; background-color: rgba(255, 255, 255, 0.15); color: #ffffff; font-size: 1.4rem; text-decoration: none; transition: all 0.25s ease; }
+.footer-iar .social-icon:hover { background-color: rgba(255, 255, 255, 0.25); color: #ffffff; transform: translateY(-3px); box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); }
+.footer-iar .copyright { color: #94a3b8; font-size: 0.85rem; font-weight: 500; letter-spacing: 0.5px; }
+
+#singleBookView { background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 2rem; box-shadow: var(--card-shadow); }
+.single-cover { width: 100%; max-width: 320px; margin: 0 auto; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
+.single-cover img { width: 100%; height: auto; object-fit: cover; }
+.single-book-title { font-size: 1.75rem; font-weight: 900; color: var(--text); }
+.single-book-author { font-size: 1rem; color: var(--text-muted); font-weight: 600; }
+.single-detail-section { background: var(--bg); border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1rem; }
+.single-detail-section h6 { font-weight: 800; margin-bottom: 0.5rem; color: var(--text); }
+.single-detail-section p, .single-detail-section li { font-size: 0.9rem; color: var(--text-muted); }
+.btn-back { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; border-radius: 30px; background: var(--bg); border: 1px solid var(--border); color: var(--text); font-weight: 700; cursor: pointer; transition: all 0.2s; }
+.btn-back:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+/* ===== Bundle Bar Responsive ===== */
+@media (max-width: 768px) {
+  .bundle-bar {
+    flex-direction: column;
+    align-items: stretch !important;
+    gap: 0.75rem;
+    padding: 1rem;
+  }
+  .bundle-bar > div {
+    justify-content: center;
+    text-align: center;
+  }
+  .bundle-bar .btn {
+    width: 100%;
+  }
+}
+
+/* ===== Focus States ===== */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ===== Disabled Buttons ===== */
 .btn-iar-primary:disabled,
 .btn-iar-action:disabled {
   opacity: 0.6;
   cursor: not-allowed;
-  pointer-events: none;
 }
 
-.rating-stars { display: inline-flex; gap: 0.2rem; cursor: pointer; font-size: 1rem; }
-.rating-stars i { color: var(--text-muted); transition: color 0.2s ease, transform 0.2s ease; } /* 🟢 سلاسة حركة التكبير */
-.rating-stars i.active { color: var(--star); }
-.rating-stars i:hover { transform: scale(1.2); }
-
-.footer-iar {
-  background-color: var(--primary);
-  border-top: 1px solid var(--border);
-  color: #e2e8f0;
-  padding: 2rem 0;
-  margin-top: auto;
+/* ===== Responsive Single Book View ===== */
+@media (max-width: 576px) {
+  #singleBookView { padding: 1rem; }
+  .single-book-title { font-size: 1.35rem; }
 }
 
-.footer-iar .brand-title {
-  color: #ffffff !important;
-  font-weight: 900;
-  font-size: 1.45rem;
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
 }
-
-.footer-iar .social-links {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
-.footer-iar .social-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.15);
-  color: #ffffff;
-  font-size: 1.4rem;
-  text-decoration: none;
-  transition: all 0.25s ease;
-}
-
-.footer-iar .social-icon:hover {
-  background-color: rgba(255, 255, 255, 0.25);
-  color: #ffffff;
-  transform: translateY(-3px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
-}
-
-.footer-iar .copyright {
-  color: #94a3b8;
-  font-size: 0.85rem;
-  font-weight: 500;
-  letter-spacing: 0.5px;
-}
-
-#singleBookView {
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: clamp(1rem, 3vw, 2rem); /* 🟢 حشوة متجاوبة على الشاشات المختلفة */
-  box-shadow: var(--card-shadow);
-}
-.single-cover {
-  width: 100%;
-  max-width: 320px;
-  margin: 0 auto;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-}
-.single-cover img {
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-}
-.single-book-title {
-  font-size: 1.75rem;
-  font-weight: 900;
-  color: var(--text);
-}
-.single-book-author {
-  font-size: 1rem;
-  color: var(--text-muted);
-  font-weight: 600;
-}
-.single-detail-section {
-  background: var(--bg);
-  border-radius: 12px;
-  padding: 1rem 1.25rem;
-  margin-bottom: 1rem;
-}
-.single-detail-section h6 {
-  font-weight: 800;
-  margin-bottom: 0.5rem;
-  color: var(--text);
-}
-.single-detail-section p,
-.single-detail-section li {
-  font-size: 0.9rem;
-  color: var(--text-muted);
-}
-.btn-back {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  border-radius: 30px;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  color: var(--text);
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.btn-back:hover {
-  background: var(--accent);
-  color: #fff;
-  border-color: var(--accent);
-}
-
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; } }
