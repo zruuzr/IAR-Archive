@@ -16,6 +16,7 @@ client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
 JSON_PATH = "books.json"
 PDF_DIR = "pdf"
 MODEL_NAME = "gemini-3.6-flash"
+MAX_UPLOAD_SIZE_MB = 20
 
 JSON_SCHEMA_PROMPT = """
 أنت مفهرس كتب محترف. قم باستخراج بيانات الكتاب الحقيقية من المحتوى المرفق وصغ البيانات داخل JSON يلتزم بالهيكل التالي حرفياً:
@@ -140,7 +141,6 @@ def get_file_info(file_path):
 
 
 def extract_first_pages_text(pdf_path, max_pages=15):
-    """استخراج نص الصفحات الأولى مع كشف نوعية المحتوى."""
     text = ""
     try:
         reader = PdfReader(pdf_path)
@@ -154,19 +154,17 @@ def extract_first_pages_text(pdf_path, max_pages=15):
     return text.strip()
 
 
-def has_meaningful_text(text, min_chars=200):
-    """التحقق من أن النص المستخرج ذو معنى (يحتوي على نسبة مقبولة من الأحرف العربية/اللاتينية)."""
+def has_meaningful_text(text, min_chars=150):
     if not text or len(text.strip()) < min_chars:
         return False
 
-    # حساب نسبة الأحرف العربية واللاتينية
-    letters = re.findall(r"[A-Za-z\u0600-\u06FF]", text)
-    total_chars = len(text.replace(" ", "").replace("\n", ""))
-    if total_chars == 0:
+    stripped = re.sub(r"\s+", "", text)
+    if len(stripped) == 0:
         return False
 
-    ratio = len(letters) / total_chars
-    return ratio >= 0.4
+    meaningful_chars = re.findall(r"[A-Za-z\u0600-\u06FF0-9]", text)
+    ratio = len(meaningful_chars) / len(stripped)
+    return ratio >= 0.25
 
 
 def extract_json_object(raw_text):
@@ -194,14 +192,12 @@ def extract_json_object(raw_text):
 
 
 def is_generic_response(book_data, file_name):
-    """كشف الاستجابات العامة غير المفيدة من Gemini."""
     if not isinstance(book_data, dict):
         return True
 
     title = (book_data.get("title") or "").strip()
     description = (book_data.get("description") or "").strip()
 
-    # أنماط عامة تشير إلى فشل التعرف
     generic_patterns = [
         r"وثيقة",
         r"نص غير محدد",
@@ -217,7 +213,6 @@ def is_generic_response(book_data, file_name):
         if re.search(pattern, combined):
             return True
 
-    # إذا كان العنوان فارغاً أو مشابهاً لاسم الملف
     if not title or len(title) < 3:
         return True
 
@@ -225,17 +220,15 @@ def is_generic_response(book_data, file_name):
 
 
 def build_payload(file_path, file_name, sample_text, use_upload=False, uploaded_file=None):
-    """بناء الحمولة المرسلة إلى Gemini مع تلميح اسم الملف."""
     file_hint = f"\n\nملاحظة: اسم الملف الأصلي هو: {file_name}"
 
     if use_upload and uploaded_file:
         return [uploaded_file, JSON_SCHEMA_PROMPT + file_hint]
     else:
-        return f"{JSON_SCHEMA_PROMPT}{file_hint}\n\nExtracted Text:\n{sample_text[:15000]}"
+        return f"{JSON_SCHEMA_PROMPT}{file_hint}\n\nExtracted Text:\n{sample_text[:25000]}"
 
 
 def call_gemini(contents_payload):
-    """استدعاء Gemini مع إعادة محاولة."""
     last_error = None
     for attempt in range(1, 3):
         try:
@@ -254,10 +247,8 @@ def call_gemini(contents_payload):
     raise ValueError(f"No valid response after retries. Last error: {last_error}")
 
 
-# ===== 1. فك ضغط أي ملفات ZIP قبل بدء المعالجة =====
 extract_zip_files(PDF_DIR)
 
-# ===== 2. قراءة البيانات الحالية من books.json =====
 if os.path.exists(JSON_PATH):
     try:
         with open(JSON_PATH, "r", encoding="utf-8") as f:
@@ -269,7 +260,6 @@ else:
 
 existing_files = {os.path.normpath(book.get("file_path", "")) for book in books_data}
 
-# ===== 3. معالجة ملفات PDF =====
 if os.path.exists(PDF_DIR):
     for file_name in sorted(os.listdir(PDF_DIR)):
         if not file_name.lower().endswith(".pdf"):
@@ -286,45 +276,51 @@ if os.path.exists(PDF_DIR):
         pages_count, file_size_str = get_file_info(file_path)
         sample_text = extract_first_pages_text(file_path, max_pages=15)
 
-        # التحقق من جودة النص المستخرج محلياً
-        text_is_meaningful = has_meaningful_text(sample_text, min_chars=200)
+        text_is_meaningful = has_meaningful_text(sample_text, min_chars=150)
         print(f"  Local text meaningful: {text_is_meaningful} (length: {len(sample_text)} chars)")
 
         uploaded_file = None
         temp_pdf = None
 
         try:
-            # ===== المرحلة 1: محاولة أولى =====
+            file_size_mb = os.path.getsize(file_path) / (1024 * 1024)
+            can_upload_full = file_size_mb <= MAX_UPLOAD_SIZE_MB
+
             if text_is_meaningful:
                 print("  Strategy 1: Using local extracted text")
                 contents_payload = build_payload(file_path, file_name, sample_text, use_upload=False)
-            else:
-                print("  Strategy 1: Local text insufficient, uploading full PDF")
+            elif can_upload_full:
+                print(f"  Strategy 1: Uploading full PDF ({file_size_mb:.1f} MB)")
                 with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as tmp:
                     temp_pdf = tmp.name
                 shutil.copyfile(file_path, temp_pdf)
                 uploaded_file = client.files.upload(file=temp_pdf)
                 contents_payload = build_payload(file_path, file_name, "", use_upload=True, uploaded_file=uploaded_file)
+            else:
+                print(f"  Skipping full upload: file too large ({file_size_mb:.1f} MB > {MAX_UPLOAD_SIZE_MB} MB)")
+                print("  Falling back to longest possible local text sample.")
+                contents_payload = build_payload(file_path, file_name, sample_text, use_upload=False)
 
             response = call_gemini(contents_payload)
             new_book = extract_json_object(response.text)
 
-            # ===== المرحلة 2: التحقق من جودة الاستجابة =====
             if is_generic_response(new_book, file_name):
-                print(f"  Generic/failed response detected. Trying fallback with full PDF upload...")
+                print("  Generic/failed response detected. Trying alternative strategy...")
 
-                # إذا لم نكن قد رفعنا الملف بعد، نرفعه الآن
-                if not uploaded_file:
+                if not uploaded_file and can_upload_full:
                     with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as tmp:
                         temp_pdf = tmp.name
                     shutil.copyfile(file_path, temp_pdf)
                     uploaded_file = client.files.upload(file=temp_pdf)
 
-                fallback_payload = build_payload(file_path, file_name, "", use_upload=True, uploaded_file=uploaded_file)
+                if uploaded_file:
+                    fallback_payload = build_payload(file_path, file_name, "", use_upload=True, uploaded_file=uploaded_file)
+                else:
+                    fallback_payload = build_payload(file_path, file_name, sample_text[:25000], use_upload=False)
+
                 response = call_gemini(fallback_payload)
                 new_book = extract_json_object(response.text)
 
-                # إذا كانت الاستجابة الثانية أيضاً عامة، نرفض الملف
                 if is_generic_response(new_book, file_name):
                     print(f"  Skipping {file_name}: Gemini could not identify the book content.")
                     continue
