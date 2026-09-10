@@ -728,7 +728,6 @@
     });
   }
 
-  // ===== دالة تحسين أزرار التمرير للتصنيفات (مصححة) =====
   function setupChipsScrollButtons() {
     const wrapper = document.getElementById('categoryChips');
     const container = wrapper?.closest('.chips-container');
@@ -738,23 +737,9 @@
 
     const isRTL = document.documentElement.getAttribute('dir') === 'rtl';
 
-    function getScrollState() {
-      const maxScroll = Math.max(0, wrapper.scrollWidth - wrapper.clientWidth);
-      if (maxScroll <= 5) return { atStart: true, atEnd: true, maxScroll };
-
-      // scrollLeft موحّد: Math.abs يعمل في الوضعين (RTL الحديث + LTR)
-      const currentScroll = Math.abs(wrapper.scrollLeft);
-      return {
-        atStart: currentScroll <= 5,
-        atEnd: currentScroll >= maxScroll - 5,
-        maxScroll
-      };
-    }
-
     function updateButtonsVisibility() {
-      const { atStart, atEnd, maxScroll } = getScrollState();
+      const maxScroll = Math.max(0, wrapper.scrollWidth - wrapper.clientWidth);
 
-      // لا يوجد تمرير مطلوب
       if (maxScroll <= 5) {
         container.classList.remove('can-scroll-start', 'can-scroll-end');
         btnLeft.classList.remove('can-show');
@@ -762,19 +747,17 @@
         return;
       }
 
-      // تدرجات التلاشي
+      const currentScroll = Math.abs(wrapper.scrollLeft);
+      const atStart = currentScroll <= 5;
+      const atEnd = currentScroll >= maxScroll - 5;
+
       container.classList.toggle('can-scroll-start', !atStart);
       container.classList.toggle('can-scroll-end', !atEnd);
 
-      // btnLeft = سهم يشير نحو البداية (موجود في الجهة المقابلة للبداية بصريًا)
-      // يظهر فقط عند وجود محتوى مخفي في جهة البداية، أي عندما لا نكون في البداية
-      // btnRight = سهم يشير نحو النهاية (موجود في الجهة المقابلة للنهاية بصريًا)
-      // يظهر فقط عند وجود محتوى مخفي في جهة النهاية، أي عندما لا نكون في النهاية
       btnLeft.classList.toggle('can-show', !atStart);
       btnRight.classList.toggle('can-show', !atEnd);
     }
 
-    // تنظيف المستمعين السابقين
     if (wrapper._chipsScrollHandler) {
       wrapper.removeEventListener('scroll', wrapper._chipsScrollHandler);
     }
@@ -788,18 +771,15 @@
     wrapper.addEventListener('scroll', wrapper._chipsScrollHandler, { passive: true });
     window.addEventListener('resize', window._chipsResizeHandler);
 
-    // زر "البداية" (chevron-right في RTL): يحركنا نحو البداية
     btnLeft.onclick = () => {
       const step = isRTL ? 200 : -200;
       wrapper.scrollBy({ left: step, behavior: 'smooth' });
     };
-    // زر "النهاية" (chevron-left في RTL): يحركنا نحو النهاية
     btnRight.onclick = () => {
       const step = isRTL ? -200 : 200;
       wrapper.scrollBy({ left: step, behavior: 'smooth' });
     };
 
-    // استدعاء أولي مع تأخيرات لضمان تحميل المحتوى
     setTimeout(updateButtonsVisibility, 100);
     setTimeout(updateButtonsVisibility, 400);
     setTimeout(updateButtonsVisibility, 1000);
