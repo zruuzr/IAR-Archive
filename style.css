@@ -49,11 +49,122 @@ html[dir="ltr"] .stat-box { border-left: none; border-right: 1px solid var(--bor
 
 .bundle-bar { background: var(--accent); color: #ffffff; border-radius: 12px; padding: 0.75rem 1.25rem; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3); margin-bottom: 1.5rem; }
 
-.chips-wrapper { display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.5rem; scrollbar-width: none; }
-.chips-wrapper::-webkit-scrollbar { display: none; }
-.chip-item { background: var(--card-bg); border: 1px solid var(--border); color: var(--text-muted); padding: 0.45rem 1rem; border-radius: 30px; font-size: 0.85rem; font-weight: 700; white-space: nowrap; cursor: pointer; transition: all 0.2s ease; }
-.chip-item:hover, .chip-item.active { background: var(--accent); color: #ffffff; border-color: var(--accent); }
+/* ===== Category Chips (Responsive Horizontal Scroll) ===== */
+.chips-container {
+  position: relative;
+}
 
+.chips-wrapper {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.25rem 0.25rem 0.5rem 0.25rem;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+  scroll-snap-type: x proximity;
+  max-width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.chips-wrapper::-webkit-scrollbar {
+  height: 6px;
+}
+.chips-wrapper::-webkit-scrollbar-track {
+  background: transparent;
+}
+.chips-wrapper::-webkit-scrollbar-thumb {
+  background-color: var(--border);
+  border-radius: 3px;
+}
+.chips-wrapper::-webkit-scrollbar-thumb:hover {
+  background-color: var(--text-muted);
+}
+
+@media (max-width: 768px) {
+  .chips-wrapper {
+    scrollbar-width: none;
+  }
+  .chips-wrapper::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.chip-item {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  padding: 0.45rem 1rem;
+  border-radius: 30px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  user-select: none;
+}
+
+.chip-item:hover,
+.chip-item.active {
+  background: var(--accent);
+  color: #ffffff;
+  border-color: var(--accent);
+}
+
+html[dir="rtl"] .chips-wrapper {
+  direction: rtl;
+}
+html[dir="ltr"] .chips-wrapper {
+  direction: ltr;
+}
+
+/* Scroll Arrows */
+.chips-scroll-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 5;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.chips-scroll-btn:hover {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.chips-scroll-left {
+  inset-inline-start: -8px;
+}
+
+.chips-scroll-right {
+  inset-inline-end: -8px;
+}
+
+@media (max-width: 768px) {
+  .chips-scroll-btn {
+    display: none !important;
+  }
+}
+
+/* ===== Book Cards ===== */
 .book-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 1.25rem; transition: transform 0.25s ease, box-shadow 0.25s ease; position: relative; overflow: visible !important; z-index: 1; }
 .book-card:hover { z-index: 20; transform: translateY(-4px); box-shadow: 0 16px 30px -10px rgba(15, 23, 42, 0.12); }
 
@@ -83,6 +194,7 @@ html[dir="ltr"] .stat-box { border-left: none; border-right: 1px solid var(--bor
 .rating-stars i.active { color: var(--star); }
 .rating-stars i:hover { transform: scale(1.2); }
 
+/* ===== Footer ===== */
 .footer-iar { background-color: var(--primary); border-top: 1px solid var(--border); color: #e2e8f0; padding: 2rem 0; margin-top: auto; }
 .footer-iar .brand-title { color: #ffffff !important; font-weight: 900; font-size: 1.45rem; }
 .footer-iar .social-links { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
@@ -90,6 +202,7 @@ html[dir="ltr"] .stat-box { border-left: none; border-right: 1px solid var(--bor
 .footer-iar .social-icon:hover { background-color: rgba(255, 255, 255, 0.25); color: #ffffff; transform: translateY(-3px); box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); }
 .footer-iar .copyright { color: #94a3b8; font-size: 0.85rem; font-weight: 500; letter-spacing: 0.5px; }
 
+/* ===== Single Book View ===== */
 #singleBookView { background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 2rem; box-shadow: var(--card-shadow); }
 .single-cover { width: 100%; max-width: 320px; margin: 0 auto; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
 .single-cover img { width: 100%; height: auto; object-fit: cover; }
@@ -118,20 +231,18 @@ html[dir="ltr"] .stat-box { border-left: none; border-right: 1px solid var(--bor
   }
 }
 
-/* ===== Focus States ===== */
+/* ===== Accessibility ===== */
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
 
-/* ===== Disabled Buttons ===== */
 .btn-iar-primary:disabled,
 .btn-iar-action:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
 
-/* ===== Responsive Single Book View ===== */
 @media (max-width: 576px) {
   #singleBookView { padding: 1rem; }
   .single-book-title { font-size: 1.35rem; }
