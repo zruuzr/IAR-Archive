@@ -1143,5 +1143,63 @@
     "file_type": "PDF",
     "file_path": "pdf/الموازنات_التقديرية.pdf",
     "cover_image": "covers/22.png"
+  },
+  {
+    "id": 23,
+    "title": "إدارة المبيعات",
+    "title_en": "Sales Management",
+    "author": "أشرف خليل مصطفى",
+    "author_en": "Ashraf Khalil Mustafa",
+    "category": "إدارة الأعمال والتسويق",
+    "category_en": "Business Administration & Marketing",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Book",
+    "description": "كتاب شامل يتناول مفهوم إدارة المبيعات وتطورها، مستعرضاً العلاقة المتكاملة بين التسويق والإدارة والبيع. يتضمن الكتاب دراسة تفصيلية لأحكام البيع وضوابطه وشروطه في الشريعة الإسلامية، إضافة إلى الجوانب التنفيذية مثل تخطيط المبيعات، والتنبؤ بها، وإدارة شبكات الإمداد، واستراتيجيات التسعير والترويج، وتطوير مهارات الإقناع والعناية بالعملاء.",
+    "description_en": "A comprehensive textbook on sales management and its evolution, highlighting the integrated relationship between marketing, management, and selling. It includes an in-depth study of commercial rulings and ethics in Islamic jurisprudence, alongside practical aspects such as sales planning, forecasting, supply chain management, pricing and promotion strategies, persuasion skills, and customer relationship management.",
+    "publisher": "دار أمجد للنشر والتوزيع",
+    "publisher_en": "Dar Amjad for Publishing and Distribution",
+    "year": "2015",
+    "isbn": "",
+    "keywords": [
+      "إدارة المبيعات",
+      "التسويق",
+      "البيع والتوزيع",
+      "التنبؤ بالمبيعات",
+      "إدارة الأعمال",
+      "فقه المعاملات المالية",
+      "مهارات الإقناع",
+      "خدمة العملاء"
+    ],
+    "keywords_en": [
+      "Sales Management",
+      "Marketing",
+      "Sales and Distribution",
+      "Sales Forecasting",
+      "Business Administration",
+      "Islamic Commercial Law",
+      "Persuasion Skills",
+      "Customer Service"
+    ],
+    "key_points": [
+      "الربط بين المفاهيم الإدارية والتسويقية ووظيفة البيع في المنظمات الحديثة.",
+      "تبيان التطور التاريخي لمفهوم البيع والتوجهات الحديثة في إدارة المبيعات.",
+      "استعراض أركان وشروط البيع وأحكامه وأسباب الكسب المحرم في الفقه الإسلامي.",
+      "شرح طرق وأساليب التخطيط والتنبؤ بالمبيعات وإدارة شبكات الإمداد.",
+      "تحديد المهام والمتطلبات والمهارات المهنية والإنسانية لرجل البيع ومدير المبيعات."
+    ],
+    "key_points_en": [
+      "Linking managerial and marketing concepts with the sales function in modern organizations.",
+      "Explaining the historical development of selling and contemporary trends in sales management.",
+      "Reviewing the pillars, conditions, and ethics of commerce according to Islamic jurisprudence.",
+      "Detailing methods for sales planning, sales forecasting, and supply chain management.",
+      "Defining the responsibilities, qualifications, and interpersonal skills required for salespeople and sales managers."
+    ],
+    "target_audience": "طلاب أساتذة إدارة الأعمال والتسويق، مديرو المبيعات، مندوبو المبيعات، والمهتمون بالمجال التجاري.",
+    "target_audience_en": "Students and faculty in business administration and marketing, sales managers, sales representatives, and business professionals.",
+    "pages": "172",
+    "file_size": "27.63 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/إدارة_المبيعات.pdf",
+    "cover_image": "covers/23.png"
   }
 ]
