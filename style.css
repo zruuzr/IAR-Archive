@@ -49,9 +49,47 @@ html[dir="ltr"] .stat-box { border-left: none; border-right: 1px solid var(--bor
 
 .bundle-bar { background: var(--accent); color: #ffffff; border-radius: 12px; padding: 0.75rem 1.25rem; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3); margin-bottom: 1.5rem; }
 
-/* ===== Category Chips (Responsive Horizontal Scroll) ===== */
+/* ===== Category Chips (Elegant Horizontal Scroll) ===== */
 .chips-container {
   position: relative;
+  margin-bottom: 1.5rem;
+  padding: 0 4px;
+}
+
+.chips-container::before,
+.chips-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 40px;
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.chips-container::before {
+  inset-inline-start: 0;
+  background: linear-gradient(to var(--chips-fade-direction-start, right), var(--bg) 20%, transparent 100%);
+}
+
+.chips-container::after {
+  inset-inline-end: 0;
+  background: linear-gradient(to var(--chips-fade-direction-end, left), var(--bg) 20%, transparent 100%);
+}
+
+.chips-container.can-scroll-start::before { opacity: 1; }
+.chips-container.can-scroll-end::after { opacity: 1; }
+
+html[dir="rtl"] .chips-container {
+  --chips-fade-direction-start: left;
+  --chips-fade-direction-end: right;
+}
+
+html[dir="ltr"] .chips-container {
+  --chips-fade-direction-start: right;
+  --chips-fade-direction-end: left;
 }
 
 .chips-wrapper {
@@ -63,35 +101,66 @@ html[dir="ltr"] .stat-box { border-left: none; border-right: 1px solid var(--bor
   padding: 0.25rem 0.25rem 0.5rem 0.25rem;
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
-  scrollbar-width: thin;
-  scrollbar-color: var(--border) transparent;
-  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
   max-width: 100%;
   position: relative;
   z-index: 1;
 }
 
 .chips-wrapper::-webkit-scrollbar {
-  height: 6px;
-}
-.chips-wrapper::-webkit-scrollbar-track {
-  background: transparent;
-}
-.chips-wrapper::-webkit-scrollbar-thumb {
-  background-color: var(--border);
-  border-radius: 3px;
-}
-.chips-wrapper::-webkit-scrollbar-thumb:hover {
-  background-color: var(--text-muted);
+  display: none;
 }
 
-@media (max-width: 768px) {
-  .chips-wrapper {
-    scrollbar-width: none;
-  }
-  .chips-wrapper::-webkit-scrollbar {
-    display: none;
-  }
+.chips-scroll-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%) scale(0.9);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 4;
+  padding: 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.12);
+  transition: opacity 0.25s ease, transform 0.25s ease, background 0.2s ease, color 0.2s ease, visibility 0.25s ease;
+}
+
+.chips-container:hover .chips-scroll-btn.can-show,
+.chips-scroll-btn:focus-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(-50%) scale(1);
+}
+
+.chips-scroll-btn:hover {
+  background: var(--accent);
+  color: #ffffff;
+  border-color: var(--accent);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+}
+
+.chips-scroll-btn i {
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+.chips-scroll-left {
+  inset-inline-start: 8px;
+}
+
+.chips-scroll-right {
+  inset-inline-end: 8px;
 }
 
 .chip-item {
@@ -106,7 +175,6 @@ html[dir="ltr"] .stat-box { border-left: none; border-right: 1px solid var(--bor
   cursor: pointer;
   transition: all 0.2s ease;
   flex-shrink: 0;
-  scroll-snap-align: start;
   user-select: none;
 }
 
@@ -117,50 +185,13 @@ html[dir="ltr"] .stat-box { border-left: none; border-right: 1px solid var(--bor
   border-color: var(--accent);
 }
 
-html[dir="rtl"] .chips-wrapper {
-  direction: rtl;
-}
-html[dir="ltr"] .chips-wrapper {
-  direction: ltr;
-}
-
-/* Scroll Arrows */
-.chips-scroll-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  color: var(--text);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 5;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: all 0.2s ease;
-}
-
-.chips-scroll-btn:hover {
-  background: var(--accent);
-  color: #fff;
-  border-color: var(--accent);
-}
-
-.chips-scroll-left {
-  inset-inline-start: -8px;
-}
-
-.chips-scroll-right {
-  inset-inline-end: -8px;
-}
-
 @media (max-width: 768px) {
   .chips-scroll-btn {
     display: none !important;
+  }
+  .chips-container::before,
+  .chips-container::after {
+    width: 24px;
   }
 }
 
