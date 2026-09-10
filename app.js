@@ -730,41 +730,67 @@
 
   function setupChipsScrollButtons() {
     const wrapper = document.getElementById('categoryChips');
+    const container = wrapper?.closest('.chips-container');
     const btnLeft = document.getElementById('chipsScrollLeft');
     const btnRight = document.getElementById('chipsScrollRight');
-    if (!wrapper || !btnLeft || !btnRight) return;
+    if (!wrapper || !container || !btnLeft || !btnRight) return;
 
     function updateButtonsVisibility() {
       const isRTL = document.documentElement.getAttribute('dir') === 'rtl';
       const maxScroll = wrapper.scrollWidth - wrapper.clientWidth;
-      const currentScroll = Math.abs(wrapper.scrollLeft);
 
       if (maxScroll <= 5) {
+        container.classList.remove('can-scroll-start', 'can-scroll-end');
         btnLeft.classList.add('d-none');
         btnRight.classList.add('d-none');
+        btnLeft.classList.remove('can-show');
+        btnRight.classList.remove('can-show');
         return;
       }
 
+      const scrollPos = isRTL ? Math.abs(wrapper.scrollLeft) : wrapper.scrollLeft;
+      const atStart = scrollPos <= 5;
+      const atEnd = scrollPos >= maxScroll - 5;
+
+      container.classList.toggle('can-scroll-start', !atStart);
+      container.classList.toggle('can-scroll-end', !atEnd);
+
+      btnLeft.classList.remove('d-none');
+      btnRight.classList.remove('d-none');
+
       if (isRTL) {
-        btnLeft.classList.toggle('d-none', currentScroll >= maxScroll - 5);
-        btnRight.classList.toggle('d-none', currentScroll <= 5);
+        btnLeft.classList.toggle('can-show', !atEnd);
+        btnRight.classList.toggle('can-show', !atStart);
       } else {
-        btnLeft.classList.toggle('d-none', currentScroll <= 5);
-        btnRight.classList.toggle('d-none', currentScroll >= maxScroll - 5);
+        btnLeft.classList.toggle('can-show', !atStart);
+        btnRight.classList.toggle('can-show', !atEnd);
       }
     }
 
+    if (wrapper._chipsScrollHandler) {
+      wrapper.removeEventListener('scroll', wrapper._chipsScrollHandler);
+    }
+    if (window._chipsResizeHandler) {
+      window.removeEventListener('resize', window._chipsResizeHandler);
+    }
+
+    wrapper._chipsScrollHandler = updateButtonsVisibility;
+    window._chipsResizeHandler = updateButtonsVisibility;
+
+    wrapper.addEventListener('scroll', wrapper._chipsScrollHandler, { passive: true });
+    window.addEventListener('resize', window._chipsResizeHandler);
+
     btnLeft.onclick = () => {
-      wrapper.scrollBy({ left: -200, behavior: 'smooth' });
+      const isRTL = document.documentElement.getAttribute('dir') === 'rtl';
+      wrapper.scrollBy({ left: isRTL ? 200 : -200, behavior: 'smooth' });
     };
     btnRight.onclick = () => {
-      wrapper.scrollBy({ left: 200, behavior: 'smooth' });
+      const isRTL = document.documentElement.getAttribute('dir') === 'rtl';
+      wrapper.scrollBy({ left: isRTL ? -200 : 200, behavior: 'smooth' });
     };
 
-    wrapper.onscroll = updateButtonsVisibility;
-    window.addEventListener('resize', updateButtonsVisibility);
-
     setTimeout(updateButtonsVisibility, 100);
+    setTimeout(updateButtonsVisibility, 500);
   }
 
   function openPdfReader(filePath, title) {
