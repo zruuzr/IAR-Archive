@@ -5,25 +5,25 @@ on:
     paths:
       - 'pdf/*.pdf'
       - 'pdf/*.PDF'
+      - 'pdf/*.zip'
+      - 'pdf/*.ZIP'
 
 permissions:
   contents: write
 
-# ✅ منع تداخل التشغيلات المتزامنة لحماية بيانات books.json من التلف
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: auto-process-books
   cancel-in-progress: false
 
 jobs:
   process-pdf:
     runs-on: ubuntu-latest
-    timeout-minutes: 10 # ✅ إيقاف الـ Job تلقائياً إذا تجاوزت 10 دقائق لمنع استنزاف الموارد
-
+    timeout-minutes: 30
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # ✅ جلب السجل الكامل لتفادي أخطاء الـ rebase
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -34,6 +34,15 @@ jobs:
         run: |
           pip install google-genai pypdf
 
+      - name: Verify API Key
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          if [ -z "$GEMINI_API_KEY" ]; then
+            echo "::error::GEMINI_API_KEY is not set in repository secrets."
+            exit 1
+          fi
+
       - name: Run Extraction Script
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
@@ -43,24 +52,17 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          
-          # ✅ حفظ التعديلات المحلية (books.json) مؤقتاً لتفريغ مساحة العمل قبل السحب
-          git stash
-          
-          # ✅ سحب أحدث التحديثات باستخدام اسم الفرع الحالي ديناميكياً
-          git pull --rebase origin ${{ github.ref_name }}
-          
-          # ✅ استعادة التعديلات المحفوظة دمجها مع التحديثات الجديدة
-          git stash pop || true
-          
-          # ✅ إضافة ملف البيانات وأي صور أغلفة جديدة تم إنشاؤها
-          git add books.json covers/
-          
-          # التحقق مما إذا كان هناك تغيير حقيقي قبل الـ commit لمنع الـ commits الفارغة
+
+          BRANCH="${{ github.ref_name }}"
+
+          git pull --rebase origin "$BRANCH" || true
+
+          git add -A
+
           if git diff --staged --quiet; then
-            echo "لم يتم العثور على أي تغييرات جديدة لتسجيلها."
+            echo "No changes to commit."
             exit 0
           fi
-          
-          git commit -m "Auto-update books.json and covers with new book info"
-          git push origin ${{ github.ref_name }}
+
+          git commit -m "Auto-update books.json with new book info [skip ci]"
+          git push origin "$BRANCH"
