@@ -797,8 +797,9 @@
     fallbackContainer.style.display = 'block';
 
     const absoluteUrl = new URL(filePath, window.location.href).href;
-    // استخدام قارئ المتصفح المدمج مباشرة لدعم الملفات الكبيرة (تخطي قيود عارض جوجل)
-    iframe.src = absoluteUrl;
+    
+    // استخدام عارض Mozilla PDF.js الرسمي لعرض الملفات الكبيرة والصغيرة داخل الصفحة مباشرة بدون تحميل
+    iframe.src = `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(absoluteUrl)}`;
 
     pdfModal.show();
   }
