@@ -2,6 +2,7 @@ import os
 import json
 import shutil
 import tempfile
+import zipfile
 from google import genai
 from google.genai import types
 from pypdf import PdfReader
@@ -13,7 +14,7 @@ client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
 
 JSON_PATH = "books.json"
 PDF_DIR = "pdf"
-MODEL_NAME = "gemini-3.6-flash"
+MODEL_NAME = "gemini-2.5-flash"
 
 JSON_SCHEMA_PROMPT = """
 أنت مفهرس كتب محترف. قم باستخراج بيانات الكتاب وصغ البيانات داخل JSON يلتزم بالهيكل التالي حرفياً وبدون أي تغيير في أسماء الحقول أو إضافة حقول خارجية:
@@ -43,6 +44,77 @@ JSON_SCHEMA_PROMPT = """
 
 أعد فقط كائن JSON واحد بدون أي نص إضافي قبله أو بعده.
 """
+
+
+def fix_zip_filename(name):
+    """إصلاح أسماء الملفات العربية المشوّهة داخل ZIP المضغوط بترميز قديم."""
+    try:
+        return name.encode("cp437").decode("utf-8")
+    except (UnicodeEncodeError, UnicodeDecodeError):
+        return name
+
+
+def safe_zip_member(member):
+    """منع Zip Slip: التأكد من أن المسار داخل ZIP آمن ولا يحتوي على .. أو مسار مطلق."""
+    if not member or member.endswith("/"):
+        return False
+    normalized = os.path.normpath(member)
+    if normalized.startswith("..") or os.path.isabs(normalized):
+        return False
+    if ".." in normalized.split(os.sep):
+        return False
+    return True
+
+
+def extract_zip_files(pdf_dir):
+    """فك ضغط جميع ملفات ZIP الموجودة في مجلد pdf واستخراج ملفات PDF منها، ثم حذف ملف ZIP."""
+    if not os.path.exists(pdf_dir):
+        return
+
+    for file_name in sorted(os.listdir(pdf_dir)):
+        if not file_name.lower().endswith(".zip"):
+            continue
+
+        zip_path = os.path.join(pdf_dir, file_name)
+        print(f"Extracting ZIP archive: {file_name}")
+
+        try:
+            with zipfile.ZipFile(zip_path, "r") as zf:
+                for raw_member in zf.namelist():
+                    member = fix_zip_filename(raw_member)
+                    if not member.lower().endswith(".pdf"):
+                        continue
+                    if not safe_zip_member(member):
+                        print(f"  Skipped unsafe path: {member}")
+                        continue
+
+                    base_name = os.path.basename(member)
+                    if not base_name:
+                        continue
+
+                    target_path = os.path.join(pdf_dir, base_name)
+
+                    if os.path.exists(target_path):
+                        base, ext = os.path.splitext(base_name)
+                        counter = 1
+                        while os.path.exists(os.path.join(pdf_dir, f"{base}_{counter}{ext}")):
+                            counter += 1
+                        target_path = os.path.join(pdf_dir, f"{base}_{counter}{ext}")
+
+                    try:
+                        with zf.open(raw_member) as source, open(target_path, "wb") as target:
+                            shutil.copyfileobj(source, target)
+                        print(f"  Extracted: {os.path.basename(target_path)}")
+                    except Exception as inner_error:
+                        print(f"  Failed to extract {member}: {inner_error}")
+
+            os.remove(zip_path)
+            print(f"Removed ZIP archive: {file_name}")
+
+        except zipfile.BadZipFile:
+            print(f"Invalid ZIP file (not a zip archive): {file_name}")
+        except Exception as e:
+            print(f"Error extracting {file_name}: {e}")
 
 
 def get_file_info(file_path):
@@ -102,6 +174,10 @@ def extract_json_object(raw_text):
     return json.loads(json_str)
 
 
+# ===== 1. فك ضغط أي ملفات ZIP قبل بدء المعالجة =====
+extract_zip_files(PDF_DIR)
+
+# ===== 2. قراءة البيانات الحالية من books.json =====
 if os.path.exists(JSON_PATH):
     try:
         with open(JSON_PATH, "r", encoding="utf-8") as f:
@@ -113,12 +189,13 @@ else:
 
 existing_files = {os.path.normpath(book.get("file_path", "")) for book in books_data}
 
+# ===== 3. معالجة ملفات PDF =====
 if os.path.exists(PDF_DIR):
     for file_name in sorted(os.listdir(PDF_DIR)):
         if not file_name.lower().endswith(".pdf"):
             continue
 
-        file_path = f"{PDF_DIR}/{file_name}"
+        file_path = os.path.join(PDF_DIR, file_name)
         normalized_path = os.path.normpath(file_path)
 
         if normalized_path in existing_files:
@@ -152,8 +229,7 @@ if os.path.exists(PDF_DIR):
                         model=MODEL_NAME,
                         contents=contents_payload,
                         config=types.GenerateContentConfig(
-                            response_mime_type="application/json",
-                            automatic_function_calling=types.AutomaticFunctionCallingConfig(disable=True)
+                            response_mime_type="application/json"
                         )
                     )
                     if response and response.text:
@@ -180,11 +256,10 @@ if os.path.exists(PDF_DIR):
             new_book["cover_image"] = f"covers/{new_book['id']}.png"
 
             books_data.append(new_book)
+            existing_files.add(normalized_path)
 
             with open(JSON_PATH, "w", encoding="utf-8") as f:
                 json.dump(books_data, f, ensure_ascii=False, indent=2)
-
-            existing_files.add(normalized_path)
 
             print(f"Successfully added and saved: {new_book.get('title')}")
 
