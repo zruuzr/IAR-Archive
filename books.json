@@ -1,68 +1,1147 @@
-name: Auto Extract Book Info
-
-on:
-  push:
-    paths:
-      - 'pdf/*.pdf'
-      - 'pdf/*.PDF'
-      - 'pdf/*.zip'
-      - 'pdf/*.ZIP'
-
-permissions:
-  contents: write
-
-concurrency:
-  group: auto-process-books
-  cancel-in-progress: false
-
-jobs:
-  process-pdf:
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
-
-      - name: Install Dependencies
-        run: |
-          pip install google-genai pypdf
-
-      - name: Verify API Key
-        env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: |
-          if [ -z "$GEMINI_API_KEY" ]; then
-            echo "::error::GEMINI_API_KEY is not set in repository secrets."
-            exit 1
-          fi
-
-      - name: Run Extraction Script
-        env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: python process_books.py
-
-      - name: Commit and Push Changes
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
-          BRANCH="${{ github.ref_name }}"
-
-          git pull --rebase origin "$BRANCH" || true
-
-          git add -A
-
-          if git diff --staged --quiet; then
-            echo "No changes to commit."
-            exit 0
-          fi
-
-          git commit -m "Auto-update books.json with new book info"
-          git push origin "$BRANCH"
+[
+  {
+    "id": 1,
+    "title": "فن الخطابة",
+    "title_en": "The Art of Public Speaking",
+    "author": "ديل كارنيجي",
+    "author_en": "Dale Carnegie",
+    "category": "المهارات القيادية والإدارية",
+    "category_en": "Leadership & Management Skills",
+    "type": "دليل تطبيقي",
+    "type_en": "Practical Guide",
+    "description": "دليل عملي وتطبيقي يهدف إلى التغلب على الخوف من مواجهة الجمهور، وتنمية الشجاعة والثقة بالنفس، وإتقان مهارات الإلقاء والتحضير الفعّال للخطب للتأثير في الآخرين.",
+    "description_en": "A practical guide aiming to overcome stage fright, build self-confidence, and master public speaking and speech preparation skills to effectively influence audiences.",
+    "publisher": "الأهلية للنشر والتوزيع",
+    "publisher_en": "Al-Ahlia Publishing & Distribution",
+    "year": "1998",
+    "pages": "173",
+    "file_size": "2.40 MB",
+    "file_type": "PDF",
+    "isbn": "",
+    "keywords": [
+      "فن الخطابة",
+      "الثقة بالنفس",
+      "تنمية الشجاعة",
+      "التأثير بالناس",
+      "تحضير الخطاب",
+      "تحسين الذاكرة"
+    ],
+    "keywords_en": [
+      "Public Speaking",
+      "Self-Confidence",
+      "Developing Courage",
+      "Influencing People",
+      "Speech Preparation",
+      "Memory Improvement"
+    ],
+    "key_points": [
+      "آليات التغلب على التوتر والتصرف بشجاعة أمام الجمهور.",
+      "طرق التحضير الصحيح للخطاب واختيار الموضوع والتفكير الهادف.",
+      "قوانين التذكر الطبيعية (الانطباع، التكرار، ترابط الأفكار) لترتيب عناصر الخطاب.",
+      "مبادئ الإلقاء الجيد، وتنسيق الصوت، وتجنب التكلف لاستحواذ اهتمام المستمعين."
+    ],
+    "key_points_en": [
+      "Mechanisms for overcoming anxiety and acting courageously before an audience.",
+      "Methods for proper speech preparation, topic selection, and purposeful thinking.",
+      "Natural memory laws (impression, repetition, association) for structuring speech points.",
+      "Principles of good delivery, vocal variety, and avoiding artificiality to captivate listeners."
+    ],
+    "target_audience": "المتحدثون الرسميون، المدراء التنفيذيون، الخطباء، وكل من يرغب في كسر حاجز الخوف وتطوير مهارات التواصل والعرض.",
+    "target_audience_en": "Official spokespersons, executive managers, speakers, and anyone looking to overcome fear and improve presentation skills.",
+    "cover_image": "covers/1.png",
+    "file_path": "pdf/فن_الخطابة.pdf"
+  },
+  {
+    "id": 2,
+    "title": "ثقافة إدارية",
+    "title_en": "Administrative Culture",
+    "author": "يوسف بن محمد القبلان",
+    "author_en": "Yousef Bin Mohammad Al-Qablan",
+    "category": "العلوم والإدارة العامة",
+    "category_en": "Public Administration & Governance",
+    "type": "دليل إداري متكامل",
+    "type_en": "Comprehensive Administrative Guide",
+    "description": "دليل إداري شامل يجمع 15 عدداً من النشرات التثقيفية الصادرة عن التخطيط والتطوير الإداري بوزارة المعارف، يستعرض مهارات القيادة، التنظيم، التفويض، والتخطيط الإداري.",
+    "description_en": "A comprehensive administrative guide compiling 15 issues of educational bulletins published by Administrative Planning and Development, covering leadership skills, organization, delegation, and planning.",
+    "publisher": "وزارة المعارف - التخطيط والتطوير الإداري",
+    "publisher_en": "Ministry of Education - Administrative Planning & Development",
+    "year": "1998",
+    "pages": "360",
+    "file_size": "22.50 MB",
+    "file_type": "PDF",
+    "isbn": "",
+    "keywords": [
+      "ثقافة إدارية",
+      "التطوير الإداري",
+      "القيادة",
+      "التفويض",
+      "التنظيم الجيد",
+      "إدارة الوقت"
+    ],
+    "keywords_en": [
+      "Administrative Culture",
+      "Administrative Development",
+      "Leadership",
+      "Delegation",
+      "Good Organization",
+      "Time Management"
+    ],
+    "key_points": [
+      "آليات القيادة الكفؤة وتمكين الموظفين من اتخاذ القرارات.",
+      "التمييز بين أعراض التنظيم السليم والتنظيم المريض في المؤسسات.",
+      "مقومات التخطيط الناجح وعوائق الإنجاز وكيفية معالجتها.",
+      "أهمية التفويض الفعال لبناء الثقة وتنمية مهارات فريق العمل."
+    ],
+    "key_points_en": [
+      "Efficient leadership mechanisms and empowering employees in decision-making.",
+      "Distinguishing between symptoms of good and unhealthy organizational structures.",
+      "Elements of successful planning and overcoming barriers to achievement.",
+      "The importance of effective delegation in building trust and team skills."
+    ],
+    "target_audience": "المدراء التنفيذيون، القادة الإداريون، المستشارون، وجميع العاملين في قطاعات التطوير والتخطيط الإداري.",
+    "target_audience_en": "Executive managers, administrative leaders, consultants, and personnel in organizational development.",
+    "cover_image": "covers/2.png",
+    "file_path": "pdf/ثقافة إدارية.pdf"
+  },
+  {
+    "id": 3,
+    "title": "مناهج البحث العلمي: تطبيقات إدارية واقتصادية",
+    "title_en": "Scientific Research Methodology: Administrative and Economic Applications",
+    "author": "أحمد حسين الرفاعي",
+    "author_en": "Ahmad Hussein Al-Rifai",
+    "category": "مناهج البحث العلمي والعلوم الإدارية والاقتصادية",
+    "category_en": "Research Methodology, Administrative & Economic Sciences",
+    "type": "كتاب أكاديمي / مرجع جامعي",
+    "type_en": "Academic Book / University Reference",
+    "description": "مرجع أكاديمي شمول يهدف إلى تزويد الباحث والطالب بالمعرفة المتكاملة لإعداد البحوث والتقارير العلمية المتخصصة في العلوم الإدارية والاقتصادية، مع التركيز على طبيعة البحث العلمي، صياغة الفروض، مناهج البحث، أساليب جمع البيانات والعينات، والتحليل الإحصائي للبيانات.",
+    "description_en": "A comprehensive academic reference aimed at equipping students and researchers with integrated knowledge for preparing scientific research and specialized reports in administrative and economic sciences. It covers research nature, hypothesis formulation, research methodologies, sampling and data collection methods, and statistical data analysis.",
+    "publisher": "دار وائل للنشر والتوزيع",
+    "publisher_en": "Dar Wael for Publishing and Distribution",
+    "year": "1999",
+    "pages": "312",
+    "file_size": "23.00 MB",
+    "file_type": "PDF",
+    "isbn": "",
+    "keywords": [
+      "مناهج البحث العلمي",
+      "تطبيقات إدارية واقتصادية",
+      "اختبار الفرضيات",
+      "جمع البيانات والعينات",
+      "التحليل الإحصائي"
+    ],
+    "keywords_en": [
+      "Scientific Research Methodology",
+      "Administrative and Economic Applications",
+      "Hypothesis Testing",
+      "Data Collection and Sampling",
+      "Statistical Analysis"
+    ],
+    "key_points": [
+      "طبيعة البحث العلمي وتطبيقاته في العلوم الإدارية والاقتصادية وواقع البحث في الوطن العربي",
+      "الاستقراء والاستنتاج، الصياغة العلمية للفرضيات، وتصميم البحوث",
+      "أنواع مناهج البحث (المنهج الوصفي والمنهج التجريبي)",
+      "وسائل جمع البيانات الميدانية (العينات، الاستبيان، المقابلة، الملاحظة، واستخدام المكتبة)",
+      "تبويب البيانات وتحليلها إحصائياً (اختبار الفرضيات، الانحدار، والارتباط) والنواحي الفنية لكتابة التقرير"
+    ],
+    "key_points_en": [
+      "Nature of scientific research and its applications in administrative and economic sciences",
+      "Induction and deduction, scientific hypothesis formulation, and research design",
+      "Research methodologies (Descriptive and Experimental methods)",
+      "Field data collection tools (Sampling, Questionnaires, Interviews, Observation, and Library use)",
+      "Data tabulation, statistical analysis (Hypothesis testing, Regression, Correlation), and technical aspects of report writing"
+    ],
+    "target_audience": "طلاب الدراسات الأولية والعليا، والباحثون والمتخصصون في مجالات العلوم الإدارية والاقتصادية والاجتماعية",
+    "target_audience_en": "Undergraduate and postgraduate students, researchers, and specialists in administrative, economic, and social sciences",
+    "cover_image": "covers/3.png",
+    "file_path": "pdf/مناهج البحث العلمي.pdf"
+  },
+  {
+    "id": 4,
+    "title": "بيتر دروكر والإدارة",
+    "title_en": "Peter Drucker and Management",
+    "author": "كارين إي. لينكلتر",
+    "author_en": "Karen E. Linkletter",
+    "category": "الإدارة والنظرية الاجتماعية",
+    "category_en": "Management & Social Theory",
+    "type": "كتاب أكاديمي / دراسة بيوغرافية",
+    "type_en": "Academic Book / Biographical Study",
+    "description": "يقدم الكتاب دراسة تحليلية شاملة للمفكر بيتر دروكر، موضّحاً أنه لم يكن مجرد خبير إداري بل منظراً اجتماعياً وفيلسوفاً، حيث يستعرض جذوره الأوروبية، وتأثير تجربته في العصر بين الحربين العالميين على صياغة مفاهيمه حول المجتمع المؤسسي، مجتمع المعرفة، الابتكار، والقيادة الفعالة.",
+    "description_en": "Presents a comprehensive analytical study of Peter Drucker, highlighting him not merely as a management expert but as a social theorist and philosopher. It explores his European roots and how his interwar experiences shaped his concepts of a functioning society, the knowledge society, innovation, and effective leadership.",
+    "publisher": "روتليدج (مجموعة تايلور وفرانسيس)",
+    "publisher_en": "Routledge (Taylor & Francis Group)",
+    "year": "2024",
+    "pages": "205",
+    "file_size": "13.00 MB",
+    "file_type": "PDF",
+    "isbn": "9781032531335",
+    "keywords": [
+      "بيتر دروكر",
+      "الإدارة",
+      "النظرية الاجتماعية",
+      "مجتمع المعرفة",
+      "الابتكار",
+      "الريادة",
+      "القيادة"
+    ],
+    "keywords_en": [
+      "Peter Drucker",
+      "Management",
+      "Social Theory",
+      "Knowledge Society",
+      "Innovation",
+      "Entrepreneurship",
+      "Leadership",
+      "Social Ecology"
+    ],
+    "key_points": [
+      "تأصيل بيتر دروكر كمنظر اجتماعي وباحث إكولوجي قبل كونه كاتباً إدارياً.",
+      "تأثير الخلفية النمساوية والألمانية وتجربة الهروب من الفاشية في تشكيل رؤيته للمجتمع المؤسسي.",
+      "مفهوم 'الإدارة كفن حر' (Management as a Liberal Art) والربط بين القيم الأخلاقية والإنتاجية.",
+      "التحول من الاقتصاد الصناعي المادي إلى 'مجتمع المعرفة' وإدارة عمال المعرفة.",
+      "نقد القيادة الكاريزمية والتركيز على القيادة القائمة على الأخلاق والأداء والمسؤولية.",
+      "مفهوم الابتكار المنظم و'التدمير الخلاق' المتأثر بأفكار جوزيف شومبيتر."
+    ],
+    "key_points_en": [
+      "Positioning Peter Drucker as a social theorist and social ecologist rather than strictly a management writer.",
+      "The impact of his Austrian/German background and escape from fascism on shaping his view of a functioning society.",
+      "The concept of 'Management as a Liberal Art' integrating moral values with organizational productivity.",
+      "The shift from an industrial/manual economy to the 'Knowledge Society' and managing knowledge workers.",
+      "Critique of charismatic leadership in favor of character, ethical performance, and responsibility.",
+      "Systematic innovation and 'Creative Destruction' influenced by Joseph Schumpeter's economic theories."
+    ],
+    "target_audience": "المدراء التنفيذيون، الأكاديميون، الباحثون في الفكر الإداري والنظرية الاجتماعية، وطلاب إدارة الأعمال.",
+    "target_audience_en": "Executive managers, academics, researchers in management thought & social theory, and business students.",
+    "cover_image": "covers/4.png",
+    "file_path": "pdf/Peter Drucker and Management.pdf"
+  },
+  {
+    "id": 5,
+    "title": "الناس والأداء: أفضل ما كتب بيتر دروكر في الإدارة",
+    "title_en": "People and Performance: The Best of Peter Drucker on Management",
+    "author": "بيتر ف. دروكر",
+    "author_en": "Peter F. Drucker",
+    "category": "الإدارة العامة والسلوك التنظيمي",
+    "category_en": "General Management & Organizational Behavior",
+    "type": "مرجع إداري شامل / مختارات إدارية",
+    "type_en": "Comprehensive Management Reference / Selected Readings",
+    "description": "مجموعة مختارة من أبرز مقالات وكتابات بيتر دروكر في الإدارة، تقدم إطاراً متكاملاً حول مفهوم الإدارة ونشأتها، مهام ووظائف المدير، أهداف وطبيعة المؤسسة التجارية، إدارة عمال المعرفة، والتنظيم الفعال، بالإضافة إلى المسئولية الاجتماعية والأخلاقية للإدارة في المجتمع المعاصر.",
+    "description_en": "A curated selection of Peter Drucker's foundational writings on management, providing an integrated framework on the concept and emergence of management, the manager's role and tasks, defining business purpose, managing knowledge workers, effective organization, and social responsibility.",
+    "publisher": "روتليدج (مجموعة تايلور وفرانسيس)",
+    "publisher_en": "Routledge (Taylor & Francis Group)",
+    "year": "1977",
+    "pages": "368",
+    "file_size": "38.40 MB",
+    "file_type": "PDF",
+    "isbn": "9780750625029",
+    "keywords": [
+      "الناس والأداء",
+      "بيتر دروكر",
+      "الإدارة بالأهداف",
+      "عمال المعرفة",
+      "التسويق والابتكار",
+      "الإدارة التنفيذية",
+      "المسؤولية الاجتماعية"
+    ],
+    "keywords_en": [
+      "People and Performance",
+      "Peter Drucker",
+      "Management by Objectives",
+      "Knowledge Workers",
+      "Marketing and Innovation",
+      "Executive Management",
+      "Social Responsibility"
+    ],
+    "key_points": [
+      "مفهوم الإدارة ونشأتها التاريخية كعضو حاسم في المجتمع المؤسسي الحديث.",
+      "الأبعاد الرئيسية لعمل المدير: تحديد الأهداف، التنظيم، التحفيز، قياس الأداء، وتطوير الأفراد.",
+      "تحديد غرض المؤسسة التجارية (خلق العميل) ووظيفتيها الأساسيتين (التسويق والابتكار).",
+      "مبادئ التنظيم الفعال وإدارة عمال المعرفة واستغلال نقاط القوة الشخصية لتحقيق الإنجاز.",
+      "المسؤولية الاجتماعية وأخلاقيات الإدارة والتكيف مع التغيرات في البيئات متعددة الثقافات."
+    ],
+    "key_points_en": [
+      "Core concepts of management and its historical evolution in modern institutional society.",
+      "Major dimensions of a manager's job: setting objectives, organizing, motivating, measuring, and developing people.",
+      "Defining business purpose (creating a customer) through its primary functions: marketing and innovation.",
+      "Principles of effective organization, managing knowledge workers, and leveraging human strengths.",
+      "Social responsibilities, ethics of management, and navigating multicultural global environments."
+    ],
+    "target_audience": "المدراء التنفيذيون، القادة الإداريون، عمال المعرفة، أساتذة وطلاب إدارة الأعمال، والمهتمون بفلسفة وتطبيقات الإدارة الحديثة.",
+    "target_audience_en": "Executive managers, organizational leaders, knowledge workers, business academics, students, and professionals interested in management theory and practice.",
+    "cover_image": "covers/5.png",
+    "file_path": "pdf/People and performance.pdf"
+  },
+  {
+    "id": 6,
+    "title": "التحليل المالي : وجهة نظر إدارية محاسبية",
+    "title_en": "Financial Analysis: A Managerial Accounting Perspective",
+    "author": "محمد الصيرفي",
+    "author_en": "Mohamed Al-Sairafi",
+    "category": "المحاسبة والتمويل",
+    "category_en": "Accounting and Finance",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Book",
+    "description": "كتاب متخصص يتناول موضوع التحليل المالي من منظوري الإدارة والمحاسبة، لاستعراض المفاهيم والأدوات الأساسية التي تساعد الإدارة في تقييم الأداء المالي واتخاذ القرارات الرشيدة.",
+    "description_en": "A specialized book addressing financial analysis from managerial and accounting perspectives, highlighting key concepts and tools used to evaluate financial performance and support management decision-making.",
+    "publisher": "المنهل",
+    "publisher_en": "Al Manhal",
+    "year": "2018",
+    "pages": "240",
+    "file_size": "36.40 MB",
+    "file_type": "PDF",
+    "isbn": "",
+    "keywords": [
+      "التحليل المالي",
+      "المحاسبة الإدارية",
+      "الإدارة المالية",
+      "القوائم المالية",
+      "اتخاذ القرارات"
+    ],
+    "keywords_en": [
+      "Financial Analysis",
+      "Managerial Accounting",
+      "Financial Management",
+      "Financial Statements",
+      "Decision Making"
+    ],
+    "key_points": [
+      "دراسة التحليل المالي وأهميته في بيئة الأعمال المعاصرة.",
+      "توضيح دور المحاسبة الإدارية في توفير البيانات المالية الدقيقة للتحليل.",
+      "استعراض أدوات تقييم الأداء المالي وكيفية استخدامها في التخطيط والرقابة."
+    ],
+    "key_points_en": [
+      "Studying financial analysis and its importance in modern business environments.",
+      "Clarifying the role of managerial accounting in providing accurate financial data for analysis.",
+      "Reviewing tools for evaluating financial performance and their application in planning and control."
+    ],
+    "target_audience": "طلاب المحاسبة وإدارة الأعمال، المدراء الماليون والمحاسبون، والمحللون الماليون والباحثون.",
+    "target_audience_en": "Accounting and Business Administration Students, Financial Managers and Accountants, Financial Analysts and Researchers.",
+    "cover_image": "covers/6.png",
+    "file_path": "pdf/كتاب التحليل المالي وجهة نظر ادارية محاسبية.pdf"
+  },
+  {
+    "id": 7,
+    "title": "بحوث ودراسات في قضايا إدارية معاصرة",
+    "title_en": "Researches and Studies in Contemporary Administrative Issues",
+    "author": "عبد السلام أبو قحف",
+    "author_en": "Abdel Salam Abu Keif",
+    "category": "الإدارة العامة وإدارة الأعمال",
+    "category_en": "Public Administration & Business Management",
+    "type": "كتاب أكاديمي / دراسات وبحوث",
+    "type_en": "Academic Book / Research & Studies",
+    "description": "مجموعة شاملة من البحوث والدراسات المتخصصة التي تناقش القضايا والتحديات الإدارية المعاصرة في بيئات الأعمال الحديثة، مع التركيز على التطبيقات العملية والإدارية.",
+    "description_en": "A comprehensive collection of specialized research and studies discussing contemporary administrative issues and challenges in modern business environments, with a focus on practical administrative applications.",
+    "publisher": "دار الجامعة الجديدة للنشر",
+    "publisher_en": "New University Publishing House",
+    "year": "2002",
+    "pages": "337",
+    "file_size": "15.60 MB",
+    "file_type": "PDF",
+    "isbn": "977-328-068-3",
+    "keywords": [
+      "قضايا إدارية معاصرة",
+      "إدارة الأعمال الدولية",
+      "البحوث الإدارية",
+      "التطوير الإداري",
+      "المؤسسات الإدارية"
+    ],
+    "keywords_en": [
+      "Contemporary Administrative Issues",
+      "International Business Management",
+      "Administrative Research",
+      "Administrative Development",
+      "Administrative Institutions"
+    ],
+    "key_points": [
+      "دراسة وتحليل القضايا الإدارية الحديثة والتحديات التي تواجه المؤسسات.",
+      "تقديم رؤى وأبحاث أكاديمية معتمدة لتطوير كفاءة الإدارة والأعمال.",
+      "ربط المفاهيم النظرية للإدارة بالتطبيقات العملية الميدانية."
+    ],
+    "key_points_en": [
+      "Studying and analyzing modern administrative issues and organizational challenges.",
+      "Providing verified academic research to enhance management and business efficiency.",
+      "Linking theoretical management concepts with field-based practical applications."
+    ],
+    "target_audience": "الأكاديميون، والباحثون، وطلاب الدراسات العليا في الإدارة، والمدراء الراغبون في مواكبة القضايا الإدارية الحديثة.",
+    "target_audience_en": "Academics, researchers, postgraduate business students, and managers seeking to keep up with modern administrative issues.",
+    "cover_image": "covers/7.png",
+    "file_path": "pdf/بحوث ودراسات فى قضايا ادارية معاصرة.pdf"
+  },
+  {
+    "id": 8,
+    "title": "الإدارة والتقنية: شركاء في مواجهة تحديات عصر الانترنت",
+    "title_en": "Management & Technology: Partners for Survival in the Internet Age",
+    "author": "د. محمد حسن عمر",
+    "author_en": "Mohammed H. Omar",
+    "category": "نظم المعلومات الإدارية والتقنية",
+    "category_en": "Management Information Systems & Technology",
+    "type": "كتاب متخصص",
+    "type_en": "Specialized Book",
+    "description": "كتاب متخصص يستعرض العلاقة بين الإدارة التنفيذية ودوائر تقنية المعلومات، ومفهوم الشركة السايبرناتية والتسويق السايبرناتي وإدارة الجودة الشاملة للتقنية في عصر الإنترنت.",
+    "description_en": "A specialized book exploring the relationship between executive management and IT departments, cybernetic companies, cybernetic marketing, and total quality management in the internet age.",
+    "publisher": "مكتبة العبيكان",
+    "publisher_en": "Obeikan Library",
+    "year": "1997",
+    "pages": "253",
+    "file_size": "3.49 MB",
+    "file_type": "PDF",
+    "isbn": "9960-34-259-X",
+    "keywords": [
+      "الإدارة والتقنية",
+      "عصر الإنترنت",
+      "الشركات السايبرناتية",
+      "تقنية المعلومات",
+      "إدارة الجودة الشاملة"
+    ],
+    "keywords_en": [
+      "Management & Technology",
+      "Internet Age",
+      "Cybernetic Companies",
+      "Information Technology",
+      "Total Quality Management"
+    ],
+    "key_points": [
+      "العلاقة التنظيمية بين الإدارة التنفيذية ودائرة تقنية المعلومات.",
+      "مفاهيم الشركة السايبرناتية والتسويق السايبرناتي والبنية التنظيمية الحديثة.",
+      "تطبيقات شبكات الإنترانت والإنترنت في بيئة الأعمال.",
+      "مبادئ إدارة الجودة الشاملة وتطوير وإعادة هندسة النظم التطبيقية."
+    ],
+    "key_points_en": [
+      "Organizational relationship between executive management and IT departments.",
+      "Concepts of cybernetic companies, cybernetic marketing, and modern organizational structures.",
+      "Applications of intranet and internet networks in business environments.",
+      "Principles of TQM and re-engineering of application systems."
+    ],
+    "target_audience": "المدراء التنفيذيون، مسؤولو تقنية المعلومات، والباحثون في نظم المعلومات الإدارية.",
+    "target_audience_en": "Executive managers, IT professionals, and researchers in management information systems.",
+    "cover_image": "covers/8.png",
+    "file_path": "pdf/الادارة و التقنية.pdf"
+  },
+  {
+    "id": 9,
+    "title": "مبادئ الإدارة والتنظيم",
+    "title_en": "Principles of Management and Organization",
+    "author": "دكتور مجدي عبد الله شراره",
+    "author_en": "Dr. Magdy Abdullah Sharara",
+    "category": "إدارة الأعمال",
+    "category_en": "Business Administration",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Book",
+    "description": "يتناول هذا الكتاب المدخل لعلم الإدارة وتطور الفكر الإداري عبر العصور ومفهوم التنظيم، مع التركيز على أهمية الإدارة في مواكبة التغيرات الاجتماعية والاقتصادية والتكنولوجية والمنافسة الشديدة في الأسواق الحديثة.",
+    "description_en": "This book covers the introduction to management science, the evolution of management thought through the ages, and the concept of organization, emphasizing the importance of management in keeping pace with social, economic, technological changes, and fierce market competition.",
+    "publisher": "دار الفكر العربي",
+    "publisher_en": "Dar Al Fikr Al Arabi",
+    "year": "2018",
+    "pages": "201",
+    "file_size": "3.26 MB",
+    "file_type": "PDF",
+    "isbn": "",
+    "keywords": [
+      "الإدارة",
+      "التنظيم",
+      "الفكر الإداري",
+      "مدارس الإدارة",
+      "تطوير المنظمات"
+    ],
+    "keywords_en": [
+      "Management",
+      "Organization",
+      "Management Thought",
+      "Management Schools",
+      "Organizational Development"
+    ],
+    "key_points": [
+      "تاريخ الإدارة وأهميتها منذ الحضارات القديمة وحتى العصر الحديث.",
+      "تطور الفكر الإداري ومدارس الإدارة المختلفة.",
+      "ضرورة مواكبة المنظمات للتغيرات التكنولوجية والجودة والتنافسية.",
+      "دور المدير والتنظيم في ظل الأسواق المفتوحة والتطور المستمر."
+    ],
+    "key_points_en": [
+      "The history and importance of management from ancient civilizations to the modern era.",
+      "The evolution of administrative thought and various management schools.",
+      "The necessity for organizations to keep pace with technological changes, quality, and competitiveness.",
+      "The role of management and organization in open markets and continuous development."
+    ],
+    "target_audience": "الطلاب والباحثون والعاملون في مجالات الإدارة والتنظيم وتطوير الأعمال.",
+    "target_audience_en": "Students, researchers, and professionals in management, organization, and business development.",
+    "cover_image": "covers/9.png",
+    "file_path": "pdf/كتاب الادارة والتنظيم.pdf"
+  },
+  {
+    "id": 10,
+    "title": "قضايا إدارية وتنموية معاصرة",
+    "title_en": "Contemporary Administrative and Developmental Issues",
+    "author": "مصطفى محمود أبو بكر",
+    "author_en": "Mostafa Mahmoud Abu Bakr",
+    "category": "الإدارة العامة والتنمية الإدارية",
+    "category_en": "Public Administration & Administrative Development",
+    "type": "مرجع أكاديمي",
+    "type_en": "Academic Reference",
+    "description": "مرجع شامل يناقش القضايا الإدارية والتنموية المعاصرة، مثل الحوكمة، التفكير الابتكاري، الإدارة الاستراتيجية، الشركات العائلية، وريادة الأعمال والمشروعات الصغيرة.",
+    "description_en": "A comprehensive reference discussing contemporary administrative and developmental issues, such as governance, innovative thinking, strategic management, family businesses, and entrepreneurship.",
+    "publisher": "الدار الجامعية",
+    "publisher_en": "Al-Dar Al-Jamia",
+    "year": "2015",
+    "pages": "356",
+    "file_size": "14.93 MB",
+    "file_type": "PDF",
+    "isbn": "978-977-422-326-6",
+    "keywords": [
+      "قضايا إدارية معاصرة",
+      "الحوكمة",
+      "الإدارة الاستراتيجية",
+      "ريادة الأعمال",
+      "الشركات العائلية",
+      "التفكير الابتكاري"
+    ],
+    "keywords_en": [
+      "Contemporary Administrative Issues",
+      "Governance",
+      "Strategic Management",
+      "Entrepreneurship",
+      "Family Businesses",
+      "Innovative Thinking"
+    ],
+    "key_points": [
+      "متطلبات تفعيل الحوكمة المؤسسية في الإدارة.",
+      "دور التفكير الابتكاري في تطوير جودة الخدمة العامة.",
+      "الإدارة الاستراتيجية وتنمية المزايا التنافسية.",
+      "المتطلبات التنظيمية لنجاح الشركات العائلية والمشروعات الصغيرة."
+    ],
+    "key_points_en": [
+      "Requirements for implementing corporate governance in management.",
+      "The role of innovative thinking in improving public service quality.",
+      "Strategic management and developing competitive advantages.",
+      "Organizational requirements for the success of family businesses and small projects."
+    ],
+    "target_audience": "الباحثون الأكاديميون، طلاب الدراسات العليا في إدارة الأعمال، والمدراء والمستشارون الإداريون.",
+    "target_audience_en": "Academic researchers, postgraduate business students, and administrative managers and consultants.",
+    "cover_image": "covers/10.png",
+    "file_path": "pdf/قضايا إدارية وتنموية معاصرة تأصيل علمي وتطبيق عملي.pdf"
+  },
+  {
+    "id": 11,
+    "title": "بحوث العمليات",
+    "title_en": "Operations Research",
+    "author": "ب. راما مورثي",
+    "author_en": "P. Rama Murthy",
+    "category": "الهندسة الصناعية وبحوث العمليات",
+    "category_en": "Industrial Engineering & Operations Research",
+    "type": "كتاب دراسي",
+    "type_en": "Textbook",
+    "description": "كتاب دراسي شامل يغطي موضوعات بحوث العمليات مثل البرمجة الخطية، نماذج النقل والتعيين، التحكم في المخزون، نظرية الصفوف، نظرية الألعاب، والبرمجة الديناميكية وتقنية PERT/CPM، صُمم لمساعدة طلاب الهندسة الصناعية والميكانيكية والمعلمين على فهم واستيعاب المادة بسهولة.",
+    "description_en": "A comprehensive textbook covering key Operations Research topics including Linear Programming, Transportation and Assignment models, Inventory Control, Queuing Theory, Game Theory, Dynamic Programming, and PERT/CPM, designed to help engineering students and instructors master the subject.",
+    "publisher": "نيو إيج إنترناشيونال للنشر",
+    "publisher_en": "New Age International (P) Ltd., Publishers",
+    "year": "2007",
+    "pages": "716",
+    "file_size": "3.18 MB",
+    "file_type": "PDF",
+    "isbn": "978-81-224-2944-2",
+    "keywords": [
+      "بحوث العمليات",
+      "البرمجة الخطية",
+      "التحكم في المخزون",
+      "نظرية الصفوف",
+      "نظرية الألعاب",
+      "إدارة المشاريع"
+    ],
+    "keywords_en": [
+      "Operations Research",
+      "Linear Programming",
+      "Inventory Control",
+      "Queuing Theory",
+      "Game Theory",
+      "Project Management"
+    ],
+    "key_points": [
+      "تغطية شاملة لنموذج البرمجة الخطية وطريقة السيمبلكس",
+      "شرح مفصل لنماذج النقل، التعيين، التتابع، والإحلال",
+      "دراسة أنظمة التحكم في المخزون ونظرية الانتظار (الصفوف)",
+      "تطبيقات اتخاذ القرار، المحاكاة، وتقنيات إدارة المشاريع (PERT و CPM)"
+    ],
+    "key_points_en": [
+      "Comprehensive coverage of Linear Programming models and Simplex method",
+      "Detailed explanation of Transportation, Assignment, Sequencing, and Replacement models",
+      "Study of Inventory Control systems and Queuing Theory",
+      "Applications in Decision Theory, Simulation, and Project Management (PERT and CPM)"
+    ],
+    "target_audience": "طلاب وأساتذة الهندسة الصناعية، الهندسة الميكانيكية، وإدارة الأعمال",
+    "target_audience_en": "Students and faculty in Industrial Engineering, Mechanical Engineering, and Management Science",
+    "cover_image": "covers/11.png",
+    "file_path": "pdf/Operations Research.pdf"
+  },
+  {
+    "id": 12,
+    "title": "إدارة المشاريع الحديثة: الدمج الناجح لمجالات معرفة وعمليات إدارة المشاريع",
+    "title_en": "Modern Project Management: Successfully Integrating Project Management Knowledge Areas and Processes",
+    "author": "نورمان ر. هاوز",
+    "author_en": "Norman R. Howes",
+    "category": "إدارة الأعمال والقيادة",
+    "category_en": "Business & Leadership",
+    "type": "كتاب أكاديمي / مهني",
+    "type_en": "Academic / Professional Book",
+    "description": "يقدم هذا الكتاب دليلاً شاملاً حول كيفية دمج مجالات المعرفة والعمليات المختلفة في إدارة المشاريع الحديثة، مع التركيز على التخطيط، والمراقبة، وتقييم الأداء، وقياس الإنتاجية، وإدارة المخاطر، وإعادة توجيه المشاريع المتعثرة.",
+    "description_en": "This book provides a comprehensive guide on integrating various project management knowledge areas and processes in modern practice, focusing on planning, monitoring, performance evaluation, productivity measurement, risk management, and rescuing failing projects.",
+    "publisher": "أماكوم (AMACOM)",
+    "publisher_en": "AMACOM",
+    "year": "2001",
+    "pages": "306",
+    "file_size": "12.62 MB",
+    "file_type": "PDF",
+    "isbn": "0-8144-0632-7",
+    "keywords": [
+      "إدارة المشاريع",
+      "التخطيط",
+      "تقييم الأداء",
+      "إدارة المخاطر",
+      "هيكل تجزئة العمل"
+    ],
+    "keywords_en": [
+      "Project Management",
+      "Planning",
+      "Performance Evaluation",
+      "Risk Management",
+      "Work Breakdown Structure"
+    ],
+    "key_points": [
+      "شرح كيفية تقسيط العمل وجدولته وميزانيته باستخدام أدوات إدارة المشاريع الحديثة.",
+      "تحديد أساليب قياس الإنتاجية وتحليل الانحرافات في التكلفة والجدول الزمني.",
+      "تقديم استراتيجيات لإدارة المخاطر وإنقاذ المشاريع المتعثرة."
+    ],
+    "key_points_en": [
+      "Explains how to subdivide, schedule, and budget work using modern project tools.",
+      "Identifies methods for measuring productivity and analyzing cost and schedule variances.",
+      "Provides strategies for risk management and rescuing failing projects."
+    ],
+    "target_audience": "مديرو المشاريع، والمهنيون في مجال إدارة الأعمال، والطلاب والمتخصصون في الإدارة.",
+    "target_audience_en": "Project managers, business management professionals, students, and practitioners in administration.",
+    "cover_image": "covers/12.png",
+    "file_path": "pdf/Modern Project Management.pdf"
+  },
+  {
+    "id": 13,
+    "title": "التقنيات الكمية في إدارة الأعمال: محاضرات وتمارين (الجزء الأول)",
+    "title_en": "Quantitative Techniques in Business Administration: Lectures and Exercises (Part 1)",
+    "author": "د. مفيدة يحياوي",
+    "author_en": "Dr. Mofida Yahiaoui",
+    "category": "علوم التسيير وإدارة الأعمال",
+    "category_en": "Management Sciences & Business Administration",
+    "type": "كتاب جامعي / محاضرات وتمارين",
+    "type_en": "Academic Textbook / Lectures and Exercises",
+    "description": "كتاب أكاديمي يتناول التقنيات الكمية ونماذجها العلمية المستعملة في اتخاذ القرارات ومعالجة مشاكل التسيير في المؤسسات. يغطي الجزء الأول أساليب التنبؤ قصير الأجل (النوعية والكمية)، والبرمجة الخطية وطرق حلها المختلفة، والبرمجة بالأعداد الصحيحة، إضافة إلى مسألة النقل وحالاتها الخاصة، مرفقة بمحاضرات ومجموعة من التمارين المحلولة.",
+    "description_en": "An academic textbook covering quantitative techniques and scientific models used for decision-making and solving management problems in organizations. Part One covers short-term forecasting methods (qualitative and quantitative), linear programming and its solution methods, integer programming, and transportation problems with special cases, supported by lectures and solved exercises.",
+    "publisher": "جامعة بسكرة",
+    "publisher_en": "University of Biskra",
+    "year": "2026",
+    "pages": "188",
+    "file_size": "3.60 MB",
+    "file_type": "PDF",
+    "isbn": "",
+    "keywords": [
+      "التقنيات الكمية",
+      "إدارة الأعمال",
+      "التنبؤ قصير الأجل",
+      "البرمجة الخطية",
+      "طريقة السمبلاكس",
+      "مسألة النقل",
+      "علوم التسيير",
+      "اتخاذ القرارات"
+    ],
+    "keywords_en": [
+      "Quantitative Techniques",
+      "Business Administration",
+      "Short-term Forecasting",
+      "Linear Programming",
+      "Simplex Method",
+      "Transportation Problem",
+      "Management Sciences",
+      "Decision Making"
+    ],
+    "key_points": [
+      "تقديم الطرق العلمية والتقنيات النظامية للتعامل مع مشكلات التسيير واتخاذ القرارات الإدارية المثلى.",
+      "استعراض أساليب التنبؤ في الأجل القصير بشقيها النوعي (طريقة دلفي، مسح السوق) والكمي (المتوسطات المتحركة، الانحدار البسيط، التمهيد الأسي).",
+      "شرح مفصل للبرمجة الخطية وطرق حلها البيانية والجبرية والسمبلاكس مع تحليل الحساسية.",
+      "دراسة البرمجة بالأعداد الصحيحة (طريقة جوموري) ومسألة النقل وتطبيق تمارين محلولة في مجال التسيير."
+    ],
+    "key_points_en": [
+      "Presenting scientific methods and systematic quantitative techniques for handling management problems and making optimal administrative decisions.",
+      "Reviewing short-term forecasting techniques, both qualitative (Delphi method, market survey) and quantitative (moving averages, simple regression, exponential smoothing).",
+      "Detailed explanation of linear programming, its graphical, algebraic, and simplex solution methods, along with sensitivity analysis.",
+      "Studying integer programming (Gomory's method) and transportation problems, supported by solved practical management exercises."
+    ],
+    "target_audience": "طلبة وباحثو العلوم الاقتصادية والتجارية وعلوم التسيير، والمسيرون ومتخذو القرارات في المؤسسات والتنظيمات.",
+    "target_audience_en": "Students and researchers in Economics, Commercial, and Management Sciences, as well as institutional managers and decision-makers.",
+    "cover_image": "covers/13.png",
+    "file_path": "pdf/التقنيات الكمية في ادارة الاعمال.pdf"
+  },
+  {
+    "id": 14,
+    "title": "إدارة المكاتب والسكرتارية (إدارة الأعمال المكتبية)",
+    "title_en": "Office Management and Secretarial Work (Office Business Management)",
+    "author": "عامر عبد الكريم أبو شحادة",
+    "author_en": "Amer Abdul Karim Abu Shehadeh",
+    "category": "إدارة الأعمال",
+    "category_en": "Business Administration",
+    "type": "كتاب تعليمي / مهني",
+    "type_en": "Educational / Professional Book",
+    "description": "كتاب متخصص في إدارة المكاتب والسكرتارية وإدارة الأعمال المكتبية، يقدم دراسة شاملة للمهارات والأساليب الإدارية الحديثة المتبعة في تنظيم المكاتب وتسهيل العمليات الإدارية والسكرتارية.",
+    "description_en": "A specialized book on office management, secretarial work, and office business administration, offering a comprehensive overview of modern administrative skills and techniques for organizing offices and facilitating secretarial operations.",
+    "publisher": "",
+    "publisher_en": "",
+    "year": "2019",
+    "pages": "158",
+    "file_size": "14.59 MB",
+    "file_type": "PDF",
+    "isbn": "",
+    "keywords": [
+      "إدارة المكاتب",
+      "السكرتارية",
+      "إدارة الأعمال المكتبية",
+      "الأعمال الإدارية",
+      "تنظيم المكاتب"
+    ],
+    "keywords_en": [
+      "Office Management",
+      "Secretarial Work",
+      "Office Business Management",
+      "Administrative Work",
+      "Office Organization"
+    ],
+    "key_points": [
+      "التعرف على المهارات الأساسية والمحورية لإدارة المكاتب والسكرتارية",
+      "تطوير الأداء الإداري وتنظيم الأعمال المكتبية في المؤسسات",
+      "تقديم دليل علمي وعملي لإدارة المكاتب الحديثة"
+    ],
+    "key_points_en": [
+      "Understanding the essential skills for office management and secretarial duties",
+      "Improving administrative performance and organizing office work in organizations",
+      "Providing a scientific and practical guide for modern office management"
+    ],
+    "target_audience": "مديرو المكاتب، الموظفون في مجال السكرتارية، طلاب إدارة الأعمال، والموظفون الإداريون",
+    "target_audience_en": "Office managers, secretarial staff, business administration students, and administrative employees",
+    "cover_image": "covers/14.png",
+    "file_path": "pdf/إدارة_المكاتب_والسكرتارية.pdf"
+  },
+  {
+    "id": 15,
+    "title": "مبادئ إدارة الأعمال",
+    "title_en": "Principles of Business Administration",
+    "author": "رائد محمد عبدربه",
+    "author_en": "Raed Muhammad Abdrabou",
+    "category": "إدارة الأعمال",
+    "category_en": "Business Administration",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Book",
+    "description": "كتاب يستعرض مبادئ وأساسيات علم إدارة الأعمال، متناولاً التطور التاريخي للإدارة منذ القُدم وحتى ظهور حركة الإدارة العلمية الحديثة. كما يسلط الضوء على إسهامات رواد الإدارة مثل فريدريك تايلور، وهنري فايول، وفرانك جيلبرت، ويشرح المفاهيم الرئيسية للإدارة كالتخطيط، والتنظيم، والرقابة، والقيادة، وتقسيم العمل وتحقيق الكفاية الإنتاجية.",
+    "description_en": "A book reviewing the principles and fundamentals of business administration, covering the historical development of management from ancient times to the emergence of the modern scientific management movement. It highlights the contributions of management pioneers such as Frederick Taylor, Henri Fayol, and Frank Gilbreth, explaining core managerial functions including planning, organizing, controlling, leadership, division of labor, and achieving productive efficiency.",
+    "publisher": "دار الجنادرية للنشر والتوزيع",
+    "publisher_en": "Dar Al-Janadria Publishing and Distribution",
+    "year": "2013",
+    "pages": "227",
+    "file_size": "18.26 MB",
+    "file_type": "PDF",
+    "isbn": "",
+    "keywords": [
+      "إدارة الأعمال",
+      "مبادئ الإدارة",
+      "الإدارة العلمية",
+      "فريدريك تايلور",
+      "الكفاية الإنتاجية",
+      "تقسيم العمل"
+    ],
+    "keywords_en": [
+      "Business Administration",
+      "Management Principles",
+      "Scientific Management",
+      "Frederick Taylor",
+      "Productive Efficiency",
+      "Division of Labor"
+    ],
+    "key_points": [
+      "تاريخ وتطور الفكر الإداري ومفهوم الإدارة العلمية بعد الثورة الصناعية.",
+      "دراسة إسهامات فريدريك تايلور في تطوير الإدارة وتطبيق دراسة الوقت والحركة.",
+      "أهمية تقسيم العمل والتخصص في تحسين الكفاءة الإنتاجية والتفريق بين العمل الفكري والتنفيذي.",
+      "توضيح الوظائف الإدارية الرئيسية من تخطيط وتنظيم ورقابة وقيادة."
+    ],
+    "key_points_en": [
+      "History and evolution of administrative thought and scientific management after the Industrial Revolution.",
+      "Study of Frederick Taylor's contributions to management development through time and motion studies.",
+      "The importance of specialization and division of labor in improving efficiency and separating intellectual work from execution.",
+      "Explanation of core administrative functions including planning, organizing, controlling, and leadership."
+    ],
+    "target_audience": "طلاب وتخصصات إدارة الأعمال، والمديرون، والمسيرون، والمهتمون بالتطوير الإداري وبحوث العلوم الإدارية.",
+    "target_audience_en": "Business administration students, managers, executives, and researchers interested in administrative development and management sciences.",
+    "cover_image": "covers/15.png",
+    "file_path": "pdf/مبـادئ إدارة الأعمـال.pdf"
+  },
+  {
+    "id": 16,
+    "title": "كيف تجعل من نفسك عاملاً فعالاً في منظمتك؟",
+    "title_en": "How to make yourself a key player within an Organization",
+    "author": "د. مؤيد الفضل، د. فيصل الفضل",
+    "author_en": "Dr. Muayad Al-Fadhl, Dr. Faisal Al-Fadhl",
+    "category": "إدارة الأعمال وتطوير الذات",
+    "category_en": "Business Administration & Self-Development",
+    "type": "كتاب",
+    "type_en": "Book",
+    "description": "مؤلف علمي ودليل عملي يهدف إلى بيان كيفية تفعيل دور الفرد داخل منظمة الأعمال ليكون عنصراً جوهرياً وفعالاً. يتناول الكتاب الخصائص الأساسية للمنظمات، والولاء التنظيمي، والثقة بالقيادة، وأخلاقيات العمل، وقوة مهارات الاتصال، إضافة إلى تطبيقات إدارة الجودة الشاملة، وإدارة المعرفة، وإدارة الوقت، وكيفية بناء وإدارة فريق العمل الكفء.",
+    "description_en": "A scientific guide and practical book aimed at illustrating how individuals can maximize their effectiveness within business organizations to become key players. It covers fundamental organizational characteristics, organizational loyalty, trust in leadership, business ethics, communication skills, Total Quality Management, Knowledge Management, Time Management, and building efficient work teams.",
+    "publisher": "تك تل",
+    "publisher_en": "Teck Tel",
+    "year": "2026",
+    "pages": "82",
+    "file_size": "8.79 MB",
+    "file_type": "PDF",
+    "isbn": "",
+    "keywords": [
+      "إدارة الأعمال",
+      "الولاء التنظيمي",
+      "أخلاقيات العمل",
+      "مهارات الاتصال",
+      "إدارة الوقت",
+      "فريق العمل",
+      "إدارة الجودة الشاملة",
+      "إدارة المعرفة"
+    ],
+    "keywords_en": [
+      "Business Administration",
+      "Organizational Loyalty",
+      "Business Ethics",
+      "Communication Skills",
+      "Time Management",
+      "Teamwork",
+      "Total Quality Management",
+      "Knowledge Management"
+    ],
+    "key_points": [
+      "فهم العناصر والخصائص الأساسية لمنظمة الأعمال (الأفراد، الهدف، الهيكل)",
+      "تعزيز الولاء التنظيمي والثقة بالقيادة والمحافظة على انضباط العمل",
+      "الالتزام بأخلاقيات الأعمال كالشرف والتكامل والصدق والاتزان السلوكي",
+      "تطوير مهارات الاتصال الفعال وتطبيق إدارة الجودة الشاملة والمعرفة والوقت",
+      "معرفة شروط وكيفية بناء فريق عمل كفء وفعال لدعم أهداف المنظمة"
+    ],
+    "key_points_en": [
+      "Understanding the essential components of a business organization (people, purpose, structure)",
+      "Enhancing organizational loyalty, trust in leadership, and maintaining order",
+      "Adhering to business ethics including integrity, honesty, and balanced behavior",
+      "Developing effective communication skills and applying quality, knowledge, and time management",
+      "Learning the requirements and methods for building efficient and effective work teams"
+    ],
+    "target_audience": "الموظفون والعاملون في مختلف المنظمات والشركات، والمدراء، والباحثون والطلاب في مجال إدارة الأعمال.",
+    "target_audience_en": "Employees, corporate staff, managers, researchers, and students in the field of business administration.",
+    "cover_image": "covers/16.png",
+    "file_path": "pdf/كيف تجعل من نفسك عامل فعال في منظمتك.pdf"
+  },
+  {
+    "id": 17,
+    "title": "دراسات ميدانية في إدارة الأعمال",
+    "title_en": "Field Studies in Business Administration",
+    "author": "بلكبير بومدين",
+    "author_en": "Belkbir Boumediene",
+    "category": "إدارة الأعمال",
+    "category_en": "Business Administration",
+    "type": "دراسة أكاديمية",
+    "type_en": "Academic Study",
+    "description": "كتاب يتناول أسس وقضايا إدارة الأعمال في المنظمات المعاصرة، مع التركيز على أهمية الثقافة التنظيمية، وإدارة التغيير، والتوجه نحو السوق، والابتكار لتحقيق الميزة التنافسية والأداء المتميز في المؤسسات.",
+    "description_en": "A book addressing the foundations and issues of business administration in contemporary organizations, focusing on the importance of organizational culture, change management, market orientation, and innovation to achieve competitive advantage and superior performance.",
+    "publisher": "الأرشيف الإداري العراقي",
+    "publisher_en": "IAR Archive",
+    "year": "2026",
+    "pages": "203",
+    "file_size": "1.92 MB",
+    "file_type": "PDF",
+    "isbn": "",
+    "keywords": [
+      "إدارة الأعمال",
+      "الثقافة التنظيمية",
+      "الابتكار",
+      "الأداء التنظيمي",
+      "التوجه نحو السوق",
+      "إدارة التغيير"
+    ],
+    "keywords_en": [
+      "Business Administration",
+      "Organizational Culture",
+      "Innovation",
+      "Organizational Performance",
+      "Market Orientation",
+      "Change Management"
+    ],
+    "key_points": [
+      "دور الثقافة التنظيمية القوية في دعم الابتكار وتحسين مستويات الأداء المالي والتشغيلي.",
+      "أهمية التوجه نحو السوق كفلسفة إدارية تركز على إشباع رغبات الزبائن بدرجة أفضل من المنافسين.",
+      "ضرورة إدارة التغيير بكفاءة للاستفادة من الفرص وتقليل التهديدات البيئية.",
+      "تشجيع ورعاية التميز والمبدعين للنهوض بواقع المنظمات في البيئة العربية."
+    ],
+    "key_points_en": [
+      "The role of strong organizational culture in supporting innovation and improving financial and operational performance.",
+      "The importance of market orientation as a management philosophy focused on customer satisfaction better than competitors.",
+      "The necessity of efficient change management to leverage opportunities and reduce environmental threats.",
+      "Encouraging and nurturing excellence and innovators to advance organizations in the Arab environment."
+    ],
+    "target_audience": "طلبة إدارة الأعمال والتسويق، الباحثون والمهتمون بالتطوير الإداري، إضافة إلى الممارسين ومدراء الشركات.",
+    "target_audience_en": "Business administration and marketing students, researchers, management developers, practitioners, and company managers.",
+    "cover_image": "covers/17.png",
+    "file_path": "pdf/دراسات ميدانية في إدارة الأعمال.pdf"
+  },
+  {
+    "id": 18,
+    "title": "المائة كلمة في الإدارة",
+    "title_en": "The Top 100 Words in Management",
+    "author": "غير محدد",
+    "author_en": "Unknown",
+    "category": "الإدارة والأعمال",
+    "category_en": "Management & Business",
+    "type": "دليل إداري",
+    "type_en": "Management Guide",
+    "description": "دليل إداري موجز يقدم شروحاً وتعاريف لأبرز مائة مصطلح ومفهوم جوهري في علوم الإدارة والأعمال الحديثة لتطوير الحصيلة الإدارية للممارسين والباحثين.",
+    "description_en": "A concise management guide offering explanations and definitions for the top 100 essential terms and concepts in modern business and management science.",
+    "publisher": "الأرشيف الإداري العراقي",
+    "publisher_en": "IAR Archive",
+    "year": "2026",
+    "pages": "135",
+    "file_size": "1.63 MB",
+    "file_type": "PDF",
+    "isbn": "",
+    "keywords": [
+      "الإدارة",
+      "المصطلحات الإدارية",
+      "مفاهيم إدارية",
+      "تطوير الذات",
+      "عالم الأعمال"
+    ],
+    "keywords_en": [
+      "Management",
+      "Management Terms",
+      "Business Concepts",
+      "Self-Development",
+      "Business World"
+    ],
+    "key_points": [
+      "شرح أهم وأبرز المصطلحات والمفاهيم الأساسية في علم الإدارة.",
+      "تبسيط المفاهيم المعقدة وتسهيل فهم المصطلحات الإدارية الحديثة.",
+      "مرجع سريع وشامل لمصطلحات وممارسات الإدارة والأعمال."
+    ],
+    "key_points_en": [
+      "Explanation of key terms and core concepts in management science.",
+      "Simplifying complex terminology for beginners and professionals.",
+      "Comprehensive quick reference guide for business and management terms."
+    ],
+    "target_audience": "المدراء، القادة، الباحثون، والطلاب المهتمون بإتقان مصطلحات ومفاهيم الإدارة الحديثة.",
+    "target_audience_en": "Managers, leaders, researchers, and students interested in mastering modern management terminology.",
+    "cover_image": "covers/18.png",
+    "file_path": "pdf/المائة كلمة في الإدارة.pdf"
+  },
+  {
+    "id": 19,
+    "title": "المرجع المتكامل في إدارة الأعمال: منظور كلي",
+    "title_en": "The Comprehensive Reference in Business Administration: A Holistic Perspective",
+    "author": "شوقي ناجي جواد",
+    "author_en": "Shawqi Naji Jawad",
+    "category": "إدارة الأعمال",
+    "category_en": "Business Administration",
+    "type": "كتاب مرجعي أكاديمي",
+    "type_en": "Academic Reference Book",
+    "description": "كتاب مرجعي شامل في مجال إدارة الأعمال يقدم رؤية كليّة ومتكاملة لمفاهيم الإدارة المعاصرة، حيث يناقش واقع إدارة الأعمال في الحاضر، وتطور الفكر الإداري عبر التاريخ، وتأثير الكتل البيئية والعالمية على ممارسة الإدارة، بالإضافة إلى أخلاقيات العمل والمسؤولية الاجتماعية للمؤسسات.",
+    "description_en": "A comprehensive reference book in business administration offering a holistic perspective on contemporary management concepts. It covers modern business management realities, the evolution of management thought, the impact of environmental and global blocs on management practices, as well as business ethics and corporate social responsibility.",
+    "publisher": "",
+    "publisher_en": "",
+    "year": "",
+    "pages": "553",
+    "file_size": "30.60 MB",
+    "file_type": "PDF",
+    "isbn": "",
+    "keywords": [
+      "إدارة الأعمال",
+      "الفكر الإداري",
+      "البيئة الإدارية",
+      "الكتل العالمية",
+      "أخلاقيات العمل",
+      "المسؤولية الاجتماعية"
+    ],
+    "keywords_en": [
+      "Business Administration",
+      "Management Thought",
+      "Administrative Environment",
+      "Global Blocs",
+      "Business Ethics",
+      "Social Responsibility"
+    ],
+    "key_points": [
+      "تقديم مفهوم شامل لإدارة الأعمال من منظور كلي معاصر.",
+      "تتبع التطور التاريخي والنظري للفكر الإداري.",
+      "تحليل أثر الكتل البيئية والعالمية في التطبيقات الإدارية الحديثة.",
+      "مناقشة أهمية الأخلاقيات والمسؤولية الاجتماعية في بيئة الأعمال."
+    ],
+    "key_points_en": [
+      "Providing a comprehensive concept of business administration from a modern holistic perspective.",
+      "Tracing the historical and theoretical evolution of management thought.",
+      "Analyzing the impact of environmental and global blocs on modern management practices.",
+      "Discussing the importance of ethics and social responsibility in the business environment."
+    ],
+    "target_audience": "طلاب الكليات والمعاهد المتخصصة في إدارة الأعمال، والباحثون الأكاديميون، والمديرون والتنفيذيون الساعون لتطوير معارفهم الإدارية.",
+    "target_audience_en": "Students and faculty in business schools, academic researchers, and managers or executives seeking to enhance their managerial knowledge.",
+    "cover_image": "covers/19.png",
+    "file_path": "pdf/المرجع المتكامل في إدارة الأعمال.pdf"
+  },
+  {
+    "id": 20,
+    "title": "استراتيجيات الإعلان",
+    "title_en": "Advertising Strategies",
+    "author": "شيراز محمد خضر",
+    "author_en": "Shiraz Mohammad Khadr",
+    "category": "التسويق والإعلام",
+    "category_en": "Marketing and Media",
+    "type": "كتاب أكاديمي / تعليمي",
+    "type_en": "Academic / Educational Book",
+    "description": "كتاب يتناول مفاهيم واستراتيجيات الإعلان والدعاية، وأهداف الحملات الإعلانية، وكيفية تحديد السوق المستهدف وصياغة الرسائل الإعلانية. كما يستعرض الكتاب هيكل صناعة الإعلان، ودور وكالات الإعلان والإدارة والإبداع، بالإضافة إلى دراسة تحليليّة لمختلف وسائل الإعلام التقليدية والرقمية والتغيّرات التي أحدثتها الثورة الرقمية.",
+    "description_en": "A comprehensive book exploring advertising and publicity concepts, campaign objectives, target market identification, and ad messaging strategies. It details the advertising industry structure, the role of ad agencies, account management, and creative execution, alongside an in-depth analysis of traditional and digital media channels in the digital age.",
+    "publisher": "دار الأكاديمية للطباعة والنشر والتوزيع",
+    "publisher_en": "Academy House for Printing, Publishing and Distribution",
+    "year": "2022",
+    "pages": "155",
+    "file_size": "43.53 MB",
+    "file_type": "PDF",
+    "isbn": "",
+    "keywords": [
+      "الإعلان",
+      "استراتيجيات الإعلان",
+      "التسويق",
+      "وكالات الإعلان",
+      "الحملات الإعلانية",
+      "وسائل الإعلام",
+      "الإعلان الرقمي"
+    ],
+    "keywords_en": [
+      "Advertising",
+      "Advertising Strategies",
+      "Marketing",
+      "Ad Agencies",
+      "Advertising Campaigns",
+      "Media Channels",
+      "Digital Advertising"
+    ],
+    "key_points": [
+      "التمبيز بين الإعلان والدعاية وأهمية صياغة أهداف إعلانية دقيقة للوصول إلى الجمهور المستهدف.",
+      "استعراض هيكل صناعة الإعلان الثلاثي (المعلنون، وسائل الإعلام، وكالات الإعلان).",
+      "دور تخطيط الحسابات والعمل الإبداعي والتأثير العاطفي والوظيفي للعلامة التجارية.",
+      "تحليل القنوات الإعلانية المختلفة: الصحف، المجلات، التلفزيون، البريد المباشر، والملصقات.",
+      "أثر الإنترنت والثورة الرقمية على إنفاق الإعلانات وتطور نماذج العمل الإعلاني الحديثة."
+    ],
+    "key_points_en": [
+      "Distinguishing between advertising and publicity, and setting precise campaign objectives for target audiences.",
+      "Exploring the tripartite structure of the advertising industry: advertisers, media, and ad agencies.",
+      "The role of account planning, creative execution, and emotional versus functional brand positioning.",
+      "Comparative analysis of media channels including print, television, direct mail, and outdoor advertising.",
+      "The impact of the internet and digital revolution on ad spend and modern agency business models."
+    ],
+    "target_audience": "الطلاب والمتخصصون والباحثون في مجالات التسويق والإعلام والإعلان وإدارة الأعمال.",
+    "target_audience_en": "Students, professionals, and researchers in marketing, media, advertising, and business management.",
+    "cover_image": "covers/20.png",
+    "file_path": "pdf/استراتيجيات_الإعلان.pdf"
+  },
+  {
+    "id": 21,
+    "title": "النظرية المكانية : في اختيار المكان المناسب للنشاط الاقتصادي",
+    "title_en": "The Location of Economic Activity",
+    "author": "إدجار هوفر",
+    "author_en": "Edgar M. Hoover",
+    "category": "الاقتصاد والجغرافيا الاقتصادية",
+    "category_en": "Economics & Economic Geography",
+    "type": "كتاب مترجم / دراسة أكاديمية",
+    "type_en": "Translated Book / Academic Study",
+    "description": "دراسة اقتصادية وجغرافية متخصصة تبحث في التوزيع المكاني للأنشطة الاقتصادية وكيفية اختيار الموقع المناسب للمنشآت والمصانع والأسواق. يتناول الكتاب أثر تكاليف النقل، والتكتلات الصناعية، وأسواق الأيدي العاملة، والتغيرات التكنولوجية، والسياسات والحدود السياسية على توزيع الأنشطة الاقتصادية واستقرارها.",
+    "description_en": "A specialized economic and geographical study examining the spatial distribution of economic activities and the choice of optimal locations for enterprises, factories, and markets. The book addresses the impact of transfer costs, industrial agglomeration, labor markets, technological change, and political boundaries and policies on the location and stability of economic activities.",
+    "publisher": "دار الآفاق الجديدة - بيروت",
+    "publisher_en": "Dar Al-Afaq Al-Jadida - Beirut",
+    "year": "1974",
+    "pages": "176",
+    "file_size": "12.60 MB",
+    "file_type": "PDF",
+    "isbn": "",
+    "keywords": [
+      "النظرية المكانية",
+      "اختيار الموقع الاقتصادي",
+      "تكاليف النقل",
+      "التكتل الصناعي",
+      "الجغرافيا الاقتصادية",
+      "التخطيط الاقتصادي",
+      "سوق العمل"
+    ],
+    "keywords_en": [
+      "Location Theory",
+      "Economic Activity Location",
+      "Transfer Costs",
+      "Industrial Agglomeration",
+      "Economic Geography",
+      "Economic Planning",
+      "Labor Market"
+    ],
+    "key_points": [
+      "تحليل تكاليف النقل وأثرها المباشر على التجاذب المكاني بين مصادر المواد الخام والأسواق.",
+      "دراسة أثر تكاليف الإنتاج ومجموعات عوامل الإنتاج (الأرض، العمل، رأس المال) على اختيار موقع المنشأة.",
+      "توضيح أسباب التكتل والتجمعات الصناعية وأنماط التوزع المكاني للأسواق.",
+      "تحليل أسباب التغير المكاني والتعديلات الهيكلية الناتجة عن التطور التكنولوجي وتغير نمو السكان.",
+      "بيان أهمية الحدود السياسية والسياسات الحكومية العامة في توجيه التوزيع الجغرافي للأنشطة الاقتصادية."
+    ],
+    "key_points_en": [
+      "Analysis of transfer costs and their direct impact on spatial attraction between raw material sources and markets.",
+      "Examination of production costs and input combinations (land, labor, capital) on site selection.",
+      "Explanation of industrial agglomeration, market patterns, and spatial competition.",
+      "Assessment of spatial changes and structural adjustments driven by technological progress and demographic shifts.",
+      "Evaluation of the role of political boundaries and public policies in shaping the geographical distribution of economic activities."
+    ],
+    "target_audience": "طلاب وأساتذة الاقتصاد والجغرافيا الاقتصادية، والباحثون في التخطيط العمراني والإقليمي وصناع القرار الاقتصادي.",
+    "target_audience_en": "Students and professors of economics and economic geography, urban and regional planning researchers, and economic decision-makers.",
+    "cover_image": "covers/21.png",
+    "file_path": "pdf/النظرية_المكانية_في_اختيار_المكان_المناسب_للنشاط_الاقتصادي.pdf"
+  },
+  {
+    "id": 22,
+    "title": "الموازنات التقديرية",
+    "title_en": "Estimated Budgets",
+    "author": "د. طارق عبد العال حماد",
+    "author_en": "Dr. Tarek Abdel Aal Hammad",
+    "category": "محاسبة وإدارة مالية",
+    "category_en": "Accounting and Financial Management",
+    "type": "كتاب تعليمي ومتخصص",
+    "type_en": "Educational and Specialized Book",
+    "description": "كتاب يتناول موضوع الموازنات التقديرية وكيفية إعدادها والتخطيط لها في المنشآت الاقتصادية، بالإضافة إلى دورها المحوري في الرقابة المالية وإدارة التكاليف واتخاذ القرارات الإدارية الاستراتيجية.",
+    "description_en": "A book covering the concept of estimated budgets, budget planning and preparation in business organizations, and their vital role in financial control, cost management, and strategic decision-making.",
+    "publisher": "الدار الجامعية-الاسكندرية",
+    "publisher_en": "Al-Dar Al-Jamia",
+    "year": "2009",
+    "isbn": "",
+    "keywords": [
+      "الموازنات التقديرية",
+      "التخطيط المالي",
+      "الرقابة المالية",
+      "المحاسبة الإدارية",
+      "إدارة التكاليف"
+    ],
+    "keywords_en": [
+      "Budgeting",
+      "Financial Planning",
+      "Financial Control",
+      "Managerial Accounting",
+      "Cost Management"
+    ],
+    "key_points": [
+      "مفهوم وأهمية الموازنات التقديرية في تخطيط الأعمال",
+      "خطوات وإجراءات إعداد الموازنات التشغيلية والمالية",
+      "استخدام الموازنات كأداة فعالة للرقابة وتقييم الأداء"
+    ],
+    "key_points_en": [
+      "Concept and importance of master budgets in business planning",
+      "Steps and procedures for preparing operational and financial budgets",
+      "Using budgets as an effective tool for control and performance evaluation"
+    ],
+    "target_audience": "المدراء الماليون، المحاسبون، والمختصون في الإدارة المالية وطلاب العلوم التجارية والاقتصادية",
+    "target_audience_en": "Financial managers, accountants, financial management specialists, and students of business and economics",
+    "pages": "1218",
+    "file_size": "65.21 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/الموازنات_التقديرية.pdf",
+    "cover_image": "covers/22.png"
+  }
+]
