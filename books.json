@@ -1219,5 +1219,53 @@
     "file_type": "PDF",
     "file_path": "pdf/كتب_مخاطبات_ونماذج_دعاوى_رسمية.pdf",
     "cover_image": "covers/28.png"
+  },
+  {
+    "id": 29,
+    "title": "النقود الرقمية والثورات الشعبية",
+    "title_en": "Digital Currencies and Popular Revolutions",
+    "author": "د. سامر مظهر قنطقجي",
+    "author_en": "Dr. Samer Mazhar Kantakji",
+    "category": "الاقتصاد الإسلامي",
+    "category_en": "Islamic Economics",
+    "type": "دراسة بحثية",
+    "type_en": "Research Study",
+    "description": "بحث وافٍ يناقش مفهوم النقود الرقمية والعملات المشفرة، وأبعادها الاقتصادية والاجتماعية وتأثيرها في الثورات الشعبية والتحولات المالية المعاصرة، وذلك ضمن منظار الفكر والاقتصاد الإسلامي المنشور في المجلة العالمية للاقتصاد الإسلامي (العدد 65).",
+    "description_en": "A comprehensive research article addressing the concept of digital currencies and cryptocurrencies, their economic and social dimensions, and their impact on popular revolutions and contemporary financial shifts through the lens of Islamic economics, published in the Global Islamic Economics Magazine (Issue 65).",
+    "publisher": "المجلة العالمية للاقتصاد الإسلامي",
+    "publisher_en": "Global Islamic Economics Magazine (GIEM)",
+    "year": "2017",
+    "isbn": "",
+    "keywords": [
+      "النقود الرقمية",
+      "العملات المشفرة",
+      "الثورات الشعبية",
+      "الاقتصاد الإسلامي",
+      "التقنية المالية"
+    ],
+    "keywords_en": [
+      "Digital Currencies",
+      "Cryptocurrencies",
+      "Popular Revolutions",
+      "Islamic Economics",
+      "Financial Technology"
+    ],
+    "key_points": [
+      "تحليل مفهوم ووظائف النقود الرقمية والافتراضية في النظام الاقتصادي المعاصر.",
+      "دراسة العلاقة بين انتشار التقنيات المالية الحديثة والحراك الشعبي والاقتصادي.",
+      "تقديم رؤية وتقييم فقهي واقتصادي إسلامي للتعامل بالنقود الرقمية."
+    ],
+    "key_points_en": [
+      "Analyzing the concept and functions of digital and virtual currencies in the contemporary economic system.",
+      "Examining the link between the spread of modern fintech innovations and socio-economic popular movements.",
+      "Providing an Islamic jurisprudence and economic assessment of dealing with digital currencies."
+    ],
+    "target_audience": "الباحثون والأكاديميون والمتخصصون في الاقتصاد الإسلامي والعلوم المالية والنقدية والتقنيات الحديثة.",
+    "target_audience_en": "Researchers, academics, and specialists in Islamic economics, monetary studies, and financial technologies.",
+    "pages": "112",
+    "file_size": "6.89 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/النقود_الرقمية_والثورات_الشعبية.pdf",
+    "cover_image": "covers/29.png"
   }
 ]
