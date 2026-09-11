@@ -1537,5 +1537,53 @@
     "file_type": "PDF",
     "file_path": "pdf/الاحصاء_والاحتمال.pdf",
     "cover_image": "covers/34.png"
+  },
+  {
+    "id": 35,
+    "title": "السلوك التنظيمي للمنظمات الإدارية",
+    "title_en": "Organizational Behavior for Administrative Organizations",
+    "author": "محمود يوسف عبد الرحمن",
+    "author_en": "Mahmoud Youssef Abdul Rahman",
+    "category": "إدارة الأعمال",
+    "category_en": "Business Administration",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Book",
+    "description": "يتناول هذا الكتاب دراسة السلوك التنظيمي في المنظمات الإدارية، مع تحليل التأثيرات المتبادلة بين الأفراد والبيئة التنظيمية، واستعراض المفاهيم والممارسات الإدارية التي تهدف إلى تحسين كفاءة الأداء والمستويات الإنتاجية داخل المنظمات.",
+    "description_en": "This book addresses the study of organizational behavior in administrative organizations, analyzing the mutual influences between individuals and the organizational environment, and reviewing administrative concepts and practices aimed at improving performance efficiency and productivity.",
+    "publisher": "",
+    "publisher_en": "",
+    "year": "",
+    "isbn": "",
+    "keywords": [
+      "السلوك التنظيمي",
+      "المنظمات الإدارية",
+      "الإدارة",
+      "محمود يوسف عبد الرحمن",
+      "الأداء التنظيمي"
+    ],
+    "keywords_en": [
+      "Organizational Behavior",
+      "Administrative Organizations",
+      "Management",
+      "Mahmoud Youssef Abdul Rahman",
+      "Organizational Performance"
+    ],
+    "key_points": [
+      "دراسة مفاهيم السلوك التنظيمي وأهميته في المنظمات الإدارية",
+      "تحليل العوامل المؤثرة في سلوك الأفراد والمجموعات داخل بيئة العمل",
+      "تقديم استراتيجيات ومفاهيم تسهم في تطوير الأداء الإداري والإنتاجي"
+    ],
+    "key_points_en": [
+      "Studying the concepts and importance of organizational behavior in administrative organizations",
+      "Analyzing factors influencing individual and group behavior within the workplace",
+      "Providing management concepts and strategies that contribute to enhancing administrative and productive performance"
+    ],
+    "target_audience": "الطلاب والباحثون في مجالات علوم الإدارة وإدارة الأعمال، والمدراء والمشرفون في القطاعات الإدارية المختلفة",
+    "target_audience_en": "Students and researchers in management and business administration, as well as managers and supervisors across administrative sectors",
+    "pages": "201",
+    "file_size": "17.12 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/السلوك_التنظيمي_للمنظمات_الادارية.pdf",
+    "cover_image": "covers/35.png"
   }
 ]
