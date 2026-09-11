@@ -1163,5 +1163,61 @@
     "file_type": "PDF",
     "file_path": "pdf/النظم_الاقتصادية_في_القرن_العشرين.pdf",
     "cover_image": "covers/27.png"
+  },
+  {
+    "id": 28,
+    "title": "مجموعة نماذج دعاوى وعقود قانونية",
+    "title_en": "Collection of Legal Claim Templates and Contracts",
+    "author": "شبكة قانونيون",
+    "author_en": "Lawyers Network (iraq_law5)",
+    "category": "القانون",
+    "category_en": "Law",
+    "type": "نماذج وصيغ قانونية",
+    "type_en": "Legal Forms & Templates",
+    "description": "دليل عملي وتجميع شامل لأهم اللوائح ونماذج العرائض والدعاوى القضائية والعقود الرسمية في القانون العراقي، يتضمن صيغ عقود البيع والإيجار، وعرائض الدعاوى الشرعية، والمدنية، والجزائية، ولوائح الطعن والتمييز أمام المحاكم المختلفة.",
+    "description_en": "A practical guide and comprehensive collection of essential legal petition forms, lawsuit templates, official contracts, and appeal briefs in Iraqi law. It includes draft sales and lease agreements, personal status claims, civil and criminal legal templates, and cassation briefs.",
+    "publisher": "شبكة قانونيون",
+    "publisher_en": "Lawyers Network",
+    "year": "2020",
+    "isbn": "",
+    "keywords": [
+      "نماذج دعاوى",
+      "عقود قانونية",
+      "عقود بيع عقار",
+      "عريضة دعوى",
+      "لوائح طعن وتعيين",
+      "القانون العراقي",
+      "محكمة الأحوال الشخصية",
+      "محكمة البداءة"
+    ],
+    "keywords_en": [
+      "Lawsuit Templates",
+      "Legal Contracts",
+      "Real Estate Sale Contract",
+      "Legal Petitions",
+      "Appeal Briefs",
+      "Iraqi Law",
+      "Personal Status Court",
+      "Court of First Instance"
+    ],
+    "key_points": [
+      "نماذج عقود بيع وإيجار العقارات والمحلات التجارية وإقالة العقود.",
+      "صيغ لوائح الطعن والتمييز أمام محكمة قضاء الموظفين والمنفذ العدل وإعادة المحاكمة الجزائية.",
+      "عرائض الدعاوى الشرعية كدعاوى استرداد الحضانة، ونفقة الوالدين، والحكم بموت المفقود.",
+      "دعاوى رفع الحجز عن العقارات وتخلية المأجور وفسخ الهبة المشروطة."
+    ],
+    "key_points_en": [
+      "Templates for real estate sales, commercial lease contracts, and mutual contract cancellations.",
+      "Draft appeal and cassation briefs for Employee Judiciary Court, Execution Officer decisions, and criminal retrials.",
+      "Personal status legal petitions including child custody recovery, parental alimony, and missing person death declarations.",
+      "Legal forms for property attachment removal, commercial premises eviction, and revocation of conditional gifts."
+    ],
+    "target_audience": "المحامون، الحقوقيون، القضاة، وطلاب كليات القانون والباحثون في المجال القانوني.",
+    "target_audience_en": "Lawyers, legal professionals, judges, law students, and legal researchers.",
+    "pages": "15",
+    "file_size": "2.59 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/كتب_مخاطبات_ونماذج_دعاوى_رسمية.pdf",
+    "cover_image": "covers/28.png"
   }
 ]
