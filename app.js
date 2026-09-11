@@ -758,7 +758,8 @@
     const iframe = document.getElementById('pdfFrame');
     if (!iframe) return;
     const absoluteUrl = new URL(filePath, window.location.href).href;
-    iframe.src = `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(absoluteUrl)}`;
+    // استخدام Google Docs Viewer لعرض ملفات الـ PDF بسلاسة تامة وتجاوز قيود CORS
+    iframe.src = `https://docs.google.com/gview?url=${encodeURIComponent(absoluteUrl)}&embedded=true`;
     pdfModal.show();
   }
 
@@ -998,13 +999,20 @@
     const badgeText = escapeHtml(translateDynamicText(featuredBook.badge_text, featuredBook.badge_text_en));
     const isFav = isFavorite(featuredBook.id);
 
+    const coverHtml = featuredBook.cover_image 
+      ? `<div class="cover-img-wrapper" data-action="cover-zoom" data-id="${featuredBook.id}">
+           <img src="${escapeHtml(featuredBook.cover_image)}" class="cover-img" alt="${title}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+           <div class="cover-placeholder" style="display:none;"><i class="bi bi-journal-x"></i></div>
+         </div>`
+      : `<div class="cover-placeholder"><i class="bi bi-book"></i></div>`;
+
     container.innerHTML = `
       <div class="featured-spotlight-card">
         ${badgeText ? `<div class="featured-badge-top"><i class="bi bi-star-fill"></i> ${badgeText}</div>` : ''}
         <div class="row align-items-center g-4">
           <div class="col-md-3 text-center">
-            <div class="featured-cover-container mx-auto shadow-sm">
-              <img src="${escapeHtml(featuredBook.cover_image)}" class="featured-cover-img" alt="${title}" data-action="cover-zoom" data-id="${featuredBook.id}">
+            <div class="cover-container mx-auto shadow-sm" style="width: 130px; height: 185px;">
+              ${coverHtml}
             </div>
           </div>
           <div class="col-md-9">
@@ -1211,7 +1219,7 @@
     applyFilters();
   });
 
-  document.getElementById('btnBackToList')?.addEventListener('click', hideSingleBookView);
+  document.getElementById('btnBack')?.addEventListener('click', hideSingleBookView);
 
   async function fetchBooks() {
     const loadingEl = document.getElementById('booksLoading');
