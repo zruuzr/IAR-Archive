@@ -1431,5 +1431,53 @@
     "file_type": "PDF",
     "file_path": "pdf/المسؤولية_الاجتماعية_لمنظمات_الاعمال.pdf",
     "cover_image": "covers/32.png"
+  },
+  {
+    "id": 33,
+    "title": "تدريب المدربين: النماذج والأشكال",
+    "title_en": "Training of Trainers: Forms and Formats",
+    "author": "حسين محمد حسنين",
+    "author_en": "Hussein Muhammad Hasanain",
+    "category": "التدريب وإدارة الأفراد",
+    "category_en": "Training and Personnel Management",
+    "type": "دليل عملي",
+    "type_en": "Practical Guide",
+    "description": "دليل عملي يستعرض النماذج والأشكال المستخدمة في برامج تدريب المدربين (TOT)، ويتناول تفاصيل تصميم وتخطيث الأنشطة التدريبية وتحديد العناصر الأساسية مثل أسلوب التنفيذ، الوسائل اللازمة، وتكلفة وتقويم الأنشطة.",
+    "description_en": "A practical guide detailing the forms and formats used in Training of Trainers (TOT) programs, covering the design and planning of training activities, execution methods, required tools, cost estimation, and evaluation.",
+    "publisher": "دار مجدلاوي للنشر والتوزيع",
+    "publisher_en": "Dar Majdalawi Publishing & Distribution",
+    "year": "2004",
+    "isbn": "9957-02-142-7",
+    "keywords": [
+      "تدريب المدربين",
+      "TOT",
+      "نماذج تدريبية",
+      "تخطيط النشاط التدريبي",
+      "إدارة الأفراد"
+    ],
+    "keywords_en": [
+      "Training of Trainers",
+      "TOT",
+      "Training Forms",
+      "Training Activity Planning",
+      "Personnel Management"
+    ],
+    "key_points": [
+      "عرض نماذج وأشكال عملية لإعداد وتنظيم الأنشطة التدريبية",
+      "تحديد العناصر الرئيسية لتخطيط البرنامج التدريبي كالمسمى، الفئة المستهدفة، والجهة المشرفة",
+      "توضيح أساليب التنفيذ، الوسائل المستخدمة، وطرق تقويم الأنشطة التدريبية"
+    ],
+    "key_points_en": [
+      "Presenting practical forms and templates for preparing and organizing training activities",
+      "Defining key elements of training program planning, such as title, target group, and supervising entity",
+      "Explaining implementation methods, required tools, and evaluation techniques for training activities"
+    ],
+    "target_audience": "المدربون، مصممو البرامج التدريبية، أخصائيو التدريب، ومدراء الموارد البشرية",
+    "target_audience_en": "Trainers, instructional designers, training specialists, and human resource managers",
+    "pages": "336",
+    "file_size": "33.62 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/تدريب_المدربين:النماذج_والاشكال.pdf",
+    "cover_image": "covers/33.png"
   }
 ]
