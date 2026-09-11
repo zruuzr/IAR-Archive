@@ -1267,5 +1267,61 @@
     "file_type": "PDF",
     "file_path": "pdf/النقود_الرقمية_والثورات_الشعبية.pdf",
     "cover_image": "covers/29.png"
+  },
+  {
+    "id": 30,
+    "title": "نظرية محاسبية - الجزء الثاني",
+    "title_en": "Accounting Theory - Volume 2",
+    "author": "أحمد رياحي بلقاوي",
+    "author_en": "Ahmed Riahi-Belkaoui",
+    "category": "محاسبة ومالية",
+    "category_en": "Accounting & Finance",
+    "type": "كتاب أكاديمي / مرجعي",
+    "type_en": "Academic / Reference Book",
+    "description": "كتاب أكاديمي متخصص يقدم دراسة شاملة وعميقة لنظرية المحاسبة والمداخل البحثية المختلفة في المجال المحاسبي. يتناول الكتاب المدارس الفكرية والنماذج التنظيرية المتعددة، المداخل السلوكية والتنبؤية والوضعيات المحاسبية، محاسبة القيمة الجارية والمستوى العام للأسعار، بالإضافة إلى دراسة التغيرات في مهنة المحاسبة المعاصرة وتحديات المحاسبة الدولية والمعايير العالمية.",
+    "description_en": "A specialized academic reference offering a comprehensive study of accounting theory and various research perspectives. The book covers multiple theoretical paradigms, behavioral, predictive, and positive accounting approaches, current value accounting, general price-level accounting, contemporary developments in the accounting profession, and international accounting standards.",
+    "publisher": "دار اليازوري العلمية للنشر والتوزيع",
+    "publisher_en": "Dar Al-Yazori Scientific Publishing & Distribution",
+    "year": "2009",
+    "isbn": "",
+    "keywords": [
+      "نظرية محاسبية",
+      "المحاسبة الدولية",
+      "محاسبة القيمة الجارية",
+      "المدخل السلوكي",
+      "النماذج التنظيرية",
+      "تقويم الموجودات",
+      "أحمد رياحي بلقاوي"
+    ],
+    "keywords_en": [
+      "Accounting Theory",
+      "International Accounting",
+      "Current Value Accounting",
+      "Behavioral Accounting",
+      "Theoretical Paradigms",
+      "Asset Valuation",
+      "Ahmed Riahi-Belkaoui"
+    ],
+    "key_points": [
+      "استعراض المداخل والتوجهات البحثية الحديثة في الفكر المحاسبي.",
+      "تحليل المحاسبة كعلم متعدد النماذج التنظيرية والمدارس الفكرية.",
+      "دراسة المداخل السلوكية والأحداث والقدرة التنبؤية والاتجاهات الوضعية.",
+      "تغطية تفصيلية لمحاسبة القيمة الجارية ونماذج تقويم الموجودات وتحديد الدخل.",
+      "مناقشة أبعاد ومشاكل المحاسبة الدولية والتوافق مع المعايير العالمية."
+    ],
+    "key_points_en": [
+      "Review of modern research perspectives and directions in accounting thought.",
+      "Analysis of accounting as a science of multiple paradigms and schools of thought.",
+      "Study of behavioral, event, predictive, and positive accounting approaches.",
+      "Detailed coverage of current value accounting and alternative asset valuation models.",
+      "Discussion of international accounting dimensions, challenges, and global standards harmonization."
+    ],
+    "target_audience": "طلاب الدراسات العليا، الباحثون والأكاديميون، والمختصون في مجال المحاسبة والعلوم المالية والإدارية.",
+    "target_audience_en": "Postgraduate students, academic researchers, and professionals in accounting, finance, and business administration.",
+    "pages": "502",
+    "file_size": "14.70 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/نظرية_محاسبية.pdf",
+    "cover_image": "covers/30.png"
   }
 ]
