@@ -1214,4 +1214,166 @@
                 <div class="col-6 col-md-3">${downloadControl}</div>
                 <div class="col-6 col-md-3"><button type="button" data-action="summary" data-id="${book.id}" class="btn btn-iar-action w-100"><i class="bi bi-card-text me-1"></i> ${t.summaryBtn}</button></div>
                 <div class="col-6 col-md-3"><button type="button" data-action="cite" data-id="${book.id}" class="btn btn-iar-action w-100" title="${t.citeBtn}"><i class="bi bi-quote"></i></button></div>
-                <div class="col-6"><button type="button" data-action="favorite" data-id="${book.id}" class="btn btn-iar-action w-100" title="${isFav ? t.unfavoriteBtn : t.favoriteBtn}"><i class="bi ${
+                <div class="col-6"><button type="button" data-action="favorite" data-id="${book.id}" class="btn btn-iar-action w-100" title="${isFav ? t.unfavoriteBtn : t.favoriteBtn}"><i class="bi ${isFav ? 'bi-heart-fill text-danger' : 'bi-heart'}"></i></button></div>
+                <div class="col-6"><button type="button" data-action="share" data-id="${book.id}" class="btn btn-iar-action w-100" title="${t.shareBtn}"><i class="bi bi-share"></i></button></div>
+              </div>
+            </div>
+          </div>`;
+      }).join('')}</div>`;
+    } else {
+      container.innerHTML = `
+        <div class="table-responsive bg-body rounded-3 border p-2">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+              <tr>
+                <th style="width: 40px;"></th>
+                <th>${currentLang==='en'?'Book Title':'عنوان الكتاب'}</th>
+                <th>${currentLang==='en'?'Author':'المؤلف'}</th>
+                <th>${currentLang==='en'?'Category':'التصنيف'}</th>
+                <th class="text-end">${currentLang==='en'?'Actions':'الإجراءات'}</th>
+              </tr>
+            </thead>
+            <tbody>${paginatedBooks.map(book => {
+              const isFav = isFavorite(book.id);
+              const downloadControl = book.file_path
+                ? `<button type="button" data-action="download" data-id="${book.id}" class="btn btn-primary btn-sm d-inline-flex align-items-center gap-1"><i class="bi bi-download"></i> <span class="badge bg-light text-dark" id="downloadCount-${book.id}">${book.downloadCount || 0}</span></button>`
+                : `<button type="button" class="btn btn-primary btn-sm" disabled><i class="bi bi-download"></i></button>`;
+
+              return `
+              <tr>
+                <td><input class="form-check-input" type="checkbox" ${selectedBundleIds.has(book.id) ? 'checked' : ''} data-action="bundle" data-id="${book.id}"></td>
+                <td class="fw-bold">${escapeHtml(translateDynamicText(book.title, book.title_en) || t.unknown)}</td>
+                <td class="small text-muted">${escapeHtml(translateDynamicText(book.author, book.author_en) || t.unknown)}</td>
+                <td><span class="badge-tag">${escapeHtml(translateDynamicText(book.category, book.category_en) || t.generalCat)}</span></td>
+                <td class="text-end">
+                  <div class="btn-group btn-group-sm gap-1">
+                    <button type="button" data-action="read" data-id="${book.id}" class="btn btn-outline-secondary"><i class="bi bi-eye"></i></button>
+                    ${downloadControl}
+                    <button type="button" data-action="summary" data-id="${book.id}" class="btn btn-outline-secondary"><i class="bi bi-card-text"></i></button>
+                    <button type="button" data-action="cite" data-id="${book.id}" class="btn btn-outline-secondary"><i class="bi bi-quote"></i></button>
+                    <button type="button" data-action="favorite" data-id="${book.id}" class="btn btn-outline-secondary"><i class="bi ${isFav ? 'bi-heart-fill text-danger' : 'bi-heart'}"></i></button>
+                    <button type="button" data-action="share" data-id="${book.id}" class="btn btn-outline-secondary"><i class="bi bi-share"></i></button>
+                  </div>
+                  <div class="mt-1 rating-stars" id="stars-${book.id}"></div>
+                </td>
+              </tr>`;
+            }).join('')}</tbody>
+          </table>
+        </div>`;
+    }
+
+    renderPaginationControls(totalPages);
+    paginatedBooks.forEach(b => {
+      const starsEl = document.getElementById(`stars-${b.id}`);
+      if (starsEl) renderStars(b.id, starsEl);
+    });
+  }
+
+  const searchInput = document.getElementById('searchInput');
+  const btnClearSearch = document.getElementById('btnClearSearch');
+  
+  function applyFilters() {
+    if (!booksData.length || isSingleView) return;
+    const query = searchInput?.value.trim().toLocaleLowerCase(currentLang) || '';
+    const sortValue = document.getElementById('sortOrder')?.value || 'default';
+
+    let filtered = booksData.filter(book => {
+      if (isBundleMode && !selectedBundleIds.has(book.id)) return false;
+      const keywords = currentLang === 'en' && book.keywords_en.length > 0 ? book.keywords_en.join(' ') : book.keywords.join(' ');
+      const searchableText = `${translateDynamicText(book.title, book.title_en)} ${translateDynamicText(book.author, book.author_en)} ${translateDynamicText(book.publisher, book.publisher_en)} ${translateDynamicText(book.description, book.description_en)} ${keywords}`.toLocaleLowerCase(currentLang);
+      return (query === '' || searchableText.includes(query)) && (selectedCategory === 'all' || getCategoryKey(book) === selectedCategory);
+    });
+
+    const sortMap = {
+      'default': (a, b) => {
+        if (a.featured !== b.featured) return (b.featured ? 1 : 0) - (a.featured ? 1 : 0);
+        return a.id - b.id;
+      },
+      'title': (a, b) => translateDynamicText(a.title, a.title_en).localeCompare(translateDynamicText(b.title, b.title_en), currentLang),
+      'year': (a, b) => (parseInt(b.year) || 0) - (parseInt(a.year) || 0),
+      'pages': (a, b) => (parseInt(a.pages) || 0) - (parseInt(b.pages) || 0),
+      'downloads': (a, b) => (b.downloadCount || 0) - (a.downloadCount || 0),
+      'rating': (a, b) => (b.publicRating || 0) - (a.publicRating || 0),
+      'favorites': (a, b) => {
+        const aFav = isFavorite(a.id) ? 1 : 0;
+        const bFav = isFavorite(b.id) ? 1 : 0;
+        if (aFav !== bFav) return bFav - aFav;
+        return translateDynamicText(a.title, a.title_en).localeCompare(translateDynamicText(b.title, b.title_en), currentLang);
+      }
+    };
+    filtered.sort(sortMap[sortValue] || sortMap['default']);
+
+    renderFeaturedSection(filtered);
+
+    let gridBooks = filtered;
+    if (query === '' && selectedCategory === 'all' && !isBundleMode) {
+      gridBooks = filtered.filter(b => !b.featured);
+    }
+    renderBooks(gridBooks);
+  }
+
+  searchInput?.addEventListener('input', () => {
+    if (btnClearSearch) btnClearSearch.classList.toggle('d-none', searchInput.value.trim() === '');
+    currentPage = 1;
+    debounce(applyFilters, 200)();
+  });
+  btnClearSearch?.addEventListener('click', () => { 
+    if (searchInput) searchInput.value = '';
+    if (btnClearSearch) btnClearSearch.classList.add('d-none');
+    currentPage = 1;
+    applyFilters(); 
+  });
+  document.getElementById('sortOrder')?.addEventListener('change', () => {
+    currentPage = 1;
+    applyFilters();
+  });
+
+  document.getElementById('btnBackToList')?.addEventListener('click', hideSingleBookView);
+
+  async function fetchBooks() {
+    const loadingEl = document.getElementById('booksLoading');
+    const container = document.getElementById('booksDisplayContainer');
+    if (loadingEl) loadingEl.style.display = 'none';
+
+    try {
+      const timestamp = new Date().getTime();
+      const response = await fetch(`./books.json?v=${timestamp}`, { 
+        headers: { 'Accept': 'application/json', 'Cache-Control': 'no-cache' } 
+      });
+      if (!response.ok) throw new Error(`books.json request failed (${response.status})`);
+
+      const payload = await response.json();
+      if (!Array.isArray(payload)) throw new Error('books.json must contain an array');
+
+      const usedIds = new Set();
+      booksData = payload.map(normalizeBook).filter(Boolean).filter(book => {
+        if (usedIds.has(book.id)) return false;
+        usedIds.add(book.id);
+        return true;
+      });
+
+      booksLoaded = true;
+      hydrateBundleFromUrl();
+      syncBundleUI();
+      setupChipsCategories();
+      setupChipsScrollButtons();
+      setText('booksCounter', booksData.length);
+      applyFilters();
+
+      Promise.allSettled([loadPublicRatings(), loadDownloadCounts(), updateSiteVisits()]).then(() => {
+        if (booksLoaded) applyFilters();
+      });
+
+      handleDeepLinking();
+    } catch (error) {
+      console.error('Fetch books error:', error);
+      if (container) {
+        container.innerHTML = `<div class="alert alert-danger text-center py-5"><i class="bi bi-exclamation-triangle me-2"></i> ${i18n[currentLang].errorMsg}</div>`;
+      }
+    }
+  }
+
+  initAuth();
+  applyLanguage(currentLang);
+  fetchBooks();
+})();
