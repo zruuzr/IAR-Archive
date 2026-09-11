@@ -1109,5 +1109,59 @@
     "file_type": "PDF",
     "file_path": "pdf/مدخل_لدراسة_نظم_التكاليف.pdf",
     "cover_image": "covers/26.png"
+  },
+  {
+    "id": 27,
+    "title": "النظم الاقتصادية في القرن العشرين",
+    "title_en": "Economic Systems in the Twentieth Century",
+    "author": "منذر م. راضي",
+    "author_en": "Munther M. Radhi",
+    "category": "اقتصاد",
+    "category_en": "Economics",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Book",
+    "description": "دراسة شاملة تناقش النظم الاقتصادية الرئيسية التي سادت في القرن العشرين. يغطي الكتاب مفاهيم علم الاقتصاد وأسسه، والنظام الرأسمالي ومراحل تطوره وآثار العولمة، والنظام الاشتراكي والشيوعي، بالإضافة إلى استعراض تفصيلي للنظام الاقتصادي الإسلامي وقواعده الكلية وأدواته الاستثمارية، وقضايا التنمية والتخلف الاقتصادي.",
+    "description_en": "A comprehensive study discussing the major economic systems of the twentieth century. The book covers fundamental economic concepts, the capitalist system and globalization, the socialist and communist systems, and an in-depth analysis of the Islamic economic system, along with economic development and underdevelopment.",
+    "publisher": "",
+    "publisher_en": "",
+    "year": "2016",
+    "isbn": "978-9957-610-71-1",
+    "keywords": [
+      "النظم الاقتصادية",
+      "الرأسمالية",
+      "الاشتراكية",
+      "الاقتصاد الإسلامي",
+      "التنمية الاقتصادية",
+      "العولمة"
+    ],
+    "keywords_en": [
+      "Economic Systems",
+      "Capitalism",
+      "Socialism",
+      "Islamic Economics",
+      "Economic Development",
+      "Globalization"
+    ],
+    "key_points": [
+      "تعريف النظام الاقتصادي وعلاقته بالإنتاج والتوزيع وإعادة توزيع الموارد.",
+      "دراسة المراحل التاريخية لتطور الرأسمالية وتأثيرات العولمة.",
+      "التعريف بالنظام الاشتراكي والشيوعية وتطبيقاتها.",
+      "بيان القواعد الكلية والخصائص والأدوات الاستثمارية في الاقتصاد الإسلامي.",
+      "تحليل ماهية التنمية الاقتصادية والتخلف الاقتصادي في الأنظمة المختلفة."
+    ],
+    "key_points_en": [
+      "Definition of economic systems and their relation to production, distribution, and resource allocation.",
+      "Historical stages of capitalism and the impacts of globalization.",
+      "Overview of the socialist system, communism, and their applications.",
+      "Explanation of core principles, characteristics, and investment instruments in Islamic economics.",
+      "Analysis of economic development and underdevelopment across different systems."
+    ],
+    "target_audience": "الطلاب والباحثون والأكاديميون المهتمون بالعلوم الاقتصادية والأنظمة السياسية والإسلامية.",
+    "target_audience_en": "Students, researchers, and academics interested in economic sciences, political systems, and Islamic economics.",
+    "pages": "202",
+    "file_size": "16.40 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/النظم_الاقتصادية_في_القرن_العشرين.pdf",
+    "cover_image": "covers/27.png"
   }
 ]
