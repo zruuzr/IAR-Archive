@@ -162,31 +162,19 @@
 
   function asText(value) { return value === null || value === undefined ? '' : String(value).trim(); }
 
-  // دالة التعامل مع الروابط (الأغلفة محلية، وملفات الـ PDF على GitHub Raw لتجنب قيود الحجم في Cloudflare)
-  function safeAssetUrl(value, allowedExtensions) {
+  // تم تصحيح دالة مسارات الملفات لتقرأ الروابط الخارجية لـ GitHub Raw بصورة سليمة ولا تسبب 404
+  function safeAssetUrl(value) {
     const source = asText(value);
     if (!source) return '';
+    // إذا كان الرابط مباشراً لـ GitHub Raw أو غيره نعتمده كما هو دون تشويهه
+    if (source.startsWith('http://') || source.startsWith('https://')) {
+      return source;
+    }
     try {
-      if (source.startsWith('http://') || source.startsWith('https://')) {
-        const url = new URL(source);
-        if (allowedExtensions.test(url.pathname)) return source;
-        return '';
-      }
-      let cleanPath = source.replace(/^\/+/, '');
-      if (!allowedExtensions.test(cleanPath)) return '';
-
-      // توجيه ملفات الـ PDF مباشرة إلى GitHub Raw لتجنب قيود حجم الملفات في Cloudflare Pages
-      if (/\.pdf$/i.test(cleanPath)) {
-        try { cleanPath = decodeURIComponent(cleanPath); } catch (_) {}
-        const safeEncodedPath = cleanPath.split('/').map(encodeURIComponent).join('/');
-        return `https://raw.githubusercontent.com/zruuzr/IAR-Archive/main/${safeEncodedPath}`;
-      }
-
-      // الأغلفة وباقي الملفات تبقى محلية
-      const url = new URL(cleanPath, new URL('./books.json', window.location.href));
-      if (url.origin !== window.location.origin) return '';
-      return `${url.pathname}${url.search}${url.hash}`;
-    } catch (_) { return ''; }
+      return new URL(source, window.location.href).href;
+    } catch (_) {
+      return source;
+    }
   }
 
   function textArray(value) { return Array.isArray(value) ? value.map(asText).filter(Boolean) : []; }
@@ -211,9 +199,9 @@
       badge_text_en: asText(raw.badge_text_en),
       keywords: textArray(raw.keywords), keywords_en: textArray(raw.keywords_en),
       key_points: textArray(raw.key_points), key_points_en: textArray(raw.key_points_en),
-      file_path: safeAssetUrl(raw.file_path, /\.pdf$/i),
+      file_path: safeAssetUrl(raw.file_path),
       file_name: asText(raw.file_name) || (raw.file_path ? decodeURIComponent(asText(raw.file_path).split('/').pop() || '') : ''),
-      cover_image: safeAssetUrl(raw.cover_image, /\.(avif|gif|jpe?g|png|webp)$/i),
+      cover_image: safeAssetUrl(raw.cover_image),
       downloadCount: 0, publicRating: 0, ratingCount: 0, ratingSum: 0, voters: []
     };
   }
@@ -755,13 +743,14 @@
     setTimeout(updateButtonsVisibility, 100);
   }
 
+  // تم استعادة عارض فايرفوكس (Mozilla PDF.js) وتمرير الرابط له ليتخطى حظر الإطارات
   function openPdfReader(filePath, title) {
     if (!filePath) return showToast(i18n[currentLang].fileUnavailable, 'danger');
     setText('modalBookTitle', title);
     const iframe = document.getElementById('pdfFrame');
     if (!iframe) return;
-    // استخدام عارض فايرفوكس المدمج مباشرة لعرض ملف الـ PDF المرتبط بـ GitHub Raw
-    iframe.src = filePath;
+    const absoluteUrl = new URL(filePath, window.location.href).href;
+    iframe.src = `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(absoluteUrl)}`;
     pdfModal.show();
   }
 
@@ -979,6 +968,7 @@
     });
   }
 
+  // تم توحيد كلاسات الأزرار لتطابق لون التحميل (أزرق) والقراءة (رمادي) كبقية الكتب
   function renderFeaturedSection(books) {
     const container = document.getElementById('featuredSection');
     if (!container || isBundleMode || isSingleView) {
@@ -1026,8 +1016,8 @@
             <p class="book-author mb-2"><i class="bi bi-person me-1"></i>${author}</p>
             <p class="book-desc mb-3">${escapeHtml(translateDynamicText(featuredBook.description, featuredBook.description_en) || t.unknown)}</p>
             <div class="d-flex flex-wrap align-items-center gap-2">
-              <button data-action="read" data-id="${featuredBook.id}" class="btn btn-iar-primary px-3 py-2"><i class="bi bi-eye me-1"></i> ${t.readBtn}</button>
-              <button data-action="download" data-id="${featuredBook.id}" class="btn btn-iar-action px-3 py-2"><i class="bi bi-download me-1"></i> ${t.downloadBtn} <span class="badge bg-light text-dark ms-1" id="downloadCount-${featuredBook.id}">${featuredBook.downloadCount || 0}</span></button>
+              <button data-action="read" data-id="${featuredBook.id}" class="btn btn-iar-action px-3 py-2"><i class="bi bi-eye me-1"></i> ${t.readBtn}</button>
+              <button data-action="download" data-id="${featuredBook.id}" class="btn btn-iar-primary px-3 py-2 text-white"><i class="bi bi-download me-1"></i> ${t.downloadBtn} <span class="badge bg-light text-dark ms-1" id="downloadCount-${featuredBook.id}">${featuredBook.downloadCount || 0}</span></button>
               <button data-action="summary" data-id="${featuredBook.id}" class="btn btn-iar-action px-3 py-2"><i class="bi bi-card-text me-1"></i> ${t.summaryBtn}</button>
               <button data-action="favorite" data-id="${featuredBook.id}" class="btn btn-iar-action px-2 py-2" title="${isFav ? t.unfavoriteBtn : t.favoriteBtn}"><i class="bi ${isFav ? 'bi-heart-fill text-danger' : 'bi-heart'}"></i></button>
               <button data-action="share" data-id="${featuredBook.id}" class="btn btn-iar-action px-2 py-2" title="${t.shareBtn}"><i class="bi bi-share"></i></button>
@@ -1076,11 +1066,11 @@
           : `<div class="cover-placeholder"><i class="bi bi-book"></i></div>`;
 
         const downloadControl = book.file_path
-          ? `<button type="button" data-action="download" data-id="${book.id}" class="btn btn-iar-primary w-100 text-center d-flex align-items-center justify-content-center">
+          ? `<button type="button" data-action="download" data-id="${book.id}" class="btn btn-iar-primary w-100 text-center d-flex align-items-center justify-content-center text-white">
                <i class="bi bi-download me-1"></i><span>${t.downloadBtn}</span>
                <span class="badge bg-light text-dark ms-2 px-2 py-1" id="downloadCount-${book.id}">${book.downloadCount || 0}</span>
              </button>`
-          : `<button type="button" class="btn btn-iar-primary w-100" disabled><i class="bi bi-download me-1"></i>${t.downloadBtn}</button>`;
+          : `<button type="button" class="btn btn-iar-primary w-100 text-white" disabled><i class="bi bi-download me-1"></i>${t.downloadBtn}</button>`;
 
         return `
           <div class="col-lg-6">
@@ -1140,7 +1130,7 @@
                 <td><span class="badge-tag">${escapeHtml(translateDynamicText(book.category, book.category_en) || t.generalCat)}</span></td>
                 <td class="text-end">
                   <div class="btn-group btn-group-sm gap-1">
-                    <button data-action="read" data-id="${book.id}" class="btn btn-outline-primary"><i class="bi bi-eye"></i></button>
+                    <button data-action="read" data-id="${book.id}" class="btn btn-outline-secondary"><i class="bi bi-eye"></i></button>
                     ${downloadControl}
                     <button data-action="summary" data-id="${book.id}" class="btn btn-outline-secondary"><i class="bi bi-card-text"></i></button>
                     <button data-action="cite" data-id="${book.id}" class="btn btn-outline-secondary"><i class="bi bi-quote"></i></button>
@@ -1184,7 +1174,7 @@
       },
       'title': (a, b) => translateDynamicText(a.title, a.title_en).localeCompare(translateDynamicText(b.title, b.title_en), currentLang),
       'year': (a, b) => (parseInt(b.year) || 0) - (parseInt(a.year) || 0),
-      'pages': (a, b) => (parseInt(a.pages) || 0) - (parseInt(a.pages) || 0),
+      'pages': (a, b) => (parseInt(a.pages) || 0) - (parseInt(b.pages) || 0),
       'downloads': (a, b) => (b.downloadCount || 0) - (a.downloadCount || 0),
       'rating': (a, b) => (b.publicRating || 0) - (a.publicRating || 0),
       'favorites': (a, b) => {
