@@ -46,14 +46,24 @@
     return Number((Number(value) || 0).toFixed(2));
   }
 
+  // ✅ FIX #1: حماية JSON.parse من الانهيار عند تلف البيانات
+  function safeParseArray(key) {
+    try {
+      const raw = storage.get(key, '[]');
+      const parsed = JSON.parse(raw);
+      return Array.isArray(parsed) ? parsed : [];
+    } catch (_) {
+      return [];
+    }
+  }
+
   let booksData = [];
   let selectedBundleIds = new Set();
-  let favoriteIds = new Set(JSON.parse(storage.get('iar_favorites', '[]')));
+  let favoriteIds = new Set(safeParseArray('iar_favorites'));
   let currentLang = storage.get('iar_lang', 'ar') === 'en' ? 'en' : 'ar';
   let currentViewMode = storage.get('iar_view_mode', 'grid') === 'list' ? 'list' : 'grid';
   let selectedCategory = 'all';
   let booksLoaded = false;
-  let currentUser = null;
   let currentOpenBookId = null;
   let isSingleView = false;
 
@@ -67,7 +77,7 @@
         auth.signInAnonymously(),
         new Promise((_, reject) => setTimeout(() => reject(new Error('Auth timeout after 5s')), 5000))
       ]);
-      currentUser = userCredential.user;
+      // ✅ FIX #8: حذف المتغير الميت currentUser - استخدام auth.currentUser مباشرة
     } catch (error) {
       console.error('Auth failed:', error);
     }
@@ -95,7 +105,10 @@
       toastCiteCopied: "تم نسخ التوثيق الأكاديمي (APA) إلى الحافظة.",
       toastBundleCopied: "تم نسخ رابط الحزمة البحثية المجمعة بنجاح.",
       toastFavoriteAdded: "تمت إضافة الكتاب إلى المفضلة.", toastFavoriteRemoved: "تمت إزالة الكتاب من المفضلة.",
-      toastRated: "تم حفظ تقييمك بنجاح.", generalCat: "عام", defaultPublisher: "الأرشيف الإداري العراقي", defaultType: "مرجع منهجي", themeTooltip: "تبديل المظهر",
+      toastRated: "تم حفظ تقييمك بنجاح.",
+      toastAuthPending: "جارٍ التهيئة، يرجى المحاولة بعد لحظات.",
+      toastRatingFailed: "تعذّر حفظ التقييم. تحقق من الاتصال وحاول مجددًا.",
+      generalCat: "عام", defaultPublisher: "الأرشيف الإداري العراقي", defaultType: "مرجع منهجي", themeTooltip: "تبديل المظهر",
       loading: "جارٍ تحميل المراجع…", fileUnavailable: "ملف المرجع غير متاح حاليًا.", searchLabel: "البحث في المراجع", clearSearch: "مسح البحث",
       gridView: "عرض شبكي", listView: "عرض قائمة", selectBundle: "تحديد المرجع لإضافته إلى الحزمة البحثية",
       bundleText: "تم تحديد <strong id='bundleCount'>0</strong> مراجع لإنشاء حزمة بحثية",
@@ -113,7 +126,8 @@
       unknown: "غير متوفر",
       ratingLabel: "تقييم",
       clearBundle: "إلغاء الحزمة والعودة للرئيسية",
-      preparingDownload: "جارٍ تحضير الملف، يرجى الانتظار..."
+      preparingDownload: "جارٍ تحضير الملف، يرجى الانتظار...",
+      openInTab: "فتح الملف في تبويب جديد"
     },
     en: {
       announcement: "IAR Archive - Interactive Digital Repository for Management & Reference Sciences",
@@ -130,7 +144,10 @@
       toastCopied: "Copied to clipboard.", toastCiteCopied: "APA Citation copied to clipboard.",
       toastBundleCopied: "Research bundle link copied successfully.",
       toastFavoriteAdded: "Book added to favorites.", toastFavoriteRemoved: "Book removed from favorites.",
-      toastRated: "Your rating has been saved.", generalCat: "General", defaultPublisher: "IAR Archive", defaultType: "Methodological Reference", themeTooltip: "Toggle Theme",
+      toastRated: "Your rating has been saved.",
+      toastAuthPending: "Initializing, please try again in a moment.",
+      toastRatingFailed: "Could not save rating. Check your connection and retry.",
+      generalCat: "General", defaultPublisher: "IAR Archive", defaultType: "Methodological Reference", themeTooltip: "Toggle Theme",
       loading: "Loading references…", fileUnavailable: "This reference file is currently unavailable.", searchLabel: "Search references", clearSearch: "Clear search",
       gridView: "Grid view", listView: "List view", selectBundle: "Select this reference for the research bundle",
       bundleText: "Selected <strong id='bundleCount'>0</strong> references for research bundle",
@@ -148,7 +165,8 @@
       unknown: "N/A",
       ratingLabel: "Rating",
       clearBundle: "Clear Bundle & Go Home",
-      preparingDownload: "Preparing file for download, please wait..."
+      preparingDownload: "Preparing file for download, please wait...",
+      openInTab: "Open file in new tab"
     }
   };
 
@@ -164,7 +182,6 @@
 
   function asText(value) { return value === null || value === undefined ? '' : String(value).trim(); }
 
-  // الدالة المصححة للروابط: تحول روابط HTML/Blob إلى Raw لتتوافق مع PDF.js
   function safeAssetUrl(value, isPdf = false) {
     let source = asText(value);
     if (!source) return '';
@@ -361,9 +378,22 @@
     return (now - lastVisit > oneDay);
   }
 
+  // ✅ FIX #5: معالجة null auth + FIX #2: عدم فقدان الأخطاء
   async function submitPublicRating(bookId, newRating) {
-    if (typeof newRating !== 'number' || newRating < 1 || newRating > 5) return false;
-    if (!auth.currentUser) return false;
+    if (typeof newRating !== 'number' || newRating < 1 || newRating > 5) {
+      showToast(i18n[currentLang].toastRatingFailed, 'danger');
+      return false;
+    }
+
+    // إذا لم يكتمل تسجيل الدخول بعد، ننتظر قليلًا ونحاول مرة أخرى
+    if (!auth.currentUser) {
+      await new Promise(resolve => setTimeout(resolve, 1200));
+    }
+
+    if (!auth.currentUser) {
+      showToast(i18n[currentLang].toastAuthPending, 'warning');
+      return false;
+    }
 
     const uid = auth.currentUser.uid;
     const book = booksData.find(b => b.id === bookId);
@@ -399,6 +429,9 @@
     } catch (error) {
       if (error.message === 'ALREADY_VOTED') {
         showToast(currentLang === 'ar' ? 'لقد قمت بتقييم هذا الكتاب مسبقاً.' : 'You have already rated this book.', 'danger');
+      } else {
+        console.error('Rating submission failed:', error);
+        showToast(i18n[currentLang].toastRatingFailed, 'danger');
       }
       return false;
     }
@@ -509,6 +542,7 @@
     setAttribute('summaryDismissBtn', 'aria-label', t.modalClose);
     setAttribute('pdfDismissBtn', 'aria-label', t.modalClose);
     setText('txt-loading', t.loading);
+    setText('txt-open-in-tab', t.openInTab);
     setAttribute('searchInput', 'placeholder', t.searchPlaceholder);
     setAttribute('btnClearSearch', 'aria-label', t.clearSearch);
     setAttribute('themeToggleBtn', 'aria-label', t.themeTooltip);
@@ -557,8 +591,10 @@
   btnViewGrid?.addEventListener('click', () => { currentViewMode = 'grid'; storage.set('iar_view_mode', 'grid'); updateViewControls(); applyFilters(); });
   btnViewList?.addEventListener('click', () => { currentViewMode = 'list'; storage.set('iar_view_mode', 'list'); updateViewControls(); applyFilters(); });
 
+  // ✅ FIX #4: ضبط currentOpenBookId في البداية
   function showSingleBookView(book) {
     isSingleView = true;
+    currentOpenBookId = book.id;
     hideEl('booksDisplayContainer');
     hideEl('controlsRow');
     hideEl('categoryChips');
@@ -610,6 +646,7 @@
 
   function hideSingleBookView() {
     isSingleView = false;
+    currentOpenBookId = null;
     hideEl('singleBookView');
     showEl('booksDisplayContainer');
     showEl('controlsRow');
@@ -768,12 +805,18 @@
     setTimeout(updateButtonsVisibility, 100);
   }
 
-  // إعادة استخدام عارض Mozilla PDF.js بكل كفاءة واحترافية بعد إصلاح الرابط
+  // ✅ FIX #6: زر "فتح في تبويب جديد" يعمل دائمًا داخل مودال PDF
   function openPdfReader(filePath, title) {
     if (!filePath) return showToast(i18n[currentLang].fileUnavailable, 'danger');
     setText('modalBookTitle', title);
     const iframe = document.getElementById('pdfFrame');
+    const fallbackLink = document.getElementById('pdfFallbackLink');
     if (!iframe) return;
+    
+    if (fallbackLink) {
+      fallbackLink.href = filePath;
+    }
+    
     const absoluteUrl = new URL(filePath, window.location.href).href;
     iframe.src = `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(absoluteUrl)}`;
     pdfModal.show();
@@ -782,6 +825,8 @@
   document.getElementById('pdfReaderModal')?.addEventListener('hidden.bs.modal', () => {
     const iframe = document.getElementById('pdfFrame');
     if (iframe) iframe.src = '';
+    const fallbackLink = document.getElementById('pdfFallbackLink');
+    if (fallbackLink) fallbackLink.href = '';
   });
 
   function openCoverImage(imageSrc, title) {
@@ -906,6 +951,17 @@
     }
   }
 
+  // ✅ FIX #3: إعادة كتابة showToast بأمان ضد XSS + دعم متغيرات متعددة
+  function getToastIcon(variant) {
+    switch (variant) {
+      case 'danger': return 'bi-exclamation-circle';
+      case 'warning': return 'bi-exclamation-triangle';
+      case 'info': return 'bi-info-circle';
+      case 'success': return 'bi-check-circle';
+      default: return 'bi-check-circle';
+    }
+  }
+
   function showToast(message, variant = 'primary') {
     const host = document.createElement('div');
     host.className = 'position-fixed bottom-0 start-50 translate-middle-x p-3';
@@ -914,10 +970,32 @@
     const toast = document.createElement('div');
     toast.className = `toast align-items-center text-bg-${variant} border-0`;
     toast.setAttribute('role', 'alert');
-    
-    toast.innerHTML = `<div class="d-flex"><div class="toast-body"><i class="bi ${variant === 'danger' ? 'bi-exclamation-circle' : 'bi-check-circle'} me-2"></i>${message}</div><button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button></div>`;
+    toast.setAttribute('aria-live', 'assertive');
+    toast.setAttribute('aria-atomic', 'true');
+
+    const row = document.createElement('div');
+    row.className = 'd-flex';
+
+    const body = document.createElement('div');
+    body.className = 'toast-body';
+
+    const icon = document.createElement('i');
+    icon.className = `bi ${getToastIcon(variant)} me-2`;
+
+    // ✅ استخدام createTextNode بدل innerHTML لمنع XSS
+    body.append(icon, document.createTextNode(String(message)));
+
+    const closeBtn = document.createElement('button');
+    closeBtn.type = 'button';
+    closeBtn.className = 'btn-close btn-close-white me-2 m-auto';
+    closeBtn.setAttribute('data-bs-dismiss', 'toast');
+    closeBtn.setAttribute('aria-label', i18n[currentLang].modalClose);
+
+    row.append(body, closeBtn);
+    toast.appendChild(row);
     host.appendChild(toast);
     document.body.appendChild(host);
+
     toast.addEventListener('hidden.bs.toast', () => host.remove());
     bootstrap.Toast.getOrCreateInstance(toast, { delay: 4000 }).show();
   }
@@ -993,6 +1071,7 @@
     });
   }
 
+  // ✅ FIX #7: استخدام id صريح بدل querySelector الهشاش
   function renderFeaturedSection(books) {
     const container = document.getElementById('featuredSection');
     if (!container || isBundleMode || isSingleView) {
@@ -1022,7 +1101,6 @@
          </div>`
       : `<div class="cover-placeholder"><i class="bi bi-book"></i></div>`;
 
-    // تم إضافة class مخصص animated-featured-card للـ CSS، وتم ضبط التوسيط text-center للموبايل فقط
     container.innerHTML = `
       <div class="featured-spotlight-card animated-featured-card text-center text-md-start">
         ${badgeText ? `<div class="featured-badge-top"><i class="bi bi-star-fill"></i> ${badgeText}</div>` : ''}
@@ -1032,7 +1110,7 @@
               ${coverHtml}
             </div>
           </div>
-          <div class="col-md-9">
+          <div class="col-md-9" id="featuredInfoColumn">
             <div class="d-flex flex-wrap gap-2 mb-2 justify-content-center justify-content-md-start">
               <span class="badge-tag">${category}</span>
               <span class="badge-type"><i class="bi bi-journal-check me-1"></i>${type}</span>
@@ -1053,10 +1131,20 @@
         </div>
       </div>
     `;
-    const starsEl = document.createElement('div');
-    starsEl.className = "mt-2 mb-2 rating-stars d-flex justify-content-center justify-content-md-start";
-    container.querySelector('.col-md-9').insertBefore(starsEl, container.querySelector('.book-desc'));
-    renderStars(featuredBook.id, starsEl);
+
+    // ✅ استخدام id بدل querySelector الهشاش
+    const infoCol = document.getElementById('featuredInfoColumn');
+    if (infoCol) {
+      const starsEl = document.createElement('div');
+      starsEl.className = "mt-2 mb-2 rating-stars d-flex justify-content-center justify-content-md-start";
+      const descEl = infoCol.querySelector('.book-desc');
+      if (descEl) {
+        infoCol.insertBefore(starsEl, descEl);
+      } else {
+        infoCol.appendChild(starsEl);
+      }
+      renderStars(featuredBook.id, starsEl);
+    }
   }
 
   function renderBooks(books) {
