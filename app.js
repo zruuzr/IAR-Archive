@@ -112,7 +112,8 @@
       readLabel: "قراءة", downloadLabel: "تحميل", citeLabel: "توثيق APA", shareLabel: "مشاركة",
       unknown: "غير متوفر",
       ratingLabel: "تقييم",
-      clearBundle: "إلغاء الحزمة والعودة للرئيسية"
+      clearBundle: "إلغاء الحزمة والعودة للرئيسية",
+      preparingDownload: "جارٍ تحضير الملف، يرجى الانتظار..."
     },
     en: {
       announcement: "IAR Archive - Interactive Digital Repository for Management & Reference Sciences",
@@ -146,7 +147,8 @@
       readLabel: "Read", downloadLabel: "Download", citeLabel: "Cite APA", shareLabel: "Share",
       unknown: "N/A",
       ratingLabel: "Rating",
-      clearBundle: "Clear Bundle & Go Home"
+      clearBundle: "Clear Bundle & Go Home",
+      preparingDownload: "Preparing file for download, please wait..."
     }
   };
 
@@ -162,19 +164,29 @@
 
   function asText(value) { return value === null || value === undefined ? '' : String(value).trim(); }
 
-  // تم تصحيح دالة مسارات الملفات لتقرأ الروابط الخارجية لـ GitHub Raw بصورة سليمة ولا تسبب 404
-  function safeAssetUrl(value) {
-    const source = asText(value);
+  // الدالة المصححة للروابط: تحول روابط HTML/Blob إلى Raw لتتوافق مع PDF.js
+  function safeAssetUrl(value, isPdf = false) {
+    let source = asText(value);
     if (!source) return '';
-    // إذا كان الرابط مباشراً لـ GitHub Raw أو غيره نعتمده كما هو دون تشويهه
-    if (source.startsWith('http://') || source.startsWith('https://')) {
-      return source;
+
+    let urlStr = source;
+
+    if (!source.startsWith('http://') && !source.startsWith('https://')) {
+      let cleanPath = source.replace(/^\/+/, '');
+      if (isPdf) {
+        try { cleanPath = decodeURIComponent(cleanPath); } catch (_) {}
+        const safeEncodedPath = cleanPath.split('/').map(encodeURIComponent).join('/');
+        urlStr = `https://raw.githubusercontent.com/zruuzr/IAR-Archive/main/${safeEncodedPath}`;
+      } else {
+        try { return new URL(cleanPath, window.location.href).href; } catch (_) { return source; }
+      }
     }
-    try {
-      return new URL(source, window.location.href).href;
-    } catch (_) {
-      return source;
+
+    if (urlStr.includes('github.com') && urlStr.includes('/blob/')) {
+      urlStr = urlStr.replace('github.com', 'raw.githubusercontent.com').replace('/blob/', '/');
     }
+
+    return urlStr;
   }
 
   function textArray(value) { return Array.isArray(value) ? value.map(asText).filter(Boolean) : []; }
@@ -199,9 +211,9 @@
       badge_text_en: asText(raw.badge_text_en),
       keywords: textArray(raw.keywords), keywords_en: textArray(raw.keywords_en),
       key_points: textArray(raw.key_points), key_points_en: textArray(raw.key_points_en),
-      file_path: safeAssetUrl(raw.file_path),
+      file_path: safeAssetUrl(raw.file_path, true),
       file_name: asText(raw.file_name) || (raw.file_path ? decodeURIComponent(asText(raw.file_path).split('/').pop() || '') : ''),
-      cover_image: safeAssetUrl(raw.cover_image),
+      cover_image: safeAssetUrl(raw.cover_image, false),
       downloadCount: 0, publicRating: 0, ratingCount: 0, ratingSum: 0, voters: []
     };
   }
@@ -651,13 +663,26 @@
       if (singleCount && isSingleView && currentOpenBookId === bookId) singleCount.innerText = book.downloadCount;
     }
     
-    const link = document.createElement('a');
-    link.href = filePath;
-    link.download = fileName || `book-${bookId}.pdf`;
-    link.target = '_blank';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    showToast(i18n[currentLang].preparingDownload, 'info');
+
+    try {
+      const response = await fetch(filePath);
+      if (!response.ok) throw new Error('Fetch failed');
+      const blob = await response.blob();
+      const objectUrl = URL.createObjectURL(blob);
+      
+      const link = document.createElement('a');
+      link.href = objectUrl;
+      link.download = fileName || `IAR-Archive-Book-${bookId}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      setTimeout(() => URL.revokeObjectURL(objectUrl), 5000);
+    } catch (error) {
+      console.warn("Blob fetch failed, falling back to new tab", error);
+      window.open(filePath, '_blank');
+    }
   }
 
   document.getElementById('modalShareBtn')?.addEventListener('click', () => {
@@ -743,7 +768,7 @@
     setTimeout(updateButtonsVisibility, 100);
   }
 
-  // تم استعادة عارض فايرفوكس (Mozilla PDF.js) وتمرير الرابط له ليتخطى حظر الإطارات
+  // إعادة استخدام عارض Mozilla PDF.js بكل كفاءة واحترافية بعد إصلاح الرابط
   function openPdfReader(filePath, title) {
     if (!filePath) return showToast(i18n[currentLang].fileUnavailable, 'danger');
     setText('modalBookTitle', title);
@@ -968,7 +993,6 @@
     });
   }
 
-  // تم توحيد كلاسات الأزرار لتطابق لون التحميل (أزرق) والقراءة (رمادي) كبقية الكتب
   function renderFeaturedSection(books) {
     const container = document.getElementById('featuredSection');
     if (!container || isBundleMode || isSingleView) {
@@ -998,8 +1022,9 @@
          </div>`
       : `<div class="cover-placeholder"><i class="bi bi-book"></i></div>`;
 
+    // تم إضافة class مخصص animated-featured-card للـ CSS، وتم ضبط التوسيط text-center للموبايل فقط
     container.innerHTML = `
-      <div class="featured-spotlight-card">
+      <div class="featured-spotlight-card animated-featured-card text-center text-md-start">
         ${badgeText ? `<div class="featured-badge-top"><i class="bi bi-star-fill"></i> ${badgeText}</div>` : ''}
         <div class="row align-items-center g-4">
           <div class="col-md-3 text-center">
@@ -1008,17 +1033,19 @@
             </div>
           </div>
           <div class="col-md-9">
-            <div class="d-flex flex-wrap gap-2 mb-2">
+            <div class="d-flex flex-wrap gap-2 mb-2 justify-content-center justify-content-md-start">
               <span class="badge-tag">${category}</span>
               <span class="badge-type"><i class="bi bi-journal-check me-1"></i>${type}</span>
             </div>
             <h2 class="h4 fw-bold mb-2 text-primary" style="color: var(--accent) !important;">${title}</h2>
             <p class="book-author mb-2"><i class="bi bi-person me-1"></i>${author}</p>
-            <p class="book-desc mb-3">${escapeHtml(translateDynamicText(featuredBook.description, featuredBook.description_en) || t.unknown)}</p>
-            <div class="d-flex flex-wrap align-items-center gap-2">
+            <p class="book-desc mb-3 mx-auto mx-md-0">${escapeHtml(translateDynamicText(featuredBook.description, featuredBook.description_en) || t.unknown)}</p>
+            
+            <div class="d-flex flex-wrap align-items-center gap-2 justify-content-center justify-content-md-start">
               <button data-action="read" data-id="${featuredBook.id}" class="btn btn-iar-action px-3 py-2"><i class="bi bi-eye me-1"></i> ${t.readBtn}</button>
               <button data-action="download" data-id="${featuredBook.id}" class="btn btn-iar-primary px-3 py-2 text-white"><i class="bi bi-download me-1"></i> ${t.downloadBtn} <span class="badge bg-light text-dark ms-1" id="downloadCount-${featuredBook.id}">${featuredBook.downloadCount || 0}</span></button>
               <button data-action="summary" data-id="${featuredBook.id}" class="btn btn-iar-action px-3 py-2"><i class="bi bi-card-text me-1"></i> ${t.summaryBtn}</button>
+              <button data-action="cite" data-id="${featuredBook.id}" class="btn btn-iar-action px-3 py-2" title="${t.citeBtn}"><i class="bi bi-quote"></i></button>
               <button data-action="favorite" data-id="${featuredBook.id}" class="btn btn-iar-action px-2 py-2" title="${isFav ? t.unfavoriteBtn : t.favoriteBtn}"><i class="bi ${isFav ? 'bi-heart-fill text-danger' : 'bi-heart'}"></i></button>
               <button data-action="share" data-id="${featuredBook.id}" class="btn btn-iar-action px-2 py-2" title="${t.shareBtn}"><i class="bi bi-share"></i></button>
             </div>
@@ -1027,7 +1054,7 @@
       </div>
     `;
     const starsEl = document.createElement('div');
-    starsEl.className = "mt-2 rating-stars";
+    starsEl.className = "mt-2 mb-2 rating-stars d-flex justify-content-center justify-content-md-start";
     container.querySelector('.col-md-9').insertBefore(starsEl, container.querySelector('.book-desc'));
     renderStars(featuredBook.id, starsEl);
   }
