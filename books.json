@@ -1323,5 +1323,59 @@
     "file_type": "PDF",
     "file_path": "pdf/نظرية_محاسبية.pdf",
     "cover_image": "covers/30.png"
+  },
+  {
+    "id": 31,
+    "title": "المحاسبة الإدارية",
+    "title_en": "Managerial Accounting",
+    "author": "زايد سالم أبو شناف، محمود عباس حمدي",
+    "author_en": "Zayed Salem Abu Shnaf, Mahmoud Abbas Hamdy",
+    "category": "محاسبة وإدارة أعمال",
+    "category_en": "Accounting & Business Administration",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Textbook",
+    "description": "كتاب أكاديمي يستعرض المفاهيم الأساسية والتطبيقات العملية للمحاسبة الإدارية. يتناول الكتاب العلاقة بين المحاسبة الإدارية والمالية، وسلوك مفاهيم التكاليف، وتخطيط الأرباح وتحليل التعادل، والتكاليف والمنافع الملائمة لاتخاذ القرارات التشغيلية وقصيرة الأجل، بالإضافة إلى قرارات التسعير، ومحاسبة المسؤوليات، وتقييم الأداء الإداري في منشآت الأعمال.",
+    "description_en": "An academic textbook covering basic concepts and practical applications of managerial accounting. It discusses the relationship between managerial and financial accounting, cost behavior, profit planning, break-even analysis, relevant costs and benefits for short-term operational decision-making, pricing decisions, responsibility accounting, and managerial performance evaluation in business organizations.",
+    "publisher": "جامعة القاهرة - كلية التجارة",
+    "publisher_en": "Cairo University - Faculty of Commerce",
+    "year": "2015",
+    "isbn": "",
+    "keywords": [
+      "المحاسبة الإدارية",
+      "تحليل التكاليف",
+      "تحليل التعادل",
+      "اتخاذ القرارات الإدارية",
+      "محاسبة المسؤوليات",
+      "تقييم الأداء"
+    ],
+    "keywords_en": [
+      "Managerial Accounting",
+      "Cost Analysis",
+      "Break-even Analysis",
+      "Managerial Decision Making",
+      "Responsibility Accounting",
+      "Performance Evaluation"
+    ],
+    "key_points": [
+      "شرح مفهوم المحاسبة الإدارية ودورها في دعم وترشيد وظائف الإدارة",
+      "تبويب التكاليف وتحليل العلاقة بين التكلفة وحجم النشاط والربح",
+      "دراسة التكاليف والمنافع الملائمة لاتخاذ قرارات الصنع أو الشراء وحذف أو إضافة منتجات",
+      "نظم المحاسبة الإدارية لترشيد قرارات التسعير في الأسواق المختلفة",
+      "تطبيق نظم محاسبة المسؤوليات وتقييم الأداء باستخدام العائد على الاستثمار والقيمة الاقتصادية المضافة"
+    ],
+    "key_points_en": [
+      "Explaining managerial accounting concept and its role in supporting management functions",
+      "Cost classification and analyzing cost-volume-profit (CVP) relationships",
+      "Studying relevant costs and benefits for make-or-buy and product line addition/deletion decisions",
+      "Managerial accounting systems for optimizing pricing decisions under different market conditions",
+      "Applying responsibility accounting systems and performance evaluation using ROI and EVA"
+    ],
+    "target_audience": "طلاب كليات التجارة، المحاسبون، المديرون الماليون، والمهتمون بالتخطيط المالي واتخاذ القرارات الإدارية.",
+    "target_audience_en": "Students of commerce faculties, accountants, financial managers, and professionals interested in financial planning and managerial decision-making.",
+    "pages": "293",
+    "file_size": "3.22 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/المحاسبة_الادارية:مفاهيم_اساسية_وتطبيقات_عملية.pdf",
+    "cover_image": "covers/31.png"
   }
 ]
