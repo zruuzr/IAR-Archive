@@ -1249,5 +1249,57 @@
     "file_type": "PDF",
     "file_path": "pdf/التسويق_الإلكتروني_في_العالم_العربي.pdf",
     "cover_image": "covers/24.png"
+  },
+  {
+    "id": 25,
+    "title": "دليل الطالب للقبول المركزي في الجامعات العراقية",
+    "title_en": "Student Guide for Central Admission in Iraqi Universities",
+    "author": "وزارة التعليم العالي والبحث العلمي - دائرة الدراسات والتخطيط والمتابعة",
+    "author_en": "Ministry of Higher Education and Scientific Research - Department of Studies, Planning and Follow-up",
+    "category": "دليل إرشادي / تعليم عالي",
+    "category_en": "Guidebook / Higher Education",
+    "type": "دليل رسمـي",
+    "type_en": "Official Guide",
+    "description": "دليل إرشادي رسمي صادِر عن دائرة الدراسات والتخطيط والمتابعة يوضح شروط وضوابط القبول المركزي في الجامعات والمعاهد العراقية، وآلية التقديم عبر الاستمارة الإلكترونية (منصة قدّم)، مع بيان تفصيلي للكليات والأقسام العلمية والإنسانية المتاحة لخريجي كافة الفروع الإعدادية.",
+    "description_en": "An official guidebook issued by the Department of Studies, Planning and Follow-up detailing the conditions and guidelines for central admission to Iraqi universities and institutes, electronic application procedures via the Qadam platform, and a comprehensive list of available colleges and departments for secondary school graduates.",
+    "publisher": "وزارة التعليم العالي والبحث العلمي",
+    "publisher_en": "Ministry of Higher Education and Scientific Research",
+    "year": "2025",
+    "isbn": "",
+    "keywords": [
+      "القبول المركزي",
+      "الجامعات العراقية",
+      "دليل الطالب",
+      "وزارة التعليم العالي",
+      "منصة قدم",
+      "الدراسة الصباحية والمسائية"
+    ],
+    "keywords_en": [
+      "Central Admission",
+      "Iraqi Universities",
+      "Student Guide",
+      "Ministry of Higher Education",
+      "Qadam Platform",
+      "Morning and Evening Studies"
+    ],
+    "key_points": [
+      "عرض الشروط والأسس العامة لنظام القبول المركزي في الكليات والمعاهد الحكومية.",
+      "توضيح خطوات ملء استمارة نظام التقديم الإلكتروني عبر البوابة الإلكترونية ومنصة قدّم.",
+      "بيان قوائم الجامعات والكليات والمعاهد ومحتوياتها من التخصصات لمختلف الفروع (العلمي، الأدبي، الفنون، والمهني).",
+      "تحديد ضوابط قبول الشرائح الخاصة مثل ذوي الشهداء، والطلبة غير العراقيين، والطلبة الأوائل."
+    ],
+    "key_points_en": [
+      "Presentation of general terms and guidelines for central admission to public colleges and institutes.",
+      "Explanation of steps to complete the online application form via the electronic portal and Qadam platform.",
+      "Listing of Iraqi universities, colleges, and technical institutes available for high school graduates across various tracks.",
+      "Detailing admission regulations for special categories such as martyrs' families, international students, and top graduates."
+    ],
+    "target_audience": "خريجو المرحلة الإعدادية بكافة فروعها في العراق، وأولياء الأمور، والكوادر الإرشادية والتعليمية.",
+    "target_audience_en": "High school graduates of all streams in Iraq, parents, academic advisors, and educational staff.",
+    "pages": "140",
+    "file_size": "9.63 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/دليل_الطالب_للقبول _المركزي_في_الجامعات_العراقية.pdf",
+    "cover_image": "covers/25.png"
   }
 ]
