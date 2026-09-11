@@ -162,6 +162,7 @@
 
   function asText(value) { return value === null || value === undefined ? '' : String(value).trim(); }
 
+  // دالة التعامل مع الروابط (الأغلفة محلية، وملفات الـ PDF على GitHub Raw لتجنب قيود الحجم في Cloudflare)
   function safeAssetUrl(value, allowedExtensions) {
     const source = asText(value);
     if (!source) return '';
@@ -174,12 +175,14 @@
       let cleanPath = source.replace(/^\/+/, '');
       if (!allowedExtensions.test(cleanPath)) return '';
 
+      // توجيه ملفات الـ PDF مباشرة إلى GitHub Raw لتجنب قيود حجم الملفات في Cloudflare Pages
       if (/\.pdf$/i.test(cleanPath)) {
         try { cleanPath = decodeURIComponent(cleanPath); } catch (_) {}
         const safeEncodedPath = cleanPath.split('/').map(encodeURIComponent).join('/');
         return `https://raw.githubusercontent.com/zruuzr/IAR-Archive/main/${safeEncodedPath}`;
       }
 
+      // الأغلفة وباقي الملفات تبقى محلية
       const url = new URL(cleanPath, new URL('./books.json', window.location.href));
       if (url.origin !== window.location.origin) return '';
       return `${url.pathname}${url.search}${url.hash}`;
@@ -757,9 +760,8 @@
     setText('modalBookTitle', title);
     const iframe = document.getElementById('pdfFrame');
     if (!iframe) return;
-    const absoluteUrl = new URL(filePath, window.location.href).href;
-    // استخدام Google Docs Viewer لعرض ملفات الـ PDF بسلاسة تامة وتجاوز قيود CORS
-    iframe.src = `https://docs.google.com/gview?url=${encodeURIComponent(absoluteUrl)}&embedded=true`;
+    // استخدام عارض فايرفوكس المدمج مباشرة لعرض ملف الـ PDF المرتبط بـ GitHub Raw
+    iframe.src = filePath;
     pdfModal.show();
   }
 
@@ -1182,7 +1184,7 @@
       },
       'title': (a, b) => translateDynamicText(a.title, a.title_en).localeCompare(translateDynamicText(b.title, b.title_en), currentLang),
       'year': (a, b) => (parseInt(b.year) || 0) - (parseInt(a.year) || 0),
-      'pages': (a, b) => (parseInt(a.pages) || 0) - (parseInt(b.pages) || 0),
+      'pages': (a, b) => (parseInt(a.pages) || 0) - (parseInt(a.pages) || 0),
       'downloads': (a, b) => (b.downloadCount || 0) - (a.downloadCount || 0),
       'rating': (a, b) => (b.publicRating || 0) - (a.publicRating || 0),
       'favorites': (a, b) => {
@@ -1219,7 +1221,7 @@
     applyFilters();
   });
 
-  document.getElementById('btnBack')?.addEventListener('click', hideSingleBookView);
+  document.getElementById('btnBackToList')?.addEventListener('click', hideSingleBookView);
 
   async function fetchBooks() {
     const loadingEl = document.getElementById('booksLoading');
