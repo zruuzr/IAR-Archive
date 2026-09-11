@@ -1479,5 +1479,63 @@
     "file_type": "PDF",
     "file_path": "pdf/تدريب_المدربين:النماذج_والاشكال.pdf",
     "cover_image": "covers/33.png"
+  },
+  {
+    "id": 34,
+    "title": "الإحصاء والاحتمال",
+    "title_en": "Statistics and Probability",
+    "author": "أنيس إسماعيل كنجو",
+    "author_en": "Anis Ismail Kenjo",
+    "category": "الرياضيات والإحصاء",
+    "category_en": "Mathematics & Statistics",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Book",
+    "description": "كتاب أكاديمي شامل يقدم مبادئ الإحصاء الوصفي ونظرية الاحتمالات بطريقة ميسرة ومباشرة لطلاب المرحلة الجامعية. يتناول الكتاب عرض البيانات الإحصائية وتلخيصها، مقاييس النزعة المركزية والتشتت، معامل الارتباط والانحدار، مفاهيم الأحداث وفضاء العينة، التوزيعات الاحتمالية المنفصلة والمتصلة والتوزيع الطبيعي وفترات الثقة.",
+    "description_en": "A comprehensive academic textbook covering the principles of descriptive statistics and probability theory for university students. The book addresses statistical data presentation, measures of central tendency and dispersion, correlation and regression, sample spaces and events, discrete and continuous probability distributions, normal distribution, and confidence intervals.",
+    "publisher": "مكتبة العبيكان",
+    "publisher_en": "Obeikan Bookshop",
+    "year": "2000",
+    "isbn": "9960-20-639-4",
+    "keywords": [
+      "الإحصاء",
+      "الاحتمالات",
+      "الإحصاء الوصفي",
+      "النزعة المركزية",
+      "مقاييس التشتت",
+      "المتغير العشوائي",
+      "التوزيع الطبيعي",
+      "معامل الارتباط"
+    ],
+    "keywords_en": [
+      "Statistics",
+      "Probability",
+      "Descriptive Statistics",
+      "Central Tendency",
+      "Measures of Dispersion",
+      "Random Variable",
+      "Normal Distribution",
+      "Correlation Coefficient"
+    ],
+    "key_points": [
+      "شرح أساليب جمع البيانات الإحصائية وتلخيصها وجدولتها وتمثيلها بيانياً.",
+      "دراسة مقاييس النزعة المركزية (المتوسط، الوسيط، المنوال) ومقاييس التشتت (المدى، التباين، الانحراف المعياري).",
+      "تغطية مبادئ نظرية الاحتمالات والأحداث المتقاطعة والمنفصلة والشرطية واستقلال الأحداث.",
+      "استعراض التوزيعات الاحتمالية للمتغيرات العشوائية المنفصلة والمتصلة مثل التوزيع الثنائي وتوزيع بواسون والتوزيع الطبيعي.",
+      "تطبيق المفاهيم الإحصائية والاحتمالية عبر أمثلة عملية وتمارين محلولة متنوعة."
+    ],
+    "key_points_en": [
+      "Explaining methods of statistical data collection, summarization, tabulation, and graphical representation.",
+      "Studying measures of central tendency (mean, median, mode) and dispersion (range, variance, standard deviation).",
+      "Covering fundamentals of probability theory, conditional probability, independent events, and Bayes' theorem.",
+      "Reviewing probability distributions for discrete and continuous random variables, including Binomial, Poisson, and Normal distributions.",
+      "Applying statistical and probability concepts through various practical examples and solved exercises."
+    ],
+    "target_audience": "طلاب الجامعات والكليات العلمية والتطبيقية، والباحثون والدارسون للعلوم الطبيعية والإنسانية والإدارية.",
+    "target_audience_en": "University students in scientific and applied faculties, as well as researchers studying natural, human, and administrative sciences.",
+    "pages": "485",
+    "file_size": "9.59 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/الاحصاء_والاحتمال.pdf",
+    "cover_image": "covers/34.png"
   }
 ]
