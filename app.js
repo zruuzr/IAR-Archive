@@ -990,7 +990,6 @@
     bootstrap.Toast.getOrCreateInstance(toast, { delay: 4000 }).show();
   }
 
-  // ✅ معالج موحد لكل الإجراءات (شبكة + قائمة + كتاب مميز)
   function handleBookAction(trigger) {
     const bookId = Number(trigger.getAttribute('data-id'));
     const book = booksData.find(b => b.id === bookId);
@@ -1067,7 +1066,6 @@
     });
   }
 
-  // ✅ إصلاح مشكلة 404 في الكتاب المميز: البحث المباشر في booksData
   function renderFeaturedSection(filtered) {
     const container = document.getElementById('featuredSection');
     if (!container || isBundleMode || isSingleView) {
@@ -1081,14 +1079,12 @@
       return;
     }
 
-    // العثور على الكتاب المميز من filtered، ثم التحقق منه في booksData
     const candidate = filtered.find(b => b.featured === true) || filtered[0];
     if (!candidate) {
       container.innerHTML = '';
       return;
     }
 
-    // البحث المباشر في booksData لضمان الحصول على نفس الكائن المستخدم في الشبكة
     const featuredBook = booksData.find(b => b.id === candidate.id);
     if (!featuredBook || !featuredBook.file_path) {
       container.innerHTML = '';
@@ -1111,33 +1107,40 @@
       : `<div class="cover-placeholder"><i class="bi bi-book"></i></div>`;
 
     container.innerHTML = `
-      <div class="featured-spotlight-card mb-4">
-        <div class="row align-items-center g-4">
-          <div class="col-md-3 text-center">
-            <div class="cover-container mx-auto shadow-sm" style="width: 130px; height: 185px;">
-              ${coverHtml}
+      <div class="featured-spotlight-card">
+        <div class="featured-inner">
+          <div class="featured-sweep" aria-hidden="true"></div>
+          <div class="row align-items-center g-4 featured-row">
+            <div class="col-md-3 text-center">
+              <div class="cover-container mx-auto shadow-sm" style="width: 130px; height: 185px;">
+                ${coverHtml}
+              </div>
             </div>
-          </div>
-          <div class="col-md-9" id="featuredInfoColumn">
-            ${badgeText ? `<div class="featured-badge-top"><i class="bi bi-star-fill"></i> ${badgeText}</div>` : ''}
-            <div class="d-flex flex-wrap gap-2 mb-2 justify-content-center justify-content-md-start">
-              <span class="badge-tag">${category}</span>
-              <span class="badge-type"><i class="bi bi-journal-check me-1"></i>${type}</span>
-            </div>
-            <h2 class="h4 fw-bold mb-2" style="color: var(--accent);">${title}</h2>
-            <p class="book-author mb-2"><i class="bi bi-person me-1"></i>${author}</p>
-            <div class="mb-3 d-flex justify-content-center justify-content-md-start">
-              <div class="rating-stars" id="featuredStars"></div>
-            </div>
-            <p class="book-desc mb-3 mx-auto mx-md-0">${escapeHtml(translateDynamicText(featuredBook.description, featuredBook.description_en) || t.unknown)}</p>
-            
-            <div class="d-flex flex-wrap align-items-center gap-2 justify-content-center justify-content-md-start">
-              <button type="button" data-action="read" data-id="${featuredBook.id}" class="btn btn-iar-action px-3 py-2"><i class="bi bi-eye me-1"></i> ${t.readBtn}</button>
-              <button type="button" data-action="download" data-id="${featuredBook.id}" class="btn btn-iar-primary px-3 py-2"><i class="bi bi-download me-1"></i> ${t.downloadBtn} <span class="badge bg-light text-dark ms-1" id="downloadCount-${featuredBook.id}">${featuredBook.downloadCount || 0}</span></button>
-              <button type="button" data-action="summary" data-id="${featuredBook.id}" class="btn btn-iar-action px-3 py-2"><i class="bi bi-card-text me-1"></i> ${t.summaryBtn}</button>
-              <button type="button" data-action="cite" data-id="${featuredBook.id}" class="btn btn-iar-action px-3 py-2" title="${t.citeBtn}"><i class="bi bi-quote"></i></button>
-              <button type="button" data-action="favorite" data-id="${featuredBook.id}" class="btn btn-iar-action px-2 py-2" title="${isFav ? t.unfavoriteBtn : t.favoriteBtn}"><i class="bi ${isFav ? 'bi-heart-fill text-danger' : 'bi-heart'}"></i></button>
-              <button type="button" data-action="share" data-id="${featuredBook.id}" class="btn btn-iar-action px-2 py-2" title="${t.shareBtn}"><i class="bi bi-share"></i></button>
+            <div class="col-md-9 text-center text-md-start" id="featuredInfoColumn">
+              ${badgeText ? `
+                <div class="d-flex justify-content-center justify-content-md-start">
+                  <div class="featured-badge-top"><i class="bi bi-star-fill"></i> ${badgeText}</div>
+                </div>
+              ` : ''}
+              <div class="d-flex flex-wrap gap-2 mb-2 justify-content-center justify-content-md-start">
+                <span class="badge-tag">${category}</span>
+                <span class="badge-type"><i class="bi bi-journal-check me-1"></i>${type}</span>
+              </div>
+              <h2 class="h4 fw-bold mb-2" style="color: var(--accent);">${title}</h2>
+              <p class="book-author mb-2"><i class="bi bi-person me-1"></i>${author}</p>
+              <div class="mb-3 d-flex justify-content-center justify-content-md-start">
+                <div class="rating-stars" id="featuredStars"></div>
+              </div>
+              <p class="book-desc mb-3 mx-auto mx-md-0">${escapeHtml(translateDynamicText(featuredBook.description, featuredBook.description_en) || t.unknown)}</p>
+              
+              <div class="d-flex flex-wrap align-items-center gap-2 justify-content-center justify-content-md-start">
+                <button type="button" data-action="read" data-id="${featuredBook.id}" class="btn btn-iar-action px-3 py-2"><i class="bi bi-eye me-1"></i> ${t.readBtn}</button>
+                <button type="button" data-action="download" data-id="${featuredBook.id}" class="btn btn-iar-primary px-3 py-2"><i class="bi bi-download me-1"></i> ${t.downloadBtn} <span class="badge bg-light text-dark ms-1" id="downloadCount-${featuredBook.id}">${featuredBook.downloadCount || 0}</span></button>
+                <button type="button" data-action="summary" data-id="${featuredBook.id}" class="btn btn-iar-action px-3 py-2"><i class="bi bi-card-text me-1"></i> ${t.summaryBtn}</button>
+                <button type="button" data-action="cite" data-id="${featuredBook.id}" class="btn btn-iar-action px-3 py-2" title="${t.citeBtn}"><i class="bi bi-quote"></i></button>
+                <button type="button" data-action="favorite" data-id="${featuredBook.id}" class="btn btn-iar-action px-2 py-2" title="${isFav ? t.unfavoriteBtn : t.favoriteBtn}"><i class="bi ${isFav ? 'bi-heart-fill text-danger' : 'bi-heart'}"></i></button>
+                <button type="button" data-action="share" data-id="${featuredBook.id}" class="btn btn-iar-action px-2 py-2" title="${t.shareBtn}"><i class="bi bi-share"></i></button>
+              </div>
             </div>
           </div>
         </div>
