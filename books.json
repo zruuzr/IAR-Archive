@@ -1377,5 +1377,59 @@
     "file_type": "PDF",
     "file_path": "pdf/المحاسبة_الادارية:مفاهيم_اساسية_وتطبيقات_عملية.pdf",
     "cover_image": "covers/31.png"
+  },
+  {
+    "id": 32,
+    "title": "المسؤولية الاجتماعية لمنظمات الأعمال",
+    "title_en": "Corporate Social Responsibility",
+    "author": "محمد فلاق",
+    "author_en": "Mohamed Fellaq",
+    "category": "إدارة الأعمال والاقصاد",
+    "category_en": "Business & Economics",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Book",
+    "description": "كتاب يدرس مفهوم المسؤولية الاجتماعية لمنظمات الأعمال وتطورها التاريخي والفكري والإسلامي، ويتطرق إلى مجالاتها وأبعادها البيئية والأخلاقية والتسويقية، إضافة إلى الإفصاح والمحاسبة عن الأداء الاجتماعي والبيئي، وكيفية مساهمة المسؤولية الاجتماعية في تحقيق وإدامة الميزة التنافسية المستدامة للشركات.",
+    "description_en": "An academic book examining the concept of Corporate Social Responsibility (CSR), its historical, theoretical, and Islamic origins, its environmental, ethical, and marketing dimensions, as well as social accounting and disclosure, and how CSR contributes to achieving and sustaining corporate competitive advantage.",
+    "publisher": "دار اليازوري العلمية للنشر والتوزيع",
+    "publisher_en": "Dar Al-Yazori Scientific Publishing and Distribution",
+    "year": "2016",
+    "isbn": "9789957127688",
+    "keywords": [
+      "المسؤولية الاجتماعية",
+      "منظمات الأعمال",
+      "الميزة التنافسية",
+      "المحاسبة الاجتماعية",
+      "أخلاقيات الأعمال",
+      "الإدارة البيئية",
+      "التنمية المستدامة"
+    ],
+    "keywords_en": [
+      "Corporate Social Responsibility",
+      "Business Organizations",
+      "Competitive Advantage",
+      "Social Accounting",
+      "Business Ethics",
+      "Environmental Management",
+      "Sustainable Development"
+    ],
+    "key_points": [
+      "التأصيل التاريخي والفكري والإسلامي لمفهوم المسؤولية الاجتماعية.",
+      "استعراض أبعاد ومجالات المسؤولية الاجتماعية تجاه العاملين، البيئة، والمستهلك والمجتمع.",
+      "دراسة نظام المحاسبة الاجتماعية والإفصاح عن الأداء الاجتماعي والبيئي.",
+      "ربط استراتيجيات المسؤولية الاجتماعية بتحقيق وإدامة الميزة التنافسية للشركات."
+    ],
+    "key_points_en": [
+      "Historical, theoretical, and Islamic foundations of Corporate Social Responsibility.",
+      "Exploring CSR dimensions regarding employees, environment, consumers, and society.",
+      "Analyzing social accounting systems and social/environmental performance disclosure.",
+      "Linking CSR strategies to achieving and sustaining competitive advantage in business organizations."
+    ],
+    "target_audience": "أساتذة وطلاب كليات الاقتصاد وإدارة الأعمال، والمدراء، والباحثون في مجال المسؤولية الاجتماعية للشركات.",
+    "target_audience_en": "Professors, students of economics and business administration, business managers, and researchers in CSR.",
+    "pages": "372",
+    "file_size": "9.50 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/المسؤولية_الاجتماعية_لمنظمات_الاعمال.pdf",
+    "cover_image": "covers/32.png"
   }
 ]
