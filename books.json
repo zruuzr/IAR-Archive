@@ -1,6 +1,52 @@
 [
   {
     "id": 1,
+    "title": "دليل الطالب للقبول المركزي في الجامعات العراقية",
+    "title_en": "Student Guide for Central Admission in Iraqi Universities",
+    "author": "وزارة التعليم العالي والبحث العلمي",
+    "author_en": "Ministry of Higher Education and Scientific Research",
+    "category": "التعليم والقبول",
+    "category_en": "Education & Admissions",
+    "type": "دليل رسمي",
+    "type_en": "Official Guide",
+    "description": "الدليل الرسمي الشامل لضوابط وآليات القبول المركزي في الجامعات العراقية للعام الدراسي الحالي.",
+    "description_en": "The official comprehensive guide for central admission rules and mechanisms in Iraqi universities.",
+    "publisher": "وزارة التعليم العالي والبحث العلمي",
+    "publisher_en": "Ministry of Higher Education and Scientific Research",
+    "year": "2026",
+    "pages": "140",
+    "file_size": "10.1 MB",
+    "file_type": "PDF",
+    "isbn": "",
+    "featured": true,
+    "badge_text": "إصدار سنوي محدث 2026",
+    "keywords": [
+      "القبول المركزي",
+      "دليل الطالب",
+      "الجامعات العراقية"
+    ],
+    "keywords_en": [
+      "Central Admission",
+      "Student Guide",
+      "Iraqi Universities"
+    ],
+    "key_points": [
+      "شروط وضوابط التقديم للقبول المركزي.",
+      "الحدود الدنيا للقبول في السنوات السابقة.",
+      "آلية ملء استمارة التقديم الإلكترونية."
+    ],
+    "key_points_en": [
+      "Conditions and rules for central admission application.",
+      "Minimum admission thresholds from previous years.",
+      "Mechanism for filling out the electronic application form."
+    ],
+    "target_audience": "الطلبة الخريجون من المرحلة الاعدادية وأولياء أمورهم.",
+    "target_audience_en": "High school graduates and their parents.",
+    "cover_image": "covers/1.png",
+    "file_path": "pdf/دليل_الطالب_للقبول_المركزي_في_الجامعات_العراقية.pdf"
+  },
+  {
+    "id": 2,
     "title": "فن الخطابة",
     "title_en": "The Art of Public Speaking",
     "author": "ديل كارنيجي",
@@ -48,11 +94,11 @@
     ],
     "target_audience": "المتحدثون الرسميون، المدراء التنفيذيون، الخطباء، وكل من يرغب في كسر حاجز الخوف وتطوير مهارات التواصل والعرض.",
     "target_audience_en": "Official spokespersons, executive managers, speakers, and anyone looking to overcome fear and improve presentation skills.",
-    "cover_image": "covers/1.png",
+    "cover_image": "covers/2.png",
     "file_path": "pdf/فن_الخطابة.pdf"
   },
   {
-    "id": 2,
+    "id": 3,
     "title": "ثقافة إدارية",
     "title_en": "Administrative Culture",
     "author": "يوسف بن محمد القبلان",
@@ -100,11 +146,11 @@
     ],
     "target_audience": "المدراء التنفيذيون، القادة الإداريون، المستشارون، وجميع العاملين في قطاعات التطوير والتخطيط الإداري.",
     "target_audience_en": "Executive managers, administrative leaders, consultants, and personnel in organizational development.",
-    "cover_image": "covers/2.png",
+    "cover_image": "covers/3.png",
     "file_path": "pdf/ثقافة إدارية.pdf"
   },
   {
-    "id": 3,
+    "id": 4,
     "title": "مناهج البحث العلمي: تطبيقات إدارية واقتصادية",
     "title_en": "Scientific Research Methodology: Administrative and Economic Applications",
     "author": "أحمد حسين الرفاعي",
@@ -152,11 +198,11 @@
     ],
     "target_audience": "طلاب الدراسات الأولية والعليا، والباحثون والمتخصصون في مجالات العلوم الإدارية والاقتصادية والاجتماعية",
     "target_audience_en": "Undergraduate and postgraduate students, researchers, and specialists in administrative, economic, and social sciences",
-    "cover_image": "covers/3.png",
+    "cover_image": "covers/4.png",
     "file_path": "pdf/مناهج البحث العلمي.pdf"
   },
   {
-    "id": 4,
+    "id": 5,
     "title": "بيتر دروكر والإدارة",
     "title_en": "Peter Drucker and Management",
     "author": "كارين إي. لينكلتر",
@@ -211,11 +257,11 @@
     ],
     "target_audience": "المدراء التنفيذيون، الأكاديميون، الباحثون في الفكر الإداري والنظرية الاجتماعية، وطلاب إدارة الأعمال.",
     "target_audience_en": "Executive managers, academics, researchers in management thought & social theory, and business students.",
-    "cover_image": "covers/4.png",
+    "cover_image": "covers/5.png",
     "file_path": "pdf/Peter Drucker and Management.pdf"
   },
   {
-    "id": 5,
+    "id": 6,
     "title": "الناس والأداء: أفضل ما كتب بيتر دروكر في الإدارة",
     "title_en": "People and Performance: The Best of Peter Drucker on Management",
     "author": "بيتر ف. دروكر",
@@ -267,11 +313,11 @@
     ],
     "target_audience": "المدراء التنفيذيون، القادة الإداريون، عمال المعرفة، أساتذة وطلاب إدارة الأعمال، والمهتمون بفلسفة وتطبيقات الإدارة الحديثة.",
     "target_audience_en": "Executive managers, organizational leaders, knowledge workers, business academics, students, and professionals interested in management theory and practice.",
-    "cover_image": "covers/5.png",
+    "cover_image": "covers/6.png",
     "file_path": "pdf/People and performance.pdf"
   },
   {
-    "id": 6,
+    "id": 7,
     "title": "التحليل المالي : وجهة نظر إدارية محاسبية",
     "title_en": "Financial Analysis: A Managerial Accounting Perspective",
     "author": "محمد الصيرفي",
@@ -315,11 +361,11 @@
     ],
     "target_audience": "طلاب المحاسبة وإدارة الأعمال، المدراء الماليون والمحاسبون، والمحللون الماليون والباحثون.",
     "target_audience_en": "Accounting and Business Administration Students, Financial Managers and Accountants, Financial Analysts and Researchers.",
-    "cover_image": "covers/6.png",
+    "cover_image": "covers/7.png",
     "file_path": "pdf/كتاب التحليل المالي وجهة نظر ادارية محاسبية.pdf"
   },
   {
-    "id": 7,
+    "id": 8,
     "title": "بحوث ودراسات في قضايا إدارية معاصرة",
     "title_en": "Researches and Studies in Contemporary Administrative Issues",
     "author": "عبد السلام أبو قحف",
@@ -363,11 +409,11 @@
     ],
     "target_audience": "الأكاديميون، والباحثون، وطلاب الدراسات العليا في الإدارة، والمدراء الراغبون في مواكبة القضايا الإدارية الحديثة.",
     "target_audience_en": "Academics, researchers, postgraduate business students, and managers seeking to keep up with modern administrative issues.",
-    "cover_image": "covers/7.png",
+    "cover_image": "covers/8.png",
     "file_path": "pdf/بحوث ودراسات فى قضايا ادارية معاصرة.pdf"
   },
   {
-    "id": 8,
+    "id": 9,
     "title": "الإدارة والتقنية: شركاء في مواجهة تحديات عصر الانترنت",
     "title_en": "Management & Technology: Partners for Survival in the Internet Age",
     "author": "د. محمد حسن عمر",
@@ -413,11 +459,11 @@
     ],
     "target_audience": "المدراء التنفيذيون، مسؤولو تقنية المعلومات، والباحثون في نظم المعلومات الإدارية.",
     "target_audience_en": "Executive managers, IT professionals, and researchers in management information systems.",
-    "cover_image": "covers/8.png",
+    "cover_image": "covers/9.png",
     "file_path": "pdf/الادارة و التقنية.pdf"
   },
   {
-    "id": 9,
+    "id": 10,
     "title": "مبادئ الإدارة والتنظيم",
     "title_en": "Principles of Management and Organization",
     "author": "دكتور مجدي عبد الله شراره",
@@ -463,11 +509,11 @@
     ],
     "target_audience": "الطلاب والباحثون والعاملون في مجالات الإدارة والتنظيم وتطوير الأعمال.",
     "target_audience_en": "Students, researchers, and professionals in management, organization, and business development.",
-    "cover_image": "covers/9.png",
+    "cover_image": "covers/10.png",
     "file_path": "pdf/كتاب الادارة والتنظيم.pdf"
   },
   {
-    "id": 10,
+    "id": 11,
     "title": "قضايا إدارية وتنموية معاصرة",
     "title_en": "Contemporary Administrative and Developmental Issues",
     "author": "مصطفى محمود أبو بكر",
@@ -515,11 +561,11 @@
     ],
     "target_audience": "الباحثون الأكاديميون، طلاب الدراسات العليا في إدارة الأعمال، والمدراء والمستشارون الإداريون.",
     "target_audience_en": "Academic researchers, postgraduate business students, and administrative managers and consultants.",
-    "cover_image": "covers/10.png",
+    "cover_image": "covers/11.png",
     "file_path": "pdf/قضايا إدارية وتنموية معاصرة تأصيل علمي وتطبيق عملي.pdf"
   },
   {
-    "id": 11,
+    "id": 12,
     "title": "بحوث العمليات",
     "title_en": "Operations Research",
     "author": "ب. راما مورثي",
@@ -567,11 +613,11 @@
     ],
     "target_audience": "طلاب وأساتذة الهندسة الصناعية، الهندسة الميكانيكية، وإدارة الأعمال",
     "target_audience_en": "Students and faculty in Industrial Engineering, Mechanical Engineering, and Management Science",
-    "cover_image": "covers/11.png",
+    "cover_image": "covers/12.png",
     "file_path": "pdf/Operations Research.pdf"
   },
   {
-    "id": 12,
+    "id": 13,
     "title": "إدارة المشاريع الحديثة: الدمج الناجح لمجالات معرفة وعمليات إدارة المشاريع",
     "title_en": "Modern Project Management: Successfully Integrating Project Management Knowledge Areas and Processes",
     "author": "نورمان ر. هاوز",
@@ -615,11 +661,11 @@
     ],
     "target_audience": "مديرو المشاريع، والمهنيون في مجال إدارة الأعمال، والطلاب والمتخصصون في الإدارة.",
     "target_audience_en": "Project managers, business management professionals, students, and practitioners in administration.",
-    "cover_image": "covers/12.png",
+    "cover_image": "covers/13.png",
     "file_path": "pdf/Modern Project Management.pdf"
   },
   {
-    "id": 13,
+    "id": 14,
     "title": "التقنيات الكمية في إدارة الأعمال: محاضرات وتمارين (الجزء الأول)",
     "title_en": "Quantitative Techniques in Business Administration: Lectures and Exercises (Part 1)",
     "author": "د. مفيدة يحياوي",
@@ -671,11 +717,11 @@
     ],
     "target_audience": "طلبة وباحثو العلوم الاقتصادية والتجارية وعلوم التسيير، والمسيرون ومتخذو القرارات في المؤسسات والتنظيمات.",
     "target_audience_en": "Students and researchers in Economics, Commercial, and Management Sciences, as well as institutional managers and decision-makers.",
-    "cover_image": "covers/13.png",
+    "cover_image": "covers/14.png",
     "file_path": "pdf/التقنيات الكمية في ادارة الاعمال.pdf"
   },
   {
-    "id": 14,
+    "id": 15,
     "title": "إدارة المكاتب والسكرتارية (إدارة الأعمال المكتبية)",
     "title_en": "Office Management and Secretarial Work (Office Business Management)",
     "author": "عامر عبد الكريم أبو شحادة",
@@ -719,11 +765,11 @@
     ],
     "target_audience": "مديرو المكاتب، الموظفون في مجال السكرتارية، طلاب إدارة الأعمال، والموظفون الإداريون",
     "target_audience_en": "Office managers, secretarial staff, business administration students, and administrative employees",
-    "cover_image": "covers/14.png",
+    "cover_image": "covers/15.png",
     "file_path": "pdf/إدارة_المكاتب_والسكرتارية.pdf"
   },
   {
-    "id": 15,
+    "id": 16,
     "title": "مبادئ إدارة الأعمال",
     "title_en": "Principles of Business Administration",
     "author": "رائد محمد عبدربه",
@@ -771,11 +817,11 @@
     ],
     "target_audience": "طلاب وتخصصات إدارة الأعمال، والمديرون، والمسيرون، والمهتمون بالتطوير الإداري وبحوث العلوم الإدارية.",
     "target_audience_en": "Business administration students, managers, executives, and researchers interested in administrative development and management sciences.",
-    "cover_image": "covers/15.png",
+    "cover_image": "covers/16.png",
     "file_path": "pdf/مبـادئ إدارة الأعمـال.pdf"
   },
   {
-    "id": 16,
+    "id": 17,
     "title": "كيف تجعل من نفسك عاملاً فعالاً في منظمتك؟",
     "title_en": "How to make yourself a key player within an Organization",
     "author": "د. مؤيد الفضل، د. فيصل الفضل",
@@ -829,11 +875,11 @@
     ],
     "target_audience": "الموظفون والعاملون في مختلف المنظمات والشركات، والمدراء، والباحثون والطلاب في مجال إدارة الأعمال.",
     "target_audience_en": "Employees, corporate staff, managers, researchers, and students in the field of business administration.",
-    "cover_image": "covers/16.png",
+    "cover_image": "covers/17.png",
     "file_path": "pdf/كيف تجعل من نفسك عامل فعال في منظمتك.pdf"
   },
   {
-    "id": 17,
+    "id": 18,
     "title": "دراسات ميدانية في إدارة الأعمال",
     "title_en": "Field Studies in Business Administration",
     "author": "بلكبير بومدين",
@@ -881,11 +927,11 @@
     ],
     "target_audience": "طلبة إدارة الأعمال والتسويق، الباحثون والمهتمون بالتطوير الإداري، إضافة إلى الممارسين ومدراء الشركات.",
     "target_audience_en": "Business administration and marketing students, researchers, management developers, practitioners, and company managers.",
-    "cover_image": "covers/17.png",
+    "cover_image": "covers/18.png",
     "file_path": "pdf/دراسات ميدانية في إدارة الأعمال.pdf"
   },
   {
-    "id": 18,
+    "id": 19,
     "title": "المائة كلمة في الإدارة",
     "title_en": "The Top 100 Words in Management",
     "author": "غير محدد",
@@ -929,11 +975,11 @@
     ],
     "target_audience": "المدراء، القادة، الباحثون، والطلاب المهتمون بإتقان مصطلحات ومفاهيم الإدارة الحديثة.",
     "target_audience_en": "Managers, leaders, researchers, and students interested in mastering modern management terminology.",
-    "cover_image": "covers/18.png",
+    "cover_image": "covers/19.png",
     "file_path": "pdf/المائة كلمة في الإدارة.pdf"
   },
   {
-    "id": 19,
+    "id": 20,
     "title": "المرجع المتكامل في إدارة الأعمال: منظور كلي",
     "title_en": "The Comprehensive Reference in Business Administration: A Holistic Perspective",
     "author": "شوقي ناجي جواد",
@@ -981,11 +1027,11 @@
     ],
     "target_audience": "طلاب الكليات والمعاهد المتخصصة في إدارة الأعمال، والباحثون الأكاديميون، والمديرون والتنفيذيون الساعون لتطوير معارفهم الإدارية.",
     "target_audience_en": "Students and faculty in business schools, academic researchers, and managers or executives seeking to enhance their managerial knowledge.",
-    "cover_image": "covers/19.png",
+    "cover_image": "covers/20.png",
     "file_path": "pdf/المرجع المتكامل في إدارة الأعمال.pdf"
   },
   {
-    "id": 20,
+    "id": 21,
     "title": "استراتيجيات الإعلان",
     "title_en": "Advertising Strategies",
     "author": "شيراز محمد خضر",
@@ -1037,11 +1083,11 @@
     ],
     "target_audience": "الطلاب والمتخصصون والباحثون في مجالات التسويق والإعلام والإعلان وإدارة الأعمال.",
     "target_audience_en": "Students, professionals, and researchers in marketing, media, advertising, and business management.",
-    "cover_image": "covers/20.png",
+    "cover_image": "covers/21.png",
     "file_path": "pdf/استراتيجيات_الإعلان.pdf"
   },
   {
-    "id": 21,
+    "id": 22,
     "title": "النظرية المكانية : في اختيار المكان المناسب للنشاط الاقتصادي",
     "title_en": "The Location of Economic Activity",
     "author": "إدجار هوفر",
@@ -1093,11 +1139,11 @@
     ],
     "target_audience": "طلاب وأساتذة الاقتصاد والجغرافيا الاقتصادية، والباحثون في التخطيط العمراني والإقليمي وصناع القرار الاقتصادي.",
     "target_audience_en": "Students and professors of economics and economic geography, urban and regional planning researchers, and economic decision-makers.",
-    "cover_image": "covers/21.png",
+    "cover_image": "covers/22.png",
     "file_path": "pdf/النظرية_المكانية_في_اختيار_المكان_المناسب_للنشاط_الاقتصادي.pdf"
   },
   {
-    "id": 22,
+    "id": 23,
     "title": "الموازنات التقديرية",
     "title_en": "Estimated Budgets",
     "author": "د. طارق عبد العال حماد",
@@ -1111,6 +1157,9 @@
     "publisher": "الدار الجامعية-الاسكندرية",
     "publisher_en": "Al-Dar Al-Jamia",
     "year": "2009",
+    "pages": "1218",
+    "file_size": "65.21 MB",
+    "file_type": "PDF",
     "isbn": "",
     "keywords": [
       "الموازنات التقديرية",
@@ -1138,14 +1187,11 @@
     ],
     "target_audience": "المدراء الماليون، المحاسبون، والمختصون في الإدارة المالية وطلاب العلوم التجارية والاقتصادية",
     "target_audience_en": "Financial managers, accountants, financial management specialists, and students of business and economics",
-    "pages": "1218",
-    "file_size": "65.21 MB",
-    "file_type": "PDF",
-    "file_path": "pdf/الموازنات_التقديرية.pdf",
-    "cover_image": "covers/22.png"
+    "cover_image": "covers/23.png",
+    "file_path": "pdf/الموازنات_التقديرية.pdf"
   },
   {
-    "id": 23,
+    "id": 24,
     "title": "إدارة المبيعات",
     "title_en": "Sales Management",
     "author": "أشرف خليل مصطفى",
@@ -1196,14 +1242,11 @@
     ],
     "target_audience": "طلاب أساتذة إدارة الأعمال والتسويق، مديرو المبيعات، مندوبو المبيعات، والمهتمون بالمجال التجاري.",
     "target_audience_en": "Students and faculty in business administration and marketing, sales managers, sales representatives, and business professionals.",
-    "pages": "172",
-    "file_size": "27.63 MB",
-    "file_type": "PDF",
-    "file_path": "pdf/إدارة_المبيعات.pdf",
-    "cover_image": "covers/23.png"
+    "cover_image": "covers/24.png",
+    "file_path": "pdf/إدارة_المبيعات.pdf"
   },
   {
-    "id": 24,
+    "id": 25,
     "title": "التسويق الإلكتروني في العالم العربي",
     "title_en": "E-Marketing in the Arab World",
     "author": "مروة شبل عجيزة",
@@ -1244,62 +1287,7 @@
     ],
     "target_audience": "الطلاب والباحثون والمختصون في مجالات التسويق، التجارة الإلكترونية، وإدارة الأعمال",
     "target_audience_en": "Students, researchers, and professionals in marketing, e-commerce, and business administration",
-    "pages": "246",
-    "file_size": "22.70 MB",
-    "file_type": "PDF",
-    "file_path": "pdf/التسويق_الإلكتروني_في_العالم_العربي.pdf",
-    "cover_image": "covers/24.png"
-  },
-  {
-    "id": 25,
-    "title": "دليل الطالب للقبول المركزي في الجامعات العراقية",
-    "title_en": "Student Guide for Central Admission in Iraqi Universities",
-    "author": "وزارة التعليم العالي والبحث العلمي - دائرة الدراسات والتخطيط والمتابعة",
-    "author_en": "Ministry of Higher Education and Scientific Research - Department of Studies, Planning and Follow-up",
-    "category": "دليل إرشادي / تعليم عالي",
-    "category_en": "Guidebook / Higher Education",
-    "type": "دليل رسمـي",
-    "type_en": "Official Guide",
-    "description": "دليل إرشادي رسمي صادِر عن دائرة الدراسات والتخطيط والمتابعة يوضح شروط وضوابط القبول المركزي في الجامعات والمعاهد العراقية، وآلية التقديم عبر الاستمارة الإلكترونية (منصة قدّم)، مع بيان تفصيلي للكليات والأقسام العلمية والإنسانية المتاحة لخريجي كافة الفروع الإعدادية.",
-    "description_en": "An official guidebook issued by the Department of Studies, Planning and Follow-up detailing the conditions and guidelines for central admission to Iraqi universities and institutes, electronic application procedures via the Qadam platform, and a comprehensive list of available colleges and departments for secondary school graduates.",
-    "publisher": "وزارة التعليم العالي والبحث العلمي",
-    "publisher_en": "Ministry of Higher Education and Scientific Research",
-    "year": "2025",
-    "isbn": "",
-    "keywords": [
-      "القبول المركزي",
-      "الجامعات العراقية",
-      "دليل الطالب",
-      "وزارة التعليم العالي",
-      "منصة قدم",
-      "الدراسة الصباحية والمسائية"
-    ],
-    "keywords_en": [
-      "Central Admission",
-      "Iraqi Universities",
-      "Student Guide",
-      "Ministry of Higher Education",
-      "Qadam Platform",
-      "Morning and Evening Studies"
-    ],
-    "key_points": [
-      "عرض الشروط والأسس العامة لنظام القبول المركزي في الكليات والمعاهد الحكومية.",
-      "توضيح خطوات ملء استمارة نظام التقديم الإلكتروني عبر البوابة الإلكترونية ومنصة قدّم.",
-      "بيان قوائم الجامعات والكليات والمعاهد ومحتوياتها من التخصصات لمختلف الفروع (العلمي، الأدبي، الفنون، والمهني).",
-      "تحديد ضوابط قبول الشرائح الخاصة مثل ذوي الشهداء، والطلبة غير العراقيين، والطلبة الأوائل."
-    ],
-    "key_points_en": [
-      "Presentation of general terms and guidelines for central admission to public colleges and institutes.",
-      "Explanation of steps to complete the online application form via the electronic portal and Qadam platform.",
-      "Listing of Iraqi universities, colleges, and technical institutes available for high school graduates across various tracks.",
-      "Detailing admission regulations for special categories such as martyrs' families, international students, and top graduates."
-    ],
-    "target_audience": "خريجو المرحلة الإعدادية بكافة فروعها في العراق، وأولياء الأمور، والكوادر الإرشادية والتعليمية.",
-    "target_audience_en": "High school graduates of all streams in Iraq, parents, academic advisors, and educational staff.",
-    "pages": "140",
-    "file_size": "9.63 MB",
-    "file_type": "PDF",
-    "file_path": "pdf/دليل_الطالب_للقبول _المركزي_في_الجامعات_العراقية.pdf",
-    "cover_image": "covers/25.png"
+    "cover_image": "covers/25.png",
+    "file_path": "pdf/التسويق_الإلكتروني_في_العالم_العربي.pdf"
   }
 ]
