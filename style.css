@@ -49,29 +49,57 @@ html[dir="ltr"] .stat-box { border-left: none; border-right: 1px solid var(--bor
 
 .bundle-bar { background: var(--accent); color: #ffffff; border-radius: 12px; padding: 0.75rem 1.25rem; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3); margin-bottom: 1.5rem; }
 
-/* ===== Featured Spotlight Card (دليل القبول المركزي المميز) ===== */
+/* ===== Featured Spotlight Card (الكتاب المميز مع الإطار المتحرك واللمعة) ===== */
 .featured-spotlight-card {
   background: linear-gradient(135deg, var(--card-bg) 0%, rgba(37, 99, 235, 0.04) 100%);
-  border: 2px solid var(--accent);
+  border: 3px solid transparent;
   border-radius: 20px;
   padding: 1.75rem;
   box-shadow: 0 10px 30px -5px rgba(37, 99, 235, 0.15);
   position: relative;
-  overflow: visible !important; /* <--- يضمن عدم قص غلاف الكتاب عند تكبيره بالماوس */
+  overflow: hidden;
   margin-bottom: 2rem;
   z-index: 1;
+  background-clip: padding-box;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
+/* الإطار المتحرك الجذاب */
 .featured-spotlight-card::before {
   content: '';
   position: absolute;
+  inset: -3px;
+  border-radius: 22px;
+  background: linear-gradient(90deg, var(--bs-primary, #0a0f1d), #2563eb, #0dcaf0, #6f42c1, var(--bs-primary, #0a0f1d));
+  background-size: 300% auto;
+  z-index: -2;
+  animation: shineBorder 4s linear infinite;
+}
+
+/* اللمعة العابرة المتحركة */
+.featured-spotlight-card::after {
+  content: '';
+  position: absolute;
   top: 0;
-  inset-inline-start: 0;
-  width: 6px;
+  left: -100%;
+  width: 30%;
   height: 100%;
-  background: var(--accent);
-  border-top-left-radius: 20px;
-  border-bottom-left-radius: 20px;
+  background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0) 100%);
+  transform: skewX(-20deg);
+  z-index: -1;
+  pointer-events: none;
+  animation: sweepShine 6s infinite;
+}
+
+@keyframes shineBorder {
+  0% { background-position: 0% center; }
+  100% { background-position: 300% center; }
+}
+
+@keyframes sweepShine {
+  0% { left: -100%; }
+  20% { left: 200%; }
+  100% { left: 200%; }
 }
 
 .featured-badge-top {
@@ -109,7 +137,7 @@ html[dir="ltr"] .stat-box { border-left: none; border-right: 1px solid var(--bor
 .chip-item:hover, .chip-item.active { background: var(--accent); color: #ffffff; border-color: var(--accent); }
 
 /* ===== Book Cards & Covers ===== */
-.book-card, .featured-spotlight-card { transition: transform 0.25s ease, box-shadow 0.25s ease; }
+.book-card { transition: transform 0.25s ease, box-shadow 0.25s ease; }
 .book-card:hover { z-index: 20; transform: translateY(-4px); box-shadow: 0 16px 30px -10px rgba(15, 23, 42, 0.12); }
 
 .cover-container { width: 110px; height: 155px; flex-shrink: 0; border-radius: 10px; position: relative; background: var(--bg); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; box-shadow: -5px 8px 16px rgba(0, 0, 0, 0.12); }
