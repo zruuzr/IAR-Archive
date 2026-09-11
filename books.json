@@ -1053,5 +1053,61 @@
     "target_audience_en": "Researchers and marketing students.",
     "cover_image": "covers/25.png",
     "file_path": "pdf/التسويق_الإلكتروني_في_العالم_العربي.pdf"
+  },
+  {
+    "id": 26,
+    "title": "مدخل لدراسة نظم التكاليف",
+    "title_en": "Introduction to the Study of Cost Systems",
+    "author": "لطيف حمود بركات، عبد العزيز طرموم، عبد الله أحمد بامشموش",
+    "author_en": "Lateef Hamood Barakat, Abdulaziz Tarmoum, Abdullah Ahmed Bamashmoosh",
+    "category": "محاسبة وإدارة أعمال",
+    "category_en": "Accounting & Business Administration",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Textbook",
+    "description": "كتاب جامعي يهدف إلى تقديم دراسة شاملة ونظرية وتطبيقية لنظم التكاليف المحاسبية، يغطي تكاليف الأوامر الإنتاجية، وحسابات الانفصال والاندماج، ونظام التكلفة على أساس النشاط (ABC)، بالإضافة إلى تكاليف المقاولات وتصنيفها وتسعير العطاءات، واستخدام نماذج العطاءات التنافسية وأثر منحنيات التعلم والخبرة في خفض التكاليف.",
+    "description_en": "An academic textbook providing a comprehensive theoretical and practical study of cost accounting systems. It covers job-order costing, integrated and non-integrated cost accounting systems, Activity-Based Costing (ABC), contract costing, bid pricing, competitive bidding models, and the effect of learning curves on cost reduction.",
+    "publisher": "الأمين للنشر والتوزيع",
+    "publisher_en": "Al-Ameen for Publishing & Distribution",
+    "year": "2009",
+    "isbn": "",
+    "keywords": [
+      "محاسبة التكاليف",
+      "الأوامر الإنتاجية",
+      "تكاليف المقاولات",
+      "تسعير العطاءات",
+      "التكلفة على أساس النشاط",
+      "منحنى التعلم",
+      "جامعة صنعاء"
+    ],
+    "keywords_en": [
+      "Cost Accounting",
+      "Job Order Costing",
+      "Contract Costing",
+      "Bid Pricing",
+      "Activity-Based Costing",
+      "Learning Curve",
+      "Sana'a University"
+    ],
+    "key_points": [
+      "شرح نظم الانفصال والاندماج في حسابات التكاليف وإجراءات إثبات العمليات",
+      "تطبيق نظام التكلفة على أساس النشاط (ABC) وتحديد موجهات ومراكز التكلفة",
+      "المحاسبة عن عناصر تكاليف المقاولات (المواد، الأجور، الآلات، ومقاولو الباطن)",
+      "أساليب تقدير تكاليف المشروعات والمخاطر المصاحبة لها وتسعير العطاءات",
+      "استخدام نماذج العطاءات التنافسية وأثر الخبرات المكتسبة ومنحنى التعلم في تخفيض التكاليف"
+    ],
+    "key_points_en": [
+      "Explanation of integrated and non-integrated cost accounting systems and recording procedures",
+      "Application of Activity-Based Costing (ABC) and identification of cost drivers and activity centers",
+      "Accounting for contract cost elements (materials, labor, equipment, and subcontractors)",
+      "Methods for estimating project costs, associated risks, and bid pricing strategies",
+      "Use of competitive bidding models and the impact of learning curves on cost reduction"
+    ],
+    "target_audience": "طلاب البكالوريوس والدراسات العليا في أقسام المحاسبة والمالية، والباحثون والمحاسبون المهنيون في الشركات الصناعية وشركات المقاولات.",
+    "target_audience_en": "Undergraduate and graduate students in accounting and finance departments, as well as researchers and professional accountants in manufacturing and construction companies.",
+    "pages": "189",
+    "file_size": "35.97 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/مدخل_لدراسة_نظم_التكاليف.pdf",
+    "cover_image": "covers/26.png"
   }
 ]
