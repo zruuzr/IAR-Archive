@@ -46,7 +46,6 @@
     return Number((Number(value) || 0).toFixed(2));
   }
 
-  // ✅ FIX #1: حماية JSON.parse من الانهيار عند تلف البيانات
   function safeParseArray(key) {
     try {
       const raw = storage.get(key, '[]');
@@ -73,11 +72,10 @@
 
   async function initAuth() {
     try {
-      const userCredential = await Promise.race([
+      await Promise.race([
         auth.signInAnonymously(),
         new Promise((_, reject) => setTimeout(() => reject(new Error('Auth timeout after 5s')), 5000))
       ]);
-      // ✅ FIX #8: حذف المتغير الميت currentUser - استخدام auth.currentUser مباشرة
     } catch (error) {
       console.error('Auth failed:', error);
     }
@@ -108,6 +106,7 @@
       toastRated: "تم حفظ تقييمك بنجاح.",
       toastAuthPending: "جارٍ التهيئة، يرجى المحاولة بعد لحظات.",
       toastRatingFailed: "تعذّر حفظ التقييم. تحقق من الاتصال وحاول مجددًا.",
+      toastFileUnavailable: "رابط ملف هذا المرجع غير متاح حاليًا.",
       generalCat: "عام", defaultPublisher: "الأرشيف الإداري العراقي", defaultType: "مرجع منهجي", themeTooltip: "تبديل المظهر",
       loading: "جارٍ تحميل المراجع…", fileUnavailable: "ملف المرجع غير متاح حاليًا.", searchLabel: "البحث في المراجع", clearSearch: "مسح البحث",
       gridView: "عرض شبكي", listView: "عرض قائمة", selectBundle: "تحديد المرجع لإضافته إلى الحزمة البحثية",
@@ -126,8 +125,7 @@
       unknown: "غير متوفر",
       ratingLabel: "تقييم",
       clearBundle: "إلغاء الحزمة والعودة للرئيسية",
-      preparingDownload: "جارٍ تحضير الملف، يرجى الانتظار...",
-      openInTab: "فتح الملف في تبويب جديد"
+      preparingDownload: "جارٍ تحضير الملف، يرجى الانتظار..."
     },
     en: {
       announcement: "IAR Archive - Interactive Digital Repository for Management & Reference Sciences",
@@ -147,6 +145,7 @@
       toastRated: "Your rating has been saved.",
       toastAuthPending: "Initializing, please try again in a moment.",
       toastRatingFailed: "Could not save rating. Check your connection and retry.",
+      toastFileUnavailable: "The file link for this reference is currently unavailable.",
       generalCat: "General", defaultPublisher: "IAR Archive", defaultType: "Methodological Reference", themeTooltip: "Toggle Theme",
       loading: "Loading references…", fileUnavailable: "This reference file is currently unavailable.", searchLabel: "Search references", clearSearch: "Clear search",
       gridView: "Grid view", listView: "List view", selectBundle: "Select this reference for the research bundle",
@@ -165,8 +164,7 @@
       unknown: "N/A",
       ratingLabel: "Rating",
       clearBundle: "Clear Bundle & Go Home",
-      preparingDownload: "Preparing file for download, please wait...",
-      openInTab: "Open file in new tab"
+      preparingDownload: "Preparing file for download, please wait..."
     }
   };
 
@@ -183,27 +181,27 @@
   function asText(value) { return value === null || value === undefined ? '' : String(value).trim(); }
 
   function safeAssetUrl(value, isPdf = false) {
-    let source = asText(value);
+    const source = asText(value);
     if (!source) return '';
 
-    let urlStr = source;
-
-    if (!source.startsWith('http://') && !source.startsWith('https://')) {
-      let cleanPath = source.replace(/^\/+/, '');
-      if (isPdf) {
-        try { cleanPath = decodeURIComponent(cleanPath); } catch (_) {}
-        const safeEncodedPath = cleanPath.split('/').map(encodeURIComponent).join('/');
-        urlStr = `https://raw.githubusercontent.com/zruuzr/IAR-Archive/main/${safeEncodedPath}`;
-      } else {
-        try { return new URL(cleanPath, window.location.href).href; } catch (_) { return source; }
+    if (source.startsWith('http://') || source.startsWith('https://')) {
+      if (source.includes('github.com') && source.includes('/blob/')) {
+        return source.replace('github.com', 'raw.githubusercontent.com').replace('/blob/', '/');
       }
+      return source;
     }
 
-    if (urlStr.includes('github.com') && urlStr.includes('/blob/')) {
-      urlStr = urlStr.replace('github.com', 'raw.githubusercontent.com').replace('/blob/', '/');
-    }
+    const cleanPath = source.replace(/^\/+/, '');
 
-    return urlStr;
+    if (isPdf) {
+      let decoded = cleanPath;
+      try { decoded = decodeURIComponent(cleanPath); } catch (_) {}
+      const encoded = decoded.split('/').map(encodeURIComponent).join('/');
+      return `https://raw.githubusercontent.com/zruuzr/IAR-Archive/main/${encoded}`;
+    } else {
+      try { return new URL(cleanPath, window.location.href).href; }
+      catch (_) { return cleanPath; }
+    }
   }
 
   function textArray(value) { return Array.isArray(value) ? value.map(asText).filter(Boolean) : []; }
@@ -378,14 +376,12 @@
     return (now - lastVisit > oneDay);
   }
 
-  // ✅ FIX #5: معالجة null auth + FIX #2: عدم فقدان الأخطاء
   async function submitPublicRating(bookId, newRating) {
     if (typeof newRating !== 'number' || newRating < 1 || newRating > 5) {
       showToast(i18n[currentLang].toastRatingFailed, 'danger');
       return false;
     }
 
-    // إذا لم يكتمل تسجيل الدخول بعد، ننتظر قليلًا ونحاول مرة أخرى
     if (!auth.currentUser) {
       await new Promise(resolve => setTimeout(resolve, 1200));
     }
@@ -542,7 +538,6 @@
     setAttribute('summaryDismissBtn', 'aria-label', t.modalClose);
     setAttribute('pdfDismissBtn', 'aria-label', t.modalClose);
     setText('txt-loading', t.loading);
-    setText('txt-open-in-tab', t.openInTab);
     setAttribute('searchInput', 'placeholder', t.searchPlaceholder);
     setAttribute('btnClearSearch', 'aria-label', t.clearSearch);
     setAttribute('themeToggleBtn', 'aria-label', t.themeTooltip);
@@ -591,7 +586,6 @@
   btnViewGrid?.addEventListener('click', () => { currentViewMode = 'grid'; storage.set('iar_view_mode', 'grid'); updateViewControls(); applyFilters(); });
   btnViewList?.addEventListener('click', () => { currentViewMode = 'list'; storage.set('iar_view_mode', 'list'); updateViewControls(); applyFilters(); });
 
-  // ✅ FIX #4: ضبط currentOpenBookId في البداية
   function showSingleBookView(book) {
     isSingleView = true;
     currentOpenBookId = book.id;
@@ -688,7 +682,10 @@
   }
 
   async function handleDownload(bookId, filePath, fileName) {
-    if (!filePath) return showToast(i18n[currentLang].fileUnavailable, 'danger');
+    if (!filePath) {
+      showToast(i18n[currentLang].toastFileUnavailable, 'danger');
+      return;
+    }
     
     const newCount = await incrementDownloadCount(bookId);
     const book = booksData.find(b => b.id === bookId);
@@ -704,7 +701,7 @@
 
     try {
       const response = await fetch(filePath);
-      if (!response.ok) throw new Error('Fetch failed');
+      if (!response.ok) throw new Error('Fetch failed: ' + response.status);
       const blob = await response.blob();
       const objectUrl = URL.createObjectURL(blob);
       
@@ -717,8 +714,8 @@
       
       setTimeout(() => URL.revokeObjectURL(objectUrl), 5000);
     } catch (error) {
-      console.warn("Blob fetch failed, falling back to new tab", error);
-      window.open(filePath, '_blank');
+      console.warn("Blob fetch failed:", error);
+      showToast(i18n[currentLang].toastFileUnavailable, 'danger');
     }
   }
 
@@ -805,17 +802,14 @@
     setTimeout(updateButtonsVisibility, 100);
   }
 
-  // ✅ FIX #6: زر "فتح في تبويب جديد" يعمل دائمًا داخل مودال PDF
   function openPdfReader(filePath, title) {
-    if (!filePath) return showToast(i18n[currentLang].fileUnavailable, 'danger');
+    if (!filePath) {
+      showToast(i18n[currentLang].toastFileUnavailable, 'danger');
+      return;
+    }
     setText('modalBookTitle', title);
     const iframe = document.getElementById('pdfFrame');
-    const fallbackLink = document.getElementById('pdfFallbackLink');
     if (!iframe) return;
-    
-    if (fallbackLink) {
-      fallbackLink.href = filePath;
-    }
     
     const absoluteUrl = new URL(filePath, window.location.href).href;
     iframe.src = `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(absoluteUrl)}`;
@@ -825,8 +819,6 @@
   document.getElementById('pdfReaderModal')?.addEventListener('hidden.bs.modal', () => {
     const iframe = document.getElementById('pdfFrame');
     if (iframe) iframe.src = '';
-    const fallbackLink = document.getElementById('pdfFallbackLink');
-    if (fallbackLink) fallbackLink.href = '';
   });
 
   function openCoverImage(imageSrc, title) {
@@ -951,7 +943,6 @@
     }
   }
 
-  // ✅ FIX #3: إعادة كتابة showToast بأمان ضد XSS + دعم متغيرات متعددة
   function getToastIcon(variant) {
     switch (variant) {
       case 'danger': return 'bi-exclamation-circle';
@@ -982,7 +973,6 @@
     const icon = document.createElement('i');
     icon.className = `bi ${getToastIcon(variant)} me-2`;
 
-    // ✅ استخدام createTextNode بدل innerHTML لمنع XSS
     body.append(icon, document.createTextNode(String(message)));
 
     const closeBtn = document.createElement('button');
@@ -1000,46 +990,52 @@
     bootstrap.Toast.getOrCreateInstance(toast, { delay: 4000 }).show();
   }
 
-  document.getElementById('booksDisplayContainer')?.addEventListener('click', (e) => {
-    const trigger = e.target.closest('[data-action]');
-    if (!trigger) return;
-    const book = booksData.find(b => b.id === Number(trigger.getAttribute('data-id')));
+  // ✅ معالج موحد لكل الإجراءات (شبكة + قائمة + كتاب مميز)
+  function handleBookAction(trigger) {
+    const bookId = Number(trigger.getAttribute('data-id'));
+    const book = booksData.find(b => b.id === bookId);
     if (!book) return;
+
     const t = i18n[currentLang];
     const title = translateDynamicText(book.title, book.title_en) || t.unknown;
     const author = translateDynamicText(book.author, book.author_en) || t.unknown;
     const publisher = translateDynamicText(book.publisher || t.defaultPublisher, book.publisher_en);
-    
+
     switch (trigger.getAttribute('data-action')) {
-      case 'read': openPdfReader(book.file_path, title); break;
-      case 'summary': openSummaryModal(book.id); break;
-      case 'cite': copyText(`${author} (${book.year || t.unknown}). ${title}. ${publisher}.`, t.toastCiteCopied); break;
-      case 'cover-zoom': if (book.cover_image) openCoverImage(book.cover_image, title); break;
-      case 'favorite': toggleFavorite(book.id); break;
-      case 'share': shareBook(book); break;
-      case 'download': handleDownload(book.id, book.file_path, book.file_name); break;
+      case 'read':
+        openPdfReader(book.file_path, title);
+        break;
+      case 'summary':
+        openSummaryModal(book.id);
+        break;
+      case 'cite':
+        copyText(`${author} (${book.year || t.unknown}). ${title}. ${publisher}.`, t.toastCiteCopied);
+        break;
+      case 'cover-zoom':
+        if (book.cover_image) openCoverImage(book.cover_image, title);
+        break;
+      case 'favorite':
+        toggleFavorite(book.id);
+        break;
+      case 'share':
+        shareBook(book);
+        break;
+      case 'download':
+        handleDownload(book.id, book.file_path, book.file_name);
+        break;
     }
+  }
+
+  document.getElementById('booksDisplayContainer')?.addEventListener('click', (e) => {
+    const trigger = e.target.closest('[data-action]');
+    if (!trigger) return;
+    handleBookAction(trigger);
   });
 
   document.getElementById('featuredSection')?.addEventListener('click', (e) => {
     const trigger = e.target.closest('[data-action]');
     if (!trigger) return;
-    const book = booksData.find(b => b.id === Number(trigger.getAttribute('data-id')));
-    if (!book) return;
-    const t = i18n[currentLang];
-    const title = translateDynamicText(book.title, book.title_en) || t.unknown;
-    const author = translateDynamicText(book.author, book.author_en) || t.unknown;
-    const publisher = translateDynamicText(book.publisher || t.defaultPublisher, book.publisher_en);
-
-    switch (trigger.getAttribute('data-action')) {
-      case 'read': openPdfReader(book.file_path, title); break;
-      case 'summary': openSummaryModal(book.id); break;
-      case 'cite': copyText(`${author} (${book.year || t.unknown}). ${title}. ${publisher}.`, t.toastCiteCopied); break;
-      case 'cover-zoom': if (book.cover_image) openCoverImage(book.cover_image, title); break;
-      case 'favorite': toggleFavorite(book.id); break;
-      case 'share': shareBook(book); break;
-      case 'download': handleDownload(book.id, book.file_path, book.file_name); break;
-    }
+    handleBookAction(trigger);
   });
 
   document.getElementById('booksDisplayContainer')?.addEventListener('change', (e) => {
@@ -1071,17 +1067,30 @@
     });
   }
 
-  // ✅ FIX #7: استخدام id صريح بدل querySelector الهشاش
-  function renderFeaturedSection(books) {
+  // ✅ إصلاح مشكلة 404 في الكتاب المميز: البحث المباشر في booksData
+  function renderFeaturedSection(filtered) {
     const container = document.getElementById('featuredSection');
     if (!container || isBundleMode || isSingleView) {
       if (container) container.innerHTML = '';
       return;
     }
 
-    const featuredBook = books.find(b => b.featured === true) || books[0];
     const query = searchInput?.value.trim() || '';
-    if (!featuredBook || query !== '' || selectedCategory !== 'all') {
+    if (query !== '' || selectedCategory !== 'all' || filtered.length === 0) {
+      container.innerHTML = '';
+      return;
+    }
+
+    // العثور على الكتاب المميز من filtered، ثم التحقق منه في booksData
+    const candidate = filtered.find(b => b.featured === true) || filtered[0];
+    if (!candidate) {
+      container.innerHTML = '';
+      return;
+    }
+
+    // البحث المباشر في booksData لضمان الحصول على نفس الكائن المستخدم في الشبكة
+    const featuredBook = booksData.find(b => b.id === candidate.id);
+    if (!featuredBook || !featuredBook.file_path) {
       container.innerHTML = '';
       return;
     }
@@ -1102,8 +1111,7 @@
       : `<div class="cover-placeholder"><i class="bi bi-book"></i></div>`;
 
     container.innerHTML = `
-      <div class="featured-spotlight-card animated-featured-card text-center text-md-start">
-        ${badgeText ? `<div class="featured-badge-top"><i class="bi bi-star-fill"></i> ${badgeText}</div>` : ''}
+      <div class="featured-spotlight-card mb-4">
         <div class="row align-items-center g-4">
           <div class="col-md-3 text-center">
             <div class="cover-container mx-auto shadow-sm" style="width: 130px; height: 185px;">
@@ -1111,40 +1119,33 @@
             </div>
           </div>
           <div class="col-md-9" id="featuredInfoColumn">
+            ${badgeText ? `<div class="featured-badge-top"><i class="bi bi-star-fill"></i> ${badgeText}</div>` : ''}
             <div class="d-flex flex-wrap gap-2 mb-2 justify-content-center justify-content-md-start">
               <span class="badge-tag">${category}</span>
               <span class="badge-type"><i class="bi bi-journal-check me-1"></i>${type}</span>
             </div>
-            <h2 class="h4 fw-bold mb-2 text-primary" style="color: var(--accent) !important;">${title}</h2>
+            <h2 class="h4 fw-bold mb-2" style="color: var(--accent);">${title}</h2>
             <p class="book-author mb-2"><i class="bi bi-person me-1"></i>${author}</p>
+            <div class="mb-3 d-flex justify-content-center justify-content-md-start">
+              <div class="rating-stars" id="featuredStars"></div>
+            </div>
             <p class="book-desc mb-3 mx-auto mx-md-0">${escapeHtml(translateDynamicText(featuredBook.description, featuredBook.description_en) || t.unknown)}</p>
             
             <div class="d-flex flex-wrap align-items-center gap-2 justify-content-center justify-content-md-start">
-              <button data-action="read" data-id="${featuredBook.id}" class="btn btn-iar-action px-3 py-2"><i class="bi bi-eye me-1"></i> ${t.readBtn}</button>
-              <button data-action="download" data-id="${featuredBook.id}" class="btn btn-iar-primary px-3 py-2 text-white"><i class="bi bi-download me-1"></i> ${t.downloadBtn} <span class="badge bg-light text-dark ms-1" id="downloadCount-${featuredBook.id}">${featuredBook.downloadCount || 0}</span></button>
-              <button data-action="summary" data-id="${featuredBook.id}" class="btn btn-iar-action px-3 py-2"><i class="bi bi-card-text me-1"></i> ${t.summaryBtn}</button>
-              <button data-action="cite" data-id="${featuredBook.id}" class="btn btn-iar-action px-3 py-2" title="${t.citeBtn}"><i class="bi bi-quote"></i></button>
-              <button data-action="favorite" data-id="${featuredBook.id}" class="btn btn-iar-action px-2 py-2" title="${isFav ? t.unfavoriteBtn : t.favoriteBtn}"><i class="bi ${isFav ? 'bi-heart-fill text-danger' : 'bi-heart'}"></i></button>
-              <button data-action="share" data-id="${featuredBook.id}" class="btn btn-iar-action px-2 py-2" title="${t.shareBtn}"><i class="bi bi-share"></i></button>
+              <button type="button" data-action="read" data-id="${featuredBook.id}" class="btn btn-iar-action px-3 py-2"><i class="bi bi-eye me-1"></i> ${t.readBtn}</button>
+              <button type="button" data-action="download" data-id="${featuredBook.id}" class="btn btn-iar-primary px-3 py-2"><i class="bi bi-download me-1"></i> ${t.downloadBtn} <span class="badge bg-light text-dark ms-1" id="downloadCount-${featuredBook.id}">${featuredBook.downloadCount || 0}</span></button>
+              <button type="button" data-action="summary" data-id="${featuredBook.id}" class="btn btn-iar-action px-3 py-2"><i class="bi bi-card-text me-1"></i> ${t.summaryBtn}</button>
+              <button type="button" data-action="cite" data-id="${featuredBook.id}" class="btn btn-iar-action px-3 py-2" title="${t.citeBtn}"><i class="bi bi-quote"></i></button>
+              <button type="button" data-action="favorite" data-id="${featuredBook.id}" class="btn btn-iar-action px-2 py-2" title="${isFav ? t.unfavoriteBtn : t.favoriteBtn}"><i class="bi ${isFav ? 'bi-heart-fill text-danger' : 'bi-heart'}"></i></button>
+              <button type="button" data-action="share" data-id="${featuredBook.id}" class="btn btn-iar-action px-2 py-2" title="${t.shareBtn}"><i class="bi bi-share"></i></button>
             </div>
           </div>
         </div>
       </div>
     `;
 
-    // ✅ استخدام id بدل querySelector الهشاش
-    const infoCol = document.getElementById('featuredInfoColumn');
-    if (infoCol) {
-      const starsEl = document.createElement('div');
-      starsEl.className = "mt-2 mb-2 rating-stars d-flex justify-content-center justify-content-md-start";
-      const descEl = infoCol.querySelector('.book-desc');
-      if (descEl) {
-        infoCol.insertBefore(starsEl, descEl);
-      } else {
-        infoCol.appendChild(starsEl);
-      }
-      renderStars(featuredBook.id, starsEl);
-    }
+    const starsEl = document.getElementById('featuredStars');
+    if (starsEl) renderStars(featuredBook.id, starsEl);
   }
 
   function renderBooks(books) {
@@ -1165,7 +1166,7 @@
     const paginatedBooks = books.slice(startIndex, startIndex + itemsPerPage);
 
     if (currentViewMode === 'grid') {
-      container.innerHTML = `<div class="row g-4">${paginatedBooks.map(book => {
+      container.innerHTML = `<div class="row g-4 align-items-stretch">${paginatedBooks.map(book => {
         let title = escapeHtml(translateDynamicText(book.title, book.title_en) || t.unknown);
         let author = escapeHtml(translateDynamicText(book.author, book.author_en) || t.unknown);
         let category = escapeHtml(translateDynamicText(book.category, book.category_en) || t.generalCat);
@@ -1181,15 +1182,16 @@
           : `<div class="cover-placeholder"><i class="bi bi-book"></i></div>`;
 
         const downloadControl = book.file_path
-          ? `<button type="button" data-action="download" data-id="${book.id}" class="btn btn-iar-primary w-100 text-center d-flex align-items-center justify-content-center text-white">
-               <i class="bi bi-download me-1"></i><span>${t.downloadBtn}</span>
-               <span class="badge bg-light text-dark ms-2 px-2 py-1" id="downloadCount-${book.id}">${book.downloadCount || 0}</span>
+          ? `<button type="button" data-action="download" data-id="${book.id}" class="btn btn-iar-primary w-100 d-flex align-items-center justify-content-center gap-1">
+               <i class="bi bi-download"></i>
+               <span>${t.downloadBtn}</span>
+               <span class="badge bg-light text-dark" id="downloadCount-${book.id}">${book.downloadCount || 0}</span>
              </button>`
-          : `<button type="button" class="btn btn-iar-primary w-100 text-white" disabled><i class="bi bi-download me-1"></i>${t.downloadBtn}</button>`;
+          : `<button type="button" class="btn btn-iar-primary w-100" disabled><i class="bi bi-download me-1"></i>${t.downloadBtn}</button>`;
 
         return `
-          <div class="col-lg-6">
-            <div class="card h-100 book-card d-flex flex-column justify-content-between">
+          <div class="col-lg-6 d-flex">
+            <div class="card book-card w-100">
               <div class="d-flex justify-content-between align-items-center mb-2">
                 <span class="badge-type"><i class="bi bi-journal-check me-1"></i>${type}</span>
                 <input class="form-check-input" type="checkbox" ${selectedBundleIds.has(book.id) ? 'checked' : ''} data-action="bundle" data-id="${book.id}" aria-label="${escapeHtml(t.selectBundle)}">
@@ -1206,172 +1208,10 @@
                   </div>
                 </div>
               </div>
-              <p class="book-desc mb-3 pt-2 border-top border-light-subtle">${escapeHtml(translateDynamicText(book.description, book.description_en) || t.unknown)}</p>
+              <p class="book-desc pt-2 border-top border-light-subtle">${escapeHtml(translateDynamicText(book.description, book.description_en) || t.unknown)}</p>
               <div class="row g-2 mt-auto">
-                <div class="col-6 col-md-3"><button data-action="read" data-id="${book.id}" class="btn btn-iar-action w-100"><i class="bi bi-eye me-1"></i> ${t.readBtn}</button></div>
+                <div class="col-6 col-md-3"><button type="button" data-action="read" data-id="${book.id}" class="btn btn-iar-action w-100"><i class="bi bi-eye me-1"></i> ${t.readBtn}</button></div>
                 <div class="col-6 col-md-3">${downloadControl}</div>
-                <div class="col-6 col-md-3"><button data-action="summary" data-id="${book.id}" class="btn btn-iar-action w-100"><i class="bi bi-card-text me-1"></i> ${t.summaryBtn}</button></div>
-                <div class="col-6 col-md-3"><button data-action="cite" data-id="${book.id}" class="btn btn-iar-action w-100" title="${t.citeBtn}"><i class="bi bi-quote"></i></button></div>
-                <div class="col-6"><button data-action="favorite" data-id="${book.id}" class="btn btn-iar-action w-100" title="${isFav ? t.unfavoriteBtn : t.favoriteBtn}"><i class="bi ${isFav ? 'bi-heart-fill text-danger' : 'bi-heart'}"></i></button></div>
-                <div class="col-6"><button data-action="share" data-id="${book.id}" class="btn btn-iar-action w-100" title="${t.shareBtn}"><i class="bi bi-share"></i></button></div>
-              </div>
-            </div>
-          </div>`;
-      }).join('')}</div>`;
-    } else {
-      container.innerHTML = `
-        <div class="table-responsive bg-body rounded-3 border p-2">
-          <table class="table table-hover align-middle mb-0">
-            <thead class="table-light">
-              <tr>
-                <th style="width: 40px;"></th>
-                <th>${currentLang==='en'?'Book Title':'عنوان الكتاب'}</th>
-                <th>${currentLang==='en'?'Author':'المؤلف'}</th>
-                <th>${currentLang==='en'?'Category':'التصنيف'}</th>
-                <th class="text-end">${currentLang==='en'?'Actions':'الإجراءات'}</th>
-              </tr>
-            </thead>
-            <tbody>${paginatedBooks.map(book => {
-              const isFav = isFavorite(book.id);
-              const downloadControl = book.file_path
-                ? `<button type="button" data-action="download" data-id="${book.id}" class="btn btn-primary btn-sm"><i class="bi bi-download"></i> <span class="badge bg-light text-dark ms-1" id="downloadCount-${book.id}">${book.downloadCount || 0}</span></button>`
-                : `<button type="button" class="btn btn-primary btn-sm" disabled><i class="bi bi-download"></i></button>`;
-
-              return `
-              <tr>
-                <td><input class="form-check-input" type="checkbox" ${selectedBundleIds.has(book.id) ? 'checked' : ''} data-action="bundle" data-id="${book.id}"></td>
-                <td class="fw-bold">${escapeHtml(translateDynamicText(book.title, book.title_en) || t.unknown)}</td>
-                <td class="small text-muted">${escapeHtml(translateDynamicText(book.author, book.author_en) || t.unknown)}</td>
-                <td><span class="badge-tag">${escapeHtml(translateDynamicText(book.category, book.category_en) || t.generalCat)}</span></td>
-                <td class="text-end">
-                  <div class="btn-group btn-group-sm gap-1">
-                    <button data-action="read" data-id="${book.id}" class="btn btn-outline-secondary"><i class="bi bi-eye"></i></button>
-                    ${downloadControl}
-                    <button data-action="summary" data-id="${book.id}" class="btn btn-outline-secondary"><i class="bi bi-card-text"></i></button>
-                    <button data-action="cite" data-id="${book.id}" class="btn btn-outline-secondary"><i class="bi bi-quote"></i></button>
-                    <button data-action="favorite" data-id="${book.id}" class="btn btn-outline-secondary"><i class="bi ${isFav ? 'bi-heart-fill text-danger' : 'bi-heart'}"></i></button>
-                    <button data-action="share" data-id="${book.id}" class="btn btn-outline-secondary"><i class="bi bi-share"></i></button>
-                  </div>
-                  <div class="mt-1 rating-stars" id="stars-${book.id}"></div>
-                </td>
-              </tr>`;
-            }).join('')}</tbody>
-          </table>
-        </div>`;
-    }
-
-    renderPaginationControls(totalPages);
-    paginatedBooks.forEach(b => {
-      const starsEl = document.getElementById(`stars-${b.id}`);
-      if (starsEl) renderStars(b.id, starsEl);
-    });
-  }
-
-  const searchInput = document.getElementById('searchInput');
-  const btnClearSearch = document.getElementById('btnClearSearch');
-  
-  function applyFilters() {
-    if (!booksData.length || isSingleView) return;
-    const query = searchInput?.value.trim().toLocaleLowerCase(currentLang) || '';
-    const sortValue = document.getElementById('sortOrder')?.value || 'default';
-
-    let filtered = booksData.filter(book => {
-      if (isBundleMode && !selectedBundleIds.has(book.id)) return false;
-      const keywords = currentLang === 'en' && book.keywords_en.length > 0 ? book.keywords_en.join(' ') : book.keywords.join(' ');
-      const searchableText = `${translateDynamicText(book.title, book.title_en)} ${translateDynamicText(book.author, book.author_en)} ${translateDynamicText(book.publisher, book.publisher_en)} ${translateDynamicText(book.description, book.description_en)} ${keywords}`.toLocaleLowerCase(currentLang);
-      return (query === '' || searchableText.includes(query)) && (selectedCategory === 'all' || getCategoryKey(book) === selectedCategory);
-    });
-
-    const sortMap = {
-      'default': (a, b) => {
-        if (a.featured !== b.featured) return (b.featured ? 1 : 0) - (a.featured ? 1 : 0);
-        return a.id - b.id;
-      },
-      'title': (a, b) => translateDynamicText(a.title, a.title_en).localeCompare(translateDynamicText(b.title, b.title_en), currentLang),
-      'year': (a, b) => (parseInt(b.year) || 0) - (parseInt(a.year) || 0),
-      'pages': (a, b) => (parseInt(a.pages) || 0) - (parseInt(b.pages) || 0),
-      'downloads': (a, b) => (b.downloadCount || 0) - (a.downloadCount || 0),
-      'rating': (a, b) => (b.publicRating || 0) - (a.publicRating || 0),
-      'favorites': (a, b) => {
-        const aFav = isFavorite(a.id) ? 1 : 0;
-        const bFav = isFavorite(b.id) ? 1 : 0;
-        if (aFav !== bFav) return bFav - aFav;
-        return translateDynamicText(a.title, a.title_en).localeCompare(translateDynamicText(b.title, b.title_en), currentLang);
-      }
-    };
-    filtered.sort(sortMap[sortValue] || sortMap['default']);
-
-    renderFeaturedSection(filtered);
-
-    let gridBooks = filtered;
-    if (query === '' && selectedCategory === 'all' && !isBundleMode) {
-      gridBooks = filtered.filter(b => !b.featured);
-    }
-    renderBooks(gridBooks);
-  }
-
-  searchInput?.addEventListener('input', () => {
-    if (btnClearSearch) btnClearSearch.classList.toggle('d-none', searchInput.value.trim() === '');
-    currentPage = 1;
-    debounce(applyFilters, 200)();
-  });
-  btnClearSearch?.addEventListener('click', () => { 
-    if (searchInput) searchInput.value = '';
-    if (btnClearSearch) btnClearSearch.classList.add('d-none');
-    currentPage = 1;
-    applyFilters(); 
-  });
-  document.getElementById('sortOrder')?.addEventListener('change', () => {
-    currentPage = 1;
-    applyFilters();
-  });
-
-  document.getElementById('btnBackToList')?.addEventListener('click', hideSingleBookView);
-
-  async function fetchBooks() {
-    const loadingEl = document.getElementById('booksLoading');
-    const container = document.getElementById('booksDisplayContainer');
-    if (loadingEl) loadingEl.style.display = 'none';
-
-    try {
-      const timestamp = new Date().getTime();
-      const response = await fetch(`./books.json?v=${timestamp}`, { 
-        headers: { 'Accept': 'application/json', 'Cache-Control': 'no-cache' } 
-      });
-      if (!response.ok) throw new Error(`books.json request failed (${response.status})`);
-
-      const payload = await response.json();
-      if (!Array.isArray(payload)) throw new Error('books.json must contain an array');
-
-      const usedIds = new Set();
-      booksData = payload.map(normalizeBook).filter(Boolean).filter(book => {
-        if (usedIds.has(book.id)) return false;
-        usedIds.add(book.id);
-        return true;
-      });
-
-      booksLoaded = true;
-      hydrateBundleFromUrl();
-      syncBundleUI();
-      setupChipsCategories();
-      setupChipsScrollButtons();
-      setText('booksCounter', booksData.length);
-      applyFilters();
-
-      Promise.allSettled([loadPublicRatings(), loadDownloadCounts(), updateSiteVisits()]).then(() => {
-        if (booksLoaded) applyFilters();
-      });
-
-      handleDeepLinking();
-    } catch (error) {
-      console.error('Fetch books error:', error);
-      if (container) {
-        container.innerHTML = `<div class="alert alert-danger text-center py-5"><i class="bi bi-exclamation-triangle me-2"></i> ${i18n[currentLang].errorMsg}</div>`;
-      }
-    }
-  }
-
-  initAuth();
-  applyLanguage(currentLang);
-  fetchBooks();
-})();
+                <div class="col-6 col-md-3"><button type="button" data-action="summary" data-id="${book.id}" class="btn btn-iar-action w-100"><i class="bi bi-card-text me-1"></i> ${t.summaryBtn}</button></div>
+                <div class="col-6 col-md-3"><button type="button" data-action="cite" data-id="${book.id}" class="btn btn-iar-action w-100" title="${t.citeBtn}"><i class="bi bi-quote"></i></button></div>
+                <div class="col-6"><button type="button" data-action="favorite" data-id="${book.id}" class="btn btn-iar-action w-100" title="${isFav ? t.unfavoriteBtn : t.favoriteBtn}"><i class="bi ${
