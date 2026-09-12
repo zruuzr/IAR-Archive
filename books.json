@@ -2271,5 +2271,55 @@
     "file_type": "PDF",
     "file_path": "pdf/تسويق_الخدمات_الصحية.pdf",
     "cover_image": "covers/48.png"
+  },
+  {
+    "id": 49,
+    "title": "الإدارة السياحية",
+    "title_en": "Tourism Management",
+    "author": "خليل محمد سعد",
+    "author_en": "Khalil Muhammad Saad",
+    "category": "إدارة الأعمال والسياحة",
+    "category_en": "Business & Tourism Management",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Book",
+    "description": "كتاب متخصص يتناول مفاهيم الإدارة السياحية وأهميتها الاقتصادية للقطاعين العام والخاص. يناقش الكتاب أسس علم السياحة، والتسويق والترويج السياحي، والتنمية السياحية، بالإضافة إلى طرق وإجراءات إدارة الأزمات والكوارث والمخاطر في القطاع السياحي العربي.",
+    "description_en": "A specialized book dealing with the concepts of tourism management and its economic importance for both public and private sectors. It covers the fundamentals of tourism, tourism marketing and promotion, tourism development, as well as risk, crisis, and disaster management strategies within the Arab tourism industry.",
+    "publisher": "",
+    "publisher_en": "",
+    "year": "2017",
+    "isbn": "978-9957-610-17-3",
+    "keywords": [
+      "الإدارة السياحية",
+      "التسويق السياحي",
+      "التنمية السياحية",
+      "إدارة الأزمات السياحية",
+      "صناعة السياحة"
+    ],
+    "keywords_en": [
+      "Tourism Management",
+      "Tourism Marketing",
+      "Tourism Development",
+      "Crisis Management",
+      "Tourism Industry"
+    ],
+    "key_points": [
+      "التعريف بأسس ومبادئ علم السياحة ومزيج السفر والسياحة",
+      "إبراز أهمية التسويق والترويج السياحي ودور العلاقات العامة فيه",
+      "توضيح مفاهيم التنمية السياحية وأثرها على انباش النشاط الاقتصادي",
+      "تقديم قواعد ومقترحات لإدارة الأزمات والمخاطر في المنظومة السياحية العربية"
+    ],
+    "key_points_en": [
+      "Introduction to the foundations of tourism and the travel and tourism mix",
+      "Highlighting the importance of tourism marketing, promotion, and public relations",
+      "Explaining tourism development concepts and their impact on economic growth",
+      "Providing rules and proposals for risk and crisis management in the Arab tourism system"
+    ],
+    "target_audience": "الطلاب والباحثون في تخصصات السياحة وإدارة الأعمال، والمهنيون والمتخصصون في إدارة المنشآت السياحية.",
+    "target_audience_en": "Students and researchers in tourism and business administration, as well as professionals working in tourism management.",
+    "pages": "210",
+    "file_size": "18.59 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/الادارة_السياحية.pdf",
+    "cover_image": "covers/49.png"
   }
 ]
