@@ -1918,9 +1918,9 @@
     "type_en": "Educational Book",
     "description": "كتاب متخصص يقدم شرحاً لمفاهيم وأساليب التحليل الإحصائي وتطبيقاتها العمليات باستخدام برنامج SPSS، مع توضيح كيفية التعامل مع البيانات الرقمية والكمية وعرض النتائج والرسومات البيانية التوضيحية.",
     "description_en": "A specialized book explaining concepts and methods of statistical analysis using SPSS software, covering data processing, quantitative analysis, and generating graphical representations like histograms.",
-    "publisher": "",
-    "publisher_en": "",
-    "year": "",
+    "publisher": "أحمد الرفاعي غنيم ونصر محمود صبري",
+    "publisher_en": "Ahmad Al-rifaie",
+    "year": "2018",
     "isbn": "",
     "keywords": [
       "التحليل الإحصائي",
