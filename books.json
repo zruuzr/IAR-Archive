@@ -1760,7 +1760,7 @@
     "description_en": "A book reviewing the economic feasibility study for projects and its importance in investment decision-making and avoiding financial losses. It covers mathematical and statistical methods to determine expected returns and risk levels, divided into four chapters covering investment principles, project evaluation, feasibility processes and cost estimation, along with practical models for projects like a restaurant and a nursery.",
     "publisher": "الجنادرية للنشر والتوزيع",
     "publisher_en": "Al-Janadirya for puplishing",
-    "year": "",
+    "year": "2015",
     "isbn": "",
     "keywords": [
       "دراسة الجدوى",
@@ -1797,39 +1797,5 @@
     "file_type": "PDF",
     "file_path": "pdf/دراسة_الجدوى_الاقتصادية_للمشاريع.pdf",
     "cover_image": "covers/39.png"
-  },
-  {
-    "id": 40,
-    "title": "مبادئ المحاسبة والتقرير المالي",
-    "title_en": "",
-    "author": "",
-    "author_en": "",
-    "category": "غير مصنف",
-    "category_en": "Uncategorized",
-    "type": "كتاب",
-    "type_en": "Book",
-    "description": "كتاب بعنوان 'مبادئ المحاسبة والتقرير المالي'. لم تتمكن أداة التحليل من قراءة محتواه بشكل كامل، وقد تم استخدام اسم الملف كعنوان مؤقت.",
-    "description_en": "A book titled 'مبادئ المحاسبة والتقرير المالي'. The analysis tool could not fully read its content; the filename was used as a temporary title.",
-    "publisher": "",
-    "publisher_en": "",
-    "year": "",
-    "isbn": "",
-    "keywords": [
-      "مبادئ المحاسبة والتقرير المالي"
-    ],
-    "keywords_en": [],
-    "key_points": [
-      "يتطلب مراجعة يدوية لاستكمال البيانات."
-    ],
-    "key_points_en": [
-      "Manual review required to complete metadata."
-    ],
-    "target_audience": "",
-    "target_audience_en": "",
-    "pages": "681",
-    "file_size": "78.00 MB",
-    "file_type": "PDF",
-    "file_path": "pdf/مبادئ_المحاسبة_والتقرير_المالي.pdf",
-    "cover_image": "covers/40.png"
   }
 ]
