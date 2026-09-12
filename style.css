@@ -24,14 +24,49 @@
   --star: #fbbf24;
 }
 
+/* ============================================================
+   Global background — subtle grid pattern overlay
+   ============================================================ */
+html::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background-image: radial-gradient(rgba(15, 23, 42, 0.05) 1px, transparent 1px);
+  background-size: 26px 26px;
+  mask-image: radial-gradient(ellipse at center, black 25%, transparent 88%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 25%, transparent 88%);
+}
+
+[data-bs-theme="dark"] html::before {
+  background-image: radial-gradient(rgba(148, 163, 184, 0.08) 1px, transparent 1px);
+}
+
+/* ============================================================
+   Body — soft vibrant gradient background
+   ============================================================ */
 body {
   background-color: var(--bg);
+  background-image:
+    radial-gradient(circle 900px at 100% 0%, rgba(37, 99, 235, 0.10), transparent 60%),
+    radial-gradient(circle 700px at 0% 25%, rgba(13, 202, 240, 0.07), transparent 55%),
+    radial-gradient(circle 1000px at 50% 110%, rgba(99, 102, 241, 0.08), transparent 60%);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
   font-family: 'Cairo', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   color: var(--text);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+[data-bs-theme="dark"] body {
+  background-image:
+    radial-gradient(circle 900px at 100% 0%, rgba(59, 130, 246, 0.16), transparent 60%),
+    radial-gradient(circle 700px at 0% 25%, rgba(13, 202, 240, 0.10), transparent 55%),
+    radial-gradient(circle 1000px at 50% 110%, rgba(99, 102, 241, 0.14), transparent 60%);
 }
 
 .top-live-bar { background: linear-gradient(90deg, #1e1b4b 0%, #312e81 50%, #1e1b4b 100%); color: #e0e7ff; font-size: 0.8rem; padding: 0.45rem 0; font-weight: 600; }
@@ -48,6 +83,15 @@ html[dir="ltr"] .hero-stats-card::before { right: auto; left: 0; }
 html[dir="ltr"] .stat-box { border-left: none; border-right: 1px solid var(--border); }
 
 .bundle-bar { background: var(--accent); color: #ffffff; border-radius: 12px; padding: 0.75rem 1.25rem; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3); margin-bottom: 1.5rem; }
+
+/* ============================================================
+   Featured section — lifted above siblings so cover zoom
+   escapes over the search bar and category chips.
+   ============================================================ */
+#featuredSection {
+  position: relative;
+  z-index: 50;
+}
 
 .featured-spotlight-card {
   position: relative;
@@ -198,12 +242,78 @@ html[dir="ltr"] .stat-box { border-left: none; border-right: 1px solid var(--bor
 .rating-stars i.active { color: var(--star); }
 .rating-stars i:hover { transform: scale(1.2); }
 
-.footer-iar { background-color: var(--primary); border-top: 1px solid var(--border); color: #e2e8f0; padding: 2rem 0; margin-top: auto; }
-.footer-iar .brand-title { color: #ffffff !important; font-weight: 900; font-size: 1.45rem; }
-.footer-iar .social-links { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
-.footer-iar .social-icon { display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 50%; background-color: rgba(255, 255, 255, 0.15); color: #ffffff; font-size: 1.4rem; text-decoration: none; transition: all 0.25s ease; }
-.footer-iar .social-icon:hover { background-color: rgba(255, 255, 255, 0.25); color: #ffffff; transform: translateY(-3px); }
-.footer-iar .copyright { color: #94a3b8; font-size: 0.85rem; font-weight: 500; }
+/* ============================================================
+   Footer
+   ============================================================ */
+.footer-iar {
+  background-color: var(--primary);
+  border-top: 1px solid var(--border);
+  color: #e2e8f0;
+  padding: 2.25rem 0 1.75rem;
+  margin-top: auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.footer-iar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 260px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.footer-iar .brand-title {
+  color: #ffffff !important;
+  font-weight: 900;
+  font-size: 1.45rem;
+  letter-spacing: 0.5px;
+}
+
+.footer-iar .social-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.85rem;
+  margin: 1.15rem 0 1.4rem;
+}
+
+.footer-iar .social-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2bb4f0 0%, #0088cc 100%);
+  color: #ffffff;
+  font-size: 1.55rem;
+  text-decoration: none;
+  box-shadow: 0 6px 18px rgba(34, 158, 217, 0.35);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  position: relative;
+}
+
+.footer-iar .social-icon:hover,
+.footer-iar .social-icon:focus-visible {
+  background: linear-gradient(135deg, #45c2f7 0%, #229ED9 100%);
+  color: #ffffff;
+  transform: translateY(-4px) scale(1.06);
+  box-shadow: 0 12px 28px rgba(34, 158, 217, 0.55), 0 0 0 6px rgba(34, 158, 217, 0.15);
+  outline: none;
+}
+
+.footer-iar .copyright {
+  color: #94a3b8;
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
 
 #singleBookView { background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 2rem; box-shadow: var(--card-shadow); }
 .single-cover { width: 100%; max-width: 320px; margin: 0 auto; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
