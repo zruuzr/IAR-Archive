@@ -1585,5 +1585,59 @@
     "file_type": "PDF",
     "file_path": "pdf/السلوك_التنظيمي_للمنظمات_الادارية.pdf",
     "cover_image": "covers/35.png"
+  },
+  {
+    "id": 36,
+    "title": "الموظف الإداري",
+    "title_en": "The Administrative Employee",
+    "author": "عاطف عبد الله المكاوي",
+    "author_en": "Atef Abdallah El-Makkawy",
+    "category": "إدارة الأعمال والقانون الإداري",
+    "category_en": "Business Administration & Administrative Law",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Book",
+    "description": "كتاب يتناول بالتفصيل مبادئ ووظائف الإدارة، التعريف القانوني والفقهي للموظف العام، مفهوم وأركان الجريمة التأديبية، بالإضافة إلى دراسة أنماط الشخصيات الإدارية والمهارات والكفايات اللازمة لتحقيق القيادة والعمل الإداري الفعال.",
+    "description_en": "A comprehensive guide addressing management principles and functions, the legal definition of the public employee, disciplinary offenses under administrative law, and an analysis of administrative personality types and leadership competencies.",
+    "publisher": "مكتبة الاقتصاد",
+    "publisher_en": "Economics Library",
+    "year": null,
+    "isbn": "",
+    "keywords": [
+      "الموظف الإداري",
+      "الإدارة العامة",
+      "القانون الإداري",
+      "التنظيم الإداري",
+      "الجريمة التأديبية",
+      "الشخصية الإدارية",
+      "المهارات الإدارية"
+    ],
+    "keywords_en": [
+      "Administrative Employee",
+      "Public Administration",
+      "Administrative Law",
+      "Organizational Management",
+      "Disciplinary Offense",
+      "Administrative Personality",
+      "Management Skills"
+    ],
+    "key_points": [
+      "عرض مبادئ الإدارة ووظائفها الأساسية: التخطيط والتنظيم والتوجيه والرقابة.",
+      "توضيح المفهوم القانوني والفقهي للموظف العام في التشريعات المختلفة.",
+      "دراسة أحكام وأركان الجريمة التأديبية ومفهوم سحب القرارات الإدارية.",
+      "تحليل أنماط الشخصيات الإدارية واستعراض الكفايات والمهارات المطلوبة للقيادة والتميز الوظيفي."
+    ],
+    "key_points_en": [
+      "Overview of core management functions: planning, organizing, directing, and controlling.",
+      "Explanation of the legal definition and status of the public employee across jurisdictions.",
+      "In-depth analysis of disciplinary offenses and administrative decision revocations.",
+      "Examination of administrative personality traits and essential competencies for effective management."
+    ],
+    "target_audience": "المدراء، والموظفون في المؤسسات الحكومية والخاصة، وطلاب وباحثو العلوم الإدارية والقانون الإداري.",
+    "target_audience_en": "Managers, public and private sector employees, students, and researchers in public administration and administrative law.",
+    "pages": "189",
+    "file_size": "14.84 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/الموظف_الاداري.pdf",
+    "cover_image": "covers/36.png"
   }
 ]
