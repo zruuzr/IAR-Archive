@@ -1957,5 +1957,53 @@
     "file_type": "PDF",
     "file_path": "pdf/التحليل_الاحصائي_للبيانات_باستخدام_برنامجspss.pdf",
     "cover_image": "covers/42.png"
+  },
+  {
+    "id": 43,
+    "title": "المحاسبة الحكومية",
+    "title_en": "Governmental Accounting",
+    "author": "فؤاد سليمان الفسفوس",
+    "author_en": "Fouad Sulaiman Al-Fasfous",
+    "category": "المحاسبة والمالية",
+    "category_en": "Accounting & Finance",
+    "type": "كتاب أكاديمي دراسي",
+    "type_en": "Academic Textbook",
+    "description": "كتاب متخصص في المحاسبة الحكومية والمحاسبة المالية مصمم وفق الخطة الدراسية لجامعة البلقاء التطبيقية والجامعات الخاصة، يتناول الإجراءات المالية والمحاسبية الحكومية، الموازنة العامة، وإجراءات العطاءات وتدقيق الحسابات.",
+    "description_en": "An academic textbook on governmental and financial accounting tailored to the curriculum of Al-Balqa Applied University and private universities. It covers governmental financial procedures, public budgeting, tender processes, and auditing.",
+    "publisher": "دار كنوز المعرفة العلمية للنشر والتوزيع",
+    "publisher_en": "Dar Kunooz Al-Ma'refah Al-Ilmiyah for Publishing & Distribution",
+    "year": "2010",
+    "isbn": "978-9957-74-068-9",
+    "keywords": [
+      "المحاسبة الحكومية",
+      "المحاسبة المالية",
+      "الموازنة العامة",
+      "العطاءات الحكومية",
+      "الخطة الدراسية"
+    ],
+    "keywords_en": [
+      "Governmental Accounting",
+      "Financial Accounting",
+      "Public Budget",
+      "Government Tenders",
+      "Academic Curriculum"
+    ],
+    "key_points": [
+      "إعداد المادة وفق الخطة الدراسية لجامعة البلقاء التطبيقية والجامعات الخاصة",
+      "توضيح القيود المحاسبية للعمليات المالية في الدوائر الحكومية وضريبة الدخل",
+      "شرح الاستثناءات لمبدأ سنوية الموازنة العامة وإجراءات الوقاية في تنفيذ العطاءات"
+    ],
+    "key_points_en": [
+      "Prepared according to the curriculum of Al-Balqa Applied University and private universities",
+      "Explanation of accounting entries for financial transactions in government departments and income tax",
+      "Discussion of exceptions to the annual public budget principle and protective measures in tender execution"
+    ],
+    "target_audience": "طلاب علوم المحاسبة والمالية في الجامعات والمختصون والمحاسبون في القطاع الحكومي",
+    "target_audience_en": "Accounting and finance students in universities, as well as practitioners and accountants in the public sector",
+    "pages": "219",
+    "file_size": "14.56 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/المحاسبة_الحكومية.pdf",
+    "cover_image": "covers/43.png"
   }
 ]
