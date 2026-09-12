@@ -2321,5 +2321,55 @@
     "file_type": "PDF",
     "file_path": "pdf/الادارة_السياحية.pdf",
     "cover_image": "covers/49.png"
+  },
+  {
+    "id": 50,
+    "title": "استراتيجية التدريب وأثرها على أداء العاملين في الشركات المساهمة العامة",
+    "title_en": "Training Strategy and Its Impact on Employee Performance in Public Shareholding Companies",
+    "author": "عطا الله محمد تيسير الشرعة",
+    "author_en": "Ata Allah Muhammad Taysir Al-Shura'ah",
+    "category": "إدارة الأعمال",
+    "category_en": "Business Administration",
+    "type": "دراسة علمية / كتاب أكاديمي",
+    "type_en": "Academic Research / Book",
+    "description": "دراسة علمية تسلط الضوء على استراتيجيات التدريب وأثرها في تحسين وتطوير أداء العاملين داخل الشركات المساهمة العامة، مع التركيز على المنهجية الميدانية والإطار النظري واستعراض النتائج والتوصيات الموجهة لمؤسسات القطاع الصناعي والمهتمين بالبحث العلمي.",
+    "description_en": "An academic study highlighting training strategies and their impact on enhancing employee performance within public shareholding companies, focusing on field methodology, theoretical framework, findings, and practical recommendations for industrial institutions and researchers.",
+    "publisher": "دار جليس الزمان للنشر والتوزيع",
+    "publisher_en": "Dar Jalees Al-Zaman for Publishing and Distribution",
+    "year": "2011",
+    "isbn": "978-9957-81-117-4",
+    "keywords": [
+      "استراتيجية التدريب",
+      "أداء العاملين",
+      "الشركات المساهمة العامة",
+      "إدارة الموارد البشرية",
+      "التطوير الإداري"
+    ],
+    "keywords_en": [
+      "Training Strategy",
+      "Employee Performance",
+      "Public Shareholding Companies",
+      "Human Resource Management",
+      "Administrative Development"
+    ],
+    "key_points": [
+      "تبيان أهمية التخطيط الاستراتيجي للتدريب في المؤسسات والشركات.",
+      "قياس الأثر الفعلي للبرامج التدريبية على كفاءة وأداء الموظفين.",
+      "تقديم منهجية علمية لتطبيق واختبار الفرضيات المتعلقة بالتطوير الإداري.",
+      "تقديم توصيات عملية لمتخذي القرار ومدراء الموارد البشرية لتطوير كادر العمل."
+    ],
+    "key_points_en": [
+      "Highlighting the importance of strategic training planning in organizations.",
+      "Measuring the actual impact of training programs on employee efficiency and performance.",
+      "Providing a scientific methodology to test hypotheses related to administrative development.",
+      "Offering practical recommendations for decision-makers and HR managers to enhance workforce skills."
+    ],
+    "target_audience": "الباحثون الأكاديميون، ومدراء الموارد البشرية، والاستشاريون والإداريون في الشركات والمؤسسات.",
+    "target_audience_en": "Academic researchers, HR managers, consultants, and corporate executives.",
+    "pages": "158",
+    "file_size": "11.49 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/استراتيجية_التدريب_واثرها_على_اداء_العاملين.pdf",
+    "cover_image": "covers/50.png"
   }
 ]
