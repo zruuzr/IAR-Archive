@@ -1905,5 +1905,57 @@
     "file_type": "PDF",
     "file_path": "pdf/مبادئ_علم_الاقتصاد.pdf",
     "cover_image": "covers/41.png"
+  },
+  {
+    "id": 42,
+    "title": "التحليل الإحصائي للبيانات باستخدام برنامج SPSS",
+    "title_en": "Statistical Data Analysis Using SPSS",
+    "author": "",
+    "author_en": "",
+    "category": "الإحصاء وتحليل البيانات",
+    "category_en": "Statistics & Data Analysis",
+    "type": "كتاب تعليمي",
+    "type_en": "Educational Book",
+    "description": "كتاب متخصص يقدم شرحاً لمفاهيم وأساليب التحليل الإحصائي وتطبيقاتها العمليات باستخدام برنامج SPSS، مع توضيح كيفية التعامل مع البيانات الرقمية والكمية وعرض النتائج والرسومات البيانية التوضيحية.",
+    "description_en": "A specialized book explaining concepts and methods of statistical analysis using SPSS software, covering data processing, quantitative analysis, and generating graphical representations like histograms.",
+    "publisher": "",
+    "publisher_en": "",
+    "year": "",
+    "isbn": "",
+    "keywords": [
+      "التحليل الإحصائي",
+      "SPSS",
+      "إحصاء",
+      "معالجة البيانات",
+      "الرسوم البيانية",
+      "Histogram"
+    ],
+    "keywords_en": [
+      "Statistical Analysis",
+      "SPSS",
+      "Statistics",
+      "Data Processing",
+      "Graphs",
+      "Histogram"
+    ],
+    "key_points": [
+      "التعرف على المفاهيم والأساليب الإحصائية الأساسية",
+      "تطبيق التحليل الإحصائي للبيانات باستخدام برنامج SPSS",
+      "عرض البيانات كمياً وتنسيقها في الجداول والأشكال البيانية",
+      "إنشاء وتحليل الرسوم التكرارية البيانية (Histogram)"
+    ],
+    "key_points_en": [
+      "Understanding basic statistical concepts and methods",
+      "Applying statistical data analysis using SPSS",
+      "Presenting and formatting quantitative data in tables and graphs",
+      "Creating and analyzing histograms"
+    ],
+    "target_audience": "الطلاب والباحثون والمحللون المهتمون بالإحصاء وتحليل البيانات باستخدام SPSS",
+    "target_audience_en": "Students, researchers, and analysts interested in statistics and data analysis using SPSS",
+    "pages": "331",
+    "file_size": "5.66 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/التحليل_الاحصائي_للبيانات_باستخدام_برنامجspss.pdf",
+    "cover_image": "covers/42.png"
   }
 ]
