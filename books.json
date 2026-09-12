@@ -2180,9 +2180,9 @@
     "type_en": "Book",
     "description": "دراسة تسلط الضوء على الفساد الإداري والمالي من حيث المفهوم والمظاهر وأساليب المعالجة، كما تتطرق إلى الأسباب الاقتصادية لظاهرة الفقر وطرق معالجتها، وإطار حوكمة الشركات وأنظمة الرقابة والتدقيق الداخلي ودورها في الحد من الفساد.",
     "description_en": "A comprehensive study on administrative and financial corruption, exploring its concepts, manifestations, and treatment methods. It also addresses the economic causes of poverty, corporate governance, internal auditing, and control systems to combat corruption.",
-    "publisher": "",
-    "publisher_en": "",
-    "year": "",
+    "publisher": "دار أمجد للنشر والتوزيع",
+    "publisher_en": "Dar Amjad For Puplishing",
+    "year": "2015",
     "isbn": "",
     "keywords": [
       "الفساد الإداري",
@@ -2221,5 +2221,55 @@
     "file_type": "PDF",
     "file_path": "pdf/الفساد_الاداري_والمالي_كظاهرة_واساليب_علاجها.pdf",
     "cover_image": "covers/47.png"
+  },
+  {
+    "id": 48,
+    "title": "تسويق الخدمات الصحية",
+    "title_en": "Marketing of Health Services",
+    "author": "فريد كورتل، درمان سليمان صادق، نجاة العامري",
+    "author_en": "Farid Kourtel, Derman Sulaiman Sadiq, Najat Al-Amri",
+    "category": "التسويق والإدارة الصحية",
+    "category_en": "Marketing and Health Administration",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Book",
+    "description": "كتاب يستعرض المفاهيم الأساسية والاستراتيجيات الحديثة لتسويق الخدمات الصحية، مع التركيز على المزيج التسويقي الصحي، وإدارة جودة الخدمات الصحية في المستشفيات والمؤسسات العلاجية، وإشباع احتياجات المرضى والمستفيدين.",
+    "description_en": "A book covering the fundamental concepts and modern strategies of marketing health services, focusing on the healthcare marketing mix, quality management in hospitals and health institutions, and meeting the needs of patients and beneficiaries.",
+    "publisher": "دار كنوذ المعرفة للنشر والتوزيع",
+    "publisher_en": "Dar Konoz Al-Ma'refah for Publishing and Distribution",
+    "year": "2012",
+    "isbn": "978-9957-74-121-1",
+    "keywords": [
+      "تسويق الخدمات الصحية",
+      "الإدارة الصحية",
+      "المستشفيات",
+      "المزيج التسويقي",
+      "القطاع الصحي"
+    ],
+    "keywords_en": [
+      "Healthcare Marketing",
+      "Health Services",
+      "Health Administration",
+      "Hospitals",
+      "Marketing Mix"
+    ],
+    "key_points": [
+      "مفهوم تسويق الخدمات الصحية وأبعاده ووظائفه الإدارية",
+      "تخطيط وتطبيق عناصر المزيج التسويقي في القطاع الصحي",
+      "دور إدارة الجودة الشاملة في تطوير خدمات المستشفيات",
+      "إشباع حاجيات المرضى وتحقيق الرضا لدى المستفيدين"
+    ],
+    "key_points_en": [
+      "Concept, dimensions, and managerial functions of health services marketing",
+      "Planning and applying marketing mix elements in the health sector",
+      "The role of Total Quality Management in improving hospital services",
+      "Satisfying patient needs and achieving beneficiary satisfaction"
+    ],
+    "target_audience": "الطلاب والباحثون في علوم التسيير والتسويق والإدارة الصحية، بالإضافة إلى مديري المستشفيات والكتادر الصحية.",
+    "target_audience_en": "Students and researchers in business administration, marketing, health management, as well as hospital administrators and healthcare professionals.",
+    "pages": "226",
+    "file_size": "16.30 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/تسويق_الخدمات_الصحية.pdf",
+    "cover_image": "covers/48.png"
   }
 ]
