@@ -1745,5 +1745,57 @@
     "file_type": "PDF",
     "file_path": "pdf/تحديد_الاهداف_كتاب_الجيب_من_هارفارد.pdf",
     "cover_image": "covers/38.png"
+  },
+  {
+    "id": 39,
+    "title": "دراسة الجدوى الاقتصادية للمشاريع",
+    "title_en": "Economic Feasibility Study for Projects",
+    "author": "رائد محمد عبدربه",
+    "author_en": "Raed Mohammad Abdrabboh",
+    "category": "إدارة الأعمال والاقتصاد",
+    "category_en": "Business & Economics",
+    "type": "كتاب",
+    "type_en": "Book",
+    "description": "كتاب يستعرض دراسة الجدوى الاقتصادية للمشاريع وأهميتها في اتخاذ القرارات الاستثمارية وتجنب الخسائر المالية. يتناول الكتاب أساليب البحث الرياضية والإحصائية لمعرفة درجة العائد المتوقع والمخاطر، وينقسم إلى أربعة فصول تشمل ماهية الاستثمار، طبيعة تقييم المشروعات، عمليات دراسة الجدوى وتقدير التكاليف، بالإضافة إلى نماذج تطبيقية عملية لمشاريع مثل مطعم وحضانة أطفال.",
+    "description_en": "A book reviewing the economic feasibility study for projects and its importance in investment decision-making and avoiding financial losses. It covers mathematical and statistical methods to determine expected returns and risk levels, divided into four chapters covering investment principles, project evaluation, feasibility processes and cost estimation, along with practical models for projects like a restaurant and a nursery.",
+    "publisher": "",
+    "publisher_en": "",
+    "year": "",
+    "isbn": "",
+    "keywords": [
+      "دراسة الجدوى",
+      "الجدوى الاقتصادية",
+      "تقييم المشروعات",
+      "الاستثمار",
+      "إدارة الأعمال",
+      "تقدير التكاليف"
+    ],
+    "keywords_en": [
+      "Feasibility Study",
+      "Economic Feasibility",
+      "Project Evaluation",
+      "Investment",
+      "Business Administration",
+      "Cost Estimation"
+    ],
+    "key_points": [
+      "شرح مفهوم الاستثمار ومبادئه الأساسية كقاعدة لدراسات الجدوى.",
+      "توضيح أهمية وطبيعة تقييم المشروعات وآليات اتخاذ القرار الاستثماري.",
+      "استعراض خطوات دراسة الجدوى الحيوية ووسائل تقدير تكاليف المشروع.",
+      "تقديم نماذج عمل علمية وتطبيقية لدراسة جدوى مشاريع واقعية (مثل حضانة أطفال ومطعم)."
+    ],
+    "key_points_en": [
+      "Explaining the concept and principles of investment as a basis for feasibility studies.",
+      "Clarifying the importance and nature of project evaluation and investment decision-making mechanisms.",
+      "Reviewing vital feasibility study steps and methods for project cost estimation.",
+      "Providing practical and scientific models for feasibility studies of real projects (such as a nursery and a restaurant)."
+    ],
+    "target_audience": "المستثمرون، أصحاب رؤوس الأموال، رواد الأعمال، ومتخذو القرار، إضافة إلى طلاب وباحثي علوم إدارة الأعمال والتخطيط المالي.",
+    "target_audience_en": "Investors, business owners, entrepreneurs, decision-makers, and students or researchers in business administration and financial planning.",
+    "pages": "172",
+    "file_size": "14.04 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/دراسة_الجدوى_الاقتصادية_للمشاريع.pdf",
+    "cover_image": "covers/39.png"
   }
 ]
