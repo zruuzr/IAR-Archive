@@ -1847,5 +1847,63 @@
     "file_type": "PDF",
     "file_path": "pdf/نظام_ادارة_الجودةISO_لتحسين_اداء_الجامعات.pdf",
     "cover_image": "covers/40.png"
+  },
+  {
+    "id": 41,
+    "title": "مبادئ علم الاقتصاد",
+    "title_en": "Principles of Economics",
+    "author": "بلال الأنصاري",
+    "author_en": "Belal Al-Ansari",
+    "category": "الاقتصاد",
+    "category_en": "Economics",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Book",
+    "description": "كتاب مرجعي يتناول المفاهيم الأساسية والمبادئ العامة لعلم الاقتصاد، ويشمل دراسة المشكلة الاقتصادية وعوامل الإنتاج، وتكوين رأس المال، والنظم الاقتصادية المعاصرة (الرأسمالي والاشتراكي والإسلامي)، بالإضافة إلى تحليل نظرية القيمة والعرض والطلب، وتكوين الأثمان وآليات توازن السوق في حالات المنافسة الكاملة والاحتكار والمنافسة الاحتكارية.",
+    "description_en": "An introductory academic textbook covering the fundamental concepts and principles of economics. It explores the economic problem, factors of production, capital accumulation, and major economic systems (Capitalist, Socialist, and Islamic). It also analyzes value theory, supply and demand dynamics, price determination, and market equilibria under perfect competition, monopoly, and monopolistic competition.",
+    "publisher": "المركز القومي للإصدارات القانونية",
+    "publisher_en": "National Center for Legal Publications",
+    "year": "2019",
+    "isbn": "978-977-761-286-9",
+    "keywords": [
+      "مبادئ علم الاقتصاد",
+      "المشكلة الاقتصادية",
+      "عوامل الإنتاج",
+      "النظام الرأسمالي",
+      "الاقتصاد الإسلامي",
+      "العرض والطلب",
+      "المنافسة الكاملة",
+      "الاحتكار"
+    ],
+    "keywords_en": [
+      "Principles of Economics",
+      "Economic Problem",
+      "Factors of Production",
+      "Capitalist System",
+      "Islamic Economics",
+      "Supply and Demand",
+      "Perfect Competition",
+      "Monopoly"
+    ],
+    "key_points": [
+      "شرح المفاهيم الأساسية لعلم الاقتصاد والمشكلة الاقتصادية وتوزيع الموارد.",
+      "استعراض عوامل الإنتاج والأنظمة الاقتصادية المختلفة (الرأسمالية، الاشتراكية، الاقتصاد الإسلامي).",
+      "تحليل نظرية القيمة وآليات العرض والطلب وتحديد ثمن التوازن.",
+      "دراسة شروط وخصائص سوق المنافسة الكاملة وتوازن المشروع في المدى القصير والطويل.",
+      "توضيح صور الاحتكار وتوازن المنتج في حالة الاحتكار والتسعير في المنافسة الاحتكارية."
+    ],
+    "key_points_en": [
+      "Explanation of basic economic concepts, the economic problem, and resource allocation.",
+      "Overview of factors of production and economic systems (Capitalism, Socialism, Islamic Economics).",
+      "Analysis of value theory, supply and demand mechanics, and equilibrium pricing.",
+      "Study of perfect competition market conditions and firm equilibrium in the short and long run.",
+      "Detailed examination of monopoly types, producer equilibrium, and pricing under monopolistic competition."
+    ],
+    "target_audience": "طلاب كليات الاقتصاد والتجارة والحقوق، والباحثون الأكاديميون، والمهتمون بالدراسات الاقتصادية والمالية.",
+    "target_audience_en": "Students of economics, business, and law, academic researchers, and individuals interested in economic and financial studies.",
+    "pages": "192",
+    "file_size": "16.64 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/مبادئ_علم_الاقتصاد.pdf",
+    "cover_image": "covers/41.png"
   }
 ]
