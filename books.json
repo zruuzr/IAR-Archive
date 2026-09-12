@@ -2115,5 +2115,57 @@
     "file_type": "PDF",
     "file_path": "pdf/دليل_محاسبة_شركات.pdf",
     "cover_image": "covers/45.png"
+  },
+  {
+    "id": 46,
+    "title": "الجداول الإحصائية",
+    "title_en": "Statistical Tables",
+    "author": "مصطفى أحمد عبد الرحيم زايد",
+    "author_en": "Mustafa Ahmed Abdul-Rahim Zayed",
+    "category": "الإحصاء والرياضيات",
+    "category_en": "Statistics & Mathematics",
+    "type": "كتاب مرجعي",
+    "type_en": "Reference Book",
+    "description": "كتاب مرجعي شامل يعرض مجموعة كاملة من الجداول الإحصائية اللازمة للبحوث والدراسات العلمية في مختلف المجالات الاجتماعية والاقتصادية والسياسية والإدارية والطبية، يضم توزيعات احتمالية واختبارات معلمات ولامعلمية مع إرشادات وصيغ إحصائية ميسرة.",
+    "description_en": "A comprehensive reference book presenting a full set of statistical tables essential for scientific research across social, economic, political, administrative, and medical fields, including various probability distributions, parametric, and non-parametric tests with formulas.",
+    "publisher": "دار الصحوة للنشر",
+    "publisher_en": "Dar Al-Sahwa Publishing",
+    "year": "1987",
+    "isbn": "977-1431-15-3",
+    "keywords": [
+      "الجداول الإحصائية",
+      "التوزيع الطبيعي المعياري",
+      "توزيع تي",
+      "توزيع كاي تربيع",
+      "توزيع ف",
+      "الاختبارات اللامعلمية",
+      "معامل الارتباط"
+    ],
+    "keywords_en": [
+      "Statistical Tables",
+      "Standard Normal Distribution",
+      "T-Distribution",
+      "Chi-Square Distribution",
+      "F-Distribution",
+      "Non-parametric Tests",
+      "Correlation Coefficient"
+    ],
+    "key_points": [
+      "تقديم تجميعة شاسعة من الجداول الإحصائية الأكاديمية باللغة العربية",
+      "تغطية التوزيعات المعلمية واللامعلمية واختبارات الرتب والارتباط",
+      "تضمين صيغ وقوانين التعديل الحسابي عند خروج القيم عن نطاق الجداول"
+    ],
+    "key_points_en": [
+      "Provides a broad compilation of academic statistical tables in Arabic",
+      "Covers parametric and non-parametric distributions, rank tests, and correlations",
+      "Includes mathematical formulas for calculations extending beyond table ranges"
+    ],
+    "target_audience": "الطلاب، والباحثون، والدارسون في مجالات الإحصاء، والعلوم الاجتماعية، والاقتصاد، والطب، والإدارة.",
+    "target_audience_en": "Students, researchers, and scholars in statistics, social sciences, economics, medicine, and management.",
+    "pages": "140",
+    "file_size": "14.33 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/الجداول_الاحصائية.pdf",
+    "cover_image": "covers/46.png"
   }
 ]
