@@ -1797,5 +1797,55 @@
     "file_type": "PDF",
     "file_path": "pdf/دراسة_الجدوى_الاقتصادية_للمشاريع.pdf",
     "cover_image": "covers/39.png"
+  },
+  {
+    "id": 40,
+    "title": "نظام إدارة الجودة ISO مدخل لتحسين أداء الجامعات",
+    "title_en": "ISO Quality Management System: An Approach to Improving University Performance",
+    "author": "مهدي صالح السامرائي، صبيح كرم الكناني",
+    "author_en": "Mahdi Saleh Al-Samarrai, Sabih Karam Al-Kinani",
+    "category": "إدارة الجودة والتعليم العالي",
+    "category_en": "Quality Management & Higher Education",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Book",
+    "description": "يتناول هذا الكتاب كيفية تطبيق نظام إدارة الجودة العالمية ISO في المؤسسات التعليمية والجامعات، مع التركيز على تحسين أداء التدريسيين والإداريين، تطوير المناهج الدراسية وفق متطلبات سوق العمل، وتوفير المعايير اللازمة لضمان الجودة والرقابة في التعليم العالي.",
+    "description_en": "This book addresses the application of the ISO quality management system in educational institutions and universities, focusing on improving the performance of faculty and administrative staff, updating curricula to meet labor market requirements, and ensuring quality assurance standards in higher education.",
+    "publisher": "كنوز المعرفة",
+    "publisher_en": "Kounoz Al-Ma'arifa",
+    "year": "2014",
+    "isbn": "",
+    "keywords": [
+      "إدارة الجودة",
+      "ISO",
+      "أداء الجامعات",
+      "التعليم العالي",
+      "تطوير المناهج",
+      "معايير الجودة"
+    ],
+    "keywords_en": [
+      "Quality Management",
+      "ISO",
+      "University Performance",
+      "Higher Education",
+      "Curriculum Development",
+      "Quality Standards"
+    ],
+    "key_points": [
+      "تطبيق معايير ISO لتطوير وتحسين الأداء الأكاديمي والإداري في الجامعات.",
+      "تحديث المناهج الدراسية لملائمة متطلبات سوق العمل باستعمال التكنولوجيا الحديثة.",
+      "وضع آلية شاملة لتقويم أداء التدريسيين والطلبة والمخرجات التعليمية."
+    ],
+    "key_points_en": [
+      "Applying ISO standards to improve academic and administrative performance in universities.",
+      "Updating curricula to fit labor market needs using modern technology.",
+      "Establishing a comprehensive mechanism for evaluating faculty, students, and educational outcomes."
+    ],
+    "target_audience": "أكاديميون، رؤساء الجامعات، عمداء الكليات، ومسؤولو ضمان الجودة والتطوير الإداري في مؤسسات التعليم العالي.",
+    "target_audience_en": "Academics, university presidents, faculty deans, and quality assurance officers in higher education institutions.",
+    "pages": "210",
+    "file_size": "24.45 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/نظام_ادارة_الجودةISO_لتحسين_اداء_الجامعات.pdf",
+    "cover_image": "covers/40.png"
   }
 ]
