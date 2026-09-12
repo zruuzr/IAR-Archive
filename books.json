@@ -1687,5 +1687,63 @@
     "file_type": "PDF",
     "file_path": "pdf/استراتيجيات_التسويق_مدخل_كمي_وتحليلي.pdf",
     "cover_image": "covers/37.png"
+  },
+  {
+    "id": 38,
+    "title": "تحديد الأهداف: حلول من الخبراء لتحديات يومية",
+    "title_en": "Setting Goals: Expert Solutions to Everyday Challenges",
+    "author": "مجموعة مؤلفين (مطبوعات كلية هارفرد لإدارة الأعمال)",
+    "author_en": "Harvard Business School Press",
+    "category": "إدارة الأعمال والقيادة",
+    "category_en": "Business Management & Leadership",
+    "type": "دليل عملي / كتاب الجيب",
+    "type_en": "Practical Guide / Pocket Mentor",
+    "description": "دليل عملي موجز يقدم حلولاً فورية ومباشرة لتحديات إدارة الأعمال المتعلقة بتحديد الأهداف وتحقيقها. يشرح الكتاب كيفية وضع أهداف حاسمة وتمكينية للوحدة وللأفراد، وكيفية صياغة أهداف ذكية (SMART)، وترتيب الأولويات، ومتابعة تنفيذ الخطط وتقويم النتائج، مع توفير أدوات وأوراق عمل تطبيقية تساعد المديرين على تحسين كفاءة العمل وإنتاجيته.",
+    "description_en": "A practical guide offering expert solutions to everyday management challenges focused on goal setting. As part of Harvard Business Press's Pocket Mentor series, this book helps managers set unit and individual goals, apply SMART criteria, prioritize tasks, track progress, manage obstacles, and evaluate results using actionable tools and templates.",
+    "publisher": "العبيكان للنشر",
+    "publisher_en": "Obeikan Publishing",
+    "year": "2015",
+    "isbn": "978-603-503-413-5",
+    "keywords": [
+      "تحديد الأهداف",
+      "الأهداف الذكية",
+      "إدارة الأعمال",
+      "هارفارد",
+      "كتاب الجيب",
+      "ترتيب الأولويات",
+      "قياس الأداء",
+      "التخطيط الإستراتيجي"
+    ],
+    "keywords_en": [
+      "Setting Goals",
+      "SMART Goals",
+      "Business Management",
+      "Harvard Business Press",
+      "Pocket Mentor",
+      "Prioritization",
+      "Performance Measurement",
+      "Strategic Planning"
+    ],
+    "key_points": [
+      "ربط أهداف الوحدة والأفراد بالإستراتيجية العامة للمؤسسة لضمان التناسق والتكامل.",
+      "تطبيق معايير SMART لتكون الأهداف محددة وقابلة للقياس وللتحقيق وواقعية ومحددة زمنياً.",
+      "تصنيف الأولويات إلى أهداف حاسمة، وأهداف تمكينية، وأهداف مرغوب في تحقيقها.",
+      "متابعة التقدم بانتظام، وإدارة الصعوبات والتغييرات طوال رحلة التنفيذ.",
+      "تقويم الأهداف بعد الانتهاء واستخلاص الدروس المستفادة لتحسين الإنجازات المستقبلية."
+    ],
+    "key_points_en": [
+      "Aligning unit and individual goals with organizational strategy for complete consistency.",
+      "Applying SMART criteria to create specific, measurable, achievable, realistic, and time-bound goals.",
+      "Categorizing goal priorities into critical, enabling, and desirable objectives.",
+      "Monitoring progress regularly and proactively managing obstacles and plan adjustments.",
+      "Evaluating outcomes upon goal completion and capturing lessons learned for continuous improvement."
+    ],
+    "target_audience": "المديرون، رؤساء الفرق، القادة الإداريون، وكل من يسعى لتطوير مهارات التخطيط وتحديد الأهداف بفاعلية.",
+    "target_audience_en": "Managers, team leaders, executives, and professionals looking to enhance their goal setting and planning capabilities.",
+    "pages": "113",
+    "file_size": "12.37 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/تحديد_الاهداف_كتاب_الجيب_من_هارفارد.pdf",
+    "cover_image": "covers/38.png"
   }
 ]
