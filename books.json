@@ -2167,5 +2167,59 @@
     "file_type": "PDF",
     "file_path": "pdf/الجداول_الاحصائية.pdf",
     "cover_image": "covers/46.png"
+  },
+  {
+    "id": 47,
+    "title": "الفساد الإداري والمالي كظاهرة وأساليب علاجها",
+    "title_en": "Administrative and Financial Corruption: Phenomenon and Methods of Treatment",
+    "author": "صبحي سلام",
+    "author_en": "Subhi Salam",
+    "category": "إدارة واقتصاد",
+    "category_en": "Business & Economics",
+    "type": "كتاب",
+    "type_en": "Book",
+    "description": "دراسة تسلط الضوء على الفساد الإداري والمالي من حيث المفهوم والمظاهر وأساليب المعالجة، كما تتطرق إلى الأسباب الاقتصادية لظاهرة الفقر وطرق معالجتها، وإطار حوكمة الشركات وأنظمة الرقابة والتدقيق الداخلي ودورها في الحد من الفساد.",
+    "description_en": "A comprehensive study on administrative and financial corruption, exploring its concepts, manifestations, and treatment methods. It also addresses the economic causes of poverty, corporate governance, internal auditing, and control systems to combat corruption.",
+    "publisher": "",
+    "publisher_en": "",
+    "year": "",
+    "isbn": "",
+    "keywords": [
+      "الفساد الإداري",
+      "الفساد المالي",
+      "حوكمة الشركات",
+      "التدقيق الداخلي",
+      "الرقابة الداخلية",
+      "ظاهرة الفقر",
+      "مكافحة الفساد"
+    ],
+    "keywords_en": [
+      "Administrative Corruption",
+      "Financial Corruption",
+      "Corporate Governance",
+      "Internal Audit",
+      "Internal Control",
+      "Poverty",
+      "Anti-Corruption"
+    ],
+    "key_points": [
+      "تحديد مفهوم ومظاهر الفساد الإداري والمالي والأساليب الناجعة لمعالجته",
+      "دراسة الأسباب الاقتصادية لظاهرة الفقر وتأثيراتها مع الإشارة لحالة الأردن",
+      "بيان دور حوكمة الشركات والتدقيق الداخلي في تعزيز قيمة الشركات والحد من الفساد",
+      "استعراض ماهية الرقابة الداخلية وتطورها وأهدافها وأساليب محاربة الفساد"
+    ],
+    "key_points_en": [
+      "Identifying concepts, manifestations, and treatment methods for administrative and financial corruption",
+      "Examining the economic causes of poverty and its impacts with a focus on Jordan",
+      "Highlighting the role of corporate governance and internal auditing in enhancing corporate value and reducing corruption",
+      "Reviewing the nature, evolution, objectives, and anti-corruption methods of internal control systems"
+    ],
+    "target_audience": "الباحثون والأكاديميون والمهنيون في مجالات الإدارة، المحاسبة والتدقيق، الاقتصاد، والسياسات العامة ومكافحة الفساد.",
+    "target_audience_en": "Researchers, academics, and professionals in business administration, accounting, auditing, economics, public policy, and anti-corruption fields.",
+    "pages": "186",
+    "file_size": "15.97 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/الفساد_الاداري_والمالي_كظاهرة_واساليب_علاجها.pdf",
+    "cover_image": "covers/47.png"
   }
 ]
