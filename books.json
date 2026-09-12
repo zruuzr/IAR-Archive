@@ -2057,5 +2057,63 @@
     "file_type": "PDF",
     "file_path": "pdf/تدقيق_الحسابات_مدخل_معاصر_وفقاً_لمعايير_التدقيق_الدولية.pdf",
     "cover_image": "covers/44.png"
+  },
+  {
+    "id": 45,
+    "title": "دليل الطالب في محاسبة الشركات",
+    "title_en": "Student's Guide to Company Accounting",
+    "author": "كلية التجارة - جامعة الإسكندرية",
+    "author_en": "Faculty of Commerce - Alexandria University",
+    "category": "محاسبة مالية",
+    "category_en": "Financial Accounting",
+    "type": "دليل دراسي",
+    "type_en": "Study Guide",
+    "description": "دليل تعليمي وحل أشكال التطبيقات العملية الخاصة بمادة محاسبة الشركات (شركات الأشخاص) لطلاب كلية التجارة جامعة الإسكندرية، يتضمن حلولاً نموذجية وشاملة لموضوعات تكوين الشركات، توزيع الأرباح والخسائر، تعديل عقد الشركة، انضمام وانفصال الشركاء، وتصفية الشركات مع إعداد القيود المحاسبية والقوائم المالية ذات الصلة.",
+    "description_en": "A comprehensive study and solutions guide for Company Accounting (Partnerships) designed for students at the Faculty of Commerce, Alexandria University. It provides step-by-step solutions for topics including partnership formation, profit and loss allocation, contract adjustments, partner admission and retirement, and partnership liquidation along with necessary journal entries and financial statements.",
+    "publisher": "كلية التجارة - جامعة الإسكندرية",
+    "publisher_en": "Faculty of Commerce - Alexandria University",
+    "year": "2019",
+    "isbn": "",
+    "keywords": [
+      "محاسبة الشركات",
+      "شركات الأشخاص",
+      "دليل الطالب",
+      "كلية التجارة",
+      "جامعة الإسكندرية",
+      "توزيع الأرباح والخسائر",
+      "تصفية الشركات",
+      "إعادة التقدير"
+    ],
+    "keywords_en": [
+      "Company Accounting",
+      "Partnership Accounting",
+      "Student Guide",
+      "Faculty of Commerce",
+      "Alexandria University",
+      "Profit and Loss Distribution",
+      "Partnership Liquidation",
+      "Revaluation"
+    ],
+    "key_points": [
+      "تقديم إجابات وتطبيقات شاملة ومفصلة لدروس وقضايا محاسبة شركات الأشخاص.",
+      "تغطية المعالجة المحاسبية لتكوين شركات الأشخاص وتقديم الحصص العينية والنقدية.",
+      "توضيح قيود إثبات وتوزيع الأرباح والخسائر وفائدة رأس المال ومرتبات ومكافآت الشركاء.",
+      "حل تمارين متنوعة على انضمام وانفصال الشركاء والتعديلات في رأس المال والاحتياطيات.",
+      "عرض قوائم التصفية التدريجية والفورية والتسويات المالية بين الشركاء."
+    ],
+    "key_points_en": [
+      "Provides detailed model answers and applications for partnership accounting topics.",
+      "Covers accounting treatments for partnership formation with cash and non-cash capital contributions.",
+      "Explains journal entries for profit/loss distribution, partner salaries, interest on capital, and bonuses.",
+      "Includes solutions for partner admission, retirement, and equity adjustments.",
+      "Demonstrates immediate and gradual partnership liquidation statements and partner settlements."
+    ],
+    "target_audience": "طلاب كليات التجارة والدارسون والباحثون في مجال المحاسبة المالية ومحاسبة شركات الأشخاص.",
+    "target_audience_en": "Faculty of Commerce students, accounting majors, and practitioners studying partnership accounting.",
+    "pages": "228",
+    "file_size": "24.17 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/دليل_محاسبة_شركات.pdf",
+    "cover_image": "covers/45.png"
   }
 ]
