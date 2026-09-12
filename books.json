@@ -1639,5 +1639,53 @@
     "file_type": "PDF",
     "file_path": "pdf/الموظف_الاداري.pdf",
     "cover_image": "covers/36.png"
+  },
+  {
+    "id": 37,
+    "title": "استراتيجيات التسويق: مدخل كمي وتحليلي",
+    "title_en": "Marketing Strategies: A Quantitative and Analytical Approach",
+    "author": "محمود جاسم محمد الصميدعي",
+    "author_en": "Mahmoud Jassim Mohammad Al-Sumaidai",
+    "category": "إدارة الأعمال والتسويق",
+    "category_en": "Business Administration & Marketing",
+    "type": "كتاب أكاديمي / مرجعي",
+    "type_en": "Academic / Reference Book",
+    "description": "كتاب متخصص يقدم مدخلاً كمياً وتحليلياً لاستراتيجيات التسويق، يستعرض الأساليب والأدوات التحليلية والكمية التي تمكّن المتخصصين والدارسين من صياغة الاستراتيجيات التسويقية لاتخاذ القرارات الإدارية والتسويقية الفعالة.",
+    "description_en": "A specialized book providing a quantitative and analytical approach to marketing strategies. It explores analytical and quantitative tools that enable professionals and academics to formulate marketing strategies for effective managerial decision-making.",
+    "publisher": "دار الحامد للنشر والتوزيع",
+    "publisher_en": "Dar Al-Hamed for Publishing & Distribution",
+    "year": "2009",
+    "isbn": "978-9957-32-269-4",
+    "keywords": [
+      "استراتيجيات التسويق",
+      "التحليل الكمي",
+      "إدارة التسويق",
+      "إدارة المبيعات",
+      "محمود الصميدعي"
+    ],
+    "keywords_en": [
+      "Marketing Strategies",
+      "Quantitative Analysis",
+      "Marketing Management",
+      "Sales Management",
+      "Mahmoud Al-Sumaidai"
+    ],
+    "key_points": [
+      "تطبيق المداخل والأساليب الكمية والتحليلية في التسويق",
+      "صياغة وتخطيط استراتيجيات التسويق الحديثة",
+      "تحليل البيانات التسويقية لاتخاذ القرارات الاستراتيجية"
+    ],
+    "key_points_en": [
+      "Application of quantitative and analytical approaches in marketing",
+      "Formulation and planning of modern marketing strategies",
+      "Analyzing marketing data for strategic decision-making"
+    ],
+    "target_audience": "طلاب وتدريسيي كليات الاقتصاد وإدارة الأعمال، والباحثون والمختصون في إدارة التسويق والمبيعات.",
+    "target_audience_en": "University students and professors in economics and business administration, as well as researchers and marketing management professionals.",
+    "pages": "336",
+    "file_size": "23.97 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/استراتيجيات_التسويق_مدخل_كمي_وتحليلي.pdf",
+    "cover_image": "covers/37.png"
   }
 ]
