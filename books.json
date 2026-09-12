@@ -2005,5 +2005,57 @@
     "file_type": "PDF",
     "file_path": "pdf/المحاسبة_الحكومية.pdf",
     "cover_image": "covers/43.png"
+  },
+  {
+    "id": 44,
+    "title": "تدقيق الحسابات: مدخل معاصر وفقاً لمعايير التدقيق الدولية",
+    "title_en": "Auditing: A Contemporary Approach According to International Standards on Auditing",
+    "author": "د. غسان فلاح المطارنة",
+    "author_en": "Dr. Ghassan Falah Al-Matarna",
+    "category": "المحاسبة والتدقيق",
+    "category_en": "Accounting & Auditing",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Book",
+    "description": "كتاب أكاديمي متخصص يتناول موضوع تدقيق الحسابات من منظور معاصر يتوافق مع معايير التدقيق الدولية (ISAs)، حيث يشرح المفاهيم الأساسية للتدقيق، وإجراءات تخطيط عملية التدقيق، وتقييم نظام الرقابة الداخلية، وإدلة الإثبات المحاسبية، وصولاً إلى إعداد تقارير التدقيق النهائية.",
+    "description_en": "A specialized academic book addressing financial auditing from a contemporary perspective in alignment with International Standards on Auditing (ISAs). It covers core auditing concepts, audit planning procedures, internal control evaluation, audit evidence, and the preparation of final audit reports.",
+    "publisher": "دار المسيرة للنشر والتوزيع",
+    "publisher_en": "Dar Al-Masirah for Publishing and Distribution",
+    "year": "2009",
+    "isbn": "",
+    "keywords": [
+      "تدقيق الحسابات",
+      "معايير التدقيق الدولية",
+      "الرقابة الداخلية",
+      "أدلة الإثبات",
+      "تقرير المدقق",
+      "المراجعة المالية"
+    ],
+    "keywords_en": [
+      "Auditing",
+      "International Standards on Auditing",
+      "Internal Control",
+      "Audit Evidence",
+      "Auditor's Report",
+      "Financial Auditing"
+    ],
+    "key_points": [
+      "التعريف بمفاهيم ومعايير التدقيق الدولية الحديثة",
+      "دراسة وتقييم أنظمة الرقابة الداخلية في المؤسسات",
+      "تحديد أساليب وإجراءات جمع أدلة وبراهين التدقيق",
+      "شرح كيفية إعداد وإصدار تقارير تدقيق الحسابات بختلف أنواعها"
+    ],
+    "key_points_en": [
+      "Introduction to modern auditing concepts and International Standards on Auditing",
+      "Study and evaluation of internal control systems in organizations",
+      "Identification of methods and procedures for collecting audit evidence",
+      "Explanation of preparing and issuing various types of audit reports"
+    ],
+    "target_audience": "طلاب أسرار ومراحل المحاسبة والتدقيق، المدققون الماليون، المحاسبون القانونيون، والباحثون في العلوم المالية والمصرفية.",
+    "target_audience_en": "Accounting and auditing students, financial auditors, certified public accountants, and researchers in finance and banking.",
+    "pages": "190",
+    "file_size": "90.10 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/تدقيق_الحسابات_مدخل_معاصر_وفقاً_لمعايير_التدقيق_الدولية.pdf",
+    "cover_image": "covers/44.png"
   }
 ]
