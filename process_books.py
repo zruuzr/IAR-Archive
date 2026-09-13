@@ -25,7 +25,7 @@ LOG = logging.getLogger("books_indexer")
 
 JSON_PATH = Path("books.json")
 PDF_DIR = Path("pdf")
-MODEL_NAME = os.environ.get("GEMINI_MODEL", "gemini-2.0-flash")
+MODEL_NAME = os.environ.get("GEMINI_MODEL", "gemini-3.6-flash")
 MAX_UPLOAD_SIZE_MB = int(os.environ.get("MAX_UPLOAD_SIZE_MB", "50"))
 MAX_RETRIES = 5
 RETRY_BACKOFF_SECONDS = (15, 30, 60, 120, 240)
