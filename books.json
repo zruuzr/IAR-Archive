@@ -2487,5 +2487,59 @@
     "file_type": "PDF",
     "file_path": "pdf/الادارة.pdf",
     "cover_image": "covers/52.png"
+  },
+  {
+    "id": 53,
+    "title": "المحاسبة عن الأسهم والسندات المتداولة في بورصة الأوراق المالية",
+    "title_en": "Accounting for Stocks and Bonds Traded on the Stock Exchange",
+    "author": "أمين السيد أحمد لطفي",
+    "author_en": "Amin El-Sayed Ahmed Lotfy",
+    "category": "محاسبة ومالية",
+    "category_en": "Accounting & Finance",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Book",
+    "description": "يتناول هذا الكتاب الإطار القانوني والمحاسبي للأسهم والسندات المتداولة في بورصة الأوراق المالية، متضمناً معالجة إصدار الأسهم والسندات، زيادة وتخفيض رأس المال، أرباح وفوائد الأوراق المالية، أسهم الخزانة، بالإضافة إلى الاستثمارات والإفصاح عنها بالقوائم المالية وفقاً للقوانين المصرية والمعايير المحاسبية المتبعة.",
+    "description_en": "This book covers the legal and accounting framework for stocks and bonds traded on the stock exchange. It details the accounting treatment for stock and bond issuances, capital adjustments, interest and dividend treatments, treasury stocks, as well as accounting and disclosure for financial investments in alignment with laws and accounting standards.",
+    "publisher": "دار النهضة العربية",
+    "publisher_en": "Dar Al-Nahda Al-Arabia",
+    "year": "2000",
+    "isbn": "977-04-2930-9",
+    "keywords": [
+      "المحاسبة المالية",
+      "الأسهم",
+      "السندات",
+      "بورصة الأوراق المالية",
+      "رأس المال",
+      "أسهم الخزانة",
+      "معايير المحاسبة",
+      "القوائم المالية"
+    ],
+    "keywords_en": [
+      "Financial Accounting",
+      "Stocks",
+      "Bonds",
+      "Stock Exchange",
+      "Capital Stock",
+      "Treasury Stock",
+      "Accounting Standards",
+      "Financial Statements"
+    ],
+    "key_points": [
+      "توضيح الإطار القانوني والمحاسبي للأسهم بأنواعها وإجراءات الإصدار وزيادة وتخفيض رأس المال.",
+      "دراسة خصائص وإجراءات إصدار السندات والمعالجة المحاسبية لفوائدها وعلاوة أو خصم الإصدار وطرق سدادها.",
+      "تحديد المعالجات المحاسبية للاستثمارات المالية وطرق تقييمها والإفصاح عنها في القوائم المالية."
+    ],
+    "key_points_en": [
+      "Explaining the legal and accounting framework for various stock types, issuance procedures, and capital adjustments.",
+      "Studying bond issuance features, accounting treatments for interest, discounts/premiums, and redemption methods.",
+      "Detailing accounting treatments, evaluation methods, and disclosure requirements for financial investments in financial statements."
+    ],
+    "target_audience": "طلاب كليات التجارة، والمحاسبون والمراجعون القانونيون، والمهتمون بأسواق المال والبورصة.",
+    "target_audience_en": "Business and commerce students, professional accountants, legal auditors, and stock market investors.",
+    "pages": "252",
+    "file_size": "16.00 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/المحاسبة_عن_الاسهم_والسندات_المتداولة_في_بورصة_الاوراق.pdf",
+    "cover_image": "covers/53.png"
   }
 ]
