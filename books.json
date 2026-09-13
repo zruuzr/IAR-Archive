@@ -2716,5 +2716,59 @@
     "file_type": "PDF",
     "file_path": "pdf/تحفيز_الموظفين_سلسلة_القيادي_الناجح_من_جامعة_هارفارد.pdf",
     "cover_image": "covers/56.png"
+  },
+  {
+    "id": 57,
+    "title": "تجارب الجامعات العالمية مع التعليم الالكتروني",
+    "title_en": "Global Universities' Experiences with E-Learning",
+    "author": "دلين سردار النوري",
+    "author_en": "Dileen Sardar Al-Noori",
+    "category": "التعليم والتكنولوجيا",
+    "category_en": "Education & Educational Technology",
+    "type": "كتاب دراسات وبحوث",
+    "type_en": "Research & Study Book",
+    "description": "كتاب يستعرض تجارب وممارسات الجامعات العالمية في تطبيق منظومة التعليم الإلكتروني والتعليم المدمج، ويحلل واقع وآفاق هذا النوع من التعليم وتداعياته على تطوير البيئات التعليمية، خاصة في أعقاب جائحة كوفيد-19 ومتطلبات البنية التحتية وضمان الجودة الأكاديمية.",
+    "description_en": "A book reviewing and analyzing the experiences of global universities in implementing e-learning and blended learning systems, exploring implications, infrastructural readiness, and academic quality control strategies, particularly following the COVID-19 pandemic.",
+    "publisher": "مؤسسة سكولار للدراسات والبحوث",
+    "publisher_en": "Scholar Publications for Studies and Research",
+    "year": "2020",
+    "isbn": "978-9922-20-761-2",
+    "keywords": [
+      "التعليم الإلكتروني",
+      "الجامعات العالمية",
+      "التعليم المدمج",
+      "التعليم العالي",
+      "جودة التعليم",
+      "كوفيد-19"
+    ],
+    "keywords_en": [
+      "E-Learning",
+      "Global Universities",
+      "Blended Learning",
+      "Higher Education",
+      "Academic Quality",
+      "COVID-19"
+    ],
+    "key_points": [
+      "دراسة تجارب جامعات عالمية مثل الجامعة المفتوحة (OU) في تقديم التعليم الرقمي والتفاعلي.",
+      "تأثير جائحة كوفيد-19 في التسريع من تبني التعليم الإلكتروني كاستراتيجية بقاء للمؤسسات التعليمية.",
+      "ضرورة تحديث التشريعات والقوانين التعليمية لتضمين التعليم الإلكتروني كجزء أساسي من التدريس.",
+      "أهمية التأهيل والتدريب المستمر للكوادر التدريسية والإدارية لاستخدام تقنيات التعليم الحديثة.",
+      "التركيز على معايير ضبط الجودة الأكاديمية وبناء بنية تحتية تقنية متكاملة."
+    ],
+    "key_points_en": [
+      "Studying the e-learning models of international institutions such as the Open University (OU).",
+      "The role of the COVID-19 pandemic in accelerating e-learning adoption as a survival strategy for universities.",
+      "The necessity for updated educational legislation to integrate e-learning into standard curricula.",
+      "Training and upskilling faculty and administrative staff in modern e-learning technologies.",
+      "Emphasizing academic quality control standards and building robust technical infrastructure."
+    ],
+    "target_audience": "الأكاديميون، الباحثون، إدارات الجامعات، وصناع القرار والسياسات في قطاع التعليم العالي.",
+    "target_audience_en": "Academics, researchers, university administrators, and higher education policymakers.",
+    "pages": "93",
+    "file_size": "5.12 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/تجارب_الجامعات_العالمية_مع_التعليم_الالكتروني.pdf",
+    "cover_image": "covers/57.png"
   }
 ]
