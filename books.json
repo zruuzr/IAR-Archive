@@ -2818,5 +2818,53 @@
     "file_type": "PDF",
     "file_path": "pdf/الرياضيات_المالية_في_تطبيقات_الحاسوب.pdf",
     "cover_image": "covers/58.png"
+  },
+  {
+    "id": 59,
+    "title": "محاسبة تكاليف العقود والمقاولات",
+    "title_en": "Contract and Construction Cost Accounting",
+    "author": "د. محمد سامي راضي",
+    "author_en": "Dr. Muhammad Sami Radi",
+    "category": "المحاسبة والمالية",
+    "category_en": "Accounting & Finance",
+    "type": "كتاب تعليمي",
+    "type_en": "Educational Book",
+    "description": "كتاب متخصص يتناول أصول ومبادئ محاسبة تكاليف العقود والمقاولات، متضمناً المعالجات المحاسبية لإيرادات وتكاليف عقود الإنشاءات، وكيفية قياس نسبة الإنجاز وحساب أرباح وخسائر المشاريع.",
+    "description_en": "A specialized book dealing with the principles of contract and construction cost accounting, including accounting treatments for construction contract revenues and costs, measuring completion percentages, and calculating project profit and loss.",
+    "publisher": "مكتبتنا العربية",
+    "publisher_en": "Al-Maktabah Al-Arabiyah",
+    "year": "2015",
+    "isbn": "",
+    "keywords": [
+      "محاسبة التكاليف",
+      "العقود والمقاولات",
+      "المحاسبة المالية",
+      "تكاليف المشاريع",
+      "مستخلصات المقاولين"
+    ],
+    "keywords_en": [
+      "Cost Accounting",
+      "Construction Contracts",
+      "Financial Accounting",
+      "Project Costs",
+      "Contractor Billings"
+    ],
+    "key_points": [
+      "تحديد وتصنيف التكاليف المباشرة وغير المباشرة لعقود المقاولات.",
+      "المعالجة المحاسبية للمستخلصات والضمانات والقيود الخصمية.",
+      "تطبيق طريقة نسبة الإنجاز للتعامل مع العقود طويلة الأجل."
+    ],
+    "key_points_en": [
+      "Identifying and classifying direct and indirect costs for construction contracts.",
+      "Accounting treatment for progress billings, retentions, and deductions.",
+      "Applying the percentage of completion method for long-term contracts."
+    ],
+    "target_audience": "المحاسبون، والماليون، وطلاب كليات التجارة والمحاسبة، والمهتمون بقطاع المقاولات والإنشاءات.",
+    "target_audience_en": "Accountants, financial professionals, business and accounting students, and individuals interested in the construction and contracting sector.",
+    "pages": "90",
+    "file_size": "1.77 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/محاسبة_تكاليف_العقود_والمقاولات.pdf",
+    "cover_image": "covers/59.png"
   }
 ]
