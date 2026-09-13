@@ -2371,5 +2371,67 @@
     "file_type": "PDF",
     "file_path": "pdf/استراتيجية_التدريب_واثرها_على_اداء_العاملين.pdf",
     "cover_image": "covers/50.png"
+  },
+  {
+    "id": 51,
+    "title": "تطبيقات محاسبية في العمليات المصرفية وفقا لمتطلبات النظام المحاسبي الموحد والمعايير المحاسبية الدولية",
+    "title_en": "Accounting Applications in Banking Operations According to the Requirements of the Unified Accounting System and International Accounting Standards",
+    "author": "د. سالم محمد عبود، د. أحمد محمد فهمي سعيد البرزنجي",
+    "author_en": "Dr. Salim Muhammad Aboud, Dr. Ahmed Muhammad Fahmi Saeed Al-Barzanji",
+    "category": "المحاسبة والمالية",
+    "category_en": "Accounting & Finance",
+    "type": "كتاب أكاديمي تعليمي",
+    "type_en": "Academic Textbook",
+    "description": "كتاب يجمع بين الجانب النظري والتطبيقي في شرح تطبيقات المحاسبة المصرفية في المصارف العراقية والعربية وفق متطلبات النظام المحاسبي الموحد ومعايير المحاسبة الدولية. يتناول الكتاب أقسام المصارف المختلفة مثل الخزينة، الحسابات الجارية، الودائع، الكمبيالات، تسوية الشيكات والمقاصة، خطابات الضمان، الاعتمادات المستندية، الحوالات والعمليات الخارجية، وصولاً إلى القوائم المالية والرقابة والتدقيق المصرفي.",
+    "description_en": "A comprehensive textbook combining theoretical and practical aspects of bank accounting in Iraqi and Arab banks, in compliance with the Unified Accounting System and International Financial Reporting Standards. It covers various banking departments including Treasury, Current Accounts, Deposits, Bills of Exchange, Check Clearing, Letters of Guarantee, Documentary Credits, Foreign Remittances, Financial Statements, and Internal Auditing.",
+    "publisher": "دار الدكتور للعلوم الإدارية والاقتصادية",
+    "publisher_en": "Dar Al-Doktor for Administrative and Economic Sciences",
+    "year": "2018",
+    "isbn": "978-9922-609-19-5",
+    "keywords": [
+      "محاسبة مصرفية",
+      "النظام المحاسبي الموحد",
+      "معايير المحاسبة الدولية",
+      "اعتمادات مستندية",
+      "خطابات ضمان",
+      "المقاصة الإلكترونية",
+      "الودائع والتوفير",
+      "الرقابة المصرفية"
+    ],
+    "keywords_en": [
+      "Bank Accounting",
+      "Unified Accounting System",
+      "International Accounting Standards",
+      "Documentary Credits",
+      "Letters of Guarantee",
+      "Check Clearing",
+      "Deposits and Savings",
+      "Banking Control"
+    ],
+    "key_points": [
+      "شرح ماهية النشاط المصرفي وأنوع البنوك التجارية والإسلامية وتأسيسها",
+      "تبيان المقومات الأساسية والدورة المستندية للنظام المحاسبي المصرفي",
+      "المعالجة المحاسبية لقيود الخزينة والشيكات والعجز والزيادة في الخزائن",
+      "إجراءات الحسابات الجارية والودائع والشهادات والأوراق التجارية المخصومة برسم التحصيل",
+      "تنفيذ عمليات المقاصة الإلكترونية وتصفية المعاملات المتبادلة بين الفروع والمركز الرئيسي",
+      "معالجة خطابات الضمان والاعتمادات المستندية للاستيراد والتصدير والحوالات الخارجية والداخلية",
+      "إعداد الحسابات الختامية والقوائم المالية وشرح آليات الرقابة والتدقيق الداخلي والخارجي بالمصارف"
+    ],
+    "key_points_en": [
+      "Explaining the nature of banking activities, types of commercial and Islamic banks, and their establishment",
+      "Illustrating the core elements and documentary cycles of banking accounting systems",
+      "Accounting treatments for treasury, cash variances, and daily cash movements",
+      "Handling current accounts, savings, term deposits, and discounted bills for collection",
+      "Executing check clearing procedures and managing inter-branch accounting settlements",
+      "Processing letters of guarantee, import/export documentary credits, and internal/external remittances",
+      "Preparing final accounts, financial statements, and outlining internal/external audit procedures in banks"
+    ],
+    "target_audience": "طلاب الدراسات الأولية والعليا في كليات الإدارة والاقتصاد، والمحاسبين والمهنيين العاملين في القطاع المصرفي والمالي.",
+    "target_audience_en": "Undergraduate and postgraduate students in Business and Economics, as well as accounting professionals working in the banking and financial sector.",
+    "pages": "528",
+    "file_size": "34.49 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/تطبيقات_محاسبية_في_العمليات_المصرفية.pdf",
+    "cover_image": "covers/51.png"
   }
 ]
