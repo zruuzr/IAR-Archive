@@ -2603,5 +2603,61 @@
     "file_type": "PDF",
     "file_path": "pdf/محاسبة_ادارية.pdf",
     "cover_image": "covers/54.png"
+  },
+  {
+    "id": 55,
+    "title": "الإحصاء التطبيقي",
+    "title_en": "Applied Statistics",
+    "author": "عبد الرحمن بن محمد سليمان أبو عمه، أنور أحمد عبد الله، محمود محمد إبراهيم هندي",
+    "author_en": "Abdulrahman bin Muhammad Abouammah, Anwar Ahmad Abdullah, Mahmoud Muhammad Ibrahim Hindi",
+    "category": "الرياضيات والإحصاء",
+    "category_en": "Mathematics & Statistics",
+    "type": "كتاب أكاديمي تعليمي",
+    "type_en": "Academic Textbook",
+    "description": "كتاب جامعي شامل في مجال الإحصاء التطبيقي أعد خصيصاً لطلاب المهن والتخصصات العلمية والإنسانية والإدارية. يغطي الكتاب مفاهيم الإحصاء الوصفي، تنظيم وعرض البيانات، مقاييس النزعة المركزية والتشتت، الانحدار والارتباط، السلاسل الزمنية، الأرقام القياسية، الاحتمالات والتوزيعات الاحتمالية، اختبارات الفروض، ومربع كاي وتحليل التباين بأسلوب ميسر مع تقليل البراهين الرياضية المعقدة.",
+    "description_en": "A comprehensive university textbook on applied statistics designed for students in scientific, humanities, and business disciplines. The book covers descriptive statistics, data presentation, measures of central tendency and dispersion, correlation and regression, time series analysis, index numbers, probability distributions, hypothesis testing, Chi-Square tests, and Analysis of Variance (ANOVA) in an accessible style with minimized mathematical proofs.",
+    "publisher": "جامعة الملك سعود - عمادة شؤون المكتبات",
+    "publisher_en": "King Saud University - Deanship of Library Affairs",
+    "year": "1995",
+    "isbn": "9960-05-207-9",
+    "keywords": [
+      "الإحصاء التطبيقي",
+      "جامعة الملك سعود",
+      "الإحصاء الوصفي",
+      "الاحتمالات",
+      "السلاسل الزمنية",
+      "تحليل التباين",
+      "اختبارات الفروض"
+    ],
+    "keywords_en": [
+      "Applied Statistics",
+      "King Saud University",
+      "Descriptive Statistics",
+      "Probability",
+      "Time Series",
+      "ANOVA",
+      "Hypothesis Testing"
+    ],
+    "key_points": [
+      "تقديم المفاهيم الإحصائية الأساسية مع مراعاة التبسيط للدارسين غير المتخصصين في الرياضيات.",
+      "عرض شامل لطرق جمع وتنظيم البيانات وتلخيصها جدولياً ورسمها بيانياً.",
+      "شرح مفصل لمقاييس النزعة المركزية ومقاييس التشتت العادية والنسبية والعزوم والالتواء والتفلطح.",
+      "تغطية الارتباط والانحدار الخطي والسلاسل الزمنية والأرقام القياسية والإحصاءات الحيوية.",
+      "دراسة مبادئ الاحتمالات والمتغيرات العشوائية والتوزيعات الاحتمالية واختبارات الفروض وتحليل التباين."
+    ],
+    "key_points_en": [
+      "Presents core statistical concepts with a focus on simplicity for non-mathematics majors.",
+      "Offers a thorough overview of data collection, organization, tabular summaries, and graphical displays.",
+      "Provides detailed explanations of central tendency, absolute and relative dispersion, moments, skewness, and kurtosis.",
+      "Covers correlation, linear regression, time series analysis, index numbers, and vital statistics.",
+      "Explores probability principles, random variables, probability distributions, hypothesis tests, and ANOVA."
+    ],
+    "target_audience": "طلاب الجامعات والمعاهد العليا والباحثون في العلوم الطبيعية والهندسية والإنسانية والاجتماعية والإدارية.",
+    "target_audience_en": "University and college students, researchers in natural sciences, engineering, humanities, social sciences, and business administration.",
+    "pages": "451",
+    "file_size": "58.30 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/الاحصاء_التطبيقي.pdf",
+    "cover_image": "covers/55.png"
   }
 ]
