@@ -2371,5 +2371,39 @@
     "file_type": "PDF",
     "file_path": "pdf/استراتيجية_التدريب_واثرها_على_اداء_العاملين.pdf",
     "cover_image": "covers/50.png"
+  },
+  {
+    "id": 51,
+    "title": "تطبيقات محاسبية في العمليات المصرفية",
+    "title_en": "",
+    "author": "",
+    "author_en": "",
+    "category": "غير مصنف",
+    "category_en": "Uncategorized",
+    "type": "كتاب",
+    "type_en": "Book",
+    "description": "كتاب بعنوان 'تطبيقات محاسبية في العمليات المصرفية'. لم تتمكن أداة التحليل من قراءة محتواه بشكل كامل، وقد تم استخدام اسم الملف كعنوان مؤقت.",
+    "description_en": "A book titled 'تطبيقات محاسبية في العمليات المصرفية'. The analysis tool could not fully read its content; the filename was used as a temporary title.",
+    "publisher": "",
+    "publisher_en": "",
+    "year": "",
+    "isbn": "",
+    "keywords": [
+      "تطبيقات محاسبية في العمليات المصرفية"
+    ],
+    "keywords_en": [],
+    "key_points": [
+      "يتطلب مراجعة يدوية لاستكمال البيانات."
+    ],
+    "key_points_en": [
+      "Manual review required to complete metadata."
+    ],
+    "target_audience": "",
+    "target_audience_en": "",
+    "pages": "528",
+    "file_size": "94.81 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/تطبيقات_محاسبية_في_العمليات_المصرفية.pdf",
+    "cover_image": "covers/51.png"
   }
 ]
