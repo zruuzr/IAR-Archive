@@ -1,24 +1,48 @@
-import os
+"""
+books_indexer.py
+Automated PDF book indexing with Gemini API.
+"""
+from __future__ import annotations
+
 import json
+import logging
+import os
+import re
 import shutil
 import tempfile
-import zipfile
-import re
 import time
+import zipfile
+from contextlib import suppress
+from dataclasses import asdict, dataclass, field
+from pathlib import Path
+from typing import Any, Iterable
+
 from google import genai
 from google.genai import types
 from pypdf import PdfReader
 
-if "GEMINI_API_KEY" not in os.environ:
-    raise ValueError("GEMINI_API_KEY environment variable is missing.")
+LOG = logging.getLogger("books_indexer")
 
-client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
-
-JSON_PATH = "books.json"
-PDF_DIR = "pdf"
-MODEL_NAME = "gemini-3.6-flash"
-MAX_UPLOAD_SIZE_MB = 50
+JSON_PATH = Path("books.json")
+PDF_DIR = Path("pdf")
+MODEL_NAME = os.environ.get("GEMINI_MODEL", "gemini-2.0-flash")
+MAX_UPLOAD_SIZE_MB = int(os.environ.get("MAX_UPLOAD_SIZE_MB", "50"))
 MAX_RETRIES = 5
+RETRY_BACKOFF_SECONDS = (15, 30, 60, 120, 240)
+
+SAMPLE_TEXT_MAX_CHARS = 25_000
+MEANINGFUL_TEXT_MIN_CHARS = 150
+PDF_SAMPLE_MAX_PAGES = 30
+PDF_MAX_FILE_SIZE_MB = 500
+PDF_SCAN_KEYWORDS = (
+    "المؤلف", "author", "الناشر", "publisher",
+    "ISBN", "الطبعة", "edition", "الفصل", "chapter",
+)
+
+BANNED_TITLES = frozenset({
+    "غير معروف", "unknown", "unspecified", "وثيقة نصية",
+    "نص غير محدد", "نص مجزأ", "fragment", "unknown document", "غير محدد",
+})
 
 JSON_SCHEMA_PROMPT = """
 أنت مفهرس كتب محترف. مهمتك استخراج بيانات الكتاب الحقيقية بدقة من المحتوى المرفق.
@@ -55,454 +79,416 @@ JSON_SCHEMA_PROMPT = """
 4. أعد فقط كائن JSON واحد بدون أي نص إضافي.
 """
 
-class ApiUnavailableError(Exception):
+
+class ApiUnavailableError(RuntimeError):
     pass
 
-def safe_list(value):
+
+@dataclass
+class Book:
+    id: int
+    title: str = ""
+    title_en: str = ""
+    author: str = ""
+    author_en: str = ""
+    category: str = "غير مصنف"
+    category_en: str = "Uncategorized"
+    type: str = "كتاب"
+    type_en: str = "Book"
+    description: str = ""
+    description_en: str = ""
+    publisher: str = ""
+    publisher_en: str = ""
+    year: str = ""
+    isbn: str = ""
+    keywords: list[str] = field(default_factory=list)
+    keywords_en: list[str] = field(default_factory=list)
+    key_points: list[str] = field(default_factory=list)
+    key_points_en: list[str] = field(default_factory=list)
+    target_audience: str = ""
+    target_audience_en: str = ""
+    pages: str = ""
+    file_size: str = ""
+    file_type: str = "PDF"
+    file_path: str = ""
+    cover_image: str = ""
+
+    @classmethod
+    def from_gemini(cls, data: dict[str, Any], **overrides: Any) -> "Book":
+        return cls(
+            id=overrides.pop("id"),
+            title=str(data.get("title") or ""),
+            title_en=str(data.get("title_en") or ""),
+            author=str(data.get("author") or ""),
+            author_en=str(data.get("author_en") or ""),
+            category=str(data.get("category") or "غير مصنف"),
+            category_en=str(data.get("category_en") or "Uncategorized"),
+            type=str(data.get("type") or "كتاب"),
+            type_en=str(data.get("type_en") or "Book"),
+            description=str(data.get("description") or ""),
+            description_en=str(data.get("description_en") or ""),
+            publisher=str(data.get("publisher") or ""),
+            publisher_en=str(data.get("publisher_en") or ""),
+            year=str(data.get("year") or ""),
+            isbn=str(data.get("isbn") or ""),
+            keywords=safe_list(data.get("keywords")),
+            keywords_en=safe_list(data.get("keywords_en")),
+            key_points=safe_list(data.get("key_points")),
+            key_points_en=safe_list(data.get("key_points_en")),
+            target_audience=str(data.get("target_audience") or ""),
+            target_audience_en=str(data.get("target_audience_en") or ""),
+            **overrides,
+        )
+
+
+def safe_list(value: Any) -> list[str]:
     if isinstance(value, list):
-        return [str(v) for v in value if v is not None and str(v).strip() != ""]
-    if value is None or value == "":
+        return [str(v) for v in value if v is not None and str(v).strip()]
+    if value in (None, ""):
         return []
     return [str(value)]
 
-def fix_zip_filename(name):
-    try:
-        return name.encode("cp437").decode("utf-8")
-    except (UnicodeEncodeError, UnicodeDecodeError):
-        return name
 
-def safe_zip_member(member):
+def decode_zip_name(name: str) -> str:
+    with suppress(UnicodeEncodeError, UnicodeDecodeError):
+        return name.encode("cp437").decode("utf-8")
+    return name
+
+
+def is_safe_zip_member(member: str) -> bool:
     if not member or member.endswith("/"):
         return False
-    normalized = os.path.normpath(member)
-    if normalized.startswith("..") or os.path.isabs(normalized):
-        return False
-    if ".." in normalized.split(os.sep):
+    if ".." in member.split("/") or "\\" in member:
         return False
     return True
 
-def extract_zip_files(pdf_dir):
-    if not os.path.exists(pdf_dir):
+
+def extract_zip_archives(pdf_dir: Path) -> None:
+    if not pdf_dir.is_dir():
         return
 
-    for file_name in sorted(os.listdir(pdf_dir)):
-        if not file_name.lower().endswith(".zip"):
+    for zip_path in sorted(pdf_dir.glob("*.zip")):
+        LOG.info("Extracting ZIP archive: %s", zip_path.name)
+        try:
+            with zipfile.ZipFile(zip_path) as zf:
+                _extract_zip_members(zf, pdf_dir)
+            zip_path.unlink()
+            LOG.info("Removed ZIP archive: %s", zip_path.name)
+        except zipfile.BadZipFile:
+            LOG.warning("Invalid ZIP file: %s", zip_path.name)
+        except OSError as e:
+            LOG.error("Error extracting %s: %s", zip_path.name, e)
+
+
+def _extract_zip_members(zf: zipfile.ZipFile, target_dir: Path) -> None:
+    for raw_member in zf.namelist():
+        member = decode_zip_name(raw_member)
+        if not member.lower().endswith(".pdf"):
+            continue
+        if not is_safe_zip_member(member):
+            LOG.warning("Skipped unsafe path: %s", member)
             continue
 
-        zip_path = os.path.join(pdf_dir, file_name)
-        print(f"Extracting ZIP archive: {file_name}")
-
+        target = _unique_path(target_dir / Path(member).name)
         try:
-            with zipfile.ZipFile(zip_path, "r") as zf:
-                for raw_member in zf.namelist():
-                    member = fix_zip_filename(raw_member)
-                    if not member.lower().endswith(".pdf"):
-                        continue
-                    if not safe_zip_member(member):
-                        print(f"  Skipped unsafe path: {member}")
-                        continue
+            with zf.open(raw_member) as src, target.open("wb") as dst:
+                shutil.copyfileobj(src, dst)
+            LOG.info("Extracted: %s", target.name)
+        except OSError as e:
+            LOG.error("Failed to extract %s: %s", member, e)
 
-                    base_name = os.path.basename(member)
-                    if not base_name:
-                        continue
 
-                    target_path = os.path.join(pdf_dir, base_name)
+def _unique_path(path: Path) -> Path:
+    if not path.exists():
+        return path
+    stem, suffix, parent = path.stem, path.suffix, path.parent
+    counter = 1
+    while (candidate := parent / f"{stem}_{counter}{suffix}").exists():
+        counter += 1
+    return candidate
 
-                    if os.path.exists(target_path):
-                        base, ext = os.path.splitext(base_name)
-                        counter = 1
-                        while os.path.exists(os.path.join(pdf_dir, f"{base}_{counter}{ext}")):
-                            counter += 1
-                        target_path = os.path.join(pdf_dir, f"{base}_{counter}{ext}")
 
-                    try:
-                        with zf.open(raw_member) as source, open(target_path, "wb") as target:
-                            shutil.copyfileobj(source, target)
-                        print(f"  Extracted: {os.path.basename(target_path)}")
-                    except Exception as inner_error:
-                        print(f"  Failed to extract {member}: {inner_error}")
-
-            os.remove(zip_path)
-            print(f"Removed ZIP archive: {file_name}")
-
-        except zipfile.BadZipFile:
-            print(f"Invalid ZIP file (not a zip archive): {file_name}")
-        except Exception as e:
-            print(f"Error extracting {file_name}: {e}")
-
-def get_file_info(file_path):
-    pages_count = 0
-    file_size_str = "Unknown"
+def read_pdf(file_path: Path) -> tuple[PdfReader | None, int]:
     try:
-        reader = PdfReader(file_path)
-        pages_count = len(reader.pages)
-    except Exception:
-        pass
-
-    try:
-        size_bytes = os.path.getsize(file_path)
-        size_mb = size_bytes / (1024 * 1024)
-        file_size_str = f"{size_mb:.2f} MB"
-    except Exception:
-        pass
-
-    return str(pages_count) if pages_count > 0 else None, file_size_str
-
-def smart_extract_text(pdf_path, max_pages=30):
-    parts = []
-    try:
-        reader = PdfReader(pdf_path)
-        total_pages = len(reader.pages)
-        if total_pages == 0:
-            return ""
-
-        keywords = ["المؤلف", "author", "الناشر", "publisher", "ISBN", "الطبعة", "edition", "الفصل", "chapter"]
-        indices_to_try = set()
-
-        for i in range(min(5, total_pages)):
-            indices_to_try.add(i)
-
-        for i in range(max(0, total_pages - 3), total_pages):
-            indices_to_try.add(i)
-
-        if total_pages > 15:
-            for i in range(5, min(total_pages, 20)):
-                try:
-                    txt = reader.pages[i].extract_text() or ""
-                    low = txt.lower()
-                    if any(k.lower() in low for k in keywords):
-                        indices_to_try.add(i)
-                        if len(indices_to_try) >= max_pages:
-                            break
-                except Exception:
-                    continue
-
-        for i in sorted(indices_to_try):
-            try:
-                page_text = reader.pages[i].extract_text()
-                if page_text and len(page_text.strip()) > 20:
-                    parts.append(f"\n--- Page {i+1} ---\n" + page_text)
-            except Exception:
-                continue
-
+        reader = PdfReader(str(file_path))
+        return reader, len(reader.pages)
     except Exception as e:
-        print(f"Error in smart_extract_text from {pdf_path}: {e}")
+        LOG.warning("Cannot open PDF %s: %s", file_path.name, e)
+        return None, 0
 
+
+def smart_extract_text(reader: PdfReader, max_pages: int = PDF_SAMPLE_MAX_PAGES) -> str:
+    total = len(reader.pages)
+    if total == 0:
+        return ""
+
+    indices: set[int] = set(range(min(5, total)))
+    indices.update(range(max(0, total - 3), total))
+
+    if total > 15:
+        for i in range(5, min(total, 20)):
+            with suppress(Exception):
+                txt = (reader.pages[i].extract_text() or "").lower()
+                if any(k.lower() in txt for k in PDF_SCAN_KEYWORDS):
+                    indices.add(i)
+                    if len(indices) >= max_pages:
+                        break
+
+    parts: list[str] = []
+    for i in sorted(indices):
+        with suppress(Exception):
+            page_text = reader.pages[i].extract_text()
+            if page_text and len(page_text.strip()) > 20:
+                parts.append(f"\n--- Page {i + 1} ---\n{page_text}")
     return "\n".join(parts).strip()
 
-def has_meaningful_text(text, min_chars=150):
+
+def has_meaningful_text(text: str, min_chars: int = MEANINGFUL_TEXT_MIN_CHARS) -> bool:
     if not text or len(text.strip()) < min_chars:
         return False
-
     stripped = re.sub(r"\s+", "", text)
-    if len(stripped) == 0:
+    if not stripped:
         return False
+    meaningful = re.findall(r"[A-Za-z0-9\u0600-\u06FF]", text)
+    return (len(meaningful) / len(stripped)) >= 0.25
 
-    meaningful_chars = re.findall(r"[A-Za-z0-9\u0600-\u06FF]", text)
-    ratio = len(meaningful_chars) / len(stripped)
-    return ratio >= 0.25
 
-def extract_json_object(raw_text):
+def extract_json_object(raw_text: str) -> dict[str, Any]:
     if not raw_text:
         raise ValueError("Empty response from Gemini.")
-
     text = raw_text.strip()
-
-    if text.startswith("```json"):
-        text = text[7:]
-    elif text.startswith("```"):
-        text = text[3:]
+    for fence in ("```json", "```"):
+        if text.startswith(fence):
+            text = text[len(fence):]
+            break
     if text.endswith("```"):
         text = text[:-3]
-    text = text.strip()
 
-    first_brace = text.find("{")
-    last_brace = text.rfind("}")
+    first, last = text.find("{"), text.rfind("}")
+    if first == -1 or last <= first:
+        raise ValueError("No valid JSON object in Gemini response.")
+    return json.loads(text[first:last + 1])
 
-    if first_brace == -1 or last_brace == -1 or last_brace <= first_brace:
-        raise ValueError("Could not locate a valid JSON object in Gemini response.")
 
-    json_str = text[first_brace:last_brace + 1]
-    return json.loads(json_str)
-
-def is_generic_response(book_data, file_name):
-    if not isinstance(book_data, dict):
+def is_generic_response(data: dict[str, Any]) -> bool:
+    if not isinstance(data, dict):
         return True
-
-    title = (book_data.get("title") or "").strip()
-    description = (book_data.get("description") or "").strip()
-
-    if not title or len(title) < 2:
+    title = (data.get("title") or "").strip()
+    description = (data.get("description") or "").strip()
+    if len(title) < 2 or len(description) < 10:
         return True
-
-    banned_exact = [
-        "غير معروف", "unknown", "unspecified",
-        "وثيقة نصية", "نص غير محدد", "نص مجزأ",
-        "fragment", "unknown document", "غير محدد"
-    ]
-
     combined = f"{title} {description}".lower()
-    for bad in banned_exact:
-        if bad.lower() in combined:
-            return True
+    return any(bad in combined for bad in BANNED_TITLES)
 
-    if not description or len(description) < 10:
+
+def _is_retryable(error: Exception) -> bool:
+    msg = str(error).upper()
+    if any(re.search(rf"\b{code}\b", msg) for code in ("429", "500", "502", "503", "504")):
         return True
-
-    return False
-
-def build_payload(file_name, sample_text, use_upload=False, uploaded_file=None):
-    file_hint = f"\n\nملاحظة: اسم الملف الأصلي هو: {file_name}"
-    if use_upload and uploaded_file:
-        return [uploaded_file, JSON_SCHEMA_PROMPT + file_hint]
-    else:
-        return f"{JSON_SCHEMA_PROMPT}{file_hint}\n\nExtracted Text:\n{sample_text[:25000]}"
-
-def is_retryable_error(error):
-    error_str = str(error).upper()
-    for code in ["503", "429", "500", "502", "504"]:
-        if re.search(rf"\b{code}\b", error_str):
-            return True
-    for kw in ["UNAVAILABLE", "RESOURCE_EXHAUSTED", "DEADLINE_EXCEEDED", "TIMEOUT", "CONNECTION"]:
-        if kw in error_str:
-            return True
-    if isinstance(error, (ConnectionError, TimeoutError)):
+    if any(kw in msg for kw in ("UNAVAILABLE", "RESOURCE_EXHAUSTED",
+                                "DEADLINE_EXCEEDED", "TIMEOUT", "CONNECTION")):
         return True
-    return False
+    return isinstance(error, (ConnectionError, TimeoutError))
 
-def call_gemini(contents_payload, max_retries=MAX_RETRIES):
-    last_error = None
-    backoff_delays = [15, 30, 60, 120, 240]
 
-    for attempt in range(1, max_retries + 1):
+def call_gemini(client: genai.Client, payload: Any) -> str:
+    last_error: Exception | None = None
+    for attempt in range(1, MAX_RETRIES + 1):
         try:
             response = client.models.generate_content(
                 model=MODEL_NAME,
-                contents=contents_payload,
+                contents=payload,
                 config=types.GenerateContentConfig(
                     response_mime_type="application/json",
-                    automatic_function_calling=types.AutomaticFunctionCallingConfig(disable=True)
-                )
+                    automatic_function_calling=types.AutomaticFunctionCallingConfig(disable=True),
+                ),
             )
             if response and response.text:
-                return response
-            last_error = ValueError("Empty response from Gemini")
+                return response.text
+            raise ValueError("Empty response from Gemini")
 
         except Exception as e:
             last_error = e
-            error_str = str(e).replace('\n', ' ')
-
-            if is_retryable_error(e):
-                if attempt < max_retries:
-                    delay = backoff_delays[attempt - 1] if (attempt - 1) < len(backoff_delays) else 240
-                    error_msg = f"  Attempt {attempt}/{max_retries} failed (retryable): {error_str[:120]}"
-                    print(error_msg)
-                    print(f"  Waiting {delay}s before retry to allow quota/server recovery...")
-                    time.sleep(delay)
-                    continue
-                else:
-                    print(f"  All {max_retries} attempts failed with retryable error.")
-                    raise ApiUnavailableError(f"API unavailable after {max_retries} attempts")
-            else:
-                error_msg = f"  Attempt {attempt}/{max_retries} failed (non-retryable): {error_str[:200]}"
-                print(error_msg)
+            if not _is_retryable(e):
                 raise
 
-    if last_error:
-        raise ApiUnavailableError(f"API call failed: {last_error}")
-
-def build_fallback_book(file_name):
-    base_name = os.path.splitext(file_name)[0]
-    clean_title = base_name.replace("_", " ").replace("-", " ").strip()
-
-    return {
-        "title": clean_title,
-        "title_en": "",
-        "author": "",
-        "author_en": "",
-        "category": "غير مصنف",
-        "category_en": "Uncategorized",
-        "type": "كتاب",
-        "type_en": "Book",
-        "description": f"كتاب بعنوان '{clean_title}'. لم تتمكن أداة التحليل من قراءة محتواه بشكل كامل، وقد تم استخدام اسم الملف كعنوان مؤقت.",
-        "description_en": f"A book titled '{clean_title}'. The analysis tool could not fully read its content; the filename was used as a temporary title.",
-        "publisher": "",
-        "publisher_en": "",
-        "year": "",
-        "isbn": "",
-        "keywords": [clean_title],
-        "keywords_en": [],
-        "key_points": ["يتطلب مراجعة يدوية لاستكمال البيانات."],
-        "key_points_en": ["Manual review required to complete metadata."],
-        "target_audience": "",
-        "target_audience_en": ""
-    }
-
-def main():
-    temp_json_path = JSON_PATH + ".tmp"
-    if os.path.exists(temp_json_path):
-        try:
-            os.remove(temp_json_path)
-        except Exception:
-            pass
-
-    extract_zip_files(PDF_DIR)
-
-    if os.path.exists(JSON_PATH):
-        try:
-            with open(JSON_PATH, "r", encoding="utf-8") as f:
-                books_data = json.load(f)
-        except Exception:
-            books_data = []
-    else:
-        books_data = []
-
-    existing_files = {os.path.normpath(book.get("file_path", "")) for book in books_data}
-    api_unavailable = False
-
-    if os.path.exists(PDF_DIR):
-        for file_name in sorted(os.listdir(PDF_DIR)):
-            if api_unavailable:
+            if attempt == MAX_RETRIES:
                 break
-                
-            if not file_name.lower().endswith(".pdf"):
-                continue
 
-            file_path = os.path.join(PDF_DIR, file_name)
-            normalized_path = os.path.normpath(file_path)
+            delay = RETRY_BACKOFF_SECONDS[min(attempt - 1, len(RETRY_BACKOFF_SECONDS) - 1)]
+            LOG.warning("Attempt %d/%d failed: %s — retrying in %ds",
+                        attempt, MAX_RETRIES, str(e)[:120], delay)
+            time.sleep(delay)
 
-            if normalized_path in existing_files:
-                continue
+    raise ApiUnavailableError(f"API unavailable after {MAX_RETRIES} attempts") from last_error
 
-            print(f"\nProcessing new book: {file_name}")
 
-            pages_count, file_size_str = get_file_info(file_path)
-            sample_text = smart_extract_text(file_path, max_pages=30)
-            text_is_meaningful = has_meaningful_text(sample_text, min_chars=150)
-            print(f"  Local text meaningful: {text_is_meaningful} (length: {len(sample_text)} chars)")
+def build_payload(file_name: str, sample_text: str,
+                  uploaded_file: Any | None = None) -> Any:
+    hint = f"\n\nملاحظة: اسم الملف الأصلي هو: {file_name}"
+    prompt = JSON_SCHEMA_PROMPT + hint
+    if uploaded_file:
+        return [uploaded_file, prompt]
+    return f"{prompt}\n\nExtracted Text:\n{sample_text[:SAMPLE_TEXT_MAX_CHARS]}"
 
-            uploaded_file = None
-            temp_pdf = None
-            new_book = None
-            used_fallback = False
 
-            try:
-                file_size_mb = os.path.getsize(file_path) / (1024 * 1024)
-                can_upload_full = file_size_mb <= MAX_UPLOAD_SIZE_MB
+def build_fallback_book(file_name: str, next_id: int, file_path: Path,
+                        file_size: str, pages: str) -> Book:
+    title = Path(file_name).stem.replace("_", " ").replace("-", " ").strip()
+    return Book(
+        id=next_id,
+        title=title,
+        category="غير مصنف",
+        category_en="Uncategorized",
+        type="كتاب",
+        type_en="Book",
+        description=f"كتاب بعنوان '{title}'. لم تتمكن أداة التحليل من قراءة محتواه بالكامل.",
+        description_en=f"A book titled '{title}'. Content could not be fully analyzed.",
+        keywords=[title],
+        key_points=["يتطلب مراجعة يدوية لاستكمال البيانات."],
+        key_points_en=["Manual review required."],
+        pages=pages,
+        file_size=file_size,
+        file_path=str(file_path).replace(os.sep, "/"),
+        cover_image=f"covers/{next_id}.png",
+    )
 
-                if text_is_meaningful:
-                    print("  Strategy 1: Using local extracted text")
-                    contents_payload = build_payload(file_name, sample_text, use_upload=False)
-                elif can_upload_full:
-                    print(f"  Strategy 1: Uploading full PDF ({file_size_mb:.1f} MB)")
-                    with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as tmp:
-                        temp_pdf = tmp.name
-                    shutil.copyfile(file_path, temp_pdf)
-                    uploaded_file = client.files.upload(file=temp_pdf)
-                    contents_payload = build_payload(file_name, "", use_upload=True, uploaded_file=uploaded_file)
-                else:
-                    print(f"  File too large ({file_size_mb:.1f} MB) and text is not meaningful. Skipping API call.")
-                    new_book = build_fallback_book(file_name)
-                    used_fallback = True
 
-                if not used_fallback:
-                    try:
-                        response = call_gemini(contents_payload)
-                        new_book = extract_json_object(response.text)
-                    except ApiUnavailableError:
-                        api_unavailable = True
-                        print("  Critical API failure. Halting further processing.")
-                        break
+def load_books(path: Path) -> list[dict[str, Any]]:
+    if not path.exists():
+        return []
+    try:
+        with path.open(encoding="utf-8") as f:
+            data = json.load(f)
+            return data if isinstance(data, list) else []
+    except (json.JSONDecodeError, OSError) as e:
+        LOG.error("Cannot read %s: %s", path, e)
+        return []
 
-                    if is_generic_response(new_book, file_name):
-                        print("  Generic response. Trying fallback strategy...")
 
-                        if not uploaded_file and can_upload_full:
-                            with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as tmp:
-                                temp_pdf = tmp.name
-                            shutil.copyfile(file_path, temp_pdf)
-                            uploaded_file = client.files.upload(file=temp_pdf)
+def save_books(path: Path, books: list[dict[str, Any]]) -> None:
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    with tmp.open("w", encoding="utf-8") as f:
+        json.dump(books, f, ensure_ascii=False, indent=2)
+    os.replace(tmp, path)
 
-                        if uploaded_file:
-                            fallback_payload = build_payload(file_name, "", use_upload=True, uploaded_file=uploaded_file)
-                        else:
-                            fallback_payload = build_payload(file_name, sample_text, use_upload=False)
 
-                        try:
-                            response = call_gemini(fallback_payload)
-                            new_book = extract_json_object(response.text)
-                        except ApiUnavailableError:
-                            api_unavailable = True
-                            print("  Critical API failure during fallback. Halting.")
-                            break
+def process_one_book(client: genai.Client, file_path: Path,
+                     existing_ids: Iterable[int]) -> Book | None:
+    name = file_path.name
+    LOG.info("Processing: %s", name)
 
-                        if is_generic_response(new_book, file_name):
-                            print(f"  Gemini could not identify the book. Using filename as fallback.")
-                            new_book = build_fallback_book(file_name)
+    reader, pages_count = read_pdf(file_path)
+    file_size_mb = file_path.stat().st_size / (1024 * 1024)
+    file_size_str = f"{file_size_mb:.2f} MB"
+    next_id = max(existing_ids, default=0) + 1
 
-                if not isinstance(new_book, dict):
-                    raise ValueError("Invalid JSON object response.")
+    if file_size_mb > PDF_MAX_FILE_SIZE_MB:
+        LOG.warning("File too large (%.1f MB); using fallback", file_size_mb)
+        return build_fallback_book(name, next_id, file_path, file_size_str, str(pages_count))
 
-                max_id = max((book.get("id", 0) for book in books_data), default=0)
-                next_id = max_id + 1
+    sample_text = smart_extract_text(reader) if reader else ""
+    has_text = has_meaningful_text(sample_text)
+    can_upload = file_size_mb <= MAX_UPLOAD_SIZE_MB
 
-                standardized_book = {
-                    "id": next_id,
-                    "title": new_book.get("title", ""),
-                    "title_en": new_book.get("title_en", ""),
-                    "author": new_book.get("author", ""),
-                    "author_en": new_book.get("author_en", ""),
-                    "category": new_book.get("category", "غير مصنف"),
-                    "category_en": new_book.get("category_en", "Uncategorized"),
-                    "type": new_book.get("type", "كتاب"),
-                    "type_en": new_book.get("type_en", "Book"),
-                    "description": new_book.get("description", ""),
-                    "description_en": new_book.get("description_en", ""),
-                    "publisher": new_book.get("publisher", ""),
-                    "publisher_en": new_book.get("publisher_en", ""),
-                    "year": new_book.get("year", ""),
-                    "isbn": new_book.get("isbn", ""),
-                    "keywords": safe_list(new_book.get("keywords")),
-                    "keywords_en": safe_list(new_book.get("keywords_en")),
-                    "key_points": safe_list(new_book.get("key_points")),
-                    "key_points_en": safe_list(new_book.get("key_points_en")),
-                    "target_audience": new_book.get("target_audience", ""),
-                    "target_audience_en": new_book.get("target_audience_en", ""),
-                    "pages": pages_count if pages_count else new_book.get("pages", ""),
-                    "file_size": file_size_str,
-                    "file_type": "PDF",
-                    "file_path": file_path.replace(os.sep, "/"),
-                    "cover_image": f"covers/{next_id}.png"
-                }
+    uploaded_file = None
+    temp_path: Path | None = None
 
-                books_data.append(standardized_book)
-                existing_files.add(normalized_path)
+    try:
+        if has_text:
+            LOG.info("Using local extracted text")
+            payload = build_payload(name, sample_text)
+        elif can_upload:
+            LOG.info("Uploading full PDF (%.1f MB)", file_size_mb)
+            temp_path, uploaded_file = _upload_pdf(client, file_path)
+            payload = build_payload(name, "", uploaded_file)
+        else:
+            LOG.warning("Large file without usable text; skipping API")
+            return build_fallback_book(name, next_id, file_path, file_size_str, str(pages_count))
 
-                with open(temp_json_path, "w", encoding="utf-8") as f:
-                    json.dump(books_data, f, ensure_ascii=False, indent=2)
-                os.replace(temp_json_path, JSON_PATH)
+        data = _call_and_parse(client, payload)
+        if is_generic_response(data) and not has_text and can_upload:
+            LOG.info("Generic response; retrying with uploaded file")
+            if not uploaded_file:
+                temp_path, uploaded_file = _upload_pdf(client, file_path)
+            data = _call_and_parse(client, build_payload(name, "", uploaded_file))
 
-                print(f"  Successfully added: {standardized_book.get('title')}")
+        if is_generic_response(data):
+            LOG.warning("Gemini could not identify book; using fallback")
+            return build_fallback_book(name, next_id, file_path, file_size_str, str(pages_count))
 
-            except Exception as e:
-                print(f"Error processing file {file_name}: {type(e).__name__}: {e}")
+        return Book.from_gemini(
+            data,
+            id=next_id,
+            pages=str(pages_count) if pages_count else str(data.get("pages") or ""),
+            file_size=file_size_str,
+            file_path=str(file_path).replace(os.sep, "/"),
+            cover_image=f"covers/{next_id}.png",
+        )
 
-            finally:
-                if uploaded_file:
-                    try:
-                        client.files.delete(name=uploaded_file.name)
-                    except Exception:
-                        pass
-                if temp_pdf and os.path.exists(temp_pdf):
-                    try:
-                        os.remove(temp_pdf)
-                    except Exception:
-                        pass
+    finally:
+        if uploaded_file:
+            with suppress(Exception):
+                client.files.delete(name=uploaded_file.name)
+        if temp_path and temp_path.exists():
+            with suppress(OSError):
+                temp_path.unlink()
 
-    if not api_unavailable:
-        print("\nProcessing completed successfully.")
-    else:
-        print("\nProcessing halted due to API availability issues. Progress has been safely saved.")
+
+def _upload_pdf(client: genai.Client, file_path: Path) -> tuple[Path, Any]:
+    with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as tmp:
+        temp_path = Path(tmp.name)
+    shutil.copyfile(file_path, temp_path)
+    return temp_path, client.files.upload(file=str(temp_path))
+
+
+def _call_and_parse(client: genai.Client, payload: Any) -> dict[str, Any]:
+    return extract_json_object(call_gemini(client, payload))
+
+
+def main() -> None:
+    logging.basicConfig(
+        level=os.environ.get("LOG_LEVEL", "INFO"),
+        format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+    )
+
+    api_key = os.environ.get("GEMINI_API_KEY")
+    if not api_key:
+        raise SystemExit("GEMINI_API_KEY environment variable is missing.")
+    client = genai.Client(api_key=api_key)
+
+    extract_zip_archives(PDF_DIR)
+
+    books = load_books(JSON_PATH)
+    processed_paths = {os.path.normpath(b.get("file_path", "")) for b in books}
+
+    if not PDF_DIR.is_dir():
+        LOG.info("PDF directory not found; nothing to do.")
+        return
+
+    halted = False
+    for pdf_path in sorted(PDF_DIR.glob("*.pdf")):
+        if halted:
+            break
+        if os.path.normpath(str(pdf_path)) in processed_paths:
+            continue
+
+        try:
+            book = process_one_book(client, pdf_path, [b.get("id", 0) for b in books])
+            if book:
+                books.append(asdict(book))
+                processed_paths.add(os.path.normpath(str(pdf_path)))
+                save_books(JSON_PATH, books)
+                LOG.info("Added: %s", book.title)
+        except ApiUnavailableError as e:
+            LOG.error("API unavailable; halting. Progress saved. (%s)", e)
+            halted = True
+        except Exception:
+            LOG.exception("Unhandled error for %s", pdf_path.name)
+
+    if not halted:
+        LOG.info("Processing completed successfully.")
+
 
 if __name__ == "__main__":
     main()
