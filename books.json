@@ -2541,5 +2541,67 @@
     "file_type": "PDF",
     "file_path": "pdf/المحاسبة_عن_الاسهم_والسندات_المتداولة_في_بورصة_الاوراق.pdf",
     "cover_image": "covers/53.png"
+  },
+  {
+    "id": 54,
+    "title": "المحاسبة الإدارية",
+    "title_en": "Managerial Accounting",
+    "author": "كمال حسين",
+    "author_en": "Kamal Hussein",
+    "category": "المحاسبة وإدارة الأعمال",
+    "category_en": "Accounting & Business Administration",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Textbook",
+    "description": "كتاب أكاديمي شامل يغطي مفاهيم وأساليب المحاسبة الإدارية لدعم اتخاذ القرارات والتخطيط والرقابة في المنشآت. يتناول الكتاب تبويب وتصنيف التكاليف، تحليل العلاقة بين التكلفة والحجم والربح (تحليل التعادل)، التكاليف الملائمة لاتخاذ القرارات قصيرة الأجل، إعداد الموازنات التخطيطية الشاملة واستخدام البرمجة الخطية، بالإضافة إلى إعداد قائمة التدفقات النقدية وتحليل القوائم المالية باستخدام النسب المالية.",
+    "description_en": "A comprehensive academic textbook covering managerial accounting concepts and techniques to support decision-making, planning, and control. The book addresses cost classification and behavior, Cost-Volume-Profit (CVP) break-even analysis, relevant costs for short-term decision-making, master budgeting, applications of linear programming, preparation of cash flow statements, and financial statement ratio analysis.",
+    "publisher": "",
+    "publisher_en": "",
+    "year": "2008",
+    "isbn": "",
+    "keywords": [
+      "المحاسبة الإدارية",
+      "تبويب التكاليف",
+      "تحليل التعادل",
+      "اتخاذ القرارات",
+      "الموازنات التخطيطية",
+      "التدفقات النقدية",
+      "التحليل المالي",
+      "النسب المالية"
+    ],
+    "keywords_en": [
+      "Managerial Accounting",
+      "Cost Classification",
+      "Break-Even Analysis",
+      "Decision Making",
+      "Master Budgeting",
+      "Cash Flow Statement",
+      "Financial Analysis",
+      "Financial Ratios"
+    ],
+    "key_points": [
+      "التمييز بين المحاسبة الإدارية والمحاسبة المالية وتحديد احتياجات الإدارة من المعلومات",
+      "دراسة سلوك التكاليف وتبويبها إلى تكاليف ثابتة والمتغيرة ومختلطة واستخدام أساليب الفصل بينها",
+      "تطبيق تحليل التكلفة والحجم والربح (CVP) وحساب نقطة التعادل وهامش الأمان والربح المستهدف",
+      "استخدام مفاهيم التكاليف الملائمة والتفاضلية في اتخاذ القرارات مثل التصنيع أو الشراء والتسعير والطلبيات الخاصة",
+      "إعداد الموازنات التخطيطية التشغيلية والمالية واستخدام نماذج البرمجة الخطية وطريقة السمبلكس في التخطيط",
+      "عرض قوائم وتقارير التكاليف وفق المفهوم الإجمالي والمفهوم المتغير",
+      "إعداد قائمة التدفقات النقدية بالطريقتين المباشرة وغير المباشرة إجراء التحليل المالي الأفقي والرأسي والنسب المالية"
+    ],
+    "key_points_en": [
+      "Distinguishing between managerial and financial accounting and identifying managerial information needs",
+      "Analyzing cost behavior and classifying costs into fixed, variable, and mixed components using statistical techniques",
+      "Applying Cost-Volume-Profit (CVP) analysis, calculating break-even point, margin of safety, and target profit",
+      "Utilizing relevant and differential cost concepts in decision-making (make-or-buy, pricing, special orders)",
+      "Preparing operational and financial master budgets and applying linear programming / simplex method in planning",
+      "Presenting cost statements and reports under absorption and variable costing methods",
+      "Preparing the Cash Flow Statement (direct and indirect methods) and conducting horizontal, vertical, and ratio financial analysis"
+    ],
+    "target_audience": "طلاب كليات التجارة وإدارة الأعمال، والمدراء الماليون، والمحاسبون الإداريون، والمهتمون بالتحليل المالي واتخاذ القرارات.",
+    "target_audience_en": "Students of business and accounting, financial managers, management accountants, and professionals interested in financial analysis and decision-making.",
+    "pages": "122",
+    "file_size": "2.96 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/محاسبة_ادارية.pdf",
+    "cover_image": "covers/54.png"
   }
 ]
