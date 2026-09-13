@@ -2659,5 +2659,62 @@
     "file_type": "PDF",
     "file_path": "pdf/الاحصاء_التطبيقي.pdf",
     "cover_image": "covers/55.png"
+  },
+  {
+    "id": 56,
+    "title": "تحفيز الموظفين للحصول على أداء أفضل",
+    "title_en": "Motivating People for Improved Performance",
+    "author": "مجموعة من المؤلفين (كلية هارفارد لإدارة الأعمال)",
+    "author_en": "Harvard Business School Press (Various Authors)",
+    "category": "إدارة الأعمال والقيادة",
+    "category_en": "Business & Leadership",
+    "type": "كتاب إداري / تطوير قيادي",
+    "type_en": "Management & Leadership Book",
+    "description": "كتاب يقدم مقالات واستراتيجيات عملية من إصدارات كلية هارفارد لإدارة الأعمال ضمن سلسلة القيادي الناجح، يهدف إلى مساعدة المديرين على تحفيز موظفيهم للحصول على أفضل أداء ممكن. يتناول الكتاب أساليب إيجاد معنى للعمل، تعزيز الإمكانيات الشخصية، بناء الثقة، شحن طاقة الزملاء، واختيار المكافآت والحوافز المناسبة للارتقاء بإنتاجية المؤسسة وتطوير قدرات فريق العمل.",
+    "description_en": "Part of the Harvard Business School Results-Driven Manager Series, this book offers practical strategies and insights for managers to effectively motivate employees, align personal goals with organizational objectives, foster workplace trust, select meaningful rewards, and improve overall performance.",
+    "publisher": "مكتبة العبيكان",
+    "publisher_en": "Obeikan Publishing",
+    "year": "2011",
+    "isbn": "978-9960-54-986-6",
+    "keywords": [
+      "تحفيز الموظفين",
+      "سلسلة القيادي الناجح",
+      "إدارة الأعمال",
+      "هارفارد",
+      "تطوير الأداء",
+      "القيادة الإدارية",
+      "المكافآت والحوافز",
+      "الرضا الوظيفي"
+    ],
+    "keywords_en": [
+      "Motivating People",
+      "Results-Driven Manager Series",
+      "Harvard Business School Press",
+      "Employee Engagement",
+      "Performance Improvement",
+      "Leadership",
+      "Management Strategy"
+    ],
+    "key_points": [
+      "إيجاد المعنى والقيمة الحقيقية في العمل اليومي للموظفين",
+      "تجنيد القلوب والعقول لبناء معنويات مرتفعة لدى الصفوف الأمامية",
+      "تعزيز الإمكانيات الشخصية والحفاظ على الموظفين المتفوقين",
+      "بناء الثقة المتبادلة وتفعيل شحن طاقة الزملاء في بيئة العمل",
+      "اختيار نظام المكافآت والحوافز المناسب والثناء الفعال"
+    ],
+    "key_points_en": [
+      "Helping employees find meaning and purpose in their daily work",
+      "Winning hearts and minds to boost morale among frontline workers",
+      "Enhancing personal capabilities and retaining top-performing talent",
+      "Building trust and effectively energizing team members",
+      "Selecting appropriate non-monetary and monetary rewards and recognition"
+    ],
+    "target_audience": "المديرون الإداريون، القادة، مسؤولو الموارد البشرية، والمهتمون بتطوير الأداء المؤسسي وقيادة فرق العمل.",
+    "target_audience_en": "Managers, executives, HR professionals, and leaders looking to improve employee motivation and team performance.",
+    "pages": "212",
+    "file_size": "31.46 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/تحفيز_الموظفين_سلسلة_القيادي_الناجح_من_جامعة_هارفارد.pdf",
+    "cover_image": "covers/56.png"
   }
 ]
