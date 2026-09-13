@@ -17,7 +17,7 @@ client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
 JSON_PATH = "books.json"
 PDF_DIR = "pdf"
 MODEL_NAME = "gemini-3.6-flash"
-MAX_UPLOAD_SIZE_MB = 50
+MAX_UPLOAD_SIZE_MB = 70
 MAX_RETRIES = 5
 
 JSON_SCHEMA_PROMPT = """
