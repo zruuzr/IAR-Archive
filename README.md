@@ -169,49 +169,4 @@ Cloudflare Pages will redeploy the site within a few minutes.
 License
 This project is licensed under the MIT License — see the LICENSE file for details.
 
-text
-
----
-
-## 🔍 ملخص التغييرات والإضافات
-
-| # | القسم | نوع التغيير |
-|---|-------|------------|
-| 1 | شارة GitHub Actions | إضافة جديدة |
-| 2 | Stack & Architecture | تحديث بسيط لقسم CI/CD |
-| 3 | **Automation Pipeline** | قسم جديد كامل |
-| 4 | **Configuration** | قسم جديد (متغيرات البيئة والسر) |
-| 5 | **Local Development** | قسم جديد (تشغيل محلي) |
-| 6 | **Dependencies** | قسم جديد (المكتبات) |
-| 7 | **Security Practices** | قسم جديد (الممارسات الأمنية) |
-| 8 | Directory Structure | مُحدَّث ليعكس `.github/`, `process_books.py`, `requirements.txt` |
-| 9 | Contributing | إضافة خطوات عملية للإضافة |
-| 10 | License | قسم منفصل وواضح |
-
----
-
-## 💡 نصائح إضافية
-
-### 1. تحقق من صحة شارة الـ Actions
-الرابط في الشارة يفترض أن اسم المستودع هو `zruuzr/IAR-Archive`. إذا كان مختلفًا، عدّله في السطر الأول.
-
-### 2. لا تضع رابط الـ API key في README
-لا تكتب مفتاح Gemini أبدًا في README أو أي ملف مُتعقَّب. هو موجود فقط في:
-- **GitHub Secrets** (للـ CI).
-- **متغير بيئي محلي** (`export GEMINI_API_KEY=...`).
-
-### 3. يمكنك إضافة لقطة شاشة
-إذا أردت، أضف صورة للواجهة:
-```markdown
-## Screenshot
-![IAR Archive Screenshot](docs/screenshot.png)
-4. خطوات الـ commit
-bash
-cd ~/Documents/GitHub/IAR-Archive
-git add README.md
-git commit -m "docs: update README with automation, security, and dev sections"
-git push origin main
-بعد الـ push، افتح:
-
-text
 https://github.com/zruuzr/IAR-Archive
