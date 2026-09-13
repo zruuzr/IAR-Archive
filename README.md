@@ -168,5 +168,3 @@ Cloudflare Pages will redeploy the site within a few minutes.
 
 License
 This project is licensed under the MIT License — see the LICENSE file for details.
-
-https://github.com/zruuzr/IAR-Archive
