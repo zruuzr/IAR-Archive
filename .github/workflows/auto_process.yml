@@ -7,39 +7,48 @@ on:
       - 'pdf/*.PDF'
       - 'pdf/*.zip'
       - 'pdf/*.ZIP'
+  workflow_dispatch:
 
 permissions:
   contents: write
 
 concurrency:
-  group: auto-process-books
+  group: auto-process-books-${{ github.ref }}
   cancel-in-progress: false
+
+env:
+  PYTHON_VERSION: '3.10'
+  PIP_DISABLE_PIP_VERSION_CHECK: '1'
+  PYTHONDONTWRITEBYTECODE: '1'
 
 jobs:
   process-pdf:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 60
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4.3.1
         with:
-          fetch-depth: 0
+          fetch-depth: 50
+          persist-credentials: true
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38  # v5.4.0
         with:
-          python-version: '3.10'
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
 
       - name: Install Dependencies
         run: |
-          pip install google-genai pypdf
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
 
       - name: Verify API Key
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
-          if [ -z "$GEMINI_API_KEY" ]; then
-            echo "::error::GEMINI_API_KEY is not set in repository secrets."
+          if [ -z "${GEMINI_API_KEY}" ]; then
+            echo "::error title=Missing Secret::GEMINI_API_KEY is not set in repository secrets."
             exit 1
           fi
 
@@ -49,20 +58,46 @@ jobs:
         run: python process_books.py
 
       - name: Commit and Push Changes
+        env:
+          BRANCH: ${{ github.ref_name }}
+          COMMIT_MSG: "Auto-update books.json with new book info"
         run: |
+          set -euo pipefail
+
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-          BRANCH="${{ github.ref_name }}"
+          if ! git pull --rebase origin "${BRANCH}"; then
+            echo "::error title=Rebase Failed::git pull --rebase failed on branch ${BRANCH}"
+            git rebase --abort || true
+            exit 1
+          fi
 
-          git pull --rebase origin "$BRANCH" || true
-
-          git add -A
+          git add books.json
+          if [ -d covers ]; then
+            git add covers/
+          fi
 
           if git diff --staged --quiet; then
             echo "No changes to commit."
             exit 0
           fi
 
-          git commit -m "Auto-update books.json with new book info"
-          git push origin "$BRANCH"
+          git commit -m "${COMMIT_MSG}"
+
+          for i in 1 2 3; do
+            if git push origin "${BRANCH}"; then
+              echo "Push succeeded on attempt ${i}."
+              exit 0
+            fi
+            echo "::warning::Push attempt ${i} failed. Retrying..."
+            sleep 5
+          done
+
+          echo "::error title=Push Failed::Could not push after 3 attempts."
+          exit 1
+
+      - name: Notify on Failure
+        if: failure()
+        run: |
+          echo "::error title=Workflow Failed::The Auto Extract Book Info workflow failed. Check logs."
