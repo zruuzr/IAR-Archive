@@ -2433,5 +2433,59 @@
     "file_type": "PDF",
     "file_path": "pdf/تطبيقات_محاسبية_في_العمليات_المصرفية.pdf",
     "cover_image": "covers/51.png"
+  },
+  {
+    "id": 52,
+    "title": "ويسألونك عن الإدارة",
+    "title_en": "And They Ask You About Management",
+    "author": "د. صالح بن حمد التويجري",
+    "author_en": "Dr. Saleh bin Hamad Al-Tuwaijri",
+    "category": "إدارة الأعمال",
+    "category_en": "Business & Management",
+    "type": "كتاب",
+    "type_en": "Book",
+    "description": "كتاب إداري شامل يقدم مجموعة متميزة من المعارف والمهارات الإدارية بأسلوب مبسط ورسائل عملية مستمدة من الخبرة الميدانية للمؤلف في المؤسسات الحكومية والخاصة. يتناول الكتاب أربعة أبواب رئيسية تشمل الإدارة الإستراتيجية، القيادة الإدارية، الاستثمار البشري، وإدارة الجودة الشاملة.",
+    "description_en": "A comprehensive managerial book that offers key administrative knowledge and skills in a simplified style based on the author's practical experience in public and private sectors. The book covers four main sections: Strategic Management, Administrative Leadership, Human Capital Investment, and Total Quality Management.",
+    "publisher": "دار مملكة نجد للنشر والتوزيع",
+    "publisher_en": "Najd Kingdom for Publishing & Distribution",
+    "year": "2013",
+    "isbn": "978-603-00-9221-5",
+    "keywords": [
+      "الإدارة",
+      "الإدارة الإستراتيجية",
+      "القيادة الإدارية",
+      "الاستثمار البشري",
+      "إدارة الجودة الشاملة",
+      "التطوير الإداري",
+      "التخطيط الإستراتيجي"
+    ],
+    "keywords_en": [
+      "Management",
+      "Strategic Management",
+      "Administrative Leadership",
+      "Human Capital Investment",
+      "Total Quality Management",
+      "Administrative Development",
+      "Strategic Planning"
+    ],
+    "key_points": [
+      "شرح مفهوم الإدارة الإستراتيجية وصياغة الرؤية والرسالة والخيارات الإستراتيجية.",
+      "تحديد سمات القائد الإداري الناجح والأدوار الحديثة المطلوبة في المؤسسات المعاصرة.",
+      "استعراض مفاهيم الاستثمار البشري وتنمية القوى البشرية مع التركيز على النموذج الياباني.",
+      "عرض مرتكزات ومنهجية إدارة الجودة الشاملة وأدوات تحسين الأداء ومفهوم 6 سيجما."
+    ],
+    "key_points_en": [
+      "Explaining the concept of strategic management, vision, mission, and strategic choices.",
+      "Identifying the traits of successful administrative leaders and modern leadership roles.",
+      "Reviewing human capital investment and development with a focus on the Japanese experience.",
+      "Presenting the principles and methodologies of Total Quality Management (TQM), performance tools, and Six Sigma."
+    ],
+    "target_audience": "المدراء، القادة الإداريون، طلبة والدارسون لعلوم الإدارة، والمهتمون بالتطوير المؤسسي والتنمية البشرية.",
+    "target_audience_en": "Managers, administrative leaders, management students, and practitioners interested in organizational development and human resources.",
+    "pages": "268",
+    "file_size": "4.71 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/الادارة.pdf",
+    "cover_image": "covers/52.png"
   }
 ]
