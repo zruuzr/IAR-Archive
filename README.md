@@ -3,6 +3,7 @@
 [![Cloudflare Pages](https://img.shields.io/badge/Hosted%20on-Cloudflare%20Pages-orange?style=flat&logo=cloudflare)](https://iar-archive.pages.dev)
 [![Firebase](https://img.shields.io/badge/Database-Firebase-yellow?style=flat&logo=firebase)](https://firebase.google.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Auto Extract Book Info](https://github.com/zruuzr/IAR-Archive/actions/workflows/auto_process.yml/badge.svg)](https://github.com/zruuzr/IAR-Archive/actions/workflows/auto_process.yml)
 
 A digital repository built to archive and organize Iraqi administrative references. It provides quick summaries, APA citations, and custom document bundles to help researchers and executive managers access official materials efficiently.
 
@@ -31,19 +32,139 @@ Built entirely on free-tier services, focusing on simplicity and performance:
 
 ---
 
-## Live Demo
-[iar-archive.pages.dev](https://iar-archive.pages.dev)
+## Automation Pipeline
+
+The repository uses a fully automated indexing pipeline that runs on every push to the `pdf/` directory:
+
+1. **Trigger** — A push event adds a new `.pdf` or `.zip` file to `pdf/`.
+2. **Extract** — ZIP archives are automatically expanded; unsafe paths are rejected.
+3. **Analyze** — Each PDF is processed by **Gemini 3.6 Flash** to extract metadata:
+   * Title (Arabic + English), author, publisher, year, ISBN
+   * Category, type, keywords, and key points
+   * Descriptions and target audience in both languages
+4. **Fallback Strategy** — If local text extraction fails, the full PDF is uploaded to Gemini. If that also fails, the filename is used as a temporary title.
+5. **Persist** — Results are appended to `books.json` and committed back to the repository.
+6. **Deploy** — Cloudflare Pages detects the update and rebuilds the site automatically.
+
+The pipeline is idempotent: already-processed files (by path) are skipped on subsequent runs.
 
 ---
 
-## Directory Structure
-```text
-IAR-Archive/
-├── index.html       # Main application entry
-├── style.css        # Styling and theme rules
-├── app.js           # Core logic and Firebase integration
-├── books.json       # Administrative references database (auto-generated)
-└── pdf/             # Source PDF files
+## Configuration
 
+The workflow requires one repository secret:
+
+| Secret | Purpose |
+|--------|---------|
+| `GEMINI_API_KEY` | Google Gemini API key for PDF analysis |
+
+Set it in **Settings → Secrets and variables → Actions → New repository secret**.
+
+Optional environment overrides (defined in the workflow file):
+
+| Variable | Default | Purpose |
+|----------|---------|---------|
+| `GEMINI_MODEL` | `gemini-3.6-flash` | Gemini model to use |
+| `MAX_UPLOAD_SIZE_MB` | `50` | Max PDF size for direct upload |
+| `LOG_LEVEL` | `INFO` | Python logging level |
+
+---
+
+## Local Development
+
+### Prerequisites
+
+* Python 3.10 or newer
+* A valid Gemini API key
+
+### Setup
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/zruuzr/IAR-Archive.git
+cd IAR-Archive
+
+# 2. Create and activate a virtual environment
+python3 -m venv .venv
+source .venv/bin/activate    # Linux/macOS
+# .venv\Scripts\activate     # Windows
+
+# 3. Install dependencies
+pip install -r requirements.txt
+
+# 4. Export your API key
+export GEMINI_API_KEY="your_api_key_here"
+
+# 5. Run the indexing script
+python process_books.py
+The script will:
+
+Extract any .zip archives found in pdf/.
+
+Process new PDFs and append results to books.json.
+
+Skip files already present in the index.
+
+Exit cleanly if the API becomes unavailable (progress is preserved).
+
+Dependencies
+Managed via requirements.txt:
+
+Package	Version Constraint	Purpose
+google-genai	>=1.0.0,<2.0.0	Gemini API client
+pypdf	>=4.0.0,<6.0.0	PDF text extraction
+Automated weekly updates are handled by Dependabot (see .github/dependabot.yml).
+
+Security Practices
+This repository follows several supply-chain and CI/CD hardening practices:
+
+Pinned Actions — All GitHub Actions are pinned by full commit SHA, not by mutable tags. This prevents supply-chain attacks where a compromised action tag could execute malicious code.
+
+Automated Updates — Dependabot opens weekly PRs to bump both GitHub Actions SHAs and Python dependencies, ensuring security patches are not missed.
+
+Scoped Commits — The workflow commits only books.json and covers/, never git add -A, preventing accidental inclusion of secrets or large binaries.
+
+Explicit Error Handling — The pipeline uses set -euo pipefail and aborts on rebase conflicts instead of silently swallowing errors.
+
+Push Retries — Up to 3 retry attempts handle transient network failures during git push.
+
+Path Validation — ZIP archive members are validated to prevent path traversal attacks.
+
+Secret Verification — The workflow fails fast if GEMINI_API_KEY is missing.
+
+Live Demo
+iar-archive.pages.dev
+
+Directory Structure
+text
+IAR-Archive/
+├── .github/
+│   ├── workflows/
+│   │   └── auto_process.yml    # Auto-indexing workflow
+│   └── dependabot.yml          # Automated dependency updates
+├── covers/                     # Generated book cover images
+├── pdf/                        # Source PDF files (and temporary ZIPs)
+├── index.html                  # Main application entry
+├── style.css                   # Styling and theme rules
+├── app.js                      # Core logic and Firebase integration
+├── books.json                  # Administrative references database (auto-generated)
+├── process_books.py            # PDF indexing script
+├── requirements.txt            # Python dependencies
+├── .gitignore                  # Ignored files and artifacts
+├── LICENSE                     # MIT License
+└── README.md
 Contributing
 If you'd like to suggest new administrative references or improve the repository, feel free to open an issue or submit a pull request.
+
+To add a new reference:
+
+Place the PDF (or a ZIP containing PDFs) in pdf/.
+
+Commit and push.
+
+The workflow will automatically process it and update books.json.
+
+Cloudflare Pages will redeploy the site within a few minutes.
+
+License
+This project is licensed under the MIT License — see the LICENSE file for details.
