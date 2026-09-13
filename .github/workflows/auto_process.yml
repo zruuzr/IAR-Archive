@@ -67,12 +67,6 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-          if ! git pull --rebase origin "${BRANCH}"; then
-            echo "::error title=Rebase Failed::git pull --rebase failed on branch ${BRANCH}"
-            git rebase --abort || true
-            exit 1
-          fi
-
           git add books.json
           if [ -d covers ]; then
             git add covers/
@@ -84,6 +78,12 @@ jobs:
           fi
 
           git commit -m "${COMMIT_MSG}"
+
+          if ! git pull --rebase origin "${BRANCH}"; then
+            echo "::error title=Rebase Failed::git pull --rebase failed on branch ${BRANCH}"
+            git rebase --abort || true
+            exit 1
+          fi
 
           for i in 1 2 3; do
             if git push origin "${BRANCH}"; then
