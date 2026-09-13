@@ -2770,5 +2770,53 @@
     "file_type": "PDF",
     "file_path": "pdf/تجارب_الجامعات_العالمية_مع_التعليم_الالكتروني.pdf",
     "cover_image": "covers/57.png"
+  },
+  {
+    "id": 58,
+    "title": "الرياضيات المالية مع تطبيقات في الحاسوب",
+    "title_en": "Financial Mathematics with Computer Applications",
+    "author": "فتحي خليل حمدان",
+    "author_en": "Fathi Khalil Hamdan",
+    "category": "الرياضيات المالية والاستثمار",
+    "category_en": "Financial Mathematics and Investment",
+    "type": "كتاب أكاديمي تعليمي",
+    "type_en": "Academic Textbook",
+    "description": "كتاب متكافئ يعالج موضوعات الرياضيات المالية بالدمج مع التطبيقات الحاسوبية الحيثية، موضحاً مفاهيم الاستثمار المالي، وحسابات الفائدة، والخصم، والعمليات المالية باستخدام برامج الحاسوب.",
+    "description_en": "A comprehensive book dealing with financial mathematics topics integrated with computer applications, explaining concepts of financial investment, interest calculations, discounting, and financial operations using software.",
+    "publisher": "دار وائل للنشر والتوزيع",
+    "publisher_en": "Dar Wael for Publishing and Distribution",
+    "year": "2010",
+    "isbn": "978-9957-11-908-9",
+    "keywords": [
+      "الرياضيات المالية",
+      "تطبيقات الحاسوب",
+      "الاستثمار المالي",
+      "الفائدة والخصم",
+      "الحواسيب"
+    ],
+    "keywords_en": [
+      "Financial Mathematics",
+      "Computer Applications",
+      "Financial Investment",
+      "Interest and Discount",
+      "Computers"
+    ],
+    "key_points": [
+      "تقديم المفاهيم الأساسية للرياضيات المالية وكيفية تطبيقها عملياً",
+      "استخدام الحاسوب في حل المشكلات الحسابية والمالية المعقدة",
+      "ربط النظرية المالية بالحسابات الإلكترونية لخدمة مجالات الاستثمار"
+    ],
+    "key_points_en": [
+      "Introducing basic concepts of financial mathematics and practical implementation",
+      "Using computers to solve complex financial and mathematical problems",
+      "Linking financial theory with electronic calculations for investment applications"
+    ],
+    "target_audience": "طلاب وجامعيو التخصصات المالية والإدارية، والمهتمون بتطبيقات الحاسوب في الاقتصاد والاستثمار",
+    "target_audience_en": "University students in finance and business management, and those interested in computer applications in economics and investment",
+    "pages": "275",
+    "file_size": "22.10 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/الرياضيات_المالية_في_تطبيقات_الحاسوب.pdf",
+    "cover_image": "covers/58.png"
   }
 ]
