@@ -2866,5 +2866,61 @@
     "file_type": "PDF",
     "file_path": "pdf/محاسبة_تكاليف_العقود_والمقاولات.pdf",
     "cover_image": "covers/59.png"
+  },
+  {
+    "id": 60,
+    "title": "دراسة الجدوى الاقتصادية وتقييم المشروعات",
+    "title_en": "Economic Feasibility Study and Project Evaluation",
+    "author": "د. محمد محمود العجلوني، د. سعيد سامي الحلاق",
+    "author_en": "Dr. Mohammad Mahmoud Al-Ajlouni, Dr. Saeed Sami Al-Hallaq",
+    "category": "الاقتصاد وإدارة الأعمال",
+    "category_en": "Economics & Business",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Book",
+    "description": "كتاب متخصص يقدم دليلاً شاملاً حول مفاهيم وأهمية دراسات الجدوى الاقتصادية وتقييم المشروعات الاستثمارية. يتطرق الكتاب إلى مراحل التشخيص والجدوى التمهيدية والتفصيلية، بما يشمل دراسة السوق والتنبؤ بالطلب، والدراسات الفنية والهندسية والإدارية، والتحليل المالي والنقدي، إضافة إلى تقييم الربحية القومية والاجتماعية وحساب أثر المخاطر والتضخم.",
+    "description_en": "A specialized book providing a comprehensive guide on the concepts and importance of economic feasibility studies and investment project evaluation. It addresses diagnosis, preliminary, and detailed feasibility stages, including market research, demand forecasting, technical, engineering, and administrative studies, financial and cash flow analysis, as well as national and social profitability assessment considering risk and inflation.",
+    "publisher": "دار اليازوري للنشر والتوزيع",
+    "publisher_en": "Dar Al-Yazori for Publication and Distribution",
+    "year": "2011",
+    "isbn": "",
+    "keywords": [
+      "دراسة الجدوى",
+      "تقييم المشروعات",
+      "التدفقات النقدية",
+      "دراسة السوق",
+      "الدراسة الفنية",
+      "التحليل المالي",
+      "الاستثمار"
+    ],
+    "keywords_en": [
+      "Feasibility Study",
+      "Project Evaluation",
+      "Cash Flows",
+      "Market Study",
+      "Technical Feasibility",
+      "Financial Analysis",
+      "Investment"
+    ],
+    "key_points": [
+      "بيان الأسس النظرية والأهداف المختلفة للمشاريع الاستثمارية (سياسية، اقتصادية، اجتماعية، تكنولوجية)",
+      "خطوات وأساليب دراسة الجدوى التسويقية وطرق التنبؤ بالحجم المتوقع للطلب",
+      "إجراء الدراسات الفنية والهندسية والتنظيمية ومعايير اختيار تكنولوجيا المشروع",
+      "تقدير التكاليف الرأسمالية والتشغيلية وحساب الإهلاك وإعداد القوائم المالية التقديرية",
+      "أساليب تقييم المشروعات في ظروف التأكد وعدم التأكد ودراسة أثر التضخم والربحية الاجتماعية"
+    ],
+    "key_points_en": [
+      "Explaining theoretical foundations and objectives of investment projects (political, economic, social, technological)",
+      "Steps and methods for market feasibility studies and demand forecasting",
+      "Conducting technical, engineering, and organizational studies and criteria for technology selection",
+      "Estimating capital and operational costs, depreciation, and preparing projected financial statements",
+      "Methods for evaluating projects under certainty and uncertainty, considering inflation and social profitability"
+    ],
+    "target_audience": "طلاب وباحثو كليات الاقتصاد وإدارة الأعمال، المستشارون الإداريون والماليون، والمستثمرون ورواد الأعمال.",
+    "target_audience_en": "Students and researchers in business and economics, financial and management consultants, investors, and entrepreneurs.",
+    "pages": "425",
+    "file_size": "2.73 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/دراسة_الجدوى_الاقتصادية_وتقييم_المشروعات.pdf",
+    "cover_image": "covers/60.png"
   }
 ]
