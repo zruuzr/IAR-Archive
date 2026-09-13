@@ -13,8 +13,8 @@ permissions:
   contents: write
 
 concurrency:
-  group: auto-process-books-${{ github.ref }}
-  cancel-in-progress: false
+  group: auto-process-books-v2-${{ github.ref }}
+  cancel-in-progress: true
 
 env:
   PYTHON_VERSION: '3.10'
