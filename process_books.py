@@ -1,6 +1,6 @@
 """
 books_indexer.py
-Automated PDF book indexing with Gemini API.
+Automated PDF book indexing with Gemini 3.6 Flash.
 """
 from __future__ import annotations
 
@@ -456,6 +456,7 @@ def main() -> None:
     if not api_key:
         raise SystemExit("GEMINI_API_KEY environment variable is missing.")
     client = genai.Client(api_key=api_key)
+    LOG.info("Provider: Gemini (%s)", MODEL_NAME)
 
     extract_zip_archives(PDF_DIR)
 
