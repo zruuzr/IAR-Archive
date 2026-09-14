@@ -3455,5 +3455,57 @@
     "file_type": "PDF",
     "file_path": "pdf/مهارات_تدريب_الموظفين_واعداد_الجيل_الثاني_من_القيادات.pdf",
     "cover_image": "covers/70.png"
+  },
+  {
+    "id": 71,
+    "title": "الطاقة المتجددة",
+    "title_en": "Renewable Energy",
+    "author": "د. مروان عبد القادر أحمد",
+    "author_en": "Dr. Marwan Abdel Qader Ahmed",
+    "category": "الطاقة والبيئة",
+    "category_en": "Energy & Environment",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Book",
+    "description": "يناقش الكتاب موضوع الطاقة المتجددة وإستحداث مصادر جديدة للحيولة دون الأزمات الناتجة عن نضوب النفط. يستعرض استراتيجيات وآليات الطاقة البديلة وأثرها على التنمية المستدامة والبيئة والاقتصاد والمجتمع.",
+    "description_en": "The book discusses renewable energy and the development of new energy sources to mitigate risks associated with oil depletion. It explores alternative energy strategies and mechanisms and their impact on sustainable development, the environment, economy, and society.",
+    "publisher": "دار يافا العلمية للنشر والتوزيع",
+    "publisher_en": "Dar Yafa Scientific for Publishing and Distribution",
+    "year": "2016",
+    "isbn": "978-9957-580-73-5",
+    "keywords": [
+      "الطاقة المتجددة",
+      "الطاقة البديلة",
+      "نضوب النفط",
+      "التنمية المستدامة",
+      "كفاءة الطاقة",
+      "تلوث البيئة"
+    ],
+    "keywords_en": [
+      "Renewable Energy",
+      "Alternative Energy",
+      "Oil Depletion",
+      "Sustainable Development",
+      "Energy Efficiency",
+      "Environmental Pollution"
+    ],
+    "key_points": [
+      "دور الطاقة المتجددة وسياسات تحسين كفاءة الطاقة في تحقيق الاستدامة",
+      "تأثيرات نضوب النفط وضرورة وضع استراتيجيات وآليات للطاقة البديلة",
+      "البعد الاجتماعي والاقتصادي لإتاحة خدمات الطاقة والتخفيف من الفقر",
+      "الحد من الآثار البيئية السلبية والتغير المناخي وانبعاثات غازات الدفيئة"
+    ],
+    "key_points_en": [
+      "The role of renewable energy and energy efficiency policies in achieving sustainability",
+      "The impacts of oil depletion and the necessity of alternative energy strategies and mechanisms",
+      "Socioeconomic dimensions of energy access and poverty alleviation",
+      "Mitigating negative environmental impacts, climate change, and greenhouse gas emissions"
+    ],
+    "target_audience": "الباحثون، والطلاب، والمهندسون، والمهتمون بقضايا البيئة والتنمية المستدامة وتكنولوجيا الطاقة المتجددة.",
+    "target_audience_en": "Researchers, students, engineers, and individuals interested in environmental issues, sustainable development, and renewable energy technologies.",
+    "pages": "191",
+    "file_size": "15.96 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/الطاقة_المتجددة.pdf",
+    "cover_image": "covers/71.png"
   }
 ]
