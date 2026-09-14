@@ -3140,5 +3140,65 @@
     "file_type": "PDF",
     "file_path": "pdf/ادارة_المبيعات_والاعلان.pdf",
     "cover_image": "covers/64.png"
+  },
+  {
+    "id": 65,
+    "title": "الإحصاء والاحتمالات في التطبيقات الهندسية",
+    "title_en": "Statistics and Probability in Engineering Applications",
+    "author": "أمجد إبراهيم شحادة، علي إبراهيم سعد، محمد رياض علي",
+    "author_en": "Amjad Ibrahim Shehadeh, Ali Ibrahim Saad, Mohamed Riad Ali",
+    "category": "الرياضيات والهندسة",
+    "category_en": "Mathematics & Engineering",
+    "type": "كتاب أكاديمي / تعليمي",
+    "type_en": "Academic / Textbook",
+    "description": "كتاب أكاديمي يقدم عرضاً شاملاً لمبادئ علم الإحصاء ونظرية الاحتمالات مع التركيز على التطبيقات الهندسية. يتناول الكتاب أساليب جمع البيانات وتبويبها وعرضها البياني، ومقاييس النزعة المركزية والتشتت، ومعاملات الارتباط والانحدار الخطية، بالإضافة إلى نظرية الاحتمالات والمتغيرات العشوائية والتوزيعات الاحتمالية المختلفة كالتوزيع الطبيعي وتوزيع ذي الحدين وتوزيع بواسون.",
+    "description_en": "An academic textbook providing a comprehensive presentation of statistics and probability theory with a focus on engineering applications. The book covers data collection, tabulation, graphical representation, measures of central tendency and dispersion, correlation and linear regression, probability theory, random variables, and probability distributions such as Normal, Binomial, and Poisson distributions.",
+    "publisher": "دار الفجر للنشر والتوزيع",
+    "publisher_en": "Dar Al-Fajr for Publishing and Distribution",
+    "year": "2005",
+    "isbn": "977-358-093-8",
+    "keywords": [
+      "الإحصاء",
+      "الاحتمالات",
+      "التطبيقات الهندسية",
+      "النزعة المركزية",
+      "التشتت",
+      "الارتباط والانحدار",
+      "التوزيعات الاحتمالية",
+      "المتغيرات العشوائية"
+    ],
+    "keywords_en": [
+      "Statistics",
+      "Probability",
+      "Engineering Applications",
+      "Central Tendency",
+      "Dispersion",
+      "Correlation and Regression",
+      "Probability Distributions",
+      "Random Variables"
+    ],
+    "key_points": [
+      "ربط مفاهيم علم الإحصاء ونظرية الاحتمالات بالمجالات والتطبيقات الهندسية العملية.",
+      "شرح طرق عرض البيانات الجداول والتكرارات والمخططات البيانية والمدرجات التكرارية.",
+      "حساب مقاييس النزعة المركزية والمقاييس الأخرى كالمتوسط الحسابي، الوسيط، والمنوال.",
+      "دراسة مقاييس التشتت كالانحراف المعياري، المدى، ومعامل الاختلاف.",
+      "تحليل أساليب الارتباط ومعادلات خطوط الانحدار بين المتغيرات المختلفة.",
+      "عرض مفاهيم نظرية الاحتمالات والمتغيرات العشوائية والتوزيعات الاحتمالية المنفصلة والمتصلة."
+    ],
+    "key_points_en": [
+      "Linking statistical and probability concepts to practical engineering fields and applications.",
+      "Explaining data presentation methods using tables, charts, histograms, and frequency polygons.",
+      "Calculating measures of central tendency such as arithmetic mean, median, and mode.",
+      "Studying measures of dispersion including range, standard deviation, and coefficient of variation.",
+      "Analyzing correlation methods and regression line equations between variables.",
+      "Presenting concepts of probability theory, random variables, and discrete/continuous probability distributions."
+    ],
+    "target_audience": "طلاب كليات الهندسة والعلوم التطبيقية، والمهندسون، والباحثون المهتمون بالتحليل الإحصائي الهندسي.",
+    "target_audience_en": "Engineering and applied science students, practicing engineers, and researchers interested in engineering statistical analysis.",
+    "pages": "418",
+    "file_size": "3.20 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/الاحصاء_والاحتمالات_في_التطبيقات_الهندسية.pdf",
+    "cover_image": "covers/65.png"
   }
 ]
