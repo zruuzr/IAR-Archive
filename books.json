@@ -3252,5 +3252,55 @@
     "file_type": "PDF",
     "file_path": "pdf/مفاهيم_ادارية_معاصرة.pdf",
     "cover_image": "covers/66.png"
+  },
+  {
+    "id": 67,
+    "title": "النظام القانوني للتحول إلى القطاع الخاص \"الخصخصة\": دراسة مقارنة",
+    "title_en": "The Legal System for Transformation to the Private Sector (Privatization): A Comparative Study",
+    "author": "مهند إبراهيم علي فندي الجبوري",
+    "author_en": "Mohannad Ibrahim Ali Fandi Al-Jubouri",
+    "category": "القانون والاقتصاد",
+    "category_en": "Law and Economics",
+    "type": "دراسة مقارنة",
+    "type_en": "Comparative Study",
+    "description": "دراسة قانونية مقارنة تناقش النظام والإطار القانوني للتحول إلى القطاع الخاص (الخصخصة)، واستعراض التشريعات والسياسات المالية والاقتصادية المنظمة لهذه العملية وآثارها القانونية.",
+    "description_en": "A comparative legal study examining the legal system and regulatory framework for transferring to the private sector (privatization), reviewing financial and economic policies and regulations.",
+    "publisher": "دار الحامد للنشر والتوزيع",
+    "publisher_en": "Dar Al-Hamed for Publishing & Distribution",
+    "year": "2007",
+    "isbn": "978-9957-32-324-2",
+    "keywords": [
+      "الخصخصة",
+      "النظام القانوني",
+      "القطاع الخاص",
+      "دراسة مقارنة",
+      "السياسة المالية",
+      "الاقتصاد المالي"
+    ],
+    "keywords_en": [
+      "Privatization",
+      "Legal System",
+      "Private Sector",
+      "Comparative Study",
+      "Fiscal Policy",
+      "Financial Economics"
+    ],
+    "key_points": [
+      "دراسة الإطار التشريعي والقانوني لعمليات الخصخصة والتحول للقطاع الخاص",
+      "استعراض ومقارنة القوانين والأنظمة المالية والاقتصادية المختلفة ذات الصلة",
+      "بيان القواعد القانونية المنظمة للشركات والمؤسسات العامة عند الخصخصة"
+    ],
+    "key_points_en": [
+      "Examining the legislative and legal framework for privatization processes",
+      "Comparing relevant financial and economic laws and regulations",
+      "Outlining the legal rules governing public companies during privatization"
+    ],
+    "target_audience": "المتخصصون في القانون الإداري والمالي، رجال الأعمال، الباحثون الأكاديميون، وخبراء الاقتصاد والسياسات العامة",
+    "target_audience_en": "Legal and financial experts, corporate lawyers, academic researchers, and public policy specialists",
+    "pages": "268",
+    "file_size": "16.54 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/النظام_القانوني_للتحول_الى_القطاع_الخاص.pdf",
+    "cover_image": "covers/67.png"
   }
 ]
