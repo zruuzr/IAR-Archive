@@ -3403,5 +3403,57 @@
     "file_type": "PDF",
     "file_path": "pdf/مقدمة_تحليلية_في_مشاكل_الانحدار.pdf",
     "cover_image": "covers/69.png"
+  },
+  {
+    "id": 70,
+    "title": "مهارات تدريب الموظفين وإعداد الجيل الثاني من القيادات",
+    "title_en": "Employee Training Skills and Preparing the Second Generation of Leaders",
+    "author": "عصام عبد اللطيف",
+    "author_en": "Essam Abdel Latif",
+    "category": "إدارة الأعمال والتنمية البشرية",
+    "category_en": "Business Administration & Human Resources",
+    "type": "كتاب",
+    "type_en": "Book",
+    "description": "يناقش الكتاب أساليب ومهارات تدريب الموظفين وأثر ذلك في تحسين أدائهم داخل المؤسسات، كما يتناول مهارات استقطاب وتعيين الكفاءات البشرية، واستراتيجيات إعداد الجيل الثاني وتأهيل قادة المستقبل لضمان استمرارية النجاح والمنافسة.",
+    "description_en": "This book explores employee training skills and their impact on enhancing performance within organizations. It covers recruitment and hiring strategies, alongside methodologies for preparing second-generation leaders and future executives to sustain organizational success.",
+    "publisher": "نيو لينك الدولية للنشر والتدريب",
+    "publisher_en": "Newlink International for Publishing and Training",
+    "year": "2016",
+    "isbn": "978-977-6494-17-6",
+    "keywords": [
+      "تدريب الموظفين",
+      "الموارد البشرية",
+      "الجيل الثاني",
+      "إعداد القيادات",
+      "الاستقطاب والتعيين",
+      "التنمية البشرية"
+    ],
+    "keywords_en": [
+      "Employee Training",
+      "Human Resources",
+      "Second Generation",
+      "Leadership Preparation",
+      "Recruitment and Hiring",
+      "Human Development"
+    ],
+    "key_points": [
+      "مفهوم تدريب الموظفين وأهميته في رفع الكفاءة وتحسين الأداء",
+      "مهارات واستراتيجيات استقطاب وتعيين الكفاءات المؤهلة",
+      "أساليب إعداد الجيل الثاني وتأهيل قادة المستقبل",
+      "معايير وأهمية اختيار المدير المناسب والفعال"
+    ],
+    "key_points_en": [
+      "Concept and importance of employee training in boosting efficiency and performance",
+      "Skills and strategies for recruiting and hiring qualified talent",
+      "Methodologies for preparing second-generation leaders and future executives",
+      "Importance and criteria for selecting an effective manager"
+    ],
+    "target_audience": "المدراء، ومسؤولو الموارد البشرية، والمدربون، وقادة الفرق، وكل من يسعى لتطوير المهارات القيادية والإدارية.",
+    "target_audience_en": "Managers, HR professionals, trainers, team leaders, and anyone seeking to develop leadership and managerial skills.",
+    "pages": "113",
+    "file_size": "4.92 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/مهارات_تدريب_الموظفين_واعداد_الجيل_الثاني_من_القيادات.pdf",
+    "cover_image": "covers/70.png"
   }
 ]
