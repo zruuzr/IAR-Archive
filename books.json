@@ -3082,5 +3082,63 @@
     "file_type": "PDF",
     "file_path": "pdf/النظرية_العامة-للقرار_الاداري_السلبي.pdf",
     "cover_image": "covers/63.png"
+  },
+  {
+    "id": 64,
+    "title": "إدارة المبيعات والإعلان",
+    "title_en": "Sales and Advertising Management",
+    "author": "غانم فنجان موسى، محمد صالح عبد العباس",
+    "author_en": "Ghanem Finjan Musa, Muhammad Saleh Abdul-Abbas",
+    "category": "إدارة الأعمال والتسويق",
+    "category_en": "Business Administration & Marketing",
+    "type": "كتاب منهجي / أكاديمي",
+    "type_en": "Academic / Textbook",
+    "description": "كتاب أكاديمي شامل يستعرض المبادئ والأساليب المتعلقة بإدارة المبيعات والإعلان بأسلوب علمي وواضح معزز بالحالات التطبيقية. يتناول الكتاب محاور أساسية متعددة منها وظائف إدارة المبيعات، التنظيم الإداري، اختيار وتعيين القوى البيعية وتدريبها ومكافأتها، تخطيط سياسة المنتجات، تمييز المنتجات والتعبئة والتغليف، خدمات ما بعد البيع، الترويج المبيعاتي، وظيفة التوزيع، تخطيط والتنبؤ بالمبيعات، وأهمية ووظائف ووسائل الإعلان.",
+    "description_en": "A comprehensive academic textbook presenting principles and methods related to sales and advertising management in a clear, scientific manner supported by practical application cases. The book covers core topics including sales management functions, organizational structure, recruiting, training, and compensating sales forces, product policy planning, branding, packaging, after-sales services, sales promotion, distribution, sales planning and forecasting, as well as advertising strategies and media.",
+    "publisher": "دار الحكمة للطباعة والنشر - الموصل / هيئة المعاهد الفنية",
+    "publisher_en": "Dar Al-Hikma for Printing and Publishing - Mosul / Foundation of Technical Institutes",
+    "year": "1990",
+    "isbn": "",
+    "keywords": [
+      "إدارة المبيعات",
+      "الإعلان",
+      "التسويق",
+      "القوى البيعية",
+      "الترويج",
+      "التنبؤ بالمبيعات",
+      "التوزيع"
+    ],
+    "keywords_en": [
+      "Sales Management",
+      "Advertising",
+      "Marketing",
+      "Sales Force",
+      "Promotion",
+      "Sales Forecasting",
+      "Distribution"
+    ],
+    "key_points": [
+      "شرح الأطر التنظيمية والوظائف الأساسية لإدارة المبيعات في المنظمات.",
+      "بيان آليات تخطيط القوى البيعية واختيارها وتدريبها ونظم مكافآت رجال البيع.",
+      "تحديد سياسات وتخطيط المنتجات، التمييز التجاري، وسياسة التعبئة والتغليف.",
+      "استعراض خدمات ما بعد البيع وتأثيرها على رضا المستهلك واستمرار التعامل.",
+      "دراسة عناصر المزيج الترويجي، تصميم الحملات الإعلانية، واختيار وسائل النشر المناسبة.",
+      "تطبيق الطرق العلمية والكمية والتاريخية في التنبؤ بالمبيعات وتخطيطها."
+    ],
+    "key_points_en": [
+      "Explanation of organizational frameworks and core functions of sales management.",
+      "Detailing sales force planning, recruitment, selection, training, and compensation systems.",
+      "Defining product policies and planning, branding, and packaging strategies.",
+      "Reviewing after-sales services and their impact on customer satisfaction and retention.",
+      "Studying promotional mix elements, advertising campaign design, and media selection.",
+      "Applying scientific, quantitative, and historical methods for sales forecasting and planning."
+    ],
+    "target_audience": "طلاب الكليات والمعاهد الفنية المتخصصون في إدارة الأعمال والتسويق، والباحثون والعاملون في أنشطة البيع والإعلان.",
+    "target_audience_en": "College and technical institute students specializing in business administration and marketing, as well as researchers and practitioners in sales and advertising.",
+    "pages": "453",
+    "file_size": "11.85 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/ادارة_المبيعات_والاعلان.pdf",
+    "cover_image": "covers/64.png"
   }
 ]
