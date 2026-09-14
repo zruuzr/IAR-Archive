@@ -2922,5 +2922,39 @@
     "file_type": "PDF",
     "file_path": "pdf/دراسة_الجدوى_الاقتصادية_وتقييم_المشروعات.pdf",
     "cover_image": "covers/60.png"
+  },
+  {
+    "id": 61,
+    "title": "الاحصاء للتجاريين مدخل حديث",
+    "title_en": "",
+    "author": "",
+    "author_en": "",
+    "category": "غير مصنف",
+    "category_en": "Uncategorized",
+    "type": "كتاب",
+    "type_en": "Book",
+    "description": "كتاب بعنوان 'الاحصاء للتجاريين مدخل حديث'. لم تتمكن أداة التحليل من قراءة محتواه بالكامل.",
+    "description_en": "A book titled 'الاحصاء للتجاريين مدخل حديث'. Content could not be fully analyzed.",
+    "publisher": "",
+    "publisher_en": "",
+    "year": "",
+    "isbn": "",
+    "keywords": [
+      "الاحصاء للتجاريين مدخل حديث"
+    ],
+    "keywords_en": [],
+    "key_points": [
+      "يتطلب مراجعة يدوية لاستكمال البيانات."
+    ],
+    "key_points_en": [
+      "Manual review required."
+    ],
+    "target_audience": "",
+    "target_audience_en": "",
+    "pages": "888",
+    "file_size": "91.24 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/الاحصاء_للتجاريين_مدخل_حديث.pdf",
+    "cover_image": "covers/61.png"
   }
 ]
