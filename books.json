@@ -3507,5 +3507,65 @@
     "file_type": "PDF",
     "file_path": "pdf/الطاقة_المتجددة.pdf",
     "cover_image": "covers/71.png"
+  },
+  {
+    "id": 72,
+    "title": "مقدمة في الخطر والتأمين (التجاري والاجتماعي)",
+    "title_en": "Introduction to Risk and Insurance (Commercial and Social)",
+    "author": "إبراهيم علي إبراهيم عبد ربه",
+    "author_en": "Ibrahim Ali Ibrahim Abd Rabbo",
+    "category": "اقتصاد وتجارة",
+    "category_en": "Economics & Commerce",
+    "type": "كتاب أكاديمي / دراسي",
+    "type_en": "Academic / Textbook",
+    "description": "كتاب أكاديمي شامل يقدم دراسة تفصيلية لمفاهيم الخطر وطرق قياسه وإدارته، إلى جانب المبادئ النظرية والعملية والرياضيات الإكتوارية للتأمين التجاري والتأمين على الحياة، وصولاً إلى موضوعات إعادة التأمين وأنظمة التأمين الاجتماعي وتأمينات البطالة وإصابات العمل.",
+    "description_en": "An academic textbook providing a detailed study of risk concepts, measurement, and management, along with the theoretical, practical, and actuarial mathematical foundations of commercial and life insurance, extending to reinsurance, social insurance systems, unemployment, and work injury coverage.",
+    "publisher": "جامعة الإسكندرية - كلية التجارة / مكتبة الاقتصاد",
+    "publisher_en": "Alexandria University - Faculty of Commerce / Economics Library",
+    "year": "2019",
+    "isbn": "",
+    "keywords": [
+      "التأمين",
+      "إدارة الخطر",
+      "التأمين التجاري",
+      "التأمين على الحياة",
+      "الرياضيات الإكتوارية",
+      "إعادة التأمين",
+      "التأمين الاجتماعي",
+      "الأقساط التأمينية"
+    ],
+    "keywords_en": [
+      "Insurance",
+      "Risk Management",
+      "Commercial Insurance",
+      "Life Insurance",
+      "Actuarial Mathematics",
+      "Reinsurance",
+      "Social Insurance",
+      "Insurance Premiums"
+    ],
+    "key_points": [
+      "مفهوم الخطر وطرق قياسه وإدارته في المنشآت والأفراد",
+      "المبادئ القانونية والفنية العامة للتعاقد في التأمين التجاري",
+      "رياضيات التأمين على الحياة وتطبيقات جداول الحياة والوفاة والرموز الحسابية",
+      "طرق حساب الأقساط الوحيدة والسنوية الصافية والأقساط التجارية",
+      "وظائف وآليات ووسائل إعادة التأمين المختلفة",
+      "نظام التأمين الاجتماعي وتأمين البطالة وإصابات العمل والتشريعات الخاصة بها"
+    ],
+    "key_points_en": [
+      "Concept of risk, measurement, and control techniques for individuals and enterprises",
+      "General legal and technical principles of commercial insurance contracts",
+      "Life insurance mathematics, life/mortality tables, and commutation symbols",
+      "Methods for calculating net single, net annual, and gross premiums",
+      "Functions and mechanisms of various reinsurance methods",
+      "Social insurance systems, unemployment insurance, work injuries, and related legislation"
+    ],
+    "target_audience": "طلاب كليات التجارة والاقتصاد، والباحثون والمتخصصون في مجالات التأمين، والعلوم الإكتوارية، وإدارة المخاطر.",
+    "target_audience_en": "Students of commerce and economics, researchers, and specialists in insurance, actuarial science, and risk management.",
+    "pages": "346",
+    "file_size": "47.32 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/مقدمة_في_الخطر_والتأمين.pdf",
+    "cover_image": "covers/72.png"
   }
 ]
