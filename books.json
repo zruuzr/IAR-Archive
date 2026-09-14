@@ -3200,5 +3200,57 @@
     "file_type": "PDF",
     "file_path": "pdf/الاحصاء_والاحتمالات_في_التطبيقات_الهندسية.pdf",
     "cover_image": "covers/65.png"
+  },
+  {
+    "id": 66,
+    "title": "مفاهيم إدارية معاصرة",
+    "title_en": "Contemporary Administrative Concepts",
+    "author": "أ.د. أحمد محمد الشياب، أ. عنان محمد أبو حمور",
+    "author_en": "Prof. Dr. Ahmed Mohammad Al-Shiyab, Anan Mohammad Abu Hammour",
+    "category": "إدارة الأعمال والإدارة العامة",
+    "category_en": "Business & Public Administration",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Book",
+    "description": "يناقش الكتاب التطورات والمفاهيم الإدارية الحديثة التي فرضتها التغيرات العلمية والتكنولوجية المعاصرة. ويتطرق إلى موضوعات حيوية كإدارة الوقت، الإدارة بالأهداف، إعادة هندسة العمليات (الهندرة)، إدارة المعرفة، والتمكين، بهدف تحسين الجودة ورفع كفاءة المؤسسات.",
+    "description_en": "The book examines modern administrative developments and concepts driven by scientific and technological advancements. It addresses vital topics such as time management, management by objectives, process reengineering, knowledge management, and empowerment to enhance quality and organizational efficiency.",
+    "publisher": "جامعة اليرموك - قسم الإدارة العامة",
+    "publisher_en": "Yarmouk University - Department of Public Administration",
+    "year": "2014",
+    "isbn": "",
+    "keywords": [
+      "مفاهيم إدارية",
+      "الإدارة العامة",
+      "إعادة هندسة العمليات",
+      "إدارة الوقت",
+      "التمكين",
+      "إدارة المعرفة",
+      "جامعة اليرموك"
+    ],
+    "keywords_en": [
+      "Administrative Concepts",
+      "Public Administration",
+      "Process Reengineering",
+      "Time Management",
+      "Empowerment",
+      "Knowledge Management",
+      "Yarmouk University"
+    ],
+    "key_points": [
+      "مواكبة التحديات والتغيرات المتسارعة في بيئة الإدارة المعاصرة.",
+      "استعراض تطور المفاهيم الإدارية من إدارة الوقت والإدارة بالأهداف إلى الهندرة والتمكين.",
+      "التركيز على تحسين الجودة المستمرة وتلبية احتياجات المستفيدين."
+    ],
+    "key_points_en": [
+      "Keeping pace with rapid challenges and changes in modern management environments.",
+      "Reviewing the evolution of management concepts from time management to reengineering and empowerment.",
+      "Focusing on continuous quality improvement and meeting stakeholder needs."
+    ],
+    "target_audience": "الطلاب والباحثون والممارسون في مجالات الإدارة العامة وإدارة الأعمال.",
+    "target_audience_en": "Students, researchers, and practitioners in public and business administration.",
+    "pages": "377",
+    "file_size": "32.16 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/مفاهيم_ادارية_معاصرة.pdf",
+    "cover_image": "covers/66.png"
   }
 ]
