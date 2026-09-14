@@ -3302,5 +3302,58 @@
     "file_type": "PDF",
     "file_path": "pdf/النظام_القانوني_للتحول_الى_القطاع_الخاص.pdf",
     "cover_image": "covers/67.png"
+  },
+  {
+    "id": 68,
+    "title": "مختصر المعايير الدولية للتقرير المالي",
+    "title_en": "Summary of International Financial Reporting Standards",
+    "author": "مجموعة اختبار السوكبا",
+    "author_en": "SOCPA Exam Group",
+    "category": "محاسبة وتقارير مالية",
+    "category_en": "Accounting and Financial Reporting",
+    "type": "دليل مرجعي وملخص",
+    "type_en": "Reference Guide and Summary",
+    "description": "دليل ملخص وشامل لمعايير المحاسبة الدولية (IAS) والمعايير الدولية للتقرير المالي (IFRS)، يتضمن استعراضاً لنطاق كل معيار، والتعريفات الأساسية، ومتطلبات عرض القوائم المالية والقياس والإفصاح، بالإضافة إلى جدول تاريخي لتواريخ النشر والتطبيق والإلغاء للمعايير.",
+    "description_en": "A comprehensive summary guide covering International Accounting Standards (IAS) and International Financial Reporting Standards (IFRS). It outlines the scope of each standard, key definitions, presentation, measurement, and disclosure requirements, alongside a historical timeline of publication and effective dates.",
+    "publisher": "مجموعة اختبار السوكبا",
+    "publisher_en": "SOCPA Exam Group",
+    "year": "",
+    "isbn": "",
+    "keywords": [
+      "المعايير الدولية للتقرير المالي",
+      "معايير المحاسبة الدولية",
+      "سوكبا",
+      "القوائم المالية",
+      "IFRS",
+      "IAS",
+      "محاسبة"
+    ],
+    "keywords_en": [
+      "IFRS",
+      "IAS",
+      "SOCPA",
+      "Financial Statements",
+      "International Accounting Standards",
+      "Financial Reporting"
+    ],
+    "key_points": [
+      "تلخيص متطلبات عرض القوائم المالية وقائمة التدفقات النقدية وفق المعايير الدولية",
+      "توضيح القواعد والأساسيات الخاصة بالإعتراف والقياس للأصول المتداولة وغير المتداولة والالتزامات",
+      "بيان أحكام المعايير الخاصة بالقطاعات المتخصصة والأدوات المالية والإيرادات وعقود الإيجار",
+      "تقديم جدول زمني تاريخي لتواريخ إصدار وتطبيق وإلغاء معايير المحاسبة والتقرير المالي"
+    ],
+    "key_points_en": [
+      "Summarizing presentation requirements for financial statements and cash flow statements under IFRS",
+      "Explaining recognition and measurement principles for current/non-current assets and liabilities",
+      "Covering specialized standards including financial instruments, revenue recognition, and leases",
+      "Providing a historical timeline table for standard issuance, implementation, and withdrawal dates"
+    ],
+    "target_audience": "المحاسبون، المراجعون، وطلاب شهادة زمالة الهيئة السعودية للمراجعين والمحاسبين (SOCPA)",
+    "target_audience_en": "Accountants, auditors, and candidates preparing for the SOCPA professional exam",
+    "pages": "89",
+    "file_size": "1.98 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/مختصر_المعايير_الدولية_المحاسبية.pdf",
+    "cover_image": "covers/68.png"
   }
 ]
