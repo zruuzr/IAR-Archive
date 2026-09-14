@@ -678,7 +678,7 @@
       "Frederick Taylor's contributions.",
       "Core administrative functions."
     ],
-    "target_audience": "طلاب إدارة الأعمال والمديرون.",
+    "target_audience": "طلاب إدارة الأعمال والالمديرون.",
     "target_audience_en": "Business students and managers.",
     "cover_image": "covers/16.png",
     "file_path": "pdf/مبـادئ إدارة الأعمـال.pdf"
@@ -2952,12 +2952,12 @@
       "Applied Statistics"
     ],
     "key_points": [
-     "التحول من الإحصاء التقليدي إلى الإحصاء الحديث والتركيز على اتخاذ القرار في قطاع الأعمال.",
+      "التحول من الإحصاء التقليدي إلى الإحصاء الحديث والتركيز على اتخاذ القرار في قطاع الأعمال.",
       "جمع وتنظيم وتحليل البيانات التجارية والاقتصادية بطرق علمية دقيقة.",
       "استخدام الإحصاء الوصفي وتصور البيانات لتلخيص الأنماط في الأسواق والشركات.",
       "تطبيقات الاحتمالات والتوزيعات الاحتمالية في إدارة المخاطر واتخاذ القرارات.",
       "الإحصاء الاستدلالي، فترات الثقة، واختبار الفرضيات لتحليل العينات وسلوك المستهلكين.",
-      "نماذج الانحدار والارتباط وتطبيقاتها التنبؤية في الأنشطة التجارية والمالية.
+      "نماذج الانحدار والارتباط وتطبيقاتها التنبؤية في الأنشطة التجارية والمالية."
     ],
     "key_points_en": [
       "Transition from traditional to modern statistics with a focus on business decision-making.",
@@ -2967,8 +2967,8 @@
       "Inferential statistics, confidence intervals, and hypothesis testing for sample analysis.",
       "Regression and correlation models with predictive applications in business and finance."
     ],
-    "target_audience": ""طلاب المجموعات التجارية (تجارة، إدارة أعمال، اقتصاد)، الباحثون، والمحللون المهتمون بتطبيقات الإحصاء في مجال الأعمال.",",
-    "target_audience_en": ""target_audience_en": "Business and commerce students, researchers, and analysts interested in statistical applications in business.",",
+    "target_audience": "طلاب المجموعات التجارية (تجارة، إدارة أعمال، اقتصاد)، الباحثون، والمحللون المهتمون بتطبيقات الإحصاء في مجال الأعمال.",
+    "target_audience_en": "Business and commerce students, researchers, and analysts interested in statistical applications in business.",
     "pages": "888",
     "file_size": "91.24 MB",
     "file_type": "PDF",
