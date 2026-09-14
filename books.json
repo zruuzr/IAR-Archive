@@ -3355,5 +3355,53 @@
     "file_type": "PDF",
     "file_path": "pdf/مختصر_المعايير_الدولية_المحاسبية.pdf",
     "cover_image": "covers/68.png"
+  },
+  {
+    "id": 69,
+    "title": "مقدمة تحليلية في مشاكل الانحدار باستخدام EViews 8.1",
+    "title_en": "An Analytical Introduction to Regression Problems Using EViews 8.1",
+    "author": "حسام محمد علي حيدر، مقداد أحمد الجراد، إلهام جواد الكاظم، عبد الباقي عبد الجبار",
+    "author_en": "Husam Muhammad Ali Haidar, Miqdad Ahmad Al-Jarad, Ilham Jawad Al-Kazim, Abdul Baqi Abdul Jabbar",
+    "category": "الإحصاء والاقتصاد القياسي",
+    "category_en": "Statistics and Econometrics",
+    "type": "كتاب أكاديمي تعليمي",
+    "type_en": "Academic Textbook",
+    "description": "كتاب متخصص يقدم دراسة ومقدمة تحليلية شاملة لمشاكل الانحدار الإحصائي وكيفية معالجتها وتطبيقها باستخدام البرمجية الإحصائية EViews 8.1، مع تقديم تطبيقات عملية في مجالات الإحصاء والاقتصاد القياسي.",
+    "description_en": "A specialized book providing a comprehensive analytical introduction to statistical regression problems and how to address and apply them using EViews 8.1 software, with practical applications in statistics and econometrics.",
+    "publisher": "جامعة بغداد - كلية الإدارة والاقتصاد",
+    "publisher_en": "University of Baghdad - College of Administration and Economics",
+    "year": "2015",
+    "isbn": "",
+    "keywords": [
+      "الانحدار",
+      "الاقتصاد القياسي",
+      "EViews 8.1",
+      "التحليل الإحصائي",
+      "نماذج الانحدار"
+    ],
+    "keywords_en": [
+      "Regression",
+      "Econometrics",
+      "EViews 8.1",
+      "Statistical Analysis",
+      "Regression Models"
+    ],
+    "key_points": [
+      "شرح مفصل لمشاكل الانحدار وطرق معالجتها إحصائياً",
+      "التطبيق العملي للنماذج الإحصائية باستخدام برنامج EViews 8.1",
+      "توفير أمثلة وتمارين موجهة للطلاب والباحثين في الاقتصاد والإحصاء"
+    ],
+    "key_points_en": [
+      "Detailed explanation of regression problems and statistical solutions",
+      "Practical implementation of statistical models using EViews 8.1 software",
+      "Providing guided examples and exercises for students and researchers in economics and statistics"
+    ],
+    "target_audience": "أساتذة وطلاب الماجستير والدكتوراه والباحثون في مجالات الإحصاء والاقتصاد القياسي والإدارة.",
+    "target_audience_en": "Professors, postgraduate students, and researchers in the fields of statistics, econometrics, and administration.",
+    "pages": "577",
+    "file_size": "16.75 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/مقدمة_تحليلية_في_مشاكل_الانحدار.pdf",
+    "cover_image": "covers/69.png"
   }
 ]
