@@ -3030,5 +3030,57 @@
     "file_type": "PDF",
     "file_path": "pdf/الرياضيات_التطبيقية_للتجاريين.pdf",
     "cover_image": "covers/62.png"
+  },
+  {
+    "id": 63,
+    "title": "النظرية العامة للقرار الإداري السلبي (دراسة مقارنة)",
+    "title_en": "The General Theory of the Negative Administrative Decision (A Comparative Study)",
+    "author": "صلاح جبير البصيصي",
+    "author_en": "Salah Jubeir Al-Basiyasi",
+    "category": "القانون الإداري",
+    "category_en": "Administrative Law",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Book",
+    "description": "دراسة مقارنة شاملة تتناول النظرية العامة للقرار الإداري السلبي، موضحة مفهومه وشروطه وأركانه والعيوب التي قد تشوبه، إلى جانب بيان أشكال الرقابة الإدارية والسياسية والشعبية والقضائية المتصلة به في التشريعات والأنظمة المقارنة كالعراق ومصر وفرنسا.",
+    "description_en": "A comprehensive comparative study addressing the general theory of negative administrative decisions, clarifying its concept, conditions, elements, and legal defects, along with administrative, political, popular, and judicial review mechanisms in comparative jurisdictions such as Iraq, Egypt, and France.",
+    "publisher": "المركز العربي للنشر والتوزيع",
+    "publisher_en": "Arab Center for Publishing and Distribution",
+    "year": "2017",
+    "isbn": "",
+    "keywords": [
+      "القرار الإداري السلبي",
+      "القانون الإداري",
+      "دراسة مقارنة",
+      "الرقابة القضائية",
+      "دعوى الإلغاء",
+      "امتناع الإدارة"
+    ],
+    "keywords_en": [
+      "Negative Administrative Decision",
+      "Administrative Law",
+      "Comparative Study",
+      "Judicial Review",
+      "Action for Annulment",
+      "Administrative Refusal"
+    ],
+    "key_points": [
+      "بيان مفهوم القرار الإداري السلبي وشروطه وتمييزه عن القرار الضمني والإيجابي والمعدوم.",
+      "استعراض أركان القرار الإداري السلبي من اختصاص وشكل ومحل وسبب وغرض والعيوب المتعلقة بها.",
+      "توضيح صور الرقابة الإدارية الذاتية والتظلم والرقابة السياسية والشعبية والتشريعية.",
+      "دراسة الرقابة القضائية وإجراءات الطعن بالإلغاء ووقف التنفيذ والسحب للقرار السلبي."
+    ],
+    "key_points_en": [
+      "Defining the concept and conditions of negative administrative decisions and distinguishing them from implicit, positive, and void decisions.",
+      "Reviewing the elements of negative administrative decisions (jurisdiction, form, subject matter, cause, purpose) and their associated defects.",
+      "Clarifying forms of administrative self-oversight, grievances, political, popular, and legislative oversight.",
+      "Studying judicial review, annulment proceedings, suspension of execution, and revocation of negative decisions."
+    ],
+    "target_audience": "أساتذة وطلاب كليات القانون، القضاة، المحامون، والباحثون في مجال القانون الإداري والقضاء الإداري",
+    "target_audience_en": "Law professors, students, judges, lawyers, and researchers in administrative law and judicial practice",
+    "pages": "185",
+    "file_size": "32.82 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/النظرية_العامة-للقرار_الاداري_السلبي.pdf",
+    "cover_image": "covers/63.png"
   }
 ]
