@@ -2926,31 +2926,49 @@
   {
     "id": 61,
     "title": "الاحصاء للتجاريين مدخل حديث",
-    "title_en": "",
-    "author": "",
-    "author_en": "",
-    "category": "غير مصنف",
-    "category_en": "Uncategorized",
-    "type": "كتاب",
-    "type_en": "Book",
+    "title_en": "Statistics For Business",
+    "author": "جورج كانافوس، دون ميلر",
+    "author_en": "George Kanafos, Don Miller",
+    "category": "مناهج البحث العلمي والعلوم الإدارية",
+    "category_en": "Scientific Research Methods and Administrative Sciences",
+    "type": "مرجع أكاديمي",
+    "type_en": "Academic reference",
     "description": "كتاب بعنوان 'الاحصاء للتجاريين مدخل حديث'. لم تتمكن أداة التحليل من قراءة محتواه بالكامل.",
     "description_en": "A book titled 'الاحصاء للتجاريين مدخل حديث'. Content could not be fully analyzed.",
-    "publisher": "",
-    "publisher_en": "",
-    "year": "",
+    "publisher": "دار المريخ للنشر",
+    "publisher_en": "Dar Al-Marrikh For Publishing",
+    "year": "2004",
     "isbn": "",
     "keywords": [
-      "الاحصاء للتجاريين مدخل حديث"
+      "الإحصاء للتجاريين",
+      "مدخل حديث للإحصاء",
+      "الإحصاء التطبيقي",
+      "الإحصاء التجاري"
     ],
-    "keywords_en": [],
+    "keywords_en": [
+      "Statistics for Business",
+      "Modern Introduction to Statistics",
+      "Business Statistics",
+      "Applied Statistics"
+    ],
     "key_points": [
-      "يتطلب مراجعة يدوية لاستكمال البيانات."
+     "التحول من الإحصاء التقليدي إلى الإحصاء الحديث والتركيز على اتخاذ القرار في قطاع الأعمال.",
+      "جمع وتنظيم وتحليل البيانات التجارية والاقتصادية بطرق علمية دقيقة.",
+      "استخدام الإحصاء الوصفي وتصور البيانات لتلخيص الأنماط في الأسواق والشركات.",
+      "تطبيقات الاحتمالات والتوزيعات الاحتمالية في إدارة المخاطر واتخاذ القرارات.",
+      "الإحصاء الاستدلالي، فترات الثقة، واختبار الفرضيات لتحليل العينات وسلوك المستهلكين.",
+      "نماذج الانحدار والارتباط وتطبيقاتها التنبؤية في الأنشطة التجارية والمالية.
     ],
     "key_points_en": [
-      "Manual review required."
+      "Transition from traditional to modern statistics with a focus on business decision-making.",
+      "Collection, organization, and analysis of commercial and economic data.",
+      "Using descriptive statistics and data visualization to summarize market patterns.",
+      "Applications of probabilities and probability distributions in risk management.",
+      "Inferential statistics, confidence intervals, and hypothesis testing for sample analysis.",
+      "Regression and correlation models with predictive applications in business and finance."
     ],
-    "target_audience": "",
-    "target_audience_en": "",
+    "target_audience": ""طلاب المجموعات التجارية (تجارة، إدارة أعمال، اقتصاد)، الباحثون، والمحللون المهتمون بتطبيقات الإحصاء في مجال الأعمال.",",
+    "target_audience_en": ""target_audience_en": "Business and commerce students, researchers, and analysts interested in statistical applications in business.",",
     "pages": "888",
     "file_size": "91.24 MB",
     "file_type": "PDF",
