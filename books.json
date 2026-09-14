@@ -2974,5 +2974,61 @@
     "file_type": "PDF",
     "file_path": "pdf/الاحصاء_للتجاريين_مدخل_حديث.pdf",
     "cover_image": "covers/61.png"
+  },
+  {
+    "id": 62,
+    "title": "الرياضيات التطبيقية للتجاريين",
+    "title_en": "Applied Mathematics for Commercial Students",
+    "author": "سعد السعيد عبد الرازق",
+    "author_en": "Saad El-Saeed Abdel-Razek",
+    "category": "رياضيات وتجارة",
+    "category_en": "Mathematics & Commerce",
+    "type": "كتاب جامعي",
+    "type_en": "Textbook",
+    "description": "كتاب جامعي يهدف إلى تقديم الأساليب الرياضية والتطبيقية لطلاب كليات التجارة ورجال الأعمال. يتناول مواضيع متعددة تشمل الاستنتاج الرياضي، المحددات، المصفوفات، الاحتمالات، المنفعة المتوقعة، مراقبة جودة الإنتاج، الدوال، النهايات، التفاضل والتكامل، والبرمجة الخطية، وذلك لتسهيل دراسة وتحليل المشكلات الإدارية والاقتصادية والمحاسبية لترشيد القرارات.",
+    "description_en": "A university textbook aimed at providing mathematical and applied methods for commerce students and business professionals. It covers various topics including mathematical induction, determinants, matrices, probability, expected utility, quality control, functions, limits, calculus, and linear programming to facilitate the analysis of managerial, economic, and accounting problems for rational decision-making.",
+    "publisher": "جامعة القاهرة - كلية التجارة",
+    "publisher_en": "Cairo University - Faculty of Commerce",
+    "year": "",
+    "isbn": "",
+    "keywords": [
+      "الرياضيات التطبيقية",
+      "الاستنتاج الرياضي",
+      "المحددات",
+      "المصفوفات",
+      "الاحتمالات",
+      "البرمجة الخطية",
+      "التفاضل والتكامل",
+      "إدارة الأعمال"
+    ],
+    "keywords_en": [
+      "Applied Mathematics",
+      "Mathematical Induction",
+      "Determinants",
+      "Matrices",
+      "Probability",
+      "Linear Programming",
+      "Calculus",
+      "Business Administration"
+    ],
+    "key_points": [
+      "استخدام الاستنتاج الرياضي لتعميم القواعد والتنبؤ بالنتائج في المشكلات الإدارية والتجارية",
+      "تطبيق المصفوفات والمحددات في حل الأنظمة والمسائل الاقتصادية",
+      "دراسة نظرية الاحتمالات واستخدامها في مراقبة جودة الإنتاج وحساب المنفعة المتوقعة",
+      "تطبيقات البرمجة الخطية والتفاضل والتكامل في اتخاذ القرارات الإدارية الأمثل وتحسين الربحية"
+    ],
+    "key_points_en": [
+      "Using mathematical induction to generalize rules and predict outcomes in managerial and commercial problems",
+      "Applying matrices and determinants to solve economic systems and problems",
+      "Studying probability theory and its use in production quality control and expected utility calculation",
+      "Applications of linear programming and calculus in optimal administrative decision-making and profit optimization"
+    ],
+    "target_audience": "طلاب كليات التجارة والعلوم إدارية ورجال الأعمال والمهتمون بالتحليل الرياضي في الاقتصاد والإدارة",
+    "target_audience_en": "Students of commerce and administrative sciences faculties, business professionals, and those interested in mathematical analysis in economics and management",
+    "pages": "476",
+    "file_size": "6.83 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/الرياضيات_التطبيقية_للتجاريين.pdf",
+    "cover_image": "covers/62.png"
   }
 ]
