@@ -1,15 +1,26 @@
-# IAR Archive | Iraqi Administrative Reference Repository
+<div align="center">
+
+<img src="assets/logo.svg" alt="IAR Archive Logo" width="120" height="120" />
+
+# 📚 IAR Archive
+### Iraqi Administrative Reference Repository
+
+**مستودع رقمي لأرشفة وتنظيم المراجع الإدارية العراقية**
 
 [![Cloudflare Pages](https://img.shields.io/badge/Hosted%20on-Cloudflare%20Pages-orange?style=flat&logo=cloudflare)](https://iar-archive.pages.dev)
 [![Firebase](https://img.shields.io/badge/Database-Firebase-yellow?style=flat&logo=firebase)](https://firebase.google.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Auto Extract Book Info](https://github.com/zruuzr/IAR-Archive/actions/workflows/auto_process.yml/badge.svg)](https://github.com/zruuzr/IAR-Archive/actions/workflows/auto_process.yml)
 
-A digital repository built to archive and organize Iraqi administrative references. It provides quick summaries, APA citations, and custom document bundles to help researchers and executive managers access official materials efficiently.
+A digital repository built to archive and organize Iraqi administrative references.
+It provides quick summaries, APA citations, and custom document bundles to help
+researchers and executive managers access official materials efficiently.
+
+</div>
 
 ---
 
-## Features
+## ✨ Features
 
 * **3-Minute Summaries:** Quick overviews of core concepts and target audiences for each reference.
 * **One-Click APA Citations:** Direct copying for academic and official use.
@@ -20,7 +31,7 @@ A digital repository built to archive and organize Iraqi administrative referenc
 
 ---
 
-## Stack & Architecture
+## 🏗️ Stack & Architecture
 
 Built entirely on free-tier services, focusing on simplicity and performance:
 
@@ -32,7 +43,7 @@ Built entirely on free-tier services, focusing on simplicity and performance:
 
 ---
 
-## Automation Pipeline
+## 🤖 Automation Pipeline
 
 The repository uses a fully automated indexing pipeline that runs on every push to the `pdf/` directory:
 
@@ -50,7 +61,7 @@ The pipeline is idempotent: already-processed files (by path) are skipped on sub
 
 ---
 
-## Configuration
+## ⚙️ Configuration
 
 The workflow requires one repository secret:
 
@@ -70,7 +81,7 @@ Optional environment overrides (defined in the workflow file):
 
 ---
 
-## Local Development
+## 💻 Local Development
 
 ### Prerequisites
 
@@ -97,51 +108,59 @@ export GEMINI_API_KEY="your_api_key_here"
 
 # 5. Run the indexing script
 python process_books.py
+```
+
 The script will:
 
-Extract any .zip archives found in pdf/.
+* Extract any `.zip` archives found in `pdf/`.
+* Process new PDFs and append results to `books.json`.
+* Skip files already present in the index.
+* Exit cleanly if the API becomes unavailable (progress is preserved).
 
-Process new PDFs and append results to books.json.
+### Dependencies
 
-Skip files already present in the index.
+Managed via `requirements.txt`:
 
-Exit cleanly if the API becomes unavailable (progress is preserved).
+| Package | Version Constraint | Purpose |
+|---------|--------------------|---------|
+| `google-genai` | `>=1.0.0,<2.0.0` | Gemini API client |
+| `pypdf` | `>=4.0.0,<6.0.0` | PDF text extraction |
 
-Dependencies
-Managed via requirements.txt:
+Automated weekly updates are handled by Dependabot (see `.github/dependabot.yml`).
 
-Package	Version Constraint	Purpose
-google-genai	>=1.0.0,<2.0.0	Gemini API client
-pypdf	>=4.0.0,<6.0.0	PDF text extraction
-Automated weekly updates are handled by Dependabot (see .github/dependabot.yml).
+---
 
-Security Practices
+## 🔒 Security Practices
+
 This repository follows several supply-chain and CI/CD hardening practices:
 
-Pinned Actions — All GitHub Actions are pinned by full commit SHA, not by mutable tags. This prevents supply-chain attacks where a compromised action tag could execute malicious code.
+* **Pinned Actions** — All GitHub Actions are pinned by full commit SHA, not by mutable tags. This prevents supply-chain attacks where a compromised action tag could execute malicious code.
+* **Automated Updates** — Dependabot opens weekly PRs to bump both GitHub Actions SHAs and Python dependencies, ensuring security patches are not missed.
+* **Scoped Commits** — The workflow commits only `books.json` and `covers/`, never `git add -A`, preventing accidental inclusion of secrets or large binaries.
+* **Explicit Error Handling** — The pipeline uses `set -euo pipefail` and aborts on rebase conflicts instead of silently swallowing errors.
+* **Push Retries** — Up to 3 retry attempts handle transient network failures during `git push`.
+* **Path Validation** — ZIP archive members are validated to prevent path traversal attacks.
+* **Secret Verification** — The workflow fails fast if `GEMINI_API_KEY` is missing.
 
-Automated Updates — Dependabot opens weekly PRs to bump both GitHub Actions SHAs and Python dependencies, ensuring security patches are not missed.
+---
 
-Scoped Commits — The workflow commits only books.json and covers/, never git add -A, preventing accidental inclusion of secrets or large binaries.
+## 🌐 Live Demo
 
-Explicit Error Handling — The pipeline uses set -euo pipefail and aborts on rebase conflicts instead of silently swallowing errors.
+👉 **[iar-archive.pages.dev](https://iar-archive.pages.dev)**
 
-Push Retries — Up to 3 retry attempts handle transient network failures during git push.
+---
 
-Path Validation — ZIP archive members are validated to prevent path traversal attacks.
+## 📁 Directory Structure
 
-Secret Verification — The workflow fails fast if GEMINI_API_KEY is missing.
-
-Live Demo
-iar-archive.pages.dev
-
-Directory Structure
-text
+```text
 IAR-Archive/
 ├── .github/
 │   ├── workflows/
 │   │   └── auto_process.yml    # Auto-indexing workflow
 │   └── dependabot.yml          # Automated dependency updates
+├── assets/
+│   ├── logo.svg                # Colored project logo (favicon + README)
+│   └── logo-mark.svg           # Monochrome mark (currentColor)
 ├── covers/                     # Generated book cover images
 ├── pdf/                        # Source PDF files (and temporary ZIPs)
 ├── index.html                  # Main application entry
@@ -153,18 +172,23 @@ IAR-Archive/
 ├── .gitignore                  # Ignored files and artifacts
 ├── LICENSE                     # MIT License
 └── README.md
-Contributing
+```
+
+---
+
+## 🤝 Contributing
+
 If you'd like to suggest new administrative references or improve the repository, feel free to open an issue or submit a pull request.
 
 To add a new reference:
 
-Place the PDF (or a ZIP containing PDFs) in pdf/.
+1. Place the PDF (or a ZIP containing PDFs) in `pdf/`.
+2. Commit and push.
+3. The workflow will automatically process it and update `books.json`.
+4. Cloudflare Pages will redeploy the site within a few minutes.
 
-Commit and push.
+---
 
-The workflow will automatically process it and update books.json.
+## 📄 License
 
-Cloudflare Pages will redeploy the site within a few minutes.
-
-License
-This project is licensed under the MIT License — see the LICENSE file for details.
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
