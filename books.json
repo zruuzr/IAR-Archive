@@ -4281,5 +4281,59 @@
     "file_type": "PDF",
     "file_path": "pdf/مدخل_الى_التدقيق.pdf",
     "cover_image": "covers/86.png"
+  },
+  {
+    "id": 87,
+    "title": "التنمية الاقتصادية (نظريات وسياسات وموضوعات)",
+    "title_en": "Economic Development (Theories and Policies)",
+    "author": "الدكتور مدحت القريشي",
+    "author_en": "Dr. Medhat Al Quraishi",
+    "category": "الاقتصاد",
+    "category_en": "Economics",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Book",
+    "description": "كتاب أكاديمي شامل يقدم دراسة مفصلة لمفهوم التنمية الاقتصادية، ويستعرض أهم النظريات والسياسات الاقتصادية والمالية والنقدية، بالإضافة إلى استراتيجيات التجارة الدولية والتكيف الهيكلي ودور الأسواق والمؤسسات في تحقيق التنمية.",
+    "description_en": "A comprehensive academic book presenting a detailed study of economic development, reviewing key economic, monetary, and trade theories and policies, as well as structural adjustment strategies and the role of markets and governance in achieving development.",
+    "publisher": "دار وائل للنشر والتوزيع",
+    "publisher_en": "Dar Wael for Publishing and Distribution",
+    "year": "2007",
+    "isbn": "978-9957-11-695-8",
+    "keywords": [
+      "التنمية الاقتصادية",
+      "النظريات الاقتصادية",
+      "السياسات النقدية",
+      "التكيف الهيكلي",
+      "التجارة الدولية",
+      "إحلال الواردات",
+      "تشجيع الصادرات"
+    ],
+    "keywords_en": [
+      "Economic Development",
+      "Economic Theories",
+      "Monetary Policy",
+      "Structural Adjustment",
+      "International Trade",
+      "Import Substitution",
+      "Export Promotion"
+    ],
+    "key_points": [
+      "تغطية شاسعة لنظريات التنمية الاقتصادية المختلفة القديمة والحديثة.",
+      "مناقشة السياسات النقدية والمالية وأثرها على النمو والتنمية.",
+      "تحليل سياسات التجارة الخارجية من تشجيع الصادرات وإحلال الواردات والحماية الجمركية.",
+      "استعراض مفاهيم التكيف الهيكلي وسياسات الاستقرار وفشل السوق وتأثير الاتفاقيات الدولية."
+    ],
+    "key_points_en": [
+      "Broad coverage of traditional and modern economic development theories.",
+      "Discussion of monetary and fiscal policies and their impact on growth and development.",
+      "Analysis of foreign trade policies including export promotion, import substitution, and tariff protection.",
+      "Review of structural adjustment concepts, stabilization policies, market failure, and international agreements."
+    ],
+    "target_audience": "أساتذة وطلاب التخصصات الاقتصادية، الباحثون في مجالات التنمية الاقتصادية، والمتخصصون في صياغة السياسات الاقتصادية.",
+    "target_audience_en": "Professors, students of economics, development policy researchers, and economic policy specialists.",
+    "pages": "309",
+    "file_size": "19.38 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/التنمية_الاقتصادية_نظريات_وسياسات_وموضوعات.pdf",
+    "cover_image": "covers/87.png"
   }
 ]
