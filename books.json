@@ -3868,5 +3868,53 @@
     "file_type": "PDF",
     "file_path": "pdf/هيكلة_الوظائف_القيادية.pdf",
     "cover_image": "covers/78.png"
+  },
+  {
+    "id": 79,
+    "title": "دراسات الجدوى الاقتصادية",
+    "title_en": "Economic Feasibility Studies",
+    "author": "إسماعيل علي محمود",
+    "author_en": "Ismail Ali Mahmoud",
+    "category": "اقتصاد وأعمال",
+    "category_en": "Economics and Business",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Book",
+    "description": "كتاب يتناول أسس ومبادئ دراسات الجدوى الاقتصادية للمشاريع الاستثمارية، مستعرضاً الجوانب التسويقية والفنية والمالية والاقتصادية اللازمة لتقييم نجاح المشاريع واتخاذ القرارات الاستثمارية السليمة.",
+    "description_en": "A book covering the principles and fundamentals of economic feasibility studies for investment projects, highlighting marketing, technical, financial, and economic aspects required to evaluate project success and make sound investment decisions.",
+    "publisher": "",
+    "publisher_en": "",
+    "year": "",
+    "isbn": "",
+    "keywords": [
+      "دراسات الجدوى",
+      "الجدوى الاقتصادية",
+      "التقييم المالي",
+      "المشاريع الاستثمارية",
+      "إدارة الأعمال"
+    ],
+    "keywords_en": [
+      "Feasibility Studies",
+      "Economic Feasibility",
+      "Financial Evaluation",
+      "Investment Projects",
+      "Business Administration"
+    ],
+    "key_points": [
+      "التعريف بمفهوم وأهمية دراسات الجدوى الاقتصادية للمشاريع",
+      "خطوات ومراحل إعداد دراسة الجدوى التسويقية والفنية والمالية",
+      "أساليب تقييم الاستثمار وتحليل المخاطر الاقتصادية"
+    ],
+    "key_points_en": [
+      "Introduction to the concept and importance of economic feasibility studies for projects",
+      "Steps and stages of preparing marketing, technical, and financial feasibility studies",
+      "Methods of investment evaluation and economic risk analysis"
+    ],
+    "target_audience": "طلاب الكليات الاقتصادية والإدارية، المستثمرون، رواد الأعمال، والمحللون الاقتصاديون.",
+    "target_audience_en": "Students of economics and business administration, investors, entrepreneurs, and economic analysts.",
+    "pages": "256",
+    "file_size": "37.08 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/دراسات_الجدوى_الاقتصادية.pdf",
+    "cover_image": "covers/79.png"
   }
 ]
