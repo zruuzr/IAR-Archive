@@ -3722,5 +3722,53 @@
     "file_type": "PDF",
     "file_path": "pdf/تطبيق_مبادئ_المحاسبة_والتمويل_والضرائب_في_التقييم_العقاري.pdf",
     "cover_image": "covers/75.png"
+  },
+  {
+    "id": 76,
+    "title": "مناهج وأساليب البحث العلمي",
+    "title_en": "Methods and Approaches of Scientific Research",
+    "author": "ينال حمادي",
+    "author_en": "Yanal Hammadi",
+    "category": "مناهج البحث العلمي",
+    "category_en": "Scientific Research Methodology",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Book",
+    "description": "كتاب أكاديمي يتناول بالشرح والتفصيل مناهج وأساليب البحث العلمي، مبيناً مفهوم البحث العلمي وأنواعه وخطواته بدءاً من تحديد المشكلة وصياغة الفرضيات وصولاً إلى جمع البيانات وتحليلها، إضافة إلى الجوانب الفنية المتعلقة بالاقتباس والتوثيق وإخراج البحث بشكل نهائي.",
+    "description_en": "An academic book detailing scientific research methods and approaches. It explains the concept, types, and steps of scientific research, from defining the research problem and formulating hypotheses to data collection and analysis, alongside technical aspects such as citation, documentation, and report formatting.",
+    "publisher": "",
+    "publisher_en": "",
+    "year": "",
+    "isbn": "",
+    "keywords": [
+      "البحث العلمي",
+      "مناهج البحث",
+      "فرضيات البحث",
+      "التوثيق العلمي",
+      "خطوات البحث"
+    ],
+    "keywords_en": [
+      "Scientific Research",
+      "Research Methodology",
+      "Research Hypotheses",
+      "Documentation",
+      "Research Steps"
+    ],
+    "key_points": [
+      "التعريف بمفهوم البحث العلمي وأنواعه والمناهج المتبعة فيه",
+      "تبيان خطوات إعداد البحث العلمي بدءاً من الشعور بالمشكلة وتحديد أبعادها إلى جمع وتصنيف البيانات",
+      "شرح الجوانب الفنية في البحث العلمي كالاقتباس، التوثيق، الحاشية، وإخراج البحث"
+    ],
+    "key_points_en": [
+      "Introduction to the concept, types, and methodologies of scientific research",
+      "Outline of the steps involved in conducting research, from identifying the problem to data collection and classification",
+      "Explanation of technical aspects of research writing including citation, referencing, footnotes, and final layout"
+    ],
+    "target_audience": "الطلاب الجامعيون، الباحثون الأكاديميون، وطلاب الدراسات العليا المهتمون بإعداد البحوث والرسائل العلمية.",
+    "target_audience_en": "University students, academic researchers, and postgraduate students preparing theses and research papers.",
+    "pages": "189",
+    "file_size": "8.24 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/مناهج_واساليب_البحث_العلمي.pdf",
+    "cover_image": "covers/76.png"
   }
 ]
