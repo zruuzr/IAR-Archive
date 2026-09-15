@@ -3770,5 +3770,53 @@
     "file_type": "PDF",
     "file_path": "pdf/مناهج_واساليب_البحث_العلمي.pdf",
     "cover_image": "covers/76.png"
+  },
+  {
+    "id": 77,
+    "title": "دور الإحصاء في دعم التخطيط الاستراتيجي",
+    "title_en": "The Role of Statistics in Supporting Strategic Planning",
+    "author": "قاسم أحمد عامر",
+    "author_en": "Qasim Ahmed Amer",
+    "category": "التخطيط والإحصاء",
+    "category_en": "Planning and Statistics",
+    "type": "كتاب",
+    "type_en": "Book",
+    "description": "دراسة علمية تناقش دور البيانات والمعطيات الإحصائية في دعم وتطوير عمليات التخطيط الاستراتيجي، وقياس الأداء المؤسسي والتطوير الإداري والأمني.",
+    "description_en": "A scientific study discussing the role of statistical data in supporting and developing strategic planning processes, institutional performance measurement, and administrative and security development.",
+    "publisher": "مركز بحوث الشرطة - شرطة الشارقة",
+    "publisher_en": "Police Research Center - Sharjah Police",
+    "year": "2014",
+    "isbn": "978-9948-415-99-2",
+    "keywords": [
+      "الإحصاء",
+      "التخطيط الاستراتيجي",
+      "شرطة الشارقة",
+      "قياس الأداء",
+      "التنظيم والإدارة"
+    ],
+    "keywords_en": [
+      "Statistics",
+      "Strategic Planning",
+      "Sharjah Police",
+      "Performance Measurement",
+      "Organization and Management"
+    ],
+    "key_points": [
+      "أهمية الإحصاء كأداة رئيسية في اتخاذ القرار والتخطيط الاستراتيجي",
+      "دور المؤشرات الإحصائية في قياس وتطوير الأداء المؤسسي",
+      "التحديات والمعوقات التي تواجه استخدام الإحصاء في العمليات الإدارية والشرطية"
+    ],
+    "key_points_en": [
+      "The importance of statistics as a key tool in decision-making and strategic planning",
+      "The role of statistical indicators in measuring and improving organizational performance",
+      "Challenges and obstacles facing the use of statistics in administrative and policing operations"
+    ],
+    "target_audience": "المخططون الاستراتيجيون، الباحثون والإحصائيون، والقيادات الإدارية والأمنية",
+    "target_audience_en": "Strategic planners, researchers, statisticians, and administrative and security leaders",
+    "pages": "181",
+    "file_size": "2.68 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/الاحصاء_والتخطيط_الاستراتيجي.pdf",
+    "cover_image": "covers/77.png"
   }
 ]
