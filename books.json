@@ -3818,5 +3818,55 @@
     "file_type": "PDF",
     "file_path": "pdf/الاحصاء_والتخطيط_الاستراتيجي.pdf",
     "cover_image": "covers/77.png"
+  },
+  {
+    "id": 78,
+    "title": "هيكلة الوظائف القيادية",
+    "title_en": "Structuring Leadership Positions",
+    "author": "ماهر أمين مخامرة",
+    "author_en": "Maher Amin Makhamreh",
+    "category": "الإدارة التربوية",
+    "category_en": "Educational Administration",
+    "type": "دراسة متخصصة",
+    "type_en": "Specialized Study",
+    "description": "دراسة متخصصة تناقش موضوع هيكلة الوظائف القيادية التربوية، وتسلط الضوء على خصائص هذه الوظائف ودقة وصفها والمكونات الأساسية لها، مثل الرقابة الإشرافية، والإشراف على الوظائف الأخرى، والاتصالات الشخصية، ونطاق السلطة واتخاذ القرار من وجهة نظر القادة التربويين.",
+    "description_en": "A specialized study discussing the structuring of educational leadership positions, examining job characteristics, description accuracy, and essential components such as supervisory control, interpersonal communications, and decision-making scope from the perspective of educational leaders.",
+    "publisher": "دار جليس الزمان للنشر والتوزيع",
+    "publisher_en": "Jalees Al-Zaman Publishing & Distribution",
+    "year": "2010",
+    "isbn": "978-9957-81-107-5",
+    "keywords": [
+      "هيكلة الوظائف",
+      "الوظائف القيادية",
+      "الإدارة التربوية",
+      "القيادة التربوية",
+      "الوصف الوظيفي",
+      "اتخاذ القرار"
+    ],
+    "keywords_en": [
+      "Job Structuring",
+      "Leadership Positions",
+      "Educational Administration",
+      "Educational Leadership",
+      "Job Description",
+      "Decision Making"
+    ],
+    "key_points": [
+      "تحديد خصائص الوظائف القيادية التربوية ومدى دقة وصفها الوظيفي",
+      "تحليل درجة توفر المكونات الأساسية للوظائف القيادية مثل الرقابة الإشرافية والإشراف على الوظائف الأخرى",
+      "دراسة نطاق السلطة واتخاذ القرار والاتصالات الشخصية في البيئة التربوية القيادية"
+    ],
+    "key_points_en": [
+      "Identifying characteristics and job description accuracy of educational leadership roles",
+      "Analyzing essential components of leadership jobs such as supervisory control and cross-job supervision",
+      "Examining the scope of authority, decision-making, and personal communications among educational leaders"
+    ],
+    "target_audience": "القادة التربويون، المشرفون والإداريون في المؤسسات التعليمية، والباحثون في مجال الإدارة التربوية",
+    "target_audience_en": "Educational leaders, administrators and supervisors in educational institutions, and researchers in educational management",
+    "pages": "156",
+    "file_size": "10.55 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/هيكلة_الوظائف_القيادية.pdf",
+    "cover_image": "covers/78.png"
   }
 ]
