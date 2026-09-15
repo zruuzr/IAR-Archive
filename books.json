@@ -4018,5 +4018,55 @@
     "file_type": "PDF",
     "file_path": "pdf/منظمات_الاعمال_المعاصرة.pdf",
     "cover_image": "covers/81.png"
+  },
+  {
+    "id": 82,
+    "title": "التنمية الإدارية: الأدوات والمعوقات",
+    "title_en": "Administrative Development: Tools and Obstacles",
+    "author": "باسم الحميري",
+    "author_en": "Basim Al-Himyari",
+    "category": "إدارة الأعمال",
+    "category_en": "Business Administration",
+    "type": "كتاب",
+    "type_en": "Book",
+    "description": "كتاب متخصص يناقش مفاهيم واستراتيجيات التنمية الإدارية في المنظمات، مع التركيز على التطوير التنظيمي، وتطبيق معارف العلوم السلوكية، وتطوير القيادة، وإدارة التغيير، والتخطيط الاستراتيجي لرفع كفاءة الأداء المؤسسي وتجاوز المعوقات.",
+    "description_en": "A specialized book discussing concepts and strategies of administrative development within organizations, focusing on organizational development, applying behavioral science knowledge, leadership development, change management, and strategic planning to enhance institutional performance and overcome obstacles.",
+    "publisher": "",
+    "publisher_en": "",
+    "year": "",
+    "isbn": "",
+    "keywords": [
+      "التنمية الإدارية",
+      "التطوير التنظيمي",
+      "إدارة التغيير",
+      "التخطيط الاستراتيجي",
+      "إدارة الأداء"
+    ],
+    "keywords_en": [
+      "Administrative Development",
+      "Organizational Development",
+      "Change Management",
+      "Strategic Planning",
+      "Performance Management"
+    ],
+    "key_points": [
+      "تعريف التنمية الإدارية كاستراتيجية عمل لتطوير نظم وأساليب عمل المنظمات.",
+      "دور العلوم السلوكية والتطوير التنظيمي في تحسين كفاءة المنظمات وإدارتها.",
+      "أهمية التخطيط الاستراتيجي وتطوير القيادة وإدارة التغيير في مواجهة المتغيرات البيئية.",
+      "استعراض أهم الأدوات والمعوقات التي تؤثر على سير عملية التنمية الإدارية."
+    ],
+    "key_points_en": [
+      "Defining administrative development as a work strategy to enhance organizational systems and methodologies.",
+      "The role of behavioral sciences and organizational development in improving institutional efficiency.",
+      "The importance of strategic planning, leadership development, and change management in coping with environmental changes.",
+      "Reviewing key tools and obstacles affecting the administrative development process."
+    ],
+    "target_audience": "المدراء، القادة الإداريون، مستشارو الإدارة، والباحثون والطلاب في مجال إدارة الأعمال والتطوير التنظيمي.",
+    "target_audience_en": "Managers, administrative leaders, management consultants, researchers, and students in business administration and organizational development.",
+    "pages": "211",
+    "file_size": "15.30 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/التنمية_الادارية.pdf",
+    "cover_image": "covers/82.png"
   }
 ]
