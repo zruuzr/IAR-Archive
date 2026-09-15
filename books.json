@@ -4068,5 +4068,57 @@
     "file_type": "PDF",
     "file_path": "pdf/التنمية_الادارية.pdf",
     "cover_image": "covers/82.png"
+  },
+  {
+    "id": 83,
+    "title": "معوقات الضمانات المصرفية المستقلة: دراسة تحليلية مقارنة في أثر الغش والتعسف على فعالية الاعتمادات المستندية وخطابات الضمان",
+    "title_en": "Obstacles to Independent Bank Guarantees: A Comparative Analytical Study on the Impact of Fraud and Abuse on the Effectiveness of Documentary Credits and Letters of Guarantee",
+    "author": "عز الدين مصطفى المحجوب",
+    "author_en": "Ezz Eldin Mustafa Al-Mahjoub",
+    "category": "القانون المصرفي والتجاري",
+    "category_en": "Banking and Commercial Law",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Book",
+    "description": "دراسة قانونية مقارنة تتناول معوقات الضمانات المصرفية المستقلة مثل الاعتمادات المستندية وخطابات الضمان، مع التركيز على آثار الغش والتعسف في استعمال الحق من قبل المستفيد أو البنك، واستعراض التطبيقات القضائية والحلول القانونية لحماية الأطراف وتعديل قواعد غرفة التجارة الدولية.",
+    "description_en": "A comparative legal study examining the obstacles facing independent bank guarantees, such as irrevocable documentary credits and letters of guarantee. It focuses on the implications of fraud and abuse of right by beneficiaries or banks, legal applications, and recommendations for updating International Chamber of Commerce rules.",
+    "publisher": "",
+    "publisher_en": "",
+    "year": "",
+    "isbn": "",
+    "keywords": [
+      "الضمانات المصرفية",
+      "الاعتمادات المستندية",
+      "خطابات الضمان",
+      "الغش والتعسف",
+      "القانون التجاري الدولي",
+      "غرفة التجارة الدولية"
+    ],
+    "keywords_en": [
+      "Bank Guarantees",
+      "Documentary Credits",
+      "Letters of Guarantee",
+      "Fraud and Abuse of Right",
+      "International Commercial Law",
+      "International Chamber of Commerce"
+    ],
+    "key_points": [
+      "تحديد صور وأشكال التعسف في الاعتمادات المستندية وخطابات الضمان سواء من المستفيد أو البنك",
+      "دراسة التطبيقات القضائية المقارنة في القانون المدني لمواجهة حالات التعسف والغش",
+      "التأكيد على أن احترام مبدأ استقلالية الضمانات المصرفية لا ينبغي أن يحول دون تطبيق القواعد الحامية من الغش",
+      "توصية غرفة التجارة الدولية بالاعتراف الصريح بالغش والتعسف في استخدام الحق ضمن قواعدها المنظمة للتجارة الدولية"
+    ],
+    "key_points_en": [
+      "Identifying forms of abuse of right in documentary credits and letters of guarantee by either the beneficiary or the bank.",
+      "Examining comparative judicial precedents in Civil Law regulating abuse of rights and protective measures.",
+      "Emphasizing that respecting the principle of independence must not obstruct legal protections against fraud and abuse.",
+      "Recommending that the International Chamber of Commerce explicitly recognize fraud and abuse of right in its rules."
+    ],
+    "target_audience": "القانونيون، الباحثون الأكاديميون، والمختصون في القطاع المصرفي والتجارة الدولية",
+    "target_audience_en": "Legal professionals, academic researchers, and specialists in banking and international trade",
+    "pages": "172",
+    "file_size": "10.02 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/معوقات_الضمانات_المصرفية.pdf",
+    "cover_image": "covers/83.png"
   }
 ]
