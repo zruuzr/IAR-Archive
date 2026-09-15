@@ -3615,5 +3615,61 @@
     "file_type": "PDF",
     "file_path": "pdf/مبادئ_العلاقات_العامة.pdf",
     "cover_image": "covers/73.png"
+  },
+  {
+    "id": 74,
+    "title": "رياضيات الأعمال",
+    "title_en": "Business Mathematics",
+    "author": "مصطفى عبد الغني أحمد، علي السيد الديب، محمد عبد المنعم جودة",
+    "author_en": "Mostafa Abdel-Ghani Ahmed, Ali El-Sayed El-Deeb, Mohamed Abdel-Moneim Gouda",
+    "category": "الرياضيات والتجارة",
+    "category_en": "Business Mathematics & Commerce",
+    "type": "كتاب دراسي جامعي",
+    "type_en": "University Textbook",
+    "description": "كتاب دراسي مخصص لطلاب الفرقة الأولى بكلية التجارة - جامعة القاهرة، يتناول أساسيات رياضيات الأعمال وتطبيقاتها التجارية، بما في ذلك المحددات، المصفوفات، نظرية الاحتمالات وتوزيعاتها، تطبيقات التفاضل والتكامل في المجال التجاري، ومقدمة شاملة في البرمجة الخطية مع طرق حلها البيانية والسمبلكس.",
+    "description_en": "A university textbook for first-year commerce students at Cairo University, covering the fundamentals of business mathematics and their commercial applications, including determinants, matrices, probability theory and distributions, commercial applications of calculus, and an introduction to linear programming using graphical and simplex methods.",
+    "publisher": "كلية التجارة – جامعة القاهرة",
+    "publisher_en": "Faculty of Commerce – Cairo University",
+    "year": "2017",
+    "isbn": "",
+    "keywords": [
+      "رياضيات الأعمال",
+      "المحددات",
+      "المصفوفات",
+      "الاحتمالات",
+      "البرمجة الخطية",
+      "طريقة السمبلكس",
+      "التفاضل والتكامل",
+      "كلية التجارة"
+    ],
+    "keywords_en": [
+      "Business Mathematics",
+      "Determinants",
+      "Matrices",
+      "Probability",
+      "Linear Programming",
+      "Simplex Method",
+      "Calculus",
+      "Faculty of Commerce"
+    ],
+    "key_points": [
+      "شرح طرق حساب المحددات والمصفوفات واستخدامها في حل شبكات المعادلات الخطية",
+      "توضيح القواعد الأساسية لنظرية الاحتمالات، توزيع ثنائي الحدين، واستخدام الاحتمالات في اتخاذ القرارات ومراقبة جودة الإنتاج",
+      "استعراض التطبيقات التجارية على الدوال والتفاضل والتكامل لحساب التكاليف والإيرادات والمرونة",
+      "تقديم مفهوم البرمجة الخطية وطرق حل مشكلاتها بيانيًا وبطريقة السمبلكس في حالتي التعظيم والتدنية"
+    ],
+    "key_points_en": [
+      "Explaining determinants and matrices to solve systems of linear equations",
+      "Covering basic probability rules, binomial distribution, decision-making, and quality control",
+      "Demonstrating commercial applications of functions and calculus for marginal cost, revenue, and elasticity",
+      "Introducing linear programming concepts and solutions via Graphical and Simplex methods for maximization and minimization"
+    ],
+    "target_audience": "طلاب الفرقة الأولى بكلية التجارة والدارسون للرياضيات المالية والتجارية",
+    "target_audience_en": "First-year students at the Faculty of Commerce and students of financial and business mathematics",
+    "pages": "319",
+    "file_size": "5.35 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/رياضيات_الاعمال.pdf",
+    "cover_image": "covers/74.png"
   }
 ]
