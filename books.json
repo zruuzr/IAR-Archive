@@ -3671,5 +3671,56 @@
     "file_type": "PDF",
     "file_path": "pdf/رياضيات_الاعمال.pdf",
     "cover_image": "covers/74.png"
+  },
+  {
+    "id": 75,
+    "title": "تطبيق مبادئ المحاسبة والتمويل والضرائب في التقييم العقاري",
+    "title_en": "Applying Accounting, Finance, and Tax Principles in Real Estate Valuation",
+    "author": "الهيئة السعودية للمقيّمين المعتمدين",
+    "author_en": "Saudi Authority for Accredited Valuers",
+    "category": "التمويل والعقارات",
+    "category_en": "Real Estate & Finance",
+    "type": "حقيبة تدريبية",
+    "type_en": "Training Manual",
+    "description": "حقيبة تدريبية مخصصة لبرنامج تأهيل مقيمي العقار (منهج 110) الصادرة عن أصول وأكاديمية تقييم التابعة للهيئة السعودية للمقيمين المعتمدين. تهدف إلى تقديم مفاهيم ومبادئ أساسية في المحاسبة والتحليل المالي، إضافة إلى التعريف بمصادر التمويل والأسواق المالية والرهن العقاري والضرائب في القطاع العقاري.",
+    "description_en": "A course training manual (Course 110) for the Real Estate Valuers Qualification Program published by Taqeem Academy. It provides essential accounting and financial analysis concepts, introduces sources of finance, financial markets, real estate mortgage loans, and tax considerations in real estate valuation.",
+    "publisher": "الهيئة السعودية للمقيّمين المعتمدين (تقييم)",
+    "publisher_en": "Saudi Authority for Accredited Valuers (Taqeem)",
+    "year": "2015",
+    "isbn": "",
+    "keywords": [
+      "التقييم العقاري",
+      "المحاسبة المالية",
+      "التمويل العقاري",
+      "التحليل المالي",
+      "الضرائب العقارية",
+      "الهيئة السعودية للمقيمين المعتمدين",
+      "تقييم"
+    ],
+    "keywords_en": [
+      "Real Estate Valuation",
+      "Financial Accounting",
+      "Real Estate Finance",
+      "Financial Analysis",
+      "Property Taxation",
+      "Taqeem"
+    ],
+    "key_points": [
+      "تقديم المفاهيم والمبادئ المحاسبية الأساسية وكيفية تحليل القوائم المالية باستخدام النسب المالية.",
+      "التعريف بمصادر التمويل والأسواق المالية والأدوات المبتكرة في الرهن العقاري.",
+      "دراسة التمويل العقاري الإسلامي والتأمين على الرهن والضرائب المفروضة على الممتلكات العقارية وتأثيرها على التقييم."
+    ],
+    "key_points_en": [
+      "Cover fundamental accounting concepts, principles, and financial statement analysis techniques.",
+      "Introduce financing sources, financial markets, and innovative mortgage instruments.",
+      "Analyze Islamic real estate finance, mortgage insurance, and property tax applications in valuation."
+    ],
+    "target_audience": "المتدربون والمقيّمون العقاريون المشاركون في برنامج تأهيل مقيمي العقار للحصول على الاعتماد المهني.",
+    "target_audience_en": "Trainees and real estate appraisers pursuing professional qualification under Taqeem.",
+    "pages": "158",
+    "file_size": "14.92 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/تطبيق_مبادئ_المحاسبة_والتمويل_والضرائب_في_التقييم_العقاري.pdf",
+    "cover_image": "covers/75.png"
   }
 ]
