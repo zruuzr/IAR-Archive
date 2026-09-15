@@ -4120,5 +4120,59 @@
     "file_type": "PDF",
     "file_path": "pdf/معوقات_الضمانات_المصرفية.pdf",
     "cover_image": "covers/83.png"
+  },
+  {
+    "id": 84,
+    "title": "نظم المعلومات المحاسبية",
+    "title_en": "Accounting Information Systems",
+    "author": "",
+    "author_en": "",
+    "category": "المحاسبة وتكنولوجيا المعلومات",
+    "category_en": "Accounting & Information Technology",
+    "type": "كتاب أكاديمي تعليمي",
+    "type_en": "Academic Textbook",
+    "description": "يتناول هذا الكتاب المفاهيم الأساسية لنظم المعلومات المحاسبية وعلاقتها بتكنولوجيا المعلومات الحديثة وقواعد البيانات. ويركز على الجانب التطبيقي باستخدام برنامج أكسس (Microsoft Access)، كما يستعرض التحول من التشغيل اليدوي إلى الإلكتروني، والحوسبة السحابية، وإنترنت الأشياء، ونظم تخطيط موارد المؤسسة (ERP)، بالإضافة إلى مراحل تطوير وتطبيق هذه النظم في المؤسسات.",
+    "description_en": "This book covers the fundamental concepts of Accounting Information Systems (AIS) and their relationship with modern information technology and database management. It emphasizes practical application using Microsoft Access, detailing the transition from manual to electronic data processing, cloud computing, the Internet of Things (IoT), Enterprise Resource Planning (ERP) systems, and the stages of developing and implementing AIS in organizations.",
+    "publisher": "",
+    "publisher_en": "",
+    "year": "",
+    "isbn": "",
+    "keywords": [
+      "نظم المعلومات المحاسبية",
+      "قواعد البيانات",
+      "تخطيط موارد المؤسسة",
+      "تكنولوجيا المعلومات",
+      "مايكروسوفت أكسس",
+      "الحوسبة السحابية"
+    ],
+    "keywords_en": [
+      "Accounting Information Systems",
+      "Databases",
+      "Enterprise Resource Planning",
+      "Information Technology",
+      "Microsoft Access",
+      "Cloud Computing"
+    ],
+    "key_points": [
+      "عرض المفاهيم الأساسية لنظم المعلومات والنظم المحاسبية الإلكترونية",
+      "المقارنة بين التشغيل اليدوي والإلكتروني للبيانات المحاسبية",
+      "التطبيق العملي لنظم إدارة قواعد البيانات باستعراض برنامج Microsoft Access",
+      "استعراض تقنيات حديثة مثل الحوسبة السحابية وإنترنت الأشياء والحكومة الإلكترونية",
+      "دراسة نظام تخطيط موارد المؤسسة (ERP) وأسباب نجاح أو فشل تطبيقه"
+    ],
+    "key_points_en": [
+      "Introduction to basic concepts of AIS and electronic information systems",
+      "Comparison between manual and electronic accounting data processing",
+      "Practical application of Database Management Systems using Microsoft Access",
+      "Overview of modern technologies like Cloud Computing, IoT, and E-Government",
+      "Analysis of Enterprise Resource Planning (ERP) systems and critical success factors"
+    ],
+    "target_audience": "طلاب أسر المحاسبة وإدارة الأعمال، الممارسون للمهن المحاسبية، والمديرون التنفيذيون المهتمون بتطبيق تكنولوجيا المعلومات في المجال المحاسبي.",
+    "target_audience_en": "Accounting and business administration students, accounting professionals, and executives interested in applying information technology in accounting.",
+    "pages": "214",
+    "file_size": "4.51 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/نظم_المعلومات_المحاسبية.pdf",
+    "cover_image": "covers/84.png"
   }
 ]
