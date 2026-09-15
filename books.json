@@ -4335,5 +4335,59 @@
     "file_type": "PDF",
     "file_path": "pdf/التنمية_الاقتصادية_نظريات_وسياسات_وموضوعات.pdf",
     "cover_image": "covers/87.png"
+  },
+  {
+    "id": 88,
+    "title": "نظم محاسبة التكاليف",
+    "title_en": "Cost Accounting Systems",
+    "author": "صلاح بسيوني عيد، عبد المنعم فليح عبد الله، زايد سالم أبو شناف، عماد سعيد السمر",
+    "author_en": "Salah Basyouni Eid, Abdel Moneim Fleyeh Abdullah, Zayed Salem Abu Shnaf, Emad Saeed Al-Samar",
+    "category": "المحاسبة والمالية",
+    "category_en": "Accounting & Finance",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Textbook",
+    "description": "كتاب أكاديمي يستعرض نظم محاسبة التكاليف وتطورها التاريخي وأهدافها ومقوماتها الأساسية. يتناول الكتاب بالدراسة والتحليل نظام تكاليف المراحل الإنتاجية، والمنتجات المشتركة والفرعية، ونظام تكاليف الأوامر الإنتاجية، ونظام تكاليف المقاولات أو العقود، بالإضافة إلى التكاليف المعيارية وطرق إعدادها وتحليل وتحميل انحرافات عناصر التكاليف.",
+    "description_en": "An academic textbook exploring cost accounting systems, their historical development, objectives, and basic elements. It details process costing systems, joint and by-products, job order costing, contract costing, as well as standard costing, its preparation methods, and variance analysis.",
+    "publisher": "كلية التجارة - جامعة القاهرة",
+    "publisher_en": "Faculty of Commerce - Cairo University",
+    "year": "2017",
+    "isbn": "",
+    "keywords": [
+      "محاسبة التكاليف",
+      "نظم التكاليف",
+      "المراحل الإنتاجية",
+      "الأوامر الإنتاجية",
+      "التكاليف المعيارية",
+      "تكاليف المقاولات",
+      "تحليل الانحرافات"
+    ],
+    "keywords_en": [
+      "Cost Accounting",
+      "Cost Systems",
+      "Process Costing",
+      "Job Order Costing",
+      "Standard Costing",
+      "Contract Costing",
+      "Variance Analysis"
+    ],
+    "key_points": [
+      "التعريف بإطار نظم التكاليف ونشأتها وتطورها التاريخي وأهدافها ومقوماتها.",
+      "دراسة نظام تكاليف المراحل الإنتاجية والتعامل مع المنتجات المشتركة والفرعية.",
+      "توضيح المعالجة المحاسبية لنظامي تكاليف الأوامر الإنتاجية وتكاليف المقاولات والعقود.",
+      "شرح التكاليف المعيارية وأركانها وطرق تحليل وتحميل انحرافات عناصر التكاليف."
+    ],
+    "key_points_en": [
+      "Introducing the framework, origins, historical development, objectives, and fundamentals of cost systems.",
+      "Studying the process costing system and accounting for joint products and by-products.",
+      "Clarifying accounting treatments for job order costing and contract/construction costing systems.",
+      "Explaining standard costing concepts, pillars, and techniques for cost variance analysis."
+    ],
+    "target_audience": "طلاب كليات التجارة، والباحثون والمحاسبون المهنيون المتخصصون في محاسبة التكاليف والإدارة المالية.",
+    "target_audience_en": "Students of commerce faculties, researchers, and professional accountants specializing in cost accounting and financial management.",
+    "pages": "328",
+    "file_size": "3.13 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/نظم_محاسبة_التكاليف.pdf",
+    "cover_image": "covers/88.png"
   }
 ]
