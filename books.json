@@ -4174,5 +4174,56 @@
     "file_type": "PDF",
     "file_path": "pdf/نظم_المعلومات_المحاسبية.pdf",
     "cover_image": "covers/84.png"
+  },
+  {
+    "id": 85,
+    "title": "دليل استخدام معايير التدقيق الدولية في التدقيق على المنشآت صغيرة ومتوسطة الحجم - المجلد الأول: المفاهيم الأساسية",
+    "title_en": "Guide to Using ISAs in the Audits of Small- and Medium-Sized Entities, Volume 1: Core Concepts",
+    "author": "الاتحاد الدولي للمحاسبين",
+    "author_en": "International Federation of Accountants (IFAC)",
+    "category": "المحاسبة والتدقيق",
+    "category_en": "Accounting & Auditing",
+    "type": "دليل إرشادي",
+    "type_en": "Guidebook",
+    "description": "دليل مهني موجه للممارسين يهدف إلى توضيح وتسهيل تطبيق معايير التدقيق الدولية (ISAs) عند إجراء عمليات التدقيق للمنشآت صغيرة ومتوسطة الحجم، ويركز المجلد الأول منه على المفاهيم الأساسية للتدقيق القائم على تقييم المخاطر.",
+    "description_en": "A practical guide designed to assist practitioners in applying International Standards on Auditing (ISAs) efficiently to audits of small- and medium-sized entities (SMEs). Volume 1 focuses on core concepts of risk-based auditing.",
+    "publisher": "الاتحاد الدولي للمحاسبين (IFAC)",
+    "publisher_en": "International Federation of Accountants (IFAC)",
+    "year": "2011",
+    "isbn": "978-1-60815-099-1",
+    "keywords": [
+      "معايير التدقيق الدولية",
+      "تدقيق الحسابات",
+      "المنشآت صغيرة ومتوسطة الحجم",
+      "المفاهيم الأساسية",
+      "تقييم المخاطر",
+      "الاتحاد الدولي للمحاسبين"
+    ],
+    "keywords_en": [
+      "International Standards on Auditing",
+      "ISAs",
+      "Auditing",
+      "Small- and Medium-Sized Entities",
+      "SMEs",
+      "Core Concepts",
+      "IFAC"
+    ],
+    "key_points": [
+      "شرح المفاهيم الأساسية لعملية التدقيق المرتكزة على المخاطر.",
+      "مساعدة المدققين على تطبيق معايير التدقيق الدولية بفعالية تناسب حجم المنشآت الصغيرة والمتوسطة.",
+      "تقديم إرشادات عملية تضمن جودة عملية التدقيق وكفاءتها."
+    ],
+    "key_points_en": [
+      "Detailed explanation of core risk-based audit concepts.",
+      "Guidance on applying ISAs effectively within small- and medium-sized entities.",
+      "Practical recommendations to enhance audit quality and efficiency."
+    ],
+    "target_audience": "مدققو الحسابات، المحاسبون القانونيون، والمهنيون في مجال تدقيق المنشآت الصغيرة والمتوسطة.",
+    "target_audience_en": "Auditors, certified public accountants, and auditing practitioners working with SMEs.",
+    "pages": "243",
+    "file_size": "15.59 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/دليل_اسخدام_معايير_التدقيق_الدولية_للتدقيق_على_المنشآت.pdf",
+    "cover_image": "covers/85.png"
   }
 ]
