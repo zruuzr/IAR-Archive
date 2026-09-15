@@ -4423,5 +4423,55 @@
     "file_type": "PDF",
     "file_path": "pdf/انظمة_قياس_التكاليف.pdf",
     "cover_image": "covers/89.png"
+  },
+  {
+    "id": 90,
+    "title": "المدخل إلى نظم المعلومات الإدارية: إدارة تكنولوجيا المعلومات",
+    "title_en": "Introduction to Management Information Systems: Information Technology Management",
+    "author": "محمد عبد حسين آل فرج الطائي",
+    "author_en": "Muhammad Abd Hussein Al-Faraj Al-Taie",
+    "category": "نظم المعلومات الإدارية وإدارة الأعمال",
+    "category_en": "Management Information Systems and Business Administration",
+    "type": "كتاب أكاديمي منهجى",
+    "type_en": "Academic Textbook",
+    "description": "كتاب أكاديمي يتناول المفاهيم الأساسية لنظم المعلومات الإدارية وإدارة تكنولوجيا المعلومات، ويشرح دور نظم المعلومات في دعم اتخاذ القرارات الإدارية، وتخطيط وتطوير الأنظمة والتطبيقات التكنولوجية داخل المنظمات ومؤسسات الأعمال.",
+    "description_en": "An academic textbook covering fundamental concepts of Management Information Systems (MIS) and Information Technology Management. It explains the role of information systems in supporting managerial decision-making, planning, and developing systems within modern business organizations.",
+    "publisher": "دار وائل للنشر والتوزيع",
+    "publisher_en": "Dar Wael for Publishing and Distribution",
+    "year": "2008",
+    "isbn": "9957-11-567-7",
+    "keywords": [
+      "نظم المعلومات الإدارية",
+      "إدارة تكنولوجيا المعلومات",
+      "اتخاذ القرارات",
+      "تحليل الأنظمة",
+      "إدارة الأعمال"
+    ],
+    "keywords_en": [
+      "Management Information Systems",
+      "Information Technology Management",
+      "Decision Making",
+      "Systems Analysis",
+      "Business Administration"
+    ],
+    "key_points": [
+      "التعرف على المفاهيم المنهجية لنظم المعلومات الإدارية وتطبيقاتها",
+      "توضيح دور تكنولوجيا المعلومات في تعزيز الكفاءة الإدارية وتطوير الأعمال",
+      "دراسة آليات وأساليب دعم اتخاذ القرارات بواسطة نظم المعلومات",
+      "عرض مبادئ وأساسيات تحليل وتصميم وإدارة الأنظمة"
+    ],
+    "key_points_en": [
+      "Understanding the core concepts and applications of Management Information Systems",
+      "Explaining the role of IT in enhancing administrative efficiency and business development",
+      "Studying mechanisms and methods of supporting decision-making through information systems",
+      "Presenting principles of systems analysis, design, and management"
+    ],
+    "target_audience": " طلاب الجامعات، والباحثون في تخصصات نظم المعلومات الإدارية وإدارة الأعمال، والمدراء والمهنيون في مجال تكنولوجيا المعلومات.",
+    "target_audience_en": "University students, researchers in MIS and Business Administration, as well as managers and IT professionals.",
+    "pages": "323",
+    "file_size": "28.36 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/المدخل_الى_نظم_المعلومات_الادارية.pdf",
+    "cover_image": "covers/90.png"
   }
 ]
