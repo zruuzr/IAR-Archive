@@ -3968,5 +3968,55 @@
     "file_type": "PDF",
     "file_path": "pdf/معجم_الالفاظ_الاقتصادية_في_لسان_العرب.pdf",
     "cover_image": "covers/80.png"
+  },
+  {
+    "id": 81,
+    "title": "منظمات الأعمال المعاصرة والإدارة - الوظائف",
+    "title_en": "Contemporary Business Organizations and Management - Functions",
+    "author": "أحمد يوسف دودين",
+    "author_en": "Ahmed Yousif Dodeen",
+    "category": "إدارة الأعمال",
+    "category_en": "Business Administration",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Book",
+    "description": "كتاب أكاديمي يهدف إلى إثراء الفكر الإداري والتخصصي من خلال تناول منظمات الأعمال المعاصرة، ورصد مفاهيم الوظائف الإدارية والتنظيمية اللازمة لتيسير أعمال المؤسسات والمنظمات الحديثة، مخصص لطلبة العلوم الإدارية والباحثين.",
+    "description_en": "An academic textbook aimed at enriching administrative thought by exploring contemporary business organizations, detailing management functions, and outlining essential organizational processes for modern enterprises, targeted at business students and researchers.",
+    "publisher": "الأكاديميون للنشر والتوزيع",
+    "publisher_en": "Academics for Publishing and Distribution",
+    "year": "2013",
+    "isbn": "978-9957-449-04-9",
+    "keywords": [
+      "منظمات الأعمال",
+      "إدارة الأعمال",
+      "الوظائف الإدارية",
+      "الإدارة المعاصرة",
+      "التنظيم الإداري"
+    ],
+    "keywords_en": [
+      "Business Organizations",
+      "Business Administration",
+      "Management Functions",
+      "Contemporary Management",
+      "Administrative Organization"
+    ],
+    "key_points": [
+      "التعريف بمفهوم منظمات الأعمال المعاصرة وأنواعها",
+      "شرح الوظائف الإدارية الأساسية في المنظمات الحديثة",
+      "تقديم مرجع علمي شامل لطلاب وأساتذة إدارة الأعمال في الجامعات العربية",
+      "ربط الجوانب النظرية للإدارة بالتطبيقات العملية في بيئة الأعمال"
+    ],
+    "key_points_en": [
+      "Introducing the concept and types of contemporary business organizations",
+      "Explaining core management functions in modern organizations",
+      "Providing a comprehensive academic reference for business administration students and faculty",
+      "Linking theoretical aspects of management with practical business environments"
+    ],
+    "target_audience": "طلبة العلم، وأعضاء هيئة التدريس، والباحثون في تخصصات إدارة الأعمال بالجامعات العربية",
+    "target_audience_en": "Students, faculty members, and researchers in business administration fields across Arab universities",
+    "pages": "332",
+    "file_size": "21.04 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/منظمات_الاعمال_المعاصرة.pdf",
+    "cover_image": "covers/81.png"
   }
 ]
