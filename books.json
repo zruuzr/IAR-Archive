@@ -4225,5 +4225,61 @@
     "file_type": "PDF",
     "file_path": "pdf/دليل_اسخدام_معايير_التدقيق_الدولية_للتدقيق_على_المنشآت.pdf",
     "cover_image": "covers/85.png"
+  },
+  {
+    "id": 86,
+    "title": "مدخل إلى التدقيق من الناحية النظرية والعملية",
+    "title_en": "Introduction to Auditing: Theoretical and Practical Aspects",
+    "author": "الدكتور هادي التميمي",
+    "author_en": "Dr. Hadi Al-Tamimi",
+    "category": "المحاسبة وتدقيق الحسابات",
+    "category_en": "Accounting and Auditing",
+    "type": "كتاب أكاديمي تعليمي",
+    "type_en": "Academic Textbook",
+    "description": "كتاب متخصص يقدم مدخلاً شاملاً لعملية تدقيق الحسابات من الجانبين النظري والتطبيقي، حيث يتناول بالتفصيل إجراءات تدقيق الالتزامات طويلة الأجل، وحقوق المالكين، ورأس المال في الشركات المساهمة، بالإضافة إلى كيفية التعامل مع الاحتياطيات وتوزيع الأرباح والمخصصات المالية وفق القوانين والمعايير المحاسبية.",
+    "description_en": "A specialized textbook providing a comprehensive introduction to financial auditing from both theoretical and practical perspectives. It details audit procedures for long-term liabilities, owners' equity, capital in public joint-stock companies, reserves, dividend distribution, and provisions in compliance with accounting standards and regulations.",
+    "publisher": "دار وائل للنشر والتوزيع",
+    "publisher_en": "Dar Wael for Publishing and Distribution",
+    "year": "2008",
+    "isbn": "9957-11-315-8",
+    "keywords": [
+      "التدقيق",
+      "تدقيق الحسابات",
+      "المحاسبة المالية",
+      "الالتزامات طويلة الأجل",
+      "حقوق المالكين",
+      "الشركات المساهمة",
+      "الاحتياطيات",
+      "توزيع الأرباح"
+    ],
+    "keywords_en": [
+      "Auditing",
+      "Financial Accounting",
+      "Audit Procedures",
+      "Long-term Liabilities",
+      "Owners Equity",
+      "Joint Stock Companies",
+      "Reserves",
+      "Dividend Distribution"
+    ],
+    "key_points": [
+      "تبيان الإجراءات العملية لتدقيق الالتزامات طويلة الأجل والقروض والحصول على التأييدات المستندية",
+      "خطوات تدقيق رأس المال وحركة الأوراق المالية والاكتتاب وتخصيص الأسهم في الشركات المساهمة",
+      "طرق فحص وتدقيق الاحتياطي القانوني والاختياري والمخصصات المختلفة ومخصص ضريبة الدخل",
+      "تطبيق الاشتراطات القانونية والتعليمات التنظيمية الخاصة بالشركات عند احتساب الأرباح والاحتياطيات"
+    ],
+    "key_points_en": [
+      "Practical procedures for auditing long-term liabilities, loans, and obtaining direct confirmations",
+      "Steps for auditing capital, stock issuance, subscription, and share allocation in corporations",
+      "Methods for examining legal and voluntary reserves, provisions, and income tax reserves",
+      "Applying legal requirements and regulations regarding profit calculation and corporate reserves"
+    ],
+    "target_audience": "طلبة أقسام المحاسبة والتدقيق في الجامعات، المحاسبون القانونيون، والمدققون الماليون والمهتمون بالمجال المالي والمصرفي.",
+    "target_audience_en": "University students in accounting and auditing, certified public accountants, financial auditors, and financial sector professionals.",
+    "pages": "333",
+    "file_size": "24.94 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/مدخل_الى_التدقيق.pdf",
+    "cover_image": "covers/86.png"
   }
 ]
