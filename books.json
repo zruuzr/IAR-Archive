@@ -3916,5 +3916,57 @@
     "file_type": "PDF",
     "file_path": "pdf/دراسات_الجدوى_الاقتصادية.pdf",
     "cover_image": "covers/79.png"
+  },
+  {
+    "id": 80,
+    "title": "معجم الألفاظ الاقتصادية في لسان العرب",
+    "title_en": "Dictionary of Economic Terms in Lisan al-Arab",
+    "author": "ياسر عبد الكريم الحوراني",
+    "author_en": "Yasser Abdul Kareem Al-Hourani",
+    "category": "الاقتصاد الإسلامي والمعاجم",
+    "category_en": "Islamic Economics & Dictionaries",
+    "type": "معجم متخـصص",
+    "type_en": "Specialized Dictionary",
+    "description": "معجم متخصص يهدف إلى رصد واستخراج وتصنيف الألفاظ والمصطلحات ذات الدلالة الاقتصادية الواردة في معجم لسان العرب لابن منظور، كألفاظ الكسب، المكاييل والأوزان، المال، النقود، والتوزيع.",
+    "description_en": "A specialized dictionary aimed at identifying, extracting, and classifying economic terms and vocabulary found in Ibn Manzur's classical lexicon 'Lisan al-Arab', covering themes such as earnings, weights and measures, money, currency, and distribution.",
+    "publisher": "دار مجدلاوي للنشر والتوزيع",
+    "publisher_en": "Dar Majdalawi Publishing",
+    "year": "2006",
+    "isbn": "9957-02-252-0",
+    "keywords": [
+      "معجم",
+      "الألفاظ الاقتصادية",
+      "لسان العرب",
+      "الاقتصاد الإسلامي",
+      "المكاييل والأوزان",
+      "النقود",
+      "المال"
+    ],
+    "keywords_en": [
+      "Dictionary",
+      "Economic Terms",
+      "Lisan al-Arab",
+      "Islamic Economics",
+      "Weights and Measures",
+      "Money",
+      "Currency"
+    ],
+    "key_points": [
+      "فهرسة وتصنيف المصطلحات الاقتصادية التراثية في معجم لسان العرب",
+      "حائز على جائزة مصرف الراجحي لأبحاث الاقتصاد الإسلامي المتميزة لعام 2005م",
+      "تبويب الألفاظ حسب المحاور الاقتصادية كالكسب والمال والنقود والمكاييل"
+    ],
+    "key_points_en": [
+      "Indexing and classifying traditional economic terms in Lisan al-Arab",
+      "Winner of the Al Rajhi Bank Award for Outstanding Islamic Economics Research (2005)",
+      "Categorization of terms into economic domains like earnings, wealth, currency, and measures"
+    ],
+    "target_audience": "الباحثون والدارسون في مجالات الاقتصاد الإسلامي، المعاجم العربية، واللغويات",
+    "target_audience_en": "Researchers and scholars in Islamic economics, Arabic lexicography, and linguistics",
+    "pages": "313",
+    "file_size": "26.92 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/معجم_الالفاظ_الاقتصادية_في_لسان_العرب.pdf",
+    "cover_image": "covers/80.png"
   }
 ]
