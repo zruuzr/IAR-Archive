@@ -3567,5 +3567,53 @@
     "file_type": "PDF",
     "file_path": "pdf/مقدمة_في_الخطر_والتأمين.pdf",
     "cover_image": "covers/72.png"
+  },
+  {
+    "id": 73,
+    "title": "مبادئ العلاقات العامة",
+    "title_en": "Principles of Public Relations",
+    "author": "رؤوف حسين الزبيدي",
+    "author_en": "Raouf Hussein Al-Zubaidi",
+    "category": "العلاقات العامة والإعلام",
+    "category_en": "Public Relations and Media",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Book",
+    "description": "كتاب أكاديمي يقدم مدخلاً شاملاً لأسس ومبادئ العلاقات العامة، متناولاً المفاهيم الرئيسية للاتصال الجماهيري، وإدارة الرأي العام، ودور العلاقات العامة في بناء وتطوير صورة المؤسسات.",
+    "description_en": "An academic book providing a comprehensive introduction to the principles and fundamentals of public relations, covering key concepts of mass communication, public opinion management, and the role of PR in enhancing organizational image.",
+    "publisher": "الأكاديميون للنشر والتوزيع",
+    "publisher_en": "Academics for Publishing and Distribution",
+    "year": "2014",
+    "isbn": "978-9957-449-81-0",
+    "keywords": [
+      "العلاقات العامة",
+      "الإعلام العام",
+      "الاتصال",
+      "الرأي العام",
+      "إدارة المؤسسات"
+    ],
+    "keywords_en": [
+      "Public Relations",
+      "Mass Media",
+      "Communication",
+      "Public Opinion",
+      "Management"
+    ],
+    "key_points": [
+      "تقديم المفاهيم الأساسية والمهارات الإدارية والتنظيمية لمهنة العلاقات العامة",
+      "شرح طرق وإستراتيجيات التعامل مع الرأي العام والاتصال الجماهيري",
+      "تسليط الضوء على الأطر العلمية والعملية لإدارة العلاقات العامة في المنظمات"
+    ],
+    "key_points_en": [
+      "Introducing basic concepts and administrative skills for the public relations profession",
+      "Explaining methods and strategies for managing public opinion and mass communication",
+      "Highlighting scientific and practical frameworks for PR management in organizations"
+    ],
+    "target_audience": "طلاب تخصصات الإعلام والعلاقات العامة، والأكاديميون، والمهنيون العاملون في مجال الاتصال المؤسسي والإعلام.",
+    "target_audience_en": "Students of Media and Public Relations, academics, and professionals working in corporate communications and media.",
+    "pages": "222",
+    "file_size": "20.20 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/مبادئ_العلاقات_العامة.pdf",
+    "cover_image": "covers/73.png"
   }
 ]
