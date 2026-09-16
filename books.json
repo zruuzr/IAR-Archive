@@ -4473,5 +4473,67 @@
     "file_type": "PDF",
     "file_path": "pdf/المدخل_الى_نظم_المعلومات_الادارية.pdf",
     "cover_image": "covers/90.png"
+  },
+  {
+    "id": 91,
+    "title": "أساسيات وتطبيقات الترويج الإلكتروني والتقليدي: مدخل متكامل",
+    "title_en": "Fundamentals and Applications of Electronic and Traditional Promotion: An Integrated Approach",
+    "author": "بشير العلاق",
+    "author_en": "Bashir Al-Allaq",
+    "category": "التسويق وإدارة الأعمال",
+    "category_en": "Marketing & Business Administration",
+    "type": "كتاب أكاديمي / تعليمي",
+    "type_en": "Academic / Educational Book",
+    "description": "يقدم هذا الكتاب دراسة شاملة ومتكاملة لمفاهيم واستراتيجيات الترويج بأسلوبيه التقليدي والإلكتروني. يتناول الكتاب عناصر المزيج الترويجي مثل الإعلان، البيع الشخصي، تنشيط المبيعات، والعلاقات العامة، مع التركيز على التطورات التكنولوجية دور الإنترنت والتطبيقات الرقمية في الحملات الترويجية والإعلانية وتأثيرها على سلوك المستهلك.",
+    "description_en": "This book offers a comprehensive and integrated examination of promotion concepts and strategies across traditional and electronic platforms. It explores the components of the promotional mix—including advertising, personal selling, sales promotion, and public relations—with a strong focus on technological advancements, digital techniques, and their impact on consumer behavior.",
+    "publisher": "دار اليازوري العلمية للنشر والتوزيع",
+    "publisher_en": "Dar Al-Yazori Scientific Publishing & Distribution",
+    "year": "2009",
+    "isbn": "",
+    "keywords": [
+      "الترويج الإلكتروني",
+      "الترويج التقليدي",
+      "المزيج الترويجي",
+      "التسويق الإلكتروني",
+      "الإعلان",
+      "البيع الشخصي",
+      "تنشيط المبيعات",
+      "العلاقات العامة",
+      "سلوك المستهلك",
+      "بشير العلاق"
+    ],
+    "keywords_en": [
+      "Electronic Promotion",
+      "Traditional Promotion",
+      "Promotional Mix",
+      "E-Marketing",
+      "Advertising",
+      "Personal Selling",
+      "Sales Promotion",
+      "Public Relations",
+      "Consumer Behavior",
+      "Bashir Al-Allaq"
+    ],
+    "key_points": [
+      "توضيح الفروق والتكامل بين الترويج التقليدي والترويج الإلكتروني.",
+      "استعراض تفصيلي لعناصر المزيج الترويجي والإعلاني واستراتيجيات تنظيمها.",
+      "تحليل مراحل تخطيط وتنفيذ وتقييم الحملات الإعلانية والترويجية.",
+      "دراسة العوامل النفسية والاجتماعية المؤثرة في سلوك المستهلك وتجاوبه مع الوسائل الإعلانية.",
+      "بيان دور وكالات الإعلان وتكنولوجيا الإنترنت والوسائط الحديثة في صناعة الإعلان الدولي والمحلي."
+    ],
+    "key_points_en": [
+      "Explaining the integration and differences between traditional and electronic promotion.",
+      "Detailed analysis of promotional mix elements and their operational strategies.",
+      "Covering the steps of planning, executing, and evaluating advertising and promotional campaigns.",
+      "Studying psychological and social factors affecting consumer behavior in response to media.",
+      "Highlighting the role of advertising agencies, internet technology, and modern media in local and international advertising."
+    ],
+    "target_audience": "طلاب الجامعات والمعاهد الأكاديمية في تخصصات التسويق وإدارة الأعمال، والباحثون والممارسون المهنيون في مجالات الإعلان والترويج والمبيعات.",
+    "target_audience_en": "University and college students majoring in marketing and business administration, as well as researchers and practitioners in advertising, promotion, and sales management.",
+    "pages": "548",
+    "file_size": "45.23 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/اساسيات_وتطبيقات_الترويج_الالكتروني_والتقليدي.pdf",
+    "cover_image": "covers/91.png"
   }
 ]
