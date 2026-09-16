@@ -4535,5 +4535,59 @@
     "file_type": "PDF",
     "file_path": "pdf/اساسيات_وتطبيقات_الترويج_الالكتروني_والتقليدي.pdf",
     "cover_image": "covers/91.png"
+  },
+  {
+    "id": 92,
+    "title": "السياسات النقدية والمالية والاقتصادية بنظرة إسلامية: المثلث غير المتساوي الأضلاع",
+    "title_en": "Monetary, Fiscal, and Economic Policies from an Islamic Perspective: The Scalene Triangle",
+    "author": "د. سامر مظهر قنطقجي",
+    "author_en": "Dr. Samer Mazhar Kantakji",
+    "category": "الاقتصاد الإسلامي",
+    "category_en": "Islamic Economics",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Book",
+    "description": "يناقش الكتاب السياسات النقدية والمالية والاقتصادية من خلال نقد النماذج الاقتصادية الوضعية كالليبرالية والشيوعية والتنبيه على ثغراتها والأزمات الناتجة عنها، ويقدم النموذج الاقتصادي الإسلامي كبديل متوازن يهدف لتحقيق الاستقرار الاقتصادي والعدالة الاجتماعية والعيش الكريم للإنسان.",
+    "description_en": "The book examines monetary, fiscal, and economic policies by criticizing conventional economic models such as liberalism and communism, highlighting their flaws and crises. It proposes the Islamic economic model as a balanced alternative that aims to achieve economic stability, social justice, and decent living for humanity.",
+    "publisher": "منشورات كاي (KIE Publication)",
+    "publisher_en": "KIE Publication",
+    "year": "2020",
+    "isbn": "",
+    "keywords": [
+      "السياسات النقدية",
+      "السياسات المالية",
+      "الاقتصاد الإسلامي",
+      "الفائدة",
+      "التضخم",
+      "البطالة",
+      "الضرائب",
+      "سامر قنطقجي"
+    ],
+    "keywords_en": [
+      "Monetary Policies",
+      "Fiscal Policies",
+      "Islamic Economics",
+      "Interest Rate",
+      "Inflation",
+      "Unemployment",
+      "Taxes",
+      "Samer Kantakji"
+    ],
+    "key_points": [
+      "عرض وتفنيد اختلالات النماذج الاقتصادية الرأسمالية والشيوعية وأثرها السلبي على المجتمعات.",
+      "تقديم رؤية إسلامية شاملة توازن بين أضلاع السياسات الاقتصادية والمالية والنقدية.",
+      "تأكيد أهمية بناء النظام الاقتصادي على أساس العدالة ورعاية كرامة الإنسان واستقرار معيشته."
+    ],
+    "key_points_en": [
+      "Critiquing the imbalances of capitalist and communist economic models and their negative social impact.",
+      "Presenting a comprehensive Islamic vision that balances monetary, fiscal, and economic policies.",
+      "Emphasizing the importance of building an economic system based on justice, human dignity, and livelihood stability."
+    ],
+    "target_audience": "الباحثون والطلاب والمختصون في الاقتصاد الإسلامي والسياسات المالية والنقدية والعلوم الاقتصادية.",
+    "target_audience_en": "Researchers, students, and professionals in Islamic economics, monetary and fiscal policies, and economic sciences.",
+    "pages": "665",
+    "file_size": "23.49 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/السياسات_النقدية_والسياسات_المالية.pdf",
+    "cover_image": "covers/92.png"
   }
 ]
