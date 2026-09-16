@@ -457,6 +457,10 @@
           if (success) {
             const freshContainer = document.getElementById(`stars-${bookId}`);
             if (freshContainer) renderStars(bookId, freshContainer);
+            if (isSingleView && currentOpenBookId === bookId) {
+              const singleStars = document.getElementById('singleBookStars');
+              if (singleStars) renderStars(bookId, singleStars);
+            }
             showToast(i18n[currentLang].toastRated);
             if (document.getElementById('sortOrder')?.value === 'rating') applyFilters();
           }
@@ -673,10 +677,16 @@
     const title = translateDynamicText(book.title, book.title_en) || i18n[currentLang].unknown;
     const author = translateDynamicText(book.author, book.author_en) || i18n[currentLang].unknown;
     const url = generateBookUrl(book.id);
-    const shareText = `${i18n[currentLang].shareText} "${title}" - ${author}\n${url}`;
+
     if (navigator.share) {
-      navigator.share({ title, text: shareText, url: url }).catch(() => {});
+      // Title is passed via the `title` field of the share payload.
+      // The `text` field must NOT repeat it, otherwise the shared
+      // preview shows the book title twice.
+      const shareText = `${i18n[currentLang].shareText} ${author}\n${url}`;
+      navigator.share({ title, text: shareText, url }).catch(() => {});
     } else {
+      // Clipboard fallback needs the title embedded for context.
+      const shareText = `${i18n[currentLang].shareText} "${title}" - ${author}\n${url}`;
       copyText(shareText, i18n[currentLang].toastCopied);
     }
   }
@@ -1042,16 +1052,68 @@
     if (trigger) toggleBundleSelection(Number(trigger.getAttribute('data-id')));
   });
 
+  /* ============================================================
+     Smart pagination — limits visible page buttons and inserts
+     ellipses instead of rendering every page number.
+     Rules:
+       - totalPages <= 7 → show all
+       - current near start  → 1 2 3 4 5 … N
+       - current in middle   → 1 … c-1 c c+1 … N
+       - current near end    → 1 … N-4 N-3 N-2 N-1 N
+     ============================================================ */
+  function getPaginationItems(current, total) {
+    const items = [];
+    if (total <= 7) {
+      for (let i = 1; i <= total; i++) items.push(i);
+      return items;
+    }
+
+    items.push(1);
+
+    let start, end;
+    if (current <= 4) {
+      start = 2;
+      end = 5;
+    } else if (current >= total - 3) {
+      start = total - 4;
+      end = total - 1;
+    } else {
+      start = current - 1;
+      end = current + 1;
+    }
+
+    if (start > 2) items.push('...');
+    for (let i = start; i <= end; i++) items.push(i);
+    if (end < total - 1) items.push('...');
+    items.push(total);
+
+    return items;
+  }
+
   function renderPaginationControls(totalPages) {
     const paginationEl = document.getElementById('paginationContainer');
     if (!paginationEl) return;
     if (totalPages <= 1) { paginationEl.innerHTML = ''; return; }
 
-    let html = `<li class="page-item ${currentPage === 1 ? 'disabled' : ''}"><button class="page-link" data-page="${currentPage - 1}">${currentLang === 'en' ? 'Previous' : 'السابق'}</button></li>`;
-    for (let i = 1; i <= totalPages; i++) {
-      html += `<li class="page-item ${currentPage === i ? 'active' : ''}"><button class="page-link" data-page="${i}">${i}</button></li>`;
-    }
-    html += `<li class="page-item ${currentPage === totalPages ? 'disabled' : ''}"><button class="page-link" data-page="${currentPage + 1}">${currentLang === 'en' ? 'Next' : 'التالي'}</button></li>`;
+    const prevDisabled = currentPage === 1;
+    const nextDisabled = currentPage === totalPages;
+    const prevLabel = currentLang === 'en' ? 'Previous' : 'السابق';
+    const nextLabel = currentLang === 'en' ? 'Next' : 'التالي';
+
+    const items = getPaginationItems(currentPage, totalPages);
+
+    let html = `<li class="page-item ${prevDisabled ? 'disabled' : ''}"><button class="page-link" data-page="${currentPage - 1}" ${prevDisabled ? 'disabled' : ''}>${prevLabel}</button></li>`;
+
+    items.forEach(item => {
+      if (item === '...') {
+        html += `<li class="page-item disabled"><span class="page-link" aria-hidden="true">…</span></li>`;
+      } else {
+        const active = currentPage === item ? 'active' : '';
+        html += `<li class="page-item ${active}"><button class="page-link" data-page="${item}">${item}</button></li>`;
+      }
+    });
+
+    html += `<li class="page-item ${nextDisabled ? 'disabled' : ''}"><button class="page-link" data-page="${currentPage + 1}" ${nextDisabled ? 'disabled' : ''}>${nextLabel}</button></li>`;
     paginationEl.innerHTML = html;
 
     paginationEl.querySelectorAll('button.page-link').forEach(btn => {
@@ -1363,8 +1425,21 @@
       setText('booksCounter', booksData.length);
       applyFilters();
 
+      // After Firebase data resolves, refresh the view. If the user landed
+      // directly on a single-book deep link, applyFilters() early-returns,
+      // so we must refresh the single view's stars/counter manually.
       Promise.allSettled([loadPublicRatings(), loadDownloadCounts(), updateSiteVisits()]).then(() => {
         if (booksLoaded) applyFilters();
+
+        if (isSingleView && currentOpenBookId !== null) {
+          const book = booksData.find(b => b.id === currentOpenBookId);
+          if (book) {
+            const starsContainer = document.getElementById('singleBookStars');
+            if (starsContainer) renderStars(book.id, starsContainer);
+            const singleCount = document.getElementById('singleDownloadCount');
+            if (singleCount) singleCount.innerText = book.downloadCount || 0;
+          }
+        }
       });
 
       handleDeepLinking();
