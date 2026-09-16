@@ -17,3 +17,4 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_IAR_ARCHIVE_328BC }}
           channelId: live
           projectId: iar-archive-328bc
+          site: iararchive
