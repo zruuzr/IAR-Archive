@@ -3,17 +3,32 @@
     "public": ".",
     "ignore": [
       "firebase.json",
-      "**/.*",
+      ".firebaserc",
+      ".git",
+      ".git/**",
+      ".github",
+      ".github/**",
+      ".agents",
+      ".agents/**",
+      ".firebase",
+      ".firebase/**",
+      ".venv",
+      ".venv/**",
+      "__pycache__",
+      "__pycache__/**",
+      "skills-lock.json",
       "**/node_modules/**",
       "*.py",
       "requirements.txt",
       "COPYRIGHT.md",
       "README.md",
       "books.json.tmp",
+      "pdf",
       "pdf/**",
       "*.tmp",
-      ".agents/**",
-      "skills-lock.json"
+      "*.md",
+      "*.lock",
+      "*.log"
     ]
   }
 }

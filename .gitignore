@@ -49,3 +49,9 @@ pdf/*.ZIP
 # Firebase CLI agent skills (local tooling only)
 .agents/
 skills-lock.json
+
+# Firebase local
+.firebase/
+
+# Virtual environment (also in .gitignore already, but redundant)
+.venv/
