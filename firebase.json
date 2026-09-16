@@ -1,0 +1,19 @@
+{
+  "hosting": {
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**",
+      "*.py",
+      "requirements.txt",
+      "COPYRIGHT.md",
+      "README.md",
+      "books.json.tmp",
+      "pdf/**",
+      "*.tmp",
+      ".agents/**",
+      "skills-lock.json"
+    ]
+  }
+}

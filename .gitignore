@@ -45,3 +45,7 @@ books.json.tmp
 # ═══════════════════════════════════════════════════════════
 pdf/*.zip
 pdf/*.ZIP
+
+# Firebase CLI agent skills (local tooling only)
+.agents/
+skills-lock.json
