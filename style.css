@@ -73,7 +73,7 @@ body {
 .navbar-iar { background-color: var(--primary); border-bottom: 2px solid var(--border); padding: 1rem 0; position: sticky; top: 0; z-index: 1020; }
 
 /* ============================================================
-   Brand logo icon — Iraqi flag colors
+   Brand logo icon — SVG holder (single source of truth)
    ============================================================ */
 .brand-logo-icon {
   width: 44px;
@@ -84,6 +84,7 @@ body {
   justify-content: center;
   border-radius: 12px;
   overflow: hidden;
+  background: transparent;
   box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
 }
 
