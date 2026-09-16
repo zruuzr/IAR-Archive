@@ -8,7 +8,7 @@
 
 **مستودع رقمي لأرشفة وتنظيم المراجع الإدارية العراقية**
 
-[![Cloudflare Pages](https://img.shields.io/badge/Hosted%20on-Cloudflare%20Pages-orange?style=flat\&logo=cloudflare)](https://iar-archive.pages.dev)
+[![Firebase Hosting](https://img.shields.io/badge/Hosted%20on-Firebase%20Hosting-orange?style=flat&logo=firebase)](https://iararchive.web.app)
 [![Firebase](https://img.shields.io/badge/Database-Firebase-yellow?style=flat\&logo=firebase)](https://firebase.google.com)
 [![All Rights Reserved](https://img.shields.io/badge/License-All%20Rights%20Reserved-red.svg)](#-copyright-and-usage)
 [![Auto Extract Book Info](https://github.com/zruuzr/IAR-Archive/actions/workflows/auto_process.yml/badge.svg)](https://github.com/zruuzr/IAR-Archive/actions/workflows/auto_process.yml)
@@ -37,7 +37,7 @@ researchers and executive managers access official materials efficiently.
 Built using lightweight and widely available technologies, with a focus on simplicity and performance:
 
 * **Frontend:** Vanilla JavaScript, HTML5, CSS3, Bootstrap 5.
-* **Hosting:** Cloudflare Pages.
+* **Hosting:** Firebase Hosting.
 * **Asset Management:** Heavy PDF files are served directly via GitHub Raw (`raw.githubusercontent.com`) to bypass standard static hosting limits.
 * **Database:** Firebase Firestore & Auth, handling dynamic data such as ratings and view counts.
 * **CI/CD:** GitHub Actions automatically update the `books.json` database and trigger Cloudflare deployments when new references are processed.
@@ -57,7 +57,7 @@ The repository uses an automated indexing pipeline that runs when new files are 
    * Descriptions and target audience in both languages
 4. **Fallback Strategy** — If local text extraction fails, the full PDF is uploaded to Gemini. If that also fails, the filename is used as a temporary title.
 5. **Persist** — Results are appended to `books.json` and committed back to the repository.
-6. **Deploy** — Cloudflare Pages detects the update and rebuilds the site automatically.
+6. **Deploy** — GitHub Actions triggers a Firebase Hosting deploy automatically, publishing the updated site to production.
 
 The pipeline is idempotent: already-processed files (by path) are skipped on subsequent runs.
 
@@ -99,7 +99,7 @@ This repository follows several supply-chain and CI/CD hardening practices:
 
 ## 🌐 Live Demo
 
-👉 **[iar-archive.pages.dev](https://iar-archive.pages.dev)**
+👉 **[iararchive.web.app](https://iararchive.web.app)**
 
 ---
 
@@ -109,8 +109,10 @@ This repository follows several supply-chain and CI/CD hardening practices:
 IAR-Archive/
 ├── .github/
 │   ├── workflows/
-│   │   └── auto_process.yml    # Auto-indexing workflow
-│   └── dependabot.yml          # Automated dependency updates
+│   │   ├── auto_process.yml              # Auto-indexing workflow
+│   │   ├── firebase-hosting-merge.yml    # Firebase Hosting deploy (main)
+│   │   └── firebase-hosting-pull-request.yml  # Firebase Hosting preview (PR)
+│   └── dependabot.yml                    # Automated dependency updates
 ├── assets/
 │   ├── logo.svg                # Project logo
 │   └── logo-mark.svg           # Monochrome project mark
@@ -124,6 +126,8 @@ IAR-Archive/
 ├── requirements.txt            # Python dependencies
 ├── .gitignore                  # Ignored files and artifacts
 ├── COPYRIGHT.md                # Copyright and usage terms
+├── firebase.json               # Firebase Hosting configuration
+├── .firebaserc                 # Firebase project alias
 └── README.md
 ```
 
