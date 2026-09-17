@@ -7,81 +7,101 @@
   <meta property="og:title" content="IAR Archive | Iraqi Administrative Reference">
   <meta property="og:description" content="منصة معرفية لأرشفة وربط المراجع الإدارية مع ملخصات وتوثيق أكاديمي">
   <meta property="og:type" content="website">
+  <meta name="theme-color" content="#f6f8fc">
 
   <title id="pageTitle">IAR Archive | Iraqi Administrative Reference</title>
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="vendor/bootstrap-icons.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
 
-  <link id="bootstrapCSS" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css">
+  <link id="bootstrapCSS" rel="stylesheet" href="vendor/bootstrap.rtl.min.css">
   <link rel="stylesheet" href="style.css">
 
   <script>
     (function () {
-      var lang = localStorage.getItem('iar_lang') || 'ar';
-      var theme = localStorage.getItem('iar_theme') || 'light';
-      if (!localStorage.getItem('iar_theme') && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        theme = 'dark';
-      }
+      var savedLang, savedTheme;
+      try {
+        savedLang = localStorage.getItem('iar_lang');
+        savedTheme = localStorage.getItem('iar_theme');
+      } catch (_) { /* Storage may be unavailable; use safe defaults. */ }
+      var lang = savedLang === 'en' ? 'en' : 'ar';
+      var theme = savedTheme === 'dark' || savedTheme === 'light' ? savedTheme :
+        (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
       document.documentElement.setAttribute('lang', lang);
       document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
       document.documentElement.setAttribute('data-bs-theme', theme);
       var bsLink = document.getElementById('bootstrapCSS');
       if (bsLink && lang === 'en') {
-        bsLink.href = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css';
+        bsLink.href = 'vendor/bootstrap.min.css';
       }
     })();
   </script>
 </head>
 <body>
 
-  <!-- Announcement Bar -->
+  <!-- ============ طبقات الأجواء: سديم + شبكة + حبيبات + هالة المؤشر ============ -->
+  <div class="aurora-stage" aria-hidden="true">
+    <span class="aurora-blob aurora-a"></span>
+    <span class="aurora-blob aurora-b"></span>
+    <span class="aurora-blob aurora-c"></span>
+    <span class="aurora-grid"></span>
+  </div>
+  <div class="grain-layer" aria-hidden="true"></div>
+  <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+  <div class="scroll-progress" aria-hidden="true"><span id="scrollProgressFill"></span></div>
+
+  <!-- شريط الإعلان -->
   <div class="top-live-bar text-center">
     <div class="container">
-      <i class="bi bi-diagram-3-fill me-1"></i> <span id="txt-announcement">IAR Archive - المستودع الرقمي التفاعلي لربط المراجع الإدارية بالتحليل والمفاهيم</span>
+      <i class="bi bi-diagram-3-fill me-1" aria-hidden="true"></i>
+      <span id="txt-announcement">IAR ARCHIVE · مساحة للمعرفة الإدارية</span>
     </div>
   </div>
 
-  <!-- Navbar -->
+  <!-- شريط المعاينة التجريبية -->
+  <div class="demo-notice d-none" id="previewNotice" role="status"></div>
+
+  <!-- الشريط العلوي -->
   <header class="navbar-iar">
     <div class="container">
       <div class="d-flex align-items-center justify-content-between">
-        <div class="d-flex align-items-center gap-3">
-          <div class="brand-logo-icon">
+        <a class="d-flex align-items-center gap-3 text-decoration-none brand-lockup" href="#" aria-label="IAR Archive — العودة إلى المكتبة">
+          <span class="brand-logo-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="IAR Archive logo">
               <defs>
                 <linearGradient id="iarBg" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%"  stop-color="#0ea5e9"/>
-                  <stop offset="100%" stop-color="#1e3a8a"/>
+                  <stop offset="0%"  stop-color="#22d3ee"/>
+                  <stop offset="55%" stop-color="#3b82f6"/>
+                  <stop offset="100%" stop-color="#4f46e5"/>
                 </linearGradient>
               </defs>
-
               <rect x="0" y="0" width="128" height="128" rx="28" ry="28" fill="url(#iarBg)"/>
-
               <g transform="translate(24,24) scale(5)" fill="#ffffff">
                 <path fill-rule="evenodd" d="M6 1h6v7a.5.5 0 0 1-.757.429L9 7.083 6.757 8.43A.5.5 0 0 1 6 8z"/>
                 <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
                 <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
               </g>
-
-              <rect x="0"    y="120" width="42.7"  height="8" fill="#CE1126"/>
-              <rect x="42.7" y="120" width="42.6"  height="8" fill="#FFFFFF"/>
-              <rect x="85.3" y="120" width="42.7"  height="8" fill="#000000"/>
+              <rect x="0" y="120" width="42.7" height="8" fill="#CE1126"/>
+              <rect x="42.7" y="120" width="42.6" height="8" fill="#FFFFFF"/>
+              <rect x="85.3" y="120" width="42.7" height="8" fill="#000000"/>
             </svg>
-          </div>
-          <div>
-            <div class="brand-title">IAR Archive</div>
-            <div class="brand-subtitle" id="txt-subtitle">الأرشيف الإداري العراقي</div>
-          </div>
-        </div>
+          </span>
+          <span>
+            <span class="brand-title d-block">IAR Archive</span>
+            <span class="brand-subtitle d-block" id="txt-subtitle">الأرشيف الإداري العراقي</span>
+          </span>
+        </a>
         <div class="d-flex align-items-center gap-2">
-          <button type="button" id="langToggleBtn" class="btn btn-outline-light btn-sm fw-bold px-3 py-2 rounded-3" aria-label="تبديل اللغة">
-            <i class="bi bi-translate me-1"></i> <span id="langLabel">EN</span>
+          <button type="button" id="favoritesOnlyBtn" class="btn btn-ghost btn-sm fw-bold px-3" aria-pressed="false">
+            <i class="bi bi-heart me-1" aria-hidden="true"></i> <span id="txt-favorites-only">مفضلتي</span>
           </button>
-          <button id="themeToggleBtn" class="btn btn-outline-light btn-sm rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;" aria-label="تبديل المظهر" title="تبديل المظهر">
-            <i class="bi bi-moon fs-6" id="themeIcon"></i>
+          <button type="button" id="langToggleBtn" class="btn btn-ghost btn-sm fw-bold px-3" aria-label="التبديل إلى العربية">
+            <i class="bi bi-translate me-1" aria-hidden="true"></i> <span id="langLabel">EN</span>
+          </button>
+          <button type="button" id="themeToggleBtn" class="btn btn-ghost btn-sm rounded-circle theme-orb" aria-label="تبديل المظهر" title="تبديل المظهر" aria-pressed="false">
+            <i class="bi bi-moon" id="themeIcon" aria-hidden="true"></i>
           </button>
         </div>
       </div>
@@ -90,150 +110,168 @@
 
   <main class="container my-4">
 
-    <!-- Hero Card -->
-    <div class="hero-stats-card mb-4">
-      <div class="row align-items-center g-3">
-        <div class="col-lg-7">
-          <h1 class="h5 fw-bold mb-1" id="txt-about-title">الأرشيف الرقمي لعلوم الإدارة</h1>
-          <p class="mb-0 small text-muted" id="txt-about-desc">
-            منصة معرفية مخصصة لأرشفة وربط المراجع الإدارية، توفر ملخصات 3 دقائق، التوثيق الأكاديمي المباشر، وإنشاء حزم البحوث.
-          </p>
-        </div>
-        <div class="col-lg-5">
-          <div class="d-flex justify-content-lg-end gap-3 text-center hero-stats">
-            <div class="stat-box">
-              <div class="fs-4 fw-bold text-primary" id="booksCounter">0</div>
-              <div class="small text-muted" id="txt-stat-books">مرجع إداري</div>
-            </div>
-            <div class="stat-box">
-              <div class="fs-4 fw-bold text-primary" id="catCounter">0</div>
-              <div class="small text-muted" id="txt-stat-cats">تصنيف إداري</div>
-            </div>
-            <div class="stat-box">
-              <div class="fs-4 fw-bold text-primary" id="siteVisitsCounter">0</div>
-              <div class="small text-muted" id="txt-stat-visits">زائر فريد</div>
-            </div>
-            <div class="stat-box">
-              <div class="fs-4 fw-bold text-success">2026</div>
-              <div class="small text-muted" id="txt-stat-year">سنة الأرشفة</div>
+    <!-- ============ بوابة الافتتاح ============ -->
+    <section class="hero-gate mb-4" aria-labelledby="txt-about-title">
+      <div class="hero-gate-inner">
+        <div class="row g-0 align-items-stretch">
+          <div class="col-lg-7 hero-gate-copy">
+            <span class="hero-kicker">
+              <span class="pulse-dot" aria-hidden="true"></span>
+              <i class="bi bi-stars" aria-hidden="true"></i>
+              <span id="txt-kicker">مساحة للمعرفة الإدارية</span>
+            </span>
+            <h1 class="hero-title" id="txt-about-title">معرفة تُلهمك.<br>ومراجع تصنع الأثر.</h1>
+            <p class="hero-desc mb-0" id="txt-about-desc">
+              مساحتك لاستكشاف علوم الإدارة. اقرأ، اكتشف الأفكار، وابنِ حزمة مراجعك القادمة — كل ذلك في مكان واحد.
+            </p>
+            <ul class="hero-tags mt-3 list-unstyled" aria-label="ميزات الأرشيف">
+              <li class="hero-tag"><i class="bi bi-stopwatch" aria-hidden="true"></i> <span id="txt-tag-summary">ملخصات 3 دقائق</span></li>
+              <li class="hero-tag"><i class="bi bi-quote" aria-hidden="true"></i> <span id="txt-tag-cite">توثيق APA مباشر</span></li>
+              <li class="hero-tag"><i class="bi bi-collection" aria-hidden="true"></i> <span id="txt-tag-bundle">حزم بحثية مخصصة</span></li>
+            </ul>
+            <a class="btn btn-iar-primary hero-cta mt-3" href="#controlsRow" id="txt-explore">استكشف المكتبة</a>
+          </div>
+          <div class="col-lg-5 hero-gate-stats">
+            <div class="d-flex justify-content-lg-end gap-2 gap-sm-3 text-center hero-stats">
+              <div class="stat-box">
+                <div class="stat-num grad-text" id="booksCounter">—</div>
+                <div class="stat-cap" id="txt-stat-books">مرجع في الأرشيف</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-num grad-text" id="catCounter">—</div>
+                <div class="stat-cap" id="txt-stat-cats">مسارات معرفية</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-num grad-text" id="siteVisitsCounter">—</div>
+                <div class="stat-cap" id="txt-stat-visits">زيارات يومية تقريبية</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-num grad-text">2026</div>
+                <div class="stat-cap" id="txt-stat-year">سنة الأرشفة</div>
+              </div>
             </div>
           </div>
         </div>
+        <h2 class="visually-hidden" id="txt-library-title">رفوف المعرفة</h2>
       </div>
-    </div>
+    </section>
 
-    <!-- Featured Spotlight Banner Section -->
+    <!-- القسم المميّز -->
     <div id="featuredSection"></div>
 
-    <!-- Bundle Bar -->
+    <!-- شريط الحزمة البحثية -->
     <div class="bundle-bar d-none" id="bundleBar">
       <div class="d-flex align-items-center flex-wrap gap-2">
-        <i class="bi bi-collection-fill me-2"></i>
-        <span id="txt-bundle-text">تم تحديد <strong id="bundleCount">0</strong> مراجع لإنشاء حزمة بحثية</span>
+        <span class="bundle-orb" aria-hidden="true"><i class="bi bi-collection-fill"></i></span>
+        <span id="txt-bundle-text">تم تحديد <strong id="bundleCount">0</strong> مراجع لحزمتك</span>
       </div>
       <div class="d-flex align-items-center gap-2 flex-wrap">
         <button type="button" class="btn btn-light btn-sm fw-bold" id="copyBundleBtn">
-          <i class="bi bi-share-fill me-1"></i> <span id="txt-bundle-btn">نسخ رابط الحزمة المجمعة</span>
+          <i class="bi bi-share-fill me-1" aria-hidden="true"></i> <span id="txt-bundle-btn">نسخ رابط الحزمة</span>
         </button>
         <button type="button" class="btn btn-outline-light btn-sm fw-bold" id="clearBundleBtn">
-          <i class="bi bi-x-circle me-1"></i> <span id="txt-clear-bundle">إلغاء الحزمة والعودة للرئيسية</span>
+          <i class="bi bi-x-circle me-1" aria-hidden="true"></i> <span id="txt-clear-bundle">إلغاء الحزمة</span>
         </button>
       </div>
     </div>
 
-    <!-- Bundle Mode Alert -->
+    <!-- تنبيه وضع الحزمة -->
     <div id="bundleModeAlertContainer"></div>
 
-    <!-- Controls Row -->
+    <!-- لوحة البحث والأدوات -->
     <div class="row g-3 mb-3 align-items-center" id="controlsRow">
       <div class="col-md-7">
-        <div class="input-group">
-          <span class="input-group-text bg-body border-end-0 text-muted"><i class="bi bi-search"></i></span>
+        <div class="command-field">
+          <i class="bi bi-search field-lead" aria-hidden="true"></i>
           <label class="visually-hidden" for="searchInput" id="searchLabel">البحث في المراجع</label>
-          <input type="search" id="searchInput" class="form-control border-start-0 ps-0" placeholder="ابحث بعنوان الكتاب، اسم المؤلف، الناشر، أو الكلمات المفتاحية...">
-          <button class="btn btn-outline-secondary border-start-0 d-none" type="button" id="btnClearSearch" aria-label="مسح البحث"><i class="bi bi-x-circle-fill" aria-hidden="true"></i></button>
+          <input type="search" id="searchInput" class="form-control" placeholder="ابحث بعنوان، مؤلف، أو فكرة…" autocomplete="off">
+          <button class="btn field-clear d-none" type="button" id="btnClearSearch" aria-label="مسح البحث">
+            <i class="bi bi-x-circle-fill" aria-hidden="true"></i>
+          </button>
         </div>
       </div>
       <div class="col-md-3 col-8">
-        <select id="sortOrder" class="form-select">
-          <option value="default" id="opt-sort-default">الترتيب الافتراضي (مع تثبيت الإصدار السنوي)</option>
-          <option value="title" id="opt-sort-title">حسب العنوان (أبجدي)</option>
-          <option value="year" id="opt-sort-year">حسب السنة</option>
-          <option value="pages" id="opt-sort-pages">حسب عدد الصفحات</option>
-          <option value="downloads" id="opt-sort-downloads">حسب التحميلات</option>
-          <option value="favorites" id="opt-sort-favorites">حسب المفضلة</option>
-          <option value="rating" id="opt-sort-rating">حسب التقييم</option>
-        </select>
-      </div>
-      <div class="col-md-2 col-4 text-end">
-        <div class="btn-group w-100" role="group">
-          <button type="button" class="btn btn-outline-secondary active" id="btnViewGrid" title="عرض شبكي" aria-label="عرض شبكي" aria-pressed="true"><i class="bi bi-grid-fill" aria-hidden="true"></i></button>
-          <button type="button" class="btn btn-outline-secondary" id="btnViewList" title="عرض قائمة" aria-label="عرض قائمة" aria-pressed="false"><i class="bi bi-list-task" aria-hidden="true"></i></button>
+        <div class="command-select">
+          <i class="bi bi-arrow-down-up field-lead" aria-hidden="true"></i>
+          <select id="sortOrder" class="form-select" aria-label="ترتيب المراجع">
+            <option value="default" id="opt-sort-default">اختيار الأرشيف</option>
+            <option value="title" id="opt-sort-title">العنوان: أ — ي</option>
+            <option value="year" id="opt-sort-year">الأحدث أولاً</option>
+            <option value="pages" id="opt-sort-pages">الأقل صفحات أولاً</option>
+            <option value="downloads" id="opt-sort-downloads">الأكثر تحميلاً</option>
+            <option value="favorites" id="opt-sort-favorites">المفضلة أولاً</option>
+            <option value="rating" id="opt-sort-rating">الأعلى تقييماً</option>
+          </select>
         </div>
       </div>
+      <div class="col-md-2 col-4 text-end">
+        <div class="btn-group w-100 view-switch" role="group" aria-label="طريقة العرض">
+          <button type="button" class="btn active" id="btnViewGrid" title="عرض شبكي" aria-label="عرض شبكي" aria-pressed="true"><i class="bi bi-grid-fill" aria-hidden="true"></i></button>
+          <button type="button" class="btn" id="btnViewList" title="عرض قائمة" aria-label="عرض قائمة" aria-pressed="false"><i class="bi bi-list-task" aria-hidden="true"></i></button>
+        </div>
+      </div>
+      <p class="col-12 results-line mb-0" id="resultsCount" role="status" aria-live="polite"></p>
     </div>
 
-    <!-- Category Chips -->
+    <!-- التصنيفات -->
     <div class="chips-container">
       <button type="button" class="chips-scroll-btn chips-scroll-left" id="chipsScrollLeft" aria-label="السابق">
-        <i class="bi bi-chevron-right"></i>
+        <i class="bi bi-chevron-right" aria-hidden="true"></i>
       </button>
-      <div class="chips-wrapper mb-4" id="categoryChips">
-        <button type="button" class="chip-item active" data-category="all" id="chip-all" aria-pressed="true">جميع التصنيفات</button>
+      <div class="chips-wrapper mb-4" id="categoryChips" tabindex="0" role="region" aria-label="التصنيفات">
+        <button type="button" class="chip-item active" data-category="all" aria-pressed="true">كل المراجع</button>
       </div>
       <button type="button" class="chips-scroll-btn chips-scroll-right" id="chipsScrollRight" aria-label="التالي">
-        <i class="bi bi-chevron-left"></i>
+        <i class="bi bi-chevron-left" aria-hidden="true"></i>
       </button>
     </div>
 
-    <!-- Books Grid -->
-    <div id="booksDisplayContainer">
-      <div class="text-center text-muted py-5" role="status" id="booksLoading"><span class="spinner-border spinner-border-sm ms-2" aria-hidden="true"></span><span id="txt-loading">جارٍ تحميل المراجع…</span></div>
-    </div>
+    <!-- رفوف الكتب -->
+    <div id="booksDisplayContainer" aria-live="polite"></div>
 
-    <!-- Pagination -->
-    <nav aria-label="Page navigation" class="mt-4">
+    <!-- ترقيم الصفحات -->
+    <nav aria-label="صفحات المراجع" class="mt-4">
       <ul class="pagination justify-content-center" id="paginationContainer"></ul>
     </nav>
 
-    <!-- Single Book View -->
+    <!-- عرض المرجع الفردي -->
     <div id="singleBookView" class="d-none">
       <button class="btn-back mb-4" id="btnBackToList" type="button">
-        <i class="bi bi-arrow-right"></i> <span id="txt-back-to-list">العودة إلى جميع المراجع</span>
+        <i class="bi bi-arrow-right" aria-hidden="true"></i> <span id="txt-back-to-list">العودة إلى المكتبة</span>
       </button>
       <div class="row g-4">
         <div class="col-lg-4">
-          <div class="single-cover">
-            <img id="singleBookCover" src="" alt="غلاف الكتاب">
-          </div>
+          <figure class="single-cover mb-0">
+            <img id="singleBookCover" src="" alt="">
+          </figure>
           <div class="text-center mt-3">
             <div class="rating-stars justify-content-center" id="singleBookStars"></div>
           </div>
         </div>
         <div class="col-lg-8">
           <h1 class="single-book-title mb-2" id="singleBookTitle"></h1>
-          <p class="single-book-author mb-3"><i class="bi bi-person me-1"></i> <span id="singleBookAuthor"></span></p>
+          <p class="single-book-author mb-3"><i class="bi bi-person me-1" aria-hidden="true"></i> <span id="singleBookAuthor"></span></p>
           <div class="d-flex flex-wrap gap-2 mb-3">
             <span class="badge-tag" id="singleBookCategory"></span>
             <span class="badge-type" id="singleBookType"></span>
           </div>
           <div class="single-detail-section">
-            <h6><i class="bi bi-file-earmark-text me-1"></i> <span id="singleDescLabel">الوصف</span></h6>
+            <h6><i class="bi bi-file-earmark-text me-1" aria-hidden="true"></i> <span id="singleDescLabel">عن المرجع</span></h6>
             <p id="singleBookDescription"></p>
           </div>
           <div class="single-detail-section">
-            <h6><i class="bi bi-lightbulb me-1"></i> <span id="singleKeyPointsLabel">الأفكار الرئيسية</span></h6>
+            <h6><i class="bi bi-lightbulb me-1" aria-hidden="true"></i> <span id="singleKeyPointsLabel">الأفكار الرئيسية</span></h6>
             <ul id="singleBookKeyPoints" class="mb-0"></ul>
           </div>
           <div class="single-detail-section">
-            <h6><i class="bi bi-award me-1"></i> <span id="singleAudienceLabel">الفئة المستهدفة</span></h6>
+            <h6><i class="bi bi-award me-1" aria-hidden="true"></i> <span id="singleAudienceLabel">الفئة المستهدفة</span></h6>
             <p id="singleBookAudience"></p>
           </div>
           <div class="single-actions mt-4">
-            <button class="btn btn-iar-primary" id="singleReadBtn"><i class="bi bi-eye"></i> <span id="singleReadLabel">قراءة</span></button>
-            <button class="btn btn-iar-primary" id="singleDownloadBtn"><i class="bi bi-download"></i> <span id="singleDownloadLabel">تحميل</span> <span id="singleDownloadCount" class="badge bg-light text-dark ms-1"></span></button>
-            <button class="btn btn-iar-action" id="singleCiteBtn"><i class="bi bi-quote"></i> <span id="singleCiteLabel">توثيق APA</span></button>
-            <button class="btn btn-iar-action" id="singleShareBtn"><i class="bi bi-share"></i> <span id="singleShareLabel">مشاركة</span></button>
+            <button class="btn btn-iar-primary" id="singleReadBtn"><i class="bi bi-book me-1" aria-hidden="true"></i> <span id="singleReadLabel">قراءة</span></button>
+            <button class="btn btn-iar-primary" id="singleDownloadBtn"><i class="bi bi-arrow-down me-1" aria-hidden="true"></i> <span id="singleDownloadLabel">تحميل</span> <span id="singleDownloadCount" class="badge bg-light text-dark ms-1"></span></button>
+            <button class="btn btn-iar-action" id="singleCiteBtn"><i class="bi bi-quote me-1" aria-hidden="true"></i> <span id="singleCiteLabel">توثيق APA</span></button>
+            <button class="btn btn-iar-action" id="singleShareBtn"><i class="bi bi-share me-1" aria-hidden="true"></i> <span id="singleShareLabel">مشاركة</span></button>
           </div>
         </div>
       </div>
@@ -241,40 +279,40 @@
 
   </main>
 
-  <!-- Summary Modal -->
+  <!-- نافذة الملخص -->
   <div class="modal fade" id="summaryModal" tabindex="-1" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="summaryModalTitle">
     <div class="modal-dialog modal-lg modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header py-2 bg-body-tertiary">
-          <h5 class="modal-title fs-6 fw-bold" id="summaryModalTitle">ملخص المرجع الإداري (3 دقائق)</h5>
+      <div class="modal-content modal-glass">
+        <div class="modal-header">
+          <h5 class="modal-title fs-6 fw-bold" id="summaryModalTitle">ملخص المرجع · 3 دقائق</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق" id="summaryDismissBtn"></button>
         </div>
         <div class="modal-body p-4">
           <div class="mb-3 d-flex flex-wrap gap-2 align-items-center">
-            <span class="badge bg-primary-subtle text-primary border" id="summaryCategory">تصنيف</span>
-            <span class="badge bg-success-subtle text-success border" id="summaryType">مرجع منهجي</span>
-            <span class="meta-spec-chip" id="summaryPages"><i class="bi bi-file-earmark-text"></i> -</span>
-            <span class="meta-spec-chip" id="summarySize"><i class="bi bi-hdd"></i> -</span>
+            <span class="badge-tag" id="summaryCategory"></span>
+            <span class="badge-type" id="summaryType"></span>
+            <span class="meta-spec-chip" id="summaryPages"></span>
+            <span class="meta-spec-chip" id="summarySize"></span>
           </div>
-          <h4 class="h5 fw-bold mb-2" id="summaryBookTitle">عنوان الكتاب</h4>
-          <p class="text-muted small mb-4" id="summaryBookAuthor">المؤلف</p>
-          
-          <div class="card bg-body-tertiary border-0 p-3 mb-3">
-            <h6 class="fw-bold fs-6 text-primary mb-2" id="txt-modal-ideas-title"><i class="bi bi-lightbulb me-1"></i> أهم الأفكار الرئيسية في هذا المرجع:</h6>
-            <ul class="mb-0 small text-muted ps-3" id="summaryKeyPoints"></ul>
+          <h4 class="h5 fw-bold mb-2" id="summaryBookTitle"></h4>
+          <p class="text-muted small mb-4" id="summaryBookAuthor"></p>
+
+          <div class="detail-card detail-ideas mb-3">
+            <h6 class="fw-bold fs-6 mb-2" id="txt-modal-ideas-title">أهم الأفكار</h6>
+            <ul class="mb-0 small" id="summaryKeyPoints"></ul>
           </div>
-          <div class="card bg-body-tertiary border-0 p-3 mb-3">
-            <h6 class="fw-bold fs-6 text-success mb-2" id="txt-modal-audience-title"><i class="bi bi-award me-1"></i> الفئة الأكثر استفادة:</h6>
-            <p class="mb-0 small text-muted" id="summaryAudience"></p>
+          <div class="detail-card detail-audience mb-3">
+            <h6 class="fw-bold fs-6 mb-2" id="txt-modal-audience-title">الفئة المستهدفة</h6>
+            <p class="mb-0 small" id="summaryAudience"></p>
           </div>
-          <div class="card bg-body-tertiary border-0 p-3">
-            <h6 class="fw-bold fs-6 text-dark mb-2" id="txt-modal-apa-title"><i class="bi bi-quote me-1"></i> التوثيق الأكاديمي المباشر (APA):</h6>
-            <code class="d-block p-2 bg-dark text-light rounded small" id="summaryAPA"></code>
+          <div class="detail-card detail-apa">
+            <h6 class="fw-bold fs-6 mb-2" id="txt-modal-apa-title">التوثيق الأكاديمي · APA</h6>
+            <code class="d-block p-2 rounded small" id="summaryAPA"></code>
           </div>
         </div>
         <div class="modal-footer py-2 d-flex justify-content-between">
           <button type="button" class="btn btn-outline-primary btn-sm" id="modalShareBtn">
-            <i class="bi bi-share me-1"></i> <span id="txt-share-modal-btn">مشاركة</span>
+            <i class="bi bi-share me-1" aria-hidden="true"></i> <span id="txt-share-modal-btn">مشاركة</span>
           </button>
           <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal" id="txt-modal-close">إغلاق</button>
         </div>
@@ -282,36 +320,39 @@
     </div>
   </div>
 
-  <!-- PDF Reader Modal -->
+  <!-- نافذة القارئ -->
   <div class="modal fade" id="pdfReaderModal" tabindex="-1" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modalBookTitle">
     <div class="modal-dialog modal-xl modal-dialog-centered" style="height: 90vh;">
-      <div class="modal-content h-100">
-        <div class="modal-header py-2 bg-body-tertiary">
-          <h5 class="modal-title fs-6 fw-bold" id="modalBookTitle">قراءة الكتاب</h5>
+      <div class="modal-content h-100 modal-glass">
+        <div class="modal-header">
+          <h5 class="modal-title fs-6 fw-bold" id="modalBookTitle"></h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق" id="pdfDismissBtn"></button>
         </div>
-        <div class="modal-body p-0 d-flex flex-column h-100 bg-dark">
-          <iframe id="pdfFrame" src="" title="قارئ ملف PDF" class="flex-grow-1 w-100 border-0"></iframe>
+        <div class="modal-body p-0 d-flex flex-column bg-dark">
+          <iframe id="pdfFrame" src="about:blank" title="قارئ الملفات" class="flex-grow-1 w-100 border-0"></iframe>
+          <div class="pdf-reader-footer p-2 text-center small">
+            <a id="pdfExternalLink" href="#" target="_blank" rel="noopener noreferrer"></a>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Cover Image Modal -->
-  <div class="modal fade" id="coverImageModal" tabindex="-1" aria-hidden="true" role="dialog" aria-modal="true" aria-label="صورة الغلاف">
+  <!-- نافذة الغلاف -->
+  <div class="modal fade" id="coverImageModal" tabindex="-1" role="dialog" aria-modal="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content bg-transparent border-0">
         <div class="modal-body p-0 d-flex justify-content-center position-relative">
           <img id="coverImageLarge" src="" alt="" class="img-fluid rounded shadow" style="max-height: 90vh;">
           <button type="button" class="btn btn-light position-absolute top-0 end-0 m-2 rounded-circle" data-bs-dismiss="modal" aria-label="إغلاق">
-            <i class="bi bi-x-lg"></i>
+            <i class="bi bi-x-lg" aria-hidden="true"></i>
           </button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Footer -->
+  <!-- التذييل -->
   <footer class="footer-iar text-center">
     <div class="container py-4">
       <div class="brand-title mb-3">IAR Archive</div>
@@ -327,12 +368,8 @@
     </div>
   </footer>
 
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
+  <script src="vendor/bootstrap.bundle.min.js"></script>
   <script src="app.js"></script>
+  <script src="ui-enhance.js" defer></script>
 </body>
 </html>
