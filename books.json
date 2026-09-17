@@ -4873,5 +4873,53 @@
     "file_type": "PDF",
     "file_path": "pdf/دليل_الطالب_في_المحاسبة.pdf",
     "cover_image": "covers/97.png"
+  },
+  {
+    "id": 98,
+    "title": "العملات الرقمية",
+    "title_en": "Digital Currencies",
+    "author": "صلاح عبد الحميد",
+    "author_en": "Salah Abdel Hamid",
+    "category": "اقتصاد وتكنولوجيا",
+    "category_en": "Economics and Technology",
+    "type": "كتاب",
+    "type_en": "Book",
+    "description": "كتاب يستعرض موضوع العملات الرقمية والنقود الإلكترونية، مع تسليط الضوء على أمن معلومات البنوك الخلوية والتطورات الحديثة في نظم المعاملات المالية الرقمية.",
+    "description_en": "A book reviewing digital currencies and electronic money, highlighting mobile banking information security and modern developments in digital financial transaction systems.",
+    "publisher": "",
+    "publisher_en": "",
+    "year": "",
+    "isbn": "",
+    "keywords": [
+      "العملات الرقمية",
+      "النقود الإلكترونية",
+      "أمن المعلومات",
+      "البنوك الخلوية",
+      "الاقتصاد الرقمي"
+    ],
+    "keywords_en": [
+      "Digital Currencies",
+      "Electronic Money",
+      "Information Security",
+      "Mobile Banking",
+      "Digital Economy"
+    ],
+    "key_points": [
+      "شرح مفهوم العملات الرقمية والنقود الإلكترونية (Electronic money)",
+      "مناقشة معايير وأساليب أمن معلومات البنوك الخلوية",
+      "التعرف على التطورات التكنولوجية المؤثرة في القطاع المصرفي والمالي"
+    ],
+    "key_points_en": [
+      "Explaining the concept of digital currencies and electronic money",
+      "Discussing mobile banking information security standards and methods",
+      "Understanding technological developments affecting the banking and financial sector"
+    ],
+    "target_audience": "المهتمون بالاقتصاد الرقمي والعملات المشفّرة، والباحثون في المجال المصرفي والمالي، وطلاب أمن المعلومات.",
+    "target_audience_en": "Those interested in digital economy and cryptocurrencies, researchers in banking and finance, and information security students.",
+    "pages": "194",
+    "file_size": "17.99 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/العملات_الرقمية.pdf",
+    "cover_image": "covers/98.png"
   }
 ]
