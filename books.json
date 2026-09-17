@@ -4921,5 +4921,53 @@
     "file_type": "PDF",
     "file_path": "pdf/العملات_الرقمية.pdf",
     "cover_image": "covers/98.png"
+  },
+  {
+    "id": 99,
+    "title": "فاعلية الأداء المؤسسي في المدارس الثانوية",
+    "title_en": "Effectiveness of Institutional Performance in Secondary Schools",
+    "author": "مفضي عايد المساعيد",
+    "author_en": "Mofdi Aayed Al-Masaeed",
+    "category": "الإدارة التربوية",
+    "category_en": "Educational Administration",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Book",
+    "description": "دراسة تربوية تناقش وتقيس فاعلية الأداء المؤسسي في المدارس الثانوية، وتسلط الضوء على واقع الإدارة والإشراف التربوي وسبل تطوير الأداء المدرسي وتحسين جودة التعليم الثانوي.",
+    "description_en": "An educational study discussing and evaluating the effectiveness of institutional performance in secondary schools, highlighting educational administration, supervision, and ways to improve school performance and secondary education quality.",
+    "publisher": "دار جليس الزمان للنشر والتوزيع",
+    "publisher_en": "Dar Jalees Al-Zaman for Publishing and Distribution",
+    "year": "2010",
+    "isbn": "978-9957-81-021-4",
+    "keywords": [
+      "الأداء المؤسسي",
+      "المدارس الثانوية",
+      "الإدارة التربوية",
+      "الإشراف التربوي",
+      "التطوير المدرسي"
+    ],
+    "keywords_en": [
+      "Institutional Performance",
+      "Secondary Schools",
+      "Educational Administration",
+      "Educational Supervision",
+      "School Improvement"
+    ],
+    "key_points": [
+      "دراسة وتقييم واقع الأداء المؤسسي في المدارس الثانوية الحكومية",
+      "إبراز أهمية الإدارة والإشراف التربوي في رفع كفاءة المدرسة",
+      "تقديم رؤى وتوصيات عملية لتطوير الأداء المؤسسي والإداري في الميدان التربوي"
+    ],
+    "key_points_en": [
+      "Evaluating and assessing the reality of institutional performance in public secondary schools",
+      "Highlighting the importance of educational administration and supervision in enhancing school efficiency",
+      "Providing practical insights and recommendations for developing institutional and administrative performance in education"
+    ],
+    "target_audience": "الباحثون والأكاديميون، ومدراء المدارس الثانوية، والمشرفون التربويون، وطلاب الدراسات العليا في العلوم التربوية.",
+    "target_audience_en": "Researchers, academics, secondary school principals, educational supervisors, and postgraduate students in educational sciences.",
+    "pages": "214",
+    "file_size": "16.79 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/فعالية_الاداء_المؤسسي_للمدارس_الثانوية.pdf",
+    "cover_image": "covers/99.png"
   }
 ]
