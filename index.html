@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" data-bs-theme="light">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="description" content="IAR Archive - المستودع الرقمي العراقي للمراجع الإدارية - ملخصات 3 دقائق، توثيق APA، تحميل مباشر">
   <meta property="og:title" content="IAR Archive | Iraqi Administrative Reference">
   <meta property="og:description" content="منصة معرفية لأرشفة وربط المراجع الإدارية مع ملخصات وتوثيق أكاديمي">
@@ -41,7 +41,7 @@
 </head>
 <body>
 
-  <!-- طبقات الأجواء: سديم + شبكة + حبيبات + هالة المؤشر + شريط التمرير -->
+  <!-- طبقات الأجواء -->
   <div class="aurora-stage" aria-hidden="true">
     <span class="aurora-blob aurora-a"></span>
     <span class="aurora-blob aurora-b"></span>
@@ -63,7 +63,7 @@
   <!-- الشريط العلوي -->
   <header class="navbar-iar">
     <div class="container">
-      <div class="d-flex align-items-center justify-content-between">
+      <div class="d-flex align-items-center justify-content-between navbar-row">
         <a class="d-flex align-items-center gap-3 text-decoration-none brand-lockup" href="#" aria-label="IAR Archive — العودة إلى المكتبة">
           <span class="brand-logo-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="IAR Archive logo">
@@ -85,12 +85,12 @@
               <rect x="85.3" y="120" width="42.7" height="8" fill="#000000"/>
             </svg>
           </span>
-          <span>
+          <span class="brand-text">
             <span class="brand-title d-block">IAR Archive</span>
             <span class="brand-subtitle d-block" id="txt-subtitle">الأرشيف الإداري العراقي</span>
           </span>
         </a>
-        <div class="d-flex align-items-center gap-2">
+        <div class="d-flex align-items-center gap-2 navbar-actions">
           <button type="button" id="favoritesOnlyBtn" class="btn btn-ghost btn-sm fw-bold px-3" aria-pressed="false">
             <i class="bi bi-heart me-1" aria-hidden="true"></i> <span id="txt-favorites-only">مفضلتي</span>
           </button>
@@ -130,7 +130,7 @@
             <a class="btn btn-iar-primary hero-cta mt-3" href="#controlsRow" id="txt-explore">استكشف المكتبة</a>
           </div>
           <div class="col-lg-5 hero-gate-stats">
-            <div class="d-flex justify-content-lg-end gap-2 gap-sm-3 text-center hero-stats">
+            <div class="hero-stats text-center">
               <div class="stat-box">
                 <div class="stat-num grad-text" id="booksCounter">—</div>
                 <div class="stat-cap" id="txt-stat-books">مرجع في الأرشيف</div>
@@ -144,7 +144,7 @@
                 <div class="stat-cap" id="txt-stat-visits">زيارات يومية تقريبية</div>
               </div>
               <div class="stat-box">
-                <div class="stat-num grad-text">2026</div>
+                <div class="stat-num grad-text" id="archiveYear">2026</div>
                 <div class="stat-cap" id="txt-stat-year">سنة الأرشفة</div>
               </div>
             </div>
@@ -213,13 +213,13 @@
 
     <!-- التصنيفات -->
     <div class="chips-container">
-      <button type="button" class="chips-scroll-btn chips-scroll-left" id="chipsScrollLeft" aria-label="السابق">
+      <button type="button" class="chips-scroll-btn chips-scroll-left" id="chipsScrollLeft" aria-label="السابق" tabindex="-1">
         <i class="bi bi-chevron-right" aria-hidden="true"></i>
       </button>
       <div class="chips-wrapper mb-4" id="categoryChips" tabindex="0" role="region" aria-label="التصنيفات">
         <button type="button" class="chip-item active" data-category="all" aria-pressed="true">كل المراجع</button>
       </div>
-      <button type="button" class="chips-scroll-btn chips-scroll-right" id="chipsScrollRight" aria-label="التالي">
+      <button type="button" class="chips-scroll-btn chips-scroll-right" id="chipsScrollRight" aria-label="التالي" tabindex="-1">
         <i class="bi bi-chevron-left" aria-hidden="true"></i>
       </button>
     </div>
@@ -267,7 +267,7 @@
           </div>
           <div class="single-actions mt-4">
             <button class="btn btn-iar-primary" id="singleReadBtn"><i class="bi bi-book me-1" aria-hidden="true"></i> <span id="singleReadLabel">قراءة</span></button>
-            <button class="btn btn-iar-primary" id="singleDownloadBtn"><i class="bi bi-arrow-down me-1" aria-hidden="true"></i> <span id="singleDownloadLabel">تحميل</span> <span id="singleDownloadCount" class="badge bg-light text-dark ms-1"></span></button>
+            <button class="btn btn-iar-primary" id="singleDownloadBtn"><i class="bi bi-arrow-down me-1" aria-hidden="true"></i> <span id="singleDownloadLabel">تحميل</span> <span id="singleDownloadCount" class="badge bg-light text-dark ms-1">0</span></button>
             <button class="btn btn-iar-action" id="singleCiteBtn"><i class="bi bi-quote me-1" aria-hidden="true"></i> <span id="singleCiteLabel">توثيق APA</span></button>
             <button class="btn btn-iar-action" id="singleShareBtn"><i class="bi bi-share me-1" aria-hidden="true"></i> <span id="singleShareLabel">مشاركة</span></button>
           </div>
@@ -279,7 +279,7 @@
 
   <!-- نافذة الملخص -->
   <div class="modal fade" id="summaryModal" tabindex="-1" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="summaryModalTitle">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content modal-glass">
         <div class="modal-header">
           <h5 class="modal-title fs-6 fw-bold" id="summaryModalTitle">ملخص المرجع · 3 دقائق</h5>
@@ -320,7 +320,7 @@
 
   <!-- نافذة القارئ -->
   <div class="modal fade" id="pdfReaderModal" tabindex="-1" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modalBookTitle">
-    <div class="modal-dialog modal-xl modal-dialog-centered" style="height: 90vh;">
+    <div class="modal-dialog modal-xl modal-dialog-centered pdf-modal-dialog">
       <div class="modal-content h-100 modal-glass">
         <div class="modal-header">
           <h5 class="modal-title fs-6 fw-bold" id="modalBookTitle"></h5>
@@ -337,7 +337,7 @@
   </div>
 
   <!-- نافذة الغلاف -->
-  <div class="modal fade" id="coverImageModal" tabindex="-1" role="dialog" aria-modal="true">
+  <div class="modal fade" id="coverImageModal" tabindex="-1" role="dialog" aria-modal="true" aria-label="عرض الغلاف">
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content bg-transparent border-0">
         <div class="modal-body p-0 d-flex justify-content-center position-relative">
@@ -366,7 +366,7 @@
     </div>
   </footer>
 
-  <!-- Firebase SDKs (static) -->
+  <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
