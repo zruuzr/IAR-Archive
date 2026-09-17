@@ -59,8 +59,10 @@
         }
         return url.href;
       }
-      // Relative assets resolve against the current deployment (e.g. Firebase Hosting).
-      const base = location.href;
+      // Covers resolve from the current deployment; PDFs intentionally remain on GitHub Raw.
+      const base = pdf
+        ? 'https://raw.githubusercontent.com/zruuzr/IAR-Archive/main/'
+        : location.href;
       const url = new URL(raw.replace(/^\/+/, ''), base);
       return ['http:', 'https:', 'file:'].includes(url.protocol) ? url.href : '';
     } catch { return ''; }
@@ -720,6 +722,9 @@
     document.querySelector('meta[name="description"]')?.setAttribute('content', description.slice(0, 160));
     document.querySelector('meta[property="og:title"]')?.setAttribute('content', title);
     document.querySelector('meta[property="og:description"]')?.setAttribute('content', description.slice(0, 160));
+    const canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) canonical.href = book ? bookUrl(book.id) : `${location.origin}${location.pathname}`;
+    document.querySelector('meta[property="og:url"]')?.setAttribute('content', location.href);
   }
 
   function points(book) {
