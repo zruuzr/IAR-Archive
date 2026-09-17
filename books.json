@@ -4705,5 +4705,65 @@
     "file_type": "PDF",
     "file_path": "pdf/مبادئ_المحاسبة_المالية_الجزء_الثاني.pdf",
     "cover_image": "covers/94.png"
+  },
+  {
+    "id": 95,
+    "title": "موسوعة معايير المحاسبة الدولية والمصرية - المجلد الثاني",
+    "title_en": "Encyclopedia of International and Egyptian Accounting Standards - Volume 2",
+    "author": "",
+    "author_en": "",
+    "category": "محاسبة ومالية",
+    "category_en": "Accounting & Finance",
+    "type": "كتاب مرجعي / تعليمي",
+    "type_en": "Reference / Educational Book",
+    "description": "موسوعة شاملة تشرح معايير المحاسبة الدولية (IAS/IFRS) ومعايير المحاسبة المصرية المقابلة لها في مجلدها الثاني، مع تقديم حالات عملية وأمثلة تدريبية محلولة. تتناول الموسوعة موضوعات محاسبية متقدمة مثل مزايا الموظفين، منافع التقاعد، المنح الحكومية، آثار تغيرات أسعار الصرف، التضخم الجامح، تكاليف الاقتراض، إفصاحات الأطراف ذات العلاقة، القوائم المالية المستقلة والمجمعة، الترتيبات المشتركة، واندماج منشآت الأعمال.",
+    "description_en": "A comprehensive encyclopedia explaining International Accounting Standards (IAS/IFRS) and their Egyptian accounting standard counterparts in its second volume. It includes practical cases and solved exercises covering advanced accounting topics such as employee benefits, retirement benefit plans, government grants, foreign exchange rates, hyperinflationary economies, borrowing costs, related party disclosures, separate and consolidated financial statements, joint arrangements, and business combinations.",
+    "publisher": "",
+    "publisher_en": "",
+    "year": "2015",
+    "isbn": "",
+    "keywords": [
+      "معايير المحاسبة الدولية",
+      "معايير المحاسبة المصرية",
+      "IAS",
+      "IFRS",
+      "القوائم المالية المجمعة",
+      "تكاليف الاقتراض",
+      "اندماج منشآت الأعمال",
+      "المحاسبة المالية"
+    ],
+    "keywords_en": [
+      "International Accounting Standards",
+      "Egyptian Accounting Standards",
+      "IAS",
+      "IFRS",
+      "Consolidated Financial Statements",
+      "Borrowing Costs",
+      "Business Combinations",
+      "Financial Accounting"
+    ],
+    "key_points": [
+      "شرح وتحليل معايير المحاسبة الدولية والمصرية والمقارنة بينهما.",
+      "تغطية معايير مزايا العاملين ومنافع التقاعد والمنح والحوافز الحكومية.",
+      "توضيح المعالجة المحاسبية لتغيرات أسعار العملات الأجنبية والتضخم الجامح.",
+      "شرح قواعد رسملة تكاليف الاقتراض وإفصاحات المعاملات مع الأطراف ذات العلاقة.",
+      "تناول القوائم المالية المجمعة والمستقلة وإجراءات تجميع الأعمال والترتيبات المشتركة.",
+      "تقديم تطبيقات وحالات عملية محلولة تدعم الفهم التطبيقي للمعايير."
+    ],
+    "key_points_en": [
+      "Analysis and comparison between International Accounting Standards (IAS/IFRS) and Egyptian Accounting Standards.",
+      "Coverage of standards regarding employee benefits, retirement plans, and government grants.",
+      "Explanation of accounting treatments for foreign exchange rate fluctuations and hyperinflation.",
+      "Guidance on capitalization of borrowing costs and related party transaction disclosures.",
+      "Detailed examination of consolidated and separate financial statements, business combinations, and joint arrangements.",
+      "Inclusion of practical examples and solved training cases for each accounting standard."
+    ],
+    "target_audience": "المحاسبون، المراجعون، المحللون الماليون، طلاب التجارة والدراسات العليا، والمهنيون المهتمون بتطبيق معايير المحاسبة الدولية والمصرية.",
+    "target_audience_en": "Accountants, auditors, financial analysts, commerce and postgraduate students, and accounting professionals applying IFRS and Egyptian Accounting Standards.",
+    "pages": "401",
+    "file_size": "18.72 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/موسوعة_معايير_المحاسبة_الجزء2.pdf",
+    "cover_image": "covers/95.png"
   }
 ]
