@@ -4589,5 +4589,63 @@
     "file_type": "PDF",
     "file_path": "pdf/السياسات_النقدية_والسياسات_المالية.pdf",
     "cover_image": "covers/92.png"
+  },
+  {
+    "id": 93,
+    "title": "دراسات في الأنظمة المحاسبية المتخصصة",
+    "title_en": "Studies in Specialized Accounting Systems",
+    "author": "الأميرة إبراهيم عثمان، محمد البابلي",
+    "author_en": "El-Amira Ibrahim Osman, Mohamed El-Bably",
+    "category": "محاسبة وتجارة",
+    "category_en": "Accounting and Commerce",
+    "type": "كتاب أكاديمي تعليمي",
+    "type_en": "Academic Textbook",
+    "description": "كتاب أكاديمي يغطي المعالجات والأنظمة المحاسبية المتخصصة، حيث يتناول في الباب الأول النظام المحاسبي في الشركات متعددة الفروع المحلية بالطريقتين المركزية واللامركزية، وفي الباب الثاني يتناول النظام المحاسبي في البنوك التجارية وإجراءات التسجيل لعمليات الأقسام المصرفية المختلفة والحسابات الختامية.",
+    "description_en": "An academic textbook covering specialized accounting systems. The first section addresses accounting systems in multi-branch local companies using centralized and decentralized methods, while the second section covers accounting systems in commercial banks, transaction recording across banking departments, and final financial statements.",
+    "publisher": "كلية التجارة - جامعة الإسكندرية",
+    "publisher_en": "Faculty of Commerce - Alexandria University",
+    "year": "2019",
+    "isbn": "",
+    "keywords": [
+      "الأنظمة المحاسبية المتخصصة",
+      "محاسبة الفروع",
+      "البنوك التجارية",
+      "الطريقة المركزية",
+      "الطريقة اللامركزية",
+      "الاعتمادات المستندية",
+      "خطابات الضمان",
+      "جامعة الإسكندرية"
+    ],
+    "keywords_en": [
+      "Specialized Accounting Systems",
+      "Branch Accounting",
+      "Commercial Banks",
+      "Centralized Method",
+      "Decentralized Method",
+      "Letters of Credit",
+      "Letters of Guarantee",
+      "Alexandria University"
+    ],
+    "key_points": [
+      "شرح المعالجة المحاسبية لعمليات الفروع المحلية وفق الطريقة المركزية واللامركزية.",
+      "بيان كيفية إعداد القوائم المالية المجمعة للشركات ذات الفروع متعددة النشاط.",
+      "عرض الإطار العام للنظام المحاسبي في البنوك التجارية وخصائصه الهيكلية والرقابية.",
+      "توضيح المعالجات المحاسبية للأقسام المصرفية مثل الحسابات الجارية، الأوراق التجارية، والاعتمادات المستندية، وخطابات الضمان.",
+      "شرح كيفية إعداد حساب الأرباح والخسائر والميزانية العمومية للبنك التجاري والتسويات الجردية ذات الصلة."
+    ],
+    "key_points_en": [
+      "Explanation of accounting treatments for local branch operations under centralized and decentralized methods.",
+      "Demonstration of consolidated financial statement preparation for multi-branch companies.",
+      "Overview of the general accounting framework in commercial banks and its control characteristics.",
+      "Detailed accounting procedures for various banking departments including current accounts, commercial paper, letters of credit, and letters of guarantee.",
+      "Guide to preparing profit and loss accounts, balance sheets, and related inventory adjustments for commercial banks."
+    ],
+    "target_audience": "طلاب خريجي كلية التجارة، الباحثون والمحاسبون الماليون والمصرفيون",
+    "target_audience_en": "Commerce college students, academic researchers, financial accountants, and banking professionals",
+    "pages": "318",
+    "file_size": "20.15 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/الانظمة_المحاسبية_المتخصصة.pdf",
+    "cover_image": "covers/93.png"
   }
 ]
