@@ -28,7 +28,13 @@
   const words = v => Array.isArray(v) ? v.map(clean).filter(Boolean) : [];
   const field = (book, name) => state.lang === 'en' && book[name + '_en'] ? book[name + '_en'] : book[name];
   const t = (ar, en) => state.lang === 'ar' ? ar : en;
-  const number = v => new Intl.NumberFormat(state.lang).format(v);
+
+  /* Consistent number formatting:
+     - Uses Latin numerals on both Arabic and English to keep counters
+       visually stable and to match the archive year "2026".
+     - Group separator follows the reader's locale conventions. */
+  const number = v => new Intl.NumberFormat(state.lang === 'ar' ? 'ar-u-nu-latn' : 'en-US').format(v);
+
   const i = name => `<i class="bi bi-${name}" aria-hidden="true"></i>`;
   const labels = () => ({
     read: t('قراءة','Read'), download: t('تحميل','Download'),
@@ -228,10 +234,7 @@
     }
   }
 
-  /* ============================================================
-     PDF Reader — uses Mozilla's pdf.js viewer for maximum
-     stability across Firefox, Chrome, Edge, Safari.
-     ============================================================ */
+  /* PDF reader — Mozilla pdf.js viewer for maximum stability */
   function readBook(book) {
     if (!book.file_path) return toast(t('ملف المرجع غير متاح.','Reference file unavailable.'), true);
     text('modalBookTitle', field(book,'title'));
@@ -739,6 +742,8 @@
     if (state.summary !== null && $('summaryModal')?.classList.contains('show')) summary(byId(state.summary));
     const backIcon = $('btnBackToList')?.querySelector('i');
     if (backIcon) backIcon.className = 'bi bi-arrow-' + (state.lang === 'ar' ? 'right' : 'left');
+    /* Archive year stays as Latin 2026 for consistency with counters */
+    text('archiveYear', '2026');
   }
 
   function theme() {
@@ -751,26 +756,43 @@
 
   /* ---------- Ambient effects: cursor glow + scroll progress ---------- */
   function initAmbient() {
-    const glow = $('cursorGlow');
-    const progress = $('scrollProgressFill');
-    if (glow) {
-      window.addEventListener('pointermove', event => {
-        glow.style.left = event.clientX + 'px';
-        glow.style.top = event.clientY + 'px';
-        glow.classList.add('is-active');
-      }, { passive: true });
-      window.addEventListener('pointerleave', () => glow.classList.remove('is-active'));
+    const canHover = matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (canHover && !reduceMotion) {
+      const glow = $('cursorGlow');
+      if (glow) {
+        let rafId = 0;
+        let pendingX = 0, pendingY = 0;
+        const flush = () => {
+          glow.style.left = pendingX + 'px';
+          glow.style.top = pendingY + 'px';
+          rafId = 0;
+        };
+        window.addEventListener('pointermove', event => {
+          pendingX = event.clientX;
+          pendingY = event.clientY;
+          if (!rafId) rafId = requestAnimationFrame(flush);
+          glow.classList.add('is-active');
+        }, { passive: true });
+        window.addEventListener('pointerleave', () => glow.classList.remove('is-active'));
+        document.addEventListener('mouseleave', () => glow.classList.remove('is-active'));
+      }
     }
-    if (progress) {
-      const update = () => {
-        const h = document.documentElement;
-        const max = h.scrollHeight - h.clientHeight;
-        const p = max > 0 ? h.scrollTop / max : 0;
-        progress.style.transform = `scaleX(${p})`;
-      };
-      window.addEventListener('scroll', update, { passive: true });
-      window.addEventListener('resize', update, { passive: true });
-      update();
+
+    if (!reduceMotion) {
+      const progress = $('scrollProgressFill');
+      if (progress) {
+        const update = () => {
+          const h = document.documentElement;
+          const max = h.scrollHeight - h.clientHeight;
+          const p = max > 0 ? h.scrollTop / max : 0;
+          progress.style.transform = `scaleX(${p})`;
+        };
+        window.addEventListener('scroll', update, { passive: true });
+        window.addEventListener('resize', update, { passive: true });
+        update();
+      }
     }
   }
 
