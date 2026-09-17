@@ -228,12 +228,18 @@
     }
   }
 
+  /* ============================================================
+     PDF Reader — uses Mozilla's pdf.js viewer for maximum
+     stability across Firefox, Chrome, Edge, Safari.
+     ============================================================ */
   function readBook(book) {
     if (!book.file_path) return toast(t('ملف المرجع غير متاح.','Reference file unavailable.'), true);
     text('modalBookTitle', field(book,'title'));
     const frame = $('pdfFrame');
-    if (frame) frame.src = book.file_path;
-    attr('pdfExternalLink', 'href', book.file_path);
+    if (!frame) return;
+    const absoluteUrl = new URL(book.file_path, location.href).href;
+    frame.src = `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(absoluteUrl)}`;
+    attr('pdfExternalLink', 'href', absoluteUrl);
     text('pdfExternalLink', t('فتح الملف في نافذة مستقلة إذا لم يظهر القارئ','Open file in a new tab if the reader is unavailable'));
     modal('pdfReaderModal');
   }
@@ -403,23 +409,26 @@
   }
 
   function featured(book) {
-    return `<article class="featured-spotlight-card"><div class="featured-inner">
-      <div class="featured-layout">
-        ${cover(book, true)}
-        <div class="featured-copy">
-          <span class="featured-badge-top">${i('stars')}${esc(field(book,'badge_text') || t('في دائرة الضوء','In the spotlight'))}</span>
-          <div>
-            <span class="badge-tag">${esc(categoryLabel(book))}</span>
-            <span class="featured-index">01 / IAR SELECTION</span>
+    return `<article class="featured-spotlight-card">
+      <div class="featured-inner">
+        <div class="featured-sweep" aria-hidden="true"></div>
+        <div class="featured-layout">
+          ${cover(book, true)}
+          <div class="featured-copy">
+            <span class="featured-badge-top">${i('stars')}${esc(field(book,'badge_text') || t('في دائرة الضوء','In the spotlight'))}</span>
+            <div>
+              <span class="badge-tag">${esc(categoryLabel(book))}</span>
+              <span class="featured-index">01 / IAR SELECTION</span>
+            </div>
+            <h2><a href="${esc(bookUrl(book.id))}" data-action="details" data-id="${book.id}">${esc(field(book,'title'))}</a></h2>
+            <p class="book-author">${esc(field(book,'author'))}</p>
+            <p class="book-desc">${esc(field(book,'description'))}</p>
+            ${stars(book)}
+            ${actions(book)}
           </div>
-          <h2><a href="${esc(bookUrl(book.id))}" data-action="details" data-id="${book.id}">${esc(field(book,'title'))}</a></h2>
-          <p class="book-author">${esc(field(book,'author'))}</p>
-          <p class="book-desc">${esc(field(book,'description'))}</p>
-          ${stars(book)}
-          ${actions(book)}
         </div>
       </div>
-    </div></article>`;
+    </article>`;
   }
 
   function filteredBooks() {
@@ -740,6 +749,31 @@
     document.querySelector('meta[name="theme-color"]')?.setAttribute('content', state.theme === 'dark' ? '#070b14' : '#f6f8fc');
   }
 
+  /* ---------- Ambient effects: cursor glow + scroll progress ---------- */
+  function initAmbient() {
+    const glow = $('cursorGlow');
+    const progress = $('scrollProgressFill');
+    if (glow) {
+      window.addEventListener('pointermove', event => {
+        glow.style.left = event.clientX + 'px';
+        glow.style.top = event.clientY + 'px';
+        glow.classList.add('is-active');
+      }, { passive: true });
+      window.addEventListener('pointerleave', () => glow.classList.remove('is-active'));
+    }
+    if (progress) {
+      const update = () => {
+        const h = document.documentElement;
+        const max = h.scrollHeight - h.clientHeight;
+        const p = max > 0 ? h.scrollTop / max : 0;
+        progress.style.transform = `scaleX(${p})`;
+      };
+      window.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update, { passive: true });
+      update();
+    }
+  }
+
   // --- Event wiring ---------------------------------------------------------
   $('themeToggleBtn')?.addEventListener('click', () => {
     state.theme = state.theme === 'dark' ? 'light' : 'dark';
@@ -925,6 +959,7 @@
     }
   }
 
+  initAmbient();
   theme();
   language();
   fetchBooks();
