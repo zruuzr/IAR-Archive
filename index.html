@@ -64,7 +64,7 @@
   <header class="navbar-iar">
     <div class="container">
       <div class="d-flex align-items-center justify-content-between navbar-row">
-        <a class="d-flex align-items-center gap-3 text-decoration-none brand-lockup" href="#" aria-label="IAR Archive — العودة إلى المكتبة">
+        <a class="d-flex align-items-center gap-3 text-decoration-none brand-lockup" id="brandLockup" href="#" aria-label="IAR Archive — العودة إلى المكتبة">
           <span class="brand-logo-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="IAR Archive logo">
               <defs>
@@ -94,7 +94,7 @@
           <button type="button" id="favoritesOnlyBtn" class="btn btn-ghost btn-sm fw-bold px-3" aria-pressed="false">
             <i class="bi bi-heart me-1" aria-hidden="true"></i> <span id="txt-favorites-only">مفضلتي</span>
           </button>
-          <button type="button" id="langToggleBtn" class="btn btn-ghost btn-sm fw-bold px-3" aria-label="التبديل إلى العربية">
+          <button type="button" id="langToggleBtn" class="btn btn-ghost btn-sm fw-bold px-3" aria-label="التبديل إلى الإنجليزية">
             <i class="bi bi-translate me-1" aria-hidden="true"></i> <span id="langLabel">EN</span>
           </button>
           <button type="button" id="themeToggleBtn" class="btn btn-ghost btn-sm rounded-circle theme-orb" aria-label="تبديل المظهر" title="تبديل المظهر" aria-pressed="false">
@@ -122,7 +122,7 @@
             <p class="hero-desc mb-0" id="txt-about-desc">
               مساحتك لاستكشاف علوم الإدارة. اقرأ، اكتشف الأفكار، وابنِ حزمة مراجعك القادمة — كل ذلك في مكان واحد.
             </p>
-            <ul class="hero-tags mt-3 list-unstyled" aria-label="ميزات الأرشيف">
+            <ul class="hero-tags mt-3 list-unstyled" id="heroFeatureList" aria-label="ميزات الأرشيف">
               <li class="hero-tag"><i class="bi bi-stopwatch" aria-hidden="true"></i> <span id="txt-tag-summary">ملخصات 3 دقائق</span></li>
               <li class="hero-tag"><i class="bi bi-quote" aria-hidden="true"></i> <span id="txt-tag-cite">توثيق APA مباشر</span></li>
               <li class="hero-tag"><i class="bi bi-collection" aria-hidden="true"></i> <span id="txt-tag-bundle">حزم بحثية مخصصة</span></li>
@@ -203,7 +203,7 @@
         </div>
       </div>
       <div class="col-md-2 col-4 text-end">
-        <div class="btn-group w-100 view-switch" role="group" aria-label="طريقة العرض">
+        <div class="btn-group w-100 view-switch" id="viewSwitch" role="group" aria-label="طريقة العرض">
           <button type="button" class="btn active" id="btnViewGrid" title="عرض شبكي" aria-label="عرض شبكي" aria-pressed="true"><i class="bi bi-grid-fill" aria-hidden="true"></i></button>
           <button type="button" class="btn" id="btnViewList" title="عرض قائمة" aria-label="عرض قائمة" aria-pressed="false"><i class="bi bi-list-task" aria-hidden="true"></i></button>
         </div>
@@ -225,7 +225,7 @@
     </div>
 
     <!-- رفوف الكتب -->
-    <div id="booksDisplayContainer" aria-live="polite"></div>
+    <div id="booksDisplayContainer"></div>
 
     <!-- ترقيم الصفحات -->
     <nav aria-label="صفحات المراجع" class="mt-4">
@@ -326,7 +326,11 @@
           <h5 class="modal-title fs-6 fw-bold" id="modalBookTitle"></h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق" id="pdfDismissBtn"></button>
         </div>
-        <div class="modal-body p-0 d-flex flex-column bg-dark">
+        <div class="modal-body p-0 d-flex flex-column bg-dark position-relative">
+          <div id="pdfReaderState" class="pdf-reader-state" role="status" aria-live="polite">
+            <div class="spinner-border spinner-border-sm" aria-hidden="true"></div>
+            <span id="pdfReaderStateText">جارٍ فتح المرجع…</span>
+          </div>
           <iframe id="pdfFrame" src="about:blank" title="قارئ الملفات" class="flex-grow-1 w-100 border-0"></iframe>
           <div class="pdf-reader-footer p-2 text-center small">
             <a id="pdfExternalLink" href="#" target="_blank" rel="noopener noreferrer"></a>
