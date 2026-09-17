@@ -4969,5 +4969,53 @@
     "file_type": "PDF",
     "file_path": "pdf/فعالية_الاداء_المؤسسي_للمدارس_الثانوية.pdf",
     "cover_image": "covers/99.png"
+  },
+  {
+    "id": 100,
+    "title": "الرقابة الإدارية: المفهوم والممارسة",
+    "title_en": "Administrative Control: Concept and Practice",
+    "author": "د. حسين أحمد الطراونة، د. توفيق صالح عبد الهادي",
+    "author_en": "Dr. Hussein Ahmad Al-Tarawneh, Dr. Tawfiq Saleh Abdul Hadi",
+    "category": "إدارة الأعمال",
+    "category_en": "Business Administration",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Book",
+    "description": "كتاب متخصص في الإدارة يستعرض مفهوم الرقابة الإدارية وممارساتها العلمية والعملية، مع تسليط الضوء على مبادئها وأساليبها ودورها في تحسين أداء المؤسسات ونظم المعلومات الإدارية.",
+    "description_en": "A specialized management book reviewing the concept and practical applications of administrative control, highlighting its principles, methods, and role in improving organizational performance and management information systems.",
+    "publisher": "دار الحامد للنشر والتوزيع",
+    "publisher_en": "Dar Al-Hamed for Publishing and Distribution",
+    "year": "2011",
+    "isbn": "978-9957-32-582-4",
+    "keywords": [
+      "الرقابة الإدارية",
+      "إدارة الأعمال",
+      "المفاهيم الإدارية",
+      "الممارسة الإدارية",
+      "نظم المعلومات الإدارية"
+    ],
+    "keywords_en": [
+      "Administrative Control",
+      "Business Administration",
+      "Management Concepts",
+      "Administrative Practice",
+      "Management Information Systems"
+    ],
+    "key_points": [
+      "شرح المفاهيم الأساسية للرقابة الإدارية وأبعادها النظرية والعملية",
+      "تبيان أهمية الرقابة الإدارية في ضبط وتوجيه الأداء المؤسسي",
+      "عرض وتطبيق الممارسات والأساليب الحديثة للرقابة في بيئات العمل المختلفة"
+    ],
+    "key_points_en": [
+      "Explaining the fundamental concepts and theoretical/practical dimensions of administrative control",
+      "Demonstrating the importance of administrative control in guiding and regulating organizational performance",
+      "Presenting modern practices and techniques of control in various work environments"
+    ],
+    "target_audience": "طلاب وباحثو إدارة الأعمال، والمدراء، والقيادات الإدارية في المؤسسات الحكومية والخاصة.",
+    "target_audience_en": "Students and researchers in business administration, managers, and administrative leaders in public and private organizations.",
+    "pages": "324",
+    "file_size": "22.31 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/الرقابة_الادارية.pdf",
+    "cover_image": "covers/100.png"
   }
 ]
