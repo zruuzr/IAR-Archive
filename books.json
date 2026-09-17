@@ -4647,5 +4647,63 @@
     "file_type": "PDF",
     "file_path": "pdf/الانظمة_المحاسبية_المتخصصة.pdf",
     "cover_image": "covers/93.png"
+  },
+  {
+    "id": 94,
+    "title": "مبادئ المحاسبة المالية - الجزء الثاني",
+    "title_en": "Principles of Financial Accounting - Part Two",
+    "author": "رائد محمد عبدربه",
+    "author_en": "Raed Mohammad Abdrabbeh",
+    "category": "المحاسبة والإدارة",
+    "category_en": "Accounting and Management",
+    "type": "كتاب تعليمي أكاديمي",
+    "type_en": "Academic Textbook",
+    "description": "كتاب يتناول المبادئ الأساسية للمحاسبة المالية في جزئه الثاني، ويتطرق إلى معالجة الأصول المالية والعمليات المحاسبية المتعلقة بها، ومحاسبة الشركات المساهمة وتكوينها وتوزيع أرباحها، بالإضافة إلى أدوات التحليل المالي والنسب المالية، ومحاسبة التكاليف، وطرق إعداد قوائم التدفقات النقدية المباشرة وغير المباشرة، ومقدمة في المحاسبة الحكومية.",
+    "description_en": "A textbook discussing the fundamental principles of financial accounting in its second part. It covers accounting treatments for financial assets, accounting for joint-stock companies, financial analysis tools and ratios, cost accounting systems, preparation of cash flow statements using direct and indirect methods, and an introduction to governmental accounting.",
+    "publisher": "دار الجنادرية للنشر والتوزيع",
+    "publisher_en": "Dar Al-Janadriya for Publishing and Distribution",
+    "year": "2016",
+    "isbn": "978-9957-610-09-8",
+    "keywords": [
+      "المحاسبة المالية",
+      "الشركات المساهمة",
+      "التحليل المالي",
+      "محاسبة التكاليف",
+      "التدفقات النقدية",
+      "المحاسبة الحكومية",
+      "الأصول المالية"
+    ],
+    "keywords_en": [
+      "Financial Accounting",
+      "Joint Stock Companies",
+      "Financial Analysis",
+      "Cost Accounting",
+      "Cash Flows",
+      "Governmental Accounting",
+      "Financial Assets"
+    ],
+    "key_points": [
+      "تعريف ومعالجة الأصول الملموسة والعمليات المحاسبية الخاصة بها.",
+      "دراسة كيفية تكوين الشركات المساهمة وإصدار الأسهم وتوزيع الأرباح.",
+      "شرح مفهوم التحليل المالي ووظائف المحلل المالي وأهم النسب المالية.",
+      "تحديد سلوك التكاليف ونظم تحديدها في المنشآت والمصانع.",
+      "آلية إعداد قائمة التدفقات النقدية بالطريقتين المباشرة وغير المباشرة.",
+      "التعرف على الأركان الرئيسية والأسس المتبعة في المحاسبة الحكومية."
+    ],
+    "key_points_en": [
+      "Understanding and accounting treatment of tangible and financial assets.",
+      "Studying the formation of joint-stock companies, stock issuance, and dividend distribution.",
+      "Explaining financial analysis concepts, financial analyst functions, and key ratios.",
+      "Determining cost behavior and costing systems in business entities.",
+      "Methods of preparing cash flow statements using direct and indirect methods.",
+      "Introduction to the main pillars and accounting systems in the public sector."
+    ],
+    "target_audience": "طلاب علوم المحاسبة والعلوم الإدارية والمالية في الجامعات والمعاهد، والمحاسبون المبتدئون والمهتمون بالتطوير المالي.",
+    "target_audience_en": "Students of accounting, finance, and business administration, entry-level accountants, and financial practitioners.",
+    "pages": "184",
+    "file_size": "12.30 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/مبادئ_المحاسبة_المالية_الجزء_الثاني.pdf",
+    "cover_image": "covers/94.png"
   }
 ]
