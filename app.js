@@ -16,7 +16,9 @@
     view: store.get('iar_view_mode', 'grid') === 'list' ? 'list' : 'grid',
     category: 'all', page: 1, query: '', favoritesOnly: false,
     favorites: new Set(savedArray('iar_favorites')), bundle: new Set(), bundleMode: false,
-    single: null, summary: null, loaded: false, loading: true, error: false
+    single: null, summary: null, loaded: false, loading: true, error: false,
+    metricsLoadedIds: new Set(), metricsLoadingIds: new Set(), metricsAllLoaded: false, metricsAllLoading: false,
+    visitsLoaded: false, visitsLoading: false
   };
   const motion = () => matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
   const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -57,7 +59,8 @@
         }
         return url.href;
       }
-      const base = pdf ? 'https://raw.githubusercontent.com/zruuzr/IAR-Archive/main/' : location.href;
+      // Relative assets resolve against the current deployment (e.g. Firebase Hosting).
+      const base = location.href;
       const url = new URL(raw.replace(/^\/+/, ''), base);
       return ['http:', 'https:', 'file:'].includes(url.protocol) ? url.href : '';
     } catch { return ''; }
@@ -122,42 +125,118 @@
     }
   }
 
-  async function loadMetrics() {
-    await firebaseReady;
-    if (!db) { text('siteVisitsCounter', '—'); return; }
-    await Promise.allSettled(['ratings','downloads'].map(async name => {
-      const snapshot = await timeout(db.collection(name).get());
-      snapshot.forEach(doc => {
-        const book = byId(doc.id); if (!book) return;
-        const data = doc.data();
-        if (name === 'downloads') book.downloadCount = finite(data.count);
-        else {
-          book.ratingSum = finite(data.ratingSum);
-          book.ratingCount = finite(data.ratingCount);
-          book.publicRating = Math.min(5, finite(data.average));
-          book.voters = Array.isArray(data.voters) ? data.voters.filter(v => typeof v === 'string') : [];
-        }
-      });
+  function applyMetricDoc(name, doc) {
+    const book = byId(doc.id);
+    if (!book || !doc.exists) return;
+    const data = doc.data() || {};
+    if (name === 'downloads') {
+      book.downloadCount = finite(data.count);
+    } else {
+      book.ratingSum = finite(data.ratingSum);
+      book.ratingCount = finite(data.ratingCount);
+      book.publicRating = Math.min(5, finite(data.average));
+      book.voters = Array.isArray(data.voters) ? data.voters.filter(v => typeof v === 'string') : [];
+    }
+  }
+
+  async function loadMetricChunks(name, ids) {
+    const values = [...new Set(ids.map(Number).filter(Number.isSafeInteger))];
+    if (!values.length || !db) return;
+    const chunks = [];
+    for (let i = 0; i < values.length; i += 30) chunks.push(values.slice(i, i + 30));
+    const results = await Promise.allSettled(chunks.map(async chunk => {
+      const snapshot = await timeout(
+        db.collection(name)
+          .where(firebase.firestore.FieldPath.documentId(), 'in', chunk.map(String))
+          .get()
+      );
+      snapshot.forEach(doc => applyMetricDoc(name, doc));
     }));
-    refreshRatings(); refreshCounts();
+    return results.every(result => result.status === 'fulfilled');
+  }
+
+  async function loadAllMetrics() {
+    await firebaseReady;
+    if (!db || state.metricsAllLoaded || state.metricsAllLoading) return;
+    state.metricsAllLoading = true;
+    const results = await Promise.allSettled(['ratings', 'downloads'].map(async name => {
+      const snapshot = await timeout(db.collection(name).get());
+      snapshot.forEach(doc => applyMetricDoc(name, doc));
+    }));
+    state.metricsAllLoaded = results.every(result => result.status === 'fulfilled');
+    state.metricsAllLoading = false;
+    if (!state.metricsAllLoaded) return;
+    state.books.forEach(book => state.metricsLoadedIds.add(book.id));
+    refreshRatings();
+    refreshCounts();
+  }
+
+  function visibleMetricIds() {
+    if (state.single !== null) return [state.single];
+    const books = filteredBooks();
+    const spotlight = !state.query && state.category === 'all' && !state.bundleMode && !state.favoritesOnly && state.page === 1
+      ? books.find(b => b.featured) : null;
+    const page = books.slice((state.page - 1) * 6, state.page * 6);
+    return [...(spotlight ? [spotlight.id] : []), ...page.map(book => book.id)];
+  }
+
+  async function loadVisibleMetrics(ids = visibleMetricIds()) {
+    await firebaseReady;
+    if (!db) return;
+    const needed = [...new Set(ids)].filter(id => !state.metricsLoadedIds.has(id) && !state.metricsLoadingIds.has(id));
+    if (!needed.length) return;
+    needed.forEach(id => state.metricsLoadingIds.add(id));
+    try {
+      const results = await Promise.allSettled([
+        loadMetricChunks('ratings', needed),
+        loadMetricChunks('downloads', needed)
+      ]);
+      const complete = results.every(result => result.status === 'fulfilled' && result.value === true);
+      if (complete) needed.forEach(id => state.metricsLoadedIds.add(id));
+      refreshRatings();
+      refreshCounts();
+    } finally {
+      needed.forEach(id => state.metricsLoadingIds.delete(id));
+    }
+  }
+
+  async function loadSiteVisits() {
+    if (state.visitsLoaded || state.visitsLoading) return;
+    state.visitsLoading = true;
+    await firebaseReady;
+    if (!db) { state.visitsLoading = false; text('siteVisitsCounter', '—'); return; }
     try {
       const visits = db.collection('stats').doc('visits');
-      const last = finite(store.get('iar_last_visit', '0'));
-      let count;
-      if (auth?.currentUser && Date.now() - last > 86400000) {
+      const day = new Intl.DateTimeFormat('en-CA', {
+        timeZone: 'Asia/Baghdad', year: 'numeric', month: '2-digit', day: '2-digit'
+      }).format(new Date());
+      const lastDay = store.get('iar_last_visit_day', '');
+      let count = 0;
+      if (auth?.currentUser) {
         count = await timeout(db.runTransaction(async transaction => {
           const doc = await transaction.get(visits);
-          const next = finite(doc.data()?.count) + 1;
-          transaction.set(visits, { count: next }, { merge: true });
+          const data = doc.data() || {};
+          const current = data.date === day ? finite(data.count) : 0;
+          if (lastDay === day) return current;
+          const next = current + 1;
+          transaction.set(visits, { date: day, count: next }, { merge: true });
           return next;
         }));
-        store.set('iar_last_visit', Date.now());
+        if (lastDay !== day) store.set('iar_last_visit_day', day);
       } else {
-        count = finite((await timeout(visits.get())).data()?.count);
+        const data = (await timeout(visits.get())).data() || {};
+        count = data.date === day ? finite(data.count) : 0;
       }
       text('siteVisitsCounter', number(count));
     } catch { text('siteVisitsCounter', '—'); }
-    if (!state.single && ['rating','downloads'].includes($('sortOrder')?.value)) render();
+    state.visitsLoading = false;
+    state.visitsLoaded = true;
+  }
+
+  async function loadMetrics() {
+    if (['rating', 'downloads'].includes($('sortOrder')?.value)) await loadAllMetrics();
+    else await loadVisibleMetrics();
+    await loadSiteVisits();
   }
 
   function toast(message, error = false) {
@@ -235,19 +314,46 @@
   }
 
   /* PDF reader — Mozilla pdf.js viewer for maximum stability */
+  let pdfLoadTimer = 0;
+
+  function setPdfReaderState(mode) {
+    const stateEl = $('pdfReaderState');
+    const frame = $('pdfFrame');
+    if (!stateEl) return;
+    const loading = mode === 'loading';
+    const error = mode === 'error';
+    stateEl.hidden = !loading && !error;
+    stateEl.classList.toggle('is-error', error);
+    text('pdfReaderStateText', loading
+      ? t('جارٍ فتح المرجع…', 'Opening reference…')
+      : t('تعذر فتح القارئ الداخلي. استخدم الرابط المباشر أسفل النافذة.', 'The embedded reader could not open. Use the direct link below.'));
+    if (frame) frame.hidden = loading;
+  }
+
   function readBook(book) {
     if (!book.file_path) return toast(t('ملف المرجع غير متاح.','Reference file unavailable.'), true);
     text('modalBookTitle', field(book,'title'));
     const frame = $('pdfFrame');
     if (!frame) return;
     const absoluteUrl = new URL(book.file_path, location.href).href;
+    clearTimeout(pdfLoadTimer);
+    setPdfReaderState('loading');
+    pdfLoadTimer = setTimeout(() => setPdfReaderState('error'), 12000);
     frame.src = `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(absoluteUrl)}`;
     attr('pdfExternalLink', 'href', absoluteUrl);
-    text('pdfExternalLink', t('فتح الملف في نافذة مستقلة إذا لم يظهر القارئ','Open file in a new tab if the reader is unavailable'));
+    text('pdfExternalLink', t('فتح الملف في نافذة مستقلة إذا لم يظهر القارئ','Open file directly in a new tab if the reader is unavailable'));
     modal('pdfReaderModal');
   }
+
+  $('pdfFrame')?.addEventListener('load', () => {
+    clearTimeout(pdfLoadTimer);
+    setPdfReaderState('ready');
+  });
   $('pdfReaderModal')?.addEventListener('hidden.bs.modal', () => {
-    const frame = $('pdfFrame'); if (frame) frame.src = 'about:blank';
+    clearTimeout(pdfLoadTimer);
+    const frame = $('pdfFrame');
+    if (frame) { frame.src = 'about:blank'; frame.hidden = false; }
+    $('pdfReaderState')?.setAttribute('hidden', '');
   });
 
   async function download(book) {
@@ -292,9 +398,10 @@
   }
 
   function refreshCounts() {
-    state.books.forEach(book =>
-      document.querySelectorAll(`[data-download-count="${book.id}"]`).forEach(el => el.textContent = number(book.downloadCount))
-    );
+    document.querySelectorAll('[data-download-count]').forEach(el => {
+      const book = byId(el.dataset.downloadCount);
+      if (book) el.textContent = number(book.downloadCount);
+    });
     if (state.single != null) text('singleDownloadCount', number(byId(state.single)?.downloadCount || 0));
   }
 
@@ -505,10 +612,11 @@
     const spotlight = !state.query && state.category === 'all' && !state.bundleMode && !state.favoritesOnly && state.page === 1
       ? books.find(b => b.featured) : null;
     $('featuredSection').innerHTML = spotlight ? featured(spotlight) : '';
+    const displayBooks = spotlight ? books.filter(book => book.id !== spotlight.id) : books;
     const size = 6;
-    const total = Math.ceil(books.length / size);
+    const total = Math.ceil(displayBooks.length / size);
     state.page = Math.min(state.page, Math.max(1, total));
-    const page = books.slice((state.page - 1) * size, state.page * size);
+    const page = displayBooks.slice((state.page - 1) * size, state.page * size);
     text('resultsCount', t(`${number(books.length)} مرجع في مساحة اكتشافك`,`${number(books.length)} references to explore`));
     $('booksDisplayContainer').innerHTML = books.length
       ? `<div class="books-grid ${state.view === 'list' ? 'is-list' : ''}">${page.map(bookCard).join('')}</div>`
@@ -522,6 +630,61 @@
     attr('btnViewList', 'aria-pressed', state.view === 'list');
     $('favoritesOnlyBtn')?.classList.toggle('active', state.favoritesOnly);
     attr('favoritesOnlyBtn', 'aria-pressed', state.favoritesOnly);
+    syncLibraryHistoryState();
+    void loadMetricsForCurrentState();
+  }
+
+  function librarySnapshot() {
+    return {
+      page: state.page,
+      query: state.query,
+      category: state.category,
+      favoritesOnly: state.favoritesOnly,
+      view: state.view,
+      bundle: [...state.bundle],
+      bundleMode: state.bundleMode,
+      sort: $('sortOrder')?.value || 'default'
+    };
+  }
+
+  function syncLibraryHistoryState() {
+    if (state.single !== null) return;
+    const url = new URL(location.href);
+    const current = history.state && typeof history.state === 'object' ? history.state : {};
+    history.replaceState({ ...current, iarLibrary: librarySnapshot() }, '', url);
+  }
+
+  function restoreLibraryState(snapshot) {
+    if (!snapshot || typeof snapshot !== 'object') return false;
+    state.page = Number.isSafeInteger(Number(snapshot.page)) && Number(snapshot.page) > 0 ? Number(snapshot.page) : 1;
+    state.query = clean(snapshot.query);
+    state.category = clean(snapshot.category) || 'all';
+    state.favoritesOnly = snapshot.favoritesOnly === true;
+    state.view = snapshot.view === 'list' ? 'list' : 'grid';
+    state.bundleMode = snapshot.bundleMode === true;
+    state.bundle = new Set(Array.isArray(snapshot.bundle)
+      ? snapshot.bundle.map(Number).filter(id => Number.isSafeInteger(id) && byId(id))
+      : []);
+    if ($('searchInput')) $('searchInput').value = state.query;
+    visible('btnClearSearch', !!state.query);
+    if ($('sortOrder') && ['default','title','year','pages','downloads','favorites','rating'].includes(snapshot.sort)) {
+      $('sortOrder').value = snapshot.sort;
+    }
+    return true;
+  }
+
+  async function loadMetricsForCurrentState() {
+    if (!state.loaded) return;
+    if (['rating','downloads'].includes($('sortOrder')?.value)) {
+      if (!state.metricsAllLoaded) {
+        await loadAllMetrics();
+        if (state.single === null && state.metricsAllLoaded) render();
+      }
+      await loadSiteVisits();
+      return;
+    }
+    await loadVisibleMetrics();
+    await loadSiteVisits();
   }
 
   function categories() {
@@ -630,8 +793,8 @@
   function backToList() {
     const url = new URL(location.href);
     url.searchParams.delete('book');
-    history.pushState({}, '', url);
     state.single = null;
+    history.replaceState({ ...(history.state || {}), iarLibrary: librarySnapshot() }, '', url);
     metadata();
     render();
   }
@@ -639,16 +802,25 @@
   function route() {
     const params = new URLSearchParams(location.search);
     const raw = params.get('book');
-    state.single = (raw !== null && raw.trim() !== '' && Number.isSafeInteger(Number(raw)) && byId(Number(raw)))
+    const parsedBook = raw !== null && raw.trim() !== '' && Number.isSafeInteger(Number(raw)) && byId(Number(raw))
       ? Number(raw) : null;
+    state.single = parsedBook;
+    if (raw !== null && parsedBook === null) {
+      params.delete('book');
+      const cleanUrl = new URL(location.href);
+      cleanUrl.search = params.toString();
+      history.replaceState(history.state, '', cleanUrl);
+    }
     const bundle = params.get('bundle');
     state.bundleMode = bundle !== null;
     if (bundle !== null) {
       state.bundle = new Set(bundle.split(',').filter(v => v.trim() !== '').map(Number)
         .filter(id => Number.isSafeInteger(id) && byId(id)));
+    } else if (state.single === null) {
+      restoreLibraryState(history.state?.iarLibrary);
     }
-    state.page = 1;
-    metadata();
+    state.page = state.single === null && !history.state?.iarLibrary ? 1 : state.page;
+    metadata(state.single !== null ? byId(state.single) : null);
     render();
   }
 
@@ -661,7 +833,7 @@
     const url = new URL(location.href);
     url.searchParams.delete('bundle');
     url.searchParams.delete('book');
-    history.pushState({}, '', url);
+    history.pushState({ iarLibrary: librarySnapshot() }, '', url);
     categories(); metadata(); render();
   }
 
@@ -730,9 +902,18 @@
       chipsScrollLeft: ['aria-label', t('السابق','Previous')],
       chipsScrollRight: ['aria-label', t('التالي','Next')],
       summaryDismissBtn: ['aria-label', t('إغلاق','Close')],
-      pdfDismissBtn: ['aria-label', t('إغلاق','Close')]
+      pdfDismissBtn: ['aria-label', t('إغلاق','Close')],
+      brandLockup: ['aria-label', t('IAR Archive — العودة إلى المكتبة','IAR Archive — Back to library')],
+      heroFeatureList: ['aria-label', t('ميزات الأرشيف','Archive features')],
+      viewSwitch: ['aria-label', t('طريقة العرض','View mode')],
+      pdfFrame: ['title', t('قارئ الملفات','File reader')],
+      coverImageModal: ['aria-label', t('عرض الغلاف','View cover')]
     };
     Object.entries(attributes).forEach(([id, [key, value]]) => attr(id, key, value));
+    attr('btnViewGrid', 'title', t('عرض شبكي','Grid view'));
+    attr('btnViewList', 'title', t('عرض قائمة','List view'));
+    attr('themeToggleBtn', 'title', t('تبديل المظهر','Toggle theme'));
+    attr('brandLockup', 'aria-label', t('IAR Archive — العودة إلى المكتبة','IAR Archive — Back to library'));
     $('paginationContainer')?.parentElement?.setAttribute('aria-label', t('صفحات المراجع','Reference pages'));
     const bundleTextEl = $('txt-bundle-text');
     if (bundleTextEl) bundleTextEl.innerHTML = t('تم تحديد <strong id="bundleCount">0</strong> مراجع لحزمتك','Selected <strong id="bundleCount">0</strong> references for your bundle');
@@ -959,16 +1140,22 @@
       const payload = await response.json();
       if (!Array.isArray(payload)) throw new Error('books.json must contain an array');
       const ids = new Set();
+      state.metricsLoadedIds.clear();
+      state.metricsLoadingIds.clear();
+      state.metricsAllLoaded = false;
+      state.metricsAllLoading = false;
+      state.visitsLoaded = false;
+      state.visitsLoading = false;
       state.books = payload.map(normalize).filter(book => {
         if (!book || ids.has(book.id)) return false;
         ids.add(book.id);
         return true;
       });
       state.loaded = true; state.loading = false;
+      firebaseReady = connectFirebase();
       language();
       route();
-      firebaseReady = connectFirebase();
-      loadMetrics();
+      void loadMetrics();
     } catch (error) {
       state.loading = false; state.error = true;
       const featured = $('featuredSection'); if (featured) featured.innerHTML = '';
