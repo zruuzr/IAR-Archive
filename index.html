@@ -7,6 +7,9 @@
   <meta property="og:title" content="IAR Archive | Iraqi Administrative Reference">
   <meta property="og:description" content="منصة معرفية لأرشفة وربط المراجع الإدارية مع ملخصات وتوثيق أكاديمي">
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://iararchive.web.app/">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://iararchive.web.app/">
   <meta name="theme-color" content="#f6f8fc">
 
   <title id="pageTitle">IAR Archive | Iraqi Administrative Reference</title>
@@ -341,9 +344,10 @@
   </div>
 
   <!-- نافذة الغلاف -->
-  <div class="modal fade" id="coverImageModal" tabindex="-1" role="dialog" aria-modal="true" aria-label="عرض الغلاف">
+  <div class="modal fade" id="coverImageModal" tabindex="-1" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="coverImageModalTitle">
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content bg-transparent border-0">
+        <h2 id="coverImageModalTitle" class="visually-hidden">عرض الغلاف</h2>
         <div class="modal-body p-0 d-flex justify-content-center position-relative">
           <img id="coverImageLarge" src="" alt="" class="img-fluid rounded shadow" style="max-height: 90vh;">
           <button type="button" class="btn btn-light position-absolute top-0 end-0 m-2 rounded-circle" data-bs-dismiss="modal" aria-label="إغلاق">
