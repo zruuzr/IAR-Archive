@@ -1,5 +1,15 @@
 {
   "projects": {
     "default": "iar-archive-328bc"
-  }
+  },
+  "targets": {
+    "iar-archive-328bc": {
+      "hosting": {
+        "iararchive": [
+          "iararchive"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }
