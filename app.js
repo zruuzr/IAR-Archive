@@ -1,1457 +1,530 @@
-(function () {
+/* IAR Archive · integrated Nebula edition. Demo mode never initializes Firebase. */
+(() => {
   'use strict';
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyAug0yFzjQ4ud6zX2ugK_T7Lj7LfuO04tw",
-    authDomain: "iar-archive-328bc.firebaseapp.com",
-    projectId: "iar-archive-328bc",
-    storageBucket: "iar-archive-328bc.firebasestorage.app",
-    messagingSenderId: "81911492650",
-    appId: "1:81911492650:web:c6ac2f89d52bdd7065d353",
-    measurementId: "G-PYZEY63LTR"
+  const $ = id => document.getElementById(id);
+  const demo = window.IAR_PREVIEW === true || new URLSearchParams(location.search).get('demo') === '1';
+  const store = {
+    get(key, fallback) { try { return localStorage.getItem(key) ?? fallback; } catch { return fallback; } },
+    set(key, value) { try { localStorage.setItem(key, String(value)); } catch { /* Optional persistence. */ } }
   };
-
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
-  const auth = firebase.auth();
-
-  const storage = {
-    get(key, fallback) { try { return localStorage.getItem(key) || fallback; } catch (_) { return fallback; } },
-    set(key, value) { try { localStorage.setItem(key, value); } catch (_) {} },
-    remove(key) { try { localStorage.removeItem(key); } catch (_) {} }
+  const savedArray = key => { try { const value = JSON.parse(store.get(key, '[]')); return Array.isArray(value) ? value.filter(Number.isSafeInteger) : []; } catch { return []; } };
+  const prefix = demo ? 'iar_demo_' : 'iar_';
+  const state = {
+    books: [], lang: document.documentElement.lang === 'en' ? 'en' : 'ar',
+    theme: document.documentElement.dataset.bsTheme === 'dark' ? 'dark' : 'light',
+    view: store.get('iar_view_mode', 'grid') === 'list' ? 'list' : 'grid',
+    category: 'all', page: 1, query: '', favoritesOnly: false,
+    favorites: new Set(savedArray(prefix + 'favorites')), bundle: new Set(), bundleMode: false,
+    single: null, summary: null, loaded: false, loading: true, error: false
   };
+  const motion = () => matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+  const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+  const text = (id, value) => { if ($(id)) $(id).textContent = value; };
+  const attr = (id, key, value) => $(id)?.setAttribute(key, value);
+  const visible = (id, show) => $(id)?.classList.toggle('d-none', !show);
+  const clean = value => value == null ? '' : String(value).trim();
+  const finite = value => Number.isFinite(Number(value)) && Number(value) >= 0 ? Number(value) : 0;
+  const words = value => Array.isArray(value) ? value.map(clean).filter(Boolean) : [];
+  const field = (book, name) => state.lang === 'en' && book[name + '_en'] ? book[name + '_en'] : book[name];
+  const t = (ar, en) => state.lang === 'ar' ? ar : en;
+  const number = value => new Intl.NumberFormat(state.lang).format(value);
+  const i = name => `<i class="bi bi-${name}" aria-hidden="true"></i>`;
+  const labels = () => ({ read:t('قراءة','Read'), download:t('تحميل','Download'), summary:t('ملخص 3 دقائق','3-minute summary'), cite:t('توثيق APA','Cite APA'), share:t('مشاركة','Share'), favorite:t('المفضلة','Favorite'), details:t('استكشف المرجع','Explore reference'), unknown:t('غير متوفر','Not provided') });
 
-  function setText(id, value) {
-    const el = document.getElementById(id);
-    if (el) el.innerText = value;
-  }
-  function setHTML(id, value) {
-    const el = document.getElementById(id);
-    if (el) el.innerHTML = value;
-  }
-  function setAttribute(id, attr, value) {
-    const el = document.getElementById(id);
-    if (el) el.setAttribute(attr, value);
-  }
-  function showEl(id) {
-    const el = document.getElementById(id);
-    if (el) el.classList.remove('d-none');
-  }
-  function hideEl(id) {
-    const el = document.getElementById(id);
-    if (el) el.classList.add('d-none');
-  }
-
-  function roundRating(value) {
-    return Number((Number(value) || 0).toFixed(2));
-  }
-
-  function safeParseArray(key) {
+  function asset(value, pdf = false) {
+    const raw = clean(value);
+    if (!raw) return '';
     try {
-      const raw = storage.get(key, '[]');
-      const parsed = JSON.parse(raw);
-      return Array.isArray(parsed) ? parsed : [];
-    } catch (_) {
-      return [];
-    }
-  }
-
-  let booksData = [];
-  let selectedBundleIds = new Set();
-  let favoriteIds = new Set(safeParseArray('iar_favorites'));
-  let currentLang = storage.get('iar_lang', 'ar') === 'en' ? 'en' : 'ar';
-  let currentViewMode = storage.get('iar_view_mode', 'grid') === 'list' ? 'list' : 'grid';
-  let selectedCategory = 'all';
-  let booksLoaded = false;
-  let currentOpenBookId = null;
-  let isSingleView = false;
-
-  let currentPage = 1;
-  const itemsPerPage = 10;
-  let isBundleMode = false;
-
-  async function initAuth() {
-    try {
-      await Promise.race([
-        auth.signInAnonymously(),
-        new Promise((_, reject) => setTimeout(() => reject(new Error('Auth timeout after 5s')), 5000))
-      ]);
-    } catch (error) {
-      console.error('Auth failed:', error);
-    }
-  }
-
-  const pdfModal = new bootstrap.Modal(document.getElementById('pdfReaderModal'));
-  const summaryModal = new bootstrap.Modal(document.getElementById('summaryModal'));
-  const coverModal = new bootstrap.Modal(document.getElementById('coverImageModal'));
-
-  const i18n = {
-    ar: {
-      announcement: "IAR Archive - المستودع الرقمي التفاعلي لربط المراجع الإدارية بالتحليل والمفاهيم",
-      subtitle: "الأرشيف الإداري العراقي",
-      aboutTitle: "الأرشيف الرقمي لعلوم الإدارة",
-      aboutDesc: "منصة معرفية مخصصة لأرشفة وربط المراجع الإدارية، توفر ملخصات 3 دقائق، التوثيق الأكاديمي المباشر، وإنشاء حزم البحوث.",
-      statBooks: "مرجع إداري", statCats: "تصنيف إداري", statYear: "سنة الأرشفة", statVisits: "زائر فريد",
-      searchPlaceholder: "ابحث بعنوان الكتاب، اسم المؤلف، الناشر، أو الكلمات المفتاحية...",
-      allCategories: "جميع التصنيفات", sortDefault: "الترتيب الافتراضي (مع تثبيت الإصدار السنوي)", sortTitle: "حسب العنوان (أبجدي)",
-      sortYear: "حسب السنة", sortPages: "حسب عدد الصفحات", sortDownloads: "حسب التحميلات",
-      sortFavorites: "حسب المفضلة", sortRating: "حسب التقييم",
-      readBtn: "قراءة", downloadBtn: "تحميل", shareBtn: "مشاركة", citeBtn: "توثيق APA", summaryBtn: "ملخص 3 دقائق",
-      favoriteBtn: "أضف إلى المفضلة", unfavoriteBtn: "إزالة من المفضلة", rateBtn: "تقييم الكتاب",
-      noBooks: "لم يتم العثور على كتب مطابقة لخيارات البحث.", errorMsg: "تعذر تحميل قائمة الكتب.",
-      toastCopied: "تم النسخ إلى الحافظة بنجاح.",
-      toastCiteCopied: "تم نسخ التوثيق الأكاديمي (APA) إلى الحافظة.",
-      toastBundleCopied: "تم نسخ رابط الحزمة البحثية المجمعة بنجاح.",
-      toastFavoriteAdded: "تمت إضافة الكتاب إلى المفضلة.", toastFavoriteRemoved: "تمت إزالة الكتاب من المفضلة.",
-      toastRated: "تم حفظ تقييمك بنجاح.",
-      toastAuthPending: "جارٍ التهيئة، يرجى المحاولة بعد لحظات.",
-      toastRatingFailed: "تعذّر حفظ التقييم. تحقق من الاتصال وحاول مجددًا.",
-      toastFileUnavailable: "رابط ملف هذا المرجع غير متاح حاليًا.",
-      generalCat: "عام", defaultPublisher: "الأرشيف الإداري العراقي", defaultType: "مرجع منهجي", themeTooltip: "تبديل المظهر",
-      loading: "جارٍ تحميل المراجع…", fileUnavailable: "ملف المرجع غير متاح حاليًا.", searchLabel: "البحث في المراجع", clearSearch: "مسح البحث",
-      gridView: "عرض شبكي", listView: "عرض قائمة", selectBundle: "تحديد المرجع لإضافته إلى الحزمة البحثية",
-      bundleText: "تم تحديد <strong id='bundleCount'>0</strong> مراجع لإنشاء حزمة بحثية",
-      bundleBtn: "نسخ رابط الحزمة المجمعة", modalTitle: "ملخص المرجع الإداري (3 دقائق)",
-      modalIdeasTitle: "<i class='bi bi-lightbulb me-1'></i> أهم الأفكار الرئيسية في هذا المرجع:",
-      modalAudienceTitle: "<i class='bi bi-award me-1'></i> الفئة الأكثر استفادة:",
-      defaultAudience: "المدراء التنفيذيون، الباحثون في العلوم الإدارية، وطلاب الدراسات العليا.",
-      modalAPATitle: "<i class='bi bi-quote me-1'></i> التوثيق الأكاديمي المباشر (APA):", modalClose: "إغلاق",
-      defaultPoints: ["التحليل الهيكلي والتنظيمي للمؤسسات الحديثة.", "طرق صياغة القرارات الإدارية وتوزيع الصلاحيات.", "آليات التقييم والتطوير المؤسسي المستمر."],
-      pagesSuffix: "صفحة", toastCopyFailed: "تعذّر النسخ تلقائيًا. انسخ الرابط من شريط العنوان.",
-      viewCover: "عرض الغلاف", shareTitle: "مشاركة الكتاب", shareText: "ألق نظرة على هذا الكتاب:",
-      shareModalBtn: "مشاركة", backToList: "العودة إلى جميع المراجع",
-      descLabel: "الوصف", keyPointsLabel: "الأفكار الرئيسية", audienceLabel: "الفئة المستهدفة",
-      readLabel: "قراءة", downloadLabel: "تحميل", citeLabel: "توثيق APA", shareLabel: "مشاركة",
-      unknown: "غير متوفر",
-      ratingLabel: "تقييم",
-      clearBundle: "إلغاء الحزمة والعودة للرئيسية",
-      preparingDownload: "جارٍ تحضير الملف، يرجى الانتظار..."
-    },
-    en: {
-      announcement: "IAR Archive - Interactive Digital Repository for Management & Reference Sciences",
-      subtitle: "Iraqi Administrative Reference", aboutTitle: "Digital Repository for Management Sciences",
-      aboutDesc: "A knowledge platform dedicated to archiving administrative references, providing 3-minute summaries, direct APA citations, and research bundle creation.",
-      statBooks: "References Available", statCats: "Categories", statYear: "Archived Year", statVisits: "Unique Visitors",
-      searchPlaceholder: "Search by title, author, publisher, or keywords...",
-      allCategories: "All Categories", sortDefault: "Default Sorting (with pinned annual guide)", sortTitle: "Sort by Title (Alphabetical)",
-      sortYear: "Sort by Year", sortPages: "Sort by Pages", sortDownloads: "Sort by Downloads",
-      sortFavorites: "Sort by Favorites", sortRating: "Sort by Rating",
-      readBtn: "Read", downloadBtn: "Download", shareBtn: "Share", citeBtn: "Cite APA", summaryBtn: "3-Min Summary",
-      favoriteBtn: "Add to Favorites", unfavoriteBtn: "Remove from Favorites", rateBtn: "Rate this book",
-      noBooks: "No matching references found.", errorMsg: "Failed to load repository data.",
-      toastCopied: "Copied to clipboard.", toastCiteCopied: "APA Citation copied to clipboard.",
-      toastBundleCopied: "Research bundle link copied successfully.",
-      toastFavoriteAdded: "Book added to favorites.", toastFavoriteRemoved: "Book removed from favorites.",
-      toastRated: "Your rating has been saved.",
-      toastAuthPending: "Initializing, please try again in a moment.",
-      toastRatingFailed: "Could not save rating. Check your connection and retry.",
-      toastFileUnavailable: "The file link for this reference is currently unavailable.",
-      generalCat: "General", defaultPublisher: "IAR Archive", defaultType: "Methodological Reference", themeTooltip: "Toggle Theme",
-      loading: "Loading references…", fileUnavailable: "This reference file is currently unavailable.", searchLabel: "Search references", clearSearch: "Clear search",
-      gridView: "Grid view", listView: "List view", selectBundle: "Select this reference for the research bundle",
-      bundleText: "Selected <strong id='bundleCount'>0</strong> references for research bundle",
-      bundleBtn: "Copy Bundle Share Link", modalTitle: "Administrative Reference Summary (3 Minutes)",
-      modalIdeasTitle: "<i class='bi bi-lightbulb me-1'></i> Key Concepts in This Reference:",
-      modalAudienceTitle: "<i class='bi bi-award me-1'></i> Target Audience:",
-      defaultAudience: "Executive managers, administrative researchers, and postgraduate students.",
-      modalAPATitle: "<i class='bi bi-quote me-1'></i> Direct Academic Citation (APA):", modalClose: "Close",
-      defaultPoints: ["Structural and organizational analysis of modern institutions.", "Methods of administrative decision-making and delegation of authority.", "Continuous institutional assessment and development mechanisms."],
-      pagesSuffix: "Pages", toastCopyFailed: "Automatic copy failed. Please copy the link from the address bar.",
-      viewCover: "View cover", shareTitle: "Share this book", shareText: "Check out this book:",
-      shareModalBtn: "Share", backToList: "Back to all references",
-      descLabel: "Description", keyPointsLabel: "Key Concepts", audienceLabel: "Target Audience",
-      readLabel: "Read", downloadLabel: "Download", citeLabel: "Cite APA", shareLabel: "Share",
-      unknown: "N/A",
-      ratingLabel: "Rating",
-      clearBundle: "Clear Bundle & Go Home",
-      preparingDownload: "Preparing file for download, please wait..."
-    }
-  };
-
-  function translateDynamicText(text, enField) {
-    if (currentLang !== 'en') return text || '';
-    if (enField && enField.trim() !== '') return enField;
-    return text || '';
-  }
-
-  function escapeHtml(value) {
-    return String(value ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-  }
-
-  function asText(value) { return value === null || value === undefined ? '' : String(value).trim(); }
-
-  function safeAssetUrl(value, isPdf = false) {
-    const source = asText(value);
-    if (!source) return '';
-
-    if (source.startsWith('http://') || source.startsWith('https://')) {
-      if (source.includes('github.com') && source.includes('/blob/')) {
-        return source.replace('github.com', 'raw.githubusercontent.com').replace('/blob/', '/');
+      if (/^[a-z][a-z\d+.-]*:/i.test(raw) && !/^https?:/i.test(raw)) return '';
+      if (/^https?:\/\//i.test(raw)) {
+        const url = new URL(raw);
+        if (url.username || url.password) return '';
+        if (url.hostname === 'github.com' && url.pathname.includes('/blob/')) {
+          url.hostname = 'raw.githubusercontent.com'; url.pathname = url.pathname.replace('/blob/', '/');
+        }
+        return url.href;
       }
-      return source;
-    }
-
-    const cleanPath = source.replace(/^\/+/, '');
-
-    if (isPdf) {
-      let decoded = cleanPath;
-      try { decoded = decodeURIComponent(cleanPath); } catch (_) {}
-      const encoded = decoded.split('/').map(encodeURIComponent).join('/');
-      return `https://raw.githubusercontent.com/zruuzr/IAR-Archive/main/${encoded}`;
-    } else {
-      try { return new URL(cleanPath, window.location.href).href; }
-      catch (_) { return cleanPath; }
-    }
+      // Keep existing repository-relative PDF convention in production.
+      const base = pdf && !demo ? 'https://raw.githubusercontent.com/zruuzr/IAR-Archive/main/' : location.href;
+      const url = new URL(raw.replace(/^\/+/, ''), base);
+      return ['http:', 'https:', 'file:'].includes(url.protocol) ? url.href : '';
+    } catch { return ''; }
   }
-
-  function textArray(value) { return Array.isArray(value) ? value.map(asText).filter(Boolean) : []; }
-
-  function normalizeBook(raw) {
-    if (!raw || typeof raw !== 'object') return null;
+  function normalize(raw) {
+    if (!raw || typeof raw !== 'object' || raw.id === '' || raw.id == null) return null;
     const id = Number(raw.id);
-    if (!Number.isSafeInteger(id) || id < 0) return null;
-    const title = asText(raw.title);
-    if (!title) return null;
-    return {
-      id, title, title_en: asText(raw.title_en),
-      author: asText(raw.author), author_en: asText(raw.author_en),
-      category: asText(raw.category), category_en: asText(raw.category_en),
-      description: asText(raw.description), description_en: asText(raw.description_en),
-      publisher: asText(raw.publisher), publisher_en: asText(raw.publisher_en),
-      type: asText(raw.type), type_en: asText(raw.type_en),
-      target_audience: asText(raw.target_audience), target_audience_en: asText(raw.target_audience_en),
-      year: asText(raw.year), pages: asText(raw.pages), file_size: asText(raw.file_size),
-      featured: Boolean(raw.featured),
-      badge_text: asText(raw.badge_text),
-      badge_text_en: asText(raw.badge_text_en),
-      keywords: textArray(raw.keywords), keywords_en: textArray(raw.keywords_en),
-      key_points: textArray(raw.key_points), key_points_en: textArray(raw.key_points_en),
-      file_path: safeAssetUrl(raw.file_path, true),
-      file_name: asText(raw.file_name) || (raw.file_path ? decodeURIComponent(asText(raw.file_path).split('/').pop() || '') : ''),
-      cover_image: safeAssetUrl(raw.cover_image, false),
-      downloadCount: 0, publicRating: 0, ratingCount: 0, ratingSum: 0, voters: []
-    };
+    if (!Number.isSafeInteger(id) || id < 0 || !clean(raw.title)) return null;
+    const book = { id };
+    ['title','author','category','description','publisher','type','target_audience','badge_text'].forEach(key => {
+      book[key] = clean(raw[key]); book[key + '_en'] = clean(raw[key + '_en']);
+    });
+    ['year','pages','file_size'].forEach(key => book[key] = clean(raw[key]));
+    ['keywords','keywords_en','key_points','key_points_en'].forEach(key => book[key] = words(raw[key]));
+    book.featured = raw.featured === true;
+    book.cover_image = asset(raw.cover_image);
+    book.file_path = asset(raw.file_path, true);
+    let name = clean(raw.file_name) || clean(raw.file_path).split('/').pop()?.split('?')[0] || '';
+    try { name = decodeURIComponent(name); } catch { /* Malformed encoding is not fatal. */ }
+    book.file_name = name.replace(/[\\/\u0000-\u001f]/g, '_') || `IAR-${id}.pdf`;
+    book.downloadCount = 0; book.publicRating = 0; book.ratingSum = 0; book.ratingCount = 0; book.voters = [];
+    return book;
   }
-
-  function setMetadataChip(elementId, iconClass, text) {
-    const element = document.getElementById(elementId);
-    if (!element) return;
-    const icon = document.createElement('i');
-    icon.className = `bi ${iconClass} me-1`;
-    element.replaceChildren(icon, document.createTextNode(` ${text}`));
-  }
-
-  function debounce(fn, delay) {
+  const byId = id => state.books.find(book => book.id === Number(id));
+  const categoryKey = book => book.category || '__general__';
+  const categoryLabel = book => field(book, 'category') || t('عام','General');
+  const busyRatings = new Set();
+  const busyDownloads = new Set();
+  let db = null, auth = null;
+  let firebaseReady = Promise.resolve();
+  const timeout = (promise, ms = 8000) => {
     let timer;
-    return function (...args) { clearTimeout(timer); timer = setTimeout(() => fn.apply(this, args), delay); };
-  }
-
-  function getCategoryKey(book) {
-    const raw = (book.category || '').trim();
-    return raw !== '' ? raw : '__general__';
-  }
-
-  function getCategoryLabel(book) {
-    const label = translateDynamicText(book.category, book.category_en);
-    return label && label.trim() !== '' ? label : i18n[currentLang].generalCat;
-  }
-
-  function getBookIdFromUrl() {
-    const params = new URLSearchParams(window.location.search);
-    const bookParam = params.get('book');
-    if (bookParam !== null) {
-      const id = Number(bookParam);
-      if (Number.isSafeInteger(id) && id >= 0) return id;
-    }
-    return null;
-  }
-
-  function generateBookUrl(bookId) {
-    const url = new URL(window.location.href);
-    url.searchParams.set('book', bookId);
-    return url.toString();
-  }
-
-  function updatePageTitle(book) {
-    if (book) {
-      const title = translateDynamicText(book.title, book.title_en);
-      setText('pageTitle', `${title} | IAR Archive`);
-      const desc = translateDynamicText(book.description, book.description_en);
-      let metaDesc = document.querySelector('meta[name="description"]');
-      if (metaDesc) metaDesc.setAttribute('content', desc.substring(0, 160));
-    } else {
-      setText('pageTitle', 'IAR Archive | Iraqi Administrative Reference');
-    }
-  }
-
-  async function getSiteVisits() {
-    try {
-      const doc = await db.collection('stats').doc('visits').get();
-      return doc.exists ? doc.data().count || 0 : 0;
-    } catch (error) {
-      return parseInt(storage.get('iar_site_visits', '0')) || 0;
-    }
-  }
-
-  async function incrementUniqueVisit() {
-    const visitsRef = db.collection('stats').doc('visits');
-    try {
-      const newCount = await db.runTransaction(async (transaction) => {
-        const doc = await transaction.get(visitsRef);
-        const currentCount = doc.exists ? doc.data().count || 0 : 0;
-        const nextCount = currentCount + 1;
-        transaction.set(visitsRef, { count: nextCount });
-        return nextCount;
-      });
-      storage.set('iar_site_visits', newCount);
-      return newCount;
-    } catch (error) {
-      const local = parseInt(storage.get('iar_site_visits', '0')) || 0;
-      return local + 1;
-    }
-  }
-
-  async function incrementDownloadCount(bookId) {
-    try {
-      const docRef = db.collection('downloads').doc(String(bookId));
-      await docRef.set({ count: firebase.firestore.FieldValue.increment(1) }, { merge: true });
-      const doc = await docRef.get();
-      return doc.exists ? doc.data().count || 0 : 0;
-    } catch (error) {
-      console.error('Download count error:', error);
-      return null;
-    }
-  }
-
-  async function loadPublicRatings() {
-    try {
-      const snapshot = await db.collection('ratings').get();
-      snapshot.forEach(doc => {
-        const book = booksData.find(b => b.id === Number(doc.id));
-        if (book) {
-          const data = doc.data();
-          book.publicRating = roundRating(data.average || 0);
-          book.ratingCount = data.ratingCount || 0;
-          book.ratingSum = data.ratingSum || 0;
-          book.voters = data.voters || [];
-        }
-      });
-    } catch (error) {
-      console.error('Load ratings error:', error);
-    }
-  }
-
-  async function loadDownloadCounts() {
-    try {
-      const snapshot = await db.collection('downloads').get();
-      snapshot.forEach(doc => {
-        const book = booksData.find(b => b.id === Number(doc.id));
-        if (book) book.downloadCount = doc.data().count || 0;
-      });
-    } catch (error) {
-      console.error('Load downloads error:', error);
-    }
-  }
-
-  async function updateSiteVisits() {
-    try {
-      if (isNewVisit()) {
-        storage.set('iar_last_visit', Date.now());
-        const count = await incrementUniqueVisit();
-        setText('siteVisitsCounter', count);
-      } else {
-        const count = await getSiteVisits();
-        setText('siteVisitsCounter', count);
-      }
-    } catch (error) {
-      const local = parseInt(storage.get('iar_site_visits', '0')) || 0;
-      setText('siteVisitsCounter', local);
-    }
-  }
-
-  function isNewVisit() {
-    const lastVisit = parseInt(storage.get('iar_last_visit', '0')) || 0;
-    const now = Date.now();
-    const oneDay = 24 * 60 * 60 * 1000;
-    return (now - lastVisit > oneDay);
-  }
-
-  async function submitPublicRating(bookId, newRating) {
-    if (typeof newRating !== 'number' || newRating < 1 || newRating > 5) {
-      showToast(i18n[currentLang].toastRatingFailed, 'danger');
-      return false;
-    }
-
-    if (!auth.currentUser) {
-      await new Promise(resolve => setTimeout(resolve, 1200));
-    }
-
-    if (!auth.currentUser) {
-      showToast(i18n[currentLang].toastAuthPending, 'warning');
-      return false;
-    }
-
-    const uid = auth.currentUser.uid;
-    const book = booksData.find(b => b.id === bookId);
-    if (!book) return false;
-
-    try {
-      const docRef = db.collection('ratings').doc(String(bookId));
-      await db.runTransaction(async (transaction) => {
-        const doc = await transaction.get(docRef);
-        const data = doc.exists ? doc.data() : {};
-        const existingVoters = Array.isArray(data.voters) ? data.voters : [];
-
-        if (existingVoters.includes(uid)) throw new Error('ALREADY_VOTED');
-
-        const newSum = (data.ratingSum || 0) + newRating;
-        const newCount = (data.ratingCount || 0) + 1;
-        const roundedAverage = roundRating(newSum / newCount);
-
-        transaction.set(docRef, {
-          ratingSum: newSum,
-          ratingCount: newCount,
-          average: roundedAverage,
-          voters: [...existingVoters, uid]
-        });
-      });
-
-      book.ratingSum = (book.ratingSum || 0) + newRating;
-      book.ratingCount = (book.ratingCount || 0) + 1;
-      book.publicRating = roundRating(book.ratingSum / book.ratingCount);
-      if (!book.voters) book.voters = [];
-      if (!book.voters.includes(uid)) book.voters.push(uid);
-      return true;
-    } catch (error) {
-      if (error.message === 'ALREADY_VOTED') {
-        showToast(currentLang === 'ar' ? 'لقد قمت بتقييم هذا الكتاب مسبقاً.' : 'You have already rated this book.', 'danger');
-      } else {
-        console.error('Rating submission failed:', error);
-        showToast(i18n[currentLang].toastRatingFailed, 'danger');
-      }
-      return false;
-    }
-  }
-
-  function renderStars(bookId, container) {
-    if (!container) return;
-    const book = booksData.find(b => b.id === bookId);
-    const currentRating = book ? Math.round(book.publicRating || 0) : 0;
-
-    container.innerHTML = '';
-    container.dataset.busy = 'false';
-
-    for (let i = 1; i <= 5; i++) {
-      const star = document.createElement('i');
-      star.className = `bi ${i <= currentRating ? 'bi-star-fill active' : 'bi-star'}`;
-      star.setAttribute('role', 'button');
-      star.style.cursor = 'pointer';
-
-      star.addEventListener('click', async (e) => {
-        e.stopPropagation();
-        if (container.dataset.busy === 'true') return;
-        container.dataset.busy = 'true';
-
-        try {
-          const success = await submitPublicRating(bookId, i);
-          if (success) {
-            const freshContainer = document.getElementById(`stars-${bookId}`);
-            if (freshContainer) renderStars(bookId, freshContainer);
-            if (isSingleView && currentOpenBookId === bookId) {
-              const singleStars = document.getElementById('singleBookStars');
-              if (singleStars) renderStars(bookId, singleStars);
-            }
-            showToast(i18n[currentLang].toastRated);
-            if (document.getElementById('sortOrder')?.value === 'rating') applyFilters();
-          }
-        } finally {
-          const resetContainer = document.getElementById(`stars-${bookId}`);
-          if (resetContainer) resetContainer.dataset.busy = 'false';
-        }
-      });
-      container.appendChild(star);
-    }
-
-    if (book && book.ratingCount) {
-      const countSpan = document.createElement('small');
-      countSpan.className = 'text-muted ms-2';
-      const avg = book.publicRating ? book.publicRating.toFixed(2) : '0.00';
-      countSpan.textContent = `(${avg} · ${book.ratingCount} ${i18n[currentLang].ratingLabel})`;
-      container.appendChild(countSpan);
-    }
-  }
-
-  const themeToggleBtn = document.getElementById('themeToggleBtn');
-  let currentTheme = storage.get('iar_theme', 'light') === 'dark' ? 'dark' : 'light';
-  document.documentElement.setAttribute('data-bs-theme', currentTheme);
-  updateThemeIcon(currentTheme);
-
-  themeToggleBtn?.addEventListener('click', () => {
-    currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-bs-theme', currentTheme);
-    storage.set('iar_theme', currentTheme);
-    updateThemeIcon(currentTheme);
-  });
-
-  function updateThemeIcon(theme) {
-    const icon = document.getElementById('themeIcon');
-    if (icon) icon.className = theme === 'dark' ? 'bi bi-sun fs-6' : 'bi bi-moon fs-6';
-  }
-
-  const langToggleBtn = document.getElementById('langToggleBtn');
-  function applyLanguage(lang) {
-    currentLang = i18n[lang] ? lang : 'ar';
-    storage.set('iar_lang', currentLang);
-    document.documentElement.setAttribute('lang', currentLang);
-    document.documentElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
-
-    const bootstrapCSS = document.getElementById('bootstrapCSS');
-    if (bootstrapCSS) {
-      bootstrapCSS.href = currentLang === 'ar' 
-        ? "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" 
-        : "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css";
-    }
-    
-    setText('langLabel', currentLang === 'ar' ? "EN" : "عربي");
-
-    const t = i18n[currentLang];
-    setText('txt-announcement', t.announcement);
-    setText('txt-subtitle', t.subtitle);
-    setText('txt-about-title', t.aboutTitle);
-    setText('txt-about-desc', t.aboutDesc);
-    setText('txt-stat-books', t.statBooks);
-    setText('txt-stat-cats', t.statCats);
-    setText('txt-stat-year', t.statYear);
-    setText('txt-stat-visits', t.statVisits);
-    setText('searchLabel', t.searchLabel);
-    setText('opt-sort-default', t.sortDefault);
-    setText('opt-sort-title', t.sortTitle);
-    setText('opt-sort-year', t.sortYear);
-    setText('opt-sort-pages', t.sortPages);
-    setText('opt-sort-downloads', t.sortDownloads);
-    setText('opt-sort-favorites', t.sortFavorites);
-    setText('opt-sort-rating', t.sortRating);
-    setHTML('txt-bundle-text', t.bundleText);
-    setText('txt-bundle-btn', t.bundleBtn);
-    setText('txt-clear-bundle', t.clearBundle);
-    setText('summaryModalTitle', t.modalTitle);
-    setHTML('txt-modal-ideas-title', t.modalIdeasTitle);
-    setHTML('txt-modal-audience-title', t.modalAudienceTitle);
-    setHTML('txt-modal-apa-title', t.modalAPATitle);
-    setText('txt-modal-close', t.modalClose);
-    setAttribute('summaryDismissBtn', 'aria-label', t.modalClose);
-    setAttribute('pdfDismissBtn', 'aria-label', t.modalClose);
-    setText('txt-loading', t.loading);
-    setAttribute('searchInput', 'placeholder', t.searchPlaceholder);
-    setAttribute('btnClearSearch', 'aria-label', t.clearSearch);
-    setAttribute('themeToggleBtn', 'aria-label', t.themeTooltip);
-    setAttribute('themeToggleBtn', 'title', t.themeTooltip);
-    setText('txt-share-modal-btn', t.shareModalBtn);
-    setText('txt-back-to-list', t.backToList);
-    setText('singleDescLabel', t.descLabel);
-    setText('singleKeyPointsLabel', t.keyPointsLabel);
-    setText('singleAudienceLabel', t.audienceLabel);
-    setText('singleReadLabel', t.readLabel);
-    setText('singleDownloadLabel', t.downloadLabel);
-    setText('singleCiteLabel', t.citeLabel);
-    setText('singleShareLabel', t.shareLabel);
-    
-    updateViewControls();
-    syncBundleUI();
-    updateBundleAlertUI();
-    if (booksLoaded && booksData.length > 0) { 
-      setupChipsCategories(); 
-      setupChipsScrollButtons();
-      applyFilters(); 
-    }
-  }
-
-  langToggleBtn?.addEventListener('click', () => {
-    const newLang = currentLang === 'ar' ? 'en' : 'ar';
-    storage.set('iar_lang', newLang);
-    window.location.reload();
-  });
-
-  const btnViewGrid = document.getElementById('btnViewGrid');
-  const btnViewList = document.getElementById('btnViewList');
-  function updateViewControls() {
-    const isGrid = currentViewMode === 'grid';
-    if (btnViewGrid) {
-      btnViewGrid.classList.toggle('active', isGrid);
-      btnViewGrid.setAttribute('aria-pressed', String(isGrid));
-      btnViewGrid.setAttribute('aria-label', i18n[currentLang].gridView);
-    }
-    if (btnViewList) {
-      btnViewList.classList.toggle('active', !isGrid);
-      btnViewList.setAttribute('aria-pressed', String(!isGrid));
-      btnViewList.setAttribute('aria-label', i18n[currentLang].listView);
-    }
-  }
-  btnViewGrid?.addEventListener('click', () => { currentViewMode = 'grid'; storage.set('iar_view_mode', 'grid'); updateViewControls(); applyFilters(); });
-  btnViewList?.addEventListener('click', () => { currentViewMode = 'list'; storage.set('iar_view_mode', 'list'); updateViewControls(); applyFilters(); });
-
-  function showSingleBookView(book) {
-    isSingleView = true;
-    currentOpenBookId = book.id;
-    hideEl('booksDisplayContainer');
-    hideEl('controlsRow');
-    hideEl('categoryChips');
-    hideEl('bundleBar');
-    hideEl('bundleModeAlertContainer');
-    const featuredSec = document.getElementById('featuredSection');
-    if (featuredSec) featuredSec.innerHTML = '';
-
-    const pag = document.getElementById('paginationContainer');
-    if (pag && pag.parentElement) pag.parentElement.classList.add('d-none');
-    const chipsContainer = document.querySelector('.chips-container');
-    if (chipsContainer) chipsContainer.classList.add('d-none');
-    showEl('singleBookView');
-    
-    const t = i18n[currentLang];
-    setAttribute('singleBookCover', 'src', book.cover_image || '');
-    setAttribute('singleBookCover', 'alt', translateDynamicText(book.title, book.title_en) || t.unknown);
-    setText('singleBookTitle', translateDynamicText(book.title, book.title_en) || t.unknown);
-    setText('singleBookAuthor', translateDynamicText(book.author, book.author_en) || t.unknown);
-    setText('singleBookCategory', translateDynamicText(book.category, book.category_en) || t.generalCat);
-    setText('singleBookType', translateDynamicText(book.type || t.defaultType, book.type_en));
-    setText('singleBookDescription', translateDynamicText(book.description, book.description_en) || t.unknown);
-    setText('singleBookAudience', translateDynamicText(book.target_audience || t.defaultAudience, book.target_audience_en));
-    
-    const keyPointsList = document.getElementById('singleBookKeyPoints');
-    if (keyPointsList) {
-      const points = (currentLang === 'en' && book.key_points_en && book.key_points_en.length > 0)
-        ? book.key_points_en
-        : (book.key_points && book.key_points.length > 0 ? book.key_points : t.defaultPoints);
-      keyPointsList.innerHTML = points.map(pt => `<li>${escapeHtml(pt)}</li>`).join('');
-    }
-    
-    setText('singleDownloadCount', book.downloadCount || 0);
-    const starsContainer = document.getElementById('singleBookStars');
-    if (starsContainer) renderStars(book.id, starsContainer);
-    
-    const readBtn = document.getElementById('singleReadBtn');
-    if (readBtn) readBtn.onclick = () => openPdfReader(book.file_path, translateDynamicText(book.title, book.title_en));
-    const downloadBtn = document.getElementById('singleDownloadBtn');
-    if (downloadBtn) downloadBtn.onclick = () => handleDownload(book.id, book.file_path, book.file_name);
-    const citeBtn = document.getElementById('singleCiteBtn');
-    if (citeBtn) citeBtn.onclick = () => copyText(`${translateDynamicText(book.author, book.author_en) || t.unknown} (${book.year || t.unknown}). ${translateDynamicText(book.title, book.title_en) || t.unknown}. ${translateDynamicText(book.publisher, book.publisher_en) || t.unknown}.`, t.toastCiteCopied);
-    const shareBtn = document.getElementById('singleShareBtn');
-    if (shareBtn) shareBtn.onclick = () => shareBook(book);
-    
-    updatePageTitle(book);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  function hideSingleBookView() {
-    isSingleView = false;
-    currentOpenBookId = null;
-    hideEl('singleBookView');
-    showEl('booksDisplayContainer');
-    showEl('controlsRow');
-    showEl('categoryChips');
-    const pag = document.getElementById('paginationContainer');
-    if (pag && pag.parentElement) pag.parentElement.classList.remove('d-none');
-    const chipsContainer = document.querySelector('.chips-container');
-    if (chipsContainer) chipsContainer.classList.remove('d-none');
-    updateBundleAlertUI();
-    updatePageTitle(null);
-    const url = new URL(window.location.href);
-    url.searchParams.delete('book');
-    window.history.replaceState({}, '', url);
-    applyFilters();
-  }
-
-  function handleDeepLinking() {
-    const bookId = getBookIdFromUrl();
-    if (bookId === null) return;
-    const book = booksData.find(b => b.id === bookId);
-    if (!book) {
-      hideSingleBookView();
-      return;
-    }
-    showSingleBookView(book);
-  }
-
-  function shareBook(book) {
-    if (!book) return;
-    const title = translateDynamicText(book.title, book.title_en) || i18n[currentLang].unknown;
-    const author = translateDynamicText(book.author, book.author_en) || i18n[currentLang].unknown;
-    const url = generateBookUrl(book.id);
-
-    if (navigator.share) {
-      // Title is passed via the `title` field of the share payload.
-      // The `text` field must NOT repeat it, otherwise the shared
-      // preview shows the book title twice.
-      const shareText = `${i18n[currentLang].shareText} ${author}\n${url}`;
-      navigator.share({ title, text: shareText, url }).catch(() => {});
-    } else {
-      // Clipboard fallback needs the title embedded for context.
-      const shareText = `${i18n[currentLang].shareText} "${title}" - ${author}\n${url}`;
-      copyText(shareText, i18n[currentLang].toastCopied);
-    }
-  }
-
-  async function handleDownload(bookId, filePath, fileName) {
-    if (!filePath) {
-      showToast(i18n[currentLang].toastFileUnavailable, 'danger');
-      return;
-    }
-    
-    const newCount = await incrementDownloadCount(bookId);
-    const book = booksData.find(b => b.id === bookId);
-    if (book && newCount !== null) {
-      book.downloadCount = newCount;
-      const countEl = document.getElementById(`downloadCount-${bookId}`);
-      if (countEl) countEl.innerText = book.downloadCount;
-      const singleCount = document.getElementById('singleDownloadCount');
-      if (singleCount && isSingleView && currentOpenBookId === bookId) singleCount.innerText = book.downloadCount;
-    }
-    
-    showToast(i18n[currentLang].preparingDownload, 'info');
-
-    try {
-      const response = await fetch(filePath);
-      if (!response.ok) throw new Error('Fetch failed: ' + response.status);
-      const blob = await response.blob();
-      const objectUrl = URL.createObjectURL(blob);
-      
-      const link = document.createElement('a');
-      link.href = objectUrl;
-      link.download = fileName || `IAR-Archive-Book-${bookId}.pdf`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      
-      setTimeout(() => URL.revokeObjectURL(objectUrl), 5000);
-    } catch (error) {
-      console.warn("Blob fetch failed:", error);
-      showToast(i18n[currentLang].toastFileUnavailable, 'danger');
-    }
-  }
-
-  document.getElementById('modalShareBtn')?.addEventListener('click', () => {
-    if (currentOpenBookId !== null) {
-      const book = booksData.find(b => b.id === currentOpenBookId);
-      if (book) shareBook(book);
-    }
-  });
-
-  function toggleFavorite(bookId) {
-    favoriteIds.has(bookId) ? favoriteIds.delete(bookId) : favoriteIds.add(bookId);
-    showToast(favoriteIds.has(bookId) ? i18n[currentLang].toastFavoriteAdded : i18n[currentLang].toastFavoriteRemoved);
-    storage.set('iar_favorites', JSON.stringify(Array.from(favoriteIds)));
-    applyFilters();
-  }
-  const isFavorite = (bookId) => favoriteIds.has(bookId);
-
-  function setupChipsCategories() {
-    const container = document.getElementById('categoryChips');
-    if (!container) return;
-    const labelsByKey = new Map();
-    booksData.forEach(book => labelsByKey.set(getCategoryKey(book), getCategoryLabel(book)));
-    const keys = ['all', ...labelsByKey.keys()];
-    const catCounter = document.getElementById('catCounter');
-    if (catCounter) catCounter.innerText = keys.length - 1;
-
-    container.innerHTML = keys.map(key => `
-      <button type="button" class="chip-item ${key === selectedCategory ? 'active' : ''}" 
-              data-category="${escapeHtml(key)}" aria-pressed="${key === selectedCategory}">
-        ${escapeHtml(key === 'all' ? i18n[currentLang].allCategories : labelsByKey.get(key))}
-      </button>`).join('');
-
-    container.querySelectorAll('.chip-item').forEach(chip => {
-      chip.addEventListener('click', (e) => {
-        container.querySelectorAll('.chip-item').forEach(c => { c.classList.remove('active'); c.setAttribute('aria-pressed', 'false'); });
-        e.currentTarget.classList.add('active');
-        e.currentTarget.setAttribute('aria-pressed', 'true');
-        selectedCategory = e.currentTarget.getAttribute('data-category');
-        currentPage = 1;
-        applyFilters();
-      });
+    return Promise.race([promise, new Promise((_, reject) => { timer = setTimeout(() => reject(new Error('Timeout')), ms); })]).finally(() => clearTimeout(timer));
+  };
+  function loadScript(src) {
+    return new Promise((resolve, reject) => {
+      const script = document.createElement('script'); script.src = src;
+      script.onload = resolve; script.onerror = () => reject(new Error('Could not load dependency')); document.head.append(script);
     });
   }
-
-  function setupChipsScrollButtons() {
-    const wrapper = document.getElementById('categoryChips');
-    const container = wrapper?.closest('.chips-container');
-    const btnLeft = document.getElementById('chipsScrollLeft');
-    const btnRight = document.getElementById('chipsScrollRight');
-    if (!wrapper || !container || !btnLeft || !btnRight) return;
-
-    const isRTL = document.documentElement.getAttribute('dir') === 'rtl';
-
-    function updateButtonsVisibility() {
-      const maxScroll = Math.max(0, wrapper.scrollWidth - wrapper.clientWidth);
-      if (maxScroll <= 5) {
-        container.classList.remove('can-scroll-start', 'can-scroll-end');
-        btnLeft.classList.remove('can-show');
-        btnRight.classList.remove('can-show');
-        return;
-      }
-      const currentScroll = Math.abs(wrapper.scrollLeft);
-      const atStart = currentScroll <= 5;
-      const atEnd = currentScroll >= maxScroll - 5;
-      container.classList.toggle('can-scroll-start', !atStart);
-      container.classList.toggle('can-scroll-end', !atEnd);
-      btnLeft.classList.toggle('can-show', !atStart);
-      btnRight.classList.toggle('can-show', !atEnd);
-    }
-
-    if (wrapper._chipsScrollHandler) wrapper.removeEventListener('scroll', wrapper._chipsScrollHandler);
-    if (window._chipsResizeHandler) window.removeEventListener('resize', window._chipsResizeHandler);
-
-    wrapper._chipsScrollHandler = updateButtonsVisibility;
-    window._chipsResizeHandler = updateButtonsVisibility;
-
-    wrapper.addEventListener('scroll', wrapper._chipsScrollHandler, { passive: true });
-    window.addEventListener('resize', window._chipsResizeHandler);
-
-    btnLeft.onclick = () => wrapper.scrollBy({ left: isRTL ? 200 : -200, behavior: 'smooth' });
-    btnRight.onclick = () => wrapper.scrollBy({ left: isRTL ? -200 : 200, behavior: 'smooth' });
-
-    setTimeout(updateButtonsVisibility, 100);
-  }
-
-  function openPdfReader(filePath, title) {
-    if (!filePath) {
-      showToast(i18n[currentLang].toastFileUnavailable, 'danger');
-      return;
-    }
-    setText('modalBookTitle', title);
-    const iframe = document.getElementById('pdfFrame');
-    if (!iframe) return;
-    
-    const absoluteUrl = new URL(filePath, window.location.href).href;
-    iframe.src = `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(absoluteUrl)}`;
-    pdfModal.show();
-  }
-
-  document.getElementById('pdfReaderModal')?.addEventListener('hidden.bs.modal', () => {
-    const iframe = document.getElementById('pdfFrame');
-    if (iframe) iframe.src = '';
-  });
-
-  function openCoverImage(imageSrc, title) {
-    const img = document.getElementById('coverImageLarge');
-    if (img) { img.src = imageSrc; img.alt = title; }
-    coverModal.show();
-  }
-
-  function openSummaryModal(id) {
-    const book = booksData.find(b => b.id === id);
-    if (!book) return;
-    currentOpenBookId = id;
-    const t = i18n[currentLang];
-    const title = translateDynamicText(book.title, book.title_en) || t.unknown;
-    const author = translateDynamicText(book.author, book.author_en) || t.unknown;
-    const publisher = translateDynamicText(book.publisher || t.defaultPublisher, book.publisher_en);
-
-    setText('summaryBookTitle', title);
-    setText('summaryBookAuthor', author);
-    setText('summaryCategory', translateDynamicText(book.category, book.category_en) || t.generalCat);
-    setText('summaryType', translateDynamicText(book.type || t.defaultType, book.type_en));
-    setMetadataChip('summaryPages', 'bi-file-earmark-text', `${book.pages || t.unknown} ${t.pagesSuffix}`);
-    setMetadataChip('summarySize', 'bi-hdd', book.file_size || t.unknown);
-    setText('summaryAudience', translateDynamicText(book.target_audience || t.defaultAudience, book.target_audience_en));
-    setText('summaryAPA', `${author} (${book.year || t.unknown}). ${title}. ${publisher}.`);
-
-    const pointsList = document.getElementById('summaryKeyPoints');
-    if (pointsList) {
-      let points = (currentLang === 'en' && book.key_points_en && book.key_points_en.length > 0) ? book.key_points_en : (book.key_points && book.key_points.length > 0 ? book.key_points : t.defaultPoints);
-      pointsList.innerHTML = points.map(pt => `<li>${escapeHtml(pt)}</li>`).join('');
-    }
-    summaryModal.show();
-  }
-
-  function toggleBundleSelection(id) {
-    if (selectedBundleIds.has(id)) selectedBundleIds.delete(id); else selectedBundleIds.add(id);
-    syncBundleUI();
-  }
-  function syncBundleUI() {
-    const countEl = document.getElementById('bundleCount');
-    if (countEl) countEl.innerText = selectedBundleIds.size;
-    const bundleBar = document.getElementById('bundleBar');
-    if (bundleBar) bundleBar.classList.toggle('d-none', selectedBundleIds.size === 0);
-    const copyBtn = document.getElementById('copyBundleBtn');
-    if (copyBtn) copyBtn.disabled = selectedBundleIds.size === 0;
-    const clearBtn = document.getElementById('clearBundleBtn');
-    if (clearBtn) clearBtn.disabled = selectedBundleIds.size === 0;
-  }
-
-  function exitBundleMode() {
-    isBundleMode = false;
-    selectedBundleIds.clear();
-    syncBundleUI();
-    const url = new URL(window.location.href);
-    url.searchParams.delete('bundle');
-    window.history.replaceState({}, '', url);
-    updateBundleAlertUI();
-    currentPage = 1;
-    applyFilters();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  function updateBundleAlertUI() {
-    const alertContainer = document.getElementById('bundleModeAlertContainer');
-    if (!alertContainer || isSingleView) return;
-
-    if (isBundleMode) {
-      alertContainer.innerHTML = `
-        <div class="alert alert-info d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4 shadow-sm">
-          <div class="d-flex align-items-center">
-            <i class="bi bi-collection-fill me-2 fs-5"></i>
-            <span>${currentLang === 'en' 
-              ? `Viewing a custom research bundle containing <strong>${selectedBundleIds.size}</strong> references.` 
-              : `أنت تستعرض حزمة بحثية مخصصة تضم <strong>${selectedBundleIds.size}</strong> مرجعاً.`}</span>
-          </div>
-          <button class="btn btn-primary btn-sm fw-bold" id="exitBundleBtn">
-            <i class="bi bi-house-door me-1"></i> ${currentLang === 'en' ? 'Back to Home' : 'العودة للرئيسية'}
-          </button>
-        </div>
-      `;
-      document.getElementById('exitBundleBtn')?.addEventListener('click', exitBundleMode);
-    } else {
-      alertContainer.innerHTML = '';
-    }
-  }
-
-  function hydrateBundleFromUrl() {
-    const rawIds = new URL(window.location.href).searchParams.get('bundle');
-    if (!rawIds) return;
-    const availableIds = new Set(booksData.map(b => b.id));
-    selectedBundleIds = new Set(rawIds.split(',').map(Number).filter(id => Number.isSafeInteger(id) && availableIds.has(id)));
-    if (selectedBundleIds.size > 0) {
-      isBundleMode = true;
-      updateBundleAlertUI();
-    }
-  }
-  
-  document.getElementById('copyBundleBtn')?.addEventListener('click', async () => {
-    const url = new URL(window.location.href);
-    url.searchParams.set('bundle', Array.from(selectedBundleIds).join(','));
-    copyText(url.toString(), i18n[currentLang].toastBundleCopied);
-  });
-
-  document.getElementById('clearBundleBtn')?.addEventListener('click', exitBundleMode);
-
-  async function copyText(text, successMessage) {
+  async function connectFirebase() {
+    if (demo) return;
     try {
-      if (navigator.clipboard && window.isSecureContext) {
-        await navigator.clipboard.writeText(text);
-      } else {
-        const helper = document.createElement('textarea');
-        helper.value = text;
-        helper.setAttribute('readonly', '');
-        document.body.appendChild(helper);
-        helper.select();
-        document.execCommand('copy');
-        helper.remove();
-      }
-      showToast(successMessage);
-    } catch (_) {
-      showToast(i18n[currentLang].toastCopyFailed, 'danger');
-    }
-  }
-
-  function getToastIcon(variant) {
-    switch (variant) {
-      case 'danger': return 'bi-exclamation-circle';
-      case 'warning': return 'bi-exclamation-triangle';
-      case 'info': return 'bi-info-circle';
-      case 'success': return 'bi-check-circle';
-      default: return 'bi-check-circle';
-    }
-  }
-
-  function showToast(message, variant = 'primary') {
-    const host = document.createElement('div');
-    host.className = 'position-fixed bottom-0 start-50 translate-middle-x p-3';
-    host.style.zIndex = '99999';
-
-    const toast = document.createElement('div');
-    toast.className = `toast align-items-center text-bg-${variant} border-0`;
-    toast.setAttribute('role', 'alert');
-    toast.setAttribute('aria-live', 'assertive');
-    toast.setAttribute('aria-atomic', 'true');
-
-    const row = document.createElement('div');
-    row.className = 'd-flex';
-
-    const body = document.createElement('div');
-    body.className = 'toast-body';
-
-    const icon = document.createElement('i');
-    icon.className = `bi ${getToastIcon(variant)} me-2`;
-
-    body.append(icon, document.createTextNode(String(message)));
-
-    const closeBtn = document.createElement('button');
-    closeBtn.type = 'button';
-    closeBtn.className = 'btn-close btn-close-white me-2 m-auto';
-    closeBtn.setAttribute('data-bs-dismiss', 'toast');
-    closeBtn.setAttribute('aria-label', i18n[currentLang].modalClose);
-
-    row.append(body, closeBtn);
-    toast.appendChild(row);
-    host.appendChild(toast);
-    document.body.appendChild(host);
-
-    toast.addEventListener('hidden.bs.toast', () => host.remove());
-    bootstrap.Toast.getOrCreateInstance(toast, { delay: 4000 }).show();
-  }
-
-  function handleBookAction(trigger) {
-    const bookId = Number(trigger.getAttribute('data-id'));
-    const book = booksData.find(b => b.id === bookId);
-    if (!book) return;
-
-    const t = i18n[currentLang];
-    const title = translateDynamicText(book.title, book.title_en) || t.unknown;
-    const author = translateDynamicText(book.author, book.author_en) || t.unknown;
-    const publisher = translateDynamicText(book.publisher || t.defaultPublisher, book.publisher_en);
-
-    switch (trigger.getAttribute('data-action')) {
-      case 'read':
-        openPdfReader(book.file_path, title);
-        break;
-      case 'summary':
-        openSummaryModal(book.id);
-        break;
-      case 'cite':
-        copyText(`${author} (${book.year || t.unknown}). ${title}. ${publisher}.`, t.toastCiteCopied);
-        break;
-      case 'cover-zoom':
-        if (book.cover_image) openCoverImage(book.cover_image, title);
-        break;
-      case 'favorite':
-        toggleFavorite(book.id);
-        break;
-      case 'share':
-        shareBook(book);
-        break;
-      case 'download':
-        handleDownload(book.id, book.file_path, book.file_name);
-        break;
-    }
-  }
-
-  document.getElementById('booksDisplayContainer')?.addEventListener('click', (e) => {
-    const trigger = e.target.closest('[data-action]');
-    if (!trigger) return;
-    handleBookAction(trigger);
-  });
-
-  document.getElementById('featuredSection')?.addEventListener('click', (e) => {
-    const trigger = e.target.closest('[data-action]');
-    if (!trigger) return;
-    handleBookAction(trigger);
-  });
-
-  document.getElementById('booksDisplayContainer')?.addEventListener('change', (e) => {
-    const trigger = e.target.closest('[data-action="bundle"]');
-    if (trigger) toggleBundleSelection(Number(trigger.getAttribute('data-id')));
-  });
-
-  /* ============================================================
-     Smart pagination — limits visible page buttons and inserts
-     ellipses instead of rendering every page number.
-     Rules:
-       - totalPages <= 7 → show all
-       - current near start  → 1 2 3 4 5 … N
-       - current in middle   → 1 … c-1 c c+1 … N
-       - current near end    → 1 … N-4 N-3 N-2 N-1 N
-     ============================================================ */
-  function getPaginationItems(current, total) {
-    const items = [];
-    if (total <= 7) {
-      for (let i = 1; i <= total; i++) items.push(i);
-      return items;
-    }
-
-    items.push(1);
-
-    let start, end;
-    if (current <= 4) {
-      start = 2;
-      end = 5;
-    } else if (current >= total - 3) {
-      start = total - 4;
-      end = total - 1;
-    } else {
-      start = current - 1;
-      end = current + 1;
-    }
-
-    if (start > 2) items.push('...');
-    for (let i = start; i <= end; i++) items.push(i);
-    if (end < total - 1) items.push('...');
-    items.push(total);
-
-    return items;
-  }
-
-  function renderPaginationControls(totalPages) {
-    const paginationEl = document.getElementById('paginationContainer');
-    if (!paginationEl) return;
-    if (totalPages <= 1) { paginationEl.innerHTML = ''; return; }
-
-    const prevDisabled = currentPage === 1;
-    const nextDisabled = currentPage === totalPages;
-    const prevLabel = currentLang === 'en' ? 'Previous' : 'السابق';
-    const nextLabel = currentLang === 'en' ? 'Next' : 'التالي';
-
-    const items = getPaginationItems(currentPage, totalPages);
-
-    let html = `<li class="page-item ${prevDisabled ? 'disabled' : ''}"><button class="page-link" data-page="${currentPage - 1}" ${prevDisabled ? 'disabled' : ''}>${prevLabel}</button></li>`;
-
-    items.forEach(item => {
-      if (item === '...') {
-        html += `<li class="page-item disabled"><span class="page-link" aria-hidden="true">…</span></li>`;
-      } else {
-        const active = currentPage === item ? 'active' : '';
-        html += `<li class="page-item ${active}"><button class="page-link" data-page="${item}">${item}</button></li>`;
-      }
-    });
-
-    html += `<li class="page-item ${nextDisabled ? 'disabled' : ''}"><button class="page-link" data-page="${currentPage + 1}" ${nextDisabled ? 'disabled' : ''}>${nextLabel}</button></li>`;
-    paginationEl.innerHTML = html;
-
-    paginationEl.querySelectorAll('button.page-link').forEach(btn => {
-      btn.onclick = (e) => {
-        const targetPage = Number(e.currentTarget.getAttribute('data-page'));
-        if (targetPage >= 1 && targetPage <= totalPages && targetPage !== currentPage) {
-          currentPage = targetPage;
-          applyFilters();
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+      for (const name of ['app','auth','firestore']) await timeout(loadScript(`https://www.gstatic.com/firebasejs/10.7.1/firebase-${name}-compat.js`));
+      const config = {
+        apiKey: 'AIzaSyAug0yFzjQ4ud6zX2ugK_T7Lj7LfuO04tw', authDomain: 'iar-archive-328bc.firebaseapp.com',
+        projectId: 'iar-archive-328bc', storageBucket: 'iar-archive-328bc.firebasestorage.app',
+        messagingSenderId: '81911492650', appId: '1:81911492650:web:c6ac2f89d52bdd7065d353', measurementId: 'G-PYZEY63LTR'
       };
-    });
+      if (!firebase.apps.length) firebase.initializeApp(config);
+      db = firebase.firestore(); auth = firebase.auth();
+      await timeout(auth.signInAnonymously(), 5000);
+    } catch (error) { console.warn('Optional Firebase services unavailable:', error.message); }
+  }
+  async function loadMetrics() {
+    if (demo) { text('siteVisitsCounter', '—'); return; }
+    await firebaseReady;
+    if (!db) { text('siteVisitsCounter', '—'); return; }
+    await Promise.allSettled(['ratings','downloads'].map(async name => {
+      const snapshot = await timeout(db.collection(name).get());
+      snapshot.forEach(doc => {
+        const book = byId(doc.id); if (!book) return;
+        const data = doc.data();
+        if (name === 'downloads') book.downloadCount = finite(data.count);
+        else {
+          book.ratingSum = finite(data.ratingSum); book.ratingCount = finite(data.ratingCount);
+          book.publicRating = Math.min(5, finite(data.average));
+          book.voters = Array.isArray(data.voters) ? data.voters.filter(value => typeof value === 'string') : [];
+        }
+      });
+    }));
+    refreshRatings(); refreshCounts();
+    try {
+      const visits = db.collection('stats').doc('visits');
+      const last = finite(store.get('iar_last_visit', '0'));
+      let count;
+      if (auth?.currentUser && Date.now() - last > 86400000) {
+        count = await timeout(db.runTransaction(async transaction => {
+          const doc = await transaction.get(visits); const next = finite(doc.data()?.count) + 1;
+          transaction.set(visits, { count: next }, { merge:true }); return next;
+        }));
+        store.set('iar_last_visit', Date.now());
+      } else count = finite((await timeout(visits.get())).data()?.count);
+      text('siteVisitsCounter', number(count));
+    } catch { text('siteVisitsCounter', '—'); }
+    if (!state.single && ['rating','downloads'].includes($('sortOrder').value)) render();
   }
 
-  function renderFeaturedSection(filtered) {
-    const container = document.getElementById('featuredSection');
-    if (!container || isBundleMode || isSingleView) {
-      if (container) container.innerHTML = '';
-      return;
-    }
-
-    const query = searchInput?.value.trim() || '';
-    if (query !== '' || selectedCategory !== 'all' || filtered.length === 0) {
-      container.innerHTML = '';
-      return;
-    }
-
-    const candidate = filtered.find(b => b.featured === true) || filtered[0];
-    if (!candidate) {
-      container.innerHTML = '';
-      return;
-    }
-
-    const featuredBook = booksData.find(b => b.id === candidate.id);
-    if (!featuredBook || !featuredBook.file_path) {
-      container.innerHTML = '';
-      return;
-    }
-
-    const t = i18n[currentLang];
-    const title = escapeHtml(translateDynamicText(featuredBook.title, featuredBook.title_en) || t.unknown);
-    const author = escapeHtml(translateDynamicText(featuredBook.author, featuredBook.author_en) || t.unknown);
-    const category = escapeHtml(translateDynamicText(featuredBook.category, featuredBook.category_en) || t.generalCat);
-    const type = escapeHtml(translateDynamicText(featuredBook.type || t.defaultType, featuredBook.type_en));
-    const badgeText = escapeHtml(translateDynamicText(featuredBook.badge_text, featuredBook.badge_text_en));
-    const isFav = isFavorite(featuredBook.id);
-
-    const coverHtml = featuredBook.cover_image 
-      ? `<div class="cover-img-wrapper" data-action="cover-zoom" data-id="${featuredBook.id}">
-           <img src="${escapeHtml(featuredBook.cover_image)}" class="cover-img" alt="${title}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-           <div class="cover-placeholder" style="display:none;"><i class="bi bi-journal-x"></i></div>
-         </div>`
-      : `<div class="cover-placeholder"><i class="bi bi-book"></i></div>`;
-
-    container.innerHTML = `
-      <div class="featured-spotlight-card">
-        <div class="featured-inner">
-          <div class="featured-sweep" aria-hidden="true"></div>
-          <div class="row align-items-center g-4 featured-row">
-            <div class="col-md-3 text-center">
-              <div class="cover-container mx-auto shadow-sm" style="width: 130px; height: 185px;">
-                ${coverHtml}
-              </div>
-            </div>
-            <div class="col-md-9 text-center text-md-start" id="featuredInfoColumn">
-              ${badgeText ? `
-                <div class="d-flex justify-content-center justify-content-md-start">
-                  <div class="featured-badge-top"><i class="bi bi-star-fill"></i> ${badgeText}</div>
-                </div>
-              ` : ''}
-              <div class="d-flex flex-wrap gap-2 mb-2 justify-content-center justify-content-md-start">
-                <span class="badge-tag">${category}</span>
-                <span class="badge-type"><i class="bi bi-journal-check me-1"></i>${type}</span>
-              </div>
-              <h2 class="h4 fw-bold mb-2" style="color: var(--accent);">${title}</h2>
-              <p class="book-author mb-2"><i class="bi bi-person me-1"></i>${author}</p>
-              <div class="mb-3 d-flex justify-content-center justify-content-md-start">
-                <div class="rating-stars" id="featuredStars"></div>
-              </div>
-              <p class="book-desc mb-3 mx-auto mx-md-0">${escapeHtml(translateDynamicText(featuredBook.description, featuredBook.description_en) || t.unknown)}</p>
-              
-              <div class="d-flex flex-wrap align-items-center gap-2 justify-content-center justify-content-md-start">
-                <button type="button" data-action="read" data-id="${featuredBook.id}" class="btn btn-iar-action px-3 py-2"><i class="bi bi-eye me-1"></i> ${t.readBtn}</button>
-                <button type="button" data-action="download" data-id="${featuredBook.id}" class="btn btn-iar-primary px-3 py-2"><i class="bi bi-download me-1"></i> ${t.downloadBtn} <span class="badge bg-light text-dark ms-1" id="downloadCount-${featuredBook.id}">${featuredBook.downloadCount || 0}</span></button>
-                <button type="button" data-action="summary" data-id="${featuredBook.id}" class="btn btn-iar-action px-3 py-2"><i class="bi bi-card-text me-1"></i> ${t.summaryBtn}</button>
-                <button type="button" data-action="cite" data-id="${featuredBook.id}" class="btn btn-iar-action px-3 py-2" title="${t.citeBtn}"><i class="bi bi-quote"></i></button>
-                <button type="button" data-action="favorite" data-id="${featuredBook.id}" class="btn btn-iar-action px-2 py-2" title="${isFav ? t.unfavoriteBtn : t.favoriteBtn}"><i class="bi ${isFav ? 'bi-heart-fill text-danger' : 'bi-heart'}"></i></button>
-                <button type="button" data-action="share" data-id="${featuredBook.id}" class="btn btn-iar-action px-2 py-2" title="${t.shareBtn}"><i class="bi bi-share"></i></button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    `;
-
-    const starsEl = document.getElementById('featuredStars');
-    if (starsEl) renderStars(featuredBook.id, starsEl);
+  function toast(message, error = false) {
+    let host = $('notificationHost');
+    if (!host) { host = document.createElement('div'); host.id = 'notificationHost'; host.className = 'notification-host'; document.body.append(host); }
+    const notification = document.createElement('div'); notification.className = `iar-notice ${error ? 'is-error' : ''}`;
+    notification.setAttribute('role', error ? 'alert' : 'status');
+    const content = document.createElement('span'); content.textContent = message;
+    const dismiss = document.createElement('button'); dismiss.type = 'button'; dismiss.textContent = '×'; dismiss.setAttribute('aria-label', t('إغلاق','Close'));
+    dismiss.onclick = () => notification.remove(); notification.append(content, dismiss); host.append(notification);
+    while (host.children.length > 3) host.firstElementChild.remove();
+    setTimeout(() => notification.remove(), 6500);
   }
-
-  function renderBooks(books) {
-    const container = document.getElementById('booksDisplayContainer');
-    if (!container) return;
-    const t = i18n[currentLang];
-    
-    if (books.length === 0) {
-      container.innerHTML = `<p class="text-center text-muted py-5">${t.noBooks}</p>`;
-      renderPaginationControls(0);
-      return;
-    }
-
-    const totalPages = Math.ceil(books.length / itemsPerPage);
-    if (currentPage > totalPages) currentPage = Math.max(1, totalPages);
-    
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const paginatedBooks = books.slice(startIndex, startIndex + itemsPerPage);
-
-    if (currentViewMode === 'grid') {
-      container.innerHTML = `<div class="row g-4 align-items-stretch">${paginatedBooks.map(book => {
-        let title = escapeHtml(translateDynamicText(book.title, book.title_en) || t.unknown);
-        let author = escapeHtml(translateDynamicText(book.author, book.author_en) || t.unknown);
-        let category = escapeHtml(translateDynamicText(book.category, book.category_en) || t.generalCat);
-        let publisher = escapeHtml(translateDynamicText(book.publisher || t.defaultPublisher, book.publisher_en));
-        let type = escapeHtml(translateDynamicText(book.type || t.defaultType, book.type_en));
-        const isFav = isFavorite(book.id);
-        
-        const coverHtml = book.cover_image 
-          ? `<div class="cover-img-wrapper" data-action="cover-zoom" data-id="${book.id}">
-               <img src="${escapeHtml(book.cover_image)}" class="cover-img" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-               <div class="cover-placeholder" style="display:none;"><i class="bi bi-journal-x"></i></div>
-             </div>`
-          : `<div class="cover-placeholder"><i class="bi bi-book"></i></div>`;
-
-        const downloadControl = book.file_path
-          ? `<button type="button" data-action="download" data-id="${book.id}" class="btn btn-iar-primary w-100 d-flex align-items-center justify-content-center gap-1">
-               <i class="bi bi-download"></i>
-               <span>${t.downloadBtn}</span>
-               <span class="badge bg-light text-dark" id="downloadCount-${book.id}">${book.downloadCount || 0}</span>
-             </button>`
-          : `<button type="button" class="btn btn-iar-primary w-100" disabled><i class="bi bi-download me-1"></i>${t.downloadBtn}</button>`;
-
-        return `
-          <div class="col-lg-6 d-flex">
-            <div class="card book-card w-100">
-              <div class="d-flex justify-content-between align-items-center mb-2">
-                <span class="badge-type"><i class="bi bi-journal-check me-1"></i>${type}</span>
-                <input class="form-check-input" type="checkbox" ${selectedBundleIds.has(book.id) ? 'checked' : ''} data-action="bundle" data-id="${book.id}" aria-label="${escapeHtml(t.selectBundle)}">
-              </div>
-              <div class="d-flex gap-3 mb-3">
-                <div class="cover-container shadow-sm">${coverHtml}</div>
-                <div class="d-flex flex-column flex-grow-1">
-                  <span class="badge-tag align-self-start">${category}</span>
-                  <h3 class="book-title">${title}</h3>
-                  <p class="book-author mb-2"><i class="bi bi-person me-1"></i>${author}</p>
-                  <div class="rating-stars" id="stars-${book.id}"></div>
-                  <div class="d-flex flex-wrap gap-2 mt-auto">
-                    <span class="meta-spec-chip"><i class="bi bi-building me-1"></i>${publisher} (${escapeHtml(book.year || t.unknown)})</span>
-                  </div>
-                </div>
-              </div>
-              <p class="book-desc pt-2 border-top border-light-subtle">${escapeHtml(translateDynamicText(book.description, book.description_en) || t.unknown)}</p>
-              <div class="row g-2 mt-auto">
-                <div class="col-6 col-md-3"><button type="button" data-action="read" data-id="${book.id}" class="btn btn-iar-action w-100"><i class="bi bi-eye me-1"></i> ${t.readBtn}</button></div>
-                <div class="col-6 col-md-3">${downloadControl}</div>
-                <div class="col-6 col-md-3"><button type="button" data-action="summary" data-id="${book.id}" class="btn btn-iar-action w-100"><i class="bi bi-card-text me-1"></i> ${t.summaryBtn}</button></div>
-                <div class="col-6 col-md-3"><button type="button" data-action="cite" data-id="${book.id}" class="btn btn-iar-action w-100" title="${t.citeBtn}"><i class="bi bi-quote"></i></button></div>
-                <div class="col-6"><button type="button" data-action="favorite" data-id="${book.id}" class="btn btn-iar-action w-100" title="${isFav ? t.unfavoriteBtn : t.favoriteBtn}"><i class="bi ${isFav ? 'bi-heart-fill text-danger' : 'bi-heart'}"></i></button></div>
-                <div class="col-6"><button type="button" data-action="share" data-id="${book.id}" class="btn btn-iar-action w-100" title="${t.shareBtn}"><i class="bi bi-share"></i></button></div>
-              </div>
-            </div>
-          </div>`;
-      }).join('')}</div>`;
-    } else {
-      container.innerHTML = `
-        <div class="table-responsive bg-body rounded-3 border p-2">
-          <table class="table table-hover align-middle mb-0">
-            <thead class="table-light">
-              <tr>
-                <th style="width: 40px;"></th>
-                <th>${currentLang==='en'?'Book Title':'عنوان الكتاب'}</th>
-                <th>${currentLang==='en'?'Author':'المؤلف'}</th>
-                <th>${currentLang==='en'?'Category':'التصنيف'}</th>
-                <th class="text-end">${currentLang==='en'?'Actions':'الإجراءات'}</th>
-              </tr>
-            </thead>
-            <tbody>${paginatedBooks.map(book => {
-              const isFav = isFavorite(book.id);
-              const downloadControl = book.file_path
-                ? `<button type="button" data-action="download" data-id="${book.id}" class="btn btn-primary btn-sm d-inline-flex align-items-center gap-1"><i class="bi bi-download"></i> <span class="badge bg-light text-dark" id="downloadCount-${book.id}">${book.downloadCount || 0}</span></button>`
-                : `<button type="button" class="btn btn-primary btn-sm" disabled><i class="bi bi-download"></i></button>`;
-
-              return `
-              <tr>
-                <td><input class="form-check-input" type="checkbox" ${selectedBundleIds.has(book.id) ? 'checked' : ''} data-action="bundle" data-id="${book.id}"></td>
-                <td class="fw-bold">${escapeHtml(translateDynamicText(book.title, book.title_en) || t.unknown)}</td>
-                <td class="small text-muted">${escapeHtml(translateDynamicText(book.author, book.author_en) || t.unknown)}</td>
-                <td><span class="badge-tag">${escapeHtml(translateDynamicText(book.category, book.category_en) || t.generalCat)}</span></td>
-                <td class="text-end">
-                  <div class="btn-group btn-group-sm gap-1">
-                    <button type="button" data-action="read" data-id="${book.id}" class="btn btn-outline-secondary"><i class="bi bi-eye"></i></button>
-                    ${downloadControl}
-                    <button type="button" data-action="summary" data-id="${book.id}" class="btn btn-outline-secondary"><i class="bi bi-card-text"></i></button>
-                    <button type="button" data-action="cite" data-id="${book.id}" class="btn btn-outline-secondary"><i class="bi bi-quote"></i></button>
-                    <button type="button" data-action="favorite" data-id="${book.id}" class="btn btn-outline-secondary"><i class="bi ${isFav ? 'bi-heart-fill text-danger' : 'bi-heart'}"></i></button>
-                    <button type="button" data-action="share" data-id="${book.id}" class="btn btn-outline-secondary"><i class="bi bi-share"></i></button>
-                  </div>
-                  <div class="mt-1 rating-stars" id="stars-${book.id}"></div>
-                </td>
-              </tr>`;
-            }).join('')}</tbody>
-          </table>
-        </div>`;
-    }
-
-    renderPaginationControls(totalPages);
-    paginatedBooks.forEach(b => {
-      const starsEl = document.getElementById(`stars-${b.id}`);
-      if (starsEl) renderStars(b.id, starsEl);
-    });
-  }
-
-  const searchInput = document.getElementById('searchInput');
-  const btnClearSearch = document.getElementById('btnClearSearch');
-  
-  function applyFilters() {
-    if (!booksData.length || isSingleView) return;
-    const query = searchInput?.value.trim().toLocaleLowerCase(currentLang) || '';
-    const sortValue = document.getElementById('sortOrder')?.value || 'default';
-
-    let filtered = booksData.filter(book => {
-      if (isBundleMode && !selectedBundleIds.has(book.id)) return false;
-      const keywords = currentLang === 'en' && book.keywords_en.length > 0 ? book.keywords_en.join(' ') : book.keywords.join(' ');
-      const searchableText = `${translateDynamicText(book.title, book.title_en)} ${translateDynamicText(book.author, book.author_en)} ${translateDynamicText(book.publisher, book.publisher_en)} ${translateDynamicText(book.description, book.description_en)} ${keywords}`.toLocaleLowerCase(currentLang);
-      return (query === '' || searchableText.includes(query)) && (selectedCategory === 'all' || getCategoryKey(book) === selectedCategory);
-    });
-
-    const sortMap = {
-      'default': (a, b) => {
-        if (a.featured !== b.featured) return (b.featured ? 1 : 0) - (a.featured ? 1 : 0);
-        return a.id - b.id;
-      },
-      'title': (a, b) => translateDynamicText(a.title, a.title_en).localeCompare(translateDynamicText(b.title, b.title_en), currentLang),
-      'year': (a, b) => (parseInt(b.year) || 0) - (parseInt(a.year) || 0),
-      'pages': (a, b) => (parseInt(a.pages) || 0) - (parseInt(b.pages) || 0),
-      'downloads': (a, b) => (b.downloadCount || 0) - (a.downloadCount || 0),
-      'rating': (a, b) => (b.publicRating || 0) - (a.publicRating || 0),
-      'favorites': (a, b) => {
-        const aFav = isFavorite(a.id) ? 1 : 0;
-        const bFav = isFavorite(b.id) ? 1 : 0;
-        if (aFav !== bFav) return bFav - aFav;
-        return translateDynamicText(a.title, a.title_en).localeCompare(translateDynamicText(b.title, b.title_en), currentLang);
+  async function copy(value) {
+    try {
+      if (navigator.clipboard && isSecureContext) await navigator.clipboard.writeText(value);
+      else {
+        const helper = document.createElement('textarea'); helper.value = value; helper.style.position = 'fixed'; helper.style.top = '-1000px';
+        document.body.append(helper); helper.select(); let success;
+        try { success = document.execCommand('copy'); } finally { helper.remove(); }
+        if (!success) throw new Error('Copy unavailable');
       }
-    };
-    filtered.sort(sortMap[sortValue] || sortMap['default']);
-
-    renderFeaturedSection(filtered);
-
-    let gridBooks = filtered;
-    if (query === '' && selectedCategory === 'all' && !isBundleMode) {
-      gridBooks = filtered.filter(b => !b.featured);
+      toast(t('تم النسخ إلى الحافظة.','Copied to clipboard.'));
+    } catch { window.prompt(t('انسخ النص التالي:','Copy the following text:'), value); }
+  }
+  const citation = book => `${field(book,'author') || labels().unknown} (${book.year || t('د.ت.','n.d.')}). ${field(book,'title')}. ${field(book,'publisher') || labels().unknown}.`;
+  function bookUrl(id) {
+    const url = new URL(location.href); url.searchParams.delete('bundle'); url.searchParams.set('book', id); url.hash = '';
+    return url.href;
+  }
+  async function share(book) {
+    const url = bookUrl(book.id);
+    if (navigator.share) {
+      try { await navigator.share({title:field(book,'title'), text:field(book,'author'), url}); return; }
+      catch (error) { if (error.name === 'AbortError') return; }
     }
-    renderBooks(gridBooks);
+    await copy(`${field(book,'title')}\n${url}`);
+  }
+  function modal(id, open = true) {
+    const el = $(id); if (!el) return;
+    if (window.bootstrap?.Modal) {
+      const instance = bootstrap.Modal.getOrCreateInstance(el); open ? instance.show() : instance.hide();
+    } else toast(t('تعذّر تحميل مكوّن النوافذ. أعد المحاولة بعد الاتصال بالإنترنت.','Dialog component unavailable. Reconnect and retry.'), true);
+  }
+  function samplePdf() {
+    // A tiny valid one-page PDF, explicitly marked as a preview; no book is fabricated.
+    const stream = 'BT /F1 22 Tf 60 730 Td (IAR ARCHIVE - PREVIEW ONLY) Tj 0 -42 Td /F1 12 Tf (Fictional sample. Not a published reference.) Tj ET';
+    const objects = ['<< /Type /Catalog /Pages 2 0 R >>','<< /Type /Pages /Kids [3 0 R] /Count 1 >>','<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>','<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>',`<< /Length ${stream.length} >>\nstream\n${stream}\nendstream`];
+    let pdf = '%PDF-1.4\n'; const offsets = [0];
+    objects.forEach((object,index) => { offsets.push(pdf.length); pdf += `${index+1} 0 obj\n${object}\nendobj\n`; });
+    const xref = pdf.length;
+    pdf += `xref\n0 6\n0000000000 65535 f \n${offsets.slice(1).map(offset => String(offset).padStart(10,'0') + ' 00000 n \n').join('')}trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF`;
+    return new Blob([pdf], {type:'application/pdf'});
+  }
+  let readerUrl = null;
+  function readBook(book) {
+    if (!book.file_path) return toast(t('ملف المرجع غير متاح.','Reference file unavailable.'), true);
+    text('modalBookTitle', field(book,'title'));
+    if (readerUrl) URL.revokeObjectURL(readerUrl);
+    const url = demo ? (readerUrl = URL.createObjectURL(samplePdf())) : book.file_path;
+    $('pdfFrame').src = url;
+    attr('pdfExternalLink','href',url); text('pdfExternalLink', t('فتح الملف في نافذة مستقلة إذا لم يظهر القارئ','Open file in a new tab if the reader is unavailable'));
+    modal('pdfReaderModal');
+  }
+  $('pdfReaderModal')?.addEventListener('hidden.bs.modal', () => {
+    $('pdfFrame').src = 'about:blank'; if (readerUrl) URL.revokeObjectURL(readerUrl); readerUrl = null;
+  });
+  async function download(book) {
+    if (!book.file_path || busyDownloads.has(book.id)) return;
+    busyDownloads.add(book.id); setDownloadBusy(book.id,true);
+    toast(t('جارٍ تحضير الملف…','Preparing file…'));
+    try {
+      let blob;
+      if (demo) blob = samplePdf();
+      else {
+        const response = await fetch(book.file_path, {signal:AbortSignal.timeout(45000)});
+        if (!response.ok) throw new Error('Download unavailable'); blob = await response.blob();
+      }
+      const url = URL.createObjectURL(blob); const link = document.createElement('a');
+      link.href = url; link.download = book.file_name; document.body.append(link); link.click(); link.remove();
+      setTimeout(() => URL.revokeObjectURL(url),60000);
+      // Count only after the browser has been handed a successfully fetched file.
+      if (demo) book.downloadCount++;
+      else if (db && auth?.currentUser) {
+        try {
+          const ref = db.collection('downloads').doc(String(book.id));
+          await timeout(ref.set({count:firebase.firestore.FieldValue.increment(1)}, {merge:true}));
+          book.downloadCount = finite((await timeout(ref.get())).data()?.count);
+        } catch { /* Download remains successful if metrics fail. */ }
+      }
+      refreshCounts(); toast(t('تم إرسال الملف إلى المتصفح.','File sent to your browser.'));
+    } catch { toast(t('تعذّر التحميل. جرّب فتح الملف من زر القراءة؛ قد يمنع المصدر التحميل المباشر.','Download failed. Try opening the file with Read; the source may restrict direct downloads.'),true); }
+    finally { busyDownloads.delete(book.id); setDownloadBusy(book.id,false); }
+  }
+  function setDownloadBusy(id,busy) {
+    document.querySelectorAll(`[data-action="download"][data-id="${id}"]`).forEach(button => {button.disabled = busy; button.setAttribute('aria-busy',String(busy));});
+    if (state.single === id) $('singleDownloadBtn').disabled = busy;
+  }
+  function refreshCounts() {
+    state.books.forEach(book => document.querySelectorAll(`[data-download-count="${book.id}"]`).forEach(el => el.textContent = number(book.downloadCount)));
+    if (state.single != null) text('singleDownloadCount', number(byId(state.single)?.downloadCount || 0));
+  }
+  function rated(book) { return demo ? store.get(prefix+'rating_'+book.id,'') !== '' : book.voters.includes(auth?.currentUser?.uid); }
+  function stars(book) {
+    const done = rated(book); const busy = busyRatings.has(book.id);
+    return `<div class="rating-stars" data-stars="${book.id}" role="group" aria-label="${esc(t('تقييم المرجع','Rate reference'))}">${[1,2,3,4,5].map(value => `<button type="button" class="star-button ${value <= Math.round(book.publicRating) ? 'active' : ''}" data-action="rate" data-id="${book.id}" data-rating="${value}" aria-label="${esc(t(`تقييم ${value} من 5`,`Rate ${value} out of 5`))}" ${done || busy ? 'disabled' : ''}>${i(value <= Math.round(book.publicRating) ? 'star-fill' : 'star')}</button>`).join('')}<small>${book.ratingCount ? `${book.publicRating.toFixed(2)} · ${number(book.ratingCount)}` : t('كن أول المقيّمين','Be the first to rate')}</small></div>`;
+  }
+  function refreshRatings() {
+    document.querySelectorAll('[data-stars]').forEach(el => { const book = byId(el.dataset.stars); if (book) el.outerHTML = stars(book); });
+  }
+  async function rate(book,value) {
+    if (!Number.isInteger(value) || value < 1 || value > 5 || busyRatings.has(book.id) || rated(book)) return;
+    busyRatings.add(book.id); refreshRatings();
+    try {
+      if (demo) {
+        store.set(prefix+'rating_'+book.id,value); book.ratingSum=value; book.ratingCount=1; book.publicRating=value;
+      } else {
+        await firebaseReady;
+        if (!db || !auth?.currentUser) throw new Error('AUTH');
+        const uid = auth.currentUser.uid;
+        const result = await db.runTransaction(async transaction => {
+          const ref = db.collection('ratings').doc(String(book.id)); const doc = await transaction.get(ref); const data = doc.data() || {};
+          const voters = Array.isArray(data.voters) ? data.voters : [];
+          if (voters.includes(uid)) throw new Error('ALREADY_VOTED');
+          const ratingSum = finite(data.ratingSum)+value, ratingCount = finite(data.ratingCount)+1;
+          const result = {ratingSum,ratingCount,average:Number((ratingSum/ratingCount).toFixed(2)),voters:[...voters,uid]};
+          transaction.set(ref,result); return result;
+        });
+        Object.assign(book,{ratingSum:result.ratingSum,ratingCount:result.ratingCount,publicRating:result.average,voters:result.voters});
+      }
+      toast(demo ? t('حُفظ تقييم المعاينة محليًا فقط.','Preview rating saved locally only.') : t('تم حفظ تقييمك.','Your rating was saved.'));
+    } catch (error) { toast(error.message === 'ALREADY_VOTED' ? t('سبق أن قيّمت هذا المرجع.','You already rated this reference.') : t('تعذّر حفظ التقييم. تحقق من الاتصال وصلاحيات Firebase.','Rating failed. Check connectivity and Firebase permissions.'),true); }
+    finally { busyRatings.delete(book.id); refreshRatings(); }
   }
 
-  searchInput?.addEventListener('input', () => {
-    if (btnClearSearch) btnClearSearch.classList.toggle('d-none', searchInput.value.trim() === '');
-    currentPage = 1;
-    debounce(applyFilters, 200)();
-  });
-  btnClearSearch?.addEventListener('click', () => { 
-    if (searchInput) searchInput.value = '';
-    if (btnClearSearch) btnClearSearch.classList.add('d-none');
-    currentPage = 1;
-    applyFilters(); 
-  });
-  document.getElementById('sortOrder')?.addEventListener('change', () => {
-    currentPage = 1;
-    applyFilters();
-  });
+  function cover(book,featured=false) {
+    const title = esc(field(book,'title')); const color = book.id % 5;
+    const image = book.cover_image ? `<img class="cover-img" src="${esc(book.cover_image)}" alt="${title}" loading="${featured ? 'eager' : 'lazy'}">` : '';
+    const fallback = `<span class="cover-placeholder designed-cover cover-tone-${color}" ${image ? 'hidden' : ''}><span class="cover-edition">IAR / ${esc(book.year || 'ARCHIVE')}</span><span class="cover-symbol" aria-hidden="true">${i(['intersect','command','diagram-3','asterisk','layers'][color])}</span><span class="cover-name">${title}</span><span class="cover-caption">${demo ? 'PREVIEW EDITION' : 'IAR ARCHIVE'}</span></span>`;
+    return `<div class="cover-container ${featured ? 'featured-cover' : ''}"><button type="button" class="cover-img-wrapper book-cover-button" data-action="${book.cover_image ? 'cover' : 'details'}" data-id="${book.id}" aria-label="${esc(t('عرض','View'))}: ${title}">${image}${fallback}</button></div>`;
+  }
+  function action(book,name,icon,label,primary=false,iconOnly=false) {
+    const disabled = ['read','download'].includes(name) && !book.file_path;
+    return `<button type="button" class="btn ${primary ? 'btn-iar-primary' : 'btn-iar-action'}" data-action="${name}" data-id="${book.id}" ${disabled ? 'disabled' : ''} aria-label="${esc(label)}" title="${esc(label)}" ${name==='favorite' ? `aria-pressed="${state.favorites.has(book.id)}"` : ''}>${i(icon)}${iconOnly ? '' : `<span>${esc(label)}</span>`}${name === 'download' ? `<span class="download-count" data-download-count="${book.id}">${number(book.downloadCount)}</span>` : ''}</button>`;
+  }
+  function actions(book) {
+    const l = labels(); const fav = state.favorites.has(book.id);
+    return `<div class="book-actions">${action(book,'read','book',l.read)}${action(book,'download','arrow-down',l.download,true)}${action(book,'summary','lightning-charge',l.summary)}${action(book,'cite','quote',l.cite,false,true)}${action(book,'favorite',fav?'heart-fill':'heart',fav?t('إزالة من المفضلة','Remove favorite'):t('إضافة إلى المفضلة','Add favorite'),false,true)}${action(book,'share','share',l.share,false,true)}</div>`;
+  }
+  function bookCard(book) {
+    return `<article class="book-card"><div class="book-topline"><span class="badge-type">${esc(field(book,'type') || t('مرجع إداري','Reference'))}</span><label class="bundle-select"><input type="checkbox" data-action="bundle" data-id="${book.id}" ${state.bundle.has(book.id)?'checked':''} aria-label="${esc(t('أضف إلى الحزمة: ','Add to bundle: ')+field(book,'title'))}"><span>${t('حزمة البحث','Bundle')}</span></label></div><div class="book-main">${cover(book)}<div class="book-info"><span class="badge-tag">${esc(categoryLabel(book))}</span><h3 class="book-title"><a href="${esc(bookUrl(book.id))}" data-action="details" data-id="${book.id}">${esc(field(book,'title'))}</a></h3><p class="book-author">${esc(field(book,'author') || labels().unknown)}</p>${stars(book)}<div class="book-meta"><span class="meta-spec-chip">${i('calendar3')}${esc(book.year || '—')}</span><span class="meta-spec-chip">${i('file-earmark-text')}${esc(book.pages || '—')} ${t('صفحة','pages')}</span></div></div></div><p class="book-desc">${esc(field(book,'description') || labels().unknown)}</p>${actions(book)}</article>`;
+  }
+  function featured(book) {
+    return `<article class="featured-spotlight-card"><div class="featured-inner"><div class="featured-sweep" aria-hidden="true"></div><div class="featured-layout">${cover(book,true)}<div class="featured-copy"><span class="featured-badge-top">${i('stars')}${esc(field(book,'badge_text') || t('في دائرة الضوء','In the spotlight'))}</span><div><span class="badge-tag">${esc(categoryLabel(book))}</span><span class="featured-index">01 / IAR SELECTION</span></div><h2><a href="${esc(bookUrl(book.id))}" data-action="details" data-id="${book.id}">${esc(field(book,'title'))}</a></h2><p class="book-author">${esc(field(book,'author'))}</p><p class="book-desc">${esc(field(book,'description'))}</p>${stars(book)}${actions(book)}</div></div></div></article>`;
+  }
+  function filteredBooks() {
+    const normalizeSearch = value => value.toLocaleLowerCase(state.lang).normalize('NFKD').replace(/[\u064B-\u065F\u0670]/g,'').replace(/\u0640/g,'');
+    const query = normalizeSearch(state.query);
+    const books = state.books.filter(book => {
+      if (state.bundleMode && !state.bundle.has(book.id)) return false;
+      if (state.favoritesOnly && !state.favorites.has(book.id)) return false;
+      if (state.category !== 'all' && categoryKey(book) !== state.category) return false;
+      const haystack = ['title','author','publisher','description','category'].flatMap(key => [book[key],book[key+'_en']]).concat(book.keywords,book.keywords_en).join(' ');
+      return !query || normalizeSearch(haystack).includes(query);
+    });
+    const titleSort = (a,b) => field(a,'title').localeCompare(field(b,'title'),state.lang);
+    const sorts = {default:(a,b)=>Number(b.featured)-Number(a.featured)||a.id-b.id,title:titleSort,year:(a,b)=>finite(b.year)-finite(a.year),pages:(a,b)=>finite(a.pages)-finite(b.pages),downloads:(a,b)=>b.downloadCount-a.downloadCount,rating:(a,b)=>b.publicRating-a.publicRating,favorites:(a,b)=>Number(state.favorites.has(b.id))-Number(state.favorites.has(a.id))||titleSort(a,b)};
+    return books.sort(sorts[$('sortOrder')?.value] || sorts.default);
+  }
+  function pagination(total) {
+    const nav = $('paginationContainer'); nav.innerHTML = '';
+    if (total <= 1) return;
+    const values = [...new Set([1,total,state.page-1,state.page,state.page+1,...(state.page<4?[2,3,4,5]:[]),...(state.page>total-3?[total-4,total-3,total-2,total-1]:[])])].filter(value=>value>0&&value<=total).sort((a,b)=>a-b);
+    const button = (value,label,disabled=false) => `<li class="page-item ${value===state.page?'active':''}"><button type="button" class="page-link" data-page="${value}" ${disabled?'disabled':''} ${value===state.page?'aria-current="page"':''}>${label}</button></li>`;
+    let html = button(state.page-1,t('السابق','Previous'),state.page===1), last=0;
+    values.forEach(value=>{if(last&&value-last>1)html+='<li class="page-item disabled"><span class="page-link" aria-hidden="true">…</span></li>';html+=button(value,number(value));last=value;});
+    nav.innerHTML = html+button(state.page+1,t('التالي','Next'),state.page===total);
+  }
+  function syncBundle() {
+    text('bundleCount',number(state.bundle.size)); visible('bundleBar',state.bundle.size>0 && state.single===null);
+    $('copyBundleBtn').disabled = state.bundle.size===0;
+    const host = $('bundleModeAlertContainer'); visible('bundleModeAlertContainer',state.single===null);
+    host.innerHTML = state.bundleMode ? `<div class="bundle-mode-notice">${i('collection')}<span>${t('حزمة بحثية مشتركة','Shared research bundle')} · ${number(state.bundle.size)}</span><button type="button" class="btn btn-iar-action" data-action="clear-bundle">${t('العودة للمكتبة','Back to library')}</button></div>` : '';
+  }
+  function render() {
+    if (state.single !== null) { renderSingle(); return; }
+    visible('singleBookView',false); ['booksDisplayContainer','controlsRow','categoryChips','resultsCount'].forEach(id=>visible(id,true));
+    document.querySelector('.chips-container')?.classList.remove('d-none'); $('paginationContainer').parentElement.classList.remove('d-none');
+    syncBundle();
+    if (!state.loaded) return;
+    const books = filteredBooks();
+    const spotlight = !state.query && state.category==='all' && !state.bundleMode && !state.favoritesOnly && state.page===1 ? books.find(book=>book.featured) : null;
+    $('featuredSection').innerHTML = spotlight ? featured(spotlight) : '';
+    // Featured entries stay in the catalogue: no records silently disappear.
+    const size=6, total=Math.ceil(books.length/size); state.page=Math.min(state.page,Math.max(1,total));
+    const page = books.slice((state.page-1)*size,state.page*size);
+    text('resultsCount',t(`${number(books.length)} مرجع في مساحة اكتشافك`,`${number(books.length)} references to explore`));
+    $('booksDisplayContainer').innerHTML = books.length ? `<div class="books-grid ${state.view==='list'?'is-list':''}">${page.map(bookCard).join('')}</div>` : `<div class="empty-state">${i('search')}<h3>${t('لا توجد نتائج مطابقة','No matching references')}</h3><p>${t('جرّب كلمات أخرى أو أعد ضبط خيارات العرض.','Try another search or reset your filters.')}</p><button class="btn btn-iar-primary" data-action="reset">${t('إعادة ضبط البحث','Reset filters')}</button></div>`;
+    pagination(total); refreshCounts(); updateChips();
+    $('btnViewGrid').classList.toggle('active',state.view==='grid'); attr('btnViewGrid','aria-pressed',state.view==='grid');
+    $('btnViewList').classList.toggle('active',state.view==='list'); attr('btnViewList','aria-pressed',state.view==='list');
+    $('favoritesOnlyBtn')?.classList.toggle('active',state.favoritesOnly); attr('favoritesOnlyBtn','aria-pressed',state.favoritesOnly);
+  }
+  function categories() {
+    const map = new Map(); state.books.forEach(book=>map.set(categoryKey(book),categoryLabel(book)));
+    text('catCounter',number(map.size));
+    $('categoryChips').innerHTML = [['all',t('كل المراجع','All references')],...map].map(([key,label])=>`<button type="button" class="chip-item ${state.category===key?'active':''}" data-category="${esc(key)}" aria-pressed="${state.category===key}">${esc(label)}</button>`).join('');
+    requestAnimationFrame(updateChips);
+  }
+  function updateChips() {
+    const wrapper=$('categoryChips'), container=wrapper.closest('.chips-container');
+    const max=Math.max(0,wrapper.scrollWidth-wrapper.clientWidth), current=Math.min(max,Math.abs(wrapper.scrollLeft));
+    const start=max>5&&current>5, end=max>5&&current<max-5;
+    container.classList.toggle('can-scroll-start',start); container.classList.toggle('can-scroll-end',end);
+    $('chipsScrollLeft').classList.toggle('can-show',start); $('chipsScrollRight').classList.toggle('can-show',end);
+  }
+  function metadata(book=null) {
+    const title=book?`${field(book,'title')} | IAR Archive`:'IAR Archive | Iraqi Administrative Reference';
+    const description=book?field(book,'description'):t('مساحة معرفية للمراجع الإدارية، والملخصات، والتوثيق الأكاديمي.','A knowledge space for management references, summaries and academic citations.');
+    document.title=title; document.querySelector('meta[name="description"]')?.setAttribute('content',description.slice(0,160));
+    document.querySelector('meta[property="og:title"]')?.setAttribute('content',title);
+    document.querySelector('meta[property="og:description"]')?.setAttribute('content',description.slice(0,160));
+  }
+  function points(book) {
+    const list=state.lang==='en'&&book.key_points_en.length?book.key_points_en:book.key_points;
+    return list.length?list:[t('لم يُرفق ملخص لهذا المرجع بعد.','No summary has been provided for this reference yet.')];
+  }
+  function summary(book) {
+    state.summary=book.id;
+    text('summaryBookTitle',field(book,'title')); text('summaryBookAuthor',field(book,'author'));
+    text('summaryCategory',categoryLabel(book)); text('summaryType',field(book,'type'));
+    text('summaryPages',`${book.pages||'—'} ${t('صفحة','pages')}`); text('summarySize',book.file_size||'—');
+    text('summaryAudience',field(book,'target_audience')||labels().unknown); text('summaryAPA',citation(book));
+    $('summaryAPA').dir='auto'; $('summaryKeyPoints').innerHTML=points(book).map(point=>`<li>${esc(point)}</li>`).join('');
+    modal('summaryModal');
+  }
+  function renderSingle() {
+    const book=byId(state.single); if(!book)return;
+    ['booksDisplayContainer','controlsRow','categoryChips','bundleBar','bundleModeAlertContainer','resultsCount'].forEach(id=>visible(id,false));
+    document.querySelector('.chips-container')?.classList.add('d-none'); $('paginationContainer').parentElement.classList.add('d-none'); $('featuredSection').innerHTML='';
+    visible('singleBookView',true);
+    const img=$('singleBookCover');
+    if(book.cover_image){img.src=book.cover_image;img.hidden=false;}
+    else{img.hidden=true;img.removeAttribute('src');}
+    img.alt=field(book,'title');
+    let fallback=$('singleCoverFallback');
+    if(!fallback){fallback=document.createElement('div');fallback.id='singleCoverFallback';img.parentElement.append(fallback);}
+    fallback.innerHTML=book.cover_image?'':cover(book,true);
+    text('singleBookTitle',field(book,'title')); text('singleBookAuthor',field(book,'author')||labels().unknown);
+    text('singleBookCategory',categoryLabel(book)); text('singleBookType',field(book,'type'));
+    text('singleBookDescription',field(book,'description')||labels().unknown); text('singleBookAudience',field(book,'target_audience')||labels().unknown);
+    $('singleBookKeyPoints').innerHTML=points(book).map(point=>`<li>${esc(point)}</li>`).join('');
+    $('singleBookStars').innerHTML=stars(book); text('singleDownloadCount',number(book.downloadCount));
+    $('singleReadBtn').disabled=!book.file_path; $('singleDownloadBtn').disabled=!book.file_path||busyDownloads.has(book.id);
+    $('singleReadBtn').onclick=()=>readBook(book); $('singleDownloadBtn').onclick=()=>download(book);
+    $('singleCiteBtn').onclick=()=>copy(citation(book)); $('singleShareBtn').onclick=()=>share(book);
+    metadata(book); syncBundle();
+  }
+  function navigateBook(book) { history.pushState({},'',bookUrl(book.id)); state.single=book.id; renderSingle(); window.scrollTo({top:0,behavior:motion()}); }
+  function backToList() {
+    const url=new URL(location.href);url.searchParams.delete('book');history.pushState({},'',url);
+    state.single=null;metadata();render();
+  }
+  function route() {
+    const params=new URLSearchParams(location.search);const raw=params.get('book');
+    state.single=raw!==null&&raw.trim()!==''&&Number.isSafeInteger(Number(raw))&&byId(Number(raw))?Number(raw):null;
+    const bundle=params.get('bundle');
+    state.bundleMode=bundle!==null;
+    if(bundle!==null) state.bundle=new Set(bundle.split(',').filter(id=>id.trim()!=='').map(Number).filter(id=>Number.isSafeInteger(id)&&byId(id)));
+    state.page=1;metadata();render();
+  }
+  function clearBundle() {
+    state.bundleMode=false;state.bundle.clear();state.single=null;state.query='';state.category='all';state.favoritesOnly=false;state.page=1;
+    $('searchInput').value='';visible('btnClearSearch',false);
+    const url=new URL(location.href);url.searchParams.delete('bundle');url.searchParams.delete('book');history.pushState({},'',url);
+    categories();metadata();render();
+  }
 
-  document.getElementById('btnBackToList')?.addEventListener('click', hideSingleBookView);
+  function language() {
+    const root=document.documentElement;root.lang=state.lang;root.dir=state.lang==='ar'?'rtl':'ltr';
+    const link=$('bootstrapCSS');const next=state.lang==='ar'?'vendor/bootstrap.rtl.min.css':'vendor/bootstrap.min.css';
+    if(link && !window.IAR_EMBEDDED) {link.href=next;link.onload=updateChips;}
+    const pairs={
+      'langLabel':['EN','عربي'],'txt-announcement':['IAR ARCHIVE · مساحة للمعرفة الإدارية','IAR ARCHIVE · A space for management knowledge'],
+      'txt-subtitle':['الأرشيف الإداري العراقي','Iraqi Administrative Reference'],
+      'txt-about-title':['معرفة تُلهمك.\nومراجع تصنع الأثر.','Knowledge that inspires.\nReferences that matter.'],
+      'txt-about-desc':['مساحتك لاستكشاف علوم الإدارة. اقرأ، اكتشف الأفكار، وابنِ حزمة مراجعك القادمة — كل ذلك في مكان واحد.','Your space to explore management sciences. Read, discover ideas and build your next research collection — all in one place.'],
+      'txt-kicker':['مساحة للمعرفة الإدارية','A space for management knowledge'],'txt-tag-summary':['ملخصات 3 دقائق','3-minute summaries'],'txt-tag-cite':['توثيق APA مباشر','Direct APA citations'],'txt-tag-bundle':['حزم بحثية مخصصة','Curated research bundles'],
+      'txt-explore':['استكشف المكتبة','Explore the library'],'txt-library-title':['رفوف المعرفة','The knowledge shelves'],
+      'txt-favorites-only':['مفضلتي','My favorites'],'txt-stat-books':['مرجع في الأرشيف','Archived references'],'txt-stat-cats':['مسارات معرفية','Knowledge paths'],
+      'txt-stat-visits':[demo?'معاينة محلية':'زيارات يومية تقريبية',demo?'Local preview':'Approx. daily visits'],'txt-stat-year':['سنة الأرشفة','Archive year'],
+      'searchLabel':['البحث في المراجع','Search references'],'opt-sort-default':['اختيار الأرشيف','Archive selection'],'opt-sort-title':['العنوان: أ — ي','Title: A — Z'],'opt-sort-year':['الأحدث أولاً','Newest first'],'opt-sort-pages':['الأقل صفحات أولاً','Fewest pages first'],'opt-sort-downloads':['الأكثر تحميلاً','Most downloaded'],'opt-sort-favorites':['المفضلة أولاً','Favorites first'],'opt-sort-rating':['الأعلى تقييماً','Highest rated'],
+      'txt-bundle-btn':['نسخ رابط الحزمة','Copy bundle link'],'txt-clear-bundle':['إلغاء الحزمة','Clear bundle'],
+      'summaryModalTitle':['ملخص المرجع · 3 دقائق','Reference summary · 3 minutes'],'txt-modal-ideas-title':['أهم الأفكار','Key ideas'],'txt-modal-audience-title':['الفئة المستهدفة','Target audience'],'txt-modal-apa-title':['التوثيق الأكاديمي · APA','Academic citation · APA'],'txt-modal-close':['إغلاق','Close'],'txt-share-modal-btn':['مشاركة','Share'],
+      'txt-back-to-list':['العودة إلى المكتبة','Back to the library'],'singleDescLabel':['عن المرجع','About this reference'],'singleKeyPointsLabel':['الأفكار الرئيسية','Key concepts'],'singleAudienceLabel':['الفئة المستهدفة','Target audience'],'singleReadLabel':['قراءة','Read'],'singleDownloadLabel':['تحميل','Download'],'singleCiteLabel':['توثيق APA','Cite APA'],'singleShareLabel':['مشاركة','Share'],
+      'txt-loading':['جارٍ تحميل المراجع…','Loading references…']
+    };
+    Object.entries(pairs).forEach(([id,values])=>text(id,values[state.lang==='ar'?0:1]));
+    const attributes={searchInput:['placeholder',t('ابحث بعنوان، مؤلف، أو فكرة…','Search a title, author or idea…')],btnClearSearch:['aria-label',t('مسح البحث','Clear search')],langToggleBtn:['aria-label',t('Switch to English','التبديل إلى العربية')],themeToggleBtn:['aria-label',t('تبديل المظهر','Toggle theme')],sortOrder:['aria-label',t('ترتيب المراجع','Sort references')],btnViewGrid:['aria-label',t('عرض شبكي','Grid view')],btnViewList:['aria-label',t('عرض قائمة','List view')],categoryChips:['aria-label',t('التصنيفات','Categories')],chipsScrollLeft:['aria-label',t('السابق','Previous')],chipsScrollRight:['aria-label',t('التالي','Next')],summaryDismissBtn:['aria-label',t('إغلاق','Close')],pdfDismissBtn:['aria-label',t('إغلاق','Close')]};
+    Object.entries(attributes).forEach(([id,[key,value]])=>attr(id,key,value));
+    $('paginationContainer').parentElement.setAttribute('aria-label',t('صفحات المراجع','Reference pages'));
+    $('txt-bundle-text').innerHTML=t('تم تحديد <strong id="bundleCount">0</strong> مراجع لحزمتك','Selected <strong id="bundleCount">0</strong> references for your bundle');
+    text('previewNotice',t('وضع المعاينة — المراجع والأغلفة تجريبية. لا اتصال بـ Firebase؛ التقييمات والمفضلة محلية فقط.','PREVIEW MODE — Fictional references and covers. No Firebase connection; ratings and favorites are local only.'));visible('previewNotice',demo);
+    text('booksCounter',number(state.books.length));
+    if(state.loaded){categories();render();}else syncBundle();
+    metadata(state.single!==null?byId(state.single):null);
+    if(state.summary!==null && $('summaryModal').classList.contains('show'))summary(byId(state.summary));
+    $('btnBackToList').querySelector('i').className='bi bi-arrow-'+(state.lang==='ar'?'right':'left');
+  }
+  function theme() {
+    document.documentElement.dataset.bsTheme=state.theme;
+    $('themeIcon').className=`bi bi-${state.theme==='dark'?'sun':'moon'}`;
+    attr('themeToggleBtn','aria-pressed',state.theme==='dark');
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content',state.theme==='dark'?'#070b14':'#f6f8fc');
+  }
+  $('themeToggleBtn').onclick=()=>{state.theme=state.theme==='dark'?'light':'dark';store.set('iar_theme',state.theme);theme();};
+  $('langToggleBtn').onclick=()=>{state.lang=state.lang==='ar'?'en':'ar';store.set('iar_lang',state.lang);language();};
+  $('btnViewGrid').onclick=()=>{state.view='grid';store.set('iar_view_mode',state.view);render();};
+  $('btnViewList').onclick=()=>{state.view='list';store.set('iar_view_mode',state.view);render();};
+  $('favoritesOnlyBtn')?.addEventListener('click',()=>{state.favoritesOnly=!state.favoritesOnly;state.page=1;render();});
+  let searchTimer;
+  $('searchInput').addEventListener('input',()=>{
+    clearTimeout(searchTimer);state.query=$('searchInput').value.trim();state.page=1;visible('btnClearSearch',!!state.query);
+    searchTimer=setTimeout(render,200);
+  });
+  $('btnClearSearch').onclick=()=>{clearTimeout(searchTimer);state.query='';$('searchInput').value='';visible('btnClearSearch',false);state.page=1;render();$('searchInput').focus();};
+  $('sortOrder').onchange=()=>{state.page=1;render();};
+  $('categoryChips').onclick=event=>{const chip=event.target.closest('[data-category]');if(!chip)return;state.category=chip.dataset.category;state.page=1;categories();render();};
+  $('categoryChips').addEventListener('scroll',updateChips,{passive:true});addEventListener('resize',updateChips);
+  $('chipsScrollLeft').onclick=()=>$('categoryChips').scrollBy({left:state.lang==='ar'?220:-220,behavior:motion()});
+  $('chipsScrollRight').onclick=()=>$('categoryChips').scrollBy({left:state.lang==='ar'?-220:220,behavior:motion()});
+  $('paginationContainer').onclick=event=>{const button=event.target.closest('[data-page]');if(!button||button.disabled)return;state.page=Number(button.dataset.page);render();$('controlsRow').scrollIntoView({behavior:motion(),block:'start'});};
+  $('btnBackToList').onclick=backToList;
+  document.querySelector('.brand-lockup')?.addEventListener('click',event=>{event.preventDefault();clearBundle();window.scrollTo({top:0,behavior:motion()});});
+  $('copyBundleBtn').onclick=()=>{const url=new URL(location.href);url.searchParams.delete('book');url.searchParams.set('bundle',[...state.bundle].join(','));url.hash='';copy(url.href);};
+  $('clearBundleBtn').onclick=clearBundle;
+  $('modalShareBtn').onclick=()=>{const book=byId(state.summary);if(book)share(book);};
+  document.addEventListener('change',event=>{
+    const input=event.target.closest('[data-action="bundle"]');if(!input)return;
+    const id=Number(input.dataset.id);if(!byId(id))return;
+    input.checked?state.bundle.add(id):state.bundle.delete(id);
+    document.querySelectorAll(`input[data-action="bundle"][data-id="${id}"]`).forEach(el=>el.checked=input.checked);
+    if(state.bundleMode){const url=new URL(location.href);url.searchParams.set('bundle',[...state.bundle].join(','));history.replaceState({},'',url);render();}else syncBundle();
+  });
+  document.addEventListener('click',event=>{
+    const trigger=event.target.closest('[data-action]');if(!trigger)return;
+    const name=trigger.dataset.action;
+    if(name==='bundle')return;
+    if(trigger.tagName==='A'&&(event.ctrlKey||event.metaKey||event.shiftKey||event.altKey))return;
+    event.preventDefault();
+    if(name==='clear-bundle'){clearBundle();return;}
+    if(name==='retry'){fetchBooks();return;}
+    if(name==='reset'){state.query='';state.category='all';state.favoritesOnly=false;state.page=1;$('searchInput').value='';visible('btnClearSearch',false);categories();render();return;}
+    const book=byId(trigger.dataset.id);if(!book)return;
+    switch(name){
+      case 'details':navigateBook(book);break;
+      case 'read':readBook(book);break;
+      case 'download':download(book);break;
+      case 'summary':summary(book);break;
+      case 'cite':copy(citation(book));break;
+      case 'share':share(book);break;
+      case 'rate':rate(book,Number(trigger.dataset.rating));break;
+      case 'favorite':{
+        const was=state.favorites.has(book.id);was?state.favorites.delete(book.id):state.favorites.add(book.id);store.set(prefix+'favorites',JSON.stringify([...state.favorites]));render();toast(was?t('أزيل من المفضلة.','Removed from favorites.'):t('أضيف إلى المفضلة.','Added to favorites.'));break;
+      }
+      case 'cover':attr('coverImageLarge','src',book.cover_image);attr('coverImageLarge','alt',field(book,'title'));modal('coverImageModal');break;
+    }
+  });
+  document.addEventListener('error',event=>{
+    const img=event.target;if(img.tagName!=='IMG')return;
+    if(img.classList.contains('cover-img')){img.hidden=true;if(img.nextElementSibling)img.nextElementSibling.hidden=false;}
+    else if(img.id==='singleBookCover'){img.hidden=true;const book=byId(state.single);if(book){const clone={...book,cover_image:''};$('singleCoverFallback').innerHTML=cover(clone,true);}}
+  },true);
+  addEventListener('popstate',route);
 
   async function fetchBooks() {
-    const loadingEl = document.getElementById('booksLoading');
-    const container = document.getElementById('booksDisplayContainer');
-    if (loadingEl) loadingEl.style.display = 'none';
-
+    state.loading=true;state.error=false;state.loaded=false;
+    $('booksDisplayContainer').innerHTML=`<div class="empty-state" role="status">${i('hourglass-split')}<p>${t('جارٍ تحميل المراجع…','Loading references…')}</p></div>`;
     try {
-      const timestamp = new Date().getTime();
-      const response = await fetch(`./books.json?v=${timestamp}`, { 
-        headers: { 'Accept': 'application/json', 'Cache-Control': 'no-cache' } 
-      });
-      if (!response.ok) throw new Error(`books.json request failed (${response.status})`);
-
-      const payload = await response.json();
-      if (!Array.isArray(payload)) throw new Error('books.json must contain an array');
-
-      const usedIds = new Set();
-      booksData = payload.map(normalizeBook).filter(Boolean).filter(book => {
-        if (usedIds.has(book.id)) return false;
-        usedIds.add(book.id);
-        return true;
-      });
-
-      booksLoaded = true;
-      hydrateBundleFromUrl();
-      syncBundleUI();
-      setupChipsCategories();
-      setupChipsScrollButtons();
-      setText('booksCounter', booksData.length);
-      applyFilters();
-
-      // After Firebase data resolves, refresh the view. If the user landed
-      // directly on a single-book deep link, applyFilters() early-returns,
-      // so we must refresh the single view's stars/counter manually.
-      Promise.allSettled([loadPublicRatings(), loadDownloadCounts(), updateSiteVisits()]).then(() => {
-        if (booksLoaded) applyFilters();
-
-        if (isSingleView && currentOpenBookId !== null) {
-          const book = booksData.find(b => b.id === currentOpenBookId);
-          if (book) {
-            const starsContainer = document.getElementById('singleBookStars');
-            if (starsContainer) renderStars(book.id, starsContainer);
-            const singleCount = document.getElementById('singleDownloadCount');
-            if (singleCount) singleCount.innerText = book.downloadCount || 0;
-          }
-        }
-      });
-
-      handleDeepLinking();
-    } catch (error) {
-      console.error('Fetch books error:', error);
-      if (container) {
-        container.innerHTML = `<div class="alert alert-danger text-center py-5"><i class="bi bi-exclamation-triangle me-2"></i> ${i18n[currentLang].errorMsg}</div>`;
-      }
+      let payload;
+      if(demo){if(!window.IAR_DEMO_DATA)await loadScript('demo-data.js');payload=window.IAR_DEMO_DATA;}
+      else {const response=await fetch('./books.json',{cache:'no-cache',signal:AbortSignal.timeout(15000)});if(!response.ok)throw new Error('books.json unavailable');payload=await response.json();}
+      if(!Array.isArray(payload))throw new Error('books.json must contain an array');
+      const ids=new Set();state.books=payload.map(normalize).filter(book=>{if(!book||ids.has(book.id))return false;ids.add(book.id);return true;});
+      if(demo)state.books.forEach(book=>{const rating=Number(store.get(prefix+'rating_'+book.id,'0'));if(Number.isInteger(rating)&&rating>=1&&rating<=5){book.ratingSum=rating;book.publicRating=rating;book.ratingCount=1;}});
+      state.loaded=true;state.loading=false;language();route();
+      firebaseReady=connectFirebase();loadMetrics();
+    } catch(error){
+      state.loading=false;state.error=true;
+      $('featuredSection').innerHTML='';text('resultsCount','');text('booksCounter','—');
+      $('booksDisplayContainer').innerHTML=`<div class="empty-state" role="alert">${i('cloud-slash')}<h3>${t('تعذّر تحميل المراجع','Could not load references')}</h3><p>${t('أضف books.json الأصلي بجانب index.html، ثم افتح الصفحة عبر خادم محلي. للعرض التجريبي افتح preview.html.','Place your original books.json beside index.html and use a local server. For demo mode, open preview.html.')}</p><button type="button" class="btn btn-iar-primary" data-action="retry">${t('إعادة المحاولة','Retry')}</button></div>`;
+      console.warn(error.message);
     }
   }
-
-  initAuth();
-  applyLanguage(currentLang);
-  fetchBooks();
+  theme();language();fetchBooks();
 })();
