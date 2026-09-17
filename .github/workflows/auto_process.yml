@@ -61,8 +61,11 @@ jobs:
         env:
           BRANCH: ${{ github.ref_name }}
           COMMIT_MSG: "Auto-update books.json with new book info"
+          GH_TOKEN: ${{ secrets.PAT_FOR_DEPLOY }}
         run: |
           set -euo pipefail
+          
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git"
 
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
