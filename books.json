@@ -4823,5 +4823,55 @@
     "file_type": "PDF",
     "file_path": "pdf/تشجيع_الابداع_كتاب_الجيب_من_هارفارد.pdf",
     "cover_image": "covers/96.png"
+  },
+  {
+    "id": 97,
+    "title": "دليل الطالب في المحاسبة: 280 سؤال وجواب",
+    "title_en": "The Student Guide in Accounting: 280 Questions and Answers",
+    "author": "الدكتور أسامة عمر جعارة",
+    "author_en": "Dr. Osama Omar Jaara",
+    "category": "المحاسبة المالية",
+    "category_en": "Financial Accounting",
+    "type": "دليل دراسي واختبارات",
+    "type_en": "Study and Examination Guide",
+    "description": "دليل تعليمي متقدم موجه لطلاب تخصص المحاسبة، يتضمن 280 سؤالاً من أسئلة الاختيار من متعدد باللغتين العربية والإنجليزية مع إجاباتها النموذجية لمساعدة الطلاب على مراجعة وفهم مفاهيم المحاسبة والعمليات المحاسبية الأساسية.",
+    "description_en": "An educational guide for accounting majors featuring 280 multiple-choice questions in both Arabic and English along with model answers to help students review and understand core accounting concepts and procedures.",
+    "publisher": "دار وائل للنشر والتوزيع",
+    "publisher_en": "Dar Wael for Publishing and Distribution",
+    "year": "2009",
+    "isbn": "978-9957-11-097-0",
+    "keywords": [
+      "المحاسبة",
+      "المحاسبة المالية",
+      "دليل الطالب",
+      "أسئلة متعددة الاختيار",
+      "إجابات نموذجية"
+    ],
+    "keywords_en": [
+      "Accounting",
+      "Financial Accounting",
+      "Student Guide",
+      "Multiple Choice Questions",
+      "Model Answers"
+    ],
+    "key_points": [
+      "يتضمن 280 سؤال اختيار من متعدد مع إجاباتها النموذجية",
+      "يغطي خطوات العملية المحاسبية ومستخدمي المعلومات المحاسبية",
+      "إعداد الدكتور أسامة عمر جعارة ومراجعة الدكتور أحمد خلف الكعبي",
+      "مطبوع باللغتين العربية والإنجليزية لتعزيز استيعاب المصطلحات"
+    ],
+    "key_points_en": [
+      "Includes 280 multiple-choice questions with model answers",
+      "Covers accounting process steps and users of accounting information",
+      "Prepared by Dr. Osama Omar Jaara and reviewed by Dr. Ahmed Khalaf Al-Kaabi",
+      "Presented in Arabic and English to enhance terminology comprehension"
+    ],
+    "target_audience": "طلاب تخصص المحاسبة والدارسون للمحاسبة المالية في الكليات والجامعات",
+    "target_audience_en": "Accounting majors and financial accounting students in colleges and universities",
+    "pages": "159",
+    "file_size": "13.41 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/دليل_الطالب_في_المحاسبة.pdf",
+    "cover_image": "covers/97.png"
   }
 ]
