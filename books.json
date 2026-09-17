@@ -4765,5 +4765,63 @@
     "file_type": "PDF",
     "file_path": "pdf/موسوعة_معايير_المحاسبة_الجزء2.pdf",
     "cover_image": "covers/95.png"
+  },
+  {
+    "id": 96,
+    "title": "تشجيع الإبداع",
+    "title_en": "Fostering Creativity: Expert Solutions to Everyday Challenges",
+    "author": "مجموعة مؤلفين (كلية هارفارد لإدارة الأعمال)",
+    "author_en": "Harvard Business School Press",
+    "category": "إدارة الأعمال وتطوير الذات",
+    "category_en": "Business & Self-Development",
+    "type": "كتاب إداري / دليل عملي",
+    "type_en": "Business Guide / Pocket Mentor",
+    "description": "دليل عملي ضمن سلسلة كتب الجيب من مطبوعات كلية هارفارد لإدارة الأعمال، يقدم حلولاً فورية ومجربة للمدراء والقادة لمساعدتهم على تعزيز روح الابتكار والإبداع لدى فرق العمل، وتحديد الفرص الاستثمارية، وإدارة أساليب التفكير المتنوعة، وتوفير البيئة المادية والنفسية المناسبة لتحويل الأفكار إلى نتائج ملموسة.",
+    "description_en": "A practical Pocket Mentor guide from Harvard Business School Press offering everyday solutions for managers and leaders to foster creativity and innovation within teams, identify opportunities, manage cognitive diversity, and build an environment that transforms creative ideas into valuable outcomes.",
+    "publisher": "العبيكان للنشر",
+    "publisher_en": "Obeikan Publishing",
+    "year": "2015",
+    "isbn": "978-603-503-414-2",
+    "keywords": [
+      "تشجيع الإبداع",
+      "الابتكار",
+      "هارفارد لإدارة الأعمال",
+      "العصف الذهني",
+      "تكوين الفريق",
+      "إدارة الأعمال",
+      "التفكير المتباعد",
+      "العبيكان"
+    ],
+    "keywords_en": [
+      "Fostering Creativity",
+      "Innovation",
+      "Harvard Business Press",
+      "Brainstorming",
+      "Team Building",
+      "Management",
+      "Divergent Thinking",
+      "Obeikan"
+    ],
+    "key_points": [
+      "توضيح مفهوم الإبداع والفرق بينه وبين الابتكار وتصحيح الخرافات الشائعة عنهما.",
+      "خطوات اختيار وتشكيل فريق عمل مبدع يتسم بالتنوع الفكري والاستراتيجي.",
+      "أساليب استكشاف الفرص المتاحة داخل وخارج المؤسسة لاستغلالها.",
+      "تقنيات العصف الذهني وإدارة التضارب الإيجابي للأفكار لإنتاج خيارات مبتكرة.",
+      "توفير بيئة عمل نفسية ومادية مشجعة ومكافأة الجهود الإبداعية."
+    ],
+    "key_points_en": [
+      "Clarifying creativity versus innovation and debunking common myths.",
+      "Steps to recruit and structure a creative team with cognitive diversity.",
+      "Methods for uncovering internal and external opportunities for innovation.",
+      "Brainstorming techniques and managing constructive debate to generate options.",
+      "Establishing supportive physical and psychological workplace environments and rewarding creative efforts."
+    ],
+    "target_audience": "المدراء، رؤساء الفرق، رواد الأعمال، والمهنيون الراغبون في تعزيز مهارات الابتكار والإبداع في بيئة العمل.",
+    "target_audience_en": "Managers, team leaders, entrepreneurs, and professionals seeking to drive innovation and creative problem-solving in their workplace.",
+    "pages": "113",
+    "file_size": "12.96 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/تشجيع_الابداع_كتاب_الجيب_من_هارفارد.pdf",
+    "cover_image": "covers/96.png"
   }
 ]
