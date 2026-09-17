@@ -41,6 +41,17 @@
 </head>
 <body>
 
+  <!-- طبقات الأجواء: سديم + شبكة + حبيبات + هالة المؤشر + شريط التمرير -->
+  <div class="aurora-stage" aria-hidden="true">
+    <span class="aurora-blob aurora-a"></span>
+    <span class="aurora-blob aurora-b"></span>
+    <span class="aurora-blob aurora-c"></span>
+    <span class="aurora-grid"></span>
+  </div>
+  <div class="grain-layer" aria-hidden="true"></div>
+  <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+  <div class="scroll-progress" aria-hidden="true"><span id="scrollProgressFill"></span></div>
+
   <!-- شريط الإعلان -->
   <div class="top-live-bar text-center">
     <div class="container">
@@ -149,7 +160,7 @@
     <!-- شريط الحزمة البحثية -->
     <div class="bundle-bar d-none" id="bundleBar">
       <div class="d-flex align-items-center flex-wrap gap-2">
-        <i class="bi bi-collection-fill" aria-hidden="true"></i>
+        <span class="bundle-orb" aria-hidden="true"><i class="bi bi-collection-fill"></i></span>
         <span id="txt-bundle-text">تم تحديد <strong id="bundleCount">0</strong> مراجع لحزمتك</span>
       </div>
       <div class="d-flex align-items-center gap-2 flex-wrap">
@@ -355,7 +366,7 @@
     </div>
   </footer>
 
-  <!-- Firebase SDKs -->
+  <!-- Firebase SDKs (static) -->
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
