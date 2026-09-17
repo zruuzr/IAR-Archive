@@ -11,12 +11,12 @@
 
   <title id="pageTitle">IAR Archive | Iraqi Administrative Reference</title>
 
-  <link rel="stylesheet" href="vendor/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
 
-  <link id="bootstrapCSS" rel="stylesheet" href="vendor/bootstrap.rtl.min.css">
+  <link id="bootstrapCSS" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css">
   <link rel="stylesheet" href="style.css">
 
   <script>
@@ -25,7 +25,7 @@
       try {
         savedLang = localStorage.getItem('iar_lang');
         savedTheme = localStorage.getItem('iar_theme');
-      } catch (_) { /* Storage may be unavailable; use safe defaults. */ }
+      } catch (_) { /* storage may be unavailable */ }
       var lang = savedLang === 'en' ? 'en' : 'ar';
       var theme = savedTheme === 'dark' || savedTheme === 'light' ? savedTheme :
         (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
@@ -34,23 +34,12 @@
       document.documentElement.setAttribute('data-bs-theme', theme);
       var bsLink = document.getElementById('bootstrapCSS');
       if (bsLink && lang === 'en') {
-        bsLink.href = 'vendor/bootstrap.min.css';
+        bsLink.href = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css';
       }
     })();
   </script>
 </head>
 <body>
-
-  <!-- ============ طبقات الأجواء: سديم + شبكة + حبيبات + هالة المؤشر ============ -->
-  <div class="aurora-stage" aria-hidden="true">
-    <span class="aurora-blob aurora-a"></span>
-    <span class="aurora-blob aurora-b"></span>
-    <span class="aurora-blob aurora-c"></span>
-    <span class="aurora-grid"></span>
-  </div>
-  <div class="grain-layer" aria-hidden="true"></div>
-  <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
-  <div class="scroll-progress" aria-hidden="true"><span id="scrollProgressFill"></span></div>
 
   <!-- شريط الإعلان -->
   <div class="top-live-bar text-center">
@@ -59,9 +48,6 @@
       <span id="txt-announcement">IAR ARCHIVE · مساحة للمعرفة الإدارية</span>
     </div>
   </div>
-
-  <!-- شريط المعاينة التجريبية -->
-  <div class="demo-notice d-none" id="previewNotice" role="status"></div>
 
   <!-- الشريط العلوي -->
   <header class="navbar-iar">
@@ -72,7 +58,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="IAR Archive logo">
               <defs>
                 <linearGradient id="iarBg" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%"  stop-color="#22d3ee"/>
+                  <stop offset="0%" stop-color="#22d3ee"/>
                   <stop offset="55%" stop-color="#3b82f6"/>
                   <stop offset="100%" stop-color="#4f46e5"/>
                 </linearGradient>
@@ -110,7 +96,7 @@
 
   <main class="container my-4">
 
-    <!-- ============ بوابة الافتتاح ============ -->
+    <!-- بوابة الافتتاح -->
     <section class="hero-gate mb-4" aria-labelledby="txt-about-title">
       <div class="hero-gate-inner">
         <div class="row g-0 align-items-stretch">
@@ -120,7 +106,8 @@
               <i class="bi bi-stars" aria-hidden="true"></i>
               <span id="txt-kicker">مساحة للمعرفة الإدارية</span>
             </span>
-            <h1 class="hero-title" id="txt-about-title">معرفة تُلهمك.<br>ومراجع تصنع الأثر.</h1>
+            <h1 class="hero-title" id="txt-about-title">معرفة تُلهمك.
+ومراجع تصنع الأثر.</h1>
             <p class="hero-desc mb-0" id="txt-about-desc">
               مساحتك لاستكشاف علوم الإدارة. اقرأ، اكتشف الأفكار، وابنِ حزمة مراجعك القادمة — كل ذلك في مكان واحد.
             </p>
@@ -162,7 +149,7 @@
     <!-- شريط الحزمة البحثية -->
     <div class="bundle-bar d-none" id="bundleBar">
       <div class="d-flex align-items-center flex-wrap gap-2">
-        <span class="bundle-orb" aria-hidden="true"><i class="bi bi-collection-fill"></i></span>
+        <i class="bi bi-collection-fill" aria-hidden="true"></i>
         <span id="txt-bundle-text">تم تحديد <strong id="bundleCount">0</strong> مراجع لحزمتك</span>
       </div>
       <div class="d-flex align-items-center gap-2 flex-wrap">
@@ -368,8 +355,11 @@
     </div>
   </footer>
 
-  <script src="vendor/bootstrap.bundle.min.js"></script>
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="app.js"></script>
-  <script src="ui-enhance.js" defer></script>
 </body>
 </html>
