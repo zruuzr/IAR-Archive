@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site": "iararchive",
+    "target": "iararchive",
     "public": ".",
     "ignore": [
       "firebase.json",
