@@ -490,26 +490,31 @@
   function render() {
     if (state.single !== null) { renderSingle(); return; }
     visible('singleBookView', false);
-    ['booksDisplayContainer','controlsRow','categoryChips','resultsCount'].forEach(id => visible(id, true));
+    ['booksDisplayContainer','controlsRow','categoryChips'].forEach(id => visible(id, true));
     document.querySelector('.chips-container')?.classList.remove('d-none');
     const pagWrap = $('paginationContainer')?.parentElement;
     if (pagWrap) pagWrap.classList.remove('d-none');
     syncBundle();
     if (!state.loaded) return;
     const books = filteredBooks();
-    const spotlight = !state.query && state.category === 'all' && !state.bundleMode && !state.favoritesOnly && state.page === 1
-      ? books.find(b => b.featured) : null;
+
+    /* Default view: no search, no filter, no bundle, no favorites-only.
+       In that view, the featured book is shown in the Spotlight section
+       and must be excluded from the grid on every page (not just page 1)
+       so it never appears twice and no empty slot is left behind. */
+    const isDefaultView = !state.query && state.category === 'all' && !state.bundleMode && !state.favoritesOnly;
+    const featuredBook = isDefaultView ? books.find(b => b.featured) : null;
+    const spotlight = (isDefaultView && state.page === 1) ? featuredBook : null;
     $('featuredSection').innerHTML = spotlight ? featured(spotlight) : '';
+
+    const gridBooks = featuredBook ? books.filter(b => b.id !== featuredBook.id) : books;
+
     const size = 6;
-    const total = Math.ceil(books.length / size);
+    const total = Math.ceil(gridBooks.length / size);
     state.page = Math.min(state.page, Math.max(1, total));
-    const rawPage = books.slice((state.page - 1) * size, state.page * size);
-    /* When spotlight is displayed on this page, exclude it from the grid so
-       it doesn't appear twice. On search / filter / page>1, spotlight is
-       null and no exclusion happens. */
-    const page = spotlight ? rawPage.filter(b => b.id !== spotlight.id) : rawPage;
-    text('resultsCount', t(`${number(books.length)} مرجع في مساحة اكتشافك`,`${number(books.length)} references to explore`));
-    $('booksDisplayContainer').innerHTML = books.length
+    const page = gridBooks.slice((state.page - 1) * size, state.page * size);
+
+    $('booksDisplayContainer').innerHTML = gridBooks.length
       ? `<div class="books-grid ${state.view === 'list' ? 'is-list' : ''}">${page.map(bookCard).join('')}</div>`
       : `<div class="empty-state">${i('search')}<h3>${t('لا توجد نتائج مطابقة','No matching references')}</h3><p>${t('جرّب كلمات أخرى أو أعد ضبط خيارات العرض.','Try another search or reset your filters.')}</p><button class="btn btn-iar-primary" data-action="reset">${t('إعادة ضبط البحث','Reset filters')}</button></div>`;
     pagination(total);
@@ -581,7 +586,7 @@
 
   function renderSingle() {
     const book = byId(state.single); if (!book) return;
-    ['booksDisplayContainer','controlsRow','categoryChips','bundleBar','bundleModeAlertContainer','resultsCount'].forEach(id => visible(id, false));
+    ['booksDisplayContainer','controlsRow','categoryChips','bundleBar','bundleModeAlertContainer'].forEach(id => visible(id, false));
     document.querySelector('.chips-container')?.classList.add('d-none');
     const pagWrap = $('paginationContainer')?.parentElement;
     if (pagWrap) pagWrap.classList.add('d-none');
@@ -969,7 +974,6 @@
     } catch (error) {
       state.loading = false; state.error = true;
       const featured = $('featuredSection'); if (featured) featured.innerHTML = '';
-      text('resultsCount', '');
       text('booksCounter', '—');
       if (container) {
         container.innerHTML = `<div class="empty-state" role="alert">${i('cloud-slash')}<h3>${t('تعذّر تحميل المراجع','Could not load references')}</h3><p>${t('تأكد من وجود books.json بجانب index.html، ثم أعد المحاولة.','Ensure books.json is available next to index.html, then retry.')}</p><button type="button" class="btn btn-iar-primary" data-action="retry">${t('إعادة المحاولة','Retry')}</button></div>`;
