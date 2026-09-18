@@ -18,6 +18,10 @@
     favorites: new Set(savedArray('iar_favorites')), bundle: new Set(), bundleMode: false,
     single: null, summary: null, loaded: false, loading: true, error: false
   };
+  /* Snapshot of library state, captured when the user opens a book.
+     Restored on browser Back or when returning via the back button. */
+  let savedLibraryState = null;
+
   const motion = () => matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
   const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const text = (id, v) => { const el = $(id); if (el) el.textContent = v; };
@@ -414,7 +418,7 @@
           ${cover(book, true)}
           <div class="featured-copy">
             <span class="featured-badge-top">${i('stars')}${esc(field(book,'badge_text') || t('في دائرة الضوء','In the spotlight'))}</span>
-            <div>
+            <div class="featured-meta-row">
               <span class="badge-tag">${esc(categoryLabel(book))}</span>
               <span class="featured-index">01 / IAR SELECTION</span>
             </div>
@@ -624,18 +628,45 @@
     syncBundle();
   }
 
+  /* Save library state BEFORE pushing the book URL.
+     Only capture when we're currently on the library (not already in single view). */
   function navigateBook(book) {
+    if (state.single === null) {
+      savedLibraryState = {
+        page: state.page,
+        category: state.category,
+        query: state.query,
+        favoritesOnly: state.favoritesOnly,
+        view: state.view
+      };
+    }
     history.pushState({}, '', bookUrl(book.id));
     state.single = book.id;
     renderSingle();
     window.scrollTo({ top: 0, behavior: motion() });
   }
 
+  /* Restore the saved library state (used by back button and popstate). */
+  function restoreLibraryState() {
+    if (!savedLibraryState) return false;
+    const s = savedLibraryState;
+    if (typeof s.page === 'number' && s.page > 0) state.page = s.page;
+    if (typeof s.category === 'string') state.category = s.category;
+    if (typeof s.query === 'string') state.query = s.query;
+    if (typeof s.favoritesOnly === 'boolean') state.favoritesOnly = s.favoritesOnly;
+    if (typeof s.view === 'string') state.view = s.view === 'list' ? 'list' : 'grid';
+    if ($('searchInput')) $('searchInput').value = state.query;
+    visible('btnClearSearch', !!state.query);
+    savedLibraryState = null;
+    return true;
+  }
+
   function backToList() {
     const url = new URL(location.href);
     url.searchParams.delete('book');
-    history.pushState({}, '', url);
+    history.replaceState({}, '', url);
     state.single = null;
+    restoreLibraryState();
     metadata();
     render();
   }
@@ -643,6 +674,7 @@
   function route() {
     const params = new URLSearchParams(location.search);
     const raw = params.get('book');
+    const wasSingle = state.single;
     state.single = (raw !== null && raw.trim() !== '' && Number.isSafeInteger(Number(raw)) && byId(Number(raw)))
       ? Number(raw) : null;
     const bundle = params.get('bundle');
@@ -651,7 +683,13 @@
       state.bundle = new Set(bundle.split(',').filter(v => v.trim() !== '').map(Number)
         .filter(id => Number.isSafeInteger(id) && byId(id)));
     }
-    state.page = 1;
+    /* If we just returned from a single-book view (browser Back), restore
+       the saved library state instead of resetting to page 1. */
+    if (!state.single && wasSingle !== null) {
+      restoreLibraryState();
+    } else if (!state.single) {
+      state.page = 1;
+    }
     metadata();
     render();
   }
