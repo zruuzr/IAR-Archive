@@ -7,9 +7,6 @@
   <meta property="og:title" content="IAR Archive | Iraqi Administrative Reference">
   <meta property="og:description" content="منصة معرفية لأرشفة وربط المراجع الإدارية مع ملخصات وتوثيق أكاديمي">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://iararchive.web.app/">
-  <meta name="twitter:card" content="summary_large_image">
-  <link rel="canonical" href="https://iararchive.web.app/">
   <meta name="theme-color" content="#f6f8fc">
 
   <title id="pageTitle">IAR Archive | Iraqi Administrative Reference</title>
@@ -67,7 +64,7 @@
   <header class="navbar-iar">
     <div class="container">
       <div class="d-flex align-items-center justify-content-between navbar-row">
-        <a class="d-flex align-items-center gap-3 text-decoration-none brand-lockup" id="brandLockup" href="#" aria-label="IAR Archive — العودة إلى المكتبة">
+        <a class="d-flex align-items-center gap-3 text-decoration-none brand-lockup" href="#" aria-label="IAR Archive — العودة إلى المكتبة">
           <span class="brand-logo-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="IAR Archive logo">
               <defs>
@@ -97,7 +94,7 @@
           <button type="button" id="favoritesOnlyBtn" class="btn btn-ghost btn-sm fw-bold px-3" aria-pressed="false">
             <i class="bi bi-heart me-1" aria-hidden="true"></i> <span id="txt-favorites-only">مفضلتي</span>
           </button>
-          <button type="button" id="langToggleBtn" class="btn btn-ghost btn-sm fw-bold px-3" aria-label="التبديل إلى الإنجليزية">
+          <button type="button" id="langToggleBtn" class="btn btn-ghost btn-sm fw-bold px-3" aria-label="التبديل إلى العربية">
             <i class="bi bi-translate me-1" aria-hidden="true"></i> <span id="langLabel">EN</span>
           </button>
           <button type="button" id="themeToggleBtn" class="btn btn-ghost btn-sm rounded-circle theme-orb" aria-label="تبديل المظهر" title="تبديل المظهر" aria-pressed="false">
@@ -120,17 +117,15 @@
               <i class="bi bi-stars" aria-hidden="true"></i>
               <span id="txt-kicker">مساحة للمعرفة الإدارية</span>
             </span>
-            <h1 class="hero-title" id="txt-about-title">معرفة تُلهمك.
-ومراجع تصنع الأثر.</h1>
+            <h1 class="hero-title" id="txt-about-title">مساحتك لاستكشاف علوم الإدارة.</h1>
             <p class="hero-desc mb-0" id="txt-about-desc">
-              مساحتك لاستكشاف علوم الإدارة. اقرأ، اكتشف الأفكار، وابنِ حزمة مراجعك القادمة — كل ذلك في مكان واحد.
+              اقرأ، اكتشف الأفكار، وابنِ حزمة مراجعك القادمة — كل ذلك في مكان واحد.
             </p>
-            <ul class="hero-tags mt-3 list-unstyled" id="heroFeatureList" aria-label="ميزات الأرشيف">
+            <ul class="hero-tags mt-3 list-unstyled" aria-label="ميزات الأرشيف">
               <li class="hero-tag"><i class="bi bi-stopwatch" aria-hidden="true"></i> <span id="txt-tag-summary">ملخصات 3 دقائق</span></li>
               <li class="hero-tag"><i class="bi bi-quote" aria-hidden="true"></i> <span id="txt-tag-cite">توثيق APA مباشر</span></li>
               <li class="hero-tag"><i class="bi bi-collection" aria-hidden="true"></i> <span id="txt-tag-bundle">حزم بحثية مخصصة</span></li>
             </ul>
-            <a class="btn btn-iar-primary hero-cta mt-3" href="#controlsRow" id="txt-explore">استكشف المكتبة</a>
           </div>
           <div class="col-lg-5 hero-gate-stats">
             <div class="hero-stats text-center">
@@ -144,7 +139,7 @@
               </div>
               <div class="stat-box">
                 <div class="stat-num grad-text" id="siteVisitsCounter">—</div>
-                <div class="stat-cap" id="txt-stat-visits">زيارات يومية تقريبية</div>
+                <div class="stat-cap" id="txt-stat-visits">الزيارات اليومية</div>
               </div>
               <div class="stat-box">
                 <div class="stat-num grad-text" id="archiveYear">2026</div>
@@ -206,7 +201,7 @@
         </div>
       </div>
       <div class="col-md-2 col-4 text-end">
-        <div class="btn-group w-100 view-switch" id="viewSwitch" role="group" aria-label="طريقة العرض">
+        <div class="btn-group w-100 view-switch" role="group" aria-label="طريقة العرض">
           <button type="button" class="btn active" id="btnViewGrid" title="عرض شبكي" aria-label="عرض شبكي" aria-pressed="true"><i class="bi bi-grid-fill" aria-hidden="true"></i></button>
           <button type="button" class="btn" id="btnViewList" title="عرض قائمة" aria-label="عرض قائمة" aria-pressed="false"><i class="bi bi-list-task" aria-hidden="true"></i></button>
         </div>
@@ -228,7 +223,7 @@
     </div>
 
     <!-- رفوف الكتب -->
-    <div id="booksDisplayContainer"></div>
+    <div id="booksDisplayContainer" aria-live="polite"></div>
 
     <!-- ترقيم الصفحات -->
     <nav aria-label="صفحات المراجع" class="mt-4">
@@ -329,25 +324,17 @@
           <h5 class="modal-title fs-6 fw-bold" id="modalBookTitle"></h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق" id="pdfDismissBtn"></button>
         </div>
-        <div class="modal-body p-0 d-flex flex-column bg-dark position-relative">
-          <div id="pdfReaderState" class="pdf-reader-state" role="status" aria-live="polite">
-            <div class="spinner-border spinner-border-sm" aria-hidden="true"></div>
-            <span id="pdfReaderStateText">جارٍ فتح المرجع…</span>
-          </div>
+        <div class="modal-body p-0 d-flex flex-column bg-dark">
           <iframe id="pdfFrame" src="about:blank" title="قارئ الملفات" class="flex-grow-1 w-100 border-0"></iframe>
-          <div class="pdf-reader-footer p-2 text-center small">
-            <a id="pdfExternalLink" href="#" target="_blank" rel="noopener noreferrer"></a>
-          </div>
         </div>
       </div>
     </div>
   </div>
 
   <!-- نافذة الغلاف -->
-  <div class="modal fade" id="coverImageModal" tabindex="-1" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="coverImageModalTitle">
+  <div class="modal fade" id="coverImageModal" tabindex="-1" role="dialog" aria-modal="true" aria-label="عرض الغلاف">
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content bg-transparent border-0">
-        <h2 id="coverImageModalTitle" class="visually-hidden">عرض الغلاف</h2>
         <div class="modal-body p-0 d-flex justify-content-center position-relative">
           <img id="coverImageLarge" src="" alt="" class="img-fluid rounded shadow" style="max-height: 90vh;">
           <button type="button" class="btn btn-light position-absolute top-0 end-0 m-2 rounded-circle" data-bs-dismiss="modal" aria-label="إغلاق">
