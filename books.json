@@ -5121,5 +5121,59 @@
     "file_type": "PDF",
     "file_path": "pdf/التسويق_والمكانة_الذهنية.pdf",
     "cover_image": "covers/102.png"
+  },
+  {
+    "id": 103,
+    "title": "تطبيقات في المحاسبة الحكومية والقومية",
+    "title_en": "Applications in Government and National Accounting",
+    "author": "سعيد يحيى ضو، سيد أحمد عبد العاطي، سعيد على سليمان، محمود سليمان غربية، أميره حامد",
+    "author_en": "Said Yehia Daw, Sayed Ahmed Abdel Aty, Said Ali Soliman, Mahmoud Soliman Gharbieh, Amira Hamed",
+    "category": "محاسبة مالية واقتصاد",
+    "category_en": "Accounting & Economics",
+    "type": "كتاب تعليمي / تدريبات محاسبية",
+    "type_en": "Educational Textbook / Accounting Exercises",
+    "description": "كتاب جامعي يتضمن تمارين وتدريبات تطبيقية وحالات عملية في المحاسبة الحكومية والقومية، معالجة الموازنة العامة للدولة، إعداد الجداول والتقديرات المباشرة للربح والعجز، والمفاهيم المحاسبية القومية.",
+    "description_en": "A university textbook containing practical applications, exercises, and case studies in governmental and national accounting, state budget preparation, financial estimates, and national accounting concepts.",
+    "publisher": "حقوق الطبع والنشر محفوظة للمؤلفين",
+    "publisher_en": "Copyright reserved to the authors",
+    "year": "2011",
+    "isbn": "",
+    "keywords": [
+      "المحاسبة الحكومية",
+      "المحاسبة القومية",
+      "الموازنة العامة للدولة",
+      "الإيرادات والمصروفات",
+      "الناتج القومي",
+      "تطبيقات محاسبية"
+    ],
+    "keywords_en": [
+      "Government Accounting",
+      "National Accounting",
+      "State Budget",
+      "Revenues and Expenditures",
+      "National Product",
+      "Accounting Applications"
+    ],
+    "key_points": [
+      "المقارنة بين الوحدات الإدارية الحكومية والوحدات الاقتصادية",
+      "إعداد ومكونات الموازنة العامة للدولة ومفاهيم العجز والفائض",
+      "تبويب المصروفات والإيرادات والاستخدامات والموارد",
+      "قياس وتوزيع القيمة المضافة والناتج القومي والأنصبة القطاعية",
+      "حل تمارين وتطبيقات عمليّة على قيود اليومية والحسابات الختامية الحكومية"
+    ],
+    "key_points_en": [
+      "Comparison between government administrative units and economic entities",
+      "Preparation and components of the state general budget, deficit, and surplus concepts",
+      "Classification of expenditures, revenues, uses, and resources",
+      "Measurement and distribution of value added and national product across sectors",
+      "Practical exercises on journal entries and government final accounts"
+    ],
+    "target_audience": "طلاب الكليات التجارية والباحثون والمتخصصون في المجال المحاسبي والمالي الحكومي",
+    "target_audience_en": "Business and commerce university students, researchers, and specialists in government financial accounting",
+    "pages": "216",
+    "file_size": "12.17 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/تطبيقات_في_المحاسبة_الحكومية_والقومية.pdf",
+    "cover_image": "covers/103.png"
   }
 ]
