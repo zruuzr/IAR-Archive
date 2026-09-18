@@ -5017,5 +5017,59 @@
     "file_type": "PDF",
     "file_path": "pdf/الرقابة_الادارية.pdf",
     "cover_image": "covers/100.png"
+  },
+  {
+    "id": 101,
+    "title": "العلاقات العامة واستراتيجيات الاتصال",
+    "title_en": "Public Relations and Communication Strategies",
+    "author": "علي فرجاني",
+    "author_en": "Ali Farjani",
+    "category": "الإعلام والاتصال",
+    "category_en": "Media and Communication",
+    "type": "كتاب تعليمي مهني",
+    "type_en": "Educational and Professional Book",
+    "description": "كتاب يتناول أسس ومفاتيح علم العلاقات العامة والعملية الاتصالية، مع استعراض أهم الاستراتيجيات والتكتيكات الاتصالية للتأثير في الجمهور المستهدف وتحقيق أهداف المنظمات. كما يسلط الضوء على مفهوم الرأي العام وتصنيفاته، ودور الدعاية وكيفية إدارة السمعة المؤسسية والتعامل مع الوسائل الإعلامية باحترافية.",
+    "description_en": "A book covering the fundamentals of public relations and the communication process, highlighting key communication strategies and tactics used to influence target audiences and achieve organizational goals. It also explores public opinion, propaganda, and professional corporate reputation management.",
+    "publisher": "",
+    "publisher_en": "",
+    "year": "",
+    "isbn": "",
+    "keywords": [
+      "العلاقات العامة",
+      "استراتيجيات الاتصال",
+      "الرأي العام",
+      "الدعاية",
+      "إدارة السمعة",
+      "التأثير الإيجابي"
+    ],
+    "keywords_en": [
+      "Public Relations",
+      "Communication Strategies",
+      "Public Opinion",
+      "Propaganda",
+      "Reputation Management",
+      "Positive Influence"
+    ],
+    "key_points": [
+      "تقديم مفاتيح ومفاهيم علم العلاقات العامة والعملية الاتصالية",
+      "تحديد الاستراتيجيات والتكتيكات الكفيلة بتعزيز الرسالة الاتصالية والتأثير في الجمهور",
+      "ربط العلاقات العامة بعلمي النفس والاجتماع لفهم أبعاد النفس البشرية",
+      "دراسة ماهية الرأي العام وأساليب الدعاية في التأثير عليه",
+      "آليات إدارة السمعة المؤسسية واستغلال قنوات الاتصال الإعلامية باحترافية"
+    ],
+    "key_points_en": [
+      "Providing foundational keys and concepts of public relations and communication processes",
+      "Identifying strategies and tactics to enhance communication messages and impact audiences",
+      "Connecting public relations with psychology and sociology to understand human behavior",
+      "Studying the nature of public opinion and propaganda techniques",
+      "Mechanisms for professional corporate reputation management and media channel usage"
+    ],
+    "target_audience": "الطلاب والباحثون وممارسو العلاقات العامة والإعلام والمستشارون الإعلاميون",
+    "target_audience_en": "Students, researchers, public relations practitioners, and media consultants",
+    "pages": "209",
+    "file_size": "16.59 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/العلاقات_العامة_واستراتيجيات_الاتصال.pdf",
+    "cover_image": "covers/101.png"
   }
 ]
