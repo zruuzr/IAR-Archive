@@ -5175,5 +5175,55 @@
     "file_type": "PDF",
     "file_path": "pdf/تطبيقات_في_المحاسبة_الحكومية_والقومية.pdf",
     "cover_image": "covers/103.png"
+  },
+  {
+    "id": 104,
+    "title": "علم المالية العامة والتشريع الضريبي بين النظرية والتطبيق العملي",
+    "title_en": "Public Finance Science and Tax Legislation: Between Theory and Practical Application",
+    "author": "جهاد سعيد الخصاونة",
+    "author_en": "Jehad Saeed Khasawneh",
+    "category": "القانون والاقتصاد",
+    "category_en": "Law and Economics",
+    "type": "كتاب أكاديمي تخصّصي",
+    "type_en": "Specialized Academic Book",
+    "description": "كتاب قانوني ومالي متخصص يدرس علم المالية العامة والتشريع الضريبي من خلال الربط بين القواعد والنظريات القانونية والمالية وبين التطبيقات العملية، مع التركيز على الأنظمة الضريبية والضمانات الدستورية والتشريعات ذات الصلة.",
+    "description_en": "A specialized legal and financial book studying public finance and tax legislation by bridging theoretical legal and financial frameworks with practical applications, focusing on tax systems, constitutional guarantees, and relevant legislation.",
+    "publisher": "دار وائل للنشر والتوزيع",
+    "publisher_en": "Dar Wael for Publishing and Distribution",
+    "year": "2010",
+    "isbn": "978-9957-11-846-4",
+    "keywords": [
+      "المالية العامة",
+      "التشريع الضريبي",
+      "ضريبة الدخل",
+      "القانون الضريبي",
+      "الضرائب",
+      "الضمانات الدستورية"
+    ],
+    "keywords_en": [
+      "Public Finance",
+      "Tax Legislation",
+      "Income Tax",
+      "Tax Law",
+      "Taxes",
+      "Constitutional Guarantees"
+    ],
+    "key_points": [
+      "توضيح أصول ومبادئ علم المالية العامة والأنظمة الضريبية",
+      "المقارنة والربط بين النظرية الفقهية والتطبيق العملي للتشريعات الضريبية",
+      "استعراض الضمانات الدستورية والقوانين المنظمة لضريبة الدخل والمبيعات"
+    ],
+    "key_points_en": [
+      "Clarifying the principles of public finance science and tax systems",
+      "Bridging the gap between legal theory and practical application of tax legislation",
+      "Reviewing constitutional guarantees and laws regulating income and sales taxes"
+    ],
+    "target_audience": "حقوقيون، محامون، قضاة، خبراء الضرائب والمالية العامة، وطلاب كلية الحقوق والاقتصاد.",
+    "target_audience_en": "Legal professionals, lawyers, judges, tax and public finance experts, and law and economics students.",
+    "pages": "368",
+    "file_size": "33.84 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/علم_المالية_التشريع_الضريبي.pdf",
+    "cover_image": "covers/104.png"
   }
 ]
