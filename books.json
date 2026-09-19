@@ -5279,5 +5279,55 @@
     "file_type": "PDF",
     "file_path": "pdf/انواع_المديرين.pdf",
     "cover_image": "covers/105.png"
+  },
+  {
+    "id": 106,
+    "title": "ثقافة العلاقات الاستراتيجية في إدارة الشركات العالمية والمؤسسات الدولية والخاصة",
+    "title_en": "Culture of Strategic Relations in the Management of Global Companies and International and Private Institutions",
+    "author": "محمد سرور الحريري",
+    "author_en": "Muhammad Surur Al-Hariri",
+    "category": "إدارة الأعمال والقيادة الاستراتيجية",
+    "category_en": "Business Administration & Strategic Leadership",
+    "type": "كتاب أكاديمي / دراسة إدارية",
+    "type_en": "Academic Book / Management Study",
+    "description": "يناقش الكتاب دور ثقافة العلاقات الاستراتيجية في إدارة الشركات العالمية والمؤسسات المختلفة، مسلطاً الضوء على أثر الثقافة التنظيمية، والصراع التنظيمي، وسلوك المواطنة التنظيمية، إضافة إلى أخلاقيات العمل الإداري والتسويق بالعلاقات، وتأثير هذه العوامل في تعزيز الأداء المؤسسي والتنمية الاستراتيجية.",
+    "description_en": "This book explores the role of strategic relationships culture in managing global corporations and private/international institutions. It highlights organizational culture, conflict management, organizational citizenship behavior, business administration ethics, and relationship marketing, emphasizing their impact on enhancing organizational performance.",
+    "publisher": "الأكاديميون للنشر والتوزيع",
+    "publisher_en": "Academics for Publishing and Distribution",
+    "year": "2015",
+    "isbn": "978-9957-590-34-5",
+    "keywords": [
+      "العلاقات الاستراتيجية",
+      "إدارة الشركات العالمية",
+      "الثقافة التنظيمية",
+      "أخلاقيات الإدارة",
+      "التسويق بالعلاقات"
+    ],
+    "keywords_en": [
+      "Strategic Relations",
+      "Global Company Management",
+      "Organizational Culture",
+      "Management Ethics",
+      "Relationship Marketing"
+    ],
+    "key_points": [
+      "توضيح مفهوم وأهمية ثقافة العلاقات الاستراتيجية في إدارة المؤسسات والشركات العالمية.",
+      "دراسة أثر الثقافة التنظيمية والصراع التنظيمي والتحفيز على أداء العاملين.",
+      "استعراض الأخلاقيات والصفات المطلوبة لتطبيق إدارة العلاقات الاستراتيجية بنجاح.",
+      "بيان أهمية ومبادئ وفوائد التسويق بالعلاقات في البيئة المؤسسية المعاصرة."
+    ],
+    "key_points_en": [
+      "Clarifying the concept and importance of strategic relation culture in managing international companies.",
+      "Studying the impact of organizational culture, organizational conflict, and motivation on employee performance.",
+      "Reviewing the management ethics and required traits for successful strategic relation management.",
+      "Demonstrating the importance, principles, and benefits of relationship marketing in modern corporate environments."
+    ],
+    "target_audience": "المدراء والقادة الإداريون في الشركات العالمية، والباحثون وطلاب الدراسات العليا في مجالات إدارة الأعمال والتسويق الاستراتيجي.",
+    "target_audience_en": "Managers and executives in global corporations, as well as researchers and postgraduate students in business administration and strategic marketing.",
+    "pages": "280",
+    "file_size": "23.72 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/ثقافة_العلاقات_الاستراتيجية_في_ادارة_الشركات.pdf",
+    "cover_image": "covers/106.png"
   }
 ]
