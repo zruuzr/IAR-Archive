@@ -5587,5 +5587,65 @@
     "file_type": "PDF",
     "file_path": "pdf/تطوير_المنتجات_الجديدة.pdf",
     "cover_image": "covers/111.png"
+  },
+  {
+    "id": 112,
+    "title": "الإدارة: المهام - المسئوليات - التطبيقات (الجزء الأول: المهام)",
+    "title_en": "Management: Tasks, Responsibilities, Practices (Part One: Tasks)",
+    "author": "بيتر دراكر",
+    "author_en": "Peter F. Drucker",
+    "category": "الإدارة والأعمال",
+    "category_en": "Management & Business",
+    "type": "كتاب",
+    "type_en": "Book",
+    "description": "يعد كتاب الإدارة لبيتر دراكر المرجع الأساسي والشامل في علم الإدارة الحديثة، يتناول في هذا الجزء الخاص بـ 'المهام' مفاهيم الإدارة الأساسية، نشأتها وتطورها، استراتيجيات وأهداف الأعمال الحرة، التخطيط الاستراتيجي، إدارة مؤسسات الخدمة، رفع إنتاجية العمل والعمال، والمسؤولية الاجتماعية والأخلاقية للإدارة.",
+    "description_en": "Peter Drucker's 'Management: Tasks, Responsibilities, Practices' is a foundational work on modern management science. This volume on 'Tasks' explores the emergence and evolution of management, business strategies and objectives, strategic planning, service institution management, worker productivity, and social responsibility.",
+    "publisher": "الدار الدولية للنشر والتوزيع",
+    "publisher_en": "International Publishing & Distribution House",
+    "year": "1996",
+    "isbn": "977-282-003-x",
+    "keywords": [
+      "الإدارة",
+      "بيتر دراكر",
+      "المهام الإدارية",
+      "التخطيط الاستراتيجي",
+      "إنتاجية العمل",
+      "المسؤولية الاجتماعية",
+      "إدارة الأعمال"
+    ],
+    "keywords_en": [
+      "Management",
+      "Peter Drucker",
+      "Management Tasks",
+      "Strategic Planning",
+      "Work Productivity",
+      "Social Responsibility",
+      "Business Administration"
+    ],
+    "key_points": [
+      "دراسة نشأة علم الإدارة وتطوره وعوامل ازدهاره والدروس المستفادة من تاريخه.",
+      "تحديد الأبعاد الأساسية للإدارة: الأداء الاقتصادي، جعل العمل منتجاً، والتأثيرات الاجتماعية.",
+      "شرح مفهوم العمل الحر، غرضه ورسالته وقوة تحديد الأهداف وصياغة الاستراتيجيات.",
+      "أهمية التخطيط الاستراتيجي كمهارة أساسية لتنظيم العمل وإدارة المخاطر والتغيير.",
+      "تحليل أداء مؤسسات الخدمة والمجتمع متعدد المؤسسات وتحديات أداء الخدمة.",
+      "طرق جعل العمل منتجاً من خلال تحسين الضوابط والأدوات وتمكين العامل المسؤول.",
+      "توضيح حدود المسؤولية الاجتماعية وأخلاقيات الإدارة ومبدأ عدم تعمد الإضرار."
+    ],
+    "key_points_en": [
+      "Analyzing the origins, development, and historical lessons of management science.",
+      "Defining core management dimensions: economic performance, productive work, and social impacts.",
+      "Explaining business purpose, mission, strategic goal setting, and priorities.",
+      "Highlighting strategic planning as an essential entrepreneurial skill for risk and change management.",
+      "Evaluating performance and challenges in service institutions and multi-institutional societies.",
+      "Making work productive through controls, proper tools, and empowering the responsible worker.",
+      "Addressing social impacts, limits of social responsibility, and management ethics (Primum Non Nocere)."
+    ],
+    "target_audience": "المدراء، القادة، طلاب وخبرات إدارة الأعمال، والباحثون في الشؤون التنظيمية والإدارية.",
+    "target_audience_en": "Managers, corporate leaders, business administration students, and organizational research professionals.",
+    "pages": "504",
+    "file_size": "35.57 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/كتاب_الادارة_المهام_المسؤوليات_التطبيقات.pdf",
+    "cover_image": "covers/112.png"
   }
 ]
