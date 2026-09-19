@@ -5387,5 +5387,53 @@
     "file_type": "PDF",
     "file_path": "pdf/المحاسبة_في_شركات_الاشخاص.pdf",
     "cover_image": "covers/107.png"
+  },
+  {
+    "id": 108,
+    "title": "قضايا وتطبيقات تسويقية معاصرة",
+    "title_en": "Contemporary Marketing Issues and Applications",
+    "author": "",
+    "author_en": "",
+    "category": "تسويق وإدارة أعمال",
+    "category_en": "Marketing and Business Administration",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Book",
+    "description": "كتاب متخصص يتناول مختلف القضايا والتطبيقات الحديثة في علم التسويق، مع التركيز على الممارسات والاستراتيجيات المعاصرة التي تواجه المؤسسات والشركات في بيئة الأعمال الحديثة.",
+    "description_en": "A specialized book dealing with various modern issues and applications in marketing, focusing on contemporary practices and strategies facing institutions and companies in the modern business environment.",
+    "publisher": "",
+    "publisher_en": "",
+    "year": "",
+    "isbn": "",
+    "keywords": [
+      "تسويق",
+      "قضايا معاصرة",
+      "تطبيقات تسويقية",
+      "إدارة الأعمال",
+      "استراتيجيات التسويق"
+    ],
+    "keywords_en": [
+      "Marketing",
+      "Contemporary Issues",
+      "Marketing Applications",
+      "Business Administration",
+      "Marketing Strategies"
+    ],
+    "key_points": [
+      "دراسة المفاهيم والتطورات الحديثة في مجالات التسويق المختلفة",
+      "استعراض التطبيقات العملية للحلول والأنشطة التسويقية المعاصرة",
+      "تحليل التحديات والفرص التسويقية في بيئة الأعمال الحالية"
+    ],
+    "key_points_en": [
+      "Studying modern concepts and developments in various marketing fields",
+      "Reviewing practical applications of contemporary marketing solutions and activities",
+      "Analyzing marketing challenges and opportunities in the current business environment"
+    ],
+    "target_audience": "الطلاب والمختصون والباحثون في مجالات التسويق وإدارة الأعمال",
+    "target_audience_en": "Students, professionals, and researchers in the fields of marketing and business administration",
+    "pages": "428",
+    "file_size": "49.63 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/قضايا_وتطبيقات_تسويقية_معاصرة.pdf",
+    "cover_image": "covers/108.png"
   }
 ]
