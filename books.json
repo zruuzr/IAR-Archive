@@ -5435,5 +5435,55 @@
     "file_type": "PDF",
     "file_path": "pdf/قضايا_وتطبيقات_تسويقية_معاصرة.pdf",
     "cover_image": "covers/108.png"
+  },
+  {
+    "id": 109,
+    "title": "تحديث النمو: اللحاق بالثورة الصناعية الثالثة",
+    "title_en": "Updating Growth: Catching Up with the Third Industrial Revolution",
+    "author": "حمدي الحناوي",
+    "author_en": "Hamdy El-Hennawy",
+    "category": "التنمية الاقتصادية والتكنولوجيا",
+    "category_en": "Economic Development & Technology",
+    "type": "كتاب",
+    "type_en": "Book",
+    "description": "يقدم الكتاب دراسة تحليلية ورؤية نقدية لنظريات التنمية التقليدية في دول العالم الثالث، مؤكداً أن النمو الحقيقي والسيادة الوطنية يتطلبان نمواً تكنولوجياً وصناعياً محلياً وليس مجرد زيادة استثمارية أو اعتماد على تصدير الموارد الطبيعية كالبترول. كما يتناول أهمية اللحاق بالثورة الصناعية الثالثة والتخطيط لثورة تكنولوجية تعتمد على الذات والتعلم بالعمل لمواجهة التحديات التنموية والمناخية.",
+    "description_en": "The book presents an analytical study and a critical view of traditional development theories in third-world countries, emphasizing that true growth and national sovereignty require local technological and industrial advancement, rather than merely increasing investments or relying on exporting natural resources like oil. It also addresses the importance of catching up with the Third Industrial Revolution and planning for a self-reliant technological revolution through learning by doing to face developmental and climate challenges.",
+    "publisher": "دار ومكتبة الحرية",
+    "publisher_en": "Dar and Library of Al-Hurriya",
+    "year": "2016",
+    "isbn": "978-779-09-0393-5",
+    "keywords": [
+      "تحديث النمو",
+      "الثورة الصناعية الثالثة",
+      "التنمية التكنولوجية",
+      "الاقتصاد التنموي",
+      "الاعتماد على الذات",
+      "الاستثمار التكنولوجي"
+    ],
+    "keywords_en": [
+      "Updating Growth",
+      "Third Industrial Revolution",
+      "Technological Development",
+      "Development Economics",
+      "Self-reliance",
+      "Technological Investment"
+    ],
+    "key_points": [
+      "يعزف الفكر التنموي التقليدي في العالم الثالث عن الجوهر التكنولوجي ويزيد الاعتماد على استيراد التكنولوجيا، مما يضعف السيادة الوطنية.",
+      "نهاية عصر النفط والتغيرات المناخية تفرضان ضرورة الانتقال إلى بنية صناعية وتكنولوجية متقدمة ومستدامة.",
+      "اللحاق بالثورة الصناعية الثالثة يتطلب الاعتماد على الذات، والتعلم من خلال العمل، وتراكم رأس المال البشري."
+    ],
+    "key_points_en": [
+      "Traditional development thinking in the Third World neglects the technological core and relies on importing technology, which weakens national sovereignty.",
+      "The end of the oil era and climate changes mandate a transition toward an advanced and sustainable industrial and technological structure.",
+      "Catching up with the Third Industrial Revolution requires self-reliance, learning by doing, and human capital accumulation."
+    ],
+    "target_audience": "الباحثون والأكاديميون في علوم الاقتصاد والتنمية، وصناع السياسات الاقتصادية والتكنولوجية، والمستثمرون المهتمون بالتخطيط التنموي.",
+    "target_audience_en": "Researchers and academics in economics and development, economic and technological policy makers, and investors interested in development planning.",
+    "pages": "257",
+    "file_size": "1.64 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/تحديث_النمو.pdf",
+    "cover_image": "covers/109.png"
   }
 ]
