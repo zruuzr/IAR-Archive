@@ -5329,5 +5329,63 @@
     "file_type": "PDF",
     "file_path": "pdf/ثقافة_العلاقات_الاستراتيجية_في_ادارة_الشركات.pdf",
     "cover_image": "covers/106.png"
+  },
+  {
+    "id": 107,
+    "title": "المحاسبة في شركات الأشخاص",
+    "title_en": "Partnership Accounting",
+    "author": "ناصر نور الدين",
+    "author_en": "Nasser Nour El-Din",
+    "category": "المحاسبة والعلوم المالية",
+    "category_en": "Accounting & Financial Sciences",
+    "type": "كتاب أكاديمي جامعي",
+    "type_en": "Academic University Textbook",
+    "description": "كتاب أكاديمي متخصص في محاسبة شركات الأشخاص، يتناول الجوانب والمعالجات المحاسبية لتكوين شركات التضامن والتوصية البسيطة والمحاصة، وتوزيع الأرباح والخسائر، وتعديل عقد الشركة وهيكل رأس المال، ومعالجة تغير الشركاء بانضمامهم أو انفصالهم، إضافة إلى تصفية الشركات وإنقضائها بالاندماج وفق المعايير المحاسبية والقوانين التجارية.",
+    "description_en": "An academic textbook covering partnership accounting. It details accounting procedures for partnership formation (general, limited, and joint ventures), profit and loss allocation, partnership agreement amendments, capital restructuring, partner admission and withdrawal, as well as company liquidation and mergers according to accounting standards.",
+    "publisher": "كلية التجارة - جامعة الإسكندرية / مكتبة الاقتصاد",
+    "publisher_en": "Faculty of Commerce - Alexandria University / Economics Library",
+    "year": "2019",
+    "isbn": "",
+    "keywords": [
+      "شركات الأشخاص",
+      "المحاسبة المالية",
+      "توزيع الأرباح والخسائر",
+      "تصفية الشركات",
+      "اندماج الشركات",
+      "انضمام شريك",
+      "انفصال شريك",
+      "إعادة التقدير"
+    ],
+    "keywords_en": [
+      "Partnership Accounting",
+      "Financial Accounting",
+      "Profit and Loss Allocation",
+      "Company Liquidation",
+      "Corporate Mergers",
+      "Partner Admission",
+      "Partner Retirement",
+      "Asset Revaluation"
+    ],
+    "key_points": [
+      "دراسة المعالجات المحاسبية لتكوين شركات الأشخاص بالحصص النقدية والعينية وحصة العمل.",
+      "تحديد وقواعد قياس الربح القابل للتوزيع وكيفية توزيع الأرباح والخسائر بين الشركاء.",
+      "بيان إجراءات تعديل عقد الشركة وزيادة أو تخفيض رأس المال وإعادة تقويم الأصول والالتزامات.",
+      "شرح المعالجة المحاسبية لحالات انضمام وإنفصال الشركاء والتعامل مع الشهرة والاحتياطيات.",
+      "توضيح معالجات تصفية شركات الأشخاص والشركات المساهمة وإجراءات الاندماج المحاسبية."
+    ],
+    "key_points_en": [
+      "Analyze accounting treatments for establishing partnerships through cash, in-kind, or labor contributions.",
+      "Define rules for measuring distributable profits and allocating net income or losses among partners.",
+      "Detail procedures for modifying partnership agreements, adjusting capital, and revaluing assets and liabilities.",
+      "Explain accounting methods for partner admission, retirement, and the valuation of goodwill and reserves.",
+      "Illustrate liquidation processes for partnerships and corporations, as well as merger accounting procedures."
+    ],
+    "target_audience": "طلاب كلية التجارة، والمحاسبون الماليون، والباحثون والمهتمون بالمحاسبة المالية ومحاسبة الشركات.",
+    "target_audience_en": "Commerce college students, financial accountants, researchers, and practitioners interested in financial and partnership accounting.",
+    "pages": "370",
+    "file_size": "22.05 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/المحاسبة_في_شركات_الاشخاص.pdf",
+    "cover_image": "covers/107.png"
   }
 ]
