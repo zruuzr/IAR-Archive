@@ -5225,5 +5225,59 @@
     "file_type": "PDF",
     "file_path": "pdf/علم_المالية_التشريع_الضريبي.pdf",
     "cover_image": "covers/104.png"
+  },
+  {
+    "id": 105,
+    "title": "أنواع المديرين",
+    "title_en": "Types of Managers",
+    "author": "عاطف عبد الله المكاوي",
+    "author_en": "Atef Abdallah El-Makkawi",
+    "category": "إدارة الأعمال",
+    "category_en": "Business Management",
+    "type": "كتاب",
+    "type_en": "Book",
+    "description": "يتناول الكتاب تفصيلاً شاملاً لأنواع المديرين وأنماط سلوكياتهم في بيئة العمل وطرق التعامل الأنسب مع كل نمط. كما يسلط الضوء على مفهوم القيادة الإدارية والفرق بين المدير التقليدي والمدير القائد، مستعرضاً أنماط الإدارة الحديثة ومراحل وخطوات اتخاذ القرارات الإدارية، إضافة إلى مفهوم التمكين النفسي والذاتي للموظفين لرفع مستوى الأداء المالي والتنظيمي للمؤسسات.",
+    "description_en": "The book provides a comprehensive study of various types of managers, their behavioral patterns in the workplace, and effective strategies for interacting with each type. It highlights administrative leadership, the distinction between a manager and a leader-manager, modern management styles, decision-making stages, and psychological and self-empowerment for employees to enhance organizational performance.",
+    "publisher": "مكتبة الاقتصاد",
+    "publisher_en": "Economics Library",
+    "year": "",
+    "isbn": "",
+    "keywords": [
+      "أنواع المديرين",
+      "القيادة الإدارية",
+      "أنماط الإدارة",
+      "اتخاذ القرارات",
+      "التمكين النفسي",
+      "السلوك التنظيمي",
+      "تطوير الإدارة"
+    ],
+    "keywords_en": [
+      "Types of Managers",
+      "Administrative Leadership",
+      "Management Styles",
+      "Decision Making",
+      "Psychological Empowerment",
+      "Organizational Behavior",
+      "Management Development"
+    ],
+    "key_points": [
+      "تصنيف أنماط وطباع المديرين (العصبي، الديمقراطي، المحافظ، المتهور، الحساس، المهوس بالتحكم، الأخرس) ووسائل التعامل معهم.",
+      "بيان الشروط والمقومات الأساسية للمدير القائد والتمييز بين القيادة الرسمية وغير الرسمية.",
+      "دراسة أساليب وأنماط القيادة والتنظيم الإداري وتأثيرها على إنضباط وإنتاجية العاملين.",
+      "شرح خطوات وآليات اتخاذ القرارات الإدارية في حالات التأكد وعدم التأكد والمخاطرة."
+    ],
+    "key_points_en": [
+      "Classifying types and personalities of managers (nervous, democratic, conservative, impulsive, sensitive, control-obsessed, silent) and practical communication strategies.",
+      "Defining the essential traits of a leader-manager and distinguishing between formal and informal leadership.",
+      "Examining management styles, organizational structure, and their impact on employee productivity and discipline.",
+      "Explaining the steps and mechanisms of managerial decision-making under certainty, uncertainty, and risk."
+    ],
+    "target_audience": "المدراء والقادة الإداريون، الموظفون في مختلف القطاعات، والباحثون والطلاب في مجالات إدارة الأعمال والتطوير الإداري.",
+    "target_audience_en": "Managers, corporate leaders, employees across various sectors, and students and researchers in business administration and management development.",
+    "pages": "152",
+    "file_size": "20.39 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/انواع_المديرين.pdf",
+    "cover_image": "covers/105.png"
   }
 ]
