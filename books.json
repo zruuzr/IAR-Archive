@@ -5485,5 +5485,57 @@
     "file_type": "PDF",
     "file_path": "pdf/تحديث_النمو.pdf",
     "cover_image": "covers/109.png"
+  },
+  {
+    "id": 110,
+    "title": "تحليل وتقييم المشروعات الاقتصادية",
+    "title_en": "Analysis and Evaluation of Economic Projects",
+    "author": "إسماعيل علي محمود",
+    "author_en": "Ismail Ali Mahmoud",
+    "category": "اقتصاد وإدارة أعمال",
+    "category_en": "Economics and Business Administration",
+    "type": "كتاب",
+    "type_en": "Book",
+    "description": "كتاب متخصص يتناول دراسة وتحليل وتقييم المشروعات الاقتصادية، مستعرضاً الأبعاد القانونية للمشروعات، وأهمية دراسات الجدوى الأولية والتسويقية، بالإضافة إلى المقارنة بين المؤشرات المالية التقليدية والمؤشرات المالية الإسلامية في تقييم المشاريع.",
+    "description_en": "A specialized book dealing with the study, analysis, and evaluation of economic projects. It covers the legal aspects of projects, the importance of preliminary and marketing feasibility studies, and compares traditional financial indicators with Islamic financial indicators in project evaluation.",
+    "publisher": "",
+    "publisher_en": "",
+    "year": "",
+    "isbn": "",
+    "keywords": [
+      "تقييم المشاريع",
+      "تحليل اقتصادي",
+      "دراسة الجدوى",
+      "مؤشرات مالية",
+      "الجدوى التسويقية",
+      "الاقتصاد الإسلامي"
+    ],
+    "keywords_en": [
+      "Project Evaluation",
+      "Economic Analysis",
+      "Feasibility Study",
+      "Financial Indicators",
+      "Marketing Feasibility",
+      "Islamic Economics"
+    ],
+    "key_points": [
+      "بيان المفهوم القانوني الحديث للمشروع وسلطات الإدارة",
+      "إبراز أهمية الدراسة الأولية ودراسة الجدوى التسويقية عند تنفيذ المشاريع",
+      "استعراض المؤشرات المالية التقليدية المستخدمة في التقييم الاقتصادي",
+      "تقديم رؤية نحو استخدام مؤشرات مالية إسلامية لتقييم المشروعات الاقتصادية"
+    ],
+    "key_points_en": [
+      "Explaining the modern legal concept of the project and management authority",
+      "Highlighting the importance of preliminary and marketing feasibility studies when executing projects",
+      "Reviewing traditional financial indicators used in economic evaluation",
+      "Proposing the use of Islamic financial indicators for evaluating economic projects"
+    ],
+    "target_audience": "الطلاب والباحثون في علوم الاقتصاد وإدارة الأعمال، والمستثمرون، ومعدو دراسات الجدوى والمشروعات.",
+    "target_audience_en": "Students and researchers in economics and business administration, investors, and feasibility study experts.",
+    "pages": "242",
+    "file_size": "26.05 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/تحليل_وتقييم_المشروعات_الاقتصادية.pdf",
+    "cover_image": "covers/110.png"
   }
 ]
