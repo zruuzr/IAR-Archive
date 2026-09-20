@@ -6027,5 +6027,57 @@
     "file_type": "PDF",
     "file_path": "pdf/تعلم_الاحصاء_من_البداية_وحتى_التمكن.pdf",
     "cover_image": "covers/119.png"
+  },
+  {
+    "id": 120,
+    "title": "القيادة التحويلية وضغوط العمل في المجال الرياضي",
+    "title_en": "Transformational Leadership and Job Stress in the Sports Field",
+    "author": "د. ياسر عبد العظيم محمود، د. محمد سالم السيد، د. محمد علي إمام، د. محمود علي عثمان",
+    "author_en": "Dr. Yasser Abdel Azim Mahmoud, Dr. Mohamed Salem El-Sayed, Dr. Mohamed Ali Imam, Dr. Mahmoud Ali Osman",
+    "category": "الإدارة الرياضية وعلم النفس التنظيمي",
+    "category_en": "Sports Management and Organizational Psychology",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Book",
+    "description": "يتناول هذا الكتاب موضوع القيادة التحويلية ودورها الفعال في التعامل مع ضغوط العمل وإدارة الوقت داخل المنظمات والمؤسسات الرياضية. يستعرض الكتاب الأنماط القيادية المختلفة، وأبعاد ومفهوم القيادة التحويلية، وكيفية توظيفها للتغلب على التحديات والضغوط الوظيفية، إضافة إلى تقديم استراتيجيات عملية لإدارة الوقت والتكيف مع ضغوط العمل لتحسين الأداء التنظيمي والرياضي.",
+    "description_en": "This book explores transformational leadership and its effective role in dealing with job stress and time management within sports organizations. It examines various leadership styles, the concepts and dimensions of transformational leadership, and how to utilize them to overcome workplace challenges and stress, alongside providing practical strategies for time management and coping mechanisms to enhance organizational and athletic performance.",
+    "publisher": "دار ماستر للنشر",
+    "publisher_en": "Master Publishing House",
+    "year": "2020",
+    "isbn": "978-977-85571-8-3",
+    "keywords": [
+      "القيادة التحويلية",
+      "ضغوط العمل",
+      "المجال الرياضي",
+      "إدارة الوقت",
+      "التكيف الوظيفي",
+      "الإدارة الرياضية"
+    ],
+    "keywords_en": [
+      "Transformational Leadership",
+      "Job Stress",
+      "Sports Field",
+      "Time Management",
+      "Occupational Coping",
+      "Sports Management"
+    ],
+    "key_points": [
+      "تحديد الأنماط والأنظريات القيادية المختلفة في المنظمات الرياضية",
+      "توضيح مفهوم القيادة التحويلية وخصائص القائد التحويلي وأدواره",
+      "دراسة العلاقة بين القيادة التحويلية وإدارة الوقت بفاعلية",
+      "تحليل مصادر ضغوط العمل وتقديم استراتيجيات التكيف معها في القطاع الرياضي"
+    ],
+    "key_points_en": [
+      "Identifying different leadership styles and theories in sports organizations",
+      "Explaining the concept, characteristics, and roles of transformational leaders",
+      "Examining the relationship between transformational leadership and effective time management",
+      "Analyzing sources of job stress and presenting coping strategies in the sports sector"
+    ],
+    "target_audience": "الأكاديميون والباحثون في مجال الإدارة الرياضية، القادة والإداريون في الأندية والمؤسسات الرياضية، والطلاب المتخصصون في علوم الرياضة.",
+    "target_audience_en": "Academics and researchers in sports management, leaders and administrators in sports clubs and institutions, and students specializing in sports science.",
+    "pages": "144",
+    "file_size": "1.89 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/القيادة_التحولية_وضغوط_العمل_في_المجال_الرياضي.pdf",
+    "cover_image": "covers/120.png"
   }
 ]
