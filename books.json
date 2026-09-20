@@ -5811,5 +5811,61 @@
     "file_type": "PDF",
     "file_path": "pdf/المحاسبة_في_المشروع_التجاري_الفردي.pdf",
     "cover_image": "covers/115.png"
+  },
+  {
+    "id": 116,
+    "title": "النظم الضريبية",
+    "title_en": "Tax Systems",
+    "author": "حامد عبد المجيد دراز",
+    "author_en": "Hamed Abdel Majeed Daraz",
+    "category": "الاقتصاد والمالية العامة",
+    "category_en": "Economics & Public Finance",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Book",
+    "description": "كتاب أكاديمي يدرس النظم الضريبية من حيث أبعادها الاقتصادية والسياسية والاجتماعية، ويحلل أسس العدالة والإدارة الضريبية ومراحل الحصر والربط والتحصيل ومكافحة التهرب، بالإضافة إلى استعراض حالات تطبيقية وتطوير التشريعات الضريبية.",
+    "description_en": "An academic textbook examining tax systems within their economic, political, and social contexts. It analyzes the foundations of tax equity and administration, registration, assessment, collection, and anti-evasion measures, along with practical case studies on tax legislation.",
+    "publisher": "كلية التجارة - جامعة الإسكندرية / مكتبة الاقتصاد",
+    "publisher_en": "Faculty of Commerce - Alexandria University / Economics Library",
+    "year": "2019",
+    "isbn": "",
+    "keywords": [
+      "النظم الضريبية",
+      "الإدارة الضريبية",
+      "السياسة الضريبية",
+      "العدالة الضريبية",
+      "التهرب الضريبي",
+      "الضرائب العقارية",
+      "ضريبة التركات"
+    ],
+    "keywords_en": [
+      "Tax Systems",
+      "Tax Administration",
+      "Tax Policy",
+      "Tax Equity",
+      "Tax Evasion",
+      "Real Estate Tax",
+      "Estate Tax"
+    ],
+    "key_points": [
+      "تحديد التأثيرات المتبادلة بين الأنظمة السياسية والاقتصادية والاجتماعية وهيكل النظام الضريبي.",
+      "دراسة القواعد والأصول العلمية لتصميم النظام الضريبي الكفء العادل.",
+      "شرح وظائف الإدارة الضريبية المركزية والتنفيذية وأدوارها في التخطيط والتوجيه الفني والمتابعة.",
+      "تحليل خطوات وإجراءات الفحص والربط والتحصيل والطعون الضريبية.",
+      "دراسة حالات تطبيقية واقعية مثل الضرائب على مرتبات العاملين بالخارج، والأراضي الفضاء، والتركات، والعقارات المبنية."
+    ],
+    "key_points_en": [
+      "Analyzing the mutual effects of political, economic, and social systems on tax structures.",
+      "Studying scientific principles for designing efficient and equitable tax systems.",
+      "Explaining the central and executive functions of tax administration in planning, technical guidance, and monitoring.",
+      "Detailing tax audit, assessment, collection, and appeal procedures.",
+      "Examining practical case studies such as taxes on overseas salaries, vacant lands, estates, and built property."
+    ],
+    "target_audience": "طلاب التجارة والاقتصاد، الباحثون الأكاديميون، والمهنيون والمتخصصون في الإدارة والتشريع الضريبي.",
+    "target_audience_en": "Students of commerce and economics, academic researchers, and tax administration and legislation professionals.",
+    "pages": "236",
+    "file_size": "40.47 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/النظم_الضريبية.pdf",
+    "cover_image": "covers/116.png"
   }
 ]
