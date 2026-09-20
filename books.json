@@ -5919,5 +5919,55 @@
     "file_type": "PDF",
     "file_path": "pdf/القيادة_الابتكارية.pdf",
     "cover_image": "covers/117.png"
+  },
+  {
+    "id": 118,
+    "title": "جدوى نظم المعلومات في اتخاذ القرارات",
+    "title_en": "Feasibility of Information Systems in Decision Making",
+    "author": "محمد ثابت",
+    "author_en": "Mohamed Thabit",
+    "category": "نظم المعلومات الإدارية",
+    "category_en": "Management Information Systems",
+    "type": "دراسة إدارية",
+    "type_en": "Management Study",
+    "description": "يناقش الكتاب أهمية وجدوى استخدام نظم المعلومات الإدارية في دعم وتسهيل عملية اتخاذ القرارات داخل المؤسسات والمنظمات. كما يستعرض تحول حفظ ومعالجة البيانات من الطرق التقليدية إلى النظم الحاسوبية والتقنيات الحديثة لرفع كفاءة استخدام الموارد وتحسين الأداء المؤسسي.",
+    "description_en": "This book discusses the importance and feasibility of using management information systems (MIS) to support and facilitate the decision-making process in organizations. It explores the transition from traditional data processing methods to automated computer systems to enhance resource efficiency and performance.",
+    "publisher": "دار كنوز للنشر والتوزيع",
+    "publisher_en": "Kenouz for Publishing and Distribution",
+    "year": "2019",
+    "isbn": "978-977-709-346-5",
+    "keywords": [
+      "نظم المعلومات",
+      "اتخاذ القرارات",
+      "الإدارة",
+      "معالجة البيانات",
+      "التخطيط الاستراتيجي"
+    ],
+    "keywords_en": [
+      "Information Systems",
+      "Decision Making",
+      "Management",
+      "Data Processing",
+      "Strategic Planning"
+    ],
+    "key_points": [
+      "تعريف مفاهيم النظام والإدارة والمعلومات والعلاقة بينها.",
+      "أهمية الانتقال من التوثيق والذاكرة الخارجية التقليدية إلى النظم الحاسوبية الحديثة.",
+      "دور المعلومات المنظمة والدقيقة في تحديد اتجاهات وأهداف وإستراتيجيات العمل.",
+      "تصنيف نظم المعلومات الإدارية بما يتناسب مع المهام والمستويات الإدارية المختلفة."
+    ],
+    "key_points_en": [
+      "Defining the concepts of systems, management, data, and their integration.",
+      "The transition from traditional external documentation to modern computerized systems.",
+      "The role of accurate and organized information in defining organizational goals and strategies.",
+      "Categorizing management information systems according to different administrative tasks and managerial levels."
+    ],
+    "target_audience": "المدراء، أخصائيو نظم المعلومات، المخططون الإداريون، وطلاب علوم الإدارة وتكنولوجيا المعلومات.",
+    "target_audience_en": "Managers, information systems specialists, administrative planners, and students of management and IT.",
+    "pages": "66",
+    "file_size": "7.00 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/جدوى_نظم_المعلومات_في_اتخاذ_القرارات.pdf",
+    "cover_image": "covers/118.png"
   }
 ]
