@@ -5867,5 +5867,57 @@
     "file_type": "PDF",
     "file_path": "pdf/النظم_الضريبية.pdf",
     "cover_image": "covers/116.png"
+  },
+  {
+    "id": 117,
+    "title": "القيادة الابتكارية والأداء المتميز: حقيبة تدريبية لتنمية الإبداع الإداري",
+    "title_en": "Innovative Leadership and Outstanding Performance: A Training Package for Developing Administrative Creativity",
+    "author": "سهيلة عباس",
+    "author_en": "Suhaila Abbas",
+    "category": "الإدارة والأعمال",
+    "category_en": "Management and Business",
+    "type": "حقيبة تدريبية",
+    "type_en": "Training Package",
+    "description": "حقيبة تدريبية متخصصة تهدف إلى تنمية الإبداع الإداري والقيادة الابتكارية لدى المدراء والقادة. يتناول الكتاب مقومات القيادة الفعالة، ديناميكية فرق العمل، أساليب تحقيق الأداء المتميز في المنظمات، إضافة إلى مهارات التخطيط الاستراتيجي وإدارة الجودة ورضا العملاء.",
+    "description_en": "A specialized training package aiming to develop administrative creativity and innovative leadership for managers and leaders. The book covers the elements of effective leadership, work team dynamics, methods for achieving outstanding performance in organizations, as well as strategic planning skills, quality management, and customer satisfaction.",
+    "publisher": "دار وائل للنشر والتوزيع",
+    "publisher_en": "Dar Wael for Publishing and Distribution",
+    "year": "2004",
+    "isbn": "9957-11-050-0",
+    "keywords": [
+      "القيادة الابتكارية",
+      "الأداء المتميز",
+      "الإبداع الإداري",
+      "فرق العمل",
+      "التخطيط الاستراتيجي",
+      "إدارة الجودة"
+    ],
+    "keywords_en": [
+      "Innovative Leadership",
+      "Outstanding Performance",
+      "Administrative Creativity",
+      "Work Teams",
+      "Strategic Planning",
+      "Quality Management"
+    ],
+    "key_points": [
+      "عرض مقومات ونظريات القيادة الابتكارية وديناميكية العمل الجماعي",
+      "تحديد أسس القيادة الفعالة لفرق العمل وكيفية تقييم القدرات الإمكانية والقوة القيادية",
+      "بيان مقومات الأداء المتميز للأفراد والمنظمات ودور منظومات التعلم والإبداع",
+      "توضيح مهارات التخطيط الاستراتيجي وإدارة الاجتماعات وتحقيق الجودة ورضا الزبائن"
+    ],
+    "key_points_en": [
+      "Presenting the fundamentals and theories of innovative leadership and group dynamics",
+      "Defining the foundations of effective work team leadership and evaluating leadership capabilities",
+      "Highlighting the requirements for outstanding individual and organizational performance and the role of learning organizations",
+      "Illustrating strategic planning skills, meeting management, quality control, and customer satisfaction"
+    ],
+    "target_audience": "المدراء، القادة الإداريون، المشرفون، المدربون، وطلاب أصول الإدارة والتطوير التنظيمي",
+    "target_audience_en": "Managers, administrative leaders, supervisors, trainers, and students of management and organizational development",
+    "pages": "193",
+    "file_size": "14.00 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/القيادة_الابتكارية.pdf",
+    "cover_image": "covers/117.png"
   }
 ]
