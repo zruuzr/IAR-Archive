@@ -5755,5 +5755,61 @@
     "file_type": "PDF",
     "file_path": "pdf/الاحصاء_والبحث_التاريخي.pdf",
     "cover_image": "covers/114.png"
+  },
+  {
+    "id": 115,
+    "title": "المحاسبة في المشروع التجاري الفردي: الأصول العلمية والعملية (تطبيقات عملية) - الكتاب الثاني",
+    "title_en": "Accounting in Sole Proprietorship: Scientific and Practical Principles (Practical Applications) - Book Two",
+    "author": "منصور حامد محمود",
+    "author_en": "Mansour Hamed Mahmoud",
+    "category": "المحاسبة",
+    "category_en": "Accounting",
+    "type": "كتاب دراسي / تطبيقات عملية",
+    "type_en": "Textbook / Practical Applications",
+    "description": "كتاب تعليمي وتطبيقي في المحاسبة المالية يهدف إلى تدريب الطلاب والدارسين على حل المشاكل العملية للمشروع التجاري الفردي. يتضمن تمارين وتطبيقات عملية محلولة وأخرى مخصصة للتدريب تغطي تحليل العمليات المالية، معادلة الميزانية، الطرق المحاسبية (الإيطالية والفرنسية والإنجليزية)، تصحيح الأخطاء المحاسبية، والتسويات وحسابات النتيجة والميزانية العمومية.",
+    "description_en": "A practical textbook in financial accounting designed to train students and learners on solving practical problems faced by sole proprietorships. It includes solved and unsolved practical exercises covering transaction analysis, the accounting equation, various accounting methods (Italian, French, and English), error correction, adjustment entries, and final balance sheet preparation.",
+    "publisher": "دار الثقافة العربية للنشر والتوزيع",
+    "publisher_en": "Dar Al-Thaqafa Al-Arabiya for Publishing and Distribution",
+    "year": "2014",
+    "isbn": "",
+    "keywords": [
+      "المحاسبة المالية",
+      "المشروع الفردي",
+      "معادلة الميزانية",
+      "دفتر اليومية",
+      "دفتر الأستاذ",
+      "تصحيح الأخطاء",
+      "الحسابات الختامية",
+      "قائمة المركز المالي"
+    ],
+    "keywords_en": [
+      "Financial Accounting",
+      "Sole Proprietorship",
+      "Accounting Equation",
+      "Journal Ledger",
+      "General Ledger",
+      "Error Correction",
+      "Final Accounts",
+      "Balance Sheet"
+    ],
+    "key_points": [
+      "تطبيقات عملية على تحليل العمليات المالية ومعادلة الميزانية.",
+      "شرح وتسجيل العمليات وفق الطريقة الإيطالية والطريقتين الفرنسية والإنجليزية.",
+      "معالجة وتصحيح الأخطاء المحاسبية في الدفاتر واستخدام الحسابات المعلقة.",
+      "إعداد الحسابات الختامية وقوائم المركز المالي والتسويات الجردية."
+    ],
+    "key_points_en": [
+      "Practical applications on financial transaction analysis and the balance sheet equation.",
+      "Recording financial transactions according to Italian, French, and English accounting methods.",
+      "Handling and correcting accounting errors in ledgers and utilizing suspense accounts.",
+      "Preparation of final accounts, balance sheets, and year-end adjustment entries."
+    ],
+    "target_audience": "طلاب كليات التجارة والمعاهد التجارية والدارسون للمحاسبة المالية والمحاسبون المبتدئون.",
+    "target_audience_en": "Commerce and business students, financial accounting learners, and junior accountants.",
+    "pages": "90",
+    "file_size": "4.77 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/المحاسبة_في_المشروع_التجاري_الفردي.pdf",
+    "cover_image": "covers/115.png"
   }
 ]
