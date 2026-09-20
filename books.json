@@ -5699,5 +5699,61 @@
     "file_type": "PDF",
     "file_path": "pdf/الهندسة_الاجتماعية.pdf",
     "cover_image": "covers/113.png"
+  },
+  {
+    "id": 114,
+    "title": "الإحصاء والبحث التاريخي",
+    "title_en": "Statistics and Historical Research",
+    "author": "مصطفى أحمد عبد الرحيم زايد",
+    "author_en": "Moustafa Ahmed Abdel-Rahim Zayed",
+    "category": "مناهج البحث والتاريخ",
+    "category_en": "Research Methodology & History",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Book",
+    "description": "كتاب أكاديمي يهدف إلى إبراز أهمية وضرورة استخدام الأساليب الإحصائية والكمية في البحث التاريخي. يستعرض الكتاب تطور أساليب البحث التاريخي والتحول نحو التاريخ الكمي، ويشرح الأدوات والأساليب الإحصائية المختلفة مثل جمع البيانات، الوصف الإحصائي، الاستقراء واختبارات الفروض، وصنع القرارات، مع تقديم نماذج وتطبيقات عملية للبحوث التاريخية الكمية.",
+    "description_en": "An academic book highlighting the necessity and application of statistical and quantitative methods in historical research. It explores the evolution of historical methodologies toward quantitative history (Cliometrics), explains statistical tools including data collection, descriptive statistics, hypothesis testing, and decision-making, and provides practical application models in historical studies.",
+    "publisher": "المؤسسة المصرية للنشر والترجمة",
+    "publisher_en": "Egyptian Institution for Publishing and Translation",
+    "year": "1987",
+    "isbn": "",
+    "keywords": [
+      "الإحصاء",
+      "البحث التاريخي",
+      "التاريخ الكمي",
+      "التحليل الإحصائي",
+      "مناهج البحث",
+      "الديموجرافيا التاريخية",
+      "قياس التاريخ"
+    ],
+    "keywords_en": [
+      "Statistics",
+      "Historical Research",
+      "Quantitative History",
+      "Cliometrics",
+      "Research Methodology",
+      "Historical Demography",
+      "Statistical Analysis"
+    ],
+    "key_points": [
+      "التعريف بالبحث التاريخي وبيان التحول من الصورة التقليدية الوصفية إلى الاعتماد على الأساليب الإحصائية والكمية.",
+      "استعراض عوامل تطور البحث التاريخي وتعدد المصادر والظواهر واتساع نطاق الدراسات التاريخية.",
+      "توضيح الأساليب الإحصائية المستخدمة في التاريخ كجمع البيانات، مقاييس التشتت، مقاييس التراجع، والسلاسل الزمنية.",
+      "عرض أساليب الاستقراء واختبارات الفروض ونماذج صنع القرارات واستخدامها في تقييم الحوادث التاريخية.",
+      "تقديم نماذج تطبيقية مثل مسألة تعيين المؤلف، السيرة التجميعية، والديموجرافيا التاريخية وتحليل نصوص وثائقية."
+    ],
+    "key_points_en": [
+      "Introduction to historical research and its shift from traditional descriptive methods to statistical and quantitative tools.",
+      "Overview of factors driving the evolution of historical research, including source diversification and multidisciplinary approaches.",
+      "Explanation of statistical techniques used in history such as data collection, dispersion measures, regression, and time series.",
+      "Discussion of inferential statistics, hypothesis testing, and decision-making models applied to historical contexts.",
+      "Presentation of applied case studies including authorship attribution, collective biography (prosopography), and historical demography."
+    ],
+    "target_audience": "الباحثون والمؤرخون وطلاب الدراسات العليا في مجالات التاريخ والإحصاء والعلوم الاجتماعية.",
+    "target_audience_en": "Researchers, historians, and graduate students in history, statistics, and social sciences.",
+    "pages": "80",
+    "file_size": "8.20 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/الاحصاء_والبحث_التاريخي.pdf",
+    "cover_image": "covers/114.png"
   }
 ]
