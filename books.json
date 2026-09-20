@@ -5647,5 +5647,57 @@
     "file_type": "PDF",
     "file_path": "pdf/كتاب_الادارة_المهام_المسؤوليات_التطبيقات.pdf",
     "cover_image": "covers/112.png"
+  },
+  {
+    "id": 113,
+    "title": "الهندسة الاجتماعية: مدخل للتوجه السوقي وفق منظور حركية المعرفة",
+    "title_en": "Social Engineering: An Approach to Market Orientation According to Knowledge Dynamics Perspective",
+    "author": "إسراء طارق حسين الملاح",
+    "author_en": "Israa Tariq Hussein Al-Mallah",
+    "category": "إدارة الأعمال",
+    "category_en": "Business Administration",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Book",
+    "description": "دراسة أكاديمية تسلط الضوء على الهندسة الاجتماعية وتأثيرها في التوجه السوقي للمنظمات من خلال حركية المعرفة، مع استعراض مفاهيم إدارة التسويق واقتصاد المعرفة، وتطبيق دراسة حالة ميدانية على شركة آسياسيل للاتصالات المتنقلة في العراق.",
+    "description_en": "An academic book examining social engineering and its impact on organizational market orientation through knowledge dynamics, combining marketing management concepts with the knowledge economy, and including a practical case study on Asiacell Telecom in Iraq.",
+    "publisher": "شركة دار الأكاديميون للنشر والتوزيع",
+    "publisher_en": "Dar Al-Academeyoon for Publishing and Distribution",
+    "year": "",
+    "isbn": "",
+    "keywords": [
+      "الهندسة الاجتماعية",
+      "التوجه السوقي",
+      "حركية المعرفة",
+      "إدارة الأعمال",
+      "إدارة التسويق",
+      "آسياسيل"
+    ],
+    "keywords_en": [
+      "Social Engineering",
+      "Market Orientation",
+      "Knowledge Dynamics",
+      "Business Administration",
+      "Marketing Management",
+      "Asiacell"
+    ],
+    "key_points": [
+      "توضيح دور الهندسة الاجتماعية في تكييف منظومات الأعمال مع متغيرات اقتصاد المعرفة والعولمة.",
+      "ربط حركية المعرفة ونقلها بفعالية بين الأطراف الداخلية والخارجية للمنظمة بمدخل التوجه السوقي.",
+      "استعراض أطر الحوار والتواصل المباشر والافتراضي عبر الشبكات الاجتماعية لتعزيز التعاون المعرفي.",
+      "تقديم دراسة حالة عملية حول تطبيق أنموذج الهندسة الاجتماعية واختبار فرضياته في شركة آسياسيل للاتصالات في العراق."
+    ],
+    "key_points_en": [
+      "Clarifying the role of social engineering in adapting business systems to knowledge economy changes and globalization.",
+      "Linking knowledge dynamics and effective knowledge transfer between internal and external stakeholders to market orientation.",
+      "Exploring direct and virtual dialogue frameworks via social networks to enhance knowledge collaboration.",
+      "Providing an empirical case study testing the social engineering model at Asiacell Telecom in Iraq."
+    ],
+    "target_audience": "الباحثون والأكاديميون وطلاب الدراسات العليا والمتخصصون في مجالات إدارة الأعمال، التسويق، وإدارة المعرفة.",
+    "target_audience_en": "Researchers, academics, postgraduate students, and professionals in Business Administration, Marketing, and Knowledge Management.",
+    "pages": "231",
+    "file_size": "26.73 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/الهندسة_الاجتماعية.pdf",
+    "cover_image": "covers/113.png"
   }
 ]
