@@ -5969,5 +5969,63 @@
     "file_type": "PDF",
     "file_path": "pdf/جدوى_نظم_المعلومات_في_اتخاذ_القرارات.pdf",
     "cover_image": "covers/118.png"
+  },
+  {
+    "id": 119,
+    "title": "تعلم الإحصاء من البداية وحتى التمكن",
+    "title_en": "Learning Statistics: From Beginning to Proficiency",
+    "author": "علي صلاح عبد المحسن حسن",
+    "author_en": "Ali Salah Abdel-Mohsen Hassan",
+    "category": "الإحصاء والقياس النفسي والتربوي",
+    "category_en": "Educational Statistics and Psychological Measurement",
+    "type": "كتاب أكاديمي تعليمي",
+    "type_en": "Academic Educational Book",
+    "description": "كتاب متخصص يقدم مدخلاً شاملاً لتعلم الإحصاء وتطبيقاته في مجال التقويم والامتحانات والبحوث التربوية والنفسية. يتناول الكتاب خطوات بناء الاختبارات التحصيلية، وإعداد جدول المواصفات، وحساب معايير جودة الأسئلة مثل معاملات السهولة والصعوبة والتمييز، بالإضافة إلى شرح مفصل لمقاييس النزعة المركزية (المتوسط الحسابي والوسيط والمنوال) وطرق حسابها من البيانات الخام والتكرارية والفئات.",
+    "description_en": "A specialized textbook providing a comprehensive introduction to learning statistics and its applications in educational assessment, examinations, and educational and psychological research. The book addresses steps for constructing achievement tests, preparing tables of specifications, calculating item quality metrics such as difficulty and discrimination indices, and explaining measures of central tendency (mean, median, mode) with techniques for computing them from raw, frequency, and grouped data.",
+    "publisher": "دار ماستر للنشر",
+    "publisher_en": "Master Publishing House",
+    "year": "2019",
+    "isbn": "978-977-85459-8-2",
+    "keywords": [
+      "الإحصاء التربوي",
+      "القياس النفسي",
+      "جدول المواصفات",
+      "معامل التمييز",
+      "معامل الصعوبة",
+      "مقاييس النزعة المركزية",
+      "المتوسط الحسابي",
+      "الوسيط"
+    ],
+    "keywords_en": [
+      "Educational Statistics",
+      "Psychological Measurement",
+      "Table of Specifications",
+      "Discrimination Index",
+      "Difficulty Index",
+      "Measures of Central Tendency",
+      "Arithmetic Mean",
+      "Median"
+    ],
+    "key_points": [
+      "بيان أهمية الإحصاء والاعتبارات الأخلاقية والقانونية في البحوث النفسية والتربوية.",
+      "توضيح خطوات بناء الاختبارات التحصيلية ومواصفات الاختبار الجيد.",
+      "شرح كيفية إعداد جدول المواصفات وحساب الوزن النسبي للموضوعات والأهداف.",
+      "حساب معاملات السهولة والصعوبة والتمييز للأسئلة للاستفادة منها في تطوير بنوك الأسئلة.",
+      "التعريف بمقاييس النزعة المركزية وكيفية حساب المتوسط الحسابي والوسيط من البيانات المختلفة."
+    ],
+    "key_points_en": [
+      "Highlighting the importance of statistics and ethical/legal considerations in psychological and educational research.",
+      "Explaining the steps for constructing achievement tests and characteristics of a good test.",
+      "Demonstrating how to build a table of specifications and calculate relative weights for topics and objectives.",
+      "Calculating difficulty, facility, and discrimination indices for test items to improve question banks.",
+      "Introducing measures of central tendency and methods for calculating arithmetic mean and median from various data formats."
+    ],
+    "target_audience": "المعلمون، الباحثون في التربية وعلم النفس، وطلاب كليات التربية والعلوم الإنسانية",
+    "target_audience_en": "Teachers, researchers in education and psychology, and students in faculties of education and humanities",
+    "pages": "136",
+    "file_size": "2.01 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/تعلم_الاحصاء_من_البداية_وحتى_التمكن.pdf",
+    "cover_image": "covers/119.png"
   }
 ]
