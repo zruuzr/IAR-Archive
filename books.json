@@ -6187,5 +6187,53 @@
     "file_type": "PDF",
     "file_path": "pdf/منظمات_الاعمال_المفاهيم_والوظائف.pdf",
     "cover_image": "covers/122.png"
+  },
+  {
+    "id": 123,
+    "title": "سياسات وبرامج ولاء الزبون وأثرها على سلوك المستهلك",
+    "title_en": "Customer Loyalty Policies and Programs and Their Impact on Consumer Behavior",
+    "author": "معراج هواري، أحمد مجدل، ريان أمينة",
+    "author_en": "Meradj Houari, Ahmed Majdal, Rayan Amina",
+    "category": "تسويق وإدارة أعمال",
+    "category_en": "Marketing and Business Administration",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Book",
+    "description": "دراسة تسويقية أكاديمية تتناول سياسات وبرامج ولاء الزبون وتأثيرها على سلوك المستهلك، مع إبراز دور نظم المعلومات والتوجه الحديث نحو التسويق المباشر وبناء علاقات طويلة الأمد مع العملاء.",
+    "description_en": "An academic marketing study exploring customer loyalty policies and programs and their impact on consumer behavior, highlighting the role of information systems and modern approaches to direct marketing and long-term customer relationship building.",
+    "publisher": "دار كنوز المعرفة العلمية للنشر والتوزيع",
+    "publisher_en": "Dar Kunuz Al-Ma'rifah for Publishing and Distribution",
+    "year": "2012",
+    "isbn": "978-9957-74-236-2",
+    "keywords": [
+      "ولاء الزبون",
+      "سلوك المستهلك",
+      "التسويق",
+      "إدارة علاقات العملاء",
+      "استراتيجيات التسويق"
+    ],
+    "keywords_en": [
+      "Customer Loyalty",
+      "Consumer Behavior",
+      "Marketing",
+      "Customer Relationship Management",
+      "Marketing Strategies"
+    ],
+    "key_points": [
+      "تحليل أسباب توجه التسويق نحو التركيز على الزبون والاحتفاظ به",
+      "دور نظم المعلومات وتكنولوجيا الاتصالات في إعداد استراتيجيات تسويقية مخصصة",
+      "دراسة العوائد والتكاليف المرتبطة باكتساب الزبائن وتنمية ولاء المستهلك"
+    ],
+    "key_points_en": [
+      "Analyzing the shift of marketing towards customer retention and focus",
+      "The role of information systems and IT in developing tailored marketing strategies",
+      "Studying costs and returns associated with customer acquisition and fostering customer loyalty"
+    ],
+    "target_audience": "الأساتذة والباحثون وطلاب الدراسات العليا والمختصون في مجال التسويق وإدارة العلاقات مع الزبائن.",
+    "target_audience_en": "Professors, researchers, postgraduate students, and professionals in marketing and customer relationship management.",
+    "pages": "209",
+    "file_size": "15.20 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/سياسات_وبرامج_الزبون_واثرها.pdf",
+    "cover_image": "covers/123.png"
   }
 ]
