@@ -6291,5 +6291,61 @@
     "file_type": "PDF",
     "file_path": "pdf/ادارة_النشاط_التسويقي.pdf",
     "cover_image": "covers/124.png"
+  },
+  {
+    "id": 125,
+    "title": "الإحصاء التطبيقي",
+    "title_en": "Applied Statistics",
+    "author": "عبد الرحمن بن محمد سليمان أبو عمة، أنور أحمد عبد الله، محمود محمد إبراهيم هندي",
+    "author_en": "Abdulrahman bin Mohammad Abu-Ammah, Anwar Ahmad Abdullah, Mahmoud Mohammad Ibrahim Hindi",
+    "category": "الإحصاء والرياضيات التطبيقية",
+    "category_en": "Statistics & Applied Mathematics",
+    "type": "كتاب دراسي جامعي",
+    "type_en": "Academic Textbook",
+    "description": "كتاب أكاديمي يغطي موضوعات الإحصاء التطبيقي بأسلوب مبسط ومزود بالأمثلة التطبيقية والتمارين. يتناول الكتاب عرض وتنظيم البيانات الإحصائية، مقاييس النزعة المركزية والتشتت، الارتباط والانحدار، الأرقام القياسية، السلاسل الزمنية، الإحصاءات الحيوية، مبادئ الاحتمالات، التوزيعات الاحتمالية، توزيع المعاينة واختبارات الفروض الإحصائية، الاختبارات غير المعلمية، وتحليل التباين.",
+    "description_en": "A comprehensive academic textbook covering applied statistics with clear explanations and practical examples. Topics include data organization and presentation, measures of central tendency and dispersion, correlation and regression, index numbers, time series analysis, vital statistics, probability theory, probability distributions, sampling distributions, hypothesis testing, non-parametric tests, and analysis of variance (ANOVA).",
+    "publisher": "عمادة شؤون المكتبات - جامعة الملك سعود / مكتبة العبيكان",
+    "publisher_en": "King Saud University Libraries / Obeikan Bookshop",
+    "year": "1995",
+    "isbn": "9960-05-206-0",
+    "keywords": [
+      "الإحصاء التطبيقي",
+      "النزعة المركزية",
+      "التشتت",
+      "الارتباط والانحدار",
+      "السلاسل الزمنية",
+      "الاحتمالات",
+      "اختبارات الفروض",
+      "تحليل التباين"
+    ],
+    "keywords_en": [
+      "Applied Statistics",
+      "Central Tendency",
+      "Dispersion",
+      "Correlation and Regression",
+      "Time Series",
+      "Probability Theory",
+      "Hypothesis Testing",
+      "ANOVA"
+    ],
+    "key_points": [
+      "تقديم المفاهيم الإحصائية الأساسية والعمليات اللازمة لإجرائها بشكل مبسط ومباشر.",
+      "تطبيق الأساليب الإحصائية على بيانات حقيقية ومفيدة لدارسي العلوم الإنسانية والاجتماعية والرياضيات.",
+      "تغطية شاملة للإحصاء الوصفي والاستدلالي بما في ذلك الاختبارات المعلمية وغير المعلمية.",
+      "احتواء الكتاب على أمثلة محلولة متعددة مع تمارين نهاية كل فصل لتعزيز الفهم."
+    ],
+    "key_points_en": [
+      "Presents essential statistical concepts and procedures in a simplified and practical manner.",
+      "Applies statistical methods to realistic data relevant for students in human, social, and natural sciences.",
+      "Comprehensive coverage of descriptive and inferential statistics, including parametric and non-parametric tests.",
+      "Includes numerous solved examples and end-of-chapter exercises to enhance learning."
+    ],
+    "target_audience": "طلاب الجامعات والباحثون في كليات العلوم، والآداب، والزراعة، والتربية، والعلوم الاجتماعية والطلاب الراغبون في تعلم الأساليب الإحصائية التطبيقية.",
+    "target_audience_en": "University students and researchers in science, arts, agriculture, education, and social sciences seeking an applied introduction to statistics.",
+    "pages": "445",
+    "file_size": "9.42 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/الاحصاء_التطبيقي2.pdf",
+    "cover_image": "covers/125.png"
   }
 ]
