@@ -6133,5 +6133,59 @@
     "file_type": "PDF",
     "file_path": "pdf/2الاحصاء_التطبيقي.pdf",
     "cover_image": "covers/121.png"
+  },
+  {
+    "id": 122,
+    "title": "منظمات الأعمال: المفاهيم والوظائف",
+    "title_en": "Business Organizations: Concepts and Functions",
+    "author": "محفوظ جودة، حسن الزعبي، ياسر المنصور",
+    "author_en": "Mahfoudh Joudeh, Hassan Al-Zoubi, Yaser Al-Mansour",
+    "category": "إدارة الأعمال",
+    "category_en": "Business Administration",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Book",
+    "description": "كتاب أكاديمي شامل يقدم دراسة متخصصة حول مفهوم منظمات الأعمال وأشكالها القانونية والنظريات الإدارية الحديثة، إضافة إلى شرح تفصيلي لوظائف المنظمة الأساسية كالإدارة، الإنتاج، التسويق، الوظيفة المالية، الموارد البشرية، إدارة المواد والتخزين، العلاقات العامة، ونظم المعلومات الإدارية.",
+    "description_en": "A comprehensive academic book presenting a specialized study on the concept of business organizations, their legal forms, and modern management theories, along with a detailed explanation of core organizational functions such as management, production, marketing, finance, human resources, materials management and warehousing, public relations, and management information systems.",
+    "publisher": "دار وائل للنشر والتوزيع",
+    "publisher_en": "Dar Wael for Publishing and Distribution",
+    "year": "2008",
+    "isbn": "9957-11-472-7",
+    "keywords": [
+      "منظمات الأعمال",
+      "إدارة الأعمال",
+      "وظائف المنظمة",
+      "التسويق",
+      "الإدارة المالية",
+      "الموارد البشرية",
+      "إدارة المواد",
+      "نظم المعلومات الإدارية"
+    ],
+    "keywords_en": [
+      "Business Organizations",
+      "Business Administration",
+      "Organizational Functions",
+      "Marketing",
+      "Financial Management",
+      "Human Resources",
+      "Materials Management",
+      "Management Information Systems"
+    ],
+    "key_points": [
+      "توضيح مفهوم منظمات الأعمال وأنواع البيئة المؤثرة فيها والنظريات الإدارية الحديثة.",
+      "استعراض شامل لوظائف الإنتاج والتسويق والمالية والموارد البشرية في المنظمة.",
+      "شرح مفهوم وظيفتا إدارة المواد والتخزين وتطبيقات العلاقات العامة ونظم المعلومات الإدارية."
+    ],
+    "key_points_en": [
+      "Clarifying the concept of business organizations, environmental factors, and modern management theories.",
+      "Comprehensive review of production, marketing, finance, and human resources functions in organizations.",
+      "Explaining materials management, warehousing, public relations, and management information systems."
+    ],
+    "target_audience": "الطلاب الجامعيون، الباحثون، والمدراء في مجال إدارة الأعمال",
+    "target_audience_en": "University students, researchers, and managers in the field of business administration",
+    "pages": "288",
+    "file_size": "21.38 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/منظمات_الاعمال_المفاهيم_والوظائف.pdf",
+    "cover_image": "covers/122.png"
   }
 ]
