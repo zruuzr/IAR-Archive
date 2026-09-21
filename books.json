@@ -6549,5 +6549,55 @@
     "file_type": "PDF",
     "file_path": "pdf/تحليل_اسس_الادارة_العامة.pdf",
     "cover_image": "covers/129.png"
+  },
+  {
+    "id": 130,
+    "title": "سلسلة الجرائم المالية والمستحدثة: التزوير والاحتيال بالبطاقات الائتمانية",
+    "title_en": "Financial and Modern Crimes Series: Credit Card Forgery and Fraud",
+    "author": "د. مهند فايز الدويكات، حسين محمد الشبلي",
+    "author_en": "Dr. Muhannad Fayez Al-Dweikat, Hussein Mohammad Al-Shibli",
+    "category": "القانون الجنائي والجرائم المالية",
+    "category_en": "Criminal Law and Financial Crimes",
+    "type": "كتاب / دراسة قانونية",
+    "type_en": "Book / Legal Study",
+    "description": "دراسة قانونية تسلط الضوء على صور وأشكال الجرائم المالية المستحدثة، وبشكل خاص التزوير والاحتيال المتعلق ببطاقات الائتمان والدفع الإلكتروني، وتستعرض الحماية الجنائية والتشريعية لهذه البطاقات والمسؤولية القانونية المترتبة عليها.",
+    "description_en": "A legal study highlighting forms of modern financial crimes, specifically forgery and fraud related to credit and electronic payment cards, examining criminal and legislative protection and legal liabilities.",
+    "publisher": "دار مجدلاوي للنشر والتوزيع",
+    "publisher_en": "Majdalawi House for Publishing and Distribution",
+    "year": "2008",
+    "isbn": "978-9957-02-349-2",
+    "keywords": [
+      "الجرائم المالية",
+      "التزوير",
+      "الاحتيال",
+      "البطاقات الائتمانية",
+      "الحماية الجنائية",
+      "الدفع الإلكتروني"
+    ],
+    "keywords_en": [
+      "Financial Crimes",
+      "Forgery",
+      "Fraud",
+      "Credit Cards",
+      "Criminal Protection",
+      "Electronic Payment"
+    ],
+    "key_points": [
+      "مفهوم الجرائم المالية المستحدثة وأساليب الاحتيال والتزوير بالبطاقات",
+      "الحماية الجنائية والتشريعية المعمول بها لحماية وسائل الدفع الإلكتروني",
+      "استعراض التطبيقات القضائية والنصوص القانونية المقارنة ذات الصلة"
+    ],
+    "key_points_en": [
+      "Concept of modern financial crimes and methods of card fraud and forgery",
+      "Criminal and legislative protection applied to electronic payment methods",
+      "Review of relevant judicial applications and comparative legal texts"
+    ],
+    "target_audience": "القضاة، المحامون، رجال القانون، العاملون في القطاع المصرفي والمالي، والباحثون الأكاديميون.",
+    "target_audience_en": "Judges, lawyers, legal professionals, banking and financial sector employees, and academic researchers.",
+    "pages": "113",
+    "file_size": "8.42 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/سلسلة_الجرائم_المالية.pdf",
+    "cover_image": "covers/130.png"
   }
 ]
