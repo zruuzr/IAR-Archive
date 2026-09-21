@@ -1,7 +1,7 @@
 /* ============================================================
    IAR ARCHIVE — Nebula Library design system
    Tokens → Base → Ambience → Shell → Components → Responsive
-   Typography: Almarai (single-font system)
+   Typography: IBM Plex Sans Arabic (single-font system)
    ============================================================ */
 
 /* ---------- 1) Design tokens ---------- */
@@ -30,10 +30,15 @@
   --aurora-opacity: .45;
   --grad-accent: linear-gradient(120deg, var(--accent-2), var(--accent) 45%, var(--accent-3));
 
-  /* Typography — single family: Almarai */
-  --font-display: 'Almarai', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  --font-body:    'Almarai', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  --font-ui:      'Almarai', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  /* Typography — single family: IBM Plex Sans Arabic
+     Weights available: 300, 400, 500, 600, 700
+     - Body      → 400
+     - UI/strong → 500
+     - Headings  → 600
+     - Display   → 700 */
+  --font-display: 'IBM Plex Sans Arabic', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-body:    'IBM Plex Sans Arabic', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-ui:      'IBM Plex Sans Arabic', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 
   color-scheme: light;
 }
@@ -71,9 +76,9 @@ body {
   background-repeat: no-repeat;
   font-family: var(--font-body);
   font-size: 1rem;
-  /* Almarai is a modern sans-serif with tighter metrics than Naskh.
-     1.65 works well for Arabic body copy without feeling loose. */
-  line-height: 1.65;
+  /* IBM Plex Sans Arabic is a modern geometric sans; 1.6 works well for
+     Arabic body copy without looking too loose or too tight. */
+  line-height: 1.6;
   color: var(--text);
   min-height: 100vh;
   min-height: 100dvh;
@@ -105,14 +110,14 @@ html[data-bs-theme="dark"] body::before {
   background-image: radial-gradient(rgba(148, 163, 184, .09) 1px, transparent 1px);
 }
 
-/* Form elements and interactive UI inherit Almarai */
+/* Form elements and interactive UI inherit IBM Plex */
 button, input, select, textarea,
 .btn, .chip-item, .form-control, .form-select,
 .chips-scroll-btn, .view-switch .btn, .field-clear {
   font-family: var(--font-ui);
 }
 
-/* ---------- Headings and titles: Almarai, weight 800 ---------- */
+/* ---------- Headings and titles: IBM Plex, weight 700 ---------- */
 h1, h2, h3, h4, h5, h6,
 .hero-title,
 .brand-title,
@@ -215,7 +220,7 @@ h1, h2, h3, h4, h5, h6,
   background: linear-gradient(90deg, #17153a 0%, #2b2a68 50%, #17153a 100%);
   color: #dbe3ff;
   font-size: .74rem;
-  font-weight: 700;
+  font-weight: 500;
   padding: .45rem 0;
   letter-spacing: .04em;
   overflow: hidden;
@@ -262,8 +267,8 @@ h1, h2, h3, h4, h5, h6,
 .brand-lockup:hover .brand-logo-icon { transform: rotate(-6deg) scale(1.05); box-shadow: 0 10px 26px rgba(37, 99, 235, .55); }
 .brand-logo-icon svg { width: 100%; height: 100%; display: block; }
 .brand-text { min-width: 0; }
-.brand-title { font-weight: 800; font-size: 1.4rem; color: #ffffff; line-height: 1.2; }
-.brand-subtitle { color: #93a5cc; font-size: .73rem; font-weight: 600; letter-spacing: .04em; }
+.brand-title { font-weight: 700; font-size: 1.35rem; color: #ffffff; line-height: 1.2; }
+.brand-subtitle { color: #93a5cc; font-size: .73rem; font-weight: 500; letter-spacing: .04em; }
 .btn-ghost, .favorites-pill {
   color: #dbe4f5;
   border: 1px solid rgba(148, 163, 184, .35);
@@ -343,7 +348,7 @@ h1, h2, h3, h4, h5, h6,
   align-items: center;
   gap: .45rem;
   font-size: .74rem;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--accent);
   background: color-mix(in srgb, var(--accent) 10%, transparent);
   border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
@@ -368,15 +373,15 @@ h1, h2, h3, h4, h5, h6,
 }
 .hero-title {
   font-size: clamp(1.55rem, 3vw, 2.2rem);
-  font-weight: 800;
-  line-height: 1.3;
+  font-weight: 700;
+  line-height: 1.35;
   margin-bottom: .6rem;
   white-space: pre-line;
 }
 .hero-desc {
   color: var(--text-muted);
   font-size: .95rem;
-  line-height: 1.75;
+  line-height: 1.7;
   max-width: 58ch;
 }
 .hero-tags { display: flex; flex-wrap: wrap; gap: .45rem; }
@@ -385,7 +390,7 @@ h1, h2, h3, h4, h5, h6,
   align-items: center;
   gap: .4rem;
   font-size: .74rem;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--text-muted);
   background: var(--surface-2);
   border: 1px solid var(--border);
@@ -419,7 +424,7 @@ h1, h2, h3, h4, h5, h6,
 .hero-stats .stat-box:first-child { border-inline-start: none; }
 .stat-num {
   font-size: clamp(1.25rem, 2.2vw, 1.7rem);
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1.2;
   font-variant-numeric: tabular-nums;
   font-feature-settings: 'tnum';
@@ -432,7 +437,7 @@ h1, h2, h3, h4, h5, h6,
 .stat-cap {
   font-size: .7rem;
   color: var(--text-muted);
-  font-weight: 600;
+  font-weight: 500;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -550,11 +555,11 @@ html[dir="rtl"] .featured-sweep::after { animation-name: sweepShineRtl; }
   gap: .5rem;
   align-items: center;
 }
-.featured-copy h2 { font-size: 1.5rem; font-weight: 800; color: var(--text); margin: 0; line-height: 1.35; word-wrap: break-word; }
+.featured-copy h2 { font-size: 1.5rem; font-weight: 700; color: var(--text); margin: 0; line-height: 1.35; word-wrap: break-word; }
 .featured-copy h2 a { color: inherit; text-decoration: none; }
 .featured-copy h2 a:hover { color: var(--accent); }
 .featured-copy .book-author { margin: 0; font-size: .9rem; }
-.featured-copy .book-desc { margin: 0; line-height: 1.7; }
+.featured-copy .book-desc { margin: 0; line-height: 1.65; }
 .featured-copy .rating-stars {
   margin: .15rem 0 .1rem;
   gap: .22rem;
@@ -563,12 +568,12 @@ html[dir="rtl"] .featured-sweep::after { animation-name: sweepShineRtl; }
 .featured-copy .rating-stars .star-button { font-size: 1rem; padding: .08rem .14rem; }
 .featured-copy .rating-stars small { font-size: .74rem; margin-inline-start: .4rem; }
 .featured-copy .book-actions { margin-top: .25rem; gap: .5rem; }
-.featured-index { font-size: .68rem; font-weight: 700; letter-spacing: .14em; color: var(--text-muted); }
+.featured-index { font-size: .68rem; font-weight: 500; letter-spacing: .14em; color: var(--text-muted); }
 .featured-badge-top {
   background: linear-gradient(120deg, var(--accent), var(--accent-3));
   color: #ffffff;
   font-size: .78rem;
-  font-weight: 700;
+  font-weight: 600;
   padding: .38rem 1rem;
   border-radius: 30px;
   display: inline-flex;
@@ -643,7 +648,7 @@ html[dir="rtl"] .featured-sweep::after { animation-name: sweepShineRtl; }
   border-radius: var(--radius-md);
   padding: .65rem 1rem;
   margin-bottom: 1rem;
-  font-weight: 700;
+  font-weight: 600;
   font-size: .85rem;
 }
 .notification-host {
@@ -673,7 +678,7 @@ html[dir="rtl"] .featured-sweep::after { animation-name: sweepShineRtl; }
   box-shadow: var(--card-shadow-lg);
   padding: .7rem 1rem;
   font-size: .85rem;
-  font-weight: 600;
+  font-weight: 500;
   min-width: min(300px, 90vw);
   max-width: min(440px, 92vw);
   animation: noticeIn .35s cubic-bezier(.2, .8, .2, 1);
@@ -714,7 +719,7 @@ html[dir="rtl"] .featured-sweep::after { animation-name: sweepShineRtl; }
   padding-inline-start: 2.7rem;
   padding-inline-end: 3rem;
   font-size: .88rem;
-  font-weight: 600;
+  font-weight: 500;
   box-shadow: var(--card-shadow);
   transition: border-color .25s ease, box-shadow .25s ease;
   width: 100%;
@@ -749,7 +754,7 @@ html[dir="rtl"] .featured-sweep::after { animation-name: sweepShineRtl; }
   background-color: var(--surface);
   color: var(--text);
   font-size: .85rem;
-  font-weight: 600;
+  font-weight: 500;
   padding-inline-start: 2.7rem;
   box-shadow: var(--card-shadow);
   width: 100%;
@@ -838,7 +843,7 @@ html[dir="rtl"] .featured-sweep::after { animation-name: sweepShineRtl; }
   padding: .5rem 1.05rem;
   border-radius: 30px;
   font-size: .84rem;
-  font-weight: 700;
+  font-weight: 500;
   white-space: nowrap;
   cursor: pointer;
   transition: transform .25s cubic-bezier(.34, 1.56, .64, 1), background-color .25s ease, color .25s ease, border-color .25s ease, box-shadow .25s ease;
@@ -891,19 +896,19 @@ html[dir="rtl"] .book-card::before { border-radius: 3px 0 0 3px; }
 .book-card:hover { transform: translateY(-4px); border-color: color-mix(in srgb, var(--accent) 40%, var(--border)); box-shadow: var(--card-shadow-lg); }
 .book-card:hover::before { opacity: 1; }
 .book-topline { display: flex; justify-content: space-between; align-items: center; gap: .5rem; flex-wrap: wrap; }
-.bundle-select { display: inline-flex; align-items: center; gap: .4rem; font-size: .76rem; font-weight: 700; color: var(--text-muted); cursor: pointer; user-select: none; white-space: nowrap; }
+.bundle-select { display: inline-flex; align-items: center; gap: .4rem; font-size: .76rem; font-weight: 500; color: var(--text-muted); cursor: pointer; user-select: none; white-space: nowrap; }
 .bundle-select input { width: 17px; height: 17px; cursor: pointer; accent-color: var(--accent); flex-shrink: 0; }
 .book-main { display: flex; gap: 1rem; align-items: flex-start; }
 .book-info { min-width: 0; flex: 1; display: flex; flex-direction: column; gap: .3rem; align-items: flex-start; }
-.book-title { font-weight: 800; font-size: 1.12rem; line-height: 1.4; margin: 0; word-wrap: break-word; }
+.book-title { font-weight: 600; font-size: 1.1rem; line-height: 1.4; margin: 0; word-wrap: break-word; }
 .book-title a { color: var(--text); text-decoration: none; }
 .book-title a:hover { color: var(--accent); }
-.book-author { font-size: .86rem; color: var(--text-muted); font-weight: 500; margin: 0; word-wrap: break-word; }
+.book-author { font-size: .86rem; color: var(--text-muted); font-weight: 400; margin: 0; word-wrap: break-word; }
 .book-meta { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: .2rem; }
 .book-desc {
   font-size: .87rem;
   color: var(--text-muted);
-  line-height: 1.7;
+  line-height: 1.65;
   margin: 0;
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -914,7 +919,7 @@ html[dir="rtl"] .book-card::before { border-radius: 3px 0 0 3px; }
 .book-actions { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: auto; }
 .download-count {
   font-size: .7rem;
-  font-weight: 800;
+  font-weight: 600;
   background: rgba(255, 255, 255, .22);
   border-radius: 20px;
   padding: .05rem .45rem;
@@ -932,7 +937,7 @@ html[dir="rtl"] .book-card::before { border-radius: 3px 0 0 3px; }
   .books-grid { grid-template-columns: 1fr; gap: .9rem; }
   .book-card { padding: 1rem; border-radius: 14px; }
   .book-main { gap: .75rem; }
-  .book-title { font-size: 1.05rem; }
+  .book-title { font-size: 1.02rem; }
 }
 
 /* ---------- 11) Designed covers ---------- */
@@ -1023,11 +1028,11 @@ html[dir="rtl"] .cover-img-wrapper { border-radius: 14px 8px 8px 14px; box-shado
 .cover-tone-2 { background: linear-gradient(160deg, #6366f1, #4338ca 65%, #312e81); }
 .cover-tone-3 { background: linear-gradient(160deg, #2563eb, #1e3a8a 65%, #172554); }
 .cover-tone-4 { background: linear-gradient(160deg, #0f766e, #115e59 60%, #134e4a); }
-.cover-edition { font-size: .55rem; letter-spacing: .18em; font-weight: 700; opacity: .8; position: relative; z-index: 2; }
+.cover-edition { font-size: .55rem; letter-spacing: .18em; font-weight: 500; opacity: .8; position: relative; z-index: 2; }
 .cover-symbol { font-size: 1.5rem; opacity: .9; position: relative; z-index: 2; }
 .cover-name {
-  font-weight: 800;
-  font-size: .92rem;
+  font-weight: 600;
+  font-size: .9rem;
   line-height: 1.35;
   padding: 0 .6rem;
   display: -webkit-box;
@@ -1038,7 +1043,7 @@ html[dir="rtl"] .cover-img-wrapper { border-radius: 14px 8px 8px 14px; box-shado
   z-index: 2;
   word-wrap: break-word;
 }
-.cover-caption { font-size: .55rem; letter-spacing: .22em; opacity: .65; font-weight: 700; position: relative; z-index: 2; }
+.cover-caption { font-size: .55rem; letter-spacing: .22em; opacity: .65; font-weight: 500; position: relative; z-index: 2; }
 @media (hover: hover) and (pointer: fine) {
   .cover-container:hover .cover-img-wrapper { transform: rotateY(14deg) translateZ(6px); }
   html[dir="rtl"] .cover-container:hover .cover-img-wrapper { transform: rotateY(-14deg) translateZ(6px); }
@@ -1049,7 +1054,7 @@ html[dir="rtl"] .cover-img-wrapper { border-radius: 14px 8px 8px 14px; box-shado
   background: color-mix(in srgb, var(--accent) 10%, transparent);
   color: var(--accent);
   font-size: .73rem;
-  font-weight: 700;
+  font-weight: 500;
   padding: .3rem .7rem;
   border-radius: 20px;
   border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
@@ -1065,7 +1070,7 @@ html[dir="rtl"] .cover-img-wrapper { border-radius: 14px 8px 8px 14px; box-shado
   background: color-mix(in srgb, var(--success) 12%, transparent);
   color: var(--success);
   font-size: .71rem;
-  font-weight: 700;
+  font-weight: 500;
   padding: .26rem .6rem;
   border-radius: 7px;
   border: 1px solid color-mix(in srgb, var(--success) 25%, transparent);
@@ -1079,7 +1084,7 @@ html[dir="rtl"] .cover-img-wrapper { border-radius: 14px 8px 8px 14px; box-shado
 }
 .meta-spec-chip {
   font-size: .72rem;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--text-muted);
   background: var(--surface-2);
   border: 1px solid var(--border);
@@ -1100,7 +1105,7 @@ html[dir="rtl"] .cover-img-wrapper { border-radius: 14px 8px 8px 14px; box-shado
 .btn-iar-action {
   background: var(--surface);
   color: var(--text);
-  font-weight: 700;
+  font-weight: 500;
   font-size: .8rem;
   border: 1px solid var(--border);
   border-radius: 10px;
@@ -1118,7 +1123,7 @@ html[dir="rtl"] .cover-img-wrapper { border-radius: 14px 8px 8px 14px; box-shado
 .btn-iar-primary {
   background: var(--grad-accent);
   color: #ffffff;
-  font-weight: 700;
+  font-weight: 500;
   font-size: .8rem;
   border: 0;
   border-radius: 10px;
@@ -1160,7 +1165,7 @@ html[dir="rtl"] .cover-img-wrapper { border-radius: 14px 8px 8px 14px; box-shado
   gap: .7rem;
 }
 .empty-state > i { font-size: 2.5rem; color: var(--text-muted); opacity: .7; }
-.empty-state h3 { font-size: 1.15rem; font-weight: 800; color: var(--text); margin: 0; }
+.empty-state h3 { font-size: 1.15rem; font-weight: 600; color: var(--text); margin: 0; }
 .empty-state p { font-size: .9rem; max-width: 46ch; margin: 0 auto; }
 .empty-state .spinner-border { width: 1.6rem; height: 1.6rem; }
 
@@ -1177,7 +1182,7 @@ html[dir="rtl"] .cover-img-wrapper { border-radius: 14px 8px 8px 14px; box-shado
   color: var(--text);
   background: var(--surface);
   border: 1px solid var(--border);
-  font-weight: 700;
+  font-weight: 500;
   font-size: .85rem;
   font-variant-numeric: tabular-nums;
   padding: 0 .5rem;
@@ -1230,8 +1235,8 @@ html[dir="rtl"] .cover-img-wrapper { border-radius: 14px 8px 8px 14px; box-shado
 .single-cover img { width: 100%; height: auto; display: block; border-radius: 16px; box-shadow: 0 18px 44px -12px rgba(15, 23, 42, .4); }
 .single-cover img[hidden] { display: none; }
 .single-cover .cover-container { width: min(280px, 70vw); aspect-ratio: 1 / 1.42; margin: 0 auto; }
-.single-book-title { font-size: 1.7rem; font-weight: 800; color: var(--text); line-height: 1.35; word-wrap: break-word; }
-.single-book-author { font-size: 1rem; color: var(--text-muted); font-weight: 500; }
+.single-book-title { font-size: 1.7rem; font-weight: 700; color: var(--text); line-height: 1.35; word-wrap: break-word; }
+.single-book-author { font-size: 1rem; color: var(--text-muted); font-weight: 400; }
 .single-detail-section {
   background: var(--surface-2);
   border: 1px solid var(--border);
@@ -1241,9 +1246,9 @@ html[dir="rtl"] .cover-img-wrapper { border-radius: 14px 8px 8px 14px; box-shado
   transition: border-color .25s ease;
 }
 .single-detail-section:hover { border-color: color-mix(in srgb, var(--accent) 35%, var(--border)); }
-.single-detail-section h6 { font-weight: 800; margin-bottom: .5rem; color: var(--text); font-size: 1rem; }
+.single-detail-section h6 { font-weight: 600; margin-bottom: .5rem; color: var(--text); font-size: 1rem; }
 .single-detail-section h6 i { color: var(--accent); }
-.single-detail-section p, .single-detail-section li { font-size: .92rem; color: var(--text-muted); line-height: 1.75; word-wrap: break-word; }
+.single-detail-section p, .single-detail-section li { font-size: .92rem; color: var(--text-muted); line-height: 1.7; word-wrap: break-word; }
 .btn-back {
   display: inline-flex;
   align-items: center;
@@ -1253,7 +1258,7 @@ html[dir="rtl"] .cover-img-wrapper { border-radius: 14px 8px 8px 14px; box-shado
   background: var(--surface);
   border: 1px solid var(--border);
   color: var(--text);
-  font-weight: 700;
+  font-weight: 500;
   cursor: pointer;
   transition: background-color .22s ease, color .22s ease, border-color .22s ease, transform .22s ease;
   font-size: .85rem;
@@ -1270,7 +1275,7 @@ html[dir="ltr"] .btn-back:hover { transform: translateX(3px); }
   gap: .4rem;
   padding: .55rem 1.1rem;
   font-size: .87rem;
-  font-weight: 700;
+  font-weight: 500;
   line-height: 1;
   border-radius: 10px;
 }
@@ -1302,7 +1307,7 @@ html[dir="ltr"] .btn-back:hover { transform: translateX(3px); }
 }
 .modal-glass .modal-header { border-bottom: 1px solid var(--border); background: color-mix(in srgb, var(--accent) 5%, transparent); }
 .modal-glass .modal-footer { border-top: 1px solid var(--border); }
-.modal-title { font-weight: 800; }
+.modal-title { font-weight: 700; }
 .detail-card {
   background: var(--surface-2);
   border: 1px solid var(--border);
@@ -1314,7 +1319,7 @@ html[dir="ltr"] .btn-back:hover { transform: translateX(3px); }
 .detail-audience { border-inline-start-color: var(--success); }
 .detail-apa { border-inline-start-color: var(--accent-3); }
 .detail-card ul { color: var(--text-muted); padding-inline-start: 1.1rem; }
-.detail-card ul li { margin-bottom: .25rem; line-height: 1.7; }
+.detail-card ul li { margin-bottom: .25rem; line-height: 1.65; }
 .detail-apa code {
   background: var(--primary);
   color: #a5f3fc;
@@ -1366,8 +1371,8 @@ html[dir="ltr"] .btn-back:hover { transform: translateX(3px); }
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  font-weight: 800;
-  font-size: 1.5rem;
+  font-weight: 700;
+  font-size: 1.45rem;
   letter-spacing: 0;
 }
 @supports not (background-clip: text) { .footer-iar .brand-title { color: #ffffff; -webkit-text-fill-color: #ffffff; } }
@@ -1397,11 +1402,11 @@ html[dir="ltr"] .btn-back:hover { transform: translateX(3px); }
   outline: 2px solid var(--accent-2);
   outline-offset: 3px;
 }
-.footer-iar .copyright { color: #8fa3c8; font-size: .82rem; font-weight: 500; letter-spacing: .03em; }
+.footer-iar .copyright { color: #8fa3c8; font-size: .82rem; font-weight: 400; letter-spacing: .03em; }
 @media (max-width: 576px) {
   .footer-iar { padding: 1.9rem 0 1.4rem; }
   .footer-iar .social-icon { width: 46px; height: 46px; font-size: 1.35rem; border-radius: 12px; }
-  .footer-iar .brand-title { font-size: 1.3rem; }
+  .footer-iar .brand-title { font-size: 1.25rem; }
 }
 
 /* ---------- 18) Utilities & a11y ---------- */
@@ -1431,7 +1436,7 @@ html[dir="ltr"] .btn-back:hover { transform: translateX(3px); }
   .navbar-row { flex-wrap: wrap; row-gap: .55rem; }
   .navbar-actions { width: 100%; justify-content: flex-end; }
   .brand-subtitle { display: none; }
-  .brand-title { font-size: 1.2rem; }
+  .brand-title { font-size: 1.15rem; }
   .btn-ghost { padding-inline: .55rem !important; font-size: .78rem; }
   .theme-orb { width: 34px; height: 34px; }
   .brand-logo-icon { width: 40px; height: 40px; border-radius: 11px; }
@@ -1460,7 +1465,7 @@ html[dir="ltr"] .btn-back:hover { transform: translateX(3px); }
   .books-grid:not(.is-list) .book-info { align-items: center; text-align: center; gap: .25rem; }
   .books-grid:not(.is-list) .cover-container { width: 80px; margin: 0 auto; }
   .books-grid:not(.is-list) .badge-tag { font-size: .65rem; padding: .22rem .5rem; }
-  .books-grid:not(.is-list) .book-title { font-size: .95rem; line-height: 1.35; text-align: center; }
+  .books-grid:not(.is-list) .book-title { font-size: .92rem; line-height: 1.35; text-align: center; }
   .books-grid:not(.is-list) .book-author { font-size: .74rem; text-align: center; }
   .books-grid:not(.is-list) .rating-stars { justify-content: center; }
   .books-grid:not(.is-list) .rating-stars small { font-size: .63rem; margin-inline-start: .2rem; }
