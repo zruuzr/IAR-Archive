@@ -6453,5 +6453,53 @@
     "file_type": "PDF",
     "file_path": "pdf/المحاسبة_الحكومية2.pdf",
     "cover_image": "covers/127.png"
+  },
+  {
+    "id": 128,
+    "title": "بناء وتصميم الاختبارات والمقاييس النفسية والتربوية",
+    "title_en": "Construction and Design of Psychological and Educational Tests and Scales",
+    "author": "عمر طالب الريماوي",
+    "author_en": "Omar Taleb Al-Rimawi",
+    "category": "علم النفس والتربية",
+    "category_en": "Psychology and Education",
+    "type": "كتاب أكاديمي محكم",
+    "type_en": "Peer-reviewed Academic Book",
+    "description": "كتاب علمي محكم يعرض المبادئ والأسس العلمية والمنهجية لبناء وتصميم الاختبارات والمقاييس النفسية والتربوية، وتطبيقها في مجالات التقويم النفسي والتربوي بأسلوب يراعي المعايير الأكاديمية.",
+    "description_en": "A peer-reviewed academic book covering the theoretical and methodological foundations for constructing and designing psychological and educational tests and scales, highlighting their practical applications in educational and psychological measurement.",
+    "publisher": "دار أمجد للنشر والتوزيع",
+    "publisher_en": "Amjad Publishing House",
+    "year": "2016",
+    "isbn": "",
+    "keywords": [
+      "الاختبارات النفسية",
+      "المقاييس التربوية",
+      "تصميم الاختبارات",
+      "القياس والتقويم",
+      "علم النفس التربوي"
+    ],
+    "keywords_en": [
+      "Psychological Tests",
+      "Educational Scales",
+      "Test Construction",
+      "Measurement and Evaluation",
+      "Educational Psychology"
+    ],
+    "key_points": [
+      "تحديد أساليب وخطوات تصميم وبناء المقاييس الاختبارية النفسية والتربوية",
+      "عرض معايير جودة الاختبارات والقياس مثل الصدق والثبات",
+      "تقديم مرجع أكاديمي محكم للباحثين والمختصين في القياس النفسي والتربوي"
+    ],
+    "key_points_en": [
+      "Defining the methods and steps for designing and constructing psychological and educational tests",
+      "Presenting test quality standards such as validity and reliability",
+      "Providing a peer-reviewed academic reference for researchers and specialists in measurement"
+    ],
+    "target_audience": "الأساتذة والباحثون وطلاب الدراسات العليا والمختصون في مجال علم النفس والتربية والتقويم التربوي",
+    "target_audience_en": "Professors, researchers, postgraduate students, and specialists in psychology, education, and educational evaluation",
+    "pages": "206",
+    "file_size": "21.73 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/بناء_وتصميم_الاختبارات_والمقاييس_النفسية_والتربوية.pdf",
+    "cover_image": "covers/128.png"
   }
 ]
