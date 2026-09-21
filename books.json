@@ -6399,5 +6399,59 @@
     "file_type": "PDF",
     "file_path": "pdf/المعرفة_والتفكير_المعاصر.pdf",
     "cover_image": "covers/126.png"
+  },
+  {
+    "id": 127,
+    "title": "المحاسبة الحكومية",
+    "title_en": "Governmental Accounting",
+    "author": "خالد شحادة الخطيب، محمد خالد المهيني",
+    "author_en": "Khaled Shehada Al-Khatib, Mohammad Khaled Al-Mahayni",
+    "category": "المحاسبة والمالية",
+    "category_en": "Accounting & Finance",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Book",
+    "description": "كتاب أكاديمي شامل يغطي الإطار النظرية والعملي للمحاسبة الحكومية والمنشآت غير الربحية، مع التركيز على نظرية الأموال المخصصة، وأسس القياس والتسجيل المحاسبي، والإطار التشريعي والمؤسسي للنظام المحاسبي والرقابي في الأردن، بالإضافة إلى مراحل إعداد وتنفيذ والرقابة على الموازنة العامة للدولة.",
+    "description_en": "A comprehensive academic textbook covering the theoretical and practical framework of governmental and non-profit accounting. It focuses on fund accounting theory, recording and measurement bases, the institutional and legal framework of Jordan's financial control system, and the state budget preparation, execution, and auditing processes.",
+    "publisher": "دار وائل للنشر والتوزيع",
+    "publisher_en": "Dar Wael for Publishing and Distribution",
+    "year": "2008",
+    "isbn": "978-9957-11-757-3",
+    "keywords": [
+      "المحاسبة الحكومية",
+      "المنشآت غير الربحية",
+      "الموازنة العامة",
+      "نظرية الأموال المخصصة",
+      "الرقابة المالية",
+      "الأردن"
+    ],
+    "keywords_en": [
+      "Government Accounting",
+      "Non-Profit Organizations",
+      "Public Budget",
+      "Fund Accounting Theory",
+      "Financial Control",
+      "Jordan"
+    ],
+    "key_points": [
+      "التعريف بمفهوم المحاسبة الحكومية والإطار النظرية للمنشآت غير الربحية وآفاق تطويرها",
+      "دراسة المقارنة بين نظرية المحاسبة في المشروعات الاقتصادية ونظرية الأموال المخصصة في الوحدات الحكومية",
+      "بيان أسس التسجيل المحاسبي والقياس والمعالجات المالية للاعتمادات المخصصة",
+      "عرض التشريعات والإطار المؤسسي للنظام المحاسبي ونظام الرقابة المالية الداخلي والخارجي في الأردن",
+      "توضيح المبادئ العامة ومراحل إعداد وتنفيذ والرقابة على الموازنة العامة للدولة"
+    ],
+    "key_points_en": [
+      "Introduction to the concept and theoretical framework of governmental and non-profit accounting",
+      "Comparative analysis between accounting theory in commercial enterprises and fund accounting theory in public sector units",
+      "Explanation of accounting measurement, recording bases, and financial treatments of appropriations",
+      "Overview of the institutional framework, legislation, and financial control systems (internal and external) in Jordan",
+      "Detailing the principles and stages of preparing, executing, and auditing the state general budget"
+    ],
+    "target_audience": "طلاب وأساتذة المحاسبة والعلوم المالية والإدارية، والمهنيون والمحاسبون والمدققون في القطاع الحكومي والمنظمات غير الربحية.",
+    "target_audience_en": "Students and faculty in accounting and administrative sciences, as well as accountants, auditors, and financial practitioners in the public sector and non-profit organizations.",
+    "pages": "413",
+    "file_size": "32.48 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/المحاسبة_الحكومية2.pdf",
+    "cover_image": "covers/127.png"
   }
 ]
