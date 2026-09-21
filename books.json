@@ -6347,5 +6347,57 @@
     "file_type": "PDF",
     "file_path": "pdf/الاحصاء_التطبيقي2.pdf",
     "cover_image": "covers/125.png"
+  },
+  {
+    "id": 126,
+    "title": "المعرفة والتفكير المعاصر (تنميتها - أنماطها - اكتسابها)",
+    "title_en": "Knowledge and Contemporary Thinking: Development, Patterns, and Acquisition",
+    "author": "رعد سليم الصفار",
+    "author_en": "Raad Saleem Al-Saffar",
+    "category": "الفلسفة والفكر",
+    "category_en": "Philosophy and Thought",
+    "type": "كتاب",
+    "type_en": "Book",
+    "description": "كتاب يتناول مفاهيم المعرفة والتفكير المعاصر وأساليب تعزيزهما، مع تسليط الضوء على أنماط التفكير الحديثة وطرق اكتساب المعرفة وآليات تنميتها وتطويرها لدى الأفراد.",
+    "description_en": "A book exploring the concepts of knowledge and contemporary thinking, focusing on modern thinking patterns, methods of knowledge acquisition, and mechanisms for developing cognitive abilities.",
+    "publisher": "شركة دار الأكاديميون للنشر والتوزيع",
+    "publisher_en": "Dar Al-Academicians for Publishing and Distribution",
+    "year": "",
+    "isbn": "",
+    "keywords": [
+      "المعرفة",
+      "التفكير المعاصر",
+      "أنماط التفكير",
+      "اكتساب المعرفة",
+      "تنمية التفكير",
+      "المهارات الذهنية"
+    ],
+    "keywords_en": [
+      "Knowledge",
+      "Contemporary Thinking",
+      "Thinking Patterns",
+      "Knowledge Acquisition",
+      "Thinking Development",
+      "Cognitive Skills"
+    ],
+    "key_points": [
+      "شرح مفهوم المعرفة والتفكير في العصر الحديث",
+      "استعراض أنماط التفكير المختلفة وكيفية التمييز بينها",
+      "تحديد استراتيجيات اكتساب المعرفة وتطبيقها",
+      "تقديم آليات عملية لتنمية التفكير والقدرات الذهنية"
+    ],
+    "key_points_en": [
+      "Explaining the concepts of knowledge and thinking in the modern era",
+      "Reviewing different thinking patterns and how to distinguish between them",
+      "Identifying strategies for knowledge acquisition and application",
+      "Providing practical mechanisms for developing thinking and cognitive abilities"
+    ],
+    "target_audience": "المهتمون بالتنمية الفكرية والمعرفية، والباحثون في مجال العلوم التربوية والفلسفية، وقراء كتب التفكير وتطوير الذات.",
+    "target_audience_en": "Those interested in intellectual and cognitive development, researchers in educational and philosophical sciences, and readers of thinking and self-development books.",
+    "pages": "168",
+    "file_size": "13.32 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/المعرفة_والتفكير_المعاصر.pdf",
+    "cover_image": "covers/126.png"
   }
 ]
