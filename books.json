@@ -6501,5 +6501,53 @@
     "file_type": "PDF",
     "file_path": "pdf/بناء_وتصميم_الاختبارات_والمقاييس_النفسية_والتربوية.pdf",
     "cover_image": "covers/128.png"
+  },
+  {
+    "id": 129,
+    "title": "تحليل أسس الإدارة العامة",
+    "title_en": "Analysis of Public Administration Foundations",
+    "author": "صلاح الدين حسين الهيتي، نعمه عباس الخفاجي",
+    "author_en": "Salah Al-Din Hussein Al-Hiti, Nima Abbas Al-Khafaji",
+    "category": "العلوم الإدارية",
+    "category_en": "Administrative Sciences",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Book",
+    "description": "كتاب متخصص يقدم تحليلاً متعمقاً لأسس ومبادئ الإدارة العامة من منظور معاصر، ويناقش مفاهيم الحكم المحلي، واللامركزية الإدارية، ودور المجالس المحلية في تحقيق التنمية الشاملة وتعزيز المشاركة المجتمعية.",
+    "description_en": "An academic book offering an in-depth analysis of the foundations and principles of public administration from a contemporary perspective. It addresses concepts of local governance, administrative decentralization, and the role of local councils in achieving comprehensive development.",
+    "publisher": "",
+    "publisher_en": "",
+    "year": "",
+    "isbn": "",
+    "keywords": [
+      "الإدارة العامة",
+      "الإدارة المحلية",
+      "اللامركزية",
+      "الحكم المحلي",
+      "التنمية الشاملة"
+    ],
+    "keywords_en": [
+      "Public Administration",
+      "Local Administration",
+      "Decentralization",
+      "Local Governance",
+      "Comprehensive Development"
+    ],
+    "key_points": [
+      "تحليل المفاهيم والنظريات الأساسية للإدارة العامة الحديثة",
+      "توضيح أهمية اللامركزية في تسريع وتيرة التنمية المستدامة",
+      "دراسة دور المجالس والإدارات المحلية في تعزيز مشاركة المجتمع وتنمية قدرات القيادات"
+    ],
+    "key_points_en": [
+      "Analyzing basic concepts and theories of modern public administration",
+      "Clarifying the importance of decentralization in accelerating sustainable development",
+      "Examining the role of local councils and administrations in enhancing community participation"
+    ],
+    "target_audience": "الطلاب والباحثون والأكاديميون والمتخصصون في مجالات الإدارة العامة والعلوم السياسية والخدمة المدنية.",
+    "target_audience_en": "Students, researchers, academics, and professionals in public administration, political science, and civil service.",
+    "pages": "303",
+    "file_size": "3.74 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/تحليل_اسس_الادارة_العامة.pdf",
+    "cover_image": "covers/129.png"
   }
 ]
