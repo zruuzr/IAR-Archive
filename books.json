@@ -6079,5 +6079,59 @@
     "file_type": "PDF",
     "file_path": "pdf/القيادة_التحولية_وضغوط_العمل_في_المجال_الرياضي.pdf",
     "cover_image": "covers/120.png"
+  },
+  {
+    "id": 121,
+    "title": "الإحصاء التطبيقي والقواعد الأساسية للتحليل الإحصائي في الدراسات والأبحاث باستخدام برنامج SPSS",
+    "title_en": "Applied Statistics and Basic Rules of Statistical Analysis in Studies and Research Using SPSS",
+    "author": "",
+    "author_en": "",
+    "category": "إحصاء وتحليل بيانات",
+    "category_en": "Statistics & Data Analysis",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Book",
+    "description": "كتاب أكاديمي متخصص يقدم دليلاً شاملًا حول المفاهيم والقواعد الأساسية للتحليل الإحصائي في الأبحاث والدراسات العلمية، مع الشرح التطبيقي والعملي لكيفية استخدام برنامج SPSS في إدخال البيانات ومعالجتها واستخراج النتائج.",
+    "description_en": "An academic book providing a comprehensive guide to the fundamental concepts and rules of statistical analysis in research and scientific studies, with practical implementation using SPSS software for data entry, processing, and output interpretation.",
+    "publisher": "مطابع جامعة الملك سعود",
+    "publisher_en": "King Saud University Press",
+    "year": "2017",
+    "isbn": "978-603-02-4234-5",
+    "keywords": [
+      "الإحصاء التطبيقي",
+      "التحليل الإحصائي",
+      "SPSS",
+      "البحث العلمي",
+      "أدوات جمع البيانات",
+      "الاستبيان",
+      "الصدق والثبات"
+    ],
+    "keywords_en": [
+      "Applied Statistics",
+      "Statistical Analysis",
+      "SPSS",
+      "Scientific Research",
+      "Data Collection Tools",
+      "Questionnaire",
+      "Validity and Reliability"
+    ],
+    "key_points": [
+      "التعريف بمناهج البحث العلمي وأدوات جمع البيانات كالاستبيانات",
+      "طرق قياس الصدق والثبات لأدوات الدراسة",
+      "الشرح العملي لكيفية التعامل مع المتغيرات وإدخال البيانات في برنامج SPSS",
+      "تطبيق الأساليب الإحصائية المختلفة لتحليل البيانات وتفسير النتائج"
+    ],
+    "key_points_en": [
+      "Introduction to scientific research methodologies and data collection tools such as questionnaires",
+      "Methods for measuring the validity and reliability of research instruments",
+      "Practical demonstration of dealing with variables and data entry in SPSS",
+      "Application of various statistical methods for data analysis and result interpretation"
+    ],
+    "target_audience": "الباحثون، وطلاب الدراسات العليا، والأكاديميون، والمحللون الإحصائيون في مختلف التخصصات العلمية والإنسانية.",
+    "target_audience_en": "Researchers, postgraduate students, academics, and statistical analysts across various scientific and humanities disciplines.",
+    "pages": "336",
+    "file_size": "22.69 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/2الاحصاء_التطبيقي.pdf",
+    "cover_image": "covers/121.png"
   }
 ]
