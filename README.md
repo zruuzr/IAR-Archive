@@ -9,13 +9,16 @@
 **مستودع رقمي لأرشفة وتنظيم المراجع الإدارية العراقية**
 
 [![Firebase Hosting](https://img.shields.io/badge/Hosted%20on-Firebase%20Hosting-orange?style=flat&logo=firebase)](https://iararchive.web.app)
-[![Firebase](https://img.shields.io/badge/Database-Firebase-yellow?style=flat\&logo=firebase)](https://firebase.google.com)
+[![Firebase](https://img.shields.io/badge/Database-Firebase-yellow?style=flat&logo=firebase)](https://firebase.google.com)
+[![PWA](https://img.shields.io/badge/PWA-Installable-blueviolet?style=flat&logo=pwa)](https://iararchive.web.app/manifest.json)
 [![All Rights Reserved](https://img.shields.io/badge/License-All%20Rights%20Reserved-red.svg)](#-copyright-and-usage)
 [![Auto Extract Book Info](https://github.com/zruuzr/IAR-Archive/actions/workflows/auto_process.yml/badge.svg)](https://github.com/zruuzr/IAR-Archive/actions/workflows/auto_process.yml)
 
 A digital repository built to archive and organize Iraqi administrative references.
 It provides quick summaries, APA citations, and custom document bundles to help
 researchers and executive managers access official materials efficiently.
+
+Installable as a Progressive Web App (PWA) on desktop and mobile.
 
 </div>
 
@@ -29,6 +32,7 @@ researchers and executive managers access official materials efficiently.
 * **Bilingual UI:** Native Arabic (RTL) and English (LTR) support.
 * **Dark Mode:** Built-in theme switching with local storage memory.
 * **Community Metrics:** Basic analytics for downloads, ratings, and unique visits via Firebase.
+* **Installable PWA:** Can be installed on desktop and mobile devices with offline support for core assets.
 
 ---
 
@@ -37,10 +41,32 @@ researchers and executive managers access official materials efficiently.
 Built using lightweight and widely available technologies, with a focus on simplicity and performance:
 
 * **Frontend:** Vanilla JavaScript, HTML5, CSS3, Bootstrap 5.
+* **Typography:** IBM Plex Sans Arabic (single-family system for Arabic and Latin).
 * **Hosting:** Firebase Hosting.
 * **Asset Management:** Heavy PDF files are served directly via GitHub Raw (`raw.githubusercontent.com`) to bypass standard static hosting limits.
 * **Database:** Firebase Firestore & Auth, handling dynamic data such as ratings and view counts.
-* **CI/CD:** GitHub Actions automatically update the `books.json` database and trigger Cloudflare deployments when new references are processed.
+* **PWA:** Web App Manifest + Service Worker for installability, offline access, and asset caching.
+* **CI/CD:** GitHub Actions automatically update the `books.json` database and deploy the site to Firebase Hosting when new references are processed.
+
+---
+
+## 📱 Progressive Web App (PWA)
+
+The site is installable as a PWA on supported browsers (Chrome, Edge, Safari, Android Chrome).
+
+* **Manifest:** `manifest.json` — provides app name, icons, theme color, and display mode.
+* **Service Worker:** `sw.js` — implements a mixed caching strategy:
+  * **Cache First** for static assets (HTML, CSS, JS, icons, covers).
+  * **Network First** for `books.json` (dynamic data updated by CI).
+  * **Bypass** for Firebase API calls, GitHub Raw, and CDN requests.
+* **Icons:** Standard and Maskable icons at 192×192 and 512×512, plus `apple-touch-icon` for iOS.
+* **Cache Version:** Bump `CACHE_VERSION` in `sw.js` to invalidate old caches after significant updates.
+
+### Installation
+
+* **Desktop (Chrome/Edge):** Use the install icon in the address bar, or the in-app "Install" button.
+* **Android (Chrome):** Tap "Add to Home screen".
+* **iOS (Safari):** Share menu → "Add to Home Screen".
 
 ---
 
@@ -94,6 +120,7 @@ This repository follows several supply-chain and CI/CD hardening practices:
 * **Push Retries** — Up to 3 retry attempts handle transient network failures during `git push`.
 * **Path Validation** — ZIP archive members are validated to prevent path traversal attacks.
 * **Secret Verification** — The workflow fails fast if `GEMINI_API_KEY` is missing.
+* **Content Security** — Service Worker bypasses all external and Firebase requests to avoid caching sensitive data.
 
 ---
 
@@ -114,20 +141,24 @@ IAR-Archive/
 │   │   └── firebase-hosting-pull-request.yml  # Firebase Hosting preview (PR)
 │   └── dependabot.yml                    # Automated dependency updates
 ├── assets/
-│   ├── logo.svg                # Project logo
-│   └── logo-mark.svg           # Monochrome project mark
-├── covers/                     # Generated book cover images
-├── pdf/                        # Source PDF files
-├── index.html                  # Main application entry
-├── style.css                   # Styling and theme rules
-├── app.js                      # Core logic and Firebase integration
-├── books.json                  # Administrative references database
-├── process_books.py            # PDF indexing script
-├── requirements.txt            # Python dependencies
-├── .gitignore                  # Ignored files and artifacts
-├── COPYRIGHT.md                # Copyright and usage terms
-├── firebase.json               # Firebase Hosting configuration
-├── .firebaserc                 # Firebase project alias
+│   ├── logo.svg                          # Project logo
+│   └── logo-mark.svg                     # Monochrome project mark
+├── covers/                               # Generated book cover images
+├── icons/                                # PWA icons (192, 512, maskable, apple-touch)
+├── pdf/                                  # Source PDF files
+├── index.html                            # Main application entry
+├── style.css                             # Styling and theme rules
+├── app.js                                # Core logic and Firebase integration
+├── manifest.json                         # PWA manifest
+├── sw.js                                 # Service Worker
+├── _headers                              # Cloudflare Pages custom headers
+├── books.json                            # Administrative references database
+├── process_books.py                      # PDF indexing script
+├── requirements.txt                      # Python dependencies
+├── .gitignore                            # Ignored files and artifacts
+├── COPYRIGHT.md                          # Copyright and usage terms
+├── firebase.json                         # Firebase Hosting configuration
+├── .firebaserc                           # Firebase project alias
 └── README.md
 ```
 
