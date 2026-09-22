@@ -6706,5 +6706,53 @@
     "file_type": "PDF",
     "file_path": "pdf/كيف_يمكنك_اتخاذ_القرارات_الادارية؟.pdf",
     "cover_image": "covers/132.png"
+  },
+  {
+    "id": 133,
+    "title": "العلاقات العامة: المفهوم - التعريف - النشأة",
+    "title_en": "Public Relations: Concept, Definition, and Origins",
+    "author": "معاذ أحمد عصفور",
+    "author_en": "Muath Ahmad Asfour",
+    "category": "الإعلام والاتصال",
+    "category_en": "Media and Communication",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Book",
+    "description": "يتناول هذا الكتاب موضوع العلاقات العامة من حيث المفهوم والتعريف والنشأة التاريخية، مع التركيز على دورها الحيوي في النظم الإدارية الحديثة وإبراز الصورة المشرقة للمؤسسات والتواصل الفعال مع الجمهور.",
+    "description_en": "This book addresses the topic of public relations in terms of concept, definition, and historical origins, emphasizing its vital role in modern administrative systems, highlighting institutional image, and effective communication with the public.",
+    "publisher": "",
+    "publisher_en": "",
+    "year": "",
+    "isbn": "",
+    "keywords": [
+      "العلاقات العامة",
+      "الاتصال المؤسسي",
+      "التواصل الإداري",
+      "الجمهور المستهدف",
+      "إدارة المؤسسات"
+    ],
+    "keywords_en": [
+      "Public Relations",
+      "Corporate Communication",
+      "Administrative Communication",
+      "Target Audience",
+      "Organizational Management"
+    ],
+    "key_points": [
+      "أهمية العلاقات العامة كحلقة اتصال وتفاعل داخل المؤسسة وخارجها",
+      "نشأة العلاقات العامة وتطورها بعد الثورة الصناعية في أوروبا",
+      "دور رجال العلاقات العامة في إبراز إنجازات المؤسسات للجمهور المستهدف"
+    ],
+    "key_points_en": [
+      "The importance of public relations as a communication and interaction link inside and outside the organization",
+      "The emergence and development of public relations following the Industrial Revolution in Europe",
+      "The role of public relations professionals in highlighting organizational achievements to the target audience"
+    ],
+    "target_audience": "الطلاب والباحثون والمهنيون العاملون في مجالات العلاقات العامة والإعلام والإدارة.",
+    "target_audience_en": "Students, researchers, and professionals working in public relations, media, and management.",
+    "pages": "153",
+    "file_size": "7.28 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/العلاقات_العامة.pdf",
+    "cover_image": "covers/133.png"
   }
 ]
