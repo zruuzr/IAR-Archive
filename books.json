@@ -6655,5 +6655,56 @@
     "file_type": "PDF",
     "file_path": "pdf/الاحصاء_للمكتبيين.pdf",
     "cover_image": "covers/131.png"
+  },
+  {
+    "id": 132,
+    "title": "كيف يمكنك اتخاذ القرارات الإدارية؟",
+    "title_en": "How Can You Make Administrative Decisions?",
+    "author": "عصام عبد اللطيف",
+    "author_en": "Essam Abdel Latif",
+    "category": "إدارة الأعمال",
+    "category_en": "Business Administration",
+    "type": "كتاب",
+    "type_en": "Book",
+    "description": "كتاب يوضح مفهوم صنع القرار واتخاذ القرار الإداري والفرق بينهما، ويستعرض معايير القرار الرشيد وأسباب الفشل في اتخاذ القرارات، بالإضافة إلى الأخطاء الشائعة في إدارة الأفراد ونظم المعلومات الإدارية وكيفية تطويرها.",
+    "description_en": "A comprehensive book explaining the concepts of decision-making and decision-taking in administration. It outlines the criteria for rational decisions, causes of decision-making failure, common errors in personnel management, and the development of management information systems.",
+    "publisher": "نيو لينك للنشر والتدريب",
+    "publisher_en": "New Link for Publishing & Training",
+    "year": "2015",
+    "isbn": "978-977-6494-00-8",
+    "keywords": [
+      "اتخاذ القرارات",
+      "الإدارة",
+      "صنع القرار",
+      "القرارات الإدارية",
+      "إدارة الأفراد",
+      "نظم المعلومات الإدارية"
+    ],
+    "keywords_en": [
+      "Decision Making",
+      "Management",
+      "Administrative Decisions",
+      "Personnel Management",
+      "Management Information Systems"
+    ],
+    "key_points": [
+      "الفرق بين عملية صنع القرار ومرحلة اتخاذ القرار النهائي",
+      "معايير وأركان القرار الإداري الرشيد وأسباب الفشل فيه",
+      "تحليل المشكلات والأخطاء الشائعة في إدارة الأفراد وشؤون العاملين",
+      "دور نظم المعلومات الإدارية ومراحل تطويرها وبنائها"
+    ],
+    "key_points_en": [
+      "The distinction between decision making and final decision taking",
+      "Criteria for rational administrative decisions and causes of failure",
+      "Problem analysis and common errors in personnel management",
+      "The role and development stages of Management Information Systems"
+    ],
+    "target_audience": "المدراء، القادة الإداريون، الموظفون، وطلاب إدارة الأعمال والتنمية البشرية.",
+    "target_audience_en": "Managers, administrative leaders, employees, and students of business administration and human development.",
+    "pages": "163",
+    "file_size": "5.32 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/كيف_يمكنك_اتخاذ_القرارات_الادارية؟.pdf",
+    "cover_image": "covers/132.png"
   }
 ]
