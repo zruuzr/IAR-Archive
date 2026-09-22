@@ -7,9 +7,18 @@
   <meta property="og:title" content="IAR Archive | Iraqi Administrative Reference">
   <meta property="og:description" content="منصة معرفية لأرشفة وربط المراجع الإدارية مع ملخصات وتوثيق أكاديمي">
   <meta property="og:type" content="website">
-  <meta name="theme-color" content="#f6f8fc">
+  <meta name="theme-color" content="#0a0f1d">
 
   <title id="pageTitle">IAR Archive | Iraqi Administrative Reference</title>
+
+  <!-- PWA: Manifest -->
+  <link rel="manifest" href="/manifest.json">
+
+  <!-- PWA: Icons -->
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-192x192.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -91,6 +100,9 @@
           </span>
         </a>
         <div class="d-flex align-items-center gap-2 navbar-actions">
+          <button type="button" id="installBtn" class="btn btn-ghost btn-sm fw-bold px-3 d-none">
+            <i class="bi bi-download me-1" aria-hidden="true"></i> <span id="txt-install">تثبيت</span>
+          </button>
           <button type="button" id="favoritesOnlyBtn" class="btn btn-ghost btn-sm fw-bold px-3" aria-pressed="false">
             <i class="bi bi-heart me-1" aria-hidden="true"></i> <span id="txt-favorites-only">مفضلتي</span>
           </button>
@@ -365,6 +377,22 @@
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- PWA: Service Worker registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then((registration) => {
+            console.log('✅ Service Worker registered. Scope:', registration.scope);
+          })
+          .catch((error) => {
+            console.error('❌ Service Worker registration failed:', error);
+          });
+      });
+    }
+  </script>
+
   <script src="app.js"></script>
 </body>
 </html>
