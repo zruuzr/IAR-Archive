@@ -6599,5 +6599,61 @@
     "file_type": "PDF",
     "file_path": "pdf/سلسلة_الجرائم_المالية.pdf",
     "cover_image": "covers/130.png"
+  },
+  {
+    "id": 131,
+    "title": "الإحصاء للمكتبيين",
+    "title_en": "Statistical Methods for Librarians",
+    "author": "رأي ل. كاربنتر، إلين ستوري فاسـو",
+    "author_en": "Ray L. Carpenter, Ellen Storey Vasu",
+    "category": "علم المكتبات والمعلومات / الإحصاء",
+    "category_en": "Library and Information Science / Statistics",
+    "type": "كتاب أسرى مترجم / دراسي",
+    "type_en": "Translated Textbook",
+    "description": "كتاب يهدف إلى تقديم المبادئ والأساليب الإحصائية الأساسية بشقيها الوصفي والاستنباطي لأخصائيي المكتبات والمعلومات، وتوضيح كيفية تطبيق الطرق الإحصائية في التخطيط والتقييم والبحث في مجال المكتبات ومراكز المعلومات.",
+    "description_en": "A textbook designed to introduce basic descriptive and inferential statistical methods to library and information science professionals, demonstrating how to apply statistical techniques to library planning, evaluation, and research.",
+    "publisher": "دار المريخ للنشر",
+    "publisher_en": "Dar Al-Mirrikh Publishing",
+    "year": "1998",
+    "isbn": "9960-24-457-1",
+    "keywords": [
+      "الإحصاء الوصفي",
+      "الإحصاء الاستنباطي",
+      "علم المكتبات والمعلومات",
+      "المعاينة الإحصائية",
+      "الارتباط والانحدار",
+      "اختبار الفروض",
+      "الاختبارات غير المعلمية"
+    ],
+    "keywords_en": [
+      "Descriptive Statistics",
+      "Inferential Statistics",
+      "Library and Information Science",
+      "Statistical Sampling",
+      "Correlation and Regression",
+      "Hypothesis Testing",
+      "Non-parametric Tests"
+    ],
+    "key_points": [
+      "تغطية مفاهيم الإحصاء الوصفي ومستويات القياس والنسب والنزعة المركزية والشتت.",
+      "شرح طرق المعاينة الإحصائية والاحتمالية وغير الاحتمالية وحجم العينة.",
+      "تناول الإحصاء الاستنباطي واختبارات الفروض ونظرية النهاية المركزية.",
+      "دراسة الارتباط والانحدار الخطي وتطبيقاتهما في اتخاذ القرارات المكتبية.",
+      "استعراض الاختبارات والمقاييس غير المعلمية مثل اختبار كاي مربع واختبار ران واختبار سبيرمان."
+    ],
+    "key_points_en": [
+      "Coverage of descriptive statistics concepts, levels of measurement, central tendency, and dispersion.",
+      "Explanation of probability and non-probability sampling methods and sample size determination.",
+      "Presentation of inferential statistics, hypothesis testing, and the central limit theorem.",
+      "Study of correlation and linear regression analysis applied to library decision-making.",
+      "Review of non-parametric tests such as Chi-Square, Runs test, and Spearman rank correlation."
+    ],
+    "target_audience": "أخصائيو المكتبات والمعلومات، طلاب أقسام المكتبات، والباحثون في العلوم الاجتماعية والإنسانية.",
+    "target_audience_en": "Librarians, information professionals, library science students, and social sciences researchers.",
+    "pages": "196",
+    "file_size": "5.13 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/الاحصاء_للمكتبيين.pdf",
+    "cover_image": "covers/131.png"
   }
 ]
