@@ -64,7 +64,7 @@ window.addEventListener('appinstalled', function () {
 </head>
 <body>
 
-<!-- ================= SVG icon sprite (single source) ================= -->
+<!-- ================= SVG icon sprite ================= -->
 <svg class="svg-sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
@@ -395,12 +395,37 @@ window.addEventListener('appinstalled', function () {
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
+<!-- PWA: Service Worker registration with forced update -->
 <script>
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js')
-      .then(r => console.log('✅ SW registered:', r.scope))
-      .catch(e => console.error('❌ SW failed:', e));
+  window.addEventListener('load', async () => {
+    try {
+      const reg = await navigator.serviceWorker.register('/sw.js', {
+        updateViaCache: 'none'
+      });
+
+      setInterval(() => reg.update().catch(() => {}), 60 * 60 * 1000);
+      window.addEventListener('focus', () => reg.update().catch(() => {}));
+
+      reg.addEventListener('updatefound', () => {
+        const newWorker = reg.installing;
+        newWorker?.addEventListener('statechange', () => {
+          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+            newWorker.postMessage({ type: 'SKIP_WAITING' });
+          }
+        });
+      });
+
+      let refreshing = false;
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (!refreshing) {
+          refreshing = true;
+          window.location.reload();
+        }
+      });
+    } catch (e) {
+      console.error('SW registration failed:', e);
+    }
   });
 }
 </script>
