@@ -711,14 +711,17 @@ ${[1, 2, 3, 4, 5].map(value =>
       .filter(v => v > 0 && v <= total)
       .sort((a, b) => a - b);
 
-    const button = (value, label, disabled = false) =>
+    const button = (value, label, disabled = false, role = '') =>
       `<li class="page-item">
         <button type="button" class="page-btn ${value === state.ui.page ? 'active' : ''}"
+          ${role ? `data-page-${role}` : ''}
           data-page="${value}" ${disabled ? 'disabled' : ''}
-          ${value === state.ui.page ? 'aria-current="page"' : ''}>${label}</button>
+          ${value === state.ui.page ? 'aria-current="page"' : ''}>
+          <span class="page-label">${label}</span>
+        </button>
       </li>`;
 
-    let html = button(state.ui.page - 1, t('السابق', 'Previous'), state.ui.page === 1);
+    let html = button(state.ui.page - 1, t('السابق', 'Previous'), state.ui.page === 1, 'prev');
     let last = 0;
 
     values.forEach(value => {
@@ -729,7 +732,7 @@ ${[1, 2, 3, 4, 5].map(value =>
       last = value;
     });
 
-    nav.innerHTML = html + button(state.ui.page + 1, t('التالي', 'Next'), state.ui.page === total);
+    nav.innerHTML = html + button(state.ui.page + 1, t('التالي', 'Next'), state.ui.page === total, 'next');
   }
 
   function syncBundle() {
@@ -1055,9 +1058,9 @@ ${[1, 2, 3, 4, 5].map(value =>
       'txt-install': ['تثبيت', 'Install'],
       'txt-announcement': ['IAR ARCHIVE · مساحة للمعرفة الإدارية', 'IAR ARCHIVE · A space for management knowledge'],
       'txt-subtitle': ['الأرشيف الإداري العراقي', 'Iraqi Administrative Reference'],
-      'txt-about-title': ['مساحتك لاستكشاف علوم الإدارة.', 'Your space to explore management sciences.'],
-      'txt-about-desc': ['اقرأ، اكتشف الأفكار، وابنِ حزمة مراجعك القادمة — كل ذلك في مكان واحد.', 'Read, discover ideas, and build your next research collection — all in one place.'],
-      'txt-kicker': ['مساحة للمعرفة الإدارية', 'A space for management knowledge'],
+      'txt-about-title': ['حيث تحفظ المعرفة الإدارية العراقية نفسها.', 'Where Iraqi administrative knowledge preserves itself.'],
+      'txt-about-desc': ['مجموعة منتقاة من المراجع الإدارية، مُفهرسة بعناية، مرفقة بملخصات مركزة وتوثيق أكاديمي مباشر — لتكون وجهتك الأولى للبحث والاطلاع.', 'A curated collection of administrative references — indexed with care, accompanied by focused summaries and direct academic citation — so it becomes your first stop for research and reading.'],
+      'txt-kicker': ['المكتبة الرقمية العراقية · إصدار 2026', 'The Iraqi Digital Library · 2026 Edition'],
       'txt-tag-summary': ['ملخصات 3 دقائق', '3-minute summaries'],
       'txt-tag-cite': ['توثيق APA مباشر', 'Direct APA citations'],
       'txt-tag-bundle': ['حزم بحثية مخصصة', 'Curated research bundles'],
@@ -1460,29 +1463,33 @@ ${[1, 2, 3, 4, 5].map(value =>
   theme();
   language();
 
-  window.addEventListener('beforeinstallprompt', e => {
-    e.preventDefault();
-    state.meta.deferredPrompt = e;
+  // ---------- PWA install prompt (see also head capture script) ----------
+  function showInstallButton(promptEvent) {
+    state.meta.deferredPrompt = promptEvent;
     $('installBtn')?.classList.remove('d-none');
-  });
+  }
+
+  // Expose callback so the head script can notify us if the event fired early
+  window.__iarPWAReady = showInstallButton;
+
+  // If the event already fired before app.js loaded, use the captured object
+  if (window.__iarInstallPrompt) {
+    showInstallButton(window.__iarInstallPrompt);
+  }
 
   $('installBtn')?.addEventListener('click', async () => {
-    if (!state.meta.deferredPrompt) return;
-    state.meta.deferredPrompt.prompt();
+    const prompt = state.meta.deferredPrompt || window.__iarInstallPrompt;
+    if (!prompt) return;
+    prompt.prompt();
     try {
-      const { outcome } = await state.meta.deferredPrompt.userChoice;
+      const { outcome } = await prompt.userChoice;
       console.log('PWA install outcome:', outcome);
     } catch (err) {
       console.warn('PWA install failed:', err);
     }
     state.meta.deferredPrompt = null;
+    window.__iarInstallPrompt = null;
     $('installBtn')?.classList.add('d-none');
-  });
-
-  window.addEventListener('appinstalled', () => {
-    $('installBtn')?.classList.add('d-none');
-    state.meta.deferredPrompt = null;
-    console.log('✅ PWA installed');
   });
 
   fetchBooks();
