@@ -46,6 +46,21 @@
   r.setAttribute('data-theme', theme);
 })();
 </script>
+
+<script>
+/* PWA: capture install prompt as early as possible (before app.js loads) */
+window.__iarInstallPrompt = null;
+window.addEventListener('beforeinstallprompt', function (e) {
+  e.preventDefault();
+  window.__iarInstallPrompt = e;
+  if (typeof window.__iarPWAReady === 'function') window.__iarPWAReady(e);
+});
+window.addEventListener('appinstalled', function () {
+  window.__iarInstallPrompt = null;
+  var btn = document.getElementById('installBtn');
+  if (btn) btn.classList.add('d-none');
+});
+</script>
 </head>
 <body>
 
@@ -173,10 +188,13 @@
         <span class="hero-kicker">
           <span class="pulse-dot" aria-hidden="true"></span>
           <svg class="icon"><use href="#i-sparkles"/></svg>
-          <span id="txt-kicker">مساحة للمعرفة الإدارية</span>
+          <span id="txt-kicker">المكتبة الرقمية العراقية · إصدار 2026</span>
         </span>
-        <h1 class="hero-title" id="txt-about-title">مساحتك لاستكشاف علوم الإدارة.</h1>
-        <p class="hero-desc" id="txt-about-desc">اقرأ، اكتشف الأفكار، وابنِ حزمة مراجعك القادمة — كل ذلك في مكان واحد.</p>
+        <h1 class="hero-title" id="txt-about-title">حيث تحفظ المعرفة الإدارية العراقية نفسها.</h1>
+        <p class="hero-desc" id="txt-about-desc">
+          مجموعة منتقاة من المراجع الإدارية، مُفهرسة بعناية، مرفقة بملخصات مركزة
+          وتوثيق أكاديمي مباشر — لتكون وجهتك الأولى للبحث والاطلاع.
+        </p>
         <ul class="hero-tags" role="list">
           <li><svg class="icon"><use href="#i-clock"/></svg> <span id="txt-tag-summary">ملخصات 3 دقائق</span></li>
           <li><svg class="icon"><use href="#i-quote"/></svg> <span id="txt-tag-cite">توثيق APA مباشر</span></li>
