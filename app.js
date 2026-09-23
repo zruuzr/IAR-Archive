@@ -1065,7 +1065,7 @@ ${[1, 2, 3, 4, 5].map(value =>
       'txt-tag-cite': ['توثيق APA مباشر', 'Direct APA citations'],
       'txt-tag-bundle': ['حزم بحثية مخصصة', 'Curated research bundles'],
       'txt-library-title': ['رفوف المعرفة', 'The knowledge shelves'],
-      'txt-favorites-only': ['مفضلتي', 'My favorites'],
+      'txt-favorites-only': ['مفضلة', 'My favorites'],
       'txt-stat-books': ['مرجع في الأرشيف', 'Archived references'],
       'txt-stat-cats': ['مسارات معرفية', 'Knowledge paths'],
       'txt-stat-visits': ['الزيارات اليومية', 'Daily visits'],
@@ -1463,33 +1463,53 @@ ${[1, 2, 3, 4, 5].map(value =>
   theme();
   language();
 
-  // ---------- PWA install prompt (see also head capture script) ----------
+  // ---------- PWA install prompt ----------
+  function isStandalone() {
+    return window.matchMedia('(display-mode: standalone)').matches
+      || window.navigator.standalone === true;
+  }
+
   function showInstallButton(promptEvent) {
-    state.meta.deferredPrompt = promptEvent;
+    if (isStandalone()) return;
+    state.meta.deferredPrompt = promptEvent || null;
     $('installBtn')?.classList.remove('d-none');
   }
 
-  // Expose callback so the head script can notify us if the event fired early
   window.__iarPWAReady = showInstallButton;
+  if (window.__iarInstallPrompt) showInstallButton(window.__iarInstallPrompt);
 
-  // If the event already fired before app.js loaded, use the captured object
-  if (window.__iarInstallPrompt) {
-    showInstallButton(window.__iarInstallPrompt);
-  }
+  /* Fallback: show button after 3s even if Chrome didn't fire the event
+     (happens if user dismissed install earlier). Clicking shows guidance. */
+  setTimeout(() => {
+    if (isStandalone()) return;
+    if (!state.meta.deferredPrompt && !window.__iarInstallPrompt) {
+      $('installBtn')?.classList.remove('d-none');
+    }
+  }, 3000);
 
   $('installBtn')?.addEventListener('click', async () => {
     const prompt = state.meta.deferredPrompt || window.__iarInstallPrompt;
-    if (!prompt) return;
-    prompt.prompt();
-    try {
-      const { outcome } = await prompt.userChoice;
-      console.log('PWA install outcome:', outcome);
-    } catch (err) {
-      console.warn('PWA install failed:', err);
+    if (prompt) {
+      prompt.prompt();
+      try {
+        const { outcome } = await prompt.userChoice;
+        console.log('PWA install outcome:', outcome);
+      } catch (err) {
+        console.warn('PWA install failed:', err);
+      }
+      state.meta.deferredPrompt = null;
+      window.__iarInstallPrompt = null;
+      $('installBtn')?.classList.add('d-none');
+    } else {
+      alert(t(
+        'لتثبيت التطبيق:\n' +
+        '• Android/Chrome: افتح قائمة المتصفح (⋮) واختر "تثبيت التطبيق".\n' +
+        '• iPhone/Safari: اضغط زر المشاركة ثم "إضافة إلى الشاشة الرئيسية".',
+        'To install:\n' +
+        '• Android/Chrome: open browser menu (⋮) → "Install app".\n' +
+        '• iPhone/Safari: tap Share → "Add to Home Screen".'
+      ));
     }
-    state.meta.deferredPrompt = null;
-    window.__iarInstallPrompt = null;
-    $('installBtn')?.classList.add('d-none');
   });
 
   fetchBooks();
