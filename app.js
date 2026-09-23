@@ -1242,7 +1242,7 @@ ${[1, 2, 3, 4, 5].map(value =>
 
     audio.piperLoading = (async () => {
       try {
-        const tts = await import('https://cdn.jsdelivr.net/npm/@mintplex-labs/piper-tts-web@1.0.4/+esm');
+        const tts = await import('https://cdn.jsdelivr.net/npm/@mintplex-labs/piper-tts-web@1.0.5/+esm');
         audio.piperEngine = tts;
         audio.piperReady = true;
         console.log('[Piper] Engine loaded');
@@ -1468,6 +1468,7 @@ ${[1, 2, 3, 4, 5].map(value =>
       } catch {}
       audio.audioElement = null;
     }
+    try { window.speechSynthesis.cancel(); } catch {}
     audio.isPlaying = false;
     audio.aborted = true;
     updateAudioPlayButton();
@@ -1670,6 +1671,7 @@ ${[1, 2, 3, 4, 5].map(value =>
       el.playbackRate = audio.rate;
 
       el.onended = () => {
+        URL.revokeObjectURL(url);
         if (!audio.isPlaying) return;
         if (audio.currentIndex < audio.paragraphs.length - 1) {
           playFromIndex(audio.currentIndex + 1);
