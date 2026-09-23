@@ -6754,5 +6754,63 @@
     "file_type": "PDF",
     "file_path": "pdf/العلاقات_العامة.pdf",
     "cover_image": "covers/133.png"
+  },
+  {
+    "id": 134,
+    "title": "النظام الضريبي وأهداف المجتمع: مدخل تحليلي معاصر",
+    "title_en": "The Tax System and Society's Goals: A Contemporary Analytical Approach",
+    "author": "سعيد عبد العزيز عثمان، محمد جلال خطاب، محمود رجب محمود",
+    "author_en": "Saeed Abdel Aziz Osman, Mohamed Galal Khattab, Mahmoud Rajab Mahmoud",
+    "category": "المالية العامة والاقتصاد",
+    "category_en": "Public Finance and Economics",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Book",
+    "description": "دراسة أكاديمية شاملة تناقش النظام الضريبي وأهدافه الاقتصادية والاجتماعية من منظور تحليلي معاصر. يتناول الكتاب مفاهيم السياسة الضريبية ومحدداتها، معايير النظام الضريبي الجيد، أسباب التسرب والتهرب الضريبي وطرق معالجتها، أثر الحوافز والضرائب الجمركية على النمو الاقتصادي وعدالة توزيع الدخل، إضافة إلى دراسة مقارنة بين النظام الضريبي المصري والنظام الضريبي الأمريكي.",
+    "description_en": "A comprehensive academic study discussing the tax system and its economic and social objectives through a contemporary analytical approach. The book covers tax policy concepts, determinants of tax systems, criteria for a good tax system, causes and solutions for tax leakage and evasion, the impact of tax incentives and customs duties on economic growth and income distribution, along with a comparative analysis of the Egyptian and US tax systems.",
+    "publisher": "جامعة الإسكندرية - كلية التجارة",
+    "publisher_en": "Alexandria University - Faculty of Commerce",
+    "year": "2019",
+    "isbn": "",
+    "keywords": [
+      "النظام الضريبي",
+      "السياسة الضريبية",
+      "المالية العامة",
+      "التسرب الضريبي",
+      "النمو الاقتصادي",
+      "توزيع الدخل",
+      "النظام الضريبي المصري",
+      "النظام الضريبي الأمريكي"
+    ],
+    "keywords_en": [
+      "Tax System",
+      "Tax Policy",
+      "Public Finance",
+      "Tax Leakage",
+      "Economic Growth",
+      "Income Distribution",
+      "Egyptian Tax System",
+      "US Tax System"
+    ],
+    "key_points": [
+      "تحليل الإطار العام والوظائف الأساسية للسياسة الضريبية والنظام الضريبي.",
+      "دراسة المعايير الأساسية لبناء نظام ضريبي جيد يوازن بين الكفاءة والعدالة.",
+      "تشخيص ظاهرة التسرب الضريبي والتهرب الضريبي واقتراح آليات للحد منها.",
+      "بيان أثر الحوافز الضريبية والضرائب الجمركية على استقطاب الاستثمارات وتحقيق النمو الاقتصادي.",
+      "استعراض وتحليل آليات تطبيق ضريبة الدخل في كل من الولايات المتحدة الأمريكية وجمهورية مصر العربية."
+    ],
+    "key_points_en": [
+      "Analyzing the general framework and core functions of tax policy and tax systems.",
+      "Studying essential criteria for designing an efficient and equitable tax system.",
+      "Diagnosing tax leakage and evasion issues and proposing mitigation strategies.",
+      "Examining the impact of tax incentives and customs tariffs on investment and economic growth.",
+      "Analyzing income tax structures and application mechanisms in both the United States and Egypt."
+    ],
+    "target_audience": "طلاب وخريجو كليات التجارة والاقتصاد، الباحثون والأكاديميون في المالية العامة، المحاسبون والمستشارون الضريبيون، وصناع القرار المالي والضريبي.",
+    "target_audience_en": "Students and graduates of Commerce and Economics, researchers in public finance, tax accountants and consultants, and fiscal policy makers.",
+    "pages": "302",
+    "file_size": "34.71 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/النظام_الضريبي_واهداف_المجتمع.pdf",
+    "cover_image": "covers/134.png"
   }
 ]
