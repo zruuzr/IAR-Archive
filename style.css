@@ -1664,7 +1664,7 @@ h1, h2, h3, h4, h5, h6 { font-weight: 600; letter-spacing: 0; line-height: 1.3; 
   background: #1a1a1a;
 }
 
-/* ---------- 20b) Audio Player ---------- */
+/* ---------- 20b) Audio Player (Piper TTS) ---------- */
 .audio-player-body {
   padding: 0;
   display: flex;
@@ -1674,42 +1674,36 @@ h1, h2, h3, h4, h5, h6 { font-weight: 600; letter-spacing: 0; line-height: 1.3; 
   min-height: 0;
 }
 
-.audio-warn {
+/* Download progress (Piper model) */
+.audio-download-progress {
   display: flex;
-  align-items: center;
-  gap: .6rem;
-  background: color-mix(in srgb, #d97706 12%, var(--surface));
-  border-bottom: 1px solid color-mix(in srgb, #d97706 40%, var(--border));
-  color: var(--text);
-  padding: .7rem 1rem;
-  font-size: .8rem;
-  line-height: 1.5;
+  flex-direction: column;
+  gap: .5rem;
+  padding: .75rem 1rem;
+  background: color-mix(in srgb, var(--amber) 8%, var(--surface));
+  border-bottom: 1px solid color-mix(in srgb, var(--amber) 30%, var(--border));
   flex-shrink: 0;
 }
-.audio-warn[hidden] { display: none; }
-.audio-warn .icon {
-  color: #d97706;
-  width: 1.15em;
-  height: 1.15em;
-  flex-shrink: 0;
+.audio-download-progress[hidden] { display: none; }
+
+.audio-download-bar {
+  height: 6px;
+  background: color-mix(in srgb, var(--amber) 20%, var(--surface-2));
+  border-radius: 3px;
+  overflow: hidden;
 }
-.audio-warn span { flex: 1; }
-.audio-warn-close {
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
+.audio-download-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--grad-accent);
+  border-radius: 3px;
+  transition: width .3s ease;
+}
+.audio-download-text {
+  font-size: .78rem;
+  font-weight: 500;
   color: var(--text-muted);
-  font-size: 1.15rem;
-  line-height: 1;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: background-color .2s ease, color .2s ease;
-}
-.audio-warn-close:hover {
-  background: color-mix(in srgb, #d97706 20%, transparent);
-  color: var(--text);
+  text-align: center;
 }
 
 .audio-loading {
@@ -1953,7 +1947,8 @@ h1, h2, h3, h4, h5, h6 { font-weight: 600; letter-spacing: 0; line-height: 1.3; 
   .audio-select-wrap { padding: .3rem .45rem; font-size: .75rem; }
   .audio-select-wrap select { font-size: .75rem; max-width: 100px; }
   .audio-voice-wrap select { max-width: 120px; }
-  .audio-warn { font-size: .75rem; padding: .6rem .8rem; }
+  .audio-download-progress { padding: .6rem .8rem; }
+  .audio-download-text { font-size: .72rem; }
 }
 
 /* ---------- 21) Footer ---------- */
