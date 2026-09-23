@@ -8,7 +8,6 @@
 (() => {
   'use strict';
 
-  // ---------- Helpers ----------
   const $ = id => document.getElementById(id);
   const $$ = sel => document.querySelectorAll(sel);
 
@@ -31,7 +30,6 @@
     } catch { return []; }
   };
 
-  // ---------- Centralized state (restructured) ----------
   const state = {
     data: {
       books: [],
@@ -44,8 +42,8 @@
       theme: document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light',
       view: store.get('iar_view_mode', 'grid') === 'list' ? 'list' : 'grid',
       page: 1,
-      single: null,   // book id | null
-      summary: null   // book id | null
+      single: null,
+      summary: null
     },
     filters: {
       query: '',
@@ -65,7 +63,6 @@
     }
   };
 
-  // ---------- Utilities ----------
   const motion = () =>
     matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
 
@@ -92,7 +89,6 @@
       state.ui.lang === 'ar' ? 'ar-u-nu-latn' : 'en-US'
     ).format(v);
 
-  // Icon helper — SVG sprite references
   const i = name => `<svg class="icon" aria-hidden="true"><use href="#i-${name}"/></svg>`;
 
   const labels = () => ({
@@ -105,7 +101,6 @@
     unknown: t('غير متوفر', 'Not provided')
   });
 
-  // ---------- Asset URL resolution ----------
   function asset(value, pdf = false) {
     const raw = clean(value);
     if (!raw) return '';
@@ -128,7 +123,6 @@
     } catch { return ''; }
   }
 
-  // ---------- Book normalization ----------
   function normalize(raw) {
     if (!raw || typeof raw !== 'object' || raw.id === '' || raw.id == null) return null;
     const id = Number(raw.id);
@@ -253,7 +247,6 @@
     }
   }
 
-  // ---------- Toast ----------
   function toast(message, error = false) {
     let host = $('notificationHost');
     if (!host) {
@@ -283,7 +276,6 @@
     setTimeout(() => notification.remove(), 6500);
   }
 
-  // ---------- Clipboard ----------
   async function copy(value) {
     try {
       if (navigator.clipboard && isSecureContext) {
@@ -336,7 +328,7 @@ ${field(book, 'publisher') || labels().unknown}.`;
     await copy(`${field(book, 'title')}\n${url}`);
   }
 
-  // ---------- Vanilla modal system (replaces Bootstrap Modal) ----------
+  // ---------- Vanilla modal system ----------
   const modal = {
     open(id) {
       const el = $(id);
@@ -344,7 +336,6 @@ ${field(book, 'publisher') || labels().unknown}.`;
       el.hidden = false;
       requestAnimationFrame(() => el.classList.add('is-open'));
       document.body.style.overflow = 'hidden';
-      // Focus first focusable element
       const focusable = el.querySelector('button, [href], input, select, textarea, iframe');
       focusable?.focus?.();
     },
@@ -364,7 +355,6 @@ ${field(book, 'publisher') || labels().unknown}.`;
     }
   };
 
-  // Backdrop click + close button
   document.addEventListener('click', e => {
     const closeTrigger = e.target.closest('[data-close]');
     if (!closeTrigger) return;
@@ -372,7 +362,6 @@ ${field(book, 'publisher') || labels().unknown}.`;
     if (modalEl) modal.close(modalEl.id);
   });
 
-  // ESC key
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
       const open = document.querySelector('.modal.is-open');
@@ -380,7 +369,6 @@ ${field(book, 'publisher') || labels().unknown}.`;
     }
   });
 
-  // ---------- PDF reader (Mozilla pdf.js viewer — unchanged) ----------
   function readBook(book) {
     if (!book.file_path) {
       return toast(t('ملف المرجع غير متاح.', 'Reference file unavailable.'), true);
@@ -393,7 +381,6 @@ ${field(book, 'publisher') || labels().unknown}.`;
     modal.open('pdfReaderModal');
   }
 
-  // Reset iframe when pdf modal closes
   const pdfModal = $('pdfReaderModal');
   if (pdfModal) {
     const observer = new MutationObserver(() => {
@@ -405,7 +392,6 @@ ${field(book, 'publisher') || labels().unknown}.`;
     observer.observe(pdfModal, { attributes: true, attributeFilter: ['hidden'] });
   }
 
-  // ---------- Download ----------
   async function download(book) {
     if (!book.file_path || state.meta.busyDownloads.has(book.id)) return;
     state.meta.busyDownloads.add(book.id);
@@ -474,7 +460,6 @@ ${field(book, 'publisher') || labels().unknown}.`;
     }
   }
 
-  // ---------- Ratings ----------
   const rated = book =>
     Array.isArray(book.voters) && book.voters.includes(auth?.currentUser?.uid);
 
@@ -556,7 +541,6 @@ ${[1, 2, 3, 4, 5].map(value =>
     }
   }
 
-  // ---------- Cover ----------
   function cover(book, featured = false) {
     const title = esc(field(book, 'title'));
     const color = book.id % 5;
@@ -581,7 +565,6 @@ ${[1, 2, 3, 4, 5].map(value =>
     </div>`;
   }
 
-  // ---------- Action button ----------
   function action(book, name, icon, label, primary = false, iconOnly = false) {
     const disabled = ['read', 'download'].includes(name) && !book.file_path;
     const pressed = name === 'favorite' ? `aria-pressed="${state.user.favorites.has(book.id)}"` : '';
@@ -613,7 +596,6 @@ ${[1, 2, 3, 4, 5].map(value =>
     </div>`;
   }
 
-  // ---------- Book card ----------
   function bookCard(book) {
     return `<article class="book-card">
       <div class="book-topline">
@@ -647,7 +629,6 @@ ${[1, 2, 3, 4, 5].map(value =>
     </article>`;
   }
 
-  // ---------- Featured ----------
   function featured(book) {
     return `<article class="featured-card">
       <div class="featured-inner">
@@ -678,7 +659,6 @@ ${[1, 2, 3, 4, 5].map(value =>
     </article>`;
   }
 
-  // ---------- Filtering + sorting ----------
   function filteredBooks() {
     const norm = v => v
       .toLocaleLowerCase(state.ui.lang)
@@ -717,7 +697,6 @@ ${[1, 2, 3, 4, 5].map(value =>
     return books.sort(sorts[$('sortOrder')?.value] || sorts.default);
   }
 
-  // ---------- Pagination ----------
   function pagination(total) {
     const nav = $('paginationContainer');
     if (!nav) return;
@@ -753,7 +732,6 @@ ${[1, 2, 3, 4, 5].map(value =>
     nav.innerHTML = html + button(state.ui.page + 1, t('التالي', 'Next'), state.ui.page === total);
   }
 
-  // ---------- Bundle sync ----------
   function syncBundle() {
     text('bundleCount', number(state.user.bundle.size));
     visible('bundleBar', state.user.bundle.size > 0 && state.ui.single === null);
@@ -775,7 +753,6 @@ ${[1, 2, 3, 4, 5].map(value =>
       : '';
   }
 
-  // ---------- Render main ----------
   function render() {
     if (state.ui.single !== null) { renderSingle(); return; }
 
@@ -832,7 +809,6 @@ ${[1, 2, 3, 4, 5].map(value =>
     attr('favoritesOnlyBtn', 'aria-pressed', state.filters.favoritesOnly);
   }
 
-  // ---------- Categories & chips ----------
   function categories() {
     const map = new Map();
     state.data.books.forEach(book => map.set(categoryKey(book), categoryLabel(book)));
@@ -864,7 +840,6 @@ ${[1, 2, 3, 4, 5].map(value =>
     $('chipsScrollRight')?.classList.toggle('can-show', end);
   }
 
-  // ---------- Metadata ----------
   function metadata(book = null) {
     const title = book
       ? `${field(book, 'title')} | IAR Archive`
@@ -883,7 +858,6 @@ ${[1, 2, 3, 4, 5].map(value =>
     document.querySelector('meta[property="og:description"]')?.setAttribute('content', description.slice(0, 160));
   }
 
-  // ---------- Key points ----------
   function points(book) {
     const list = state.ui.lang === 'en' && book.key_points_en.length
       ? book.key_points_en
@@ -894,7 +868,6 @@ ${[1, 2, 3, 4, 5].map(value =>
       : [t('لم يُرفق ملخص لهذا المرجع بعد.', 'No summary has been provided for this reference yet.')];
   }
 
-  // ---------- Summary modal ----------
   function summary(book) {
     state.ui.summary = book.id;
 
@@ -916,7 +889,6 @@ ${[1, 2, 3, 4, 5].map(value =>
     modal.open('summaryModal');
   }
 
-  // ---------- Single view ----------
   function renderSingle() {
     const book = byId(state.ui.single);
     if (!book) return;
@@ -979,7 +951,6 @@ ${[1, 2, 3, 4, 5].map(value =>
     syncBundle();
   }
 
-  // ---------- Navigation / routing ----------
   function navigateBook(book) {
     if (state.ui.single === null) {
       state.meta.savedLibraryState = {
@@ -1074,7 +1045,6 @@ ${[1, 2, 3, 4, 5].map(value =>
     render();
   }
 
-  // ---------- Language ----------
   function language() {
     const root = document.documentElement;
     root.lang = state.ui.lang;
@@ -1082,6 +1052,7 @@ ${[1, 2, 3, 4, 5].map(value =>
 
     const pairs = {
       'langLabel': ['EN', 'عربي'],
+      'txt-install': ['تثبيت', 'Install'],
       'txt-announcement': ['IAR ARCHIVE · مساحة للمعرفة الإدارية', 'IAR ARCHIVE · A space for management knowledge'],
       'txt-subtitle': ['الأرشيف الإداري العراقي', 'Iraqi Administrative Reference'],
       'txt-about-title': ['مساحتك لاستكشاف علوم الإدارة.', 'Your space to explore management sciences.'],
@@ -1173,7 +1144,6 @@ ${[1, 2, 3, 4, 5].map(value =>
     text('archiveYear', '2026');
   }
 
-  // ---------- Theme ----------
   function theme() {
     document.documentElement.dataset.theme = state.ui.theme;
     const icon = $('themeIcon');
@@ -1183,7 +1153,6 @@ ${[1, 2, 3, 4, 5].map(value =>
       ?.setAttribute('content', state.ui.theme === 'dark' ? '#0a0d14' : '#f4efe4');
   }
 
-  // ---------- Ambient effects ----------
   function initAmbient() {
     const canHover = matchMedia('(hover: hover) and (pointer: fine)').matches;
     const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1201,6 +1170,7 @@ ${[1, 2, 3, 4, 5].map(value =>
         }, { passive: true });
 
         window.addEventListener('pointerleave', () => glow.classList.remove('is-active'));
+        document.addEventListener('pointerleave', () => glow.classList.remove('is-active'));
         document.addEventListener('mouseleave', () => glow.classList.remove('is-active'));
       }
     }
@@ -1427,7 +1397,6 @@ ${[1, 2, 3, 4, 5].map(value =>
 
   window.addEventListener('popstate', route);
 
-  // ---------- Fetch books.json ----------
   async function fetchBooks() {
     state.data.loading = true;
     state.data.error = false;
@@ -1487,12 +1456,10 @@ ${[1, 2, 3, 4, 5].map(value =>
     }
   }
 
-  // ---------- Boot ----------
   initAmbient();
   theme();
   language();
 
-  // ---------- PWA install prompt ----------
   window.addEventListener('beforeinstallprompt', e => {
     e.preventDefault();
     state.meta.deferredPrompt = e;
