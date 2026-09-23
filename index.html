@@ -399,11 +399,12 @@ window.addEventListener('appinstalled', function () {
     </header>
 
     <div class="modal-body modal-body-flush audio-player-body">
-      <!-- Firefox warning banner (hidden by default) -->
-      <div class="audio-warn" id="audioFirefoxWarn" hidden>
-        <svg class="icon"><use href="#i-alert"/></svg>
-        <span id="audioFirefoxWarnText"></span>
-        <button type="button" class="audio-warn-close" data-audio-warn-dismiss aria-label="إخفاء التنبيه">×</button>
+      <!-- Download Progress Indicator -->
+      <div class="audio-download-progress" id="audioDownloadProgress" hidden>
+        <div class="audio-download-bar">
+          <div class="audio-download-fill" id="audioDownloadFill"></div>
+        </div>
+        <span class="audio-download-text" id="audioDownloadText">جارٍ تحميل النموذج الصوتي…</span>
       </div>
 
       <div class="audio-loading" id="audioLoading" role="status">
