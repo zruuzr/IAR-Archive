@@ -4,6 +4,8 @@
    Preserved: Firebase (Firestore + Anonymous Auth), pdf.js viewer
              (Mozilla), PWA install prompt, Service Worker,
              all original actions and URL routing.
+   Added: Audio player (Web Speech API) with PDF text extraction,
+          localStorage caching, Firefox warning.
    ============================================================ */
 (() => {
   'use strict';
@@ -20,6 +22,9 @@
     },
     set(key, value) {
       try { localStorage.setItem(key, String(value)); } catch {}
+    },
+    remove(key) {
+      try { localStorage.removeItem(key); } catch {}
     }
   };
 
@@ -95,6 +100,7 @@
     read: t('قراءة', 'Read'),
     download: t('تحميل', 'Download'),
     summary: t('ملخص 3 دقائق', '3-minute summary'),
+    listen: t('استماع', 'Listen'),
     cite: t('توثيق APA', 'Cite APA'),
     share: t('مشاركة', 'Share'),
     favorite: t('المفضلة', 'Favorite'),
@@ -359,13 +365,18 @@ ${field(book, 'publisher') || labels().unknown}.`;
     const closeTrigger = e.target.closest('[data-close]');
     if (!closeTrigger) return;
     const modalEl = closeTrigger.closest('.modal');
-    if (modalEl) modal.close(modalEl.id);
+    if (!modalEl) return;
+    if (modalEl.id === 'audioPlayerModal') stopAudio();
+    modal.close(modalEl.id);
   });
 
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
       const open = document.querySelector('.modal.is-open');
-      if (open) modal.close(open.id);
+      if (open) {
+        if (open.id === 'audioPlayerModal') stopAudio();
+        modal.close(open.id);
+      }
     }
   });
 
@@ -587,6 +598,7 @@ ${[1, 2, 3, 4, 5].map(value =>
       ${action(book, 'read', 'book', l.read)}
       ${action(book, 'download', 'download', l.download, true)}
       ${action(book, 'summary', 'zap', l.summary)}
+      ${action(book, 'audio', 'headphones', l.listen)}
       ${action(book, 'cite', 'quote', l.cite, false, true)}
       ${action(book, 'favorite',
         fav ? 'heart-filled' : 'heart',
@@ -1081,6 +1093,10 @@ ${[1, 2, 3, 4, 5].map(value =>
       'txt-bundle-btn': ['نسخ رابط الحزمة', 'Copy bundle link'],
       'txt-clear-bundle': ['إلغاء الحزمة', 'Clear bundle'],
       'summaryModalTitle': ['ملخص المرجع · 3 دقائق', 'Reference summary · 3 minutes'],
+      'audioPlayerTitle': ['الاستماع للكتاب', 'Listen to the book'],
+      'audioFirefoxWarnText': ['متصفح Firefox لا يدعم القراءة الصوتية العربية بشكل كامل. للحصول على أفضل تجربة، استخدم Chrome أو Edge أو Safari.', 'Firefox does not fully support Arabic speech synthesis. For the best experience, use Chrome, Edge, or Safari.'],
+      'audioLoadingText': ['جارٍ استخراج نص الكتاب…', 'Extracting book text…'],
+      'audioLoadingNote': ['قد يستغرق هذا بعض الوقت في الكتب الكبيرة.', 'This may take a moment for large books.'],
       'txt-modal-ideas-title': ['أهم الأفكار', 'Key ideas'],
       'txt-modal-audience-title': ['الفئة المستهدفة', 'Target audience'],
       'txt-modal-apa-title': ['التوثيق الأكاديمي · APA', 'Academic citation · APA'],
@@ -1113,7 +1129,13 @@ ${[1, 2, 3, 4, 5].map(value =>
       chipsScrollLeft: ['aria-label', t('السابق', 'Previous')],
       chipsScrollRight: ['aria-label', t('التالي', 'Next')],
       summaryDismissBtn: ['aria-label', t('إغلاق', 'Close')],
-      pdfDismissBtn: ['aria-label', t('إغلاق', 'Close')]
+      pdfDismissBtn: ['aria-label', t('إغلاق', 'Close')],
+      audioDismissBtn: ['aria-label', t('إغلاق', 'Close')],
+      audioPlayBtn: ['aria-label', t('تشغيل', 'Play')],
+      audioPrevBtn: ['aria-label', t('الفقرة السابقة', 'Previous paragraph')],
+      audioNextBtn: ['aria-label', t('الفقرة التالية', 'Next paragraph')],
+      audioRateSelect: ['aria-label', t('سرعة القراءة', 'Playback speed')],
+      audioVoiceSelect: ['aria-label', t('القارئ', 'Voice')]
     };
 
     Object.entries(attributes).forEach(([id, [key, value]]) => attr(id, key, value));
@@ -1142,6 +1164,11 @@ ${[1, 2, 3, 4, 5].map(value =>
     const backIcon = $('btnBackToList')?.querySelector('use');
     if (backIcon) {
       backIcon.setAttribute('href', `#i-arrow-${state.ui.lang === 'ar' ? 'right' : 'left'}`);
+    }
+
+    // Update voice options if audio player is open
+    if ($('audioPlayerModal')?.classList.contains('is-open')) {
+      populateVoicesSelect();
     }
 
     text('archiveYear', '2026');
@@ -1193,6 +1220,466 @@ ${[1, 2, 3, 4, 5].map(value =>
       }
     }
   }
+
+  // ============================================================
+  // Audio Player — Web Speech API + localStorage caching
+  // ============================================================
+  const AUDIO_CACHE_PREFIX = 'iar_audio_v1_';
+  const AUDIO_CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
+  const AUDIO_CACHE_MAX_BOOKS = 5;
+  const AUDIO_CACHE_MAX_BYTES = 2 * 1024 * 1024; // 2MB per book
+
+  const audio = {
+    book: null,
+    paragraphs: [],
+    currentIndex: -1,
+    isPlaying: false,
+    utterance: null,
+    voices: [],
+    selectedVoice: null,
+    rate: 1,
+    pdfLibPromise: null,
+    aborted: false
+  };
+
+  function isFirefox() {
+    return /firefox/i.test(navigator.userAgent);
+  }
+
+  function getCachedParagraphs(bookId) {
+    try {
+      const raw = localStorage.getItem(AUDIO_CACHE_PREFIX + bookId);
+      if (!raw) return null;
+      const data = JSON.parse(raw);
+      if (!data || !Array.isArray(data.paragraphs)) return null;
+      if (Date.now() - (data.timestamp || 0) > AUDIO_CACHE_TTL_MS) {
+        localStorage.removeItem(AUDIO_CACHE_PREFIX + bookId);
+        return null;
+      }
+      return data.paragraphs;
+    } catch { return null; }
+  }
+
+  function pruneAudioCache(aggressive = false) {
+    try {
+      const keys = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (k && k.startsWith(AUDIO_CACHE_PREFIX)) {
+          let ts = 0;
+          try {
+            const data = JSON.parse(localStorage.getItem(k) || '{}');
+            ts = data.timestamp || 0;
+          } catch {}
+          keys.push({ key: k, ts });
+        }
+      }
+      keys.sort((a, b) => a.ts - b.ts);
+      const max = aggressive ? 1 : AUDIO_CACHE_MAX_BOOKS;
+      const excess = keys.length - max;
+      for (let i = 0; i < excess; i++) {
+        localStorage.removeItem(keys[i].key);
+      }
+    } catch {}
+  }
+
+  function setCachedParagraphs(bookId, paragraphs) {
+    const payload = JSON.stringify({ timestamp: Date.now(), paragraphs });
+    if (payload.length > AUDIO_CACHE_MAX_BYTES) return; // too large, skip
+    try {
+      localStorage.setItem(AUDIO_CACHE_PREFIX + bookId, payload);
+      pruneAudioCache();
+    } catch {
+      // Quota exceeded: prune aggressively then retry once
+      pruneAudioCache(true);
+      try {
+        localStorage.setItem(AUDIO_CACHE_PREFIX + bookId, payload);
+      } catch {}
+    }
+  }
+
+  function updateFirefoxWarning() {
+    const warn = $('audioFirefoxWarn');
+    if (!warn) return;
+    const dismissed = store.get('iar_audio_warn_dismissed', '0') === '1';
+    warn.hidden = !isFirefox() || dismissed;
+  }
+
+  document.addEventListener('click', e => {
+    if (!e.target.closest('[data-audio-warn-dismiss]')) return;
+    const warn = $('audioFirefoxWarn');
+    if (warn) warn.hidden = true;
+    store.set('iar_audio_warn_dismissed', '1');
+  });
+
+  function stopAudio() {
+    try { window.speechSynthesis.cancel(); } catch {}
+    audio.isPlaying = false;
+    audio.aborted = true;
+    updateAudioPlayButton();
+  }
+
+  function openAudioPlayer(book) {
+    if (!book) return;
+    audio.book = book;
+    audio.paragraphs = [];
+    audio.currentIndex = -1;
+    audio.isPlaying = false;
+    audio.aborted = false;
+
+    text('audioPlayerTitle', field(book, 'title') || t('الاستماع للكتاب', 'Listen to the book'));
+
+    updateFirefoxWarning();
+
+    visible('audioLoading', true);
+    visible('audioText', false);
+    text('audioLoadingText', t('جارٍ استخراج نص الكتاب…', 'Extracting book text…'));
+    $('audioText').innerHTML = '';
+    text('audioProgressText', '0 / 0');
+
+    ensureVoicesLoaded();
+    modal.open('audioPlayerModal');
+
+    getBookParagraphs(book)
+      .then(paragraphs => {
+        if (audio.aborted || audio.book?.id !== book.id) return;
+        audio.paragraphs = paragraphs;
+        renderAudioParagraphs();
+        visible('audioLoading', false);
+        visible('audioText', true);
+        updateAudioProgress();
+        updateAudioPlayButton();
+      })
+      .catch(err => {
+        console.error('Audio load failed:', err);
+        text('audioLoadingText', t(
+          'تعذّر استخراج نص الكتاب. تأكد من الاتصال بالإنترنت.',
+          'Could not extract book text. Check your internet connection.'
+        ));
+      });
+  }
+
+  async function getBookParagraphs(book) {
+    // 1. Cache hit
+    const cached = getCachedParagraphs(book.id);
+    if (cached && cached.length) {
+      console.log('[Audio] Using cached paragraphs for book', book.id);
+      return cached;
+    }
+
+    // 2. Extract from PDF
+    if (book.file_path) {
+      try {
+        const rawText = await extractPdfText(book.file_path);
+        if (rawText && rawText.replace(/\s/g, '').length > 200) {
+          const paragraphs = splitIntoParagraphs(rawText);
+          if (paragraphs.length) {
+            setCachedParagraphs(book.id, paragraphs);
+            return paragraphs;
+          }
+        }
+      } catch (err) {
+        console.warn('PDF extraction failed, using fallback:', err);
+      }
+    }
+
+    // 3. Fallback: description + key_points + audience
+    const parts = [];
+    const desc = field(book, 'description');
+    const kpAr = book.key_points || [];
+    const kpEn = book.key_points_en || [];
+    const kp = state.ui.lang === 'en' && kpEn.length ? kpEn : kpAr;
+    const audience = field(book, 'target_audience');
+
+    if (desc) parts.push(desc);
+    if (kp.length) parts.push(...kp);
+    if (audience) parts.push(audience);
+
+    return parts.length
+      ? parts
+      : [t('لا يوجد نص متاح لهذا المرجع.', 'No text available for this reference.')];
+  }
+
+  function loadPdfJs() {
+    if (audio.pdfLibPromise) return audio.pdfLibPromise;
+    audio.pdfLibPromise = new Promise((resolve, reject) => {
+      if (window.pdfjsLib) return resolve(window.pdfjsLib);
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js';
+      script.onload = () => {
+        try {
+          window.pdfjsLib.GlobalWorkerOptions.workerSrc =
+            'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
+          resolve(window.pdfjsLib);
+        } catch (e) { reject(e); }
+      };
+      script.onerror = () => reject(new Error('pdf.js load failed'));
+      document.head.appendChild(script);
+    });
+    return audio.pdfLibPromise;
+  }
+
+  async function extractPdfText(url) {
+    const pdfjsLib = await loadPdfJs();
+    const task = pdfjsLib.getDocument({ url });
+    const pdf = await task.promise;
+    const total = pdf.numPages;
+    const parts = [];
+
+    for (let i = 1; i <= total; i++) {
+      if (audio.aborted) break;
+      text('audioLoadingText', t(
+        `جارٍ استخراج النص… (${i}/${total})`,
+        `Extracting text… (${i}/${total})`
+      ));
+      try {
+        const page = await pdf.getPage(i);
+        const content = await page.getTextContent();
+        const pageText = content.items.map(it => it.str).join(' ').trim();
+        if (pageText) parts.push(pageText);
+      } catch (e) {
+        console.warn(`Page ${i} failed:`, e);
+      }
+    }
+
+    return parts.join('\n\n');
+  }
+
+  function splitIntoParagraphs(text) {
+    let normalized = String(text)
+      .replace(/\u00A0/g, ' ')
+      .replace(/[ \t]+/g, ' ')
+      .replace(/\r\n?/g, '\n')
+      .trim();
+
+    let chunks = normalized.split(/\n{2,}/).filter(s => s.trim().length > 0);
+
+    const avgLen = chunks.reduce((s, c) => s + c.length, 0) / (chunks.length || 1);
+    if (avgLen < 120 && chunks.length > 5) {
+      const lines = normalized.split(/\n/).map(s => s.trim()).filter(Boolean);
+      const grouped = [];
+      let buffer = '';
+      for (const line of lines) {
+        if (line.length < 3) continue;
+        if (/^\d+$/.test(line)) continue;
+        buffer = buffer ? buffer + ' ' + line : line;
+        if (buffer.length >= 300) {
+          grouped.push(buffer);
+          buffer = '';
+        }
+      }
+      if (buffer) grouped.push(buffer);
+      chunks = grouped;
+    }
+
+    const cleaned = chunks
+      .map(s => s.replace(/\s+/g, ' ').trim())
+      .filter(s => s.length > 10);
+
+    const merged = [];
+    for (const chunk of cleaned) {
+      if (chunk.length < 80 && merged.length > 0) {
+        merged[merged.length - 1] += ' ' + chunk;
+      } else {
+        merged.push(chunk);
+      }
+    }
+
+    const final = [];
+    for (const chunk of merged) {
+      if (chunk.length <= 500) { final.push(chunk); continue; }
+      const sentences = chunk.split(/(?<=[.!?؟।])\s+/);
+      let buffer = '';
+      for (const s of sentences) {
+        if ((buffer + ' ' + s).length > 420 && buffer.length > 100) {
+          final.push(buffer.trim());
+          buffer = s;
+        } else {
+          buffer = buffer ? buffer + ' ' + s : s;
+        }
+      }
+      if (buffer.trim()) final.push(buffer.trim());
+    }
+
+    return final.length ? final : [text.slice(0, 400)];
+  }
+
+  function renderAudioParagraphs() {
+    const container = $('audioText');
+    if (!container) return;
+    container.innerHTML = audio.paragraphs
+      .map((p, i) =>
+        `<p class="audio-para" data-index="${i}" role="button" tabindex="0" aria-label="${esc(t(`الفقرة ${i + 1}`, `Paragraph ${i + 1}`))}">${esc(p)}</p>`
+      )
+      .join('');
+  }
+
+  function highlightParagraph(index) {
+    const container = $('audioText');
+    if (!container) return;
+    const paras = container.querySelectorAll('.audio-para');
+    paras.forEach((el, i) => {
+      el.classList.toggle('is-active', i === index);
+      el.classList.toggle('is-past', i < index);
+    });
+    const active = paras[index];
+    if (active) active.scrollIntoView({ behavior: motion(), block: 'center' });
+    updateAudioProgress();
+  }
+
+  function updateAudioProgress() {
+    const total = audio.paragraphs.length;
+    const current = audio.currentIndex >= 0 ? audio.currentIndex + 1 : 0;
+    text('audioProgressText', `${current} / ${total}`);
+  }
+
+  function updateAudioPlayButton() {
+    const icon = $('audioPlayIcon')?.querySelector('use');
+    if (icon) icon.setAttribute('href', audio.isPlaying ? '#i-pause' : '#i-play');
+    const btn = $('audioPlayBtn');
+    if (btn) btn.setAttribute('aria-label', audio.isPlaying ? t('إيقاف مؤقت', 'Pause') : t('تشغيل', 'Play'));
+  }
+
+  function ensureVoicesLoaded() {
+    const synth = window.speechSynthesis;
+    if (!synth) {
+      toast(t('متصفحك لا يدعم القراءة الصوتية.', 'Your browser does not support speech synthesis.'), true);
+      return;
+    }
+
+    const load = () => {
+      const all = synth.getVoices() || [];
+      audio.voices = all.filter(v => /^ar/i.test(v.lang)).concat(all.filter(v => !/^ar/i.test(v.lang)));
+      populateVoicesSelect();
+    };
+
+    load();
+    if (!audio.voices.length) synth.onvoiceschanged = load;
+  }
+
+  function populateVoicesSelect() {
+    const sel = $('audioVoiceSelect');
+    if (!sel) return;
+
+    const arabic = audio.voices.filter(v => /^ar/i.test(v.lang));
+    const others = audio.voices.filter(v => !/^ar/i.test(v.lang));
+
+    let html = '';
+    if (arabic.length) {
+      html += '<optgroup label="أصوات عربية">';
+      html += arabic.map(v => `<option value="${esc(v.name)}">${esc(v.name)}</option>`).join('');
+      html += '</optgroup>';
+    }
+    if (others.length) {
+      html += '<optgroup label="أصوات أخرى">';
+      html += others.map(v => `<option value="${esc(v.name)}">${esc(v.name)}</option>`).join('');
+      html += '</optgroup>';
+    }
+    sel.innerHTML = html || '<option>لا توجد أصوات متاحة</option>';
+
+    if (!audio.selectedVoice && audio.voices.length) {
+      audio.selectedVoice = arabic[0] || audio.voices[0];
+      sel.value = audio.selectedVoice.name;
+    } else if (audio.selectedVoice) {
+      sel.value = audio.selectedVoice.name;
+    }
+  }
+
+  function playFromIndex(index) {
+    if (!audio.paragraphs.length) return;
+    const synth = window.speechSynthesis;
+    if (!synth) return;
+
+    index = Math.max(0, Math.min(index, audio.paragraphs.length - 1));
+    synth.cancel();
+
+    audio.currentIndex = index;
+    audio.isPlaying = true;
+
+    const utter = new SpeechSynthesisUtterance(audio.paragraphs[index]);
+    utter.rate = audio.rate;
+    utter.lang = audio.selectedVoice?.lang || 'ar-SA';
+    if (audio.selectedVoice) utter.voice = audio.selectedVoice;
+
+    utter.onend = () => {
+      if (!audio.isPlaying) return;
+      if (audio.currentIndex < audio.paragraphs.length - 1) {
+        playFromIndex(audio.currentIndex + 1);
+      } else {
+        audio.isPlaying = false;
+        updateAudioPlayButton();
+      }
+    };
+
+    utter.onerror = e => {
+      if (e.error === 'canceled' || e.error === 'interrupted') return;
+      console.warn('TTS error:', e);
+    };
+
+    audio.utterance = utter;
+    synth.speak(utter);
+
+    highlightParagraph(index);
+    updateAudioPlayButton();
+  }
+
+  function toggleAudioPlay() {
+    if (!audio.paragraphs.length) return;
+    const synth = window.speechSynthesis;
+    if (!synth) return;
+
+    if (audio.isPlaying) {
+      synth.pause();
+      audio.isPlaying = false;
+      updateAudioPlayButton();
+    } else if (synth.paused && audio.currentIndex >= 0) {
+      synth.resume();
+      audio.isPlaying = true;
+      updateAudioPlayButton();
+    } else {
+      playFromIndex(audio.currentIndex >= 0 ? audio.currentIndex : 0);
+    }
+  }
+
+  // Audio event wiring
+  $('audioPlayBtn')?.addEventListener('click', toggleAudioPlay);
+
+  $('audioPrevBtn')?.addEventListener('click', () => {
+    if (!audio.paragraphs.length) return;
+    playFromIndex(Math.max(0, audio.currentIndex - 1));
+  });
+
+  $('audioNextBtn')?.addEventListener('click', () => {
+    if (!audio.paragraphs.length) return;
+    playFromIndex(Math.min(audio.paragraphs.length - 1, audio.currentIndex + 1));
+  });
+
+  $('audioRateSelect')?.addEventListener('change', e => {
+    audio.rate = parseFloat(e.target.value) || 1;
+    if (audio.isPlaying) playFromIndex(audio.currentIndex);
+  });
+
+  $('audioVoiceSelect')?.addEventListener('change', e => {
+    const name = e.target.value;
+    audio.selectedVoice = audio.voices.find(v => v.name === name) || null;
+    if (audio.isPlaying) playFromIndex(audio.currentIndex);
+  });
+
+  $('audioText')?.addEventListener('click', e => {
+    const para = e.target.closest('.audio-para');
+    if (!para) return;
+    const idx = Number(para.dataset.index);
+    if (Number.isInteger(idx)) playFromIndex(idx);
+  });
+
+  $('audioText')?.addEventListener('keydown', e => {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    const para = e.target.closest('.audio-para');
+    if (!para) return;
+    e.preventDefault();
+    const idx = Number(para.dataset.index);
+    if (Number.isInteger(idx)) playFromIndex(idx);
+  });
 
   // ---------- Event wiring ----------
   $('themeToggleBtn')?.addEventListener('click', () => {
@@ -1359,6 +1846,7 @@ ${[1, 2, 3, 4, 5].map(value =>
       case 'read': readBook(book); break;
       case 'download': download(book); break;
       case 'summary': summary(book); break;
+      case 'audio': openAudioPlayer(book); break;
       case 'cite': copy(citation(book)); break;
       case 'share': share(book); break;
       case 'rate': rate(book, Number(trigger.dataset.rating)); break;
@@ -1478,8 +1966,6 @@ ${[1, 2, 3, 4, 5].map(value =>
   window.__iarPWAReady = showInstallButton;
   if (window.__iarInstallPrompt) showInstallButton(window.__iarInstallPrompt);
 
-  /* Fallback: show button after 3s even if Chrome didn't fire the event
-     (happens if user dismissed install earlier). Clicking shows guidance. */
   setTimeout(() => {
     if (isStandalone()) return;
     if (!state.meta.deferredPrompt && !window.__iarInstallPrompt) {
