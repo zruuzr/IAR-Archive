@@ -15,7 +15,6 @@
 
 /* ---------- 1) Design tokens ---------- */
 :root {
-  /* Warm library palette */
   --ink:         #0f1218;
   --ink-soft:    #1c212c;
   --parchment:   #f4efe4;
@@ -30,7 +29,6 @@
   --burgundy:    #7a2332;
   --sage:        #6a7a55;
 
-  /* Semantic */
   --bg:          var(--parchment);
   --surface:     var(--paper);
   --surface-2:   #f0e9d9;
@@ -42,11 +40,9 @@
   --success:     #4c7a4c;
   --danger:      #a8362e;
 
-  /* Effects */
   --shadow-sm: 0 1px 2px rgba(74, 44, 16, .06);
   --shadow-md: 0 6px 18px -6px rgba(74, 44, 16, .18);
   --shadow-lg: 0 24px 48px -20px rgba(74, 44, 16, .28);
-  --shadow-shelf: 0 10px 24px -12px rgba(74, 44, 16, .35);
   --glow: 0 0 0 1px rgba(200, 157, 92, .3), 0 8px 32px -8px rgba(200, 157, 92, .45);
 
   --radius-lg: 20px;
@@ -54,7 +50,6 @@
   --radius-sm: 8px;
 
   --grad-accent: linear-gradient(120deg, var(--amber-soft), var(--amber), var(--amber-deep));
-  --grad-shelf: linear-gradient(180deg, transparent 0%, rgba(74, 44, 16, .04) 40%, rgba(74, 44, 16, .12) 100%);
 
   --font: 'IBM Plex Sans Arabic', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --font-mono: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
@@ -78,10 +73,7 @@
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, .35);
   --shadow-md: 0 8px 22px -8px rgba(0, 0, 0, .65);
   --shadow-lg: 0 28px 56px -22px rgba(0, 0, 0, .85);
-  --shadow-shelf: 0 12px 28px -12px rgba(0, 0, 0, .7);
   --glow: 0 0 0 1px rgba(212, 168, 96, .25), 0 10px 40px -10px rgba(212, 168, 96, .4);
-
-  --grad-shelf: linear-gradient(180deg, transparent 0%, rgba(255, 240, 210, .02) 40%, rgba(212, 168, 96, .06) 100%);
 
   color-scheme: dark;
 }
@@ -130,7 +122,6 @@ ul, ol { list-style: none; }
 
 h1, h2, h3, h4, h5, h6 { font-weight: 600; letter-spacing: 0; line-height: 1.3; }
 
-/* Scrollbar */
 * { scrollbar-width: thin; scrollbar-color: var(--border-strong) transparent; }
 *::-webkit-scrollbar { width: 8px; height: 8px; }
 *::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 8px; }
@@ -152,6 +143,9 @@ h1, h2, h3, h4, h5, h6 { font-weight: 600; letter-spacing: 0; line-height: 1.3; 
   overflow: hidden; clip: rect(0, 0, 0, 0);
   white-space: nowrap; border: 0;
 }
+
+/* Utility: hidden state used by app.js via classList.toggle('d-none', ...) */
+.d-none { display: none !important; }
 
 /* ---------- 3) SVG sprite & icon ---------- */
 .svg-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
@@ -175,13 +169,14 @@ h1, h2, h3, h4, h5, h6 { font-weight: 600; letter-spacing: 0; line-height: 1.3; 
   overflow: hidden;
   pointer-events: none;
   opacity: .5;
+  contain: layout paint;
 }
 [data-theme="dark"] .aurora-stage { opacity: .65; }
 
 .aurora-blob {
   position: absolute;
   border-radius: 50%;
-  filter: blur(100px);
+  filter: blur(80px);
   will-change: transform;
   animation: auroraDrift 30s ease-in-out infinite alternate;
 }
@@ -210,6 +205,7 @@ h1, h2, h3, h4, h5, h6 { font-weight: 600; letter-spacing: 0; line-height: 1.3; 
   z-index: 0; pointer-events: none;
   opacity: .35;
   mix-blend-mode: overlay;
+  contain: layout paint;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.4 0 0 0 0 0.35 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
@@ -226,6 +222,7 @@ h1, h2, h3, h4, h5, h6 { font-weight: 600; letter-spacing: 0; line-height: 1.3; 
   transition: opacity .5s ease;
   mix-blend-mode: soft-light;
   display: none;
+  contain: layout paint;
 }
 @media (hover: hover) and (pointer: fine) {
   .cursor-glow { display: block; }
@@ -527,6 +524,9 @@ h1, h2, h3, h4, h5, h6 { font-weight: 600; letter-spacing: 0; line-height: 1.3; 
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+@supports not (background-clip: text) {
+  .grad-text { background: none; color: var(--amber-deep); }
 }
 
 /* ---------- 8) Featured ---------- */
@@ -873,8 +873,6 @@ h1, h2, h3, h4, h5, h6 { font-weight: 600; letter-spacing: 0; line-height: 1.3; 
 }
 
 /* ---------- 12) Digital shelves ---------- */
-/* Each row of the grid gets a visible wooden shelf below it.
-   Cards visually "stand" on the shelf. */
 .books-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
@@ -882,8 +880,6 @@ h1, h2, h3, h4, h5, h6 { font-weight: 600; letter-spacing: 0; line-height: 1.3; 
   align-items: stretch;
   margin-bottom: 1rem;
 }
-
-/* List mode: single column */
 .books-grid.is-list { grid-template-columns: 1fr; gap: 1rem; }
 
 /* ---------- 13) Book card ---------- */
@@ -901,7 +897,6 @@ h1, h2, h3, h4, h5, h6 { font-weight: 600; letter-spacing: 0; line-height: 1.3; 
   min-height: 100%;
 }
 
-/* Shelf under each card — a visible wooden strip */
 .book-card::after {
   content: '';
   position: absolute;
@@ -915,7 +910,6 @@ h1, h2, h3, h4, h5, h6 { font-weight: 600; letter-spacing: 0; line-height: 1.3; 
 }
 .book-card:hover::after { opacity: 1; transform: scaleX(1); }
 
-/* Left binding stripe */
 .book-card::before {
   content: '';
   position: absolute;
@@ -1032,7 +1026,6 @@ h1, h2, h3, h4, h5, h6 { font-weight: 600; letter-spacing: 0; line-height: 1.3; 
   margin-top: auto;
 }
 
-/* List mode overrides */
 .books-grid.is-list .book-card {
   flex-direction: row;
   flex-wrap: wrap;
@@ -1078,7 +1071,6 @@ h1, h2, h3, h4, h5, h6 { font-weight: 600; letter-spacing: 0; line-height: 1.3; 
   box-shadow: -6px 10px 22px -8px rgba(74, 44, 16, .45), 2px 0 6px -2px rgba(0, 0, 0, .15);
 }
 
-/* Spine effect — always visible */
 .cover-btn::before {
   content: '';
   position: absolute;
@@ -1505,6 +1497,7 @@ h1, h2, h3, h4, h5, h6 { font-weight: 600; letter-spacing: 0; line-height: 1.3; 
   box-shadow: var(--shadow-lg);
   max-width: 100%;
   max-height: 90vh;
+  max-height: 90dvh;
   display: flex;
   flex-direction: column;
   transform: translateY(20px) scale(.97);
@@ -1514,7 +1507,15 @@ h1, h2, h3, h4, h5, h6 { font-weight: 600; letter-spacing: 0; line-height: 1.3; 
 .modal.is-open .modal-panel { transform: translateY(0) scale(1); }
 
 .modal-panel-lg { width: 720px; }
-.modal-panel-full { width: min(1100px, 100%); height: 90vh; }
+
+.modal-panel-full {
+  width: min(1100px, 100%);
+  height: 90vh;   /* fallback */
+  height: 90dvh;  /* modern: respects mobile browser chrome */
+  max-height: 90vh;
+  max-height: 90dvh;
+}
+
 .modal-panel-cover {
   background: transparent;
   border: 0;
@@ -1523,6 +1524,7 @@ h1, h2, h3, h4, h5, h6 { font-weight: 600; letter-spacing: 0; line-height: 1.3; 
 }
 .modal-panel-cover img {
   max-height: 88vh;
+  max-height: 88dvh;
   max-width: 92vw;
   border-radius: 12px;
   box-shadow: var(--shadow-lg);
@@ -1793,13 +1795,16 @@ h1, h2, h3, h4, h5, h6 { font-weight: 600; letter-spacing: 0; line-height: 1.3; 
 
   .modal { padding: .5rem; }
   .modal-body { padding: 1.1rem 1.15rem; }
-  .modal-panel-full { height: 100vh; max-height: 100vh; }
-  .modal-panel-full .modal-panel { border-radius: 0; }
+  .modal-panel-full {
+    height: 100vh;
+    height: 100dvh;
+    max-height: 100vh;
+    max-height: 100dvh;
+  }
+  .modal-panel.modal-panel-full { border-radius: 0; }
 }
 
-/* Mobile Grid vs List differentiation */
 @media (max-width: 700px) {
-  /* Grid mode: 2 compact columns */
   .books-grid:not(.is-list) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: .7rem;
@@ -1834,7 +1839,6 @@ h1, h2, h3, h4, h5, h6 { font-weight: 600; letter-spacing: 0; line-height: 1.3; 
   .books-grid:not(.is-list) .download-count { font-size: .58rem; padding: .02rem .28rem; }
   .books-grid:not(.is-list) .badge-type { font-size: .6rem; padding: .18rem .4rem; }
 
-  /* List mode: single full-width column */
   .books-grid.is-list { grid-template-columns: 1fr; }
   .books-grid.is-list .book-card { padding: 1rem; flex-direction: column; }
   .books-grid.is-list .cover-container { width: 96px; }
