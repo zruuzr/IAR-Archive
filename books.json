@@ -6812,5 +6812,65 @@
     "file_type": "PDF",
     "file_path": "pdf/النظام_الضريبي_واهداف_المجتمع.pdf",
     "cover_image": "covers/134.png"
+  },
+  {
+    "id": 135,
+    "title": "دراسات في النظام المالي الإسلامي",
+    "title_en": "Studies in the Islamic Financial System",
+    "author": "المرسي السيد حجازي",
+    "author_en": "El-Morsi El-Sayed Hegazy",
+    "category": "الاقتصاد الإسلامي",
+    "category_en": "Islamic Economics",
+    "type": "كتاب أكاديمي",
+    "type_en": "Academic Book",
+    "description": "كتاب أكاديمي متأصل يقدم دراسات تفصيلية في النظام المالي الإسلامي وأركانه الأساسية، مثل الزكاة وآثارها التوزيعية والاقتصادية باستخدام أسلوب النمذجة الرياضية، ترشيد الإنفاق العام ومقارنته بالفكر الرأسمالي والكينزي، دور المشروع العام والملكية في الإسلام، معالجة مشكلة الدين العام، وصناعة الصكوك الإسلامية والتحديات التمويلية، بالإضافة إلى الموازنة العامة للدولة في صدر الإسلام وفي التطبيقات المعاصرة.",
+    "description_en": "An academic book offering in-depth studies on the Islamic financial system and its core components. It covers the economic and distributive impacts of Zakat using mathematical modeling, the rationalization of public expenditure compared to capitalist and Keynesian thought, public projects and ownership in Islam, addressing public debt issues, Islamic Sukuk manufacturing and challenges, and the state's public budget in both early and contemporary Islamic practice.",
+    "publisher": "جامعة الإسكندرية - كلية التجارة",
+    "publisher_en": "Alexandria University - Faculty of Commerce",
+    "year": "2019",
+    "isbn": "",
+    "keywords": [
+      "النظام المالي الإسلامي",
+      "الزكاة",
+      "الإنفاق العام",
+      "المشروع العام",
+      "الدين العام",
+      "الصكوك الإسلامية",
+      "الموازنة العامة",
+      "الاقتصاد الإسلامي"
+    ],
+    "keywords_en": [
+      "Islamic Financial System",
+      "Zakat",
+      "Public Expenditure",
+      "Public Enterprise",
+      "Public Debt",
+      "Islamic Sukuk",
+      "Public Budget",
+      "Islamic Economics"
+    ],
+    "key_points": [
+      "تحليل مفهوم ووظائف النظام المالي الإسلامي والحسبة والرقابة الذاتية.",
+      "استخدام نماذج رياضية لقياس الآثار التوزيعية والمباشرة وغير المباشرة للزكاة على الاستثمار والاستهلاك والعمالة.",
+      "دراسة قواعد ترشيد الإنفاق العام وضوابطه في الفكر الإسلامي مقارنة بالفكرين الرأسمالي والكينزي.",
+      "تحديد أهداف المشروع العام وضوابط الملكية العامة والخاصة وتأصيل قواعد الاقتصاد الإسلامي.",
+      "بحث أسباب اتساع الدين العام في الدول الإسلامية وطرح صيغ إسلامية بديلة للتمويل مثل المرابحة والسلم والاستصناع والإجارة والصكوك.",
+      "عرض دورة الموازنة العامة للدولة الإسلامية وتصنيف إيراداتها ونفقاتها وقواعد تحصيلها وإدارتها."
+    ],
+    "key_points_en": [
+      "Analysis of the concept, functions, and self-regulatory mechanisms (Hisbah) of the Islamic financial system.",
+      "Application of mathematical models to evaluate direct and indirect distributive impacts of Zakat on investment, consumption, and employment.",
+      "Examination of public expenditure rationalization guidelines in Islamic thought compared to Capitalist and Keynesian economic theories.",
+      "Definition of public enterprise goals, boundaries between public and private ownership, and foundational principles of Islamic economics.",
+      "Investigation of public debt growth causes in Islamic countries and proposing alternative Islamic financing instruments like Murabaha, Salam, Istisna'a, Ijarah, and Sukuk.",
+      "Overview of the Islamic state public budget cycle, revenue and expenditure categorization, and financial administration rules."
+    ],
+    "target_audience": "الأساتذة والباحثون وطلاب الدراسات العليا والمتخصصون في مجالات الاقتصاد الإسلامي، المالية العامة، والعلوم التجارية والصيرفة الإسلامية.",
+    "target_audience_en": "Professors, researchers, postgraduate students, and specialists in Islamic economics, public finance, commercial sciences, and Islamic banking.",
+    "pages": "242",
+    "file_size": "41.18 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/دراسات_في_النظام_المالي_الاسلامي.pdf",
+    "cover_image": "covers/135.png"
   }
 ]
