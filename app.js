@@ -4,8 +4,8 @@
    Preserved: Firebase (Firestore + Anonymous Auth), pdf.js viewer
              (Mozilla), PWA install prompt, Service Worker,
              all original actions and URL routing.
-   Added: Audio player (Web Speech API) with PDF text extraction,
-          localStorage caching, Firefox warning, Arabic voice detection.
+   Audio: Piper TTS (WebAssembly + ONNX Runtime) with PDF text
+          extraction and localStorage caching.
    ============================================================ */
 (() => {
   'use strict';
@@ -36,12 +36,7 @@
   };
 
   const state = {
-    data: {
-      books: [],
-      loaded: false,
-      loading: true,
-      error: false
-    },
+    data: { books: [], loaded: false, loading: true, error: false },
     ui: {
       lang: document.documentElement.lang === 'en' ? 'en' : 'ar',
       theme: document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light',
@@ -50,11 +45,7 @@
       single: null,
       summary: null
     },
-    filters: {
-      query: '',
-      category: 'all',
-      favoritesOnly: false
-    },
+    filters: { query: '', category: 'all', favoritesOnly: false },
     user: {
       favorites: new Set(savedArray('iar_favorites')),
       bundle: new Set(),
@@ -1094,9 +1085,9 @@ ${[1, 2, 3, 4, 5].map(value =>
       'txt-clear-bundle': ['إلغاء الحزمة', 'Clear bundle'],
       'summaryModalTitle': ['ملخص المرجع · 3 دقائق', 'Reference summary · 3 minutes'],
       'audioPlayerTitle': ['الاستماع للكتاب', 'Listen to the book'],
-      'audioFirefoxWarnText': ['متصفح Firefox لا يدعم القراءة الصوتية العربية بشكل كامل. للحصول على أفضل تجربة، استخدم Chrome أو Edge أو Safari.', 'Firefox does not fully support Arabic speech synthesis. For the best experience, use Chrome, Edge, or Safari.'],
       'audioLoadingText': ['جارٍ استخراج نص الكتاب…', 'Extracting book text…'],
       'audioLoadingNote': ['قد يستغرق هذا بعض الوقت في الكتب الكبيرة.', 'This may take a moment for large books.'],
+      'audioDownloadText': ['جارٍ تحميل النموذج الصوتي…', 'Downloading voice model…'],
       'txt-modal-ideas-title': ['أهم الأفكار', 'Key ideas'],
       'txt-modal-audience-title': ['الفئة المستهدفة', 'Target audience'],
       'txt-modal-apa-title': ['التوثيق الأكاديمي · APA', 'Academic citation · APA'],
@@ -1134,8 +1125,7 @@ ${[1, 2, 3, 4, 5].map(value =>
       audioPlayBtn: ['aria-label', t('تشغيل', 'Play')],
       audioPrevBtn: ['aria-label', t('الفقرة السابقة', 'Previous paragraph')],
       audioNextBtn: ['aria-label', t('الفقرة التالية', 'Next paragraph')],
-      audioRateSelect: ['aria-label', t('سرعة القراءة', 'Playback speed')],
-      audioVoiceSelect: ['aria-label', t('القارئ', 'Voice')]
+      audioRateSelect: ['aria-label', t('سرعة القراءة', 'Playback speed')]
     };
 
     Object.entries(attributes).forEach(([id, [key, value]]) => attr(id, key, value));
@@ -1164,10 +1154,6 @@ ${[1, 2, 3, 4, 5].map(value =>
     const backIcon = $('btnBackToList')?.querySelector('use');
     if (backIcon) {
       backIcon.setAttribute('href', `#i-arrow-${state.ui.lang === 'ar' ? 'right' : 'left'}`);
-    }
-
-    if ($('audioPlayerModal')?.classList.contains('is-open')) {
-      populateVoicesSelect();
     }
 
     text('archiveYear', '2026');
@@ -1221,211 +1207,99 @@ ${[1, 2, 3, 4, 5].map(value =>
   }
 
   // ============================================================
-  // Audio Player — Web Speech API + localStorage caching
+  // Audio Player — Piper TTS (WebAssembly + ONNX Runtime)
   // ============================================================
   const AUDIO_CACHE_PREFIX = 'iar_audio_v1_';
-  const AUDIO_CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000;
+  const AUDIO_CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
   const AUDIO_CACHE_MAX_BOOKS = 5;
-  const AUDIO_CACHE_MAX_BYTES = 2 * 1024 * 1024;
+  const AUDIO_CACHE_MAX_BYTES = 2 * 1024 * 1024; // 2MB per book
 
   const ARABIC_RE = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/;
+
+  const PIPER_VOICES = {
+    ar: 'ar_JO-kareem-low',
+    en: 'en_US-amy-low'
+  };
 
   const audio = {
     book: null,
     paragraphs: [],
     currentIndex: -1,
     isPlaying: false,
-    utterance: null,
-    voices: [],
-    arabicVoices: [],
-    selectedVoice: null,
+    piperEngine: null,
+    piperReady: false,
+    piperLoading: null,
+    audioElement: null,
     rate: 1,
     pdfLibPromise: null,
-    aborted: false,
-    voicesReady: false,
-    voicesWarned: false
+    aborted: false
   };
 
-  function isFirefox() {
-    return /firefox/i.test(navigator.userAgent);
-  }
+  // ---------- Piper engine loading ----------
+  async function loadPiperEngine() {
+    if (audio.piperReady && audio.piperEngine) return audio.piperEngine;
+    if (audio.piperLoading) return audio.piperLoading;
 
-  function getCachedParagraphs(bookId) {
-    try {
-      const raw = localStorage.getItem(AUDIO_CACHE_PREFIX + bookId);
-      if (!raw) return null;
-      const data = JSON.parse(raw);
-      if (!data || !Array.isArray(data.paragraphs)) return null;
-      if (Date.now() - (data.timestamp || 0) > AUDIO_CACHE_TTL_MS) {
-        localStorage.removeItem(AUDIO_CACHE_PREFIX + bookId);
-        return null;
-      }
-      return data.paragraphs;
-    } catch { return null; }
-  }
-
-  function pruneAudioCache(aggressive = false) {
-    try {
-      const keys = [];
-      for (let i = 0; i < localStorage.length; i++) {
-        const k = localStorage.key(i);
-        if (k && k.startsWith(AUDIO_CACHE_PREFIX)) {
-          let ts = 0;
-          try {
-            const data = JSON.parse(localStorage.getItem(k) || '{}');
-            ts = data.timestamp || 0;
-          } catch {}
-          keys.push({ key: k, ts });
-        }
-      }
-      keys.sort((a, b) => a.ts - b.ts);
-      const max = aggressive ? 1 : AUDIO_CACHE_MAX_BOOKS;
-      const excess = keys.length - max;
-      for (let i = 0; i < excess; i++) {
-        localStorage.removeItem(keys[i].key);
-      }
-    } catch {}
-  }
-
-  function setCachedParagraphs(bookId, paragraphs) {
-    const payload = JSON.stringify({ timestamp: Date.now(), paragraphs });
-    if (payload.length > AUDIO_CACHE_MAX_BYTES) return;
-    try {
-      localStorage.setItem(AUDIO_CACHE_PREFIX + bookId, payload);
-      pruneAudioCache();
-    } catch {
-      pruneAudioCache(true);
+    audio.piperLoading = (async () => {
       try {
-        localStorage.setItem(AUDIO_CACHE_PREFIX + bookId, payload);
-      } catch {}
-    }
-  }
-
-  function updateFirefoxWarning() {
-    const warn = $('audioFirefoxWarn');
-    if (!warn) return;
-    const dismissed = store.get('iar_audio_warn_dismissed', '0') === '1';
-    warn.hidden = !isFirefox() || dismissed;
-  }
-
-  document.addEventListener('click', e => {
-    if (!e.target.closest('[data-audio-warn-dismiss]')) return;
-    const warn = $('audioFirefoxWarn');
-    if (warn) warn.hidden = true;
-    store.set('iar_audio_warn_dismissed', '1');
-  });
-
-  function stopAudio() {
-    try { window.speechSynthesis.cancel(); } catch {}
-    audio.isPlaying = false;
-    audio.aborted = true;
-    updateAudioPlayButton();
-  }
-
-  function openAudioPlayer(book) {
-    if (!book) return;
-
-    audio.book = book;
-    audio.paragraphs = [];
-    audio.currentIndex = -1;
-    audio.isPlaying = false;
-    audio.aborted = false;
-
-    text('audioPlayerTitle', field(book, 'title') || t('الاستماع للكتاب', 'Listen to the book'));
-    updateFirefoxWarning();
-
-    const loadingEl = $('audioLoading');
-    const textEl = $('audioText');
-
-    if (loadingEl) {
-      loadingEl.hidden = false;
-      loadingEl.classList.remove('d-none');
-    }
-    if (textEl) {
-      textEl.hidden = true;
-      textEl.innerHTML = '';
-      textEl.classList.add('d-none');
-    }
-    text('audioLoadingText', t('جارٍ استخراج نص الكتاب…', 'Extracting book text…'));
-    text('audioProgressText', '0 / 0');
-
-    ensureVoicesLoaded();
-    modal.open('audioPlayerModal');
-
-    getBookParagraphs(book)
-      .then(paragraphs => {
-        if (audio.aborted || audio.book?.id !== book.id) return;
-
-        if (!paragraphs || !paragraphs.length) {
-          text('audioLoadingText', t(
-            'لم يُعثر على نص قابل للقراءة في هذا المرجع.',
-            'No readable text was found in this reference.'
-          ));
-          return;
-        }
-
-        audio.paragraphs = paragraphs;
-        renderAudioParagraphs();
-
-        if (loadingEl) {
-          loadingEl.hidden = true;
-          loadingEl.classList.add('d-none');
-        }
-        if (textEl) {
-          textEl.hidden = false;
-          textEl.classList.remove('d-none');
-        }
-
-        updateAudioProgress();
-        updateAudioPlayButton();
-      })
-      .catch(err => {
-        console.error('[Audio] Load failed:', err);
-        text('audioLoadingText', t(
-          'تعذّر استخراج نص الكتاب. تأكد من الاتصال بالإنترنت.',
-          'Could not extract book text. Check your internet connection.'
-        ));
-      });
-  }
-
-  async function getBookParagraphs(book) {
-    const cached = getCachedParagraphs(book.id);
-    if (cached && cached.length) {
-      console.log('[Audio] Using cached paragraphs for book', book.id);
-      return cached;
-    }
-
-    if (book.file_path) {
-      try {
-        const rawText = await extractPdfText(book.file_path);
-        if (rawText && rawText.replace(/\s/g, '').length > 200) {
-          const paragraphs = splitIntoParagraphs(rawText);
-          if (paragraphs.length) {
-            setCachedParagraphs(book.id, paragraphs);
-            return paragraphs;
-          }
-        }
+        const tts = await import('https://cdn.jsdelivr.net/npm/@mintplex-labs/piper-tts-web@1.0.4/+esm');
+        audio.piperEngine = tts;
+        audio.piperReady = true;
+        console.log('[Piper] Engine loaded');
+        return tts;
       } catch (err) {
-        console.warn('[Audio] PDF extraction failed, using fallback:', err);
+        console.error('[Piper] Engine load failed:', err);
+        audio.piperReady = false;
+        audio.piperLoading = null;
+        throw err;
       }
-    }
+    })();
 
-    const parts = [];
-    const desc = field(book, 'description');
-    const kpAr = book.key_points || [];
-    const kpEn = book.key_points_en || [];
-    const kp = state.ui.lang === 'en' && kpEn.length ? kpEn : kpAr;
-    const audience = field(book, 'target_audience');
-
-    if (desc) parts.push(desc);
-    if (kp.length) parts.push(...kp);
-    if (audience) parts.push(audience);
-
-    return parts.length
-      ? parts
-      : [t('لا يوجد نص متاح لهذا المرجع.', 'No text available for this reference.')];
+    return audio.piperLoading;
   }
 
+  async function downloadPiperModel(voiceId) {
+    const tts = await loadPiperEngine();
+
+    // Check if already cached
+    try {
+      const stored = await tts.stored();
+      if (Array.isArray(stored) && stored.includes(voiceId)) {
+        console.log(`[Piper] Model ${voiceId} already cached`);
+        return;
+      }
+    } catch (err) {
+      console.warn('[Piper] stored() check failed:', err);
+    }
+
+    console.log(`[Piper] Downloading model ${voiceId}...`);
+    const progressEl = $('audioDownloadProgress');
+    const fillEl = $('audioDownloadFill');
+    const textEl = $('audioDownloadText');
+
+    if (progressEl) progressEl.hidden = false;
+    if (fillEl) fillEl.style.width = '0%';
+    if (textEl) textEl.textContent = t('جارٍ تحميل النموذج الصوتي…', 'Downloading voice model…');
+
+    try {
+      await tts.download(voiceId, (progress) => {
+        if (!progress || !progress.total) return;
+        const percent = Math.round((progress.loaded / progress.total) * 100);
+        if (fillEl) fillEl.style.width = `${percent}%`;
+        if (textEl) {
+          textEl.textContent = t(
+            `جارٍ تحميل النموذج الصوتي… ${percent}%`,
+            `Downloading voice model… ${percent}%`
+          );
+        }
+      });
+      console.log(`[Piper] Model ${voiceId} downloaded`);
+    } finally {
+      if (progressEl) progressEl.hidden = true;
+    }
+  }
+
+  // ---------- PDF text extraction ----------
   function loadPdfJs() {
     if (audio.pdfLibPromise) return audio.pdfLibPromise;
     audio.pdfLibPromise = new Promise((resolve, reject) => {
@@ -1530,12 +1404,195 @@ ${[1, 2, 3, 4, 5].map(value =>
     return final.length ? final : [text.slice(0, 400)];
   }
 
+  // ---------- Paragraph cache (localStorage) ----------
+  function getCachedParagraphs(bookId) {
+    try {
+      const raw = localStorage.getItem(AUDIO_CACHE_PREFIX + bookId);
+      if (!raw) return null;
+      const data = JSON.parse(raw);
+      if (!data || !Array.isArray(data.paragraphs)) return null;
+      if (Date.now() - (data.timestamp || 0) > AUDIO_CACHE_TTL_MS) {
+        localStorage.removeItem(AUDIO_CACHE_PREFIX + bookId);
+        return null;
+      }
+      return data.paragraphs;
+    } catch { return null; }
+  }
+
+  function pruneAudioCache(aggressive = false) {
+    try {
+      const keys = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (k && k.startsWith(AUDIO_CACHE_PREFIX)) {
+          let ts = 0;
+          try {
+            const data = JSON.parse(localStorage.getItem(k) || '{}');
+            ts = data.timestamp || 0;
+          } catch {}
+          keys.push({ key: k, ts });
+        }
+      }
+      keys.sort((a, b) => a.ts - b.ts);
+      const max = aggressive ? 1 : AUDIO_CACHE_MAX_BOOKS;
+      const excess = keys.length - max;
+      for (let i = 0; i < excess; i++) {
+        localStorage.removeItem(keys[i].key);
+      }
+    } catch {}
+  }
+
+  function setCachedParagraphs(bookId, paragraphs) {
+    const payload = JSON.stringify({ timestamp: Date.now(), paragraphs });
+    if (payload.length > AUDIO_CACHE_MAX_BYTES) return;
+    try {
+      localStorage.setItem(AUDIO_CACHE_PREFIX + bookId, payload);
+      pruneAudioCache();
+    } catch {
+      pruneAudioCache(true);
+      try {
+        localStorage.setItem(AUDIO_CACHE_PREFIX + bookId, payload);
+      } catch {}
+    }
+  }
+
+  // ---------- Audio player control ----------
+  function stopAudio() {
+    if (audio.audioElement) {
+      try {
+        audio.audioElement.pause();
+        if (audio.audioElement.src && audio.audioElement.src.startsWith('blob:')) {
+          URL.revokeObjectURL(audio.audioElement.src);
+        }
+        audio.audioElement.src = '';
+      } catch {}
+      audio.audioElement = null;
+    }
+    audio.isPlaying = false;
+    audio.aborted = true;
+    updateAudioPlayButton();
+  }
+
+  function openAudioPlayer(book) {
+    if (!book) return;
+
+    audio.book = book;
+    audio.paragraphs = [];
+    audio.currentIndex = -1;
+    audio.isPlaying = false;
+    audio.aborted = false;
+
+    text('audioPlayerTitle', field(book, 'title') || t('الاستماع للكتاب', 'Listen to the book'));
+
+    const loadingEl = $('audioLoading');
+    const textEl = $('audioText');
+    const progressEl = $('audioDownloadProgress');
+
+    if (loadingEl) {
+      loadingEl.hidden = false;
+      loadingEl.classList.remove('d-none');
+    }
+    if (textEl) {
+      textEl.hidden = true;
+      textEl.innerHTML = '';
+      textEl.classList.add('d-none');
+    }
+    if (progressEl) progressEl.hidden = true;
+
+    text('audioLoadingText', t('جارٍ استخراج نص الكتاب…', 'Extracting book text…'));
+    text('audioProgressText', '0 / 0');
+
+    // Hide the voice selector (Piper auto-detects language per paragraph)
+    const voiceWrap = $('audioVoiceSelect')?.closest('.audio-select-wrap');
+    if (voiceWrap) voiceWrap.style.display = 'none';
+
+    // Preload Piper engine in background
+    loadPiperEngine().catch(err => {
+      console.error('[Piper] Preload failed:', err);
+    });
+
+    modal.open('audioPlayerModal');
+
+    getBookParagraphs(book)
+      .then(paragraphs => {
+        if (audio.aborted || audio.book?.id !== book.id) return;
+
+        if (!paragraphs || !paragraphs.length) {
+          text('audioLoadingText', t(
+            'لم يُعثر على نص قابل للقراءة في هذا المرجع.',
+            'No readable text was found in this reference.'
+          ));
+          return;
+        }
+
+        audio.paragraphs = paragraphs;
+        renderAudioParagraphs();
+
+        if (loadingEl) {
+          loadingEl.hidden = true;
+          loadingEl.classList.add('d-none');
+        }
+        if (textEl) {
+          textEl.hidden = false;
+          textEl.classList.remove('d-none');
+        }
+
+        updateAudioProgress();
+        updateAudioPlayButton();
+      })
+      .catch(err => {
+        console.error('[Audio] Load failed:', err);
+        text('audioLoadingText', t(
+          'تعذّر استخراج نص الكتاب. تأكد من الاتصال بالإنترنت.',
+          'Could not extract book text. Check your internet connection.'
+        ));
+      });
+  }
+
+  async function getBookParagraphs(book) {
+    const cached = getCachedParagraphs(book.id);
+    if (cached && cached.length) {
+      console.log('[Audio] Using cached paragraphs for book', book.id);
+      return cached;
+    }
+
+    if (book.file_path) {
+      try {
+        const rawText = await extractPdfText(book.file_path);
+        if (rawText && rawText.replace(/\s/g, '').length > 200) {
+          const paragraphs = splitIntoParagraphs(rawText);
+          if (paragraphs.length) {
+            setCachedParagraphs(book.id, paragraphs);
+            return paragraphs;
+          }
+        }
+      } catch (err) {
+        console.warn('[Audio] PDF extraction failed, using fallback:', err);
+      }
+    }
+
+    const parts = [];
+    const desc = field(book, 'description');
+    const kpAr = book.key_points || [];
+    const kpEn = book.key_points_en || [];
+    const kp = state.ui.lang === 'en' && kpEn.length ? kpEn : kpAr;
+    const audience = field(book, 'target_audience');
+
+    if (desc) parts.push(desc);
+    if (kp.length) parts.push(...kp);
+    if (audience) parts.push(audience);
+
+    return parts.length
+      ? parts
+      : [t('لا يوجد نص متاح لهذا المرجع.', 'No text available for this reference.')];
+  }
+
   function renderAudioParagraphs() {
     const container = $('audioText');
     if (!container) return;
     container.innerHTML = audio.paragraphs
-      .map((p, i) =>
-        `<p class="audio-para" data-index="${i}" role="button" tabindex="0" aria-label="${esc(t(`الفقرة ${i + 1}`, `Paragraph ${i + 1}`))}">${esc(p)}</p>`
+      .map((p, idx) =>
+        `<p class="audio-para" data-index="${idx}" role="button" tabindex="0" aria-label="${esc(t(`الفقرة ${idx + 1}`, `Paragraph ${idx + 1}`))}">${esc(p)}</p>`
       )
       .join('');
   }
@@ -1544,9 +1601,9 @@ ${[1, 2, 3, 4, 5].map(value =>
     const container = $('audioText');
     if (!container) return;
     const paras = container.querySelectorAll('.audio-para');
-    paras.forEach((el, i) => {
-      el.classList.toggle('is-active', i === index);
-      el.classList.toggle('is-past', i < index);
+    paras.forEach((el, idx) => {
+      el.classList.toggle('is-active', idx === index);
+      el.classList.toggle('is-past', idx < index);
     });
     const active = paras[index];
     if (active) active.scrollIntoView({ behavior: motion(), block: 'center' });
@@ -1566,139 +1623,108 @@ ${[1, 2, 3, 4, 5].map(value =>
     if (btn) btn.setAttribute('aria-label', audio.isPlaying ? t('إيقاف مؤقت', 'Pause') : t('تشغيل', 'Play'));
   }
 
-  function ensureVoicesLoaded() {
-    const synth = window.speechSynthesis;
-    if (!synth) {
-      toast(t('متصفحك لا يدعم القراءة الصوتية.', 'Your browser does not support speech synthesis.'), true);
-      return;
-    }
+  async function playFromIndex(index) {
+    if (!audio.paragraphs.length) return;
 
-    const load = () => {
-      const all = synth.getVoices() || [];
-      if (!all.length) return;
-
-      audio.voices = all;
-      audio.arabicVoices = all.filter(v => /^ar/i.test(v.lang));
-      audio.voicesReady = true;
-      populateVoicesSelect();
-
-      if (!audio.arabicVoices.length && !audio.voicesWarned) {
-        audio.voicesWarned = true;
-        console.warn('[Audio] No Arabic voices installed on this device.');
-      }
-    };
-
-    load();
-    if (!audio.voicesReady) {
-      synth.addEventListener('voiceschanged', load);
-    }
-  }
-
-  function populateVoicesSelect() {
-    const sel = $('audioVoiceSelect');
-    if (!sel) return;
-
-    const arabic = audio.arabicVoices;
-    const others = audio.voices.filter(v => !/^ar/i.test(v.lang));
-
-    let html = '';
-    if (arabic.length) {
-      html += '<optgroup label="أصوات عربية">';
-      html += arabic.map(v => `<option value="${esc(v.name)}">${esc(v.name)}</option>`).join('');
-      html += '</optgroup>';
-    }
-    if (others.length) {
-      html += '<optgroup label="أصوات أخرى">';
-      html += others.map(v => `<option value="${esc(v.name)}">${esc(v.name)} (${esc(v.lang)})</option>`).join('');
-      html += '</optgroup>';
-    }
-    sel.innerHTML = html || '<option>لا توجد أصوات متاحة</option>';
-
-    if (!audio.selectedVoice && audio.voices.length) {
-      audio.selectedVoice = arabic[0] || audio.voices[0];
-    }
-    if (audio.selectedVoice) {
-      sel.value = audio.selectedVoice.name;
-    }
-  }
-
-  function playFromIndex(index) {
-    if (!audio.paragraphs.length) {
-      toast(t('لا يوجد نص للقراءة.', 'No text to read.'), true);
-      return;
-    }
-    const synth = window.speechSynthesis;
-    if (!synth) {
-      toast(t('متصفحك لا يدعم القراءة الصوتية.', 'Your browser does not support speech synthesis.'), true);
-      return;
+    // Stop any currently playing audio
+    if (audio.audioElement) {
+      try {
+        audio.audioElement.pause();
+        if (audio.audioElement.src && audio.audioElement.src.startsWith('blob:')) {
+          URL.revokeObjectURL(audio.audioElement.src);
+        }
+      } catch {}
+      audio.audioElement = null;
     }
 
     index = Math.max(0, Math.min(index, audio.paragraphs.length - 1));
-    synth.cancel();
-
     audio.currentIndex = index;
     audio.isPlaying = true;
 
-    const paragraphText = audio.paragraphs[index];
-    const isArabic = ARABIC_RE.test(paragraphText);
-
-    const utter = new SpeechSynthesisUtterance(paragraphText);
-    utter.rate = audio.rate;
-
-    let voice = audio.selectedVoice;
-
-    if (isArabic) {
-      utter.lang = 'ar-SA';
-      if (!voice || !/^ar/i.test(voice.lang || '')) {
-        voice = audio.arabicVoices[0] || null;
-      }
-    } else {
-      utter.lang = (voice && voice.lang) || 'en-US';
-    }
-
-    if (voice) utter.voice = voice;
-
-    utter.onend = () => {
-      if (!audio.isPlaying) return;
-      if (audio.currentIndex < audio.paragraphs.length - 1) {
-        playFromIndex(audio.currentIndex + 1);
-      } else {
-        audio.isPlaying = false;
-        updateAudioPlayButton();
-      }
-    };
-
-    utter.onerror = e => {
-      if (e.error === 'canceled' || e.error === 'interrupted') return;
-      console.warn('[Audio] TTS error:', e);
-    };
-
-    audio.utterance = utter;
-    synth.speak(utter);
-
     highlightParagraph(index);
     updateAudioPlayButton();
+
+    const paragraphText = audio.paragraphs[index];
+    const isArabic = ARABIC_RE.test(paragraphText);
+    const voiceId = isArabic ? PIPER_VOICES.ar : PIPER_VOICES.en;
+
+    try {
+      // Ensure engine + model are ready
+      await loadPiperEngine();
+      await downloadPiperModel(voiceId);
+
+      if (!audio.isPlaying) return; // user paused during load
+
+      const tts = audio.piperEngine;
+      console.log(`[Piper] Generating audio for paragraph ${index + 1}/${audio.paragraphs.length}`);
+
+      const wav = await tts.predict({
+        text: paragraphText,
+        voiceId: voiceId
+      });
+
+      if (!audio.isPlaying) return; // user paused during synthesis
+
+      const url = URL.createObjectURL(wav);
+      const el = new Audio(url);
+      el.playbackRate = audio.rate;
+
+      el.onended = () => {
+        if (!audio.isPlaying) return;
+        if (audio.currentIndex < audio.paragraphs.length - 1) {
+          playFromIndex(audio.currentIndex + 1);
+        } else {
+          audio.isPlaying = false;
+          updateAudioPlayButton();
+        }
+      };
+
+      el.onerror = (e) => {
+        console.error('[Piper] Playback error:', e);
+        audio.isPlaying = false;
+        updateAudioPlayButton();
+      };
+
+      audio.audioElement = el;
+      await el.play();
+
+    } catch (err) {
+      console.error('[Piper] Synthesis failed:', err);
+      toast(t('تعذّر توليد الصوت. حاول مرة أخرى.', 'Could not generate audio. Try again.'), true);
+      audio.isPlaying = false;
+      updateAudioPlayButton();
+    }
   }
 
   function toggleAudioPlay() {
     if (!audio.paragraphs.length) return;
-    const synth = window.speechSynthesis;
-    if (!synth) return;
 
     if (audio.isPlaying) {
-      synth.pause();
+      // Pause
+      if (audio.audioElement) {
+        try { audio.audioElement.pause(); } catch {}
+      }
       audio.isPlaying = false;
       updateAudioPlayButton();
-    } else if (synth.paused && audio.currentIndex >= 0) {
-      synth.resume();
-      audio.isPlaying = true;
-      updateAudioPlayButton();
-    } else {
-      playFromIndex(audio.currentIndex >= 0 ? audio.currentIndex : 0);
+      return;
     }
+
+    // Resume vs. restart
+    if (audio.audioElement && audio.audioElement.src && audio.audioElement.currentTime > 0 && audio.audioElement.currentTime < audio.audioElement.duration) {
+      try {
+        audio.audioElement.play();
+        audio.isPlaying = true;
+        updateAudioPlayButton();
+        return;
+      } catch (e) {
+        console.warn('Resume failed, restarting:', e);
+      }
+    }
+
+    playFromIndex(audio.currentIndex >= 0 ? audio.currentIndex : 0);
   }
 
-  // Audio event wiring
+  // ---------- Audio event wiring ----------
   $('audioPlayBtn')?.addEventListener('click', toggleAudioPlay);
 
   $('audioPrevBtn')?.addEventListener('click', () => {
@@ -1713,13 +1739,9 @@ ${[1, 2, 3, 4, 5].map(value =>
 
   $('audioRateSelect')?.addEventListener('change', e => {
     audio.rate = parseFloat(e.target.value) || 1;
-    if (audio.isPlaying) playFromIndex(audio.currentIndex);
-  });
-
-  $('audioVoiceSelect')?.addEventListener('change', e => {
-    const name = e.target.value;
-    audio.selectedVoice = audio.voices.find(v => v.name === name) || null;
-    if (audio.isPlaying) playFromIndex(audio.currentIndex);
+    if (audio.audioElement) {
+      try { audio.audioElement.playbackRate = audio.rate; } catch {}
+    }
   });
 
   $('audioText')?.addEventListener('click', e => {
