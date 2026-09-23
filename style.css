@@ -303,6 +303,7 @@ h1, h2, h3, h4, h5, h6 { font-weight: 600; letter-spacing: 0; line-height: 1.3; 
   align-items: center;
   gap: .85rem;
   min-width: 0;
+  flex-shrink: 1;
 }
 .brand-mark {
   width: 44px; height: 44px;
@@ -455,6 +456,7 @@ h1, h2, h3, h4, h5, h6 { font-weight: 600; letter-spacing: 0; line-height: 1.3; 
   max-width: 56ch;
 }
 
+/* Decorative amber rule centered above the tags */
 .hero-copy .hero-tags {
   position: relative;
   padding-top: 1.1rem;
@@ -463,7 +465,8 @@ h1, h2, h3, h4, h5, h6 { font-weight: 600; letter-spacing: 0; line-height: 1.3; 
   content: '';
   position: absolute;
   top: 0;
-  inset-inline-start: 0;
+  left: 50%;
+  transform: translateX(-50%);
   width: 48px;
   height: 2px;
   background: var(--grad-accent);
@@ -1809,21 +1812,112 @@ h1, h2, h3, h4, h5, h6 { font-weight: 600; letter-spacing: 0; line-height: 1.3; 
 
   .social-link { width: 46px; height: 46px; font-size: 1.25rem; }
   .footer-brand { font-size: 1.25rem; }
-
-  .hero-copy .hero-tags::before { inset-inline-start: 50%; transform: translateX(-50%); }
 }
 
-@media (max-width: 576px) {
-  .header-row { padding-block: .65rem; }
-  .brand-subtitle { display: none; }
-  .brand-title { font-size: 1.05rem; }
-  .brand-mark { width: 38px; height: 38px; }
+/* Mobile grid & list: bigger cards, readable text */
+@media (max-width: 700px) {
+  .books-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: .9rem;
+  }
+  .books-grid:not(.is-list) .book-card {
+    padding: .8rem;
+    border-radius: 12px;
+    gap: .5rem;
+  }
+  .books-grid:not(.is-list) .book-topline {
+    gap: .35rem;
+  }
+  .books-grid:not(.is-list) .bundle-select span {
+    display: none;
+  }
+  .books-grid:not(.is-list) .book-main {
+    gap: .6rem;
+  }
+  .books-grid:not(.is-list) .cover-container {
+    width: 64px;
+  }
+  .books-grid:not(.is-list) .book-info {
+    gap: .25rem;
+  }
+  .books-grid:not(.is-list) .badge-tag,
+  .books-grid:not(.is-list) .badge-type {
+    font-size: .62rem;
+    padding: .18rem .5rem;
+  }
+  .books-grid:not(.is-list) .book-title {
+    font-size: .88rem;
+    line-height: 1.35;
+  }
+  .books-grid:not(.is-list) .book-author {
+    font-size: .72rem;
+  }
+  .books-grid:not(.is-list) .rating-stars { gap: 0; }
+  .books-grid:not(.is-list) .star-button { font-size: .78rem; padding: 0 .04rem; }
+  .books-grid:not(.is-list) .rating-stars small { font-size: .6rem; margin-inline-start: .25rem; }
+  .books-grid:not(.is-list) .book-meta { gap: .25rem; margin-top: .1rem; }
+  .books-grid:not(.is-list) .meta-chip { font-size: .62rem; padding: .16rem .4rem; }
+  .books-grid:not(.is-list) .book-desc {
+    font-size: .78rem;
+    -webkit-line-clamp: 2;
+    line-height: 1.55;
+  }
+  .books-grid:not(.is-list) .book-actions {
+    gap: .25rem;
+    padding-top: .4rem;
+    border-top: 1px solid var(--border);
+  }
+  .books-grid:not(.is-list) .book-actions .btn {
+    padding: .35rem .55rem;
+    font-size: .68rem;
+    gap: .25rem;
+  }
+  .books-grid:not(.is-list) .download-count {
+    font-size: .58rem;
+    padding: .02rem .3rem;
+    min-width: 1.3em;
+  }
 
-  .pill-btn { padding: .45rem .7rem; font-size: .75rem; }
-  .icon-btn { width: 34px; height: 34px; padding: .4rem; }
+  /* List mode: single full-width column, standard layout, comfortable text */
+  .books-grid.is-list {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .books-grid.is-list .book-card {
+    padding: 1rem;
+  }
+  .books-grid.is-list .book-title { font-size: 1.02rem; }
+  .books-grid.is-list .book-desc { font-size: .85rem; -webkit-line-clamp: 3; }
+  .books-grid.is-list .cover-container { width: 96px; }
+}
+
+/* Phones: compact header, button icons only, hero centered */
+@media (max-width: 576px) {
+  .header-row { padding-block: .65rem; gap: .5rem; }
+  .brand-subtitle { display: none; }
+  .brand-title { font-size: 1.02rem; }
+  .brand-mark { width: 38px; height: 38px; border-radius: 10px; }
+  .brand-lockup { gap: .55rem; }
+
+  /* Header actions: uniform square buttons, icon-only */
+  .header-actions { gap: .3rem; flex-wrap: nowrap; flex-shrink: 0; }
+  .pill-btn,
+  .icon-btn {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    justify-content: center;
+    gap: 0;
+    border-radius: 9px;
+  }
+  .pill-btn > span:not(.sr-only) { display: none; }
+  .pill-btn .icon,
+  .icon-btn .icon { font-size: 1.05rem; width: 1.05rem; height: 1.05rem; }
 
   .hero-inner { padding: 1.1rem; }
   .hero-title { font-size: 1.35rem; }
+  .hero-desc { font-size: .88rem; line-height: 1.7; }
+  .hero-tags li { font-size: .7rem; padding: .3rem .7rem; }
   .stat-num { font-size: 1.15rem; }
   .stat-cap { font-size: .63rem; }
 
@@ -1837,7 +1931,6 @@ h1, h2, h3, h4, h5, h6 { font-weight: 600; letter-spacing: 0; line-height: 1.3; 
   .modal { padding: .65rem; }
   .modal-body { padding: 1.1rem 1.15rem; }
 
-  /* PDF viewer: soft frame on mobile */
   .modal-panel-full {
     width: 100%;
     height: calc(100dvh - 1.3rem);
@@ -1868,111 +1961,11 @@ h1, h2, h3, h4, h5, h6 { font-weight: 600; letter-spacing: 0; line-height: 1.3; 
   #pdfFrame { display: block; }
 }
 
-/* Mobile Grid vs List differentiation */
-@media (max-width: 700px) {
-  /* GRID on mobile: 2 compact columns, horizontal cards, uniform height */
-  .books-grid:not(.is-list) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: .55rem;
-    grid-auto-rows: 1fr;
-  }
-  .books-grid:not(.is-list) .book-card {
-    padding: .55rem;
-    border-radius: 10px;
-    gap: .4rem;
-    min-height: 0;
-    height: 100%;
-  }
-  .books-grid:not(.is-list) .book-topline { display: none; }
-  .books-grid:not(.is-list) .book-main {
-    flex-direction: row;
-    align-items: stretch;
-    gap: .45rem;
-  }
-  .books-grid:not(.is-list) .cover-container {
-    width: 46px;
-    flex-shrink: 0;
-    margin: 0;
-  }
-  .books-grid:not(.is-list) .book-info {
-    align-items: flex-start;
-    text-align: start;
-    gap: .15rem;
-    min-width: 0;
-    flex: 1;
-  }
-  .books-grid:not(.is-list) .badge-tag {
-    font-size: .55rem;
-    padding: .1rem .3rem;
-    max-width: 100%;
-  }
-  .books-grid:not(.is-list) .book-title {
-    font-size: .78rem;
-    line-height: 1.3;
-    text-align: start;
-    width: 100%;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  .books-grid:not(.is-list) .book-author {
-    font-size: .64rem;
-    text-align: start;
-    width: 100%;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  .books-grid:not(.is-list) .rating-stars {
-    justify-content: flex-start;
-    gap: 0;
-    margin-top: .1rem;
-  }
-  .books-grid:not(.is-list) .rating-stars small { display: none; }
-  .books-grid:not(.is-list) .star-button { font-size: .58rem; padding: 0 .02rem; }
-  .books-grid:not(.is-list) .book-meta { display: none; }
-  .books-grid:not(.is-list) .book-desc { display: none; }
-
-  .books-grid:not(.is-list) .book-actions {
-    display: flex;
-    gap: .2rem;
-    margin-top: auto;
-    padding-top: .3rem;
-    border-top: 1px solid var(--border);
-    width: 100%;
-    flex-wrap: nowrap;
-    overflow: hidden;
-  }
-  .books-grid:not(.is-list) .book-actions .btn {
-    flex: 1 1 0;
-    padding: .35rem .1rem;
-    font-size: .65rem;
-    min-width: 0;
-    min-height: 28px;
-    border-radius: 7px;
-  }
-  .books-grid:not(.is-list) .book-actions .btn > span:not(.download-count) { display: none; }
-  .books-grid:not(.is-list) .book-actions .btn .icon { width: 1em; height: 1em; }
-  .books-grid:not(.is-list) .download-count {
-    font-size: .55rem;
-    padding: 0 .2rem;
-    min-width: 1em;
-    display: none;
-  }
-  .books-grid:not(.is-list) .book-actions [data-action="cite"],
-  .books-grid:not(.is-list) .book-actions [data-action="share"] { display: none; }
-
-  /* LIST mode: single full-width column */
-  .books-grid.is-list { grid-template-columns: 1fr; }
-  .books-grid.is-list .book-card { padding: 1rem; flex-direction: column; }
-  .books-grid.is-list .cover-container { width: 96px; }
-}
-
 @media (max-width: 480px) {
-  .books-grid { gap: .85rem; }
-  .book-card { padding: .95rem; }
+  .books-grid { gap: .8rem; }
+  .brand-title { font-size: .95rem; }
+  .pill-btn,
+  .icon-btn { width: 34px; height: 34px; }
 }
 
 /* ---------- 24) Reduced motion ---------- */
