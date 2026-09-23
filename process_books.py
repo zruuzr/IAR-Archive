@@ -332,28 +332,6 @@ def build_payload(file_name: str, sample_text: str,
     return f"{prompt}\n\nExtracted Text:\n{sample_text[:SAMPLE_TEXT_MAX_CHARS]}"
 
 
-def build_fallback_book(file_name: str, next_id: int, file_path: Path,
-                        file_size: str, pages: str) -> Book:
-    title = Path(file_name).stem.replace("_", " ").replace("-", " ").strip()
-    return Book(
-        id=next_id,
-        title=title,
-        category="غير مصنف",
-        category_en="Uncategorized",
-        type="كتاب",
-        type_en="Book",
-        description=f"كتاب بعنوان '{title}'. لم تتمكن أداة التحليل من قراءة محتواه بالكامل.",
-        description_en=f"A book titled '{title}'. Content could not be fully analyzed.",
-        keywords=[title],
-        key_points=["يتطلب مراجعة يدوية لاستكمال البيانات."],
-        key_points_en=["Manual review required."],
-        pages=pages,
-        file_size=file_size,
-        file_path=str(file_path).replace(os.sep, "/"),
-        cover_image=f"covers/{next_id}.png",
-    )
-
-
 def load_books(path: Path) -> list[dict[str, Any]]:
     if not path.exists():
         return []
@@ -375,6 +353,13 @@ def save_books(path: Path, books: list[dict[str, Any]]) -> None:
 
 def process_one_book(client: genai.Client, file_path: Path,
                      existing_ids: Iterable[int]) -> Book | None:
+    """
+    يعالج ملف PDF واحد.
+
+    يُرجع كائن Book عند النجاح.
+    يُرجع None إذا تعذّر استخراج البيانات — وفي هذه الحالة لا يُضاف أي شيء إلى books.json،
+    ويُسجَّل تحذير واضح يحمل اسم الملف. الملف يبقى في pdf/ ليُعاد المحاولة في تشغيل لاحق.
+    """
     name = file_path.name
     LOG.info("Processing: %s", name)
 
@@ -384,8 +369,11 @@ def process_one_book(client: genai.Client, file_path: Path,
     next_id = max(existing_ids, default=0) + 1
 
     if file_size_mb > PDF_MAX_FILE_SIZE_MB:
-        LOG.warning("File too large (%.1f MB); using fallback", file_size_mb)
-        return build_fallback_book(name, next_id, file_path, file_size_str, str(pages_count))
+        LOG.warning(
+            "SKIPPED — file exceeds size limit (%.1f MB > %d MB): %s",
+            file_size_mb, PDF_MAX_FILE_SIZE_MB, name,
+        )
+        return None
 
     sample_text = smart_extract_text(reader) if reader else ""
     has_text = has_meaningful_text(sample_text)
@@ -396,15 +384,19 @@ def process_one_book(client: genai.Client, file_path: Path,
 
     try:
         if has_text:
-            LOG.info("Using local extracted text")
+            LOG.info("Using locally extracted text")
             payload = build_payload(name, sample_text)
         elif can_upload:
             LOG.info("Uploading full PDF (%.1f MB)", file_size_mb)
             temp_path, uploaded_file = _upload_pdf(client, file_path)
             payload = build_payload(name, "", uploaded_file)
         else:
-            LOG.warning("Large file without usable text; skipping API")
-            return build_fallback_book(name, next_id, file_path, file_size_str, str(pages_count))
+            LOG.warning(
+                "SKIPPED — no extractable text and file exceeds upload limit "
+                "(%.1f MB > %d MB): %s",
+                file_size_mb, MAX_UPLOAD_SIZE_MB, name,
+            )
+            return None
 
         data = _call_and_parse(client, payload)
         if is_generic_response(data) and not has_text and can_upload:
@@ -414,8 +406,11 @@ def process_one_book(client: genai.Client, file_path: Path,
             data = _call_and_parse(client, build_payload(name, "", uploaded_file))
 
         if is_generic_response(data):
-            LOG.warning("Gemini could not identify book; using fallback")
-            return build_fallback_book(name, next_id, file_path, file_size_str, str(pages_count))
+            LOG.warning(
+                "SKIPPED — Gemini could not identify book from content: %s",
+                name,
+            )
+            return None
 
         return Book.from_gemini(
             data,
@@ -468,6 +463,8 @@ def main() -> None:
         return
 
     halted = False
+    skipped: list[str] = []
+
     for pdf_path in sorted(PDF_DIR.glob("*.pdf")):
         if halted:
             break
@@ -481,6 +478,8 @@ def main() -> None:
                 processed_paths.add(os.path.normpath(str(pdf_path)))
                 save_books(JSON_PATH, books)
                 LOG.info("Added: %s", book.title)
+            else:
+                skipped.append(pdf_path.name)
         except ApiUnavailableError as e:
             LOG.error("API unavailable; halting. Progress saved. (%s)", e)
             halted = True
@@ -489,6 +488,17 @@ def main() -> None:
 
     if not halted:
         LOG.info("Processing completed successfully.")
+        if skipped:
+            LOG.warning("=" * 60)
+            LOG.warning(
+                "SKIPPED %d file(s) — no entries added to books.json:", len(skipped)
+            )
+            for n in skipped:
+                LOG.warning("  • %s", n)
+            LOG.warning("=" * 60)
+            LOG.warning(
+                "Review these files in pdf/. They will be retried on the next run."
+            )
 
 
 if __name__ == "__main__":
