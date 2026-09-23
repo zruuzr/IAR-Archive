@@ -5,7 +5,7 @@
              (Mozilla), PWA install prompt, Service Worker,
              all original actions and URL routing.
    Added: Audio player (Web Speech API) with PDF text extraction,
-          localStorage caching, Firefox warning.
+          localStorage caching, Firefox warning, Arabic voice detection.
    ============================================================ */
 (() => {
   'use strict';
@@ -1166,7 +1166,6 @@ ${[1, 2, 3, 4, 5].map(value =>
       backIcon.setAttribute('href', `#i-arrow-${state.ui.lang === 'ar' ? 'right' : 'left'}`);
     }
 
-    // Update voice options if audio player is open
     if ($('audioPlayerModal')?.classList.contains('is-open')) {
       populateVoicesSelect();
     }
@@ -1225,9 +1224,11 @@ ${[1, 2, 3, 4, 5].map(value =>
   // Audio Player — Web Speech API + localStorage caching
   // ============================================================
   const AUDIO_CACHE_PREFIX = 'iar_audio_v1_';
-  const AUDIO_CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
+  const AUDIO_CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000;
   const AUDIO_CACHE_MAX_BOOKS = 5;
-  const AUDIO_CACHE_MAX_BYTES = 2 * 1024 * 1024; // 2MB per book
+  const AUDIO_CACHE_MAX_BYTES = 2 * 1024 * 1024;
+
+  const ARABIC_RE = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/;
 
   const audio = {
     book: null,
@@ -1236,10 +1237,13 @@ ${[1, 2, 3, 4, 5].map(value =>
     isPlaying: false,
     utterance: null,
     voices: [],
+    arabicVoices: [],
     selectedVoice: null,
     rate: 1,
     pdfLibPromise: null,
-    aborted: false
+    aborted: false,
+    voicesReady: false,
+    voicesWarned: false
   };
 
   function isFirefox() {
@@ -1285,12 +1289,11 @@ ${[1, 2, 3, 4, 5].map(value =>
 
   function setCachedParagraphs(bookId, paragraphs) {
     const payload = JSON.stringify({ timestamp: Date.now(), paragraphs });
-    if (payload.length > AUDIO_CACHE_MAX_BYTES) return; // too large, skip
+    if (payload.length > AUDIO_CACHE_MAX_BYTES) return;
     try {
       localStorage.setItem(AUDIO_CACHE_PREFIX + bookId, payload);
       pruneAudioCache();
     } catch {
-      // Quota exceeded: prune aggressively then retry once
       pruneAudioCache(true);
       try {
         localStorage.setItem(AUDIO_CACHE_PREFIX + bookId, payload);
@@ -1321,6 +1324,7 @@ ${[1, 2, 3, 4, 5].map(value =>
 
   function openAudioPlayer(book) {
     if (!book) return;
+
     audio.book = book;
     audio.paragraphs = [];
     audio.currentIndex = -1;
@@ -1328,13 +1332,21 @@ ${[1, 2, 3, 4, 5].map(value =>
     audio.aborted = false;
 
     text('audioPlayerTitle', field(book, 'title') || t('الاستماع للكتاب', 'Listen to the book'));
-
     updateFirefoxWarning();
 
-    visible('audioLoading', true);
-    visible('audioText', false);
+    const loadingEl = $('audioLoading');
+    const textEl = $('audioText');
+
+    if (loadingEl) {
+      loadingEl.hidden = false;
+      loadingEl.classList.remove('d-none');
+    }
+    if (textEl) {
+      textEl.hidden = true;
+      textEl.innerHTML = '';
+      textEl.classList.add('d-none');
+    }
     text('audioLoadingText', t('جارٍ استخراج نص الكتاب…', 'Extracting book text…'));
-    $('audioText').innerHTML = '';
     text('audioProgressText', '0 / 0');
 
     ensureVoicesLoaded();
@@ -1343,15 +1355,32 @@ ${[1, 2, 3, 4, 5].map(value =>
     getBookParagraphs(book)
       .then(paragraphs => {
         if (audio.aborted || audio.book?.id !== book.id) return;
+
+        if (!paragraphs || !paragraphs.length) {
+          text('audioLoadingText', t(
+            'لم يُعثر على نص قابل للقراءة في هذا المرجع.',
+            'No readable text was found in this reference.'
+          ));
+          return;
+        }
+
         audio.paragraphs = paragraphs;
         renderAudioParagraphs();
-        visible('audioLoading', false);
-        visible('audioText', true);
+
+        if (loadingEl) {
+          loadingEl.hidden = true;
+          loadingEl.classList.add('d-none');
+        }
+        if (textEl) {
+          textEl.hidden = false;
+          textEl.classList.remove('d-none');
+        }
+
         updateAudioProgress();
         updateAudioPlayButton();
       })
       .catch(err => {
-        console.error('Audio load failed:', err);
+        console.error('[Audio] Load failed:', err);
         text('audioLoadingText', t(
           'تعذّر استخراج نص الكتاب. تأكد من الاتصال بالإنترنت.',
           'Could not extract book text. Check your internet connection.'
@@ -1360,14 +1389,12 @@ ${[1, 2, 3, 4, 5].map(value =>
   }
 
   async function getBookParagraphs(book) {
-    // 1. Cache hit
     const cached = getCachedParagraphs(book.id);
     if (cached && cached.length) {
       console.log('[Audio] Using cached paragraphs for book', book.id);
       return cached;
     }
 
-    // 2. Extract from PDF
     if (book.file_path) {
       try {
         const rawText = await extractPdfText(book.file_path);
@@ -1379,11 +1406,10 @@ ${[1, 2, 3, 4, 5].map(value =>
           }
         }
       } catch (err) {
-        console.warn('PDF extraction failed, using fallback:', err);
+        console.warn('[Audio] PDF extraction failed, using fallback:', err);
       }
     }
 
-    // 3. Fallback: description + key_points + audience
     const parts = [];
     const desc = field(book, 'description');
     const kpAr = book.key_points || [];
@@ -1438,7 +1464,7 @@ ${[1, 2, 3, 4, 5].map(value =>
         const pageText = content.items.map(it => it.str).join(' ').trim();
         if (pageText) parts.push(pageText);
       } catch (e) {
-        console.warn(`Page ${i} failed:`, e);
+        console.warn(`[Audio] Page ${i} failed:`, e);
       }
     }
 
@@ -1549,19 +1575,30 @@ ${[1, 2, 3, 4, 5].map(value =>
 
     const load = () => {
       const all = synth.getVoices() || [];
-      audio.voices = all.filter(v => /^ar/i.test(v.lang)).concat(all.filter(v => !/^ar/i.test(v.lang)));
+      if (!all.length) return;
+
+      audio.voices = all;
+      audio.arabicVoices = all.filter(v => /^ar/i.test(v.lang));
+      audio.voicesReady = true;
       populateVoicesSelect();
+
+      if (!audio.arabicVoices.length && !audio.voicesWarned) {
+        audio.voicesWarned = true;
+        console.warn('[Audio] No Arabic voices installed on this device.');
+      }
     };
 
     load();
-    if (!audio.voices.length) synth.onvoiceschanged = load;
+    if (!audio.voicesReady) {
+      synth.addEventListener('voiceschanged', load);
+    }
   }
 
   function populateVoicesSelect() {
     const sel = $('audioVoiceSelect');
     if (!sel) return;
 
-    const arabic = audio.voices.filter(v => /^ar/i.test(v.lang));
+    const arabic = audio.arabicVoices;
     const others = audio.voices.filter(v => !/^ar/i.test(v.lang));
 
     let html = '';
@@ -1572,23 +1609,29 @@ ${[1, 2, 3, 4, 5].map(value =>
     }
     if (others.length) {
       html += '<optgroup label="أصوات أخرى">';
-      html += others.map(v => `<option value="${esc(v.name)}">${esc(v.name)}</option>`).join('');
+      html += others.map(v => `<option value="${esc(v.name)}">${esc(v.name)} (${esc(v.lang)})</option>`).join('');
       html += '</optgroup>';
     }
     sel.innerHTML = html || '<option>لا توجد أصوات متاحة</option>';
 
     if (!audio.selectedVoice && audio.voices.length) {
       audio.selectedVoice = arabic[0] || audio.voices[0];
-      sel.value = audio.selectedVoice.name;
-    } else if (audio.selectedVoice) {
+    }
+    if (audio.selectedVoice) {
       sel.value = audio.selectedVoice.name;
     }
   }
 
   function playFromIndex(index) {
-    if (!audio.paragraphs.length) return;
+    if (!audio.paragraphs.length) {
+      toast(t('لا يوجد نص للقراءة.', 'No text to read.'), true);
+      return;
+    }
     const synth = window.speechSynthesis;
-    if (!synth) return;
+    if (!synth) {
+      toast(t('متصفحك لا يدعم القراءة الصوتية.', 'Your browser does not support speech synthesis.'), true);
+      return;
+    }
 
     index = Math.max(0, Math.min(index, audio.paragraphs.length - 1));
     synth.cancel();
@@ -1596,10 +1639,24 @@ ${[1, 2, 3, 4, 5].map(value =>
     audio.currentIndex = index;
     audio.isPlaying = true;
 
-    const utter = new SpeechSynthesisUtterance(audio.paragraphs[index]);
+    const paragraphText = audio.paragraphs[index];
+    const isArabic = ARABIC_RE.test(paragraphText);
+
+    const utter = new SpeechSynthesisUtterance(paragraphText);
     utter.rate = audio.rate;
-    utter.lang = audio.selectedVoice?.lang || 'ar-SA';
-    if (audio.selectedVoice) utter.voice = audio.selectedVoice;
+
+    let voice = audio.selectedVoice;
+
+    if (isArabic) {
+      utter.lang = 'ar-SA';
+      if (!voice || !/^ar/i.test(voice.lang || '')) {
+        voice = audio.arabicVoices[0] || null;
+      }
+    } else {
+      utter.lang = (voice && voice.lang) || 'en-US';
+    }
+
+    if (voice) utter.voice = voice;
 
     utter.onend = () => {
       if (!audio.isPlaying) return;
@@ -1613,7 +1670,7 @@ ${[1, 2, 3, 4, 5].map(value =>
 
     utter.onerror = e => {
       if (e.error === 'canceled' || e.error === 'interrupted') return;
-      console.warn('TTS error:', e);
+      console.warn('[Audio] TTS error:', e);
     };
 
     audio.utterance = utter;
