@@ -4,9 +4,12 @@
      - Static assets (HTML/CSS/JS/icons/covers) → Cache First
      - books.json → Network First
      - Firebase / GitHub Raw / external → skip (network only)
+   Update flow:
+     - Page can post { type: 'SKIP_WAITING' } to force activation
+     - Controller change triggers auto-reload (handled in index.html)
    ============================================================ */
 
-const CACHE_VERSION = 'v1';
+const CACHE_VERSION = 'v2';
 const CACHE_NAME = `iar-archive-${CACHE_VERSION}`;
 
 /* Files pre-cached on install.
@@ -39,6 +42,13 @@ const BYPASS_HOSTS = [
   'cdn.jsdelivr.net',
   'mozilla.github.io',
 ];
+
+/* ---------- Message: allow page to force-activate a new SW ---------- */
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
+});
 
 /* ---------- Install: pre-cache app shell ---------- */
 self.addEventListener('install', (event) => {
