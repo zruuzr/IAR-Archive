@@ -6872,5 +6872,39 @@
     "file_type": "PDF",
     "file_path": "pdf/دراسات_في_النظام_المالي_الاسلامي.pdf",
     "cover_image": "covers/135.png"
+  },
+  {
+    "id": 136,
+    "title": "النقود والتضخم",
+    "title_en": "",
+    "author": "",
+    "author_en": "",
+    "category": "غير مصنف",
+    "category_en": "Uncategorized",
+    "type": "كتاب",
+    "type_en": "Book",
+    "description": "كتاب بعنوان 'النقود والتضخم'. لم تتمكن أداة التحليل من قراءة محتواه بالكامل.",
+    "description_en": "A book titled 'النقود والتضخم'. Content could not be fully analyzed.",
+    "publisher": "",
+    "publisher_en": "",
+    "year": "",
+    "isbn": "",
+    "keywords": [
+      "النقود والتضخم"
+    ],
+    "keywords_en": [],
+    "key_points": [
+      "يتطلب مراجعة يدوية لاستكمال البيانات."
+    ],
+    "key_points_en": [
+      "Manual review required."
+    ],
+    "target_audience": "",
+    "target_audience_en": "",
+    "pages": "359",
+    "file_size": "51.83 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/النقود_والتضخم.pdf",
+    "cover_image": "covers/136.png"
   }
 ]
