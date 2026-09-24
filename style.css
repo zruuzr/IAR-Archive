@@ -20,13 +20,11 @@
   --burgundy:    #7a2332;
   --sage:        #6a7a55;
 
-  /* Iraqi flag colors — محفوظة للاستخدام المستقبلي */
   --iq-red:      #CE1126;
   --iq-white:    #FFFFFF;
   --iq-black:    #000000;
   --iq-green:    #007A3D;
 
-  /* Clay tones — لوح طيني بابلّي (C3) */
   --clay-light:  #d4b48a;
   --clay-mid:    #b8855a;
   --clay-dark:   #8b5a3c;
@@ -427,7 +425,6 @@ h1, h2, h3, h4, h5, h6 { font-weight: 600; letter-spacing: 0; line-height: 1.3; 
   z-index: 2;
 }
 
-/* Decorative clay orb */
 .hero-inner::before {
   content: '';
   position: absolute;
@@ -445,8 +442,9 @@ h1, h2, h3, h4, h5, h6 { font-weight: 600; letter-spacing: 0; line-height: 1.3; 
 
 /* ============================================================
    C3 — Babylonian Cylinder Seal
-   الحركة تُدار بالكامل عبر JavaScript (app.js → bootSealBands)
-   CSS يوفّر البنية والأنماط فقط
+   الحركة: CSS animation خالص — بدون JS
+   المفتاح: 2 نسخ متطابقة من .seal-text داخل .seal-track
+            + animation على track بحركة -50% من عرضه
    ============================================================ */
 .seal-band {
   position: absolute;
@@ -456,9 +454,6 @@ h1, h2, h3, h4, h5, h6 { font-weight: 600; letter-spacing: 0; line-height: 1.3; 
   overflow: hidden;
   pointer-events: none;
   z-index: 1;
-  display: flex;
-  align-items: center;
-  direction: ltr; /* لتفادي أي تأثير RTL على ترتيب العناصر */
 }
 .seal-band.top {
   top: 3px;
@@ -470,45 +465,60 @@ h1, h2, h3, h4, h5, h6 { font-weight: 600; letter-spacing: 0; line-height: 1.3; 
 }
 
 .seal-track {
-  display: flex;
-  align-items: center;
-  flex-shrink: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
   height: 100%;
+  display: flex;
+  flex-wrap: nowrap;
   white-space: nowrap;
   font-family: var(--font-cuneiform);
   font-size: 1.75rem;
+  line-height: 52px;
   letter-spacing: .15em;
   color: var(--clay-dark);
-  opacity: .5;
+  opacity: .55;
   will-change: transform;
-  transform: translate3d(0, 0, 0);
+}
+.seal-band.top .seal-track {
+  animation: sealMarqueeTop 45s linear infinite;
+}
+.seal-band.bottom .seal-track {
+  animation: sealMarqueeBottom 60s linear infinite;
+}
+
+@keyframes sealMarqueeTop {
+  0%   { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
+}
+@keyframes sealMarqueeBottom {
+  0%   { transform: translate3d(-50%, 0, 0); }
+  100% { transform: translate3d(0, 0, 0); }
 }
 
 .seal-text {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  white-space: nowrap;
   flex-shrink: 0;
-  padding-inline-end: 5rem;
+  white-space: nowrap;
   height: 100%;
-  direction: ltr;
+  padding-inline-end: 5rem;
 }
 
 .seal-band .sep {
   display: inline-block;
-  color: rgba(200, 157, 92, .55);
+  color: rgba(200, 157, 92, .7);
   margin: 0 .5rem;
   font-family: var(--font);
-  font-size: .85rem;
+  font-size: .9rem;
   transform: translateY(-.05em);
 }
 
 /* Dark mode */
-[data-theme="dark"] .seal-band { color: var(--clay-light); }
-[data-theme="dark"] .seal-track { color: var(--clay-light); opacity: .4; }
+[data-theme="dark"] .seal-track { color: var(--clay-light); opacity: .45; }
 [data-theme="dark"] .seal-band.top { border-bottom-color: rgba(212, 180, 138, .2); }
 [data-theme="dark"] .seal-band.bottom { border-top-color: rgba(212, 180, 138, .2); }
-[data-theme="dark"] .seal-band .sep { color: rgba(212, 168, 96, .6); }
+[data-theme="dark"] .seal-band .sep { color: rgba(212, 168, 96, .75); }
 
 .hero-copy { position: relative; z-index: 3; }
 
@@ -1879,7 +1889,7 @@ h1, h2, h3, h4, h5, h6 { font-weight: 600; letter-spacing: 0; line-height: 1.3; 
 @media (max-width: 767.98px) {
   .hero-stats { grid-template-columns: repeat(2, 1fr); }
   .seal-band { height: 40px; }
-  .seal-track { font-size: 1.25rem; }
+  .seal-track { font-size: 1.25rem; line-height: 40px; }
   .seal-text { padding-inline-end: 3rem; }
 
   .featured-layout {
@@ -1994,7 +2004,7 @@ h1, h2, h3, h4, h5, h6 { font-weight: 600; letter-spacing: 0; line-height: 1.3; 
   .seal-band { height: 34px; left: 2px; right: 2px; }
   .seal-band.top { top: 2px; }
   .seal-band.bottom { bottom: 2px; }
-  .seal-track { font-size: 1rem; }
+  .seal-track { font-size: 1rem; line-height: 34px; }
   .seal-text { padding-inline-end: 2rem; }
   .seal-band .sep { font-size: .7rem; margin: 0 .3rem; }
 
@@ -2065,6 +2075,7 @@ h1, h2, h3, h4, h5, h6 { font-weight: 600; letter-spacing: 0; line-height: 1.3; 
   .aurora-blob,
   .cursor-glow,
   .hero { animation: none !important; }
+  .seal-band.top .seal-track,
+  .seal-band.bottom .seal-track { animation: none !important; }
   .aurora-blob, .cursor-glow, .grain-layer, .scroll-progress { display: none !important; }
-  /* seal-band: يُدار من JS — لن يُلمس هنا */
 }
