@@ -418,7 +418,7 @@ h1, h2, h3, h4, h5, h6 { font-weight: 600; letter-spacing: 0; line-height: 1.3; 
     radial-gradient(circle 420px at 50% 100%, rgba(139, 90, 60, .08), transparent 60%),
     var(--surface);
   padding: clamp(1.5rem, 3vw, 2rem);
-  padding-block: 4.25rem; /* مساحة للشريطين المسماريين */
+  padding-block: 4.25rem;
   display: grid;
   grid-template-columns: 1.6fr 1fr;
   gap: clamp(1.25rem, 3vw, 2rem);
@@ -443,7 +443,7 @@ h1, h2, h3, h4, h5, h6 { font-weight: 600; letter-spacing: 0; line-height: 1.3; 
 }
 
 /* ============================================================
-   C3 — ختم أسطواني متحرك (Babylonian Cylinder Seal)
+   C3 — Babylonian Cylinder Seal (fixed marquee)
    ============================================================ */
 .seal-band {
   position: absolute;
@@ -457,7 +457,6 @@ h1, h2, h3, h4, h5, h6 { font-weight: 600; letter-spacing: 0; line-height: 1.3; 
   pointer-events: none;
   z-index: 1;
   overflow: hidden;
-  white-space: nowrap;
   display: flex;
   align-items: center;
   letter-spacing: .15em;
@@ -470,33 +469,49 @@ h1, h2, h3, h4, h5, h6 { font-weight: 600; letter-spacing: 0; line-height: 1.3; 
   bottom: 0;
   border-top: 2px solid rgba(139, 90, 60, .22);
 }
+
 .seal-track {
-  display: inline-flex;
-  animation: sealScroll 45s linear infinite;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+  width: max-content;
   will-change: transform;
+  backface-visibility: hidden;
+}
+.seal-band.top .seal-track {
+  animation: sealScrollLeft 90s linear infinite;
 }
 .seal-band.bottom .seal-track {
-  animation-direction: reverse;
-  animation-duration: 60s;
+  animation: sealScrollRight 120s linear infinite;
 }
+
 .seal-text {
+  display: flex;
   flex-shrink: 0;
+  white-space: nowrap;
+  align-items: center;
   padding-inline-end: 4rem;
+  letter-spacing: .15em;
 }
+
 .seal-band .sep {
+  display: inline-block;
   color: rgba(200, 157, 92, .55);
   margin: 0 .5rem;
   font-family: var(--font);
   font-size: .85rem;
   vertical-align: middle;
+  transform: translateY(-.05em);
 }
 
-@keyframes sealScroll {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+@keyframes sealScrollLeft {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
 }
-[dir="rtl"] .seal-track { animation-direction: reverse; }
-[dir="rtl"] .seal-band.bottom .seal-track { animation-direction: normal; }
+@keyframes sealScrollRight {
+  from { transform: translate3d(-50%, 0, 0); }
+  to   { transform: translate3d(0, 0, 0); }
+}
 
 /* تكييف dark mode */
 [data-theme="dark"] .seal-band { color: var(--clay-light); opacity: .35; }
@@ -582,7 +597,6 @@ h1, h2, h3, h4, h5, h6 { font-weight: 600; letter-spacing: 0; line-height: 1.3; 
   transition: border-color .25s ease, transform .25s ease;
   overflow: hidden;
 }
-/* Top clay ribbon on each stat */
 .stat::before {
   content: '';
   position: absolute;
@@ -1875,6 +1889,8 @@ h1, h2, h3, h4, h5, h6 { font-weight: 600; letter-spacing: 0; line-height: 1.3; 
   .hero-stats { grid-template-columns: repeat(2, 1fr); }
   .seal-band { font-size: 1.25rem; height: 40px; line-height: 40px; }
   .seal-text { padding-inline-end: 3rem; }
+  .seal-band.top .seal-track { animation-duration: 70s; }
+  .seal-band.bottom .seal-track { animation-duration: 95s; }
 
   .featured-layout {
     grid-template-columns: 1fr;
@@ -1988,6 +2004,8 @@ h1, h2, h3, h4, h5, h6 { font-weight: 600; letter-spacing: 0; line-height: 1.3; 
   .seal-band { font-size: 1rem; height: 34px; line-height: 34px; }
   .seal-text { padding-inline-end: 2rem; }
   .seal-band .sep { font-size: .7rem; margin: 0 .3rem; }
+  .seal-band.top .seal-track { animation-duration: 55s; }
+  .seal-band.bottom .seal-track { animation-duration: 75s; }
 
   .hero-title { font-size: 1.35rem; }
   .hero-desc { font-size: .88rem; line-height: 1.7; }
