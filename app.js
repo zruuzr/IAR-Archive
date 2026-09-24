@@ -1149,6 +1149,114 @@ ${[1, 2, 3, 4, 5].map(value =>
       ?.setAttribute('content', state.ui.theme === 'dark' ? '#0a0d14' : '#f4efe4');
   }
 
+  // ============================================================
+  // Seal Bands — Babylonian Cylinder Seal (JS-driven marquee)
+  // يدار بالكامل عبر JS لتفادي مشاكل CSS animations
+  // ============================================================
+  function initSealBands() {
+    const bands = document.querySelectorAll('.seal-band');
+    if (!bands.length) return;
+
+    const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    bands.forEach(band => {
+      const track = band.querySelector('.seal-track');
+      if (!track) return;
+
+      // احترام reduced-motion: عرض ثابت بلا حركة
+      if (reduceMotion) {
+        track.style.transform = 'translate3d(0, 0, 0)';
+        return;
+      }
+
+      // ضمان أن المسار أوسع من الشريط بمرتين على الأقل
+      ensureTrackWidth(band, track);
+
+      // اتجاه وسرعة
+      const isBottom = band.classList.contains('bottom');
+      const direction = isBottom ? 1 : -1;         // علوي ← يسار، سفلي → يمين
+      const speed = isBottom ? 28 : 38;            // px/s
+
+      startMarquee(track, direction, speed);
+    });
+  }
+
+  function ensureTrackWidth(band, track) {
+    const bandWidth = band.offsetWidth || window.innerWidth;
+    const initialScrollWidth = track.scrollWidth;
+    if (!initialScrollWidth) return;
+
+    // نريد نصف المسار (نسخة واحدة) أوسع من الشريط بـ 1.5×
+    const halfTarget = bandWidth * 1.5;
+    const halfCurrent = initialScrollWidth / 2;
+
+    if (halfCurrent < halfTarget) {
+      const factor = Math.ceil(halfTarget / halfCurrent);
+      const originalHTML = track.innerHTML;
+      for (let i = 1; i < factor; i++) {
+        track.insertAdjacentHTML('beforeend', originalHTML);
+      }
+    }
+  }
+
+  function startMarquee(track, direction, speedPxPerSec) {
+    const halfWidth = track.scrollWidth / 2;
+    if (halfWidth <= 0) return;
+
+    let pos = direction < 0 ? 0 : -halfWidth;
+    let lastTime = performance.now();
+    let rafId = null;
+
+    const step = (now) => {
+      // dt محدود لتجنب قفزات كبيرة عند عودة التبويب
+      const dt = Math.min((now - lastTime) / 1000, 0.1);
+      lastTime = now;
+
+      pos += direction * speedPxPerSec * dt;
+
+      // الالتفاف السلس
+      if (direction < 0 && pos <= -halfWidth) pos += halfWidth;
+      if (direction > 0 && pos >= 0) pos -= halfWidth;
+
+      track.style.transform = `translate3d(${pos.toFixed(2)}px, 0, 0)`;
+      rafId = requestAnimationFrame(step);
+    };
+
+    const start = () => {
+      if (rafId) return;
+      lastTime = performance.now();
+      rafId = requestAnimationFrame(step);
+    };
+
+    const stop = () => {
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+        rafId = null;
+      }
+    };
+
+    // إعادة قياس عند تغيير حجم النافذة
+    const onResize = () => {
+      stop();
+      ensureTrackWidth(track.closest('.seal-band'), track);
+      start();
+    };
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(onResize, 200);
+    });
+
+    // إيقاف عند إخفاء التبويب (بطارية + أداء)
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) stop();
+      else start();
+    });
+
+    // بدء
+    start();
+  }
+
   function initAmbient() {
     const canHover = matchMedia('(hover: hover) and (pointer: fine)').matches;
     const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1453,6 +1561,7 @@ ${[1, 2, 3, 4, 5].map(value =>
   }
 
   initAmbient();
+  initSealBands();
   theme();
   language();
 
