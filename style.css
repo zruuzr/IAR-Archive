@@ -487,10 +487,10 @@ h1, h2, h3, h4, h5, h6 { font-weight: 600; letter-spacing: 0; line-height: 1.3; 
   will-change: transform;
 }
 .seal-band.top .seal-track {
-  animation: sealMarqueeTop 45s linear infinite;
+  animation: sealMarqueeTop 120s linear infinite;
 }
 .seal-band.bottom .seal-track {
-  animation: sealMarqueeBottom 60s linear infinite;
+  animation: sealMarqueeBottom 150s linear infinite;
 }
 
 @keyframes sealMarqueeTop {
