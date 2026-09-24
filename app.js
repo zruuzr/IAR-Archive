@@ -2,10 +2,9 @@
    IAR Archive — application logic (vanilla)
    Stack: Vanilla JS. No frameworks.
    Preserved: Firebase (Firestore + Anonymous Auth), pdf.js viewer
-             (Mozilla), PWA install prompt, Service Worker,
-             all original actions and URL routing.
-   Audio: Piper TTS (WebAssembly + ONNX Runtime) with PDF text
-          extraction and localStorage caching.
+             (Mozilla), PWA install prompt, Service Worker.
+   Audio: Piper-WASM (independent) + PDF viewer with paragraph
+          highlighting synchronized to playback.
    ============================================================ */
 (() => {
   'use strict';
@@ -1207,48 +1206,73 @@ ${[1, 2, 3, 4, 5].map(value =>
   }
 
   // ============================================================
-  // Audio Player — Piper TTS (WebAssembly + ONNX Runtime)
+  // PDF + Audio Reader — Piper-WASM + PDF viewer
   // ============================================================
+
   const AUDIO_CACHE_PREFIX = 'iar_audio_v1_';
-  const AUDIO_CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
+  const AUDIO_CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000;
   const AUDIO_CACHE_MAX_BOOKS = 5;
-  const AUDIO_CACHE_MAX_BYTES = 2 * 1024 * 1024; // 2MB per book
+  const AUDIO_CACHE_MAX_BYTES = 2 * 1024 * 1024;
 
   const ARABIC_RE = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/;
 
   const PIPER_VOICES = {
-    ar: 'ar_JO-kareem-low',
-    en: 'en_US-amy-low'
+    ar: 'ar_JO-kareem-medium',
+    en: 'en_US-amy-medium'
   };
+
+  const HF_BASE = 'https://huggingface.co/rhasspy/piper-voices/resolve/main';
+
+  // Piper-WASM asset base (loaded from jsDelivr)
+  const PIPER_WASM_BASE = 'https://cdn.jsdelivr.net/npm/piper-wasm@0.1.4/build';
+
+  // Resolve model + config paths on HuggingFace
+  function piperModelUrl(voiceId) {
+    const parts = voiceId.split('_');
+    const locale = parts[0];
+    const rest = parts[1].split('-');
+    const region = rest[0];
+    const name = rest[1];
+    const quality = rest[2];
+    return `${HF_BASE}/${locale}/${locale}_${region}/${name}/${quality}/${voiceId}.onnx`;
+  }
+
+  function piperConfigUrl(voiceId) {
+    return `${piperModelUrl(voiceId)}.json`;
+  }
 
   const audio = {
     book: null,
     paragraphs: [],
     currentIndex: -1,
     isPlaying: false,
-    piperEngine: null,
+    piperModule: null,
     piperReady: false,
     piperLoading: null,
     audioElement: null,
     rate: 1,
     pdfLibPromise: null,
+    pdfDoc: null,
+    pdfPageOffsets: [],
+    pdfRenderTasks: [],
     aborted: false
   };
 
-  // ---------- Piper engine loading ----------
+  // ---------- Load Piper-WASM once ----------
   async function loadPiperEngine() {
-    if (audio.piperReady && audio.piperEngine) return audio.piperEngine;
+    if (audio.piperReady && audio.piperModule) return audio.piperModule;
     if (audio.piperLoading) return audio.piperLoading;
 
     audio.piperLoading = (async () => {
       try {
-        const tts = await import('https://cdn.jsdelivr.net/npm/@mintplex-labs/piper-tts-web@1.0.5/+esm');
-        audio.piperEngine = tts;
+        console.log('[Piper] Loading piper-wasm module...');
+        const mod = await import('https://cdn.jsdelivr.net/npm/piper-wasm@0.1.4/+esm');
+        audio.piperModule = mod;
         audio.piperReady = true;
-        console.log('[Piper] Engine loaded');
-        return tts;
+        console.log('[Piper] piper-wasm loaded');
+        return mod;
       } catch (err) {
-        console.error('[Piper] Engine load failed:', err);
+        console.error('[Piper] Failed to load piper-wasm:', err);
         audio.piperReady = false;
         audio.piperLoading = null;
         throw err;
@@ -1258,48 +1282,7 @@ ${[1, 2, 3, 4, 5].map(value =>
     return audio.piperLoading;
   }
 
-  async function downloadPiperModel(voiceId) {
-    const tts = await loadPiperEngine();
-
-    // Check if already cached
-    try {
-      const stored = await tts.stored();
-      if (Array.isArray(stored) && stored.includes(voiceId)) {
-        console.log(`[Piper] Model ${voiceId} already cached`);
-        return;
-      }
-    } catch (err) {
-      console.warn('[Piper] stored() check failed:', err);
-    }
-
-    console.log(`[Piper] Downloading model ${voiceId}...`);
-    const progressEl = $('audioDownloadProgress');
-    const fillEl = $('audioDownloadFill');
-    const textEl = $('audioDownloadText');
-
-    if (progressEl) progressEl.hidden = false;
-    if (fillEl) fillEl.style.width = '0%';
-    if (textEl) textEl.textContent = t('جارٍ تحميل النموذج الصوتي…', 'Downloading voice model…');
-
-    try {
-      await tts.download(voiceId, (progress) => {
-        if (!progress || !progress.total) return;
-        const percent = Math.round((progress.loaded / progress.total) * 100);
-        if (fillEl) fillEl.style.width = `${percent}%`;
-        if (textEl) {
-          textEl.textContent = t(
-            `جارٍ تحميل النموذج الصوتي… ${percent}%`,
-            `Downloading voice model… ${percent}%`
-          );
-        }
-      });
-      console.log(`[Piper] Model ${voiceId} downloaded`);
-    } finally {
-      if (progressEl) progressEl.hidden = true;
-    }
-  }
-
-  // ---------- PDF text extraction ----------
+  // ---------- PDF.js ----------
   function loadPdfJs() {
     if (audio.pdfLibPromise) return audio.pdfLibPromise;
     audio.pdfLibPromise = new Promise((resolve, reject) => {
@@ -1319,33 +1302,122 @@ ${[1, 2, 3, 4, 5].map(value =>
     return audio.pdfLibPromise;
   }
 
-  async function extractPdfText(url) {
+  async function extractPdfTextWithPages(url) {
     const pdfjsLib = await loadPdfJs();
-    const task = pdfjsLib.getDocument({ url });
-    const pdf = await task.promise;
-    const total = pdf.numPages;
-    const parts = [];
+    const pdf = await pdfjsLib.getDocument({ url }).promise;
 
-    for (let i = 1; i <= total; i++) {
+    audio.pdfDoc = pdf;
+    audio.pdfPageOffsets = [];
+
+    let cumulative = 0;
+    const allParts = [];
+
+    for (let i = 1; i <= pdf.numPages; i++) {
       if (audio.aborted) break;
       text('audioLoadingText', t(
-        `جارٍ استخراج النص… (${i}/${total})`,
-        `Extracting text… (${i}/${total})`
+        `جارٍ استخراج النص… (${i}/${pdf.numPages})`,
+        `Extracting text… (${i}/${pdf.numPages})`
       ));
       try {
         const page = await pdf.getPage(i);
         const content = await page.getTextContent();
         const pageText = content.items.map(it => it.str).join(' ').trim();
-        if (pageText) parts.push(pageText);
+
+        audio.pdfPageOffsets[i - 1] = cumulative;
+
+        if (pageText) {
+          allParts.push(pageText);
+          cumulative += pageText.length + 2;
+        }
       } catch (e) {
         console.warn(`[Audio] Page ${i} failed:`, e);
       }
     }
 
-    return parts.join('\n\n');
+    return allParts.join('\n\n');
   }
 
-  function splitIntoParagraphs(text) {
+  // ---------- PDF rendering ----------
+  async function renderAllPdfPages() {
+    if (!audio.pdfDoc) return;
+    const container = $('pdfPagesContainer');
+    if (!container) return;
+    container.innerHTML = '';
+    audio.pdfRenderTasks = [];
+
+    for (let pageNum = 1; pageNum <= audio.pdfDoc.numPages; pageNum++) {
+      const page = await audio.pdfDoc.getPage(pageNum);
+      const viewport = page.getViewport({ scale: 1.5 });
+
+      const wrapper = document.createElement('div');
+      wrapper.className = 'pdf-page-wrapper';
+      wrapper.dataset.pageNum = pageNum;
+
+      const canvas = document.createElement('canvas');
+      canvas.width = viewport.width;
+      canvas.height = viewport.height;
+      wrapper.appendChild(canvas);
+
+      const textLayer = document.createElement('div');
+      textLayer.className = 'pdf-text-layer';
+      wrapper.appendChild(textLayer);
+
+      container.appendChild(wrapper);
+
+      const renderTask = page.render({
+        canvasContext: canvas.getContext('2d'),
+        viewport
+      });
+      audio.pdfRenderTasks.push(renderTask);
+      await renderTask.promise;
+
+      const textContent = await page.getTextContent();
+      wrapper._pdfItems = textContent.items;
+      wrapper._pdfViewport = viewport;
+    }
+    console.log('[PDF] Rendered', audio.pdfDoc.numPages, 'pages');
+  }
+
+  function highlightPdfForParagraph(paragraphOffset) {
+    if (!audio.pdfDoc || !audio.pdfPageOffsets.length) return;
+
+    let pageIndex = 0;
+    for (let i = audio.pdfPageOffsets.length - 1; i >= 0; i--) {
+      if (audio.pdfPageOffsets[i] <= paragraphOffset) { pageIndex = i; break; }
+    }
+
+    const wrapper = document.querySelector(`.pdf-page-wrapper[data-page-num="${pageIndex + 1}"]`);
+    if (!wrapper) return;
+    wrapper.scrollIntoView({ behavior: motion(), block: 'center' });
+
+    document.querySelectorAll('.pdf-highlight').forEach(el => el.remove());
+
+    const layer = wrapper.querySelector('.pdf-text-layer');
+    const items = wrapper._pdfItems || [];
+    if (!layer || !items.length) return;
+
+    const viewport = wrapper._pdfViewport;
+    for (const item of items.slice(0, 3)) {
+      if (!item.str || !item.transform) continue;
+      const tx = item.transform;
+      const x = tx[4];
+      const y = tx[5];
+      const [vx, vy] = viewport.convertToViewportPoint(x, y);
+      const fontSize = Math.hypot(tx[2], tx[3]) * viewport.scale;
+      const width = (item.width || fontSize * 5) * viewport.scale;
+
+      const div = document.createElement('div');
+      div.className = 'pdf-highlight is-current';
+      div.style.left = (vx - 2) + 'px';
+      div.style.top = (vy - fontSize) + 'px';
+      div.style.width = Math.max(width, 20) + 'px';
+      div.style.height = (fontSize * 1.3) + 'px';
+      layer.appendChild(div);
+    }
+  }
+
+  // ---------- Paragraph split ----------
+  function splitIntoParagraphsWithOffsets(text) {
     let normalized = String(text)
       .replace(/\u00A0/g, ' ')
       .replace(/[ \t]+/g, ' ')
@@ -1363,48 +1435,47 @@ ${[1, 2, 3, 4, 5].map(value =>
         if (line.length < 3) continue;
         if (/^\d+$/.test(line)) continue;
         buffer = buffer ? buffer + ' ' + line : line;
-        if (buffer.length >= 300) {
-          grouped.push(buffer);
-          buffer = '';
-        }
+        if (buffer.length >= 300) { grouped.push(buffer); buffer = ''; }
       }
       if (buffer) grouped.push(buffer);
       chunks = grouped;
     }
 
-    const cleaned = chunks
-      .map(s => s.replace(/\s+/g, ' ').trim())
-      .filter(s => s.length > 10);
+    const cleaned = chunks.map(s => s.replace(/\s+/g, ' ').trim()).filter(s => s.length > 10);
 
     const merged = [];
+    let currentOffset = 0;
     for (const chunk of cleaned) {
       if (chunk.length < 80 && merged.length > 0) {
-        merged[merged.length - 1] += ' ' + chunk;
+        merged[merged.length - 1].text += ' ' + chunk;
       } else {
-        merged.push(chunk);
+        merged.push({ text: chunk, offset: currentOffset });
       }
+      currentOffset += chunk.length + 2;
     }
 
     const final = [];
-    for (const chunk of merged) {
-      if (chunk.length <= 500) { final.push(chunk); continue; }
-      const sentences = chunk.split(/(?<=[.!?؟।])\s+/);
+    for (const item of merged) {
+      if (item.text.length <= 500) { final.push(item); continue; }
+      const sentences = item.text.split(/(?<=[.!?؟।])\s+/);
       let buffer = '';
+      let bufferOffset = item.offset;
       for (const s of sentences) {
         if ((buffer + ' ' + s).length > 420 && buffer.length > 100) {
-          final.push(buffer.trim());
+          final.push({ text: buffer.trim(), offset: bufferOffset });
+          bufferOffset += buffer.length + 1;
           buffer = s;
         } else {
           buffer = buffer ? buffer + ' ' + s : s;
         }
       }
-      if (buffer.trim()) final.push(buffer.trim());
+      if (buffer.trim()) final.push({ text: buffer.trim(), offset: bufferOffset });
     }
 
-    return final.length ? final : [text.slice(0, 400)];
+    return final;
   }
 
-  // ---------- Paragraph cache (localStorage) ----------
+  // ---------- Paragraph cache ----------
   function getCachedParagraphs(bookId) {
     try {
       const raw = localStorage.getItem(AUDIO_CACHE_PREFIX + bookId);
@@ -1450,13 +1521,11 @@ ${[1, 2, 3, 4, 5].map(value =>
       pruneAudioCache();
     } catch {
       pruneAudioCache(true);
-      try {
-        localStorage.setItem(AUDIO_CACHE_PREFIX + bookId, payload);
-      } catch {}
+      try { localStorage.setItem(AUDIO_CACHE_PREFIX + bookId, payload); } catch {}
     }
   }
 
-  // ---------- Audio player control ----------
+  // ---------- Audio control ----------
   function stopAudio() {
     if (audio.audioElement) {
       try {
@@ -1482,6 +1551,8 @@ ${[1, 2, 3, 4, 5].map(value =>
     audio.currentIndex = -1;
     audio.isPlaying = false;
     audio.aborted = false;
+    audio.pdfDoc = null;
+    audio.pdfPageOffsets = [];
 
     text('audioPlayerTitle', field(book, 'title') || t('الاستماع للكتاب', 'Listen to the book'));
 
@@ -1489,113 +1560,79 @@ ${[1, 2, 3, 4, 5].map(value =>
     const textEl = $('audioText');
     const progressEl = $('audioDownloadProgress');
 
-    if (loadingEl) {
-      loadingEl.hidden = false;
-      loadingEl.classList.remove('d-none');
-    }
-    if (textEl) {
-      textEl.hidden = true;
-      textEl.innerHTML = '';
-      textEl.classList.add('d-none');
-    }
+    if (loadingEl) { loadingEl.hidden = false; loadingEl.classList.remove('d-none'); }
+    if (textEl) { textEl.hidden = true; textEl.innerHTML = ''; textEl.classList.add('d-none'); }
     if (progressEl) progressEl.hidden = true;
 
     text('audioLoadingText', t('جارٍ استخراج نص الكتاب…', 'Extracting book text…'));
     text('audioProgressText', '0 / 0');
 
-    // Hide the voice selector (Piper auto-detects language per paragraph)
-    const voiceWrap = $('audioVoiceSelect')?.closest('.audio-select-wrap');
-    if (voiceWrap) voiceWrap.style.display = 'none';
+    const pdfPane = $('pdfViewerPane');
+    if (pdfPane) pdfPane.style.display = book.file_path ? 'flex' : 'none';
 
-    // Preload Piper engine in background
-    loadPiperEngine().catch(err => {
-      console.error('[Piper] Preload failed:', err);
-    });
+    loadPiperEngine().catch(err => console.error('[Piper] Preload failed:', err));
 
     modal.open('audioPlayerModal');
 
-    getBookParagraphs(book)
-      .then(paragraphs => {
-        if (audio.aborted || audio.book?.id !== book.id) return;
+    (async () => {
+      try {
+        let paragraphs = getCachedParagraphs(book.id);
+        let rawText = '';
 
         if (!paragraphs || !paragraphs.length) {
-          text('audioLoadingText', t(
-            'لم يُعثر على نص قابل للقراءة في هذا المرجع.',
-            'No readable text was found in this reference.'
-          ));
-          return;
+          if (book.file_path) {
+            rawText = await extractPdfTextWithPages(book.file_path);
+            paragraphs = splitIntoParagraphsWithOffsets(rawText);
+            if (paragraphs.length) setCachedParagraphs(book.id, paragraphs);
+          }
+        } else if (book.file_path) {
+          try {
+            const pdfjsLib = await loadPdfJs();
+            audio.pdfDoc = await pdfjsLib.getDocument({ url: book.file_path }).promise;
+          } catch (e) { console.warn('[PDF] failed to reload:', e); }
         }
+
+        if (!paragraphs || !paragraphs.length) {
+          const parts = [];
+          const desc = field(book, 'description');
+          const kpAr = book.key_points || [];
+          const kpEn = book.key_points_en || [];
+          const kp = state.ui.lang === 'en' && kpEn.length ? kpEn : kpAr;
+          const audience = field(book, 'target_audience');
+          if (desc) parts.push({ text: desc, offset: 0 });
+          kp.forEach((p, idx) => parts.push({ text: p, offset: 1000 + idx * 100 }));
+          if (audience) parts.push({ text: audience, offset: 5000 });
+          paragraphs = parts.length ? parts : [{ text: t('لا يوجد نص متاح.', 'No text available.'), offset: 0 }];
+        }
+
+        if (audio.aborted || audio.book?.id !== book.id) return;
 
         audio.paragraphs = paragraphs;
         renderAudioParagraphs();
 
-        if (loadingEl) {
-          loadingEl.hidden = true;
-          loadingEl.classList.add('d-none');
-        }
-        if (textEl) {
-          textEl.hidden = false;
-          textEl.classList.remove('d-none');
-        }
+        if (loadingEl) { loadingEl.hidden = true; loadingEl.classList.add('d-none'); }
+        if (textEl) { textEl.hidden = false; textEl.classList.remove('d-none'); }
 
         updateAudioProgress();
         updateAudioPlayButton();
-      })
-      .catch(err => {
-        console.error('[Audio] Load failed:', err);
-        text('audioLoadingText', t(
-          'تعذّر استخراج نص الكتاب. تأكد من الاتصال بالإنترنت.',
-          'Could not extract book text. Check your internet connection.'
-        ));
-      });
-  }
 
-  async function getBookParagraphs(book) {
-    const cached = getCachedParagraphs(book.id);
-    if (cached && cached.length) {
-      console.log('[Audio] Using cached paragraphs for book', book.id);
-      return cached;
-    }
-
-    if (book.file_path) {
-      try {
-        const rawText = await extractPdfText(book.file_path);
-        if (rawText && rawText.replace(/\s/g, '').length > 200) {
-          const paragraphs = splitIntoParagraphs(rawText);
-          if (paragraphs.length) {
-            setCachedParagraphs(book.id, paragraphs);
-            return paragraphs;
-          }
+        if (audio.pdfDoc) {
+          renderAllPdfPages().catch(err => console.warn('[PDF] render failed:', err));
         }
+
       } catch (err) {
-        console.warn('[Audio] PDF extraction failed, using fallback:', err);
+        console.error('[Audio] Load failed:', err);
+        text('audioLoadingText', t('تعذّر استخراج نص الكتاب.', 'Could not extract book text.'));
       }
-    }
-
-    const parts = [];
-    const desc = field(book, 'description');
-    const kpAr = book.key_points || [];
-    const kpEn = book.key_points_en || [];
-    const kp = state.ui.lang === 'en' && kpEn.length ? kpEn : kpAr;
-    const audience = field(book, 'target_audience');
-
-    if (desc) parts.push(desc);
-    if (kp.length) parts.push(...kp);
-    if (audience) parts.push(audience);
-
-    return parts.length
-      ? parts
-      : [t('لا يوجد نص متاح لهذا المرجع.', 'No text available for this reference.')];
+    })();
   }
 
   function renderAudioParagraphs() {
     const container = $('audioText');
     if (!container) return;
-    container.innerHTML = audio.paragraphs
-      .map((p, idx) =>
-        `<p class="audio-para" data-index="${idx}" role="button" tabindex="0" aria-label="${esc(t(`الفقرة ${idx + 1}`, `Paragraph ${idx + 1}`))}">${esc(p)}</p>`
-      )
-      .join('');
+    container.innerHTML = audio.paragraphs.map((p, idx) =>
+      `<p class="audio-para" data-index="${idx}" data-offset="${p.offset}" role="button" tabindex="0">${esc(p.text)}</p>`
+    ).join('');
   }
 
   function highlightParagraph(index) {
@@ -1609,6 +1646,9 @@ ${[1, 2, 3, 4, 5].map(value =>
     const active = paras[index];
     if (active) active.scrollIntoView({ behavior: motion(), block: 'center' });
     updateAudioProgress();
+
+    const p = audio.paragraphs[index];
+    if (p) highlightPdfForParagraph(p.offset);
   }
 
   function updateAudioProgress() {
@@ -1620,14 +1660,46 @@ ${[1, 2, 3, 4, 5].map(value =>
   function updateAudioPlayButton() {
     const icon = $('audioPlayIcon')?.querySelector('use');
     if (icon) icon.setAttribute('href', audio.isPlaying ? '#i-pause' : '#i-play');
-    const btn = $('audioPlayBtn');
-    if (btn) btn.setAttribute('aria-label', audio.isPlaying ? t('إيقاف مؤقت', 'Pause') : t('تشغيل', 'Play'));
+  }
+
+  // ---------- Piper synthesis ----------
+  async function synthesizePiper(text, voiceId) {
+    const mod = await loadPiperEngine();
+    const { piperGenerate } = mod;
+
+    const progressEl = $('audioDownloadProgress');
+    const fillEl = $('audioDownloadFill');
+    const textEl = $('audioDownloadText');
+
+    if (progressEl) progressEl.hidden = false;
+    if (fillEl) fillEl.style.width = '0%';
+    if (textEl) textEl.textContent = t('جارٍ تحميل النموذج الصوتي…', 'Downloading voice model…');
+
+    try {
+      const result = await piperGenerate(
+        `${PIPER_WASM_BASE}/piper_phonemize.js`,
+        `${PIPER_WASM_BASE}/piper_phonemize.wasm`,
+        `${PIPER_WASM_BASE}/piper_phonemize.data`,
+        `${PIPER_WASM_BASE}/worker/piper_worker.js`,
+        piperModelUrl(voiceId),
+        piperConfigUrl(voiceId),
+        307, // speaker ID (unused for single-speaker models)
+        text,
+        (progress) => {
+          if (fillEl) fillEl.style.width = `${Math.round(progress * 100)}%`;
+        },
+        null,
+        false
+      );
+      return result;
+    } finally {
+      if (progressEl) progressEl.hidden = true;
+    }
   }
 
   async function playFromIndex(index) {
     if (!audio.paragraphs.length) return;
 
-    // Stop any currently playing audio
     if (audio.audioElement) {
       try {
         audio.audioElement.pause();
@@ -1645,33 +1717,23 @@ ${[1, 2, 3, 4, 5].map(value =>
     highlightParagraph(index);
     updateAudioPlayButton();
 
-    const paragraphText = audio.paragraphs[index];
-    const isArabic = ARABIC_RE.test(paragraphText);
+    const paragraph = audio.paragraphs[index];
+    const isArabic = ARABIC_RE.test(paragraph.text);
     const voiceId = isArabic ? PIPER_VOICES.ar : PIPER_VOICES.en;
 
     try {
-      // Ensure engine + model are ready
-      await loadPiperEngine();
-      await downloadPiperModel(voiceId);
+      console.log(`[Piper] Synthesizing paragraph ${index + 1}/${audio.paragraphs.length} (${voiceId})`);
 
-      if (!audio.isPlaying) return; // user paused during load
+      const result = await synthesizePiper(paragraph.text, voiceId);
+      if (!audio.isPlaying) return;
 
-      const tts = audio.piperEngine;
-      console.log(`[Piper] Generating audio for paragraph ${index + 1}/${audio.paragraphs.length}`);
+      const blobUrl = result?.file || result?.blobUrl || result?.url;
+      if (!blobUrl) throw new Error('piperGenerate returned no audio URL');
 
-      const wav = await tts.predict({
-        text: paragraphText,
-        voiceId: voiceId
-      });
-
-      if (!audio.isPlaying) return; // user paused during synthesis
-
-      const url = URL.createObjectURL(wav);
-      const el = new Audio(url);
+      const el = new Audio(blobUrl);
       el.playbackRate = audio.rate;
 
       el.onended = () => {
-        URL.revokeObjectURL(url);
         if (!audio.isPlaying) return;
         if (audio.currentIndex < audio.paragraphs.length - 1) {
           playFromIndex(audio.currentIndex + 1);
@@ -1683,8 +1745,6 @@ ${[1, 2, 3, 4, 5].map(value =>
 
       el.onerror = (e) => {
         console.error('[Piper] Playback error:', e);
-        audio.isPlaying = false;
-        updateAudioPlayButton();
       };
 
       audio.audioElement = el;
@@ -1702,7 +1762,6 @@ ${[1, 2, 3, 4, 5].map(value =>
     if (!audio.paragraphs.length) return;
 
     if (audio.isPlaying) {
-      // Pause
       if (audio.audioElement) {
         try { audio.audioElement.pause(); } catch {}
       }
@@ -1711,7 +1770,6 @@ ${[1, 2, 3, 4, 5].map(value =>
       return;
     }
 
-    // Resume vs. restart
     if (audio.audioElement && audio.audioElement.src && audio.audioElement.currentTime > 0 && audio.audioElement.currentTime < audio.audioElement.duration) {
       try {
         audio.audioElement.play();
@@ -1726,33 +1784,28 @@ ${[1, 2, 3, 4, 5].map(value =>
     playFromIndex(audio.currentIndex >= 0 ? audio.currentIndex : 0);
   }
 
-  // ---------- Audio event wiring ----------
+  // ---------- Audio wiring ----------
   $('audioPlayBtn')?.addEventListener('click', toggleAudioPlay);
-
   $('audioPrevBtn')?.addEventListener('click', () => {
     if (!audio.paragraphs.length) return;
     playFromIndex(Math.max(0, audio.currentIndex - 1));
   });
-
   $('audioNextBtn')?.addEventListener('click', () => {
     if (!audio.paragraphs.length) return;
     playFromIndex(Math.min(audio.paragraphs.length - 1, audio.currentIndex + 1));
   });
-
   $('audioRateSelect')?.addEventListener('change', e => {
     audio.rate = parseFloat(e.target.value) || 1;
     if (audio.audioElement) {
       try { audio.audioElement.playbackRate = audio.rate; } catch {}
     }
   });
-
   $('audioText')?.addEventListener('click', e => {
     const para = e.target.closest('.audio-para');
     if (!para) return;
     const idx = Number(para.dataset.index);
     if (Number.isInteger(idx)) playFromIndex(idx);
   });
-
   $('audioText')?.addEventListener('keydown', e => {
     if (e.key !== 'Enter' && e.key !== ' ') return;
     const para = e.target.closest('.audio-para');
@@ -1760,6 +1813,13 @@ ${[1, 2, 3, 4, 5].map(value =>
     e.preventDefault();
     const idx = Number(para.dataset.index);
     if (Number.isInteger(idx)) playFromIndex(idx);
+  });
+  $('togglePdfViewBtn')?.addEventListener('click', () => {
+    const pane = $('pdfViewerPane');
+    if (!pane) return;
+    const hidden = pane.style.display === 'none';
+    pane.style.display = hidden ? 'flex' : 'none';
+    $('togglePdfViewBtn').classList.toggle('is-active', hidden);
   });
 
   // ---------- Event wiring ----------
