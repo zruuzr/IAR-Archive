@@ -1,5 +1,8 @@
 /* ============================================================
    IAR Archive — application logic (vanilla)
+   Stack: Vanilla JS. No frameworks.
+   Preserved: Firebase (Firestore + Anonymous Auth), pdf.js viewer
+             (Mozilla), PWA install prompt, Service Worker.
    ============================================================ */
 (() => {
   'use strict';
@@ -1146,119 +1149,6 @@ ${[1, 2, 3, 4, 5].map(value =>
       ?.setAttribute('content', state.ui.theme === 'dark' ? '#0a0d14' : '#f4efe4');
   }
 
-  // ============================================================
-  // Seal Bands — Babylonian Cylinder Seal (JS-driven marquee)
-  // ============================================================
-  function bootSealBands() {
-    const bands = document.querySelectorAll('.seal-band');
-    if (!bands.length) return;
-
-    const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    bands.forEach(band => {
-      const track = band.querySelector('.seal-track');
-      if (!track) return;
-      if (track.dataset.sealReady === '1') return;
-      track.dataset.sealReady = '1';
-
-      fillSealTrack(band, track);
-
-      if (reduceMotion) return;
-
-      const isBottom = band.classList.contains('bottom');
-      const direction = isBottom ? 1 : -1;   // -1 = يسار، +1 = يمين
-      const speed = isBottom ? 28 : 38;      // px/s
-
-      startSealMarquee(track, direction, speed);
-    });
-  }
-
-  function fillSealTrack(band, track) {
-    const bandWidth = band.getBoundingClientRect().width;
-    if (!bandWidth) return;
-
-    const first = track.querySelector('.seal-text');
-    if (!first) return;
-
-    const firstHTML = first.outerHTML;
-    const unitWidth = first.getBoundingClientRect().width;
-    if (!unitWidth) return;
-
-    // نريد أن يكون نصف المسار ≥ 1.3 × عرض الشريط
-    const targetHalf = bandWidth * 1.3;
-    const unitsPerHalf = Math.max(1, Math.ceil(targetHalf / unitWidth));
-    const totalNeeded = unitsPerHalf * 2;
-    const have = track.querySelectorAll('.seal-text').length;
-
-    for (let i = have; i < totalNeeded; i++) {
-      track.insertAdjacentHTML('beforeend', firstHTML);
-    }
-  }
-
-  function startSealMarquee(track, direction, speed) {
-    const texts = Array.from(track.querySelectorAll('.seal-text'));
-    if (texts.length < 2) return;
-
-    const measure = () => {
-      const half = texts.length / 2;
-      let w = 0;
-      for (let i = 0; i < half; i++) {
-        w += texts[i].getBoundingClientRect().width;
-      }
-      return w;
-    };
-
-    let halfWidth = measure();
-    if (!halfWidth) return;
-
-    let pos = direction < 0 ? 0 : -halfWidth;
-    let last = performance.now();
-    let raf = null;
-
-    const step = (now) => {
-      const dt = Math.min((now - last) / 1000, 0.05);
-      last = now;
-
-      pos += direction * speed * dt;
-
-      if (direction < 0 && pos <= -halfWidth) pos += halfWidth;
-      if (direction > 0 && pos >= 0) pos -= halfWidth;
-
-      track.style.transform = `translate3d(${pos.toFixed(2)}px, 0, 0)`;
-      raf = requestAnimationFrame(step);
-    };
-
-    const play = () => {
-      if (raf) return;
-      last = performance.now();
-      raf = requestAnimationFrame(step);
-    };
-    const pause = () => {
-      if (raf) { cancelAnimationFrame(raf); raf = null; }
-    };
-
-    let resizeTimer;
-    window.addEventListener('resize', () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => {
-        pause();
-        halfWidth = measure();
-        if (halfWidth) {
-          if (direction < 0) pos = Math.min(0, pos);
-          else pos = Math.max(-halfWidth, pos);
-        }
-        play();
-      }, 200);
-    });
-
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden) pause();
-      else play();
-    });
-
-    play();
-  }
-
   function initAmbient() {
     const canHover = matchMedia('(hover: hover) and (pointer: fine)').matches;
     const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1565,21 +1455,6 @@ ${[1, 2, 3, 4, 5].map(value =>
   initAmbient();
   theme();
   language();
-
-  // ---------- Seal bands boot (wait for fonts, then run) ----------
-  let sealBooted = false;
-  const bootSeal = () => {
-    if (sealBooted) return;
-    sealBooted = true;
-    bootSealBands();
-  };
-  if (document.fonts && document.fonts.ready && typeof document.fonts.ready.then === 'function') {
-    document.fonts.ready.then(bootSeal).catch(bootSeal);
-    // احتياطي: إن لم تُحل الوعود خلال 2.5 ثانية
-    setTimeout(bootSeal, 2500);
-  } else {
-    bootSeal();
-  }
 
   // ---------- PWA install prompt ----------
   function isStandalone() {
