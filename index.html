@@ -26,7 +26,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Noto+Sans+Cuneiform&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="style.css">
 
@@ -168,15 +168,31 @@ window.addEventListener('appinstalled', function () {
 
 <main class="container main-content">
 
+  <!-- ============================================================
+       HERO — ختم أسطواني متحرك (C3)
+       ============================================================ -->
   <section class="hero" aria-labelledby="txt-about-title">
     <div class="hero-inner">
+
+      <!-- شريط مسماري علوي (ختم أسطواني) -->
+      <div class="seal-band top" aria-hidden="true">
+        <div class="seal-track">
+          <span class="seal-text">
+            𒀭𒈗𒂗𒆠𒌷𒂍𒀀𒁹<span class="sep">◆</span>𒋀𒆠𒂗𒂠<span class="sep">◆</span>𒌨𒆠<span class="sep">◆</span>𒆍𒀭𒊏𒆠<span class="sep">◆</span>𒀸𒀹<span class="sep">◆</span>𒆠𒌋𒈬𒃻<span class="sep">◆</span>𒋗𒁺<span class="sep">◆</span>𒀸𒀹𒂗𒈗𒆠𒌷𒂍<span class="sep">◆</span>
+          </span>
+          <span class="seal-text">
+            𒀭𒈗𒂗𒆠𒌷𒂍𒀀𒁹<span class="sep">◆</span>𒋀𒆠𒂗𒂠<span class="sep">◆</span>𒌨𒆠<span class="sep">◆</span>𒆍𒀭𒊏𒆠<span class="sep">◆</span>𒀸𒀹<span class="sep">◆</span>𒆠𒌋𒈬𒃻<span class="sep">◆</span>𒋗𒁺<span class="sep">◆</span>𒀸𒀹𒂗𒈗𒆠𒌷𒂍<span class="sep">◆</span>
+          </span>
+        </div>
+      </div>
+
       <div class="hero-copy">
         <span class="hero-kicker">
           <span class="pulse-dot" aria-hidden="true"></span>
           <svg class="icon"><use href="#i-sparkles"/></svg>
-          <span id="txt-kicker">المكتبة الرقمية العراقية · إصدار 2026</span>
+          <span id="txt-kicker">𒆠𒂗𒂠 · المكتبة الرقمية العراقية · 2026</span>
         </span>
-        <h1 class="hero-title" id="txt-about-title">حيث تحفظ المعرفة الإدارية العراقية نفسها.</h1>
+        <h1 class="hero-title" id="txt-about-title">من ألواح بابل، إلى رفوف الحاضر — المعرفة لا تضيع.</h1>
         <p class="hero-desc" id="txt-about-desc">
           مجموعة منتقاة من المراجع الإدارية، مُفهرسة بعناية، مرفقة بملخصات مركزة
           وتوثيق أكاديمي مباشر — لتكون وجهتك الأولى للبحث والاطلاع.
@@ -193,6 +209,19 @@ window.addEventListener('appinstalled', function () {
         <div class="stat"><div class="stat-num grad-text" id="siteVisitsCounter">—</div><div class="stat-cap" id="txt-stat-visits">الزيارات اليومية</div></div>
         <div class="stat"><div class="stat-num grad-text" id="archiveYear">2026</div><div class="stat-cap" id="txt-stat-year">سنة الأرشفة</div></div>
       </div>
+
+      <!-- شريط مسماري سفلي (ختم أسطواني - معاكس) -->
+      <div class="seal-band bottom" aria-hidden="true">
+        <div class="seal-track">
+          <span class="seal-text">
+            𒆠𒂗𒂠<span class="sep">◆</span>𒌨𒆠<span class="sep">◆</span>𒆍𒀭𒊏𒆠<span class="sep">◆</span>𒀭𒈗𒂗𒆠𒌷𒂍𒀀𒁹<span class="sep">◆</span>𒋀𒆠𒂗𒂠<span class="sep">◆</span>𒌨𒆠<span class="sep">◆</span>𒀸𒀹<span class="sep">◆</span>𒆠𒌋𒈬𒃻𒋗𒁺<span class="sep">◆</span>
+          </span>
+          <span class="seal-text">
+            𒆠𒂗𒂠<span class="sep">◆</span>𒌨𒆠<span class="sep">◆</span>𒆍𒀭𒊏𒆠<span class="sep">◆</span>𒀭𒈗𒂗𒆠𒌷𒂍𒀀𒁹<span class="sep">◆</span>𒋀𒆠𒂗𒂠<span class="sep">◆</span>𒌨𒆠<span class="sep">◆</span>𒀸𒀹<span class="sep">◆</span>𒆠𒌋𒈬𒃻𒋗𒁺<span class="sep">◆</span>
+          </span>
+        </div>
+      </div>
+
     </div>
     <h2 class="sr-only" id="txt-library-title">رفوف المعرفة</h2>
   </section>
