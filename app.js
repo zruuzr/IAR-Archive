@@ -1,8 +1,5 @@
 /* ============================================================
    IAR Archive — application logic (vanilla)
-   Stack: Vanilla JS. No frameworks.
-   Preserved: Firebase (Firestore + Anonymous Auth), pdf.js viewer
-             (Mozilla), PWA install prompt, Service Worker.
    ============================================================ */
 (() => {
   'use strict';
@@ -1051,8 +1048,8 @@ ${[1, 2, 3, 4, 5].map(value =>
       'txt-install': ['تثبيت', 'Install'],
       'txt-announcement': ['IAR ARCHIVE · مساحة للمعرفة الإدارية', 'IAR ARCHIVE · A space for management knowledge'],
       'txt-subtitle': ['الأرشيف الإداري العراقي', 'Iraqi Administrative Reference'],
-      'txt-about-title': ['من ألواح بابل، إلى رفوف الحاضر — المعرفة لا تضيع.', 'From Babylon\'s tablets to today\'s shelves — knowledge is never lost.'],
-      'txt-about-desc': ['مجموعة منتقاة من المراجع الإدارية، مُفهرسة بعناية، مرفقة بملخصات مركزة وتوثيق أكاديمي مباشر — لتكون وجهتك الأولى للبحث والاطلاع.', 'A curated collection of administrative references — indexed with care, accompanied by focused summaries and direct academic citation — so it becomes your first stop for research and reading.'],
+      'txt-about-title': ['من ألواح بابل إلى رفوف الحاضر.', 'From Babylon\'s tablets to today\'s shelves.'],
+      'txt-about-desc': ['مجموعة منتقاة من المراجع الإدارية، مفهرسة بعناية، مرفقة بملخصات مركزة وتوثيق أكاديمي مباشر — لتكون وجهتك الأولى للبحث والاطلاع.', 'A curated collection of administrative references — indexed with care, accompanied by focused summaries and direct academic citation — so it becomes your first stop for research and reading.'],
       'txt-kicker': ['𒆠𒂗𒂠 · المكتبة الرقمية العراقية · 2026', '𒆠𒂗𒂠 · The Iraqi Digital Library · 2026'],
       'txt-tag-summary': ['ملخصات 3 دقائق', '3-minute summaries'],
       'txt-tag-cite': ['توثيق APA مباشر', 'Direct APA citations'],
@@ -1151,9 +1148,8 @@ ${[1, 2, 3, 4, 5].map(value =>
 
   // ============================================================
   // Seal Bands — Babylonian Cylinder Seal (JS-driven marquee)
-  // يدار بالكامل عبر JS لتفادي مشاكل CSS animations
   // ============================================================
-  function initSealBands() {
+  function bootSealBands() {
     const bands = document.querySelectorAll('.seal-band');
     if (!bands.length) return;
 
@@ -1162,99 +1158,105 @@ ${[1, 2, 3, 4, 5].map(value =>
     bands.forEach(band => {
       const track = band.querySelector('.seal-track');
       if (!track) return;
+      if (track.dataset.sealReady === '1') return;
+      track.dataset.sealReady = '1';
 
-      // احترام reduced-motion: عرض ثابت بلا حركة
-      if (reduceMotion) {
-        track.style.transform = 'translate3d(0, 0, 0)';
-        return;
-      }
+      fillSealTrack(band, track);
 
-      // ضمان أن المسار أوسع من الشريط بمرتين على الأقل
-      ensureTrackWidth(band, track);
+      if (reduceMotion) return;
 
-      // اتجاه وسرعة
       const isBottom = band.classList.contains('bottom');
-      const direction = isBottom ? 1 : -1;         // علوي ← يسار، سفلي → يمين
-      const speed = isBottom ? 28 : 38;            // px/s
+      const direction = isBottom ? 1 : -1;   // -1 = يسار، +1 = يمين
+      const speed = isBottom ? 28 : 38;      // px/s
 
-      startMarquee(track, direction, speed);
+      startSealMarquee(track, direction, speed);
     });
   }
 
-  function ensureTrackWidth(band, track) {
-    const bandWidth = band.offsetWidth || window.innerWidth;
-    const initialScrollWidth = track.scrollWidth;
-    if (!initialScrollWidth) return;
+  function fillSealTrack(band, track) {
+    const bandWidth = band.getBoundingClientRect().width;
+    if (!bandWidth) return;
 
-    // نريد نصف المسار (نسخة واحدة) أوسع من الشريط بـ 1.5×
-    const halfTarget = bandWidth * 1.5;
-    const halfCurrent = initialScrollWidth / 2;
+    const first = track.querySelector('.seal-text');
+    if (!first) return;
 
-    if (halfCurrent < halfTarget) {
-      const factor = Math.ceil(halfTarget / halfCurrent);
-      const originalHTML = track.innerHTML;
-      for (let i = 1; i < factor; i++) {
-        track.insertAdjacentHTML('beforeend', originalHTML);
-      }
+    const firstHTML = first.outerHTML;
+    const unitWidth = first.getBoundingClientRect().width;
+    if (!unitWidth) return;
+
+    // نريد أن يكون نصف المسار ≥ 1.3 × عرض الشريط
+    const targetHalf = bandWidth * 1.3;
+    const unitsPerHalf = Math.max(1, Math.ceil(targetHalf / unitWidth));
+    const totalNeeded = unitsPerHalf * 2;
+    const have = track.querySelectorAll('.seal-text').length;
+
+    for (let i = have; i < totalNeeded; i++) {
+      track.insertAdjacentHTML('beforeend', firstHTML);
     }
   }
 
-  function startMarquee(track, direction, speedPxPerSec) {
-    const halfWidth = track.scrollWidth / 2;
-    if (halfWidth <= 0) return;
+  function startSealMarquee(track, direction, speed) {
+    const texts = Array.from(track.querySelectorAll('.seal-text'));
+    if (texts.length < 2) return;
+
+    const measure = () => {
+      const half = texts.length / 2;
+      let w = 0;
+      for (let i = 0; i < half; i++) {
+        w += texts[i].getBoundingClientRect().width;
+      }
+      return w;
+    };
+
+    let halfWidth = measure();
+    if (!halfWidth) return;
 
     let pos = direction < 0 ? 0 : -halfWidth;
-    let lastTime = performance.now();
-    let rafId = null;
+    let last = performance.now();
+    let raf = null;
 
     const step = (now) => {
-      // dt محدود لتجنب قفزات كبيرة عند عودة التبويب
-      const dt = Math.min((now - lastTime) / 1000, 0.1);
-      lastTime = now;
+      const dt = Math.min((now - last) / 1000, 0.05);
+      last = now;
 
-      pos += direction * speedPxPerSec * dt;
+      pos += direction * speed * dt;
 
-      // الالتفاف السلس
       if (direction < 0 && pos <= -halfWidth) pos += halfWidth;
       if (direction > 0 && pos >= 0) pos -= halfWidth;
 
       track.style.transform = `translate3d(${pos.toFixed(2)}px, 0, 0)`;
-      rafId = requestAnimationFrame(step);
+      raf = requestAnimationFrame(step);
     };
 
-    const start = () => {
-      if (rafId) return;
-      lastTime = performance.now();
-      rafId = requestAnimationFrame(step);
+    const play = () => {
+      if (raf) return;
+      last = performance.now();
+      raf = requestAnimationFrame(step);
+    };
+    const pause = () => {
+      if (raf) { cancelAnimationFrame(raf); raf = null; }
     };
 
-    const stop = () => {
-      if (rafId) {
-        cancelAnimationFrame(rafId);
-        rafId = null;
-      }
-    };
-
-    // إعادة قياس عند تغيير حجم النافذة
-    const onResize = () => {
-      stop();
-      ensureTrackWidth(track.closest('.seal-band'), track);
-      start();
-    };
     let resizeTimer;
     window.addEventListener('resize', () => {
       clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(onResize, 200);
+      resizeTimer = setTimeout(() => {
+        pause();
+        halfWidth = measure();
+        if (halfWidth) {
+          if (direction < 0) pos = Math.min(0, pos);
+          else pos = Math.max(-halfWidth, pos);
+        }
+        play();
+      }, 200);
     });
 
-    // إيقاف عند إخفاء التبويب (بطارية + أداء)
     document.addEventListener('visibilitychange', () => {
-      if (document.hidden) stop();
-      else start();
+      if (document.hidden) pause();
+      else play();
     });
 
-    // بدء
-    start();
+    play();
   }
 
   function initAmbient() {
@@ -1561,9 +1563,23 @@ ${[1, 2, 3, 4, 5].map(value =>
   }
 
   initAmbient();
-  initSealBands();
   theme();
   language();
+
+  // ---------- Seal bands boot (wait for fonts, then run) ----------
+  let sealBooted = false;
+  const bootSeal = () => {
+    if (sealBooted) return;
+    sealBooted = true;
+    bootSealBands();
+  };
+  if (document.fonts && document.fonts.ready && typeof document.fonts.ready.then === 'function') {
+    document.fonts.ready.then(bootSeal).catch(bootSeal);
+    // احتياطي: إن لم تُحل الوعود خلال 2.5 ثانية
+    setTimeout(bootSeal, 2500);
+  } else {
+    bootSeal();
+  }
 
   // ---------- PWA install prompt ----------
   function isStandalone() {
