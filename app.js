@@ -1051,7 +1051,7 @@ ${[1, 2, 3, 4, 5].map(value =>
       'txt-install': ['تثبيت', 'Install'],
       'txt-announcement': ['IAR ARCHIVE · مساحة للمعرفة الإدارية', 'IAR ARCHIVE · A space for management knowledge'],
       'txt-subtitle': ['الأرشيف الإداري العراقي', 'Iraqi Administrative Reference'],
-      'txt-about-title': ['من ألواح بابل إلى رفوف الحاضر.', 'From Babylon\'s tablets to today\'s shelves.'],
+      'txt-about-title': ['من ألواح سومر إلى أوراق الحاضر.', 'From Sumer\'s tablets to today\'s pages.'],
       'txt-about-desc': ['مجموعة منتقاة من المراجع الإدارية، مفهرسة بعناية، مرفقة بملخصات مركزة وتوثيق أكاديمي مباشر — لتكون وجهتك الأولى للبحث والاطلاع.', 'A curated collection of administrative references — indexed with care, accompanied by focused summaries and direct academic citation — so it becomes your first stop for research and reading.'],
       'txt-kicker': ['𒆠𒂗𒂠 · المكتبة الرقمية العراقية · 2026', '𒆠𒂗𒂠 · The Iraqi Digital Library · 2026'],
       'txt-tag-summary': ['ملخصات 3 دقائق', '3-minute summaries'],
