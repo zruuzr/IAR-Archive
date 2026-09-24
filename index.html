@@ -72,7 +72,6 @@ window.addEventListener('appinstalled', function () {
     <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
     <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></symbol>
     <symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></symbol>
-    <symbol id="i-share-filled" viewBox="0 0 24 24"><g fill="currentColor" stroke="none"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98M15.41 6.51L8.59 10.49" stroke="currentColor" stroke-width="2" fill="none"/></g></symbol>
     <symbol id="i-zap" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></symbol>
     <symbol id="i-star" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></symbol>
     <symbol id="i-star-filled" viewBox="0 0 24 24"><polygon fill="currentColor" stroke="none" points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></symbol>
@@ -102,12 +101,6 @@ window.addEventListener('appinstalled', function () {
     <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></symbol>
     <symbol id="i-telegram" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M22 3 2 10.5l5.5 2L9 19l3-3 5.5 4L22 3zm-3 3.5-9 8 .5 4-1.5-5z"/></symbol>
     <symbol id="i-tiktok" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M16.5 3a4.5 4.5 0 0 0 4.5 4.5V11a8 8 0 0 1-4.5-1.4V15a6 6 0 1 1-6-6c.34 0 .67.03 1 .08V12.6a3 3 0 1 0 2 2.83V3z"/></symbol>
-    <symbol id="i-headphones" viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1v-6h3zM3 19a2 2 0 0 0 2 2h1v-6H3z"/></symbol>
-    <symbol id="i-play" viewBox="0 0 24 24"><polygon fill="currentColor" stroke="none" points="6 4 20 12 6 20 6 4"/></symbol>
-    <symbol id="i-pause" viewBox="0 0 24 24"><g fill="currentColor" stroke="none"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></g></symbol>
-    <symbol id="i-skip-back" viewBox="0 0 24 24"><polygon fill="currentColor" stroke="none" points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5" stroke="currentColor" stroke-width="2"/></symbol>
-    <symbol id="i-skip-forward" viewBox="0 0 24 24"><polygon fill="currentColor" stroke="none" points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19" stroke="currentColor" stroke-width="2"/></symbol>
-    <symbol id="i-speed" viewBox="0 0 24 24"><path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16z"/><path d="M12 12l4-4"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/></symbol>
   </defs>
 </svg>
 
@@ -365,78 +358,6 @@ window.addEventListener('appinstalled', function () {
     <div class="modal-body modal-body-flush">
       <iframe id="pdfFrame" src="about:blank" title="قارئ الملفات"></iframe>
     </div>
-  </div>
-</div>
-
-<!-- ================= PDF + Audio Combined Modal ================= -->
-<div class="modal modal-full" id="audioPlayerModal" role="dialog" aria-modal="true" aria-labelledby="audioPlayerTitle" hidden>
-  <div class="modal-backdrop" data-close></div>
-  <div class="modal-panel modal-panel-full">
-    <header class="modal-head">
-      <h5 id="audioPlayerTitle">الاستماع للكتاب</h5>
-      <div class="modal-head-actions">
-        <button type="button" class="modal-head-btn is-active" id="togglePdfViewBtn" title="إظهار/إخفاء الصفحات">
-          <svg class="icon"><use href="#i-file-text"/></svg>
-        </button>
-        <button type="button" class="modal-close" data-close aria-label="إغلاق" id="audioDismissBtn">
-          <svg class="icon"><use href="#i-x"/></svg>
-        </button>
-      </div>
-    </header>
-
-    <div class="modal-body modal-body-flush audio-player-body">
-      <div class="pdf-viewer-pane" id="pdfViewerPane">
-        <div class="pdf-pages-container" id="pdfPagesContainer"></div>
-      </div>
-
-      <div class="audio-text-pane">
-        <div class="audio-download-progress" id="audioDownloadProgress" hidden>
-          <div class="audio-download-bar">
-            <div class="audio-download-fill" id="audioDownloadFill"></div>
-          </div>
-          <span class="audio-download-text" id="audioDownloadText">جارٍ تحميل النموذج الصوتي…</span>
-        </div>
-
-        <div class="audio-loading" id="audioLoading" role="status">
-          <svg class="icon audio-loading-icon"><use href="#i-hourglass"/></svg>
-          <p id="audioLoadingText">جارٍ استخراج نص الكتاب…</p>
-          <div class="audio-loading-note" id="audioLoadingNote">قد يستغرق هذا بعض الوقت في الكتب الكبيرة.</div>
-        </div>
-        <div class="audio-text d-none" id="audioText"></div>
-      </div>
-    </div>
-
-    <footer class="audio-player-bar">
-      <div class="audio-controls">
-        <button type="button" class="audio-btn" id="audioPrevBtn" aria-label="الفقرة السابقة">
-          <svg class="icon"><use href="#i-skip-back"/></svg>
-        </button>
-        <button type="button" class="audio-btn audio-btn-main" id="audioPlayBtn" aria-label="تشغيل">
-          <svg class="icon" id="audioPlayIcon"><use href="#i-play"/></svg>
-        </button>
-        <button type="button" class="audio-btn" id="audioNextBtn" aria-label="الفقرة التالية">
-          <svg class="icon"><use href="#i-skip-forward"/></svg>
-        </button>
-      </div>
-
-      <div class="audio-progress">
-        <span id="audioProgressText">0 / 0</span>
-      </div>
-
-      <div class="audio-selects">
-        <label class="audio-select-wrap">
-          <svg class="icon"><use href="#i-speed"/></svg>
-          <select id="audioRateSelect" aria-label="سرعة القراءة">
-            <option value="0.5">0.5×</option>
-            <option value="0.75">0.75×</option>
-            <option value="1" selected>1×</option>
-            <option value="1.25">1.25×</option>
-            <option value="1.5">1.5×</option>
-            <option value="2">2×</option>
-          </select>
-        </label>
-      </div>
-    </footer>
   </div>
 </div>
 
