@@ -445,8 +445,8 @@ h1, h2, h3, h4, h5, h6 { font-weight: 600; letter-spacing: 0; line-height: 1.3; 
 
 /* ============================================================
    C3 — Babylonian Cylinder Seal
-   الحركة تُدار بالكامل عبر JavaScript (app.js → initSealBands)
-   CSS يوفّر البنية والأنماط فقط — لا animations هنا
+   الحركة تُدار بالكامل عبر JavaScript (app.js → bootSealBands)
+   CSS يوفّر البنية والأنماط فقط
    ============================================================ */
 .seal-band {
   position: absolute;
@@ -456,7 +456,9 @@ h1, h2, h3, h4, h5, h6 { font-weight: 600; letter-spacing: 0; line-height: 1.3; 
   overflow: hidden;
   pointer-events: none;
   z-index: 1;
-  isolation: isolate;
+  display: flex;
+  align-items: center;
+  direction: ltr; /* لتفادي أي تأثير RTL على ترتيب العناصر */
 }
 .seal-band.top {
   top: 3px;
@@ -468,12 +470,10 @@ h1, h2, h3, h4, h5, h6 { font-weight: 600; letter-spacing: 0; line-height: 1.3; 
 }
 
 .seal-track {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
   display: flex;
   align-items: center;
+  flex-shrink: 0;
+  height: 100%;
   white-space: nowrap;
   font-family: var(--font-cuneiform);
   font-size: 1.75rem;
@@ -491,6 +491,7 @@ h1, h2, h3, h4, h5, h6 { font-weight: 600; letter-spacing: 0; line-height: 1.3; 
   flex-shrink: 0;
   padding-inline-end: 5rem;
   height: 100%;
+  direction: ltr;
 }
 
 .seal-band .sep {
