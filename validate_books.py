@@ -4,8 +4,16 @@ IAR Archive — strict books.json validator.
 Purpose:
     Ensure books.json conforms to the normalized archive schema.
 
-This validator intentionally fails on malformed data.
-Legacy normalization belongs to migrate_books.py.
+Important:
+    Author is intentionally OPTIONAL.
+
+Why?
+    The archive may contain institutional publications, guides,
+    reports, regulations, manuals, circulars, and other references
+    that do not have an individual author.
+
+Missing author therefore generates a warning instead of failing
+the workflow.
 """
 
 from __future__ import annotations
@@ -22,10 +30,13 @@ BOOKS_PATH = Path(
 
 MAX_BOOKS = 10_000
 
+# Required fields represent data that is structurally necessary
+# for the archive to display and reference an item.
+#
+# "author" is deliberately NOT required.
 REQUIRED_FIELDS = {
     "id",
     "title",
-    "author",
     "category",
     "description",
     "type",
@@ -60,25 +71,38 @@ MAX_LENGTHS = {
     "id": 20,
     "title": 500,
     "title_en": 500,
+
     "author": 500,
     "author_en": 500,
+
     "category": 300,
     "category_en": 300,
+
     "description": 10_000,
     "description_en": 10_000,
+
     "publisher": 500,
     "publisher_en": 500,
+
     "type": 200,
     "type_en": 200,
+
     "target_audience": 1_500,
     "target_audience_en": 1_500,
+
     "isbn": 100,
+
     "file_path": 1_000,
     "file_name": 500,
     "cover_image": 1_000,
+
     "source_sha256": 64,
 }
 
+
+# ============================================================
+# Error / warning helpers
+# ============================================================
 
 def fail(
     message: str,
@@ -91,10 +115,24 @@ def fail(
     raise SystemExit(1)
 
 
+def warning(
+    message: str,
+) -> None:
+    print(
+        "::warning title=Catalog Validation::"
+        f"{message}"
+    )
+
+
+# ============================================================
+# String validation
+# ============================================================
+
 def require_string(
     book: dict[str, Any],
     field: str,
     index: int,
+    *,
     allow_empty: bool = False,
 ) -> str:
     value = book.get(
@@ -146,10 +184,15 @@ def require_string(
     return value
 
 
+# ============================================================
+# Numeric validation
+# ============================================================
+
 def validate_integer(
     book: dict[str, Any],
     field: str,
     index: int,
+    *,
     minimum: int = 0,
     maximum: int | None = None,
 ) -> None:
@@ -194,63 +237,57 @@ def validate_integer(
         )
 
 
-def validate_list(
+def validate_year(
     book: dict[str, Any],
-    field: str,
     index: int,
-    max_items: int,
-    max_item_length: int,
 ) -> None:
     value = book.get(
-        field
+        "year"
     )
 
     if value is None:
         return
 
-    if not isinstance(
-        value,
-        list,
+    if (
+        isinstance(value, bool)
+        or not isinstance(value, int)
     ):
         fail(
-            f"Book #{index}: '{field}' "
-            "must be an array."
+            f"Book #{index}: year must be an integer."
         )
 
-    if len(value) > max_items:
+    if value < 0:
         fail(
-            f"Book #{index}: '{field}' contains "
-            f"{len(value)} items; maximum is {max_items}."
+            f"Book #{index}: year cannot be negative."
         )
 
-    for item_index, item in enumerate(
-        value,
-        start=1,
+    # 0 means "unknown / not available".
+    if value != 0 and (
+        value < 1000
+        or value > 2100
     ):
-        if not isinstance(
-            item,
-            str,
-        ):
-            fail(
-                f"Book #{index}: "
-                f"'{field}[{item_index}]' "
-                "must be a string."
-            )
+        fail(
+            f"Book #{index}: suspicious publication "
+            f"year '{value}'."
+        )
 
-        if not item.strip():
-            fail(
-                f"Book #{index}: "
-                f"'{field}[{item_index}]' "
-                "cannot be empty."
-            )
 
-        if len(item.strip()) > max_item_length:
-            fail(
-                f"Book #{index}: "
-                f"'{field}[{item_index}]' "
-                f"exceeds {max_item_length} characters."
-            )
+def validate_pages(
+    book: dict[str, Any],
+    index: int,
+) -> None:
+    validate_integer(
+        book,
+        "pages",
+        index,
+        minimum=0,
+        maximum=100_000,
+    )
 
+
+# ============================================================
+# ID validation
+# ============================================================
 
 def validate_id(
     book: dict[str, Any],
@@ -292,55 +329,100 @@ def validate_id(
     )
 
 
-def validate_year(
+# ============================================================
+# List validation
+# ============================================================
+
+def validate_list(
     book: dict[str, Any],
+    field: str,
     index: int,
+    *,
+    max_items: int,
+    max_item_length: int,
 ) -> None:
     value = book.get(
-        "year"
+        field
     )
 
     if value is None:
         return
 
-    if isinstance(
+    if not isinstance(
         value,
-        bool,
-    ) or not isinstance(
-        value,
-        int,
+        list,
     ):
         fail(
-            f"Book #{index}: year must be an integer."
+            f"Book #{index}: '{field}' "
+            "must be an array."
         )
 
-    if value < 0:
+    if len(value) > max_items:
         fail(
-            f"Book #{index}: year cannot be negative."
+            f"Book #{index}: '{field}' contains "
+            f"{len(value)} items; maximum is {max_items}."
         )
 
-    if value != 0 and (
-        value < 1000
-        or value > 2100
+    for item_index, item in enumerate(
+        value,
+        start=1,
     ):
-        fail(
-            f"Book #{index}: suspicious publication "
-            f"year '{value}'."
-        )
+        if not isinstance(
+            item,
+            str,
+        ):
+            fail(
+                f"Book #{index}: "
+                f"'{field}[{item_index}]' "
+                "must be a string."
+            )
+
+        item = item.strip()
+
+        if not item:
+            fail(
+                f"Book #{index}: "
+                f"'{field}[{item_index}]' "
+                "cannot be empty."
+            )
+
+        if len(item) > max_item_length:
+            fail(
+                f"Book #{index}: "
+                f"'{field}[{item_index}]' "
+                f"exceeds {max_item_length} characters."
+            )
 
 
-def validate_pages(
+# ============================================================
+# Boolean validation
+# ============================================================
+
+def validate_boolean(
     book: dict[str, Any],
+    field: str,
     index: int,
 ) -> None:
-    validate_integer(
-        book,
-        "pages",
-        index,
-        minimum=0,
-        maximum=100_000,
+    value = book.get(
+        field
     )
 
+    if value is None:
+        return
+
+    if not isinstance(
+        value,
+        bool,
+    ):
+        fail(
+            f"Book #{index}: '{field}' "
+            "must be boolean."
+        )
+
+
+# ============================================================
+# File/path validation
+# ============================================================
 
 def validate_file_path(
     book: dict[str, Any],
@@ -466,27 +548,9 @@ def validate_sha256(
         )
 
 
-def validate_boolean(
-    book: dict[str, Any],
-    field: str,
-    index: int,
-) -> None:
-    value = book.get(
-        field
-    )
-
-    if value is None:
-        return
-
-    if not isinstance(
-        value,
-        bool,
-    ):
-        fail(
-            f"Book #{index}: '{field}' "
-            "must be boolean."
-        )
-
+# ============================================================
+# Book validation
+# ============================================================
 
 def validate_book(
     book: Any,
@@ -518,9 +582,12 @@ def validate_book(
         seen_ids,
     )
 
+    # --------------------------------------------------------
+    # Required textual metadata
+    # --------------------------------------------------------
+
     for field in (
         "title",
-        "author",
         "category",
         "description",
         "type",
@@ -531,9 +598,14 @@ def validate_book(
             index,
         )
 
+    # --------------------------------------------------------
+    # Optional textual metadata
+    # --------------------------------------------------------
+
     optional_strings = {
-        "title_en",
+        "author",
         "author_en",
+        "title_en",
         "category_en",
         "description_en",
         "publisher",
@@ -550,12 +622,29 @@ def validate_book(
 
     for field in optional_strings:
         if field in book:
-            require_string(
+            value = require_string(
                 book,
                 field,
                 index,
                 allow_empty=True,
             )
+
+            # Missing author is valid for institutional /
+            # administrative material, but remain visible
+            # as a warning for data-quality review.
+            if (
+                field == "author"
+                and not value
+            ):
+                warning(
+                    f"Book #{index}: author is empty. "
+                    "This is allowed for institutional or "
+                    "authorless references."
+                )
+
+    # --------------------------------------------------------
+    # Numeric fields
+    # --------------------------------------------------------
 
     validate_year(
         book,
@@ -566,6 +655,10 @@ def validate_book(
         book,
         index,
     )
+
+    # --------------------------------------------------------
+    # Paths
+    # --------------------------------------------------------
 
     validate_file_path(
         book,
@@ -582,11 +675,19 @@ def validate_book(
         index,
     )
 
+    # --------------------------------------------------------
+    # Boolean fields
+    # --------------------------------------------------------
+
     validate_boolean(
         book,
         "featured",
         index,
     )
+
+    # --------------------------------------------------------
+    # Arrays
+    # --------------------------------------------------------
 
     for field in (
         "keywords",
@@ -612,6 +713,10 @@ def validate_book(
             max_item_length=1_000,
         )
 
+
+# ============================================================
+# Main
+# ============================================================
 
 def main() -> None:
     if not BOOKS_PATH.is_file():
