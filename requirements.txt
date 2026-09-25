@@ -3,7 +3,7 @@
 # Hardening baseline — September 2026
 #
 # Compatible-release pins (~=) keep each dependency within the
-# same minor release series while allowing safe patch updates.
+# same minor release series while allowing patch updates.
 #
 # Dependabot monitors these dependencies weekly.
 #
