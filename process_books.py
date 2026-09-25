@@ -1,6 +1,8 @@
 """
 books_indexer.py
-Automated PDF book indexing with Gemini 3.6 Flash.
+Automated book indexing with Gemini 3.6 Flash.
+Uses anydoc for high-quality Markdown extraction (PDF, DOCX, XLSX, ...),
+with pypdf as a fallback for edge cases.
 """
 from __future__ import annotations
 
@@ -17,6 +19,7 @@ from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any, Iterable
 
+import anydoc
 from google import genai
 from google.genai import types
 from pypdf import PdfReader
@@ -32,11 +35,16 @@ RETRY_BACKOFF_SECONDS = (15, 30, 60, 120, 240)
 
 SAMPLE_TEXT_MAX_CHARS = 25_000
 MEANINGFUL_TEXT_MIN_CHARS = 150
-PDF_SAMPLE_MAX_PAGES = 30
 PDF_MAX_FILE_SIZE_MB = 500
-PDF_SCAN_KEYWORDS = (
-    "المؤلف", "author", "الناشر", "publisher",
-    "ISBN", "الطبعة", "edition", "الفصل", "chapter",
+
+# الامتدادات المدعومة من anydoc (بالإضافة إلى PDF)
+SUPPORTED_DOC_EXTENSIONS = (
+    ".pdf",
+    ".doc", ".docx", ".docm",
+    ".ppt", ".pps", ".pot", ".pptx", ".pptm", ".ppsx", ".ppsm",
+    ".xls", ".xlsx", ".xlsm", ".xlsb",
+    ".odt", ".ods", ".odp",
+    ".rtf", ".epub", ".csv",
 )
 
 BANNED_TITLES = frozenset({
@@ -183,7 +191,9 @@ def extract_zip_archives(pdf_dir: Path) -> None:
 def _extract_zip_members(zf: zipfile.ZipFile, target_dir: Path) -> None:
     for raw_member in zf.namelist():
         member = decode_zip_name(raw_member)
-        if not member.lower().endswith(".pdf"):
+        # استخراج كل الامتدادات المدعومة (وليس PDF فقط)
+        ext = Path(member).suffix.lower()
+        if ext not in SUPPORTED_DOC_EXTENSIONS:
             continue
         if not is_safe_zip_member(member):
             LOG.warning("Skipped unsafe path: %s", member)
@@ -208,39 +218,133 @@ def _unique_path(path: Path) -> Path:
     return candidate
 
 
-def read_pdf(file_path: Path) -> tuple[PdfReader | None, int]:
+# ============================================================
+# استخراج النص — anydoc أولاً، ثم pypdf كاحتياط
+# ============================================================
+
+def extract_with_anydoc(file_path: Path) -> tuple[str, int, bool]:
+    """
+    يستخرج النص من أي مستند باستخدام anydoc.
+
+    Returns:
+        (markdown_text, page_count, needs_ocr)
+
+    - markdown_text: النص بصيغة Markdown (نظيف وبنيوي)
+    - page_count: عدد الصفحات (0 إن لم يتوفر)
+    - needs_ocr: True إذا كان الملف PDF ممسوحاً ضوئياً ويحتاج OCR
+    """
+    try:
+        markdown = anydoc.to_markdown(str(file_path))
+        # anydoc لا يعيد عدد الصفحات مباشرة — نقدره من عدد الأسطر
+        page_count = max(1, markdown.count("\n---") + 1) if markdown else 0
+        return markdown, page_count, False
+
+    except anydoc.NeedsOcrError as e:
+        # PDF ممسوح ضوئياً بالكامل
+        pages = getattr(e, "pages", []) or []
+        page_count = getattr(e, "page_count", 0) or 0
+        LOG.info(
+            "anydoc: scanned PDF detected (%d pages need OCR) — %s",
+            len(pages), file_path.name,
+        )
+        return "", page_count, True
+
+    except anydoc.EncryptedError:
+        LOG.warning("anydoc: encrypted file — %s", file_path.name)
+        return "", 0, False
+
+    except anydoc.UnsupportedError as e:
+        LOG.warning("anydoc: unsupported format — %s (%s)", file_path.name, e)
+        return "", 0, False
+
+    except anydoc.MalformedError as e:
+        LOG.warning("anydoc: malformed document — %s (%s)", file_path.name, e)
+        return "", 0, False
+
+    except anydoc.ResourceLimitError as e:
+        LOG.warning("anydoc: resource limit exceeded — %s (%s)", file_path.name, e)
+        return "", 0, False
+
+    except anydoc.MissingPartError as e:
+        LOG.warning("anydoc: missing required part — %s (%s)", file_path.name, e)
+        return "", 0, False
+
+    except anydoc.ConvertError as e:
+        # يلتقط كل أخطاء anydoc الأخرى
+        LOG.warning("anydoc: conversion failed — %s (%s)", file_path.name, e)
+        return "", 0, False
+
+    except OSError as e:
+        LOG.warning("anydoc: cannot read file — %s (%s)", file_path.name, e)
+        return "", 0, False
+
+
+def extract_with_pypdf(file_path: Path) -> tuple[str, int]:
+    """
+    احتياط: استخراج النص من PDF باستخدام pypdf.
+    يُستدعى فقط إذا فشل anydoc على ملف PDF.
+
+    Returns:
+        (text, page_count)
+    """
     try:
         reader = PdfReader(str(file_path))
-        return reader, len(reader.pages)
-    except Exception as e:
-        LOG.warning("Cannot open PDF %s: %s", file_path.name, e)
-        return None, 0
+        total = len(reader.pages)
+        if total == 0:
+            return "", 0
 
+        # عيّنة ذكية: أول 5 صفحات + آخر 3 صفحات + أي صفحة بها كلمات مفتاحية
+        indices: set[int] = set(range(min(5, total)))
+        indices.update(range(max(0, total - 3), total))
 
-def smart_extract_text(reader: PdfReader, max_pages: int = PDF_SAMPLE_MAX_PAGES) -> str:
-    total = len(reader.pages)
-    if total == 0:
-        return ""
+        scan_keywords = (
+            "المؤلف", "author", "الناشر", "publisher",
+            "ISBN", "الطبعة", "edition", "الفصل", "chapter",
+        )
+        if total > 15:
+            for i in range(5, min(total, 20)):
+                with suppress(Exception):
+                    txt = (reader.pages[i].extract_text() or "").lower()
+                    if any(k.lower() in txt for k in scan_keywords):
+                        indices.add(i)
+                        if len(indices) >= 30:
+                            break
 
-    indices: set[int] = set(range(min(5, total)))
-    indices.update(range(max(0, total - 3), total))
-
-    if total > 15:
-        for i in range(5, min(total, 20)):
+        parts: list[str] = []
+        for i in sorted(indices):
             with suppress(Exception):
-                txt = (reader.pages[i].extract_text() or "").lower()
-                if any(k.lower() in txt for k in PDF_SCAN_KEYWORDS):
-                    indices.add(i)
-                    if len(indices) >= max_pages:
-                        break
+                page_text = reader.pages[i].extract_text()
+                if page_text and len(page_text.strip()) > 20:
+                    parts.append(f"\n--- Page {i + 1} ---\n{page_text}")
 
-    parts: list[str] = []
-    for i in sorted(indices):
-        with suppress(Exception):
-            page_text = reader.pages[i].extract_text()
-            if page_text and len(page_text.strip()) > 20:
-                parts.append(f"\n--- Page {i + 1} ---\n{page_text}")
-    return "\n".join(parts).strip()
+        return "\n".join(parts).strip(), total
+
+    except Exception as e:
+        LOG.warning("pypdf fallback failed — %s (%s)", file_path.name, e)
+        return "", 0
+
+
+def extract_document_text(file_path: Path) -> tuple[str, int, bool]:
+    """
+    الاستخراج الرئيسي: anydoc أولاً، ثم pypdf كاحتياط لـ PDF فقط.
+
+    Returns:
+        (text, page_count, needs_ocr)
+    """
+    # 1) anydoc
+    text, pages, needs_ocr = extract_with_anydoc(file_path)
+
+    if text or needs_ocr:
+        return text, pages, needs_ocr
+
+    # 2) احتياط: pypdf (فقط إذا كان الملف PDF)
+    if file_path.suffix.lower() == ".pdf":
+        LOG.info("anydoc returned empty — falling back to pypdf for %s", file_path.name)
+        text, pages = extract_with_pypdf(file_path)
+        if text:
+            return text, pages, False
+
+    return "", pages, False
 
 
 def has_meaningful_text(text: str, min_chars: int = MEANINGFUL_TEXT_MIN_CHARS) -> bool:
@@ -252,6 +356,10 @@ def has_meaningful_text(text: str, min_chars: int = MEANINGFUL_TEXT_MIN_CHARS) -
     meaningful = re.findall(r"[A-Za-z0-9\u0600-\u06FF]", text)
     return (len(meaningful) / len(stripped)) >= 0.25
 
+
+# ============================================================
+# معالجة Gemini
+# ============================================================
 
 def extract_json_object(raw_text: str) -> dict[str, Any]:
     if not raw_text:
@@ -329,8 +437,13 @@ def build_payload(file_name: str, sample_text: str,
     prompt = JSON_SCHEMA_PROMPT + hint
     if uploaded_file:
         return [uploaded_file, prompt]
-    return f"{prompt}\n\nExtracted Text:\n{sample_text[:SAMPLE_TEXT_MAX_CHARS]}"
+    # Markdown أنظف من النص الخام — نقصه بذكاء
+    return f"{prompt}\n\nExtracted Markdown:\n{sample_text[:SAMPLE_TEXT_MAX_CHARS]}"
 
+
+# ============================================================
+# التخزين
+# ============================================================
 
 def load_books(path: Path) -> list[dict[str, Any]]:
     if not path.exists():
@@ -351,10 +464,14 @@ def save_books(path: Path, books: list[dict[str, Any]]) -> None:
     os.replace(tmp, path)
 
 
+# ============================================================
+# معالجة كتاب واحد
+# ============================================================
+
 def process_one_book(client: genai.Client, file_path: Path,
                      existing_ids: Iterable[int]) -> Book | None:
     """
-    يعالج ملف PDF واحد.
+    يعالج ملف مستند واحد (PDF، DOCX، XLSX، ...).
 
     يُرجع كائن Book عند النجاح.
     يُرجع None إذا تعذّر استخراج البيانات — وفي هذه الحالة لا يُضاف أي شيء إلى books.json،
@@ -363,10 +480,10 @@ def process_one_book(client: genai.Client, file_path: Path,
     name = file_path.name
     LOG.info("Processing: %s", name)
 
-    reader, pages_count = read_pdf(file_path)
     file_size_mb = file_path.stat().st_size / (1024 * 1024)
     file_size_str = f"{file_size_mb:.2f} MB"
     next_id = max(existing_ids, default=0) + 1
+    file_ext = file_path.suffix.upper().lstrip(".")
 
     if file_size_mb > PDF_MAX_FILE_SIZE_MB:
         LOG.warning(
@@ -375,7 +492,8 @@ def process_one_book(client: genai.Client, file_path: Path,
         )
         return None
 
-    sample_text = smart_extract_text(reader) if reader else ""
+    # ---- استخراج النص ----
+    sample_text, pages_count, needs_ocr = extract_document_text(file_path)
     has_text = has_meaningful_text(sample_text)
     can_upload = file_size_mb <= MAX_UPLOAD_SIZE_MB
 
@@ -383,13 +501,29 @@ def process_one_book(client: genai.Client, file_path: Path,
     temp_path: Path | None = None
 
     try:
-        if has_text:
-            LOG.info("Using locally extracted text")
-            payload = build_payload(name, sample_text)
-        elif can_upload:
-            LOG.info("Uploading full PDF (%.1f MB)", file_size_mb)
+        # ---- بناء الحمولة ----
+        if needs_ocr:
+            # PDF ممسوح ضوئياً — لا يمكن استخراج نص، ارفعه إلى Gemini
+            if not can_upload:
+                LOG.warning(
+                    "SKIPPED — scanned PDF exceeds upload limit (%.1f MB > %d MB): %s",
+                    file_size_mb, MAX_UPLOAD_SIZE_MB, name,
+                )
+                return None
+            LOG.info("Scanned PDF — uploading full file (%.1f MB)", file_size_mb)
             temp_path, uploaded_file = _upload_pdf(client, file_path)
             payload = build_payload(name, "", uploaded_file)
+
+        elif has_text:
+            LOG.info("Using anydoc-extracted Markdown (%d chars, %d pages)",
+                     len(sample_text), pages_count)
+            payload = build_payload(name, sample_text)
+
+        elif can_upload:
+            LOG.info("No extractable text — uploading full file (%.1f MB)", file_size_mb)
+            temp_path, uploaded_file = _upload_pdf(client, file_path)
+            payload = build_payload(name, "", uploaded_file)
+
         else:
             LOG.warning(
                 "SKIPPED — no extractable text and file exceeds upload limit "
@@ -398,11 +532,13 @@ def process_one_book(client: genai.Client, file_path: Path,
             )
             return None
 
+        # ---- استدعاء Gemini ----
         data = _call_and_parse(client, payload)
-        if is_generic_response(data) and not has_text and can_upload:
+
+        # إذا عاد رد عام ونحن لم نرفع الملف بعد — جرّب الرفع
+        if is_generic_response(data) and not uploaded_file and can_upload:
             LOG.info("Generic response; retrying with uploaded file")
-            if not uploaded_file:
-                temp_path, uploaded_file = _upload_pdf(client, file_path)
+            temp_path, uploaded_file = _upload_pdf(client, file_path)
             data = _call_and_parse(client, build_payload(name, "", uploaded_file))
 
         if is_generic_response(data):
@@ -417,6 +553,7 @@ def process_one_book(client: genai.Client, file_path: Path,
             id=next_id,
             pages=str(pages_count) if pages_count else str(data.get("pages") or ""),
             file_size=file_size_str,
+            file_type=file_ext,
             file_path=str(file_path).replace(os.sep, "/"),
             cover_image=f"covers/{next_id}.png",
         )
@@ -441,6 +578,10 @@ def _call_and_parse(client: genai.Client, payload: Any) -> dict[str, Any]:
     return extract_json_object(call_gemini(client, payload))
 
 
+# ============================================================
+# نقطة الدخول
+# ============================================================
+
 def main() -> None:
     logging.basicConfig(
         level=os.environ.get("LOG_LEVEL", "INFO"),
@@ -452,6 +593,7 @@ def main() -> None:
         raise SystemExit("GEMINI_API_KEY environment variable is missing.")
     client = genai.Client(api_key=api_key)
     LOG.info("Provider: Gemini (%s)", MODEL_NAME)
+    LOG.info("Extractor: anydoc (with pypdf fallback)")
 
     extract_zip_archives(PDF_DIR)
 
@@ -465,26 +607,34 @@ def main() -> None:
     halted = False
     skipped: list[str] = []
 
-    for pdf_path in sorted(PDF_DIR.glob("*.pdf")):
+    # جمع كل الملفات المدعومة (وليس PDF فقط)
+    all_files: list[Path] = []
+    for ext in SUPPORTED_DOC_EXTENSIONS:
+        all_files.extend(PDF_DIR.glob(f"*{ext}"))
+    all_files = sorted(set(all_files))
+
+    LOG.info("Found %d document(s) to process.", len(all_files))
+
+    for doc_path in all_files:
         if halted:
             break
-        if os.path.normpath(str(pdf_path)) in processed_paths:
+        if os.path.normpath(str(doc_path)) in processed_paths:
             continue
 
         try:
-            book = process_one_book(client, pdf_path, [b.get("id", 0) for b in books])
+            book = process_one_book(client, doc_path, [b.get("id", 0) for b in books])
             if book:
                 books.append(asdict(book))
-                processed_paths.add(os.path.normpath(str(pdf_path)))
+                processed_paths.add(os.path.normpath(str(doc_path)))
                 save_books(JSON_PATH, books)
                 LOG.info("Added: %s", book.title)
             else:
-                skipped.append(pdf_path.name)
+                skipped.append(doc_path.name)
         except ApiUnavailableError as e:
             LOG.error("API unavailable; halting. Progress saved. (%s)", e)
             halted = True
         except Exception:
-            LOG.exception("Unhandled error for %s", pdf_path.name)
+            LOG.exception("Unhandled error for %s", doc_path.name)
 
     if not halted:
         LOG.info("Processing completed successfully.")
