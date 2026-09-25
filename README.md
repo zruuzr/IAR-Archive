@@ -1,3 +1,4 @@
+```markdown
 <div align="center">
 
 <img src="assets/logo.svg" alt="IAR Archive Logo" width="120" height="120" />
@@ -147,36 +148,41 @@ This repository follows several supply-chain and CI/CD hardening practices:
 IAR-Archive/
 ├── .github/
 │   ├── workflows/
-│   │   ├── auto_process.yml              # Auto-indexing workflow
-│   │   ├── firebase-hosting-merge.yml    # Firebase Hosting deploy (main)
+│   │   ├── auto_process.yml                   # Auto-indexing workflow
+│   │   ├── firebase-hosting-merge.yml         # Firebase Hosting deploy (main)
 │   │   └── firebase-hosting-pull-request.yml  # Firebase Hosting preview (PR)
-│   └── dependabot.yml                    # Automated dependency updates
+│   └── dependabot.yml                         # Automated dependency updates
 ├── assets/
-│   ├── logo.svg                          # Primary project logo (128×128)
-│   ├── logo-mark.svg                     # Compact mark for favicon (64×64)
-│   ├── logo-full.svg                     # Horizontal logo with text
-│   └── logo-mono.svg                     # Monochrome logo (uses currentColor)
-├── covers/                               # Generated book cover images
-├── icons/                                # PWA icons (192, 512, maskable, apple-touch)
-├── pdf/                                  # Source documents (PDF, DOCX, XLSX, ...)
-├── index.html                            # Main application entry
-├── style.css                             # Styling and theme rules
-├── app.js                                # Core logic, Firebase, download overlay
-├── manifest.json                         # PWA manifest
-├── sw.js                                 # Service Worker
-├── _headers                              # Cloudflare Pages custom headers
-├── books.json                            # Administrative references database
-├── process_books.py                      # Document indexing script (anydoc + Gemini + Groq)
-├── requirements.txt                      # Python dependencies
-├── .gitignore                            # Ignored files and artifacts
-├── COPYRIGHT.md                          # Copyright and usage terms
-├── firebase.json                         # Firebase Hosting configuration
-├── .firebaserc                           # Firebase project alias
+│   ├── logo.svg                               # Primary project logo (128×128)
+│   ├── logo-mark.svg                          # Compact mark for favicon (64×64)
+│   ├── logo-full.svg                          # Horizontal logo with text
+│   └── logo-mono.svg                          # Monochrome logo (uses currentColor)
+├── covers/                                    # Generated book cover images
+├── icons/                                     # PWA icons (192, 512, maskable, apple-touch)
+├── pdf/                                       # Source documents (PDF, DOCX, XLSX, ...)
+├── index.html                                 # Main application entry
+├── style.css                                  # Styling and theme rules
+├── app.js                                     # Core logic, Firebase, download overlay
+├── manifest.json                              # PWA manifest
+├── sw.js                                      # Service Worker
+├── _headers                                   # Cloudflare Pages custom headers
+├── books.json                                 # Administrative references database
+├── process_books.py                           # Document indexing script (anydoc + Gemini + Groq)
+├── requirements.txt                           # Python dependencies
+├── .gitignore                                 # Ignored files and artifacts
+├── COPYRIGHT.md                               # Copyright and usage terms
+├── firebase.json                              # Firebase Hosting configuration
+├── .firebaserc                                # Firebase project alias
 └── README.md
-🔧 Document Processing Pipeline (Technical Detail)
-The indexing script (process_books.py) follows this decision tree per file:
+```
 
-text
+---
+
+## 🔧 Document Processing Pipeline (Technical Detail)
+
+The indexing script (`process_books.py`) follows this decision tree per file:
+
+```text
 ┌─────────────────────────────────────────────┐
 │  1. Extract text with anydoc                │
 │     (22 formats, ~4.4ms median)             │
@@ -215,38 +221,41 @@ text
   │  Book   │  │  Retry   │  │  Book  │
   └─────────┘  │  Later   │  └────────┘
                └──────────┘
+```
+
 ---
 
-📄 Copyright and Usage
-Copyright © 2026 Zenvex. All Rights Reserved.
+## 📄 Copyright and Usage
+
+**Copyright © 2026 Zenvex. All Rights Reserved.**
 
 This repository is publicly available for viewing and reference purposes.
 
-Public access to this repository does not constitute a license or grant permission to copy, modify, reproduce, distribute, publish, sublicense, sell, or otherwise use the source code, in whole or in part.
+Public access to this repository **does not constitute a license or grant permission** to copy, modify, reproduce, distribute, publish, sublicense, sell, or otherwise use the source code, in whole or in part.
 
 No permission is granted to create derivative works, redistribute the source code, incorporate the source code into another project, or use the project for commercial purposes without prior written permission from the copyright holder.
 
 The following are also protected independently where applicable:
 
-Source code and software architecture.
-
-Project name, logo, visual identity, and associated graphical assets.
-
-Original documentation and written materials.
-
-Database structure and original database content.
-
-Generated metadata and organizational structures created specifically for this project.
+* Source code and software architecture.
+* Project name, logo, visual identity, and associated graphical assets.
+* Original documentation and written materials.
+* Database structure and original database content.
+* Generated metadata and organizational structures created specifically for this project.
 
 The presence of third-party libraries, frameworks, services, or publicly available reference materials within or in connection with this project does not transfer ownership of those materials to Zenvex. Such third-party materials remain subject to their respective terms, licenses, and copyrights.
 
 For permission to use, reproduce, modify, distribute, or otherwise utilize any protected part of this project, contact the copyright holder.
 
-All Rights Reserved.
+**All Rights Reserved.**
 
-ℹ️ Repository Notice
+---
+
+## ℹ️ Repository Notice
+
 This repository is intentionally public to support project visibility, deployment infrastructure, technical reference, and transparency.
 
 Being able to view the source code on GitHub does not mean that the source code is open source or freely licensed for reuse.
 
 Unauthorized copying, modification, redistribution, republication, or commercial use of protected project materials is not permitted.
+```
