@@ -13,8 +13,8 @@
     "description_en": "The official comprehensive guide for central admission rules and mechanisms in Iraqi universities.",
     "publisher": "وزارة التعليم العالي والبحث العلمي",
     "publisher_en": "Ministry of Higher Education and Scientific Research",
-    "year": "2026-2027",
-    "pages": "140",
+    "year": 2026,
+    "pages": 140,
     "file_size": "9.63 MB",
     "file_type": "PDF",
     "isbn": "",
@@ -44,7 +44,8 @@
     "target_audience": "الطلبة الخريجون من المرحلة الاعدادية وأولياء أمورهم.",
     "target_audience_en": "High school graduates and their parents.",
     "cover_image": "covers/1.png",
-    "file_path": "pdf/دليل_الطالب_للقبول _المركزي_في_الجامعات_العراقية.pdf"
+    "file_path": "pdf/دليل_الطالب_للقبول _المركزي_في_الجامعات_العراقية.pdf",
+    "source_sha256": "9c09b180eaf9ba27ea84045e73633aa0a6230132a2748de78e26a85de0e69d0a"
   },
   {
     "id": 2,
@@ -60,8 +61,8 @@
     "description_en": "A practical guide aiming to overcome stage fright, build self-confidence, and master public speaking and speech preparation skills to effectively influence audiences.",
     "publisher": "الأهلية للنشر والتوزيع",
     "publisher_en": "Al-Ahlia Publishing & Distribution",
-    "year": "1998",
-    "pages": "173",
+    "year": 1998,
+    "pages": 173,
     "file_size": "2.40 MB",
     "file_type": "PDF",
     "isbn": "",
@@ -93,7 +94,8 @@
     "target_audience": "المتحدثون الرسميون، المدراء التنفيذيون، الخطباء، وكل من يرغب في تطوير مهارات التواصل.",
     "target_audience_en": "Official spokespersons, executive managers, speakers, and communicators.",
     "cover_image": "covers/2.png",
-    "file_path": "pdf/فن_الخطابة.pdf"
+    "file_path": "pdf/فن_الخطابة.pdf",
+    "source_sha256": "bf4707cbc7aa93a729b4c592d55f944caf1930d1b0bcdd99ded5aa8f42483308"
   },
   {
     "id": 3,
@@ -109,8 +111,8 @@
     "description_en": "A comprehensive administrative guide compiling 15 issues of educational bulletins published by Administrative Planning.",
     "publisher": "وزارة المعارف",
     "publisher_en": "Ministry of Education",
-    "year": "1998",
-    "pages": "360",
+    "year": 1998,
+    "pages": 360,
     "file_size": "22.50 MB",
     "file_type": "PDF",
     "isbn": "",
@@ -138,7 +140,8 @@
     "target_audience": "المدراء التنفيذيون والقادة الإداريون.",
     "target_audience_en": "Executive managers and administrative leaders.",
     "cover_image": "covers/3.png",
-    "file_path": "pdf/ثقافة إدارية.pdf"
+    "file_path": "pdf/ثقافة إدارية.pdf",
+    "source_sha256": "a0425c765d8c941f659a2c1c6bd629ca86e3922cfd6c27e4f35add9fec884ea8"
   },
   {
     "id": 4,
@@ -154,8 +157,8 @@
     "description_en": "A comprehensive academic reference for preparing scientific research in administrative and economic sciences.",
     "publisher": "دار وائل للنشر والتوزيع",
     "publisher_en": "Dar Wael",
-    "year": "1999",
-    "pages": "312",
+    "year": 1999,
+    "pages": 312,
     "file_size": "23.00 MB",
     "file_type": "PDF",
     "isbn": "",
@@ -181,7 +184,8 @@
     "target_audience": "طلاب الدراسات الأولية والعليا والباحثون.",
     "target_audience_en": "Undergraduate and postgraduate students and researchers.",
     "cover_image": "covers/4.png",
-    "file_path": "pdf/مناهج البحث العلمي.pdf"
+    "file_path": "pdf/مناهج البحث العلمي.pdf",
+    "source_sha256": "b56b2dac22658ad11e0189590284d0464cc737786dbd52b3909e528a870239d5"
   },
   {
     "id": 5,
@@ -197,8 +201,8 @@
     "description_en": "A comprehensive analytical study of Peter Drucker as a social theorist and management philosopher.",
     "publisher": "روتليدج",
     "publisher_en": "Routledge",
-    "year": "2024",
-    "pages": "205",
+    "year": 2024,
+    "pages": 205,
     "file_size": "13.00 MB",
     "file_type": "PDF",
     "isbn": "9781032531335",
@@ -224,7 +228,8 @@
     "target_audience": "المدراء والأكاديميون وطلاب إدارة الأعمال.",
     "target_audience_en": "Managers, academics, and business students.",
     "cover_image": "covers/5.png",
-    "file_path": "pdf/Peter Drucker and Management.pdf"
+    "file_path": "pdf/Peter Drucker and Management.pdf",
+    "source_sha256": "1503785b0d172caedcba38c3f426d9b38d9511ed93494b45f83b098e8a22d226"
   },
   {
     "id": 6,
@@ -240,8 +245,8 @@
     "description_en": "Selected foundational writings of Peter Drucker on management tasks and organizational effectiveness.",
     "publisher": "روتليدج",
     "publisher_en": "Routledge",
-    "year": "1977",
-    "pages": "368",
+    "year": 1977,
+    "pages": 368,
     "file_size": "38.40 MB",
     "file_type": "PDF",
     "isbn": "9780750625029",
@@ -267,7 +272,8 @@
     "target_audience": "المدراء التنفيذيون والقادة الإداريون.",
     "target_audience_en": "Executive managers and organizational leaders.",
     "cover_image": "covers/6.png",
-    "file_path": "pdf/People and performance.pdf"
+    "file_path": "pdf/People and performance.pdf",
+    "source_sha256": "6edd14dcca7936bf9f986e094c3458e0afc0cf2a3328e476cdc513c48fa1bf20"
   },
   {
     "id": 7,
@@ -283,8 +289,8 @@
     "description_en": "A specialized book addressing financial analysis from managerial and accounting perspectives.",
     "publisher": "المنهل",
     "publisher_en": "Al Manhal",
-    "year": "2018",
-    "pages": "240",
+    "year": 2018,
+    "pages": 240,
     "file_size": "36.40 MB",
     "file_type": "PDF",
     "isbn": "",
@@ -308,7 +314,8 @@
     "target_audience": "طلاب المحاسبة والمدراء الماليون.",
     "target_audience_en": "Accounting students and financial managers.",
     "cover_image": "covers/7.png",
-    "file_path": "pdf/كتاب التحليل المالي وجهة نظر ادارية محاسبية.pdf"
+    "file_path": "pdf/كتاب التحليل المالي وجهة نظر ادارية محاسبية.pdf",
+    "source_sha256": "e3e8de791acd1554a21386ff43049ec79fd92db1f5df2c3ff16ad3ee7116ddd3"
   },
   {
     "id": 8,
@@ -324,8 +331,8 @@
     "description_en": "A comprehensive collection of specialized research discussing contemporary administrative issues.",
     "publisher": "دار الجامعة الجديدة",
     "publisher_en": "New University Publishing House",
-    "year": "2002",
-    "pages": "337",
+    "year": 2002,
+    "pages": 337,
     "file_size": "15.60 MB",
     "file_type": "PDF",
     "isbn": "977-328-068-3",
@@ -349,7 +356,8 @@
     "target_audience": "الأكاديميون وطلاب الدراسات العليا.",
     "target_audience_en": "Academics and postgraduate business students.",
     "cover_image": "covers/8.png",
-    "file_path": "pdf/بحوث ودراسات فى قضايا ادارية معاصرة.pdf"
+    "file_path": "pdf/بحوث ودراسات فى قضايا ادارية معاصرة.pdf",
+    "source_sha256": "6ca77ecdbf49a4a25a9be5acfff7340e4e01b0ed74dbcc2e3a067413b6df00d3"
   },
   {
     "id": 9,
@@ -365,8 +373,8 @@
     "description_en": "A specialized book exploring the relationship between executive management and IT departments.",
     "publisher": "مكتبة العبيكان",
     "publisher_en": "Obeikan Library",
-    "year": "1997",
-    "pages": "253",
+    "year": 1997,
+    "pages": 253,
     "file_size": "3.49 MB",
     "file_type": "PDF",
     "isbn": "9960-34-259-X",
@@ -390,7 +398,8 @@
     "target_audience": "المدراء التنفيذيون ومسؤولو تقنية المعلومات.",
     "target_audience_en": "Executive managers and IT professionals.",
     "cover_image": "covers/9.png",
-    "file_path": "pdf/الادارة و التقنية.pdf"
+    "file_path": "pdf/الادارة و التقنية.pdf",
+    "source_sha256": "62ceab20a0e6fe137813513cddd8f99fd24e93dfacd03f56338def190311835c"
   },
   {
     "id": 10,
@@ -406,8 +415,8 @@
     "description_en": "Covers the introduction to management science and the evolution of management thought.",
     "publisher": "دار الفكر العربي",
     "publisher_en": "Dar Al Fikr Al Arabi",
-    "year": "2018",
-    "pages": "201",
+    "year": 2018,
+    "pages": 201,
     "file_size": "3.26 MB",
     "file_type": "PDF",
     "isbn": "",
@@ -433,7 +442,8 @@
     "target_audience": "الطلاب والباحثون في الإدارة.",
     "target_audience_en": "Students and researchers in management.",
     "cover_image": "covers/10.png",
-    "file_path": "pdf/كتاب الادارة والتنظيم.pdf"
+    "file_path": "pdf/كتاب الادارة والتنظيم.pdf",
+    "source_sha256": "d2660f7c83adb373c8e42a6be0f8f7a7bb5c3367e86a87560ba12bdcf7b9ee08"
   },
   {
     "id": 11,
@@ -449,8 +459,8 @@
     "description_en": "A comprehensive reference discussing governance, innovative thinking, and strategic management.",
     "publisher": "الدار الجامعية",
     "publisher_en": "Al-Dar Al-Jamia",
-    "year": "2015",
-    "pages": "356",
+    "year": 2015,
+    "pages": 356,
     "file_size": "14.93 MB",
     "file_type": "PDF",
     "isbn": "978-977-422-326-6",
@@ -476,7 +486,8 @@
     "target_audience": "الباحثون الأكاديميون ومدراء الشركات.",
     "target_audience_en": "Academic researchers and managers.",
     "cover_image": "covers/11.png",
-    "file_path": "pdf/قضايا إدارية وتنموية معاصرة تأصيل علمي وتطبيق عملي.pdf"
+    "file_path": "pdf/قضايا إدارية وتنموية معاصرة تأصيل علمي وتطبيق عملي.pdf",
+    "source_sha256": "95d892ea59f1075852e147008f2db1bdb8f4dbf27f06df8220b069f6c387b5a1"
   },
   {
     "id": 12,
@@ -492,8 +503,8 @@
     "description_en": "A comprehensive textbook covering key Operations Research topics.",
     "publisher": "نيو إيج إنترناشيونال",
     "publisher_en": "New Age International",
-    "year": "2007",
-    "pages": "716",
+    "year": 2007,
+    "pages": 716,
     "file_size": "3.18 MB",
     "file_type": "PDF",
     "isbn": "978-81-224-2944-2",
@@ -517,7 +528,8 @@
     "target_audience": "طلاب الهندسة الصناعية وإدارة الأعمال.",
     "target_audience_en": "Industrial engineering and management students.",
     "cover_image": "covers/12.png",
-    "file_path": "pdf/Operations Research.pdf"
+    "file_path": "pdf/Operations Research.pdf",
+    "source_sha256": "86b8898031ec5e723f55a6ef739f71204b79acc09d1e5da77812888ed99e8876"
   },
   {
     "id": 13,
@@ -533,8 +545,8 @@
     "description_en": "A comprehensive guide on integrating project management knowledge areas and processes.",
     "publisher": "أماكوم",
     "publisher_en": "AMACOM",
-    "year": "2001",
-    "pages": "306",
+    "year": 2001,
+    "pages": 306,
     "file_size": "12.62 MB",
     "file_type": "PDF",
     "isbn": "0-8144-0632-7",
@@ -558,7 +570,8 @@
     "target_audience": "مديرو المشاريع والمهنيون.",
     "target_audience_en": "Project managers and business professionals.",
     "cover_image": "covers/13.png",
-    "file_path": "pdf/Modern Project Management.pdf"
+    "file_path": "pdf/Modern Project Management.pdf",
+    "source_sha256": "7dbb6c0a5a50994deab5fe9dda88f7be8d0e69c21221a20a1a953dbf2e054ac5"
   },
   {
     "id": 14,
@@ -574,8 +587,8 @@
     "description_en": "Covers short-term forecasting, linear programming, and transportation problems with exercises.",
     "publisher": "جامعة بسكرة",
     "publisher_en": "University of Biskra",
-    "year": "2026",
-    "pages": "188",
+    "year": 2026,
+    "pages": 188,
     "file_size": "3.60 MB",
     "file_type": "PDF",
     "isbn": "",
@@ -599,7 +612,8 @@
     "target_audience": "طلبة العلوم الاقتصادية وعلوم التسيير.",
     "target_audience_en": "Economics and management science students.",
     "cover_image": "covers/14.png",
-    "file_path": "pdf/التقنيات الكمية في ادارة الاعمال.pdf"
+    "file_path": "pdf/التقنيات الكمية في ادارة الاعمال.pdf",
+    "source_sha256": "5e201aad42f605eec03802662184e4ad2ae8ecdf0a89a3acbb79acb1be6e5e06"
   },
   {
     "id": 15,
@@ -615,8 +629,8 @@
     "description_en": "Comprehensive study of modern administrative skills for office and secretarial organization.",
     "publisher": "",
     "publisher_en": "",
-    "year": "2019",
-    "pages": "158",
+    "year": 2019,
+    "pages": 158,
     "file_size": "14.59 MB",
     "file_type": "PDF",
     "isbn": "",
@@ -640,7 +654,8 @@
     "target_audience": "مديرو المكاتب وموظفو السكرتارية.",
     "target_audience_en": "Office managers and secretarial staff.",
     "cover_image": "covers/15.png",
-    "file_path": "pdf/إدارة_المكاتب_والسكرتارية.pdf"
+    "file_path": "pdf/إدارة_المكاتب_والسكرتارية.pdf",
+    "source_sha256": "0f8338b81ec02a719570f2c31abb265de3c7baa0c5b4081c335e2b6d973d28f4"
   },
   {
     "id": 16,
@@ -656,8 +671,8 @@
     "description_en": "Reviews management principles and the contributions of scientific management pioneers.",
     "publisher": "دار الجنادرية",
     "publisher_en": "Dar Al-Janadria",
-    "year": "2013",
-    "pages": "227",
+    "year": 2013,
+    "pages": 227,
     "file_size": "18.26 MB",
     "file_type": "PDF",
     "isbn": "",
@@ -681,7 +696,8 @@
     "target_audience": "طلاب إدارة الأعمال والالمديرون.",
     "target_audience_en": "Business students and managers.",
     "cover_image": "covers/16.png",
-    "file_path": "pdf/مبـادئ إدارة الأعمـال.pdf"
+    "file_path": "pdf/مبـادئ إدارة الأعمـال.pdf",
+    "source_sha256": "ae815cdde268c4bbcbd228243ce85d646f09a9a05e9a1e9130af80f436f3bab5"
   },
   {
     "id": 17,
@@ -697,8 +713,8 @@
     "description_en": "A practical guide on how individuals can maximize effectiveness within business organizations.",
     "publisher": "تك تل",
     "publisher_en": "Teck Tel",
-    "year": "2026",
-    "pages": "82",
+    "year": 2026,
+    "pages": 82,
     "file_size": "8.79 MB",
     "file_type": "PDF",
     "isbn": "",
@@ -722,7 +738,8 @@
     "target_audience": "الموظفون والمدراء وطلاب إدارة الأعمال.",
     "target_audience_en": "Employees, managers, and students.",
     "cover_image": "covers/17.png",
-    "file_path": "pdf/كيف تجعل من نفسك عامل فعال في منظمتك.pdf"
+    "file_path": "pdf/كيف تجعل من نفسك عامل فعال في منظمتك.pdf",
+    "source_sha256": "92c72cdb5089413c0bdfe8cb5a056f0ef4ce4080733a597b1d17d689d084d7c2"
   },
   {
     "id": 18,
@@ -738,8 +755,8 @@
     "description_en": "Addresses organizational culture, change management, and market orientation.",
     "publisher": "الأرشيف الإداري العراقي",
     "publisher_en": "IAR Archive",
-    "year": "2026",
-    "pages": "203",
+    "year": 2026,
+    "pages": 203,
     "file_size": "1.92 MB",
     "file_type": "PDF",
     "isbn": "",
@@ -763,7 +780,8 @@
     "target_audience": "طلبة إدارة الأعمال والباحثون.",
     "target_audience_en": "Business students and researchers.",
     "cover_image": "covers/18.png",
-    "file_path": "pdf/دراسات ميدانية في إدارة الأعمال.pdf"
+    "file_path": "pdf/دراسات ميدانية في إدارة الأعمال.pdf",
+    "source_sha256": "d1264fda0d2a076230167cf0b49540dd46a1ba6e850f767ca9967d49d558c472"
   },
   {
     "id": 19,
@@ -779,8 +797,8 @@
     "description_en": "A concise management guide offering explanations for the top 100 essential business terms.",
     "publisher": "الأرشيف الإداري العراقي",
     "publisher_en": "IAR Archive",
-    "year": "2026",
-    "pages": "135",
+    "year": 2026,
+    "pages": 135,
     "file_size": "1.63 MB",
     "file_type": "PDF",
     "isbn": "",
@@ -804,7 +822,8 @@
     "target_audience": "المدراء والطلاب والباحثون.",
     "target_audience_en": "Managers, students, and researchers.",
     "cover_image": "covers/19.png",
-    "file_path": "pdf/المائة كلمة في الإدارة.pdf"
+    "file_path": "pdf/المائة كلمة في الإدارة.pdf",
+    "source_sha256": "4fbad3bbad15d32ec8de80e8e8d6ccc58151a62e830a7de11f5c7027b133ed48"
   },
   {
     "id": 20,
@@ -820,8 +839,8 @@
     "description_en": "A comprehensive reference offering a holistic perspective on contemporary management.",
     "publisher": "",
     "publisher_en": "",
-    "year": "",
-    "pages": "553",
+    "year": 0,
+    "pages": 553,
     "file_size": "30.60 MB",
     "file_type": "PDF",
     "isbn": "",
@@ -845,7 +864,8 @@
     "target_audience": "طلاب إدارة الأعمال والباحثون.",
     "target_audience_en": "Business students and academic researchers.",
     "cover_image": "covers/20.png",
-    "file_path": "pdf/المرجع المتكامل في إدارة الأعمال.pdf"
+    "file_path": "pdf/المرجع المتكامل في إدارة الأعمال.pdf",
+    "source_sha256": "2d107c65862392283956c76040f3bd123ac0accb92c49f68ca779d02396d5d17"
   },
   {
     "id": 21,
@@ -861,8 +881,8 @@
     "description_en": "Explores advertising concepts, campaign objectives, and messaging strategies.",
     "publisher": "دار الأكاديمية",
     "publisher_en": "Academy House",
-    "year": "2022",
-    "pages": "155",
+    "year": 2022,
+    "pages": 155,
     "file_size": "43.53 MB",
     "file_type": "PDF",
     "isbn": "",
@@ -888,7 +908,8 @@
     "target_audience": "طلاب وباحثو التسويق والإعلام.",
     "target_audience_en": "Students and researchers in marketing and media.",
     "cover_image": "covers/21.png",
-    "file_path": "pdf/استراتيجيات_الإعلان.pdf"
+    "file_path": "pdf/استراتيجيات_الإعلان.pdf",
+    "source_sha256": "76e19a3a0ec5d1241722b6d30dbaab33baf32574e2467cd811a0f04fe34663d2"
   },
   {
     "id": 22,
@@ -904,8 +925,8 @@
     "description_en": "A specialized study examining the spatial distribution of economic activities.",
     "publisher": "دار الآفاق الجديدة",
     "publisher_en": "Dar Al-Afaq",
-    "year": "1974",
-    "pages": "176",
+    "year": 1974,
+    "pages": 176,
     "file_size": "12.60 MB",
     "file_type": "PDF",
     "isbn": "",
@@ -929,7 +950,8 @@
     "target_audience": "طلاب الاقتصاد والتخطيط العمراني.",
     "target_audience_en": "Economics and urban planning students.",
     "cover_image": "covers/22.png",
-    "file_path": "pdf/النظرية_المكانية_في_اختيار_المكان_المناسب_للنشاط_الاقتصادي.pdf"
+    "file_path": "pdf/النظرية_المكانية_في_اختيار_المكان_المناسب_للنشاط_الاقتصادي.pdf",
+    "source_sha256": "bc8536dde9f48d5916b62d2a0fc0ee08564bc50cf5886394da746712b06a571b"
   },
   {
     "id": 23,
@@ -945,8 +967,8 @@
     "description_en": "Covers budgeting, budget planning, and financial control.",
     "publisher": "الدار الجامعية",
     "publisher_en": "Al-Dar Al-Jamia",
-    "year": "2009",
-    "pages": "1218",
+    "year": 2009,
+    "pages": 1218,
     "file_size": "65.21 MB",
     "file_type": "PDF",
     "isbn": "",
@@ -970,7 +992,8 @@
     "target_audience": "المدراء الماليون والمحاسبون.",
     "target_audience_en": "Financial managers and accountants.",
     "cover_image": "covers/23.png",
-    "file_path": "pdf/الموازنات_التقديرية.pdf"
+    "file_path": "pdf/الموازنات_التقديرية.pdf",
+    "source_sha256": "e34a0aed2e413e13132cb8052f7efded3fe550194f1b411f69528213ace24458"
   },
   {
     "id": 24,
@@ -986,8 +1009,8 @@
     "description_en": "A comprehensive textbook on sales management and commercial ethics.",
     "publisher": "دار أمجد",
     "publisher_en": "Dar Amjad",
-    "year": "2015",
-    "pages": "250",
+    "year": 2015,
+    "pages": 250,
     "file_size": "15.00 MB",
     "file_type": "PDF",
     "isbn": "",
@@ -1011,7 +1034,8 @@
     "target_audience": "مديرو المبيعات ومندوبو التوزيع.",
     "target_audience_en": "Sales managers and sales representatives.",
     "cover_image": "covers/24.png",
-    "file_path": "pdf/إدارة_المبيعات.pdf"
+    "file_path": "pdf/إدارة_المبيعات.pdf",
+    "source_sha256": "34759cb7bee3b6558719d6f93aafd9445defa043fea0e343b816e3d1ce937954"
   },
   {
     "id": 25,
@@ -1027,8 +1051,8 @@
     "description_en": "A specialized study discussing e-marketing concepts and strategies in the Arab world.",
     "publisher": "دار النشر للجامعات",
     "publisher_en": "Dar Annashr",
-    "year": "2020",
-    "pages": "200",
+    "year": 2020,
+    "pages": 200,
     "file_size": "10.00 MB",
     "file_type": "PDF",
     "isbn": "",
@@ -1052,7 +1076,8 @@
     "target_audience": "الباحثون وطلاب التسويق والتجارة الإلكترونية.",
     "target_audience_en": "Researchers and marketing students.",
     "cover_image": "covers/25.png",
-    "file_path": "pdf/التسويق_الإلكتروني_في_العالم_العربي.pdf"
+    "file_path": "pdf/التسويق_الإلكتروني_في_العالم_العربي.pdf",
+    "source_sha256": "6effcd8ed474283ec183acce2440d7532d4a93eb42c23ba09768f51b740ef525"
   },
   {
     "id": 26,
@@ -1068,7 +1093,7 @@
     "description_en": "An academic textbook providing a comprehensive theoretical and practical study of cost accounting systems. It covers job-order costing, integrated and non-integrated cost accounting systems, Activity-Based Costing (ABC), contract costing, bid pricing, competitive bidding models, and the effect of learning curves on cost reduction.",
     "publisher": "الأمين للنشر والتوزيع",
     "publisher_en": "Al-Ameen for Publishing & Distribution",
-    "year": "2009",
+    "year": 2009,
     "isbn": "",
     "keywords": [
       "محاسبة التكاليف",
@@ -1104,11 +1129,12 @@
     ],
     "target_audience": "طلاب البكالوريوس والدراسات العليا في أقسام المحاسبة والمالية، والباحثون والمحاسبون المهنيون في الشركات الصناعية وشركات المقاولات.",
     "target_audience_en": "Undergraduate and graduate students in accounting and finance departments, as well as researchers and professional accountants in manufacturing and construction companies.",
-    "pages": "189",
+    "pages": 189,
     "file_size": "35.97 MB",
     "file_type": "PDF",
     "file_path": "pdf/مدخل_لدراسة_نظم_التكاليف.pdf",
-    "cover_image": "covers/26.png"
+    "cover_image": "covers/26.png",
+    "source_sha256": "279bd2f08aa621cb2a3c79761af5bdc4d7039e77bf454a89f2781c2ef6189e07"
   },
   {
     "id": 27,
@@ -1124,7 +1150,7 @@
     "description_en": "A comprehensive study discussing the major economic systems of the twentieth century. The book covers fundamental economic concepts, the capitalist system and globalization, the socialist and communist systems, and an in-depth analysis of the Islamic economic system, along with economic development and underdevelopment.",
     "publisher": "الجنادرية للنشر والتوزيع",
     "publisher_en": "Al-Janadirya for puplishing",
-    "year": "2016",
+    "year": 2016,
     "isbn": "978-9957-610-71-1",
     "keywords": [
       "النظم الاقتصادية",
@@ -1158,11 +1184,12 @@
     ],
     "target_audience": "الطلاب والباحثون والأكاديميون المهتمون بالعلوم الاقتصادية والأنظمة السياسية والإسلامية.",
     "target_audience_en": "Students, researchers, and academics interested in economic sciences, political systems, and Islamic economics.",
-    "pages": "202",
+    "pages": 202,
     "file_size": "16.40 MB",
     "file_type": "PDF",
     "file_path": "pdf/النظم_الاقتصادية_في_القرن_العشرين.pdf",
-    "cover_image": "covers/27.png"
+    "cover_image": "covers/27.png",
+    "source_sha256": "6dc618ada962a9024efe70b6872a139503fbce9390173714d31289f711249a9a"
   },
   {
     "id": 28,
@@ -1178,7 +1205,7 @@
     "description_en": "A practical guide and comprehensive collection of essential legal petition forms, lawsuit templates, official contracts, and appeal briefs in Iraqi law. It includes draft sales and lease agreements, personal status claims, civil and criminal legal templates, and cassation briefs.",
     "publisher": "شبكة قانونيون",
     "publisher_en": "Lawyers Network",
-    "year": "2020",
+    "year": 2020,
     "isbn": "",
     "keywords": [
       "نماذج دعاوى",
@@ -1214,11 +1241,12 @@
     ],
     "target_audience": "المحامون، الحقوقيون، القضاة، وطلاب كليات القانون والباحثون في المجال القانوني.",
     "target_audience_en": "Lawyers, legal professionals, judges, law students, and legal researchers.",
-    "pages": "15",
+    "pages": 15,
     "file_size": "2.59 MB",
     "file_type": "PDF",
     "file_path": "pdf/كتب_مخاطبات_ونماذج_دعاوى_رسمية.pdf",
-    "cover_image": "covers/28.png"
+    "cover_image": "covers/28.png",
+    "source_sha256": "dcee25b41c861eab333b885ed8f7ca679a598a7706a88824070df4859b175289"
   },
   {
     "id": 29,
@@ -1234,7 +1262,7 @@
     "description_en": "A comprehensive research article addressing the concept of digital currencies and cryptocurrencies, their economic and social dimensions, and their impact on popular revolutions and contemporary financial shifts through the lens of Islamic economics, published in the Global Islamic Economics Magazine (Issue 65).",
     "publisher": "المجلة العالمية للاقتصاد الإسلامي",
     "publisher_en": "Global Islamic Economics Magazine (GIEM)",
-    "year": "2017",
+    "year": 2017,
     "isbn": "",
     "keywords": [
       "النقود الرقمية",
@@ -1262,11 +1290,12 @@
     ],
     "target_audience": "الباحثون والأكاديميون والمتخصصون في الاقتصاد الإسلامي والعلوم المالية والنقدية والتقنيات الحديثة.",
     "target_audience_en": "Researchers, academics, and specialists in Islamic economics, monetary studies, and financial technologies.",
-    "pages": "112",
+    "pages": 112,
     "file_size": "6.89 MB",
     "file_type": "PDF",
     "file_path": "pdf/النقود_الرقمية_والثورات_الشعبية.pdf",
-    "cover_image": "covers/29.png"
+    "cover_image": "covers/29.png",
+    "source_sha256": "6f755d2af88c18346453117094342180155dbcc39726c30fe8ab3d235d0c88e7"
   },
   {
     "id": 30,
@@ -1282,7 +1311,7 @@
     "description_en": "A specialized academic reference offering a comprehensive study of accounting theory and various research perspectives. The book covers multiple theoretical paradigms, behavioral, predictive, and positive accounting approaches, current value accounting, general price-level accounting, contemporary developments in the accounting profession, and international accounting standards.",
     "publisher": "دار اليازوري العلمية للنشر والتوزيع",
     "publisher_en": "Dar Al-Yazori Scientific Publishing & Distribution",
-    "year": "2009",
+    "year": 2009,
     "isbn": "",
     "keywords": [
       "نظرية محاسبية",
@@ -1318,11 +1347,12 @@
     ],
     "target_audience": "طلاب الدراسات العليا، الباحثون والأكاديميون، والمختصون في مجال المحاسبة والعلوم المالية والإدارية.",
     "target_audience_en": "Postgraduate students, academic researchers, and professionals in accounting, finance, and business administration.",
-    "pages": "502",
+    "pages": 502,
     "file_size": "14.70 MB",
     "file_type": "PDF",
     "file_path": "pdf/نظرية_محاسبية.pdf",
-    "cover_image": "covers/30.png"
+    "cover_image": "covers/30.png",
+    "source_sha256": "c03fa474e8e5826abbc4ab3ea6fee7677ac9be5a03573d8c8608aaf348cf164e"
   },
   {
     "id": 31,
@@ -1338,7 +1368,7 @@
     "description_en": "An academic textbook covering basic concepts and practical applications of managerial accounting. It discusses the relationship between managerial and financial accounting, cost behavior, profit planning, break-even analysis, relevant costs and benefits for short-term operational decision-making, pricing decisions, responsibility accounting, and managerial performance evaluation in business organizations.",
     "publisher": "جامعة القاهرة - كلية التجارة",
     "publisher_en": "Cairo University - Faculty of Commerce",
-    "year": "2015",
+    "year": 2015,
     "isbn": "",
     "keywords": [
       "المحاسبة الإدارية",
@@ -1372,11 +1402,12 @@
     ],
     "target_audience": "طلاب كليات التجارة، المحاسبون، المديرون الماليون، والمهتمون بالتخطيط المالي واتخاذ القرارات الإدارية.",
     "target_audience_en": "Students of commerce faculties, accountants, financial managers, and professionals interested in financial planning and managerial decision-making.",
-    "pages": "293",
+    "pages": 293,
     "file_size": "3.22 MB",
     "file_type": "PDF",
     "file_path": "pdf/المحاسبة_الادارية:مفاهيم_اساسية_وتطبيقات_عملية.pdf",
-    "cover_image": "covers/31.png"
+    "cover_image": "covers/31.png",
+    "source_sha256": "28be65ab0a77070582e0534c87b939530dc43a04d53f998adfd31b16a832ec46"
   },
   {
     "id": 32,
@@ -1392,7 +1423,7 @@
     "description_en": "An academic book examining the concept of Corporate Social Responsibility (CSR), its historical, theoretical, and Islamic origins, its environmental, ethical, and marketing dimensions, as well as social accounting and disclosure, and how CSR contributes to achieving and sustaining corporate competitive advantage.",
     "publisher": "دار اليازوري العلمية للنشر والتوزيع",
     "publisher_en": "Dar Al-Yazori Scientific Publishing and Distribution",
-    "year": "2016",
+    "year": 2016,
     "isbn": "9789957127688",
     "keywords": [
       "المسؤولية الاجتماعية",
@@ -1426,11 +1457,12 @@
     ],
     "target_audience": "أساتذة وطلاب كليات الاقتصاد وإدارة الأعمال، والمدراء، والباحثون في مجال المسؤولية الاجتماعية للشركات.",
     "target_audience_en": "Professors, students of economics and business administration, business managers, and researchers in CSR.",
-    "pages": "372",
+    "pages": 372,
     "file_size": "9.50 MB",
     "file_type": "PDF",
     "file_path": "pdf/المسؤولية_الاجتماعية_لمنظمات_الاعمال.pdf",
-    "cover_image": "covers/32.png"
+    "cover_image": "covers/32.png",
+    "source_sha256": "38795376af9f8fc0f4e28e5504b4888f1d106ef1c345e8c79279c67ce701c51e"
   },
   {
     "id": 33,
@@ -1446,7 +1478,7 @@
     "description_en": "A practical guide detailing the forms and formats used in Training of Trainers (TOT) programs, covering the design and planning of training activities, execution methods, required tools, cost estimation, and evaluation.",
     "publisher": "دار مجدلاوي للنشر والتوزيع",
     "publisher_en": "Dar Majdalawi Publishing & Distribution",
-    "year": "2004",
+    "year": 2004,
     "isbn": "9957-02-142-7",
     "keywords": [
       "تدريب المدربين",
@@ -1474,11 +1506,12 @@
     ],
     "target_audience": "المدربون، مصممو البرامج التدريبية، أخصائيو التدريب، ومدراء الموارد البشرية",
     "target_audience_en": "Trainers, instructional designers, training specialists, and human resource managers",
-    "pages": "336",
+    "pages": 336,
     "file_size": "33.62 MB",
     "file_type": "PDF",
     "file_path": "pdf/تدريب_المدربين:النماذج_والاشكال.pdf",
-    "cover_image": "covers/33.png"
+    "cover_image": "covers/33.png",
+    "source_sha256": "d318db714b77231b2a28eaec3a200e1842aa076959aa25b018d3b498bd970e37"
   },
   {
     "id": 34,
@@ -1494,7 +1527,7 @@
     "description_en": "A comprehensive academic textbook covering the principles of descriptive statistics and probability theory for university students. The book addresses statistical data presentation, measures of central tendency and dispersion, correlation and regression, sample spaces and events, discrete and continuous probability distributions, normal distribution, and confidence intervals.",
     "publisher": "مكتبة العبيكان",
     "publisher_en": "Obeikan Bookshop",
-    "year": "2000",
+    "year": 2000,
     "isbn": "9960-20-639-4",
     "keywords": [
       "الإحصاء",
@@ -1532,11 +1565,12 @@
     ],
     "target_audience": "طلاب الجامعات والكليات العلمية والتطبيقية، والباحثون والدارسون للعلوم الطبيعية والإنسانية والإدارية.",
     "target_audience_en": "University students in scientific and applied faculties, as well as researchers studying natural, human, and administrative sciences.",
-    "pages": "485",
+    "pages": 485,
     "file_size": "9.59 MB",
     "file_type": "PDF",
     "file_path": "pdf/الاحصاء_والاحتمال.pdf",
-    "cover_image": "covers/34.png"
+    "cover_image": "covers/34.png",
+    "source_sha256": "86ebc8534c40df047f40b27843033f315c26636cbfa009fa946779e6ece0c609"
   },
   {
     "id": 35,
@@ -1552,7 +1586,7 @@
     "description_en": "This book addresses the study of organizational behavior in administrative organizations, analyzing the mutual influences between individuals and the organizational environment, and reviewing administrative concepts and practices aimed at improving performance efficiency and productivity.",
     "publisher": "دار البداية",
     "publisher_en": "Dar Al-Bidaya",
-    "year": "2012",
+    "year": 2012,
     "isbn": "",
     "keywords": [
       "السلوك التنظيمي",
@@ -1580,11 +1614,12 @@
     ],
     "target_audience": "الطلاب والباحثون في مجالات علوم الإدارة وإدارة الأعمال، والمدراء والمشرفون في القطاعات الإدارية المختلفة",
     "target_audience_en": "Students and researchers in management and business administration, as well as managers and supervisors across administrative sectors",
-    "pages": "201",
+    "pages": 201,
     "file_size": "17.12 MB",
     "file_type": "PDF",
     "file_path": "pdf/السلوك_التنظيمي_للمنظمات_الادارية.pdf",
-    "cover_image": "covers/35.png"
+    "cover_image": "covers/35.png",
+    "source_sha256": "85a459faccb5298e8ec27857caf392c6d65ea907cb3ff295d9488139ee239fa1"
   },
   {
     "id": 36,
@@ -1600,7 +1635,7 @@
     "description_en": "A comprehensive guide addressing management principles and functions, the legal definition of the public employee, disciplinary offenses under administrative law, and an analysis of administrative personality types and leadership competencies.",
     "publisher": "مكتبة الاقتصاد",
     "publisher_en": "Economics Library",
-    "year": null,
+    "year": 0,
     "isbn": "",
     "keywords": [
       "الموظف الإداري",
@@ -1634,11 +1669,12 @@
     ],
     "target_audience": "المدراء، والموظفون في المؤسسات الحكومية والخاصة، وطلاب وباحثو العلوم الإدارية والقانون الإداري.",
     "target_audience_en": "Managers, public and private sector employees, students, and researchers in public administration and administrative law.",
-    "pages": "189",
+    "pages": 189,
     "file_size": "14.84 MB",
     "file_type": "PDF",
     "file_path": "pdf/الموظف_الاداري.pdf",
-    "cover_image": "covers/36.png"
+    "cover_image": "covers/36.png",
+    "source_sha256": "142b1d3d86940ebb9fa08d023e13fef4cb2052568475349d1da01071fbceb4b4"
   },
   {
     "id": 37,
@@ -1654,7 +1690,7 @@
     "description_en": "A specialized book providing a quantitative and analytical approach to marketing strategies. It explores analytical and quantitative tools that enable professionals and academics to formulate marketing strategies for effective managerial decision-making.",
     "publisher": "دار الحامد للنشر والتوزيع",
     "publisher_en": "Dar Al-Hamed for Publishing & Distribution",
-    "year": "2009",
+    "year": 2009,
     "isbn": "978-9957-32-269-4",
     "keywords": [
       "استراتيجيات التسويق",
@@ -1682,11 +1718,12 @@
     ],
     "target_audience": "طلاب وتدريسيي كليات الاقتصاد وإدارة الأعمال، والباحثون والمختصون في إدارة التسويق والمبيعات.",
     "target_audience_en": "University students and professors in economics and business administration, as well as researchers and marketing management professionals.",
-    "pages": "336",
+    "pages": 336,
     "file_size": "23.97 MB",
     "file_type": "PDF",
     "file_path": "pdf/استراتيجيات_التسويق_مدخل_كمي_وتحليلي.pdf",
-    "cover_image": "covers/37.png"
+    "cover_image": "covers/37.png",
+    "source_sha256": "ce76ef023819e6f1977d925b5c5e40724d411d79204cb1057dc08d40d8ff3800"
   },
   {
     "id": 38,
@@ -1702,7 +1739,7 @@
     "description_en": "A practical guide offering expert solutions to everyday management challenges focused on goal setting. As part of Harvard Business Press's Pocket Mentor series, this book helps managers set unit and individual goals, apply SMART criteria, prioritize tasks, track progress, manage obstacles, and evaluate results using actionable tools and templates.",
     "publisher": "العبيكان للنشر",
     "publisher_en": "Obeikan Publishing",
-    "year": "2015",
+    "year": 2015,
     "isbn": "978-603-503-413-5",
     "keywords": [
       "تحديد الأهداف",
@@ -1740,11 +1777,12 @@
     ],
     "target_audience": "المديرون، رؤساء الفرق، القادة الإداريون، وكل من يسعى لتطوير مهارات التخطيط وتحديد الأهداف بفاعلية.",
     "target_audience_en": "Managers, team leaders, executives, and professionals looking to enhance their goal setting and planning capabilities.",
-    "pages": "113",
+    "pages": 113,
     "file_size": "12.37 MB",
     "file_type": "PDF",
     "file_path": "pdf/تحديد_الاهداف_كتاب_الجيب_من_هارفارد.pdf",
-    "cover_image": "covers/38.png"
+    "cover_image": "covers/38.png",
+    "source_sha256": "ab7d734b24d7a7c2994d5d2c228cadbd77f7b19b2e2b603726b6fc61b34556c4"
   },
   {
     "id": 39,
@@ -1760,7 +1798,7 @@
     "description_en": "A book reviewing the economic feasibility study for projects and its importance in investment decision-making and avoiding financial losses. It covers mathematical and statistical methods to determine expected returns and risk levels, divided into four chapters covering investment principles, project evaluation, feasibility processes and cost estimation, along with practical models for projects like a restaurant and a nursery.",
     "publisher": "الجنادرية للنشر والتوزيع",
     "publisher_en": "Al-Janadirya for puplishing",
-    "year": "2015",
+    "year": 2015,
     "isbn": "",
     "keywords": [
       "دراسة الجدوى",
@@ -1792,11 +1830,12 @@
     ],
     "target_audience": "المستثمرون، أصحاب رؤوس الأموال، رواد الأعمال، ومتخذو القرار، إضافة إلى طلاب وباحثي علوم إدارة الأعمال والتخطيط المالي.",
     "target_audience_en": "Investors, business owners, entrepreneurs, decision-makers, and students or researchers in business administration and financial planning.",
-    "pages": "172",
+    "pages": 172,
     "file_size": "14.04 MB",
     "file_type": "PDF",
     "file_path": "pdf/دراسة_الجدوى_الاقتصادية_للمشاريع.pdf",
-    "cover_image": "covers/39.png"
+    "cover_image": "covers/39.png",
+    "source_sha256": "92aa8c0f52ed88a20a6725ecdcd06803ee4e7b587dafc16778366e14285d6a6e"
   },
   {
     "id": 40,
@@ -1812,7 +1851,7 @@
     "description_en": "This book addresses the application of the ISO quality management system in educational institutions and universities, focusing on improving the performance of faculty and administrative staff, updating curricula to meet labor market requirements, and ensuring quality assurance standards in higher education.",
     "publisher": "كنوز المعرفة",
     "publisher_en": "Kounoz Al-Ma'arifa",
-    "year": "2014",
+    "year": 2014,
     "isbn": "",
     "keywords": [
       "إدارة الجودة",
@@ -1842,11 +1881,12 @@
     ],
     "target_audience": "أكاديميون، رؤساء الجامعات، عمداء الكليات، ومسؤولو ضمان الجودة والتطوير الإداري في مؤسسات التعليم العالي.",
     "target_audience_en": "Academics, university presidents, faculty deans, and quality assurance officers in higher education institutions.",
-    "pages": "210",
+    "pages": 210,
     "file_size": "24.45 MB",
     "file_type": "PDF",
     "file_path": "pdf/نظام_ادارة_الجودةISO_لتحسين_اداء_الجامعات.pdf",
-    "cover_image": "covers/40.png"
+    "cover_image": "covers/40.png",
+    "source_sha256": "661d3e573b3574e70ee95c6e6252a64e0784993184b4bc5b027c9ae610fa84c5"
   },
   {
     "id": 41,
@@ -1862,7 +1902,7 @@
     "description_en": "An introductory academic textbook covering the fundamental concepts and principles of economics. It explores the economic problem, factors of production, capital accumulation, and major economic systems (Capitalist, Socialist, and Islamic). It also analyzes value theory, supply and demand dynamics, price determination, and market equilibria under perfect competition, monopoly, and monopolistic competition.",
     "publisher": "المركز القومي للإصدارات القانونية",
     "publisher_en": "National Center for Legal Publications",
-    "year": "2019",
+    "year": 2019,
     "isbn": "978-977-761-286-9",
     "keywords": [
       "مبادئ علم الاقتصاد",
@@ -1900,11 +1940,12 @@
     ],
     "target_audience": "طلاب كليات الاقتصاد والتجارة والحقوق، والباحثون الأكاديميون، والمهتمون بالدراسات الاقتصادية والمالية.",
     "target_audience_en": "Students of economics, business, and law, academic researchers, and individuals interested in economic and financial studies.",
-    "pages": "192",
+    "pages": 192,
     "file_size": "16.64 MB",
     "file_type": "PDF",
     "file_path": "pdf/مبادئ_علم_الاقتصاد.pdf",
-    "cover_image": "covers/41.png"
+    "cover_image": "covers/41.png",
+    "source_sha256": "18214917502df49a2630e816c9bfa2c21db5f693ee5b629f501240456c04922f"
   },
   {
     "id": 42,
@@ -1920,7 +1961,7 @@
     "description_en": "A specialized book explaining concepts and methods of statistical analysis using SPSS software, covering data processing, quantitative analysis, and generating graphical representations like histograms.",
     "publisher": "دار الوراق للطباعة والنشر والتوزيع",
     "publisher_en": "Al-Waraq for printing and puplishing",
-    "year": "2018",
+    "year": 2018,
     "isbn": "",
     "keywords": [
       "التحليل الإحصائي",
@@ -1952,11 +1993,12 @@
     ],
     "target_audience": "الطلاب والباحثون والمحللون المهتمون بالإحصاء وتحليل البيانات باستخدام SPSS",
     "target_audience_en": "Students, researchers, and analysts interested in statistics and data analysis using SPSS",
-    "pages": "331",
+    "pages": 331,
     "file_size": "5.66 MB",
     "file_type": "PDF",
     "file_path": "pdf/التحليل_الاحصائي_للبيانات_باستخدام_برنامجspss.pdf",
-    "cover_image": "covers/42.png"
+    "cover_image": "covers/42.png",
+    "source_sha256": "6a3cb379499cf0d7895245c121701a69e9820629a5cb1e7e42ee2762c3fd0920"
   },
   {
     "id": 43,
@@ -1972,7 +2014,7 @@
     "description_en": "An academic textbook on governmental and financial accounting tailored to the curriculum of Al-Balqa Applied University and private universities. It covers governmental financial procedures, public budgeting, tender processes, and auditing.",
     "publisher": "دار كنوز المعرفة العلمية للنشر والتوزيع",
     "publisher_en": "Dar Kunooz Al-Ma'refah Al-Ilmiyah for Publishing & Distribution",
-    "year": "2010",
+    "year": 2010,
     "isbn": "978-9957-74-068-9",
     "keywords": [
       "المحاسبة الحكومية",
@@ -2000,11 +2042,12 @@
     ],
     "target_audience": "طلاب علوم المحاسبة والمالية في الجامعات والمختصون والمحاسبون في القطاع الحكومي",
     "target_audience_en": "Accounting and finance students in universities, as well as practitioners and accountants in the public sector",
-    "pages": "219",
+    "pages": 219,
     "file_size": "14.56 MB",
     "file_type": "PDF",
     "file_path": "pdf/المحاسبة_الحكومية.pdf",
-    "cover_image": "covers/43.png"
+    "cover_image": "covers/43.png",
+    "source_sha256": "5aab659d14da806323ec0da63462cb701ae2e0c567e6dd617315999a010d7d93"
   },
   {
     "id": 44,
@@ -2020,7 +2063,7 @@
     "description_en": "A specialized academic book addressing financial auditing from a contemporary perspective in alignment with International Standards on Auditing (ISAs). It covers core auditing concepts, audit planning procedures, internal control evaluation, audit evidence, and the preparation of final audit reports.",
     "publisher": "دار المسيرة للنشر والتوزيع",
     "publisher_en": "Dar Al-Masirah for Publishing and Distribution",
-    "year": "2009",
+    "year": 2009,
     "isbn": "",
     "keywords": [
       "تدقيق الحسابات",
@@ -2052,11 +2095,12 @@
     ],
     "target_audience": "طلاب أسرار ومراحل المحاسبة والتدقيق، المدققون الماليون، المحاسبون القانونيون، والباحثون في العلوم المالية والمصرفية.",
     "target_audience_en": "Accounting and auditing students, financial auditors, certified public accountants, and researchers in finance and banking.",
-    "pages": "190",
+    "pages": 190,
     "file_size": "90.10 MB",
     "file_type": "PDF",
     "file_path": "pdf/تدقيق_الحسابات_مدخل_معاصر_وفقاً_لمعايير_التدقيق_الدولية.pdf",
-    "cover_image": "covers/44.png"
+    "cover_image": "covers/44.png",
+    "source_sha256": "368dcb3d977e5824e7e939011b31f5a7aca1b695ea914c96ce9ff1a3379ef1e0"
   },
   {
     "id": 45,
@@ -2072,7 +2116,7 @@
     "description_en": "A comprehensive study and solutions guide for Company Accounting (Partnerships) designed for students at the Faculty of Commerce, Alexandria University. It provides step-by-step solutions for topics including partnership formation, profit and loss allocation, contract adjustments, partner admission and retirement, and partnership liquidation along with necessary journal entries and financial statements.",
     "publisher": "كلية التجارة - جامعة الإسكندرية",
     "publisher_en": "Faculty of Commerce - Alexandria University",
-    "year": "2019",
+    "year": 2019,
     "isbn": "",
     "keywords": [
       "محاسبة الشركات",
@@ -2110,11 +2154,12 @@
     ],
     "target_audience": "طلاب كليات التجارة والدارسون والباحثون في مجال المحاسبة المالية ومحاسبة شركات الأشخاص.",
     "target_audience_en": "Faculty of Commerce students, accounting majors, and practitioners studying partnership accounting.",
-    "pages": "228",
+    "pages": 228,
     "file_size": "24.17 MB",
     "file_type": "PDF",
     "file_path": "pdf/دليل_محاسبة_شركات.pdf",
-    "cover_image": "covers/45.png"
+    "cover_image": "covers/45.png",
+    "source_sha256": "39f1f24a36b373b8049bfd500688a2e4115a2614d56ac6baca973e458a6b8d3f"
   },
   {
     "id": 46,
@@ -2130,7 +2175,7 @@
     "description_en": "A comprehensive reference book presenting a full set of statistical tables essential for scientific research across social, economic, political, administrative, and medical fields, including various probability distributions, parametric, and non-parametric tests with formulas.",
     "publisher": "دار الصحوة للنشر",
     "publisher_en": "Dar Al-Sahwa Publishing",
-    "year": "1987",
+    "year": 1987,
     "isbn": "977-1431-15-3",
     "keywords": [
       "الجداول الإحصائية",
@@ -2162,11 +2207,12 @@
     ],
     "target_audience": "الطلاب، والباحثون، والدارسون في مجالات الإحصاء، والعلوم الاجتماعية، والاقتصاد، والطب، والإدارة.",
     "target_audience_en": "Students, researchers, and scholars in statistics, social sciences, economics, medicine, and management.",
-    "pages": "140",
+    "pages": 140,
     "file_size": "14.33 MB",
     "file_type": "PDF",
     "file_path": "pdf/الجداول_الاحصائية.pdf",
-    "cover_image": "covers/46.png"
+    "cover_image": "covers/46.png",
+    "source_sha256": "080ad05ae6c98fcc75eb7dd8b2b1edadaca3c6c814f8134381fd3d2fb94600e3"
   },
   {
     "id": 47,
@@ -2182,7 +2228,7 @@
     "description_en": "A comprehensive study on administrative and financial corruption, exploring its concepts, manifestations, and treatment methods. It also addresses the economic causes of poverty, corporate governance, internal auditing, and control systems to combat corruption.",
     "publisher": "دار أمجد للنشر والتوزيع",
     "publisher_en": "Dar Amjad For Puplishing",
-    "year": "2015",
+    "year": 2015,
     "isbn": "",
     "keywords": [
       "الفساد الإداري",
@@ -2216,11 +2262,12 @@
     ],
     "target_audience": "الباحثون والأكاديميون والمهنيون في مجالات الإدارة، المحاسبة والتدقيق، الاقتصاد، والسياسات العامة ومكافحة الفساد.",
     "target_audience_en": "Researchers, academics, and professionals in business administration, accounting, auditing, economics, public policy, and anti-corruption fields.",
-    "pages": "186",
+    "pages": 186,
     "file_size": "15.97 MB",
     "file_type": "PDF",
     "file_path": "pdf/الفساد_الاداري_والمالي_كظاهرة_واساليب_علاجها.pdf",
-    "cover_image": "covers/47.png"
+    "cover_image": "covers/47.png",
+    "source_sha256": "8f92d44b1dbd5d270f3b6f4fc80a7be6f11901d8826c6e125e6cb28215a60cf2"
   },
   {
     "id": 48,
@@ -2236,7 +2283,7 @@
     "description_en": "A book covering the fundamental concepts and modern strategies of marketing health services, focusing on the healthcare marketing mix, quality management in hospitals and health institutions, and meeting the needs of patients and beneficiaries.",
     "publisher": "دار كنوذ المعرفة للنشر والتوزيع",
     "publisher_en": "Dar Konoz Al-Ma'refah for Publishing and Distribution",
-    "year": "2012",
+    "year": 2012,
     "isbn": "978-9957-74-121-1",
     "keywords": [
       "تسويق الخدمات الصحية",
@@ -2266,11 +2313,12 @@
     ],
     "target_audience": "الطلاب والباحثون في علوم التسيير والتسويق والإدارة الصحية، بالإضافة إلى مديري المستشفيات والكتادر الصحية.",
     "target_audience_en": "Students and researchers in business administration, marketing, health management, as well as hospital administrators and healthcare professionals.",
-    "pages": "226",
+    "pages": 226,
     "file_size": "16.30 MB",
     "file_type": "PDF",
     "file_path": "pdf/تسويق_الخدمات_الصحية.pdf",
-    "cover_image": "covers/48.png"
+    "cover_image": "covers/48.png",
+    "source_sha256": "1579875001a8576ecb45d17bafdaaa6f3ee630d2611374530d0d467b99717ddc"
   },
   {
     "id": 49,
@@ -2286,7 +2334,7 @@
     "description_en": "A specialized book dealing with the concepts of tourism management and its economic importance for both public and private sectors. It covers the fundamentals of tourism, tourism marketing and promotion, tourism development, as well as risk, crisis, and disaster management strategies within the Arab tourism industry.",
     "publisher": "الجنادرية للنشر والتوزيع",
     "publisher_en": "Al-Janadirya For Puplishing",
-    "year": "2017",
+    "year": 2017,
     "isbn": "978-9957-610-17-3",
     "keywords": [
       "الإدارة السياحية",
@@ -2316,11 +2364,12 @@
     ],
     "target_audience": "الطلاب والباحثون في تخصصات السياحة وإدارة الأعمال، والمهنيون والمتخصصون في إدارة المنشآت السياحية.",
     "target_audience_en": "Students and researchers in tourism and business administration, as well as professionals working in tourism management.",
-    "pages": "210",
+    "pages": 210,
     "file_size": "18.59 MB",
     "file_type": "PDF",
     "file_path": "pdf/الادارة_السياحية.pdf",
-    "cover_image": "covers/49.png"
+    "cover_image": "covers/49.png",
+    "source_sha256": "7cec15b5ec3ee37ea94616f1b847dc3aef1b0c242f6f007058c851126499cfc5"
   },
   {
     "id": 50,
@@ -2336,7 +2385,7 @@
     "description_en": "An academic study highlighting training strategies and their impact on enhancing employee performance within public shareholding companies, focusing on field methodology, theoretical framework, findings, and practical recommendations for industrial institutions and researchers.",
     "publisher": "دار جليس الزمان للنشر والتوزيع",
     "publisher_en": "Dar Jalees Al-Zaman for Publishing and Distribution",
-    "year": "2011",
+    "year": 2011,
     "isbn": "978-9957-81-117-4",
     "keywords": [
       "استراتيجية التدريب",
@@ -2366,11 +2415,12 @@
     ],
     "target_audience": "الباحثون الأكاديميون، ومدراء الموارد البشرية، والاستشاريون والإداريون في الشركات والمؤسسات.",
     "target_audience_en": "Academic researchers, HR managers, consultants, and corporate executives.",
-    "pages": "158",
+    "pages": 158,
     "file_size": "11.49 MB",
     "file_type": "PDF",
     "file_path": "pdf/استراتيجية_التدريب_واثرها_على_اداء_العاملين.pdf",
-    "cover_image": "covers/50.png"
+    "cover_image": "covers/50.png",
+    "source_sha256": "1933d652a70179480b3db8a93b09a5cd800d6b6b88237df90a1148a90db52c61"
   },
   {
     "id": 51,
@@ -2386,7 +2436,7 @@
     "description_en": "A comprehensive textbook combining theoretical and practical aspects of bank accounting in Iraqi and Arab banks, in compliance with the Unified Accounting System and International Financial Reporting Standards. It covers various banking departments including Treasury, Current Accounts, Deposits, Bills of Exchange, Check Clearing, Letters of Guarantee, Documentary Credits, Foreign Remittances, Financial Statements, and Internal Auditing.",
     "publisher": "دار الدكتور للعلوم الإدارية والاقتصادية",
     "publisher_en": "Dar Al-Doktor for Administrative and Economic Sciences",
-    "year": "2018",
+    "year": 2018,
     "isbn": "978-9922-609-19-5",
     "keywords": [
       "محاسبة مصرفية",
@@ -2428,11 +2478,12 @@
     ],
     "target_audience": "طلاب الدراسات الأولية والعليا في كليات الإدارة والاقتصاد، والمحاسبين والمهنيين العاملين في القطاع المصرفي والمالي.",
     "target_audience_en": "Undergraduate and postgraduate students in Business and Economics, as well as accounting professionals working in the banking and financial sector.",
-    "pages": "528",
+    "pages": 528,
     "file_size": "34.49 MB",
     "file_type": "PDF",
     "file_path": "pdf/تطبيقات_محاسبية_في_العمليات_المصرفية.pdf",
-    "cover_image": "covers/51.png"
+    "cover_image": "covers/51.png",
+    "source_sha256": "3e4750e8264edadb8512b2cd8cb7057da3ce1d06993890d1cfaebe42eb63378d"
   },
   {
     "id": 52,
@@ -2448,7 +2499,7 @@
     "description_en": "A comprehensive managerial book that offers key administrative knowledge and skills in a simplified style based on the author's practical experience in public and private sectors. The book covers four main sections: Strategic Management, Administrative Leadership, Human Capital Investment, and Total Quality Management.",
     "publisher": "دار مملكة نجد للنشر والتوزيع",
     "publisher_en": "Najd Kingdom for Publishing & Distribution",
-    "year": "2013",
+    "year": 2013,
     "isbn": "978-603-00-9221-5",
     "keywords": [
       "الإدارة",
@@ -2482,11 +2533,12 @@
     ],
     "target_audience": "المدراء، القادة الإداريون، طلبة والدارسون لعلوم الإدارة، والمهتمون بالتطوير المؤسسي والتنمية البشرية.",
     "target_audience_en": "Managers, administrative leaders, management students, and practitioners interested in organizational development and human resources.",
-    "pages": "268",
+    "pages": 268,
     "file_size": "4.71 MB",
     "file_type": "PDF",
     "file_path": "pdf/الادارة.pdf",
-    "cover_image": "covers/52.png"
+    "cover_image": "covers/52.png",
+    "source_sha256": "e4a2212ea6fdf98bf66ade4e69439a1986ae739a49c123b57ef969fd966cee9a"
   },
   {
     "id": 53,
@@ -2502,7 +2554,7 @@
     "description_en": "This book covers the legal and accounting framework for stocks and bonds traded on the stock exchange. It details the accounting treatment for stock and bond issuances, capital adjustments, interest and dividend treatments, treasury stocks, as well as accounting and disclosure for financial investments in alignment with laws and accounting standards.",
     "publisher": "دار النهضة العربية",
     "publisher_en": "Dar Al-Nahda Al-Arabia",
-    "year": "2000",
+    "year": 2000,
     "isbn": "977-04-2930-9",
     "keywords": [
       "المحاسبة المالية",
@@ -2536,11 +2588,12 @@
     ],
     "target_audience": "طلاب كليات التجارة، والمحاسبون والمراجعون القانونيون، والمهتمون بأسواق المال والبورصة.",
     "target_audience_en": "Business and commerce students, professional accountants, legal auditors, and stock market investors.",
-    "pages": "252",
+    "pages": 252,
     "file_size": "16.00 MB",
     "file_type": "PDF",
     "file_path": "pdf/المحاسبة_عن_الاسهم_والسندات_المتداولة_في_بورصة_الاوراق.pdf",
-    "cover_image": "covers/53.png"
+    "cover_image": "covers/53.png",
+    "source_sha256": "4ff50050fe0a08cb0d7bacac361edeec5520a7c433a7dfee24e9aa4ae4d30fb2"
   },
   {
     "id": 54,
@@ -2556,7 +2609,7 @@
     "description_en": "A comprehensive academic textbook covering managerial accounting concepts and techniques to support decision-making, planning, and control. The book addresses cost classification and behavior, Cost-Volume-Profit (CVP) break-even analysis, relevant costs for short-term decision-making, master budgeting, applications of linear programming, preparation of cash flow statements, and financial statement ratio analysis.",
     "publisher": "",
     "publisher_en": "",
-    "year": "2008",
+    "year": 2008,
     "isbn": "",
     "keywords": [
       "المحاسبة الإدارية",
@@ -2598,11 +2651,12 @@
     ],
     "target_audience": "طلاب كليات التجارة وإدارة الأعمال، والمدراء الماليون، والمحاسبون الإداريون، والمهتمون بالتحليل المالي واتخاذ القرارات.",
     "target_audience_en": "Students of business and accounting, financial managers, management accountants, and professionals interested in financial analysis and decision-making.",
-    "pages": "122",
+    "pages": 122,
     "file_size": "2.96 MB",
     "file_type": "PDF",
     "file_path": "pdf/محاسبة_ادارية.pdf",
-    "cover_image": "covers/54.png"
+    "cover_image": "covers/54.png",
+    "source_sha256": "6366349038be129406174df99ea35f7e598f254c66c230cafd3dd209360f67c0"
   },
   {
     "id": 55,
@@ -2618,7 +2672,7 @@
     "description_en": "A comprehensive university textbook on applied statistics designed for students in scientific, humanities, and business disciplines. The book covers descriptive statistics, data presentation, measures of central tendency and dispersion, correlation and regression, time series analysis, index numbers, probability distributions, hypothesis testing, Chi-Square tests, and Analysis of Variance (ANOVA) in an accessible style with minimized mathematical proofs.",
     "publisher": "جامعة الملك سعود - عمادة شؤون المكتبات",
     "publisher_en": "King Saud University - Deanship of Library Affairs",
-    "year": "1995",
+    "year": 1995,
     "isbn": "9960-05-207-9",
     "keywords": [
       "الإحصاء التطبيقي",
@@ -2654,11 +2708,12 @@
     ],
     "target_audience": "طلاب الجامعات والمعاهد العليا والباحثون في العلوم الطبيعية والهندسية والإنسانية والاجتماعية والإدارية.",
     "target_audience_en": "University and college students, researchers in natural sciences, engineering, humanities, social sciences, and business administration.",
-    "pages": "451",
+    "pages": 451,
     "file_size": "58.30 MB",
     "file_type": "PDF",
     "file_path": "pdf/الاحصاء_التطبيقي.pdf",
-    "cover_image": "covers/55.png"
+    "cover_image": "covers/55.png",
+    "source_sha256": "41d70dd763b2a03c4fe5f5fd92a889c12b2e536ffed421a379f20e9afa5eed5b"
   },
   {
     "id": 56,
@@ -2674,7 +2729,7 @@
     "description_en": "Part of the Harvard Business School Results-Driven Manager Series, this book offers practical strategies and insights for managers to effectively motivate employees, align personal goals with organizational objectives, foster workplace trust, select meaningful rewards, and improve overall performance.",
     "publisher": "مكتبة العبيكان",
     "publisher_en": "Obeikan Publishing",
-    "year": "2011",
+    "year": 2011,
     "isbn": "978-9960-54-986-6",
     "keywords": [
       "تحفيز الموظفين",
@@ -2711,11 +2766,12 @@
     ],
     "target_audience": "المديرون الإداريون، القادة، مسؤولو الموارد البشرية، والمهتمون بتطوير الأداء المؤسسي وقيادة فرق العمل.",
     "target_audience_en": "Managers, executives, HR professionals, and leaders looking to improve employee motivation and team performance.",
-    "pages": "212",
+    "pages": 212,
     "file_size": "31.46 MB",
     "file_type": "PDF",
     "file_path": "pdf/تحفيز_الموظفين_سلسلة_القيادي_الناجح_من_جامعة_هارفارد.pdf",
-    "cover_image": "covers/56.png"
+    "cover_image": "covers/56.png",
+    "source_sha256": "d5f155b63f5905467fb3d92498e6ccbe20d9632cc97244325c77fb37cd926f2a"
   },
   {
     "id": 57,
@@ -2731,7 +2787,7 @@
     "description_en": "A book reviewing and analyzing the experiences of global universities in implementing e-learning and blended learning systems, exploring implications, infrastructural readiness, and academic quality control strategies, particularly following the COVID-19 pandemic.",
     "publisher": "مؤسسة سكولار للدراسات والبحوث",
     "publisher_en": "Scholar Publications for Studies and Research",
-    "year": "2020",
+    "year": 2020,
     "isbn": "978-9922-20-761-2",
     "keywords": [
       "التعليم الإلكتروني",
@@ -2765,11 +2821,12 @@
     ],
     "target_audience": "الأكاديميون، الباحثون، إدارات الجامعات، وصناع القرار والسياسات في قطاع التعليم العالي.",
     "target_audience_en": "Academics, researchers, university administrators, and higher education policymakers.",
-    "pages": "93",
+    "pages": 93,
     "file_size": "5.12 MB",
     "file_type": "PDF",
     "file_path": "pdf/تجارب_الجامعات_العالمية_مع_التعليم_الالكتروني.pdf",
-    "cover_image": "covers/57.png"
+    "cover_image": "covers/57.png",
+    "source_sha256": "fa9744c9c4cd5c9cf32fecd9a3c21774dd94c6eee9f002758a9076a4e6f58e28"
   },
   {
     "id": 58,
@@ -2785,7 +2842,7 @@
     "description_en": "A comprehensive book dealing with financial mathematics topics integrated with computer applications, explaining concepts of financial investment, interest calculations, discounting, and financial operations using software.",
     "publisher": "دار وائل للنشر والتوزيع",
     "publisher_en": "Dar Wael for Publishing and Distribution",
-    "year": "2010",
+    "year": 2010,
     "isbn": "978-9957-11-908-9",
     "keywords": [
       "الرياضيات المالية",
@@ -2813,11 +2870,12 @@
     ],
     "target_audience": "طلاب وجامعيو التخصصات المالية والإدارية، والمهتمون بتطبيقات الحاسوب في الاقتصاد والاستثمار",
     "target_audience_en": "University students in finance and business management, and those interested in computer applications in economics and investment",
-    "pages": "275",
+    "pages": 275,
     "file_size": "22.10 MB",
     "file_type": "PDF",
     "file_path": "pdf/الرياضيات_المالية_في_تطبيقات_الحاسوب.pdf",
-    "cover_image": "covers/58.png"
+    "cover_image": "covers/58.png",
+    "source_sha256": "5931043af337f917a96b767e80db7d59a75416cc7394667401bf15cb7af24ccc"
   },
   {
     "id": 59,
@@ -2833,7 +2891,7 @@
     "description_en": "A specialized book dealing with the principles of contract and construction cost accounting, including accounting treatments for construction contract revenues and costs, measuring completion percentages, and calculating project profit and loss.",
     "publisher": "مكتبتنا العربية",
     "publisher_en": "Al-Maktabah Al-Arabiyah",
-    "year": "2015",
+    "year": 2015,
     "isbn": "",
     "keywords": [
       "محاسبة التكاليف",
@@ -2861,11 +2919,12 @@
     ],
     "target_audience": "المحاسبون، والماليون، وطلاب كليات التجارة والمحاسبة، والمهتمون بقطاع المقاولات والإنشاءات.",
     "target_audience_en": "Accountants, financial professionals, business and accounting students, and individuals interested in the construction and contracting sector.",
-    "pages": "90",
+    "pages": 90,
     "file_size": "1.77 MB",
     "file_type": "PDF",
     "file_path": "pdf/محاسبة_تكاليف_العقود_والمقاولات.pdf",
-    "cover_image": "covers/59.png"
+    "cover_image": "covers/59.png",
+    "source_sha256": "0cd7f958c0d01a54b0bf501d75bb0f51ef21b7cd3869a275d5f0af0a82af6d88"
   },
   {
     "id": 60,
@@ -2881,7 +2940,7 @@
     "description_en": "A specialized book providing a comprehensive guide on the concepts and importance of economic feasibility studies and investment project evaluation. It addresses diagnosis, preliminary, and detailed feasibility stages, including market research, demand forecasting, technical, engineering, and administrative studies, financial and cash flow analysis, as well as national and social profitability assessment considering risk and inflation.",
     "publisher": "دار اليازوري للنشر والتوزيع",
     "publisher_en": "Dar Al-Yazori for Publication and Distribution",
-    "year": "2011",
+    "year": 2011,
     "isbn": "",
     "keywords": [
       "دراسة الجدوى",
@@ -2917,11 +2976,12 @@
     ],
     "target_audience": "طلاب وباحثو كليات الاقتصاد وإدارة الأعمال، المستشارون الإداريون والماليون، والمستثمرون ورواد الأعمال.",
     "target_audience_en": "Students and researchers in business and economics, financial and management consultants, investors, and entrepreneurs.",
-    "pages": "425",
+    "pages": 425,
     "file_size": "2.73 MB",
     "file_type": "PDF",
     "file_path": "pdf/دراسة_الجدوى_الاقتصادية_وتقييم_المشروعات.pdf",
-    "cover_image": "covers/60.png"
+    "cover_image": "covers/60.png",
+    "source_sha256": "e22d8a660bd7d59dd6e47d3a31a1eeb7bd15063fbebef21623a0556410685dcf"
   },
   {
     "id": 61,
@@ -2937,7 +2997,7 @@
     "description_en": "This book provides a comprehensive and practical approach to applied statistics tailored specifically for business and commerce students and professionals. It emphasizes the transition from traditional statistical methods to modern analytical tools that support accurate managerial and economic decision-making.",
     "publisher": "دار المريخ للنشر",
     "publisher_en": "Dar Al-Marrikh For Publishing",
-    "year": "2004",
+    "year": 2004,
     "isbn": "",
     "keywords": [
       "الإحصاء للتجاريين",
@@ -2969,11 +3029,12 @@
     ],
     "target_audience": "طلاب المجموعات التجارية (تجارة، إدارة أعمال، اقتصاد)، الباحثون، والمحللون المهتمون بتطبيقات الإحصاء في مجال الأعمال.",
     "target_audience_en": "Business and commerce students, researchers, and analysts interested in statistical applications in business.",
-    "pages": "888",
+    "pages": 888,
     "file_size": "91.24 MB",
     "file_type": "PDF",
     "file_path": "pdf/الاحصاء_للتجاريين_مدخل_حديث.pdf",
-    "cover_image": "covers/61.png"
+    "cover_image": "covers/61.png",
+    "source_sha256": "02c95f5483c7cd023812f1e015ba24c2d1469932b4a636d878b69f2f35d478dc"
   },
   {
     "id": 62,
@@ -2989,7 +3050,7 @@
     "description_en": "A university textbook aimed at providing mathematical and applied methods for commerce students and business professionals. It covers various topics including mathematical induction, determinants, matrices, probability, expected utility, quality control, functions, limits, calculus, and linear programming to facilitate the analysis of managerial, economic, and accounting problems for rational decision-making.",
     "publisher": "جامعة القاهرة - كلية التجارة",
     "publisher_en": "Cairo University - Faculty of Commerce",
-    "year": "2010",
+    "year": 2010,
     "isbn": "",
     "keywords": [
       "الرياضيات التطبيقية",
@@ -3025,11 +3086,12 @@
     ],
     "target_audience": "طلاب كليات التجارة والعلوم إدارية ورجال الأعمال والمهتمون بالتحليل الرياضي في الاقتصاد والإدارة",
     "target_audience_en": "Students of commerce and administrative sciences faculties, business professionals, and those interested in mathematical analysis in economics and management",
-    "pages": "476",
+    "pages": 476,
     "file_size": "6.83 MB",
     "file_type": "PDF",
     "file_path": "pdf/الرياضيات_التطبيقية_للتجاريين.pdf",
-    "cover_image": "covers/62.png"
+    "cover_image": "covers/62.png",
+    "source_sha256": "1e01d9deb342e690b26c866d7ad09502fe7ce26d0004d4ec842715146f7e131f"
   },
   {
     "id": 63,
@@ -3045,7 +3107,7 @@
     "description_en": "A comprehensive comparative study addressing the general theory of negative administrative decisions, clarifying its concept, conditions, elements, and legal defects, along with administrative, political, popular, and judicial review mechanisms in comparative jurisdictions such as Iraq, Egypt, and France.",
     "publisher": "المركز العربي للنشر والتوزيع",
     "publisher_en": "Arab Center for Publishing and Distribution",
-    "year": "2017",
+    "year": 2017,
     "isbn": "",
     "keywords": [
       "القرار الإداري السلبي",
@@ -3077,11 +3139,12 @@
     ],
     "target_audience": "أساتذة وطلاب كليات القانون، القضاة، المحامون، والباحثون في مجال القانون الإداري والقضاء الإداري",
     "target_audience_en": "Law professors, students, judges, lawyers, and researchers in administrative law and judicial practice",
-    "pages": "185",
+    "pages": 185,
     "file_size": "32.82 MB",
     "file_type": "PDF",
     "file_path": "pdf/النظرية_العامة-للقرار_الاداري_السلبي.pdf",
-    "cover_image": "covers/63.png"
+    "cover_image": "covers/63.png",
+    "source_sha256": "5fb59219b3c1182061e25c412e5bf6a2efbc19ce7d6b1bf1222ab109560b2dd8"
   },
   {
     "id": 64,
@@ -3097,7 +3160,7 @@
     "description_en": "A comprehensive academic textbook presenting principles and methods related to sales and advertising management in a clear, scientific manner supported by practical application cases. The book covers core topics including sales management functions, organizational structure, recruiting, training, and compensating sales forces, product policy planning, branding, packaging, after-sales services, sales promotion, distribution, sales planning and forecasting, as well as advertising strategies and media.",
     "publisher": "دار الحكمة للطباعة والنشر - الموصل / هيئة المعاهد الفنية",
     "publisher_en": "Dar Al-Hikma for Printing and Publishing - Mosul / Foundation of Technical Institutes",
-    "year": "1990",
+    "year": 1990,
     "isbn": "",
     "keywords": [
       "إدارة المبيعات",
@@ -3135,11 +3198,12 @@
     ],
     "target_audience": "طلاب الكليات والمعاهد الفنية المتخصصون في إدارة الأعمال والتسويق، والباحثون والعاملون في أنشطة البيع والإعلان.",
     "target_audience_en": "College and technical institute students specializing in business administration and marketing, as well as researchers and practitioners in sales and advertising.",
-    "pages": "453",
+    "pages": 453,
     "file_size": "11.85 MB",
     "file_type": "PDF",
     "file_path": "pdf/ادارة_المبيعات_والاعلان.pdf",
-    "cover_image": "covers/64.png"
+    "cover_image": "covers/64.png",
+    "source_sha256": "9080fb93a72f1220c2a5b84da8a409f4b6cbda264ca450be5f4447e748ffe096"
   },
   {
     "id": 65,
@@ -3155,7 +3219,7 @@
     "description_en": "An academic textbook providing a comprehensive presentation of statistics and probability theory with a focus on engineering applications. The book covers data collection, tabulation, graphical representation, measures of central tendency and dispersion, correlation and linear regression, probability theory, random variables, and probability distributions such as Normal, Binomial, and Poisson distributions.",
     "publisher": "دار الفجر للنشر والتوزيع",
     "publisher_en": "Dar Al-Fajr for Publishing and Distribution",
-    "year": "2005",
+    "year": 2005,
     "isbn": "977-358-093-8",
     "keywords": [
       "الإحصاء",
@@ -3195,11 +3259,12 @@
     ],
     "target_audience": "طلاب كليات الهندسة والعلوم التطبيقية، والمهندسون، والباحثون المهتمون بالتحليل الإحصائي الهندسي.",
     "target_audience_en": "Engineering and applied science students, practicing engineers, and researchers interested in engineering statistical analysis.",
-    "pages": "418",
+    "pages": 418,
     "file_size": "3.20 MB",
     "file_type": "PDF",
     "file_path": "pdf/الاحصاء_والاحتمالات_في_التطبيقات_الهندسية.pdf",
-    "cover_image": "covers/65.png"
+    "cover_image": "covers/65.png",
+    "source_sha256": "58ccb72b9a7bdfe050767a260dd3159c9a032158b94f202953637595d3bfb6b1"
   },
   {
     "id": 66,
@@ -3215,7 +3280,7 @@
     "description_en": "The book examines modern administrative developments and concepts driven by scientific and technological advancements. It addresses vital topics such as time management, management by objectives, process reengineering, knowledge management, and empowerment to enhance quality and organizational efficiency.",
     "publisher": "جامعة اليرموك - قسم الإدارة العامة",
     "publisher_en": "Yarmouk University - Department of Public Administration",
-    "year": "2014",
+    "year": 2014,
     "isbn": "",
     "keywords": [
       "مفاهيم إدارية",
@@ -3247,11 +3312,12 @@
     ],
     "target_audience": "الطلاب والباحثون والممارسون في مجالات الإدارة العامة وإدارة الأعمال.",
     "target_audience_en": "Students, researchers, and practitioners in public and business administration.",
-    "pages": "377",
+    "pages": 377,
     "file_size": "32.16 MB",
     "file_type": "PDF",
     "file_path": "pdf/مفاهيم_ادارية_معاصرة.pdf",
-    "cover_image": "covers/66.png"
+    "cover_image": "covers/66.png",
+    "source_sha256": "b738d96a47d3d7319dbc4c99ce442d15f8b09c0144a4f216c6a7ec6f6a51c6f6"
   },
   {
     "id": 67,
@@ -3267,7 +3333,7 @@
     "description_en": "A comparative legal study examining the legal system and regulatory framework for transferring to the private sector (privatization), reviewing financial and economic policies and regulations.",
     "publisher": "دار الحامد للنشر والتوزيع",
     "publisher_en": "Dar Al-Hamed for Publishing & Distribution",
-    "year": "2007",
+    "year": 2007,
     "isbn": "978-9957-32-324-2",
     "keywords": [
       "الخصخصة",
@@ -3297,11 +3363,12 @@
     ],
     "target_audience": "المتخصصون في القانون الإداري والمالي، رجال الأعمال، الباحثون الأكاديميون، وخبراء الاقتصاد والسياسات العامة",
     "target_audience_en": "Legal and financial experts, corporate lawyers, academic researchers, and public policy specialists",
-    "pages": "268",
+    "pages": 268,
     "file_size": "16.54 MB",
     "file_type": "PDF",
     "file_path": "pdf/النظام_القانوني_للتحول_الى_القطاع_الخاص.pdf",
-    "cover_image": "covers/67.png"
+    "cover_image": "covers/67.png",
+    "source_sha256": "a9d86a9898a23e272c07799323a64e4e740d202bb62712cd32960a280692af60"
   },
   {
     "id": 68,
@@ -3317,7 +3384,7 @@
     "description_en": "A comprehensive summary guide covering International Accounting Standards (IAS) and International Financial Reporting Standards (IFRS). It outlines the scope of each standard, key definitions, presentation, measurement, and disclosure requirements, alongside a historical timeline of publication and effective dates.",
     "publisher": "مجموعة اختبار السوكبا",
     "publisher_en": "SOCPA Exam Group",
-    "year": "",
+    "year": 0,
     "isbn": "",
     "keywords": [
       "المعايير الدولية للتقرير المالي",
@@ -3350,11 +3417,12 @@
     ],
     "target_audience": "المحاسبون، المراجعون، وطلاب شهادة زمالة الهيئة السعودية للمراجعين والمحاسبين (SOCPA)",
     "target_audience_en": "Accountants, auditors, and candidates preparing for the SOCPA professional exam",
-    "pages": "89",
+    "pages": 89,
     "file_size": "1.98 MB",
     "file_type": "PDF",
     "file_path": "pdf/مختصر_المعايير_الدولية_المحاسبية.pdf",
-    "cover_image": "covers/68.png"
+    "cover_image": "covers/68.png",
+    "source_sha256": "21262ef6f251dfca045fac9ac68845e1b686abecd082df3a91989784cacb564f"
   },
   {
     "id": 69,
@@ -3370,7 +3438,7 @@
     "description_en": "A specialized book providing a comprehensive analytical introduction to statistical regression problems and how to address and apply them using EViews 8.1 software, with practical applications in statistics and econometrics.",
     "publisher": "جامعة بغداد - كلية الإدارة والاقتصاد",
     "publisher_en": "University of Baghdad - College of Administration and Economics",
-    "year": "2015",
+    "year": 2015,
     "isbn": "",
     "keywords": [
       "الانحدار",
@@ -3398,11 +3466,12 @@
     ],
     "target_audience": "أساتذة وطلاب الماجستير والدكتوراه والباحثون في مجالات الإحصاء والاقتصاد القياسي والإدارة.",
     "target_audience_en": "Professors, postgraduate students, and researchers in the fields of statistics, econometrics, and administration.",
-    "pages": "577",
+    "pages": 577,
     "file_size": "16.75 MB",
     "file_type": "PDF",
     "file_path": "pdf/مقدمة_تحليلية_في_مشاكل_الانحدار.pdf",
-    "cover_image": "covers/69.png"
+    "cover_image": "covers/69.png",
+    "source_sha256": "37e63156db4798b47227bf7a758905764a06707338a41e8186d821195db53bad"
   },
   {
     "id": 70,
@@ -3418,7 +3487,7 @@
     "description_en": "This book explores employee training skills and their impact on enhancing performance within organizations. It covers recruitment and hiring strategies, alongside methodologies for preparing second-generation leaders and future executives to sustain organizational success.",
     "publisher": "نيو لينك الدولية للنشر والتدريب",
     "publisher_en": "Newlink International for Publishing and Training",
-    "year": "2016",
+    "year": 2016,
     "isbn": "978-977-6494-17-6",
     "keywords": [
       "تدريب الموظفين",
@@ -3450,11 +3519,12 @@
     ],
     "target_audience": "المدراء، ومسؤولو الموارد البشرية، والمدربون، وقادة الفرق، وكل من يسعى لتطوير المهارات القيادية والإدارية.",
     "target_audience_en": "Managers, HR professionals, trainers, team leaders, and anyone seeking to develop leadership and managerial skills.",
-    "pages": "113",
+    "pages": 113,
     "file_size": "4.92 MB",
     "file_type": "PDF",
     "file_path": "pdf/مهارات_تدريب_الموظفين_واعداد_الجيل_الثاني_من_القيادات.pdf",
-    "cover_image": "covers/70.png"
+    "cover_image": "covers/70.png",
+    "source_sha256": "784c7281ca87bc35182706fea0f47f16b07acd0c345494ee6283fc9a07b77928"
   },
   {
     "id": 71,
@@ -3470,7 +3540,7 @@
     "description_en": "The book discusses renewable energy and the development of new energy sources to mitigate risks associated with oil depletion. It explores alternative energy strategies and mechanisms and their impact on sustainable development, the environment, economy, and society.",
     "publisher": "دار يافا العلمية للنشر والتوزيع",
     "publisher_en": "Dar Yafa Scientific for Publishing and Distribution",
-    "year": "2016",
+    "year": 2016,
     "isbn": "978-9957-580-73-5",
     "keywords": [
       "الطاقة المتجددة",
@@ -3502,11 +3572,12 @@
     ],
     "target_audience": "الباحثون، والطلاب، والمهندسون، والمهتمون بقضايا البيئة والتنمية المستدامة وتكنولوجيا الطاقة المتجددة.",
     "target_audience_en": "Researchers, students, engineers, and individuals interested in environmental issues, sustainable development, and renewable energy technologies.",
-    "pages": "191",
+    "pages": 191,
     "file_size": "15.96 MB",
     "file_type": "PDF",
     "file_path": "pdf/الطاقة_المتجددة.pdf",
-    "cover_image": "covers/71.png"
+    "cover_image": "covers/71.png",
+    "source_sha256": "3557a3a480c44487612b9a05ffc2bd8860d6263334120276358e3b528e29ee58"
   },
   {
     "id": 72,
@@ -3522,7 +3593,7 @@
     "description_en": "An academic textbook providing a detailed study of risk concepts, measurement, and management, along with the theoretical, practical, and actuarial mathematical foundations of commercial and life insurance, extending to reinsurance, social insurance systems, unemployment, and work injury coverage.",
     "publisher": "جامعة الإسكندرية - كلية التجارة / مكتبة الاقتصاد",
     "publisher_en": "Alexandria University - Faculty of Commerce / Economics Library",
-    "year": "2019",
+    "year": 2019,
     "isbn": "",
     "keywords": [
       "التأمين",
@@ -3562,11 +3633,12 @@
     ],
     "target_audience": "طلاب كليات التجارة والاقتصاد، والباحثون والمتخصصون في مجالات التأمين، والعلوم الإكتوارية، وإدارة المخاطر.",
     "target_audience_en": "Students of commerce and economics, researchers, and specialists in insurance, actuarial science, and risk management.",
-    "pages": "346",
+    "pages": 346,
     "file_size": "47.32 MB",
     "file_type": "PDF",
     "file_path": "pdf/مقدمة_في_الخطر_والتأمين.pdf",
-    "cover_image": "covers/72.png"
+    "cover_image": "covers/72.png",
+    "source_sha256": "849db92e6ffd04387383b528db8e85dd01f43883ec056d6b1dd8249416c6b4d5"
   },
   {
     "id": 73,
@@ -3582,7 +3654,7 @@
     "description_en": "An academic book providing a comprehensive introduction to the principles and fundamentals of public relations, covering key concepts of mass communication, public opinion management, and the role of PR in enhancing organizational image.",
     "publisher": "الأكاديميون للنشر والتوزيع",
     "publisher_en": "Academics for Publishing and Distribution",
-    "year": "2014",
+    "year": 2014,
     "isbn": "978-9957-449-81-0",
     "keywords": [
       "العلاقات العامة",
@@ -3610,11 +3682,12 @@
     ],
     "target_audience": "طلاب تخصصات الإعلام والعلاقات العامة، والأكاديميون، والمهنيون العاملون في مجال الاتصال المؤسسي والإعلام.",
     "target_audience_en": "Students of Media and Public Relations, academics, and professionals working in corporate communications and media.",
-    "pages": "222",
+    "pages": 222,
     "file_size": "20.20 MB",
     "file_type": "PDF",
     "file_path": "pdf/مبادئ_العلاقات_العامة.pdf",
-    "cover_image": "covers/73.png"
+    "cover_image": "covers/73.png",
+    "source_sha256": "f49c9c3ca3e349c9d46acc0ac060428ad2ed629962879a53a5489c9d6391af39"
   },
   {
     "id": 74,
@@ -3630,7 +3703,7 @@
     "description_en": "A university textbook for first-year commerce students at Cairo University, covering the fundamentals of business mathematics and their commercial applications, including determinants, matrices, probability theory and distributions, commercial applications of calculus, and an introduction to linear programming using graphical and simplex methods.",
     "publisher": "كلية التجارة – جامعة القاهرة",
     "publisher_en": "Faculty of Commerce – Cairo University",
-    "year": "2017",
+    "year": 2017,
     "isbn": "",
     "keywords": [
       "رياضيات الأعمال",
@@ -3666,11 +3739,12 @@
     ],
     "target_audience": "طلاب الفرقة الأولى بكلية التجارة والدارسون للرياضيات المالية والتجارية",
     "target_audience_en": "First-year students at the Faculty of Commerce and students of financial and business mathematics",
-    "pages": "319",
+    "pages": 319,
     "file_size": "5.35 MB",
     "file_type": "PDF",
     "file_path": "pdf/رياضيات_الاعمال.pdf",
-    "cover_image": "covers/74.png"
+    "cover_image": "covers/74.png",
+    "source_sha256": "89ef623f392508bb6c3504d057a3074336f5049683802d2f0e2b7c82814f8692"
   },
   {
     "id": 75,
@@ -3686,7 +3760,7 @@
     "description_en": "A course training manual (Course 110) for the Real Estate Valuers Qualification Program published by Taqeem Academy. It provides essential accounting and financial analysis concepts, introduces sources of finance, financial markets, real estate mortgage loans, and tax considerations in real estate valuation.",
     "publisher": "الهيئة السعودية للمقيّمين المعتمدين (تقييم)",
     "publisher_en": "Saudi Authority for Accredited Valuers (Taqeem)",
-    "year": "2015",
+    "year": 2015,
     "isbn": "",
     "keywords": [
       "التقييم العقاري",
@@ -3717,11 +3791,12 @@
     ],
     "target_audience": "المتدربون والمقيّمون العقاريون المشاركون في برنامج تأهيل مقيمي العقار للحصول على الاعتماد المهني.",
     "target_audience_en": "Trainees and real estate appraisers pursuing professional qualification under Taqeem.",
-    "pages": "158",
+    "pages": 158,
     "file_size": "14.92 MB",
     "file_type": "PDF",
     "file_path": "pdf/تطبيق_مبادئ_المحاسبة_والتمويل_والضرائب_في_التقييم_العقاري.pdf",
-    "cover_image": "covers/75.png"
+    "cover_image": "covers/75.png",
+    "source_sha256": "72d37758486630ffc5cb340577b740d9db0320f489c98a81bffe150e08a5e69a"
   },
   {
     "id": 76,
@@ -3737,7 +3812,7 @@
     "description_en": "An academic book detailing scientific research methods and approaches. It explains the concept, types, and steps of scientific research, from defining the research problem and formulating hypotheses to data collection and analysis, alongside technical aspects such as citation, documentation, and report formatting.",
     "publisher": "",
     "publisher_en": "",
-    "year": "",
+    "year": 0,
     "isbn": "",
     "keywords": [
       "البحث العلمي",
@@ -3765,11 +3840,12 @@
     ],
     "target_audience": "الطلاب الجامعيون، الباحثون الأكاديميون، وطلاب الدراسات العليا المهتمون بإعداد البحوث والرسائل العلمية.",
     "target_audience_en": "University students, academic researchers, and postgraduate students preparing theses and research papers.",
-    "pages": "189",
+    "pages": 189,
     "file_size": "8.24 MB",
     "file_type": "PDF",
     "file_path": "pdf/مناهج_واساليب_البحث_العلمي.pdf",
-    "cover_image": "covers/76.png"
+    "cover_image": "covers/76.png",
+    "source_sha256": "bd2070c3300e29708bb0d4f7ffa8580776b2fe409aab939fca0df43bfd4240ed"
   },
   {
     "id": 77,
@@ -3785,7 +3861,7 @@
     "description_en": "A scientific study discussing the role of statistical data in supporting and developing strategic planning processes, institutional performance measurement, and administrative and security development.",
     "publisher": "مركز بحوث الشرطة - شرطة الشارقة",
     "publisher_en": "Police Research Center - Sharjah Police",
-    "year": "2014",
+    "year": 2014,
     "isbn": "978-9948-415-99-2",
     "keywords": [
       "الإحصاء",
@@ -3813,11 +3889,12 @@
     ],
     "target_audience": "المخططون الاستراتيجيون، الباحثون والإحصائيون، والقيادات الإدارية والأمنية",
     "target_audience_en": "Strategic planners, researchers, statisticians, and administrative and security leaders",
-    "pages": "181",
+    "pages": 181,
     "file_size": "2.68 MB",
     "file_type": "PDF",
     "file_path": "pdf/الاحصاء_والتخطيط_الاستراتيجي.pdf",
-    "cover_image": "covers/77.png"
+    "cover_image": "covers/77.png",
+    "source_sha256": "8a58fd94baea9c3fe8767ff3ceaeb332215ca2fbd98ec1c881af1bfbe946b1e3"
   },
   {
     "id": 78,
@@ -3833,7 +3910,7 @@
     "description_en": "A specialized study discussing the structuring of educational leadership positions, examining job characteristics, description accuracy, and essential components such as supervisory control, interpersonal communications, and decision-making scope from the perspective of educational leaders.",
     "publisher": "دار جليس الزمان للنشر والتوزيع",
     "publisher_en": "Jalees Al-Zaman Publishing & Distribution",
-    "year": "2010",
+    "year": 2010,
     "isbn": "978-9957-81-107-5",
     "keywords": [
       "هيكلة الوظائف",
@@ -3863,11 +3940,12 @@
     ],
     "target_audience": "القادة التربويون، المشرفون والإداريون في المؤسسات التعليمية، والباحثون في مجال الإدارة التربوية",
     "target_audience_en": "Educational leaders, administrators and supervisors in educational institutions, and researchers in educational management",
-    "pages": "156",
+    "pages": 156,
     "file_size": "10.55 MB",
     "file_type": "PDF",
     "file_path": "pdf/هيكلة_الوظائف_القيادية.pdf",
-    "cover_image": "covers/78.png"
+    "cover_image": "covers/78.png",
+    "source_sha256": "692bd538afdd854bee2f9354b2fa5bef021915269c8a33eeb8e7f5d2f5bf4e17"
   },
   {
     "id": 79,
@@ -3883,7 +3961,7 @@
     "description_en": "A book covering the principles and fundamentals of economic feasibility studies for investment projects, highlighting marketing, technical, financial, and economic aspects required to evaluate project success and make sound investment decisions.",
     "publisher": "",
     "publisher_en": "",
-    "year": "",
+    "year": 0,
     "isbn": "",
     "keywords": [
       "دراسات الجدوى",
@@ -3911,11 +3989,12 @@
     ],
     "target_audience": "طلاب الكليات الاقتصادية والإدارية، المستثمرون، رواد الأعمال، والمحللون الاقتصاديون.",
     "target_audience_en": "Students of economics and business administration, investors, entrepreneurs, and economic analysts.",
-    "pages": "256",
+    "pages": 256,
     "file_size": "37.08 MB",
     "file_type": "PDF",
     "file_path": "pdf/دراسات_الجدوى_الاقتصادية.pdf",
-    "cover_image": "covers/79.png"
+    "cover_image": "covers/79.png",
+    "source_sha256": "d6ce87e47ca878ee2c839238fdde41ecd6915c18df7b31df158a8ae10d86100c"
   },
   {
     "id": 80,
@@ -3931,7 +4010,7 @@
     "description_en": "A specialized dictionary aimed at identifying, extracting, and classifying economic terms and vocabulary found in Ibn Manzur's classical lexicon 'Lisan al-Arab', covering themes such as earnings, weights and measures, money, currency, and distribution.",
     "publisher": "دار مجدلاوي للنشر والتوزيع",
     "publisher_en": "Dar Majdalawi Publishing",
-    "year": "2006",
+    "year": 2006,
     "isbn": "9957-02-252-0",
     "keywords": [
       "معجم",
@@ -3963,11 +4042,12 @@
     ],
     "target_audience": "الباحثون والدارسون في مجالات الاقتصاد الإسلامي، المعاجم العربية، واللغويات",
     "target_audience_en": "Researchers and scholars in Islamic economics, Arabic lexicography, and linguistics",
-    "pages": "313",
+    "pages": 313,
     "file_size": "26.92 MB",
     "file_type": "PDF",
     "file_path": "pdf/معجم_الالفاظ_الاقتصادية_في_لسان_العرب.pdf",
-    "cover_image": "covers/80.png"
+    "cover_image": "covers/80.png",
+    "source_sha256": "6df12bfd79bdc3adff225c9d8ac33d385b6a12e1c63773f3cb375f65ec03fe59"
   },
   {
     "id": 81,
@@ -3983,7 +4063,7 @@
     "description_en": "An academic textbook aimed at enriching administrative thought by exploring contemporary business organizations, detailing management functions, and outlining essential organizational processes for modern enterprises, targeted at business students and researchers.",
     "publisher": "الأكاديميون للنشر والتوزيع",
     "publisher_en": "Academics for Publishing and Distribution",
-    "year": "2013",
+    "year": 2013,
     "isbn": "978-9957-449-04-9",
     "keywords": [
       "منظمات الأعمال",
@@ -4013,11 +4093,12 @@
     ],
     "target_audience": "طلبة العلم، وأعضاء هيئة التدريس، والباحثون في تخصصات إدارة الأعمال بالجامعات العربية",
     "target_audience_en": "Students, faculty members, and researchers in business administration fields across Arab universities",
-    "pages": "332",
+    "pages": 332,
     "file_size": "21.04 MB",
     "file_type": "PDF",
     "file_path": "pdf/منظمات_الاعمال_المعاصرة.pdf",
-    "cover_image": "covers/81.png"
+    "cover_image": "covers/81.png",
+    "source_sha256": "4352f284639f4dfe71d92d2ee9fbe675141e20999489d3822995b3f3830240a3"
   },
   {
     "id": 82,
@@ -4033,7 +4114,7 @@
     "description_en": "A specialized book discussing concepts and strategies of administrative development within organizations, focusing on organizational development, applying behavioral science knowledge, leadership development, change management, and strategic planning to enhance institutional performance and overcome obstacles.",
     "publisher": "",
     "publisher_en": "",
-    "year": "",
+    "year": 0,
     "isbn": "",
     "keywords": [
       "التنمية الإدارية",
@@ -4063,11 +4144,12 @@
     ],
     "target_audience": "المدراء، القادة الإداريون، مستشارو الإدارة، والباحثون والطلاب في مجال إدارة الأعمال والتطوير التنظيمي.",
     "target_audience_en": "Managers, administrative leaders, management consultants, researchers, and students in business administration and organizational development.",
-    "pages": "211",
+    "pages": 211,
     "file_size": "15.30 MB",
     "file_type": "PDF",
     "file_path": "pdf/التنمية_الادارية.pdf",
-    "cover_image": "covers/82.png"
+    "cover_image": "covers/82.png",
+    "source_sha256": "34a698bf291adce84ed54180757c0ac747efdea44c30e0b2d20778709b8110c7"
   },
   {
     "id": 83,
@@ -4083,7 +4165,7 @@
     "description_en": "A comparative legal study examining the obstacles facing independent bank guarantees, such as irrevocable documentary credits and letters of guarantee. It focuses on the implications of fraud and abuse of right by beneficiaries or banks, legal applications, and recommendations for updating International Chamber of Commerce rules.",
     "publisher": "",
     "publisher_en": "",
-    "year": "",
+    "year": 0,
     "isbn": "",
     "keywords": [
       "الضمانات المصرفية",
@@ -4115,11 +4197,12 @@
     ],
     "target_audience": "القانونيون، الباحثون الأكاديميون، والمختصون في القطاع المصرفي والتجارة الدولية",
     "target_audience_en": "Legal professionals, academic researchers, and specialists in banking and international trade",
-    "pages": "172",
+    "pages": 172,
     "file_size": "10.02 MB",
     "file_type": "PDF",
     "file_path": "pdf/معوقات_الضمانات_المصرفية.pdf",
-    "cover_image": "covers/83.png"
+    "cover_image": "covers/83.png",
+    "source_sha256": "53d4ae2f761121044ed2f315339b0461bbe796cda4eab77b2a08bd39a6527f76"
   },
   {
     "id": 84,
@@ -4135,7 +4218,7 @@
     "description_en": "This book covers the fundamental concepts of Accounting Information Systems (AIS) and their relationship with modern information technology and database management. It emphasizes practical application using Microsoft Access, detailing the transition from manual to electronic data processing, cloud computing, the Internet of Things (IoT), Enterprise Resource Planning (ERP) systems, and the stages of developing and implementing AIS in organizations.",
     "publisher": "",
     "publisher_en": "",
-    "year": "",
+    "year": 0,
     "isbn": "",
     "keywords": [
       "نظم المعلومات المحاسبية",
@@ -4169,11 +4252,12 @@
     ],
     "target_audience": "طلاب أسر المحاسبة وإدارة الأعمال، الممارسون للمهن المحاسبية، والمديرون التنفيذيون المهتمون بتطبيق تكنولوجيا المعلومات في المجال المحاسبي.",
     "target_audience_en": "Accounting and business administration students, accounting professionals, and executives interested in applying information technology in accounting.",
-    "pages": "214",
+    "pages": 214,
     "file_size": "4.51 MB",
     "file_type": "PDF",
     "file_path": "pdf/نظم_المعلومات_المحاسبية.pdf",
-    "cover_image": "covers/84.png"
+    "cover_image": "covers/84.png",
+    "source_sha256": "1f8de22e08b7adab63bf25d616e7dfb8a6744aaf90fc81e7f540589fbef33731"
   },
   {
     "id": 85,
@@ -4189,7 +4273,7 @@
     "description_en": "A practical guide designed to assist practitioners in applying International Standards on Auditing (ISAs) efficiently to audits of small- and medium-sized entities (SMEs). Volume 1 focuses on core concepts of risk-based auditing.",
     "publisher": "الاتحاد الدولي للمحاسبين (IFAC)",
     "publisher_en": "International Federation of Accountants (IFAC)",
-    "year": "2011",
+    "year": 2011,
     "isbn": "978-1-60815-099-1",
     "keywords": [
       "معايير التدقيق الدولية",
@@ -4220,11 +4304,12 @@
     ],
     "target_audience": "مدققو الحسابات، المحاسبون القانونيون، والمهنيون في مجال تدقيق المنشآت الصغيرة والمتوسطة.",
     "target_audience_en": "Auditors, certified public accountants, and auditing practitioners working with SMEs.",
-    "pages": "243",
+    "pages": 243,
     "file_size": "15.59 MB",
     "file_type": "PDF",
     "file_path": "pdf/دليل_اسخدام_معايير_التدقيق_الدولية_للتدقيق_على_المنشآت.pdf",
-    "cover_image": "covers/85.png"
+    "cover_image": "covers/85.png",
+    "source_sha256": "9be3af1e0ab5054b4a5068fa9511d28f388702834afc6b76c90dc4cc670159a6"
   },
   {
     "id": 86,
@@ -4240,7 +4325,7 @@
     "description_en": "A specialized textbook providing a comprehensive introduction to financial auditing from both theoretical and practical perspectives. It details audit procedures for long-term liabilities, owners' equity, capital in public joint-stock companies, reserves, dividend distribution, and provisions in compliance with accounting standards and regulations.",
     "publisher": "دار وائل للنشر والتوزيع",
     "publisher_en": "Dar Wael for Publishing and Distribution",
-    "year": "2008",
+    "year": 2008,
     "isbn": "9957-11-315-8",
     "keywords": [
       "التدقيق",
@@ -4276,11 +4361,12 @@
     ],
     "target_audience": "طلبة أقسام المحاسبة والتدقيق في الجامعات، المحاسبون القانونيون، والمدققون الماليون والمهتمون بالمجال المالي والمصرفي.",
     "target_audience_en": "University students in accounting and auditing, certified public accountants, financial auditors, and financial sector professionals.",
-    "pages": "333",
+    "pages": 333,
     "file_size": "24.94 MB",
     "file_type": "PDF",
     "file_path": "pdf/مدخل_الى_التدقيق.pdf",
-    "cover_image": "covers/86.png"
+    "cover_image": "covers/86.png",
+    "source_sha256": "1d75a4ebb7eebc2a3555cccc7e988343f40d5c1b3a4060bfffd27ac12a957dfd"
   },
   {
     "id": 87,
@@ -4296,7 +4382,7 @@
     "description_en": "A comprehensive academic book presenting a detailed study of economic development, reviewing key economic, monetary, and trade theories and policies, as well as structural adjustment strategies and the role of markets and governance in achieving development.",
     "publisher": "دار وائل للنشر والتوزيع",
     "publisher_en": "Dar Wael for Publishing and Distribution",
-    "year": "2007",
+    "year": 2007,
     "isbn": "978-9957-11-695-8",
     "keywords": [
       "التنمية الاقتصادية",
@@ -4330,11 +4416,12 @@
     ],
     "target_audience": "أساتذة وطلاب التخصصات الاقتصادية، الباحثون في مجالات التنمية الاقتصادية، والمتخصصون في صياغة السياسات الاقتصادية.",
     "target_audience_en": "Professors, students of economics, development policy researchers, and economic policy specialists.",
-    "pages": "309",
+    "pages": 309,
     "file_size": "19.38 MB",
     "file_type": "PDF",
     "file_path": "pdf/التنمية_الاقتصادية_نظريات_وسياسات_وموضوعات.pdf",
-    "cover_image": "covers/87.png"
+    "cover_image": "covers/87.png",
+    "source_sha256": "6376ba195b0104f6ec9133d7c839e244f3fa6312e901ec260161c9b678cb546d"
   },
   {
     "id": 88,
@@ -4350,7 +4437,7 @@
     "description_en": "An academic textbook exploring cost accounting systems, their historical development, objectives, and basic elements. It details process costing systems, joint and by-products, job order costing, contract costing, as well as standard costing, its preparation methods, and variance analysis.",
     "publisher": "كلية التجارة - جامعة القاهرة",
     "publisher_en": "Faculty of Commerce - Cairo University",
-    "year": "2017",
+    "year": 2017,
     "isbn": "",
     "keywords": [
       "محاسبة التكاليف",
@@ -4384,11 +4471,12 @@
     ],
     "target_audience": "طلاب كليات التجارة، والباحثون والمحاسبون المهنيون المتخصصون في محاسبة التكاليف والإدارة المالية.",
     "target_audience_en": "Students of commerce faculties, researchers, and professional accountants specializing in cost accounting and financial management.",
-    "pages": "328",
+    "pages": 328,
     "file_size": "3.13 MB",
     "file_type": "PDF",
     "file_path": "pdf/نظم_محاسبة_التكاليف.pdf",
-    "cover_image": "covers/88.png"
+    "cover_image": "covers/88.png",
+    "source_sha256": "17ba8de6ce8ae0cf5cf2c9103155e51d78f04ec0a7e7f258fca8ff42dff30ba4"
   },
   {
     "id": 89,
@@ -4404,7 +4492,7 @@
     "description_en": "A book titled 'انظمة قياس التكاليف'. Content could not be fully analyzed.",
     "publisher": "",
     "publisher_en": "",
-    "year": "",
+    "year": 0,
     "isbn": "",
     "keywords": [
       "انظمة قياس التكاليف"
@@ -4418,11 +4506,12 @@
     ],
     "target_audience": "",
     "target_audience_en": "",
-    "pages": "358",
+    "pages": 358,
     "file_size": "51.35 MB",
     "file_type": "PDF",
     "file_path": "pdf/انظمة_قياس_التكاليف.pdf",
-    "cover_image": "covers/89.png"
+    "cover_image": "covers/89.png",
+    "source_sha256": "e90039d6798c0227cc4fb1890065424cf768dac343be2a4d5b59e8f950e0d209"
   },
   {
     "id": 90,
@@ -4438,7 +4527,7 @@
     "description_en": "An academic textbook covering fundamental concepts of Management Information Systems (MIS) and Information Technology Management. It explains the role of information systems in supporting managerial decision-making, planning, and developing systems within modern business organizations.",
     "publisher": "دار وائل للنشر والتوزيع",
     "publisher_en": "Dar Wael for Publishing and Distribution",
-    "year": "2008",
+    "year": 2008,
     "isbn": "9957-11-567-7",
     "keywords": [
       "نظم المعلومات الإدارية",
@@ -4466,13 +4555,14 @@
       "Studying mechanisms and methods of supporting decision-making through information systems",
       "Presenting principles of systems analysis, design, and management"
     ],
-    "target_audience": " طلاب الجامعات، والباحثون في تخصصات نظم المعلومات الإدارية وإدارة الأعمال، والمدراء والمهنيون في مجال تكنولوجيا المعلومات.",
+    "target_audience": "طلاب الجامعات، والباحثون في تخصصات نظم المعلومات الإدارية وإدارة الأعمال، والمدراء والمهنيون في مجال تكنولوجيا المعلومات.",
     "target_audience_en": "University students, researchers in MIS and Business Administration, as well as managers and IT professionals.",
-    "pages": "323",
+    "pages": 323,
     "file_size": "28.36 MB",
     "file_type": "PDF",
     "file_path": "pdf/المدخل_الى_نظم_المعلومات_الادارية.pdf",
-    "cover_image": "covers/90.png"
+    "cover_image": "covers/90.png",
+    "source_sha256": "f03b866a569af333c8e405d72d5a4712a0b0f17d07de1e002fc5857cb6ccfc45"
   },
   {
     "id": 91,
@@ -4488,7 +4578,7 @@
     "description_en": "This book offers a comprehensive and integrated examination of promotion concepts and strategies across traditional and electronic platforms. It explores the components of the promotional mix—including advertising, personal selling, sales promotion, and public relations—with a strong focus on technological advancements, digital techniques, and their impact on consumer behavior.",
     "publisher": "دار اليازوري العلمية للنشر والتوزيع",
     "publisher_en": "Dar Al-Yazori Scientific Publishing & Distribution",
-    "year": "2009",
+    "year": 2009,
     "isbn": "",
     "keywords": [
       "الترويج الإلكتروني",
@@ -4530,11 +4620,12 @@
     ],
     "target_audience": "طلاب الجامعات والمعاهد الأكاديمية في تخصصات التسويق وإدارة الأعمال، والباحثون والممارسون المهنيون في مجالات الإعلان والترويج والمبيعات.",
     "target_audience_en": "University and college students majoring in marketing and business administration, as well as researchers and practitioners in advertising, promotion, and sales management.",
-    "pages": "548",
+    "pages": 548,
     "file_size": "45.23 MB",
     "file_type": "PDF",
     "file_path": "pdf/اساسيات_وتطبيقات_الترويج_الالكتروني_والتقليدي.pdf",
-    "cover_image": "covers/91.png"
+    "cover_image": "covers/91.png",
+    "source_sha256": "e48c277871e9416bc2b3ec417f2b99be558dc83311fb41f7fc077c6a723bb71c"
   },
   {
     "id": 92,
@@ -4550,7 +4641,7 @@
     "description_en": "The book examines monetary, fiscal, and economic policies by criticizing conventional economic models such as liberalism and communism, highlighting their flaws and crises. It proposes the Islamic economic model as a balanced alternative that aims to achieve economic stability, social justice, and decent living for humanity.",
     "publisher": "منشورات كاي (KIE Publication)",
     "publisher_en": "KIE Publication",
-    "year": "2020",
+    "year": 2020,
     "isbn": "",
     "keywords": [
       "السياسات النقدية",
@@ -4584,11 +4675,12 @@
     ],
     "target_audience": "الباحثون والطلاب والمختصون في الاقتصاد الإسلامي والسياسات المالية والنقدية والعلوم الاقتصادية.",
     "target_audience_en": "Researchers, students, and professionals in Islamic economics, monetary and fiscal policies, and economic sciences.",
-    "pages": "665",
+    "pages": 665,
     "file_size": "23.49 MB",
     "file_type": "PDF",
     "file_path": "pdf/السياسات_النقدية_والسياسات_المالية.pdf",
-    "cover_image": "covers/92.png"
+    "cover_image": "covers/92.png",
+    "source_sha256": "35bbb669cacd58441a04dd3e2ed6df25129d47b1dd56d957839e1f9ee210543f"
   },
   {
     "id": 93,
@@ -4604,7 +4696,7 @@
     "description_en": "An academic textbook covering specialized accounting systems. The first section addresses accounting systems in multi-branch local companies using centralized and decentralized methods, while the second section covers accounting systems in commercial banks, transaction recording across banking departments, and final financial statements.",
     "publisher": "كلية التجارة - جامعة الإسكندرية",
     "publisher_en": "Faculty of Commerce - Alexandria University",
-    "year": "2019",
+    "year": 2019,
     "isbn": "",
     "keywords": [
       "الأنظمة المحاسبية المتخصصة",
@@ -4642,11 +4734,12 @@
     ],
     "target_audience": "طلاب خريجي كلية التجارة، الباحثون والمحاسبون الماليون والمصرفيون",
     "target_audience_en": "Commerce college students, academic researchers, financial accountants, and banking professionals",
-    "pages": "318",
+    "pages": 318,
     "file_size": "20.15 MB",
     "file_type": "PDF",
     "file_path": "pdf/الانظمة_المحاسبية_المتخصصة.pdf",
-    "cover_image": "covers/93.png"
+    "cover_image": "covers/93.png",
+    "source_sha256": "4963cfdee3ecdf5947578708d01203d65c2ef521c154b7ed57d485282d03deea"
   },
   {
     "id": 94,
@@ -4662,7 +4755,7 @@
     "description_en": "A textbook discussing the fundamental principles of financial accounting in its second part. It covers accounting treatments for financial assets, accounting for joint-stock companies, financial analysis tools and ratios, cost accounting systems, preparation of cash flow statements using direct and indirect methods, and an introduction to governmental accounting.",
     "publisher": "دار الجنادرية للنشر والتوزيع",
     "publisher_en": "Dar Al-Janadriya for Publishing and Distribution",
-    "year": "2016",
+    "year": 2016,
     "isbn": "978-9957-610-09-8",
     "keywords": [
       "المحاسبة المالية",
@@ -4700,11 +4793,12 @@
     ],
     "target_audience": "طلاب علوم المحاسبة والعلوم الإدارية والمالية في الجامعات والمعاهد، والمحاسبون المبتدئون والمهتمون بالتطوير المالي.",
     "target_audience_en": "Students of accounting, finance, and business administration, entry-level accountants, and financial practitioners.",
-    "pages": "184",
+    "pages": 184,
     "file_size": "12.30 MB",
     "file_type": "PDF",
     "file_path": "pdf/مبادئ_المحاسبة_المالية_الجزء_الثاني.pdf",
-    "cover_image": "covers/94.png"
+    "cover_image": "covers/94.png",
+    "source_sha256": "9c4b6bddb366ca28017efc5e4482b0760730614393b5bdbb4f925d29e9089e65"
   },
   {
     "id": 95,
@@ -4720,7 +4814,7 @@
     "description_en": "A comprehensive encyclopedia explaining International Accounting Standards (IAS/IFRS) and their Egyptian accounting standard counterparts in its second volume. It includes practical cases and solved exercises covering advanced accounting topics such as employee benefits, retirement benefit plans, government grants, foreign exchange rates, hyperinflationary economies, borrowing costs, related party disclosures, separate and consolidated financial statements, joint arrangements, and business combinations.",
     "publisher": "",
     "publisher_en": "",
-    "year": "2015",
+    "year": 2015,
     "isbn": "",
     "keywords": [
       "معايير المحاسبة الدولية",
@@ -4760,11 +4854,12 @@
     ],
     "target_audience": "المحاسبون، المراجعون، المحللون الماليون، طلاب التجارة والدراسات العليا، والمهنيون المهتمون بتطبيق معايير المحاسبة الدولية والمصرية.",
     "target_audience_en": "Accountants, auditors, financial analysts, commerce and postgraduate students, and accounting professionals applying IFRS and Egyptian Accounting Standards.",
-    "pages": "401",
+    "pages": 401,
     "file_size": "18.72 MB",
     "file_type": "PDF",
     "file_path": "pdf/موسوعة_معايير_المحاسبة_الجزء2.pdf",
-    "cover_image": "covers/95.png"
+    "cover_image": "covers/95.png",
+    "source_sha256": "350868ec6202a1b71d6ddc0d232e3943cdfc41bfc7ccd52c1da40fec4c37e479"
   },
   {
     "id": 96,
@@ -4780,7 +4875,7 @@
     "description_en": "A practical Pocket Mentor guide from Harvard Business School Press offering everyday solutions for managers and leaders to foster creativity and innovation within teams, identify opportunities, manage cognitive diversity, and build an environment that transforms creative ideas into valuable outcomes.",
     "publisher": "العبيكان للنشر",
     "publisher_en": "Obeikan Publishing",
-    "year": "2015",
+    "year": 2015,
     "isbn": "978-603-503-414-2",
     "keywords": [
       "تشجيع الإبداع",
@@ -4818,11 +4913,12 @@
     ],
     "target_audience": "المدراء، رؤساء الفرق، رواد الأعمال، والمهنيون الراغبون في تعزيز مهارات الابتكار والإبداع في بيئة العمل.",
     "target_audience_en": "Managers, team leaders, entrepreneurs, and professionals seeking to drive innovation and creative problem-solving in their workplace.",
-    "pages": "113",
+    "pages": 113,
     "file_size": "12.96 MB",
     "file_type": "PDF",
     "file_path": "pdf/تشجيع_الابداع_كتاب_الجيب_من_هارفارد.pdf",
-    "cover_image": "covers/96.png"
+    "cover_image": "covers/96.png",
+    "source_sha256": "03ecb2b7a0d251f360899cd3ef4eae0a2e8789770900db90ba7e52327732a98c"
   },
   {
     "id": 97,
@@ -4838,7 +4934,7 @@
     "description_en": "An educational guide for accounting majors featuring 280 multiple-choice questions in both Arabic and English along with model answers to help students review and understand core accounting concepts and procedures.",
     "publisher": "دار وائل للنشر والتوزيع",
     "publisher_en": "Dar Wael for Publishing and Distribution",
-    "year": "2009",
+    "year": 2009,
     "isbn": "978-9957-11-097-0",
     "keywords": [
       "المحاسبة",
@@ -4868,11 +4964,12 @@
     ],
     "target_audience": "طلاب تخصص المحاسبة والدارسون للمحاسبة المالية في الكليات والجامعات",
     "target_audience_en": "Accounting majors and financial accounting students in colleges and universities",
-    "pages": "159",
+    "pages": 159,
     "file_size": "13.41 MB",
     "file_type": "PDF",
     "file_path": "pdf/دليل_الطالب_في_المحاسبة.pdf",
-    "cover_image": "covers/97.png"
+    "cover_image": "covers/97.png",
+    "source_sha256": "d30e3f8bcfe756e4204a86457ecc478d04a1e6db54e1ffb53a9f45831f19562f"
   },
   {
     "id": 98,
@@ -4888,7 +4985,7 @@
     "description_en": "A book reviewing digital currencies and electronic money, highlighting mobile banking information security and modern developments in digital financial transaction systems.",
     "publisher": "",
     "publisher_en": "",
-    "year": "",
+    "year": 0,
     "isbn": "",
     "keywords": [
       "العملات الرقمية",
@@ -4916,11 +5013,12 @@
     ],
     "target_audience": "المهتمون بالاقتصاد الرقمي والعملات المشفّرة، والباحثون في المجال المصرفي والمالي، وطلاب أمن المعلومات.",
     "target_audience_en": "Those interested in digital economy and cryptocurrencies, researchers in banking and finance, and information security students.",
-    "pages": "194",
+    "pages": 194,
     "file_size": "17.99 MB",
     "file_type": "PDF",
     "file_path": "pdf/العملات_الرقمية.pdf",
-    "cover_image": "covers/98.png"
+    "cover_image": "covers/98.png",
+    "source_sha256": "411c4bf694b529396a07ac9d8e6737885b8efb315638b8d619cde4412adfdecb"
   },
   {
     "id": 99,
@@ -4936,7 +5034,7 @@
     "description_en": "An educational study discussing and evaluating the effectiveness of institutional performance in secondary schools, highlighting educational administration, supervision, and ways to improve school performance and secondary education quality.",
     "publisher": "دار جليس الزمان للنشر والتوزيع",
     "publisher_en": "Dar Jalees Al-Zaman for Publishing and Distribution",
-    "year": "2010",
+    "year": 2010,
     "isbn": "978-9957-81-021-4",
     "keywords": [
       "الأداء المؤسسي",
@@ -4964,11 +5062,12 @@
     ],
     "target_audience": "الباحثون والأكاديميون، ومدراء المدارس الثانوية، والمشرفون التربويون، وطلاب الدراسات العليا في العلوم التربوية.",
     "target_audience_en": "Researchers, academics, secondary school principals, educational supervisors, and postgraduate students in educational sciences.",
-    "pages": "214",
+    "pages": 214,
     "file_size": "16.79 MB",
     "file_type": "PDF",
     "file_path": "pdf/فعالية_الاداء_المؤسسي_للمدارس_الثانوية.pdf",
-    "cover_image": "covers/99.png"
+    "cover_image": "covers/99.png",
+    "source_sha256": "0b76ab13b32c6b56dbaa0f3694c5d532f2a4703d161ac8d307428f17c3c86289"
   },
   {
     "id": 100,
@@ -4984,7 +5083,7 @@
     "description_en": "A specialized management book reviewing the concept and practical applications of administrative control, highlighting its principles, methods, and role in improving organizational performance and management information systems.",
     "publisher": "دار الحامد للنشر والتوزيع",
     "publisher_en": "Dar Al-Hamed for Publishing and Distribution",
-    "year": "2011",
+    "year": 2011,
     "isbn": "978-9957-32-582-4",
     "keywords": [
       "الرقابة الإدارية",
@@ -5012,11 +5111,12 @@
     ],
     "target_audience": "طلاب وباحثو إدارة الأعمال، والمدراء، والقيادات الإدارية في المؤسسات الحكومية والخاصة.",
     "target_audience_en": "Students and researchers in business administration, managers, and administrative leaders in public and private organizations.",
-    "pages": "324",
+    "pages": 324,
     "file_size": "22.31 MB",
     "file_type": "PDF",
     "file_path": "pdf/الرقابة_الادارية.pdf",
-    "cover_image": "covers/100.png"
+    "cover_image": "covers/100.png",
+    "source_sha256": "3f6be596b2f46ce68b2e3a2cbd03802e86c4d9e76f860b9d04890920640c23fc"
   },
   {
     "id": 101,
@@ -5032,7 +5132,7 @@
     "description_en": "A book covering the fundamentals of public relations and the communication process, highlighting key communication strategies and tactics used to influence target audiences and achieve organizational goals. It also explores public opinion, propaganda, and professional corporate reputation management.",
     "publisher": "",
     "publisher_en": "",
-    "year": "",
+    "year": 0,
     "isbn": "",
     "keywords": [
       "العلاقات العامة",
@@ -5066,11 +5166,12 @@
     ],
     "target_audience": "الطلاب والباحثون وممارسو العلاقات العامة والإعلام والمستشارون الإعلاميون",
     "target_audience_en": "Students, researchers, public relations practitioners, and media consultants",
-    "pages": "209",
+    "pages": 209,
     "file_size": "16.59 MB",
     "file_type": "PDF",
     "file_path": "pdf/العلاقات_العامة_واستراتيجيات_الاتصال.pdf",
-    "cover_image": "covers/101.png"
+    "cover_image": "covers/101.png",
+    "source_sha256": "1a0f46cc0af615ee6c6f12c9521795b314f416fe538c8eff77251d86dd8ba8d1"
   },
   {
     "id": 102,
@@ -5086,7 +5187,7 @@
     "description_en": "This book addresses marketing and mental positioning from a strategic perspective, explaining various strategic concepts such as pricing, e-marketing, interactive marketing, and customer-centric business philosophies.",
     "publisher": "",
     "publisher_en": "",
-    "year": "",
+    "year": 0,
     "isbn": "",
     "keywords": [
       "التسويق",
@@ -5116,11 +5217,12 @@
     ],
     "target_audience": "الطلاب والباحثون والمهنيون المتخصصون في إدارة التسويق والأعمال",
     "target_audience_en": "Students, researchers, and professionals in marketing and business administration",
-    "pages": "230",
+    "pages": 230,
     "file_size": "17.55 MB",
     "file_type": "PDF",
     "file_path": "pdf/التسويق_والمكانة_الذهنية.pdf",
-    "cover_image": "covers/102.png"
+    "cover_image": "covers/102.png",
+    "source_sha256": "8edc8c853e4de355406591dea6eb7e4723816a66151806c7755097e0b387ff72"
   },
   {
     "id": 103,
@@ -5136,7 +5238,7 @@
     "description_en": "A university textbook containing practical applications, exercises, and case studies in governmental and national accounting, state budget preparation, financial estimates, and national accounting concepts.",
     "publisher": "حقوق الطبع والنشر محفوظة للمؤلفين",
     "publisher_en": "Copyright reserved to the authors",
-    "year": "2011",
+    "year": 2011,
     "isbn": "",
     "keywords": [
       "المحاسبة الحكومية",
@@ -5170,11 +5272,12 @@
     ],
     "target_audience": "طلاب الكليات التجارية والباحثون والمتخصصون في المجال المحاسبي والمالي الحكومي",
     "target_audience_en": "Business and commerce university students, researchers, and specialists in government financial accounting",
-    "pages": "216",
+    "pages": 216,
     "file_size": "12.17 MB",
     "file_type": "PDF",
     "file_path": "pdf/تطبيقات_في_المحاسبة_الحكومية_والقومية.pdf",
-    "cover_image": "covers/103.png"
+    "cover_image": "covers/103.png",
+    "source_sha256": "5fbf4ae6af88b6523780268a548df1981466caeacd5e51c3a222b6a0ac450244"
   },
   {
     "id": 104,
@@ -5190,7 +5293,7 @@
     "description_en": "A specialized legal and financial book studying public finance and tax legislation by bridging theoretical legal and financial frameworks with practical applications, focusing on tax systems, constitutional guarantees, and relevant legislation.",
     "publisher": "دار وائل للنشر والتوزيع",
     "publisher_en": "Dar Wael for Publishing and Distribution",
-    "year": "2010",
+    "year": 2010,
     "isbn": "978-9957-11-846-4",
     "keywords": [
       "المالية العامة",
@@ -5220,11 +5323,12 @@
     ],
     "target_audience": "حقوقيون، محامون، قضاة، خبراء الضرائب والمالية العامة، وطلاب كلية الحقوق والاقتصاد.",
     "target_audience_en": "Legal professionals, lawyers, judges, tax and public finance experts, and law and economics students.",
-    "pages": "368",
+    "pages": 368,
     "file_size": "33.84 MB",
     "file_type": "PDF",
     "file_path": "pdf/علم_المالية_التشريع_الضريبي.pdf",
-    "cover_image": "covers/104.png"
+    "cover_image": "covers/104.png",
+    "source_sha256": "488f406fcee3d4b0732c0b1430f0a9e806d539c49496c3a18a204190fd7b4ac5"
   },
   {
     "id": 105,
@@ -5240,7 +5344,7 @@
     "description_en": "The book provides a comprehensive study of various types of managers, their behavioral patterns in the workplace, and effective strategies for interacting with each type. It highlights administrative leadership, the distinction between a manager and a leader-manager, modern management styles, decision-making stages, and psychological and self-empowerment for employees to enhance organizational performance.",
     "publisher": "مكتبة الاقتصاد",
     "publisher_en": "Economics Library",
-    "year": "",
+    "year": 0,
     "isbn": "",
     "keywords": [
       "أنواع المديرين",
@@ -5274,11 +5378,12 @@
     ],
     "target_audience": "المدراء والقادة الإداريون، الموظفون في مختلف القطاعات، والباحثون والطلاب في مجالات إدارة الأعمال والتطوير الإداري.",
     "target_audience_en": "Managers, corporate leaders, employees across various sectors, and students and researchers in business administration and management development.",
-    "pages": "152",
+    "pages": 152,
     "file_size": "20.39 MB",
     "file_type": "PDF",
     "file_path": "pdf/انواع_المديرين.pdf",
-    "cover_image": "covers/105.png"
+    "cover_image": "covers/105.png",
+    "source_sha256": "414378196fe901fba1718a20cbb5a35e09d0c08498809eb5caec7d34379ceefb"
   },
   {
     "id": 106,
@@ -5294,7 +5399,7 @@
     "description_en": "This book explores the role of strategic relationships culture in managing global corporations and private/international institutions. It highlights organizational culture, conflict management, organizational citizenship behavior, business administration ethics, and relationship marketing, emphasizing their impact on enhancing organizational performance.",
     "publisher": "الأكاديميون للنشر والتوزيع",
     "publisher_en": "Academics for Publishing and Distribution",
-    "year": "2015",
+    "year": 2015,
     "isbn": "978-9957-590-34-5",
     "keywords": [
       "العلاقات الاستراتيجية",
@@ -5324,11 +5429,12 @@
     ],
     "target_audience": "المدراء والقادة الإداريون في الشركات العالمية، والباحثون وطلاب الدراسات العليا في مجالات إدارة الأعمال والتسويق الاستراتيجي.",
     "target_audience_en": "Managers and executives in global corporations, as well as researchers and postgraduate students in business administration and strategic marketing.",
-    "pages": "280",
+    "pages": 280,
     "file_size": "23.72 MB",
     "file_type": "PDF",
     "file_path": "pdf/ثقافة_العلاقات_الاستراتيجية_في_ادارة_الشركات.pdf",
-    "cover_image": "covers/106.png"
+    "cover_image": "covers/106.png",
+    "source_sha256": "90717350ff5abba4dba84c7cbdf697a70d9247e11db50ac317c1677884ca62ec"
   },
   {
     "id": 107,
@@ -5344,7 +5450,7 @@
     "description_en": "An academic textbook covering partnership accounting. It details accounting procedures for partnership formation (general, limited, and joint ventures), profit and loss allocation, partnership agreement amendments, capital restructuring, partner admission and withdrawal, as well as company liquidation and mergers according to accounting standards.",
     "publisher": "كلية التجارة - جامعة الإسكندرية / مكتبة الاقتصاد",
     "publisher_en": "Faculty of Commerce - Alexandria University / Economics Library",
-    "year": "2019",
+    "year": 2019,
     "isbn": "",
     "keywords": [
       "شركات الأشخاص",
@@ -5382,11 +5488,12 @@
     ],
     "target_audience": "طلاب كلية التجارة، والمحاسبون الماليون، والباحثون والمهتمون بالمحاسبة المالية ومحاسبة الشركات.",
     "target_audience_en": "Commerce college students, financial accountants, researchers, and practitioners interested in financial and partnership accounting.",
-    "pages": "370",
+    "pages": 370,
     "file_size": "22.05 MB",
     "file_type": "PDF",
     "file_path": "pdf/المحاسبة_في_شركات_الاشخاص.pdf",
-    "cover_image": "covers/107.png"
+    "cover_image": "covers/107.png",
+    "source_sha256": "2f828e59374a3658f249a87d19a56e13d85e8ffe481cdd8038c28cad23fd65b8"
   },
   {
     "id": 108,
@@ -5402,7 +5509,7 @@
     "description_en": "A specialized book dealing with various modern issues and applications in marketing, focusing on contemporary practices and strategies facing institutions and companies in the modern business environment.",
     "publisher": "",
     "publisher_en": "",
-    "year": "",
+    "year": 0,
     "isbn": "",
     "keywords": [
       "تسويق",
@@ -5430,11 +5537,12 @@
     ],
     "target_audience": "الطلاب والمختصون والباحثون في مجالات التسويق وإدارة الأعمال",
     "target_audience_en": "Students, professionals, and researchers in the fields of marketing and business administration",
-    "pages": "428",
+    "pages": 428,
     "file_size": "49.63 MB",
     "file_type": "PDF",
     "file_path": "pdf/قضايا_وتطبيقات_تسويقية_معاصرة.pdf",
-    "cover_image": "covers/108.png"
+    "cover_image": "covers/108.png",
+    "source_sha256": "fd656f132620969546c703a61471421ec19753949aaa78abd827cc5a116e6f9a"
   },
   {
     "id": 109,
@@ -5450,7 +5558,7 @@
     "description_en": "The book presents an analytical study and a critical view of traditional development theories in third-world countries, emphasizing that true growth and national sovereignty require local technological and industrial advancement, rather than merely increasing investments or relying on exporting natural resources like oil. It also addresses the importance of catching up with the Third Industrial Revolution and planning for a self-reliant technological revolution through learning by doing to face developmental and climate challenges.",
     "publisher": "دار ومكتبة الحرية",
     "publisher_en": "Dar and Library of Al-Hurriya",
-    "year": "2016",
+    "year": 2016,
     "isbn": "978-779-09-0393-5",
     "keywords": [
       "تحديث النمو",
@@ -5480,11 +5588,12 @@
     ],
     "target_audience": "الباحثون والأكاديميون في علوم الاقتصاد والتنمية، وصناع السياسات الاقتصادية والتكنولوجية، والمستثمرون المهتمون بالتخطيط التنموي.",
     "target_audience_en": "Researchers and academics in economics and development, economic and technological policy makers, and investors interested in development planning.",
-    "pages": "257",
+    "pages": 257,
     "file_size": "1.64 MB",
     "file_type": "PDF",
     "file_path": "pdf/تحديث_النمو.pdf",
-    "cover_image": "covers/109.png"
+    "cover_image": "covers/109.png",
+    "source_sha256": "a8d9f8d573f5df805bbc7c3df8066f950a0b9011b7a506c0b484444f1669c3f8"
   },
   {
     "id": 110,
@@ -5500,7 +5609,7 @@
     "description_en": "A specialized book dealing with the study, analysis, and evaluation of economic projects. It covers the legal aspects of projects, the importance of preliminary and marketing feasibility studies, and compares traditional financial indicators with Islamic financial indicators in project evaluation.",
     "publisher": "",
     "publisher_en": "",
-    "year": "",
+    "year": 0,
     "isbn": "",
     "keywords": [
       "تقييم المشاريع",
@@ -5532,11 +5641,12 @@
     ],
     "target_audience": "الطلاب والباحثون في علوم الاقتصاد وإدارة الأعمال، والمستثمرون، ومعدو دراسات الجدوى والمشروعات.",
     "target_audience_en": "Students and researchers in economics and business administration, investors, and feasibility study experts.",
-    "pages": "242",
+    "pages": 242,
     "file_size": "26.05 MB",
     "file_type": "PDF",
     "file_path": "pdf/تحليل_وتقييم_المشروعات_الاقتصادية.pdf",
-    "cover_image": "covers/110.png"
+    "cover_image": "covers/110.png",
+    "source_sha256": "c81f81a03dd0ec9ee3472a5898eccbcd3088c5fbdd23d904b9db5e44ae47b52f"
   },
   {
     "id": 111,
@@ -5552,7 +5662,7 @@
     "description_en": "A book covering the subject of new product development from a behavioral marketing perspective, discussing new product development strategies, consumer behavior related to innovations, and the management and organization of new products in enterprises.",
     "publisher": "دار وائل للنشر والتوزيع",
     "publisher_en": "Dar Wael for Publishing and Distribution",
-    "year": "2010",
+    "year": 2010,
     "isbn": "9957-11-396-8",
     "keywords": [
       "تطوير المنتجات",
@@ -5582,11 +5692,12 @@
     ],
     "target_audience": "طلاب واستاذة كليات إدارة الأعمال والتسويق، والمهنيين والمختصين في مجال إستراتيجيات التسويق وتطوير المنتجات.",
     "target_audience_en": "Students and professors of business administration and marketing, as well as professionals and specialists in marketing strategy and product development.",
-    "pages": "383",
+    "pages": 383,
     "file_size": "26.13 MB",
     "file_type": "PDF",
     "file_path": "pdf/تطوير_المنتجات_الجديدة.pdf",
-    "cover_image": "covers/111.png"
+    "cover_image": "covers/111.png",
+    "source_sha256": "da9ee5886e62036b9a04f0077de915018bfc1ba839ceb0af624df493f1df253d"
   },
   {
     "id": 112,
@@ -5602,7 +5713,7 @@
     "description_en": "Peter Drucker's 'Management: Tasks, Responsibilities, Practices' is a foundational work on modern management science. This volume on 'Tasks' explores the emergence and evolution of management, business strategies and objectives, strategic planning, service institution management, worker productivity, and social responsibility.",
     "publisher": "الدار الدولية للنشر والتوزيع",
     "publisher_en": "International Publishing & Distribution House",
-    "year": "1996",
+    "year": 1996,
     "isbn": "977-282-003-x",
     "keywords": [
       "الإدارة",
@@ -5642,11 +5753,12 @@
     ],
     "target_audience": "المدراء، القادة، طلاب وخبرات إدارة الأعمال، والباحثون في الشؤون التنظيمية والإدارية.",
     "target_audience_en": "Managers, corporate leaders, business administration students, and organizational research professionals.",
-    "pages": "504",
+    "pages": 504,
     "file_size": "35.57 MB",
     "file_type": "PDF",
     "file_path": "pdf/كتاب_الادارة_المهام_المسؤوليات_التطبيقات.pdf",
-    "cover_image": "covers/112.png"
+    "cover_image": "covers/112.png",
+    "source_sha256": "9e7785dc53045d15b1024fe5bd72e5eaf13ca11f66cb616cffad84ca7a058a49"
   },
   {
     "id": 113,
@@ -5662,7 +5774,7 @@
     "description_en": "An academic book examining social engineering and its impact on organizational market orientation through knowledge dynamics, combining marketing management concepts with the knowledge economy, and including a practical case study on Asiacell Telecom in Iraq.",
     "publisher": "شركة دار الأكاديميون للنشر والتوزيع",
     "publisher_en": "Dar Al-Academeyoon for Publishing and Distribution",
-    "year": "",
+    "year": 0,
     "isbn": "",
     "keywords": [
       "الهندسة الاجتماعية",
@@ -5694,11 +5806,12 @@
     ],
     "target_audience": "الباحثون والأكاديميون وطلاب الدراسات العليا والمتخصصون في مجالات إدارة الأعمال، التسويق، وإدارة المعرفة.",
     "target_audience_en": "Researchers, academics, postgraduate students, and professionals in Business Administration, Marketing, and Knowledge Management.",
-    "pages": "231",
+    "pages": 231,
     "file_size": "26.73 MB",
     "file_type": "PDF",
     "file_path": "pdf/الهندسة_الاجتماعية.pdf",
-    "cover_image": "covers/113.png"
+    "cover_image": "covers/113.png",
+    "source_sha256": "bc5a48ce0ba7533ae790c7e665dc8de59b7c6c06f3c8a669c8de095986ae04a5"
   },
   {
     "id": 114,
@@ -5714,7 +5827,7 @@
     "description_en": "An academic book highlighting the necessity and application of statistical and quantitative methods in historical research. It explores the evolution of historical methodologies toward quantitative history (Cliometrics), explains statistical tools including data collection, descriptive statistics, hypothesis testing, and decision-making, and provides practical application models in historical studies.",
     "publisher": "المؤسسة المصرية للنشر والترجمة",
     "publisher_en": "Egyptian Institution for Publishing and Translation",
-    "year": "1987",
+    "year": 1987,
     "isbn": "",
     "keywords": [
       "الإحصاء",
@@ -5750,11 +5863,12 @@
     ],
     "target_audience": "الباحثون والمؤرخون وطلاب الدراسات العليا في مجالات التاريخ والإحصاء والعلوم الاجتماعية.",
     "target_audience_en": "Researchers, historians, and graduate students in history, statistics, and social sciences.",
-    "pages": "80",
+    "pages": 80,
     "file_size": "8.20 MB",
     "file_type": "PDF",
     "file_path": "pdf/الاحصاء_والبحث_التاريخي.pdf",
-    "cover_image": "covers/114.png"
+    "cover_image": "covers/114.png",
+    "source_sha256": "3dccd95ab2731cac0fe5ce6ab2c9bfe777e0ba31460e5da52215724d7b607259"
   },
   {
     "id": 115,
@@ -5770,7 +5884,7 @@
     "description_en": "A practical textbook in financial accounting designed to train students and learners on solving practical problems faced by sole proprietorships. It includes solved and unsolved practical exercises covering transaction analysis, the accounting equation, various accounting methods (Italian, French, and English), error correction, adjustment entries, and final balance sheet preparation.",
     "publisher": "دار الثقافة العربية للنشر والتوزيع",
     "publisher_en": "Dar Al-Thaqafa Al-Arabiya for Publishing and Distribution",
-    "year": "2014",
+    "year": 2014,
     "isbn": "",
     "keywords": [
       "المحاسبة المالية",
@@ -5806,11 +5920,12 @@
     ],
     "target_audience": "طلاب كليات التجارة والمعاهد التجارية والدارسون للمحاسبة المالية والمحاسبون المبتدئون.",
     "target_audience_en": "Commerce and business students, financial accounting learners, and junior accountants.",
-    "pages": "90",
+    "pages": 90,
     "file_size": "4.77 MB",
     "file_type": "PDF",
     "file_path": "pdf/المحاسبة_في_المشروع_التجاري_الفردي.pdf",
-    "cover_image": "covers/115.png"
+    "cover_image": "covers/115.png",
+    "source_sha256": "c66e74da6ea83bc08d7d30e4cd25f8d633b82f4c584fe62ac3dd9f6d1340d725"
   },
   {
     "id": 116,
@@ -5826,7 +5941,7 @@
     "description_en": "An academic textbook examining tax systems within their economic, political, and social contexts. It analyzes the foundations of tax equity and administration, registration, assessment, collection, and anti-evasion measures, along with practical case studies on tax legislation.",
     "publisher": "كلية التجارة - جامعة الإسكندرية / مكتبة الاقتصاد",
     "publisher_en": "Faculty of Commerce - Alexandria University / Economics Library",
-    "year": "2019",
+    "year": 2019,
     "isbn": "",
     "keywords": [
       "النظم الضريبية",
@@ -5862,11 +5977,12 @@
     ],
     "target_audience": "طلاب التجارة والاقتصاد، الباحثون الأكاديميون، والمهنيون والمتخصصون في الإدارة والتشريع الضريبي.",
     "target_audience_en": "Students of commerce and economics, academic researchers, and tax administration and legislation professionals.",
-    "pages": "236",
+    "pages": 236,
     "file_size": "40.47 MB",
     "file_type": "PDF",
     "file_path": "pdf/النظم_الضريبية.pdf",
-    "cover_image": "covers/116.png"
+    "cover_image": "covers/116.png",
+    "source_sha256": "f2cd7811d37a5f677e919013eec0b3f6b3a3d1f8ec23f409bbf1a051eda76c4c"
   },
   {
     "id": 117,
@@ -5882,7 +5998,7 @@
     "description_en": "A specialized training package aiming to develop administrative creativity and innovative leadership for managers and leaders. The book covers the elements of effective leadership, work team dynamics, methods for achieving outstanding performance in organizations, as well as strategic planning skills, quality management, and customer satisfaction.",
     "publisher": "دار وائل للنشر والتوزيع",
     "publisher_en": "Dar Wael for Publishing and Distribution",
-    "year": "2004",
+    "year": 2004,
     "isbn": "9957-11-050-0",
     "keywords": [
       "القيادة الابتكارية",
@@ -5914,11 +6030,12 @@
     ],
     "target_audience": "المدراء، القادة الإداريون، المشرفون، المدربون، وطلاب أصول الإدارة والتطوير التنظيمي",
     "target_audience_en": "Managers, administrative leaders, supervisors, trainers, and students of management and organizational development",
-    "pages": "193",
+    "pages": 193,
     "file_size": "14.00 MB",
     "file_type": "PDF",
     "file_path": "pdf/القيادة_الابتكارية.pdf",
-    "cover_image": "covers/117.png"
+    "cover_image": "covers/117.png",
+    "source_sha256": "2b26c1b9734e5f974578a57fc3fba86584632da1a90ee3851d415407fd6d90b7"
   },
   {
     "id": 118,
@@ -5934,7 +6051,7 @@
     "description_en": "This book discusses the importance and feasibility of using management information systems (MIS) to support and facilitate the decision-making process in organizations. It explores the transition from traditional data processing methods to automated computer systems to enhance resource efficiency and performance.",
     "publisher": "دار كنوز للنشر والتوزيع",
     "publisher_en": "Kenouz for Publishing and Distribution",
-    "year": "2019",
+    "year": 2019,
     "isbn": "978-977-709-346-5",
     "keywords": [
       "نظم المعلومات",
@@ -5964,11 +6081,12 @@
     ],
     "target_audience": "المدراء، أخصائيو نظم المعلومات، المخططون الإداريون، وطلاب علوم الإدارة وتكنولوجيا المعلومات.",
     "target_audience_en": "Managers, information systems specialists, administrative planners, and students of management and IT.",
-    "pages": "66",
+    "pages": 66,
     "file_size": "7.00 MB",
     "file_type": "PDF",
     "file_path": "pdf/جدوى_نظم_المعلومات_في_اتخاذ_القرارات.pdf",
-    "cover_image": "covers/118.png"
+    "cover_image": "covers/118.png",
+    "source_sha256": "dcbf0ec377952f5c2ce5c4169af1a10f9cd984d4611effd2f4a533b531c12985"
   },
   {
     "id": 119,
@@ -5984,7 +6102,7 @@
     "description_en": "A specialized textbook providing a comprehensive introduction to learning statistics and its applications in educational assessment, examinations, and educational and psychological research. The book addresses steps for constructing achievement tests, preparing tables of specifications, calculating item quality metrics such as difficulty and discrimination indices, and explaining measures of central tendency (mean, median, mode) with techniques for computing them from raw, frequency, and grouped data.",
     "publisher": "دار ماستر للنشر",
     "publisher_en": "Master Publishing House",
-    "year": "2019",
+    "year": 2019,
     "isbn": "978-977-85459-8-2",
     "keywords": [
       "الإحصاء التربوي",
@@ -6022,11 +6140,12 @@
     ],
     "target_audience": "المعلمون، الباحثون في التربية وعلم النفس، وطلاب كليات التربية والعلوم الإنسانية",
     "target_audience_en": "Teachers, researchers in education and psychology, and students in faculties of education and humanities",
-    "pages": "136",
+    "pages": 136,
     "file_size": "2.01 MB",
     "file_type": "PDF",
     "file_path": "pdf/تعلم_الاحصاء_من_البداية_وحتى_التمكن.pdf",
-    "cover_image": "covers/119.png"
+    "cover_image": "covers/119.png",
+    "source_sha256": "2fa796ea3a172c5541bbe303f371b87f948951d0a4c577aa96e2425df93b206c"
   },
   {
     "id": 120,
@@ -6042,7 +6161,7 @@
     "description_en": "This book explores transformational leadership and its effective role in dealing with job stress and time management within sports organizations. It examines various leadership styles, the concepts and dimensions of transformational leadership, and how to utilize them to overcome workplace challenges and stress, alongside providing practical strategies for time management and coping mechanisms to enhance organizational and athletic performance.",
     "publisher": "دار ماستر للنشر",
     "publisher_en": "Master Publishing House",
-    "year": "2020",
+    "year": 2020,
     "isbn": "978-977-85571-8-3",
     "keywords": [
       "القيادة التحويلية",
@@ -6074,11 +6193,12 @@
     ],
     "target_audience": "الأكاديميون والباحثون في مجال الإدارة الرياضية، القادة والإداريون في الأندية والمؤسسات الرياضية، والطلاب المتخصصون في علوم الرياضة.",
     "target_audience_en": "Academics and researchers in sports management, leaders and administrators in sports clubs and institutions, and students specializing in sports science.",
-    "pages": "144",
+    "pages": 144,
     "file_size": "1.89 MB",
     "file_type": "PDF",
     "file_path": "pdf/القيادة_التحولية_وضغوط_العمل_في_المجال_الرياضي.pdf",
-    "cover_image": "covers/120.png"
+    "cover_image": "covers/120.png",
+    "source_sha256": "f72f5bb3ee38376a0ff1941d0ea5a7b1194c7fd658cf32bfb50d8c2d63fe4ce9"
   },
   {
     "id": 121,
@@ -6094,7 +6214,7 @@
     "description_en": "An academic book providing a comprehensive guide to the fundamental concepts and rules of statistical analysis in research and scientific studies, with practical implementation using SPSS software for data entry, processing, and output interpretation.",
     "publisher": "مطابع جامعة الملك سعود",
     "publisher_en": "King Saud University Press",
-    "year": "2017",
+    "year": 2017,
     "isbn": "978-603-02-4234-5",
     "keywords": [
       "الإحصاء التطبيقي",
@@ -6128,11 +6248,12 @@
     ],
     "target_audience": "الباحثون، وطلاب الدراسات العليا، والأكاديميون، والمحللون الإحصائيون في مختلف التخصصات العلمية والإنسانية.",
     "target_audience_en": "Researchers, postgraduate students, academics, and statistical analysts across various scientific and humanities disciplines.",
-    "pages": "336",
+    "pages": 336,
     "file_size": "22.69 MB",
     "file_type": "PDF",
     "file_path": "pdf/2الاحصاء_التطبيقي.pdf",
-    "cover_image": "covers/121.png"
+    "cover_image": "covers/121.png",
+    "source_sha256": "0ce8246e2da005b79d97aa63a1f735fb338d19fa9897d50ddf1dbd19aeb2dd0b"
   },
   {
     "id": 122,
@@ -6148,7 +6269,7 @@
     "description_en": "A comprehensive academic book presenting a specialized study on the concept of business organizations, their legal forms, and modern management theories, along with a detailed explanation of core organizational functions such as management, production, marketing, finance, human resources, materials management and warehousing, public relations, and management information systems.",
     "publisher": "دار وائل للنشر والتوزيع",
     "publisher_en": "Dar Wael for Publishing and Distribution",
-    "year": "2008",
+    "year": 2008,
     "isbn": "9957-11-472-7",
     "keywords": [
       "منظمات الأعمال",
@@ -6182,11 +6303,12 @@
     ],
     "target_audience": "الطلاب الجامعيون، الباحثون، والمدراء في مجال إدارة الأعمال",
     "target_audience_en": "University students, researchers, and managers in the field of business administration",
-    "pages": "288",
+    "pages": 288,
     "file_size": "21.38 MB",
     "file_type": "PDF",
     "file_path": "pdf/منظمات_الاعمال_المفاهيم_والوظائف.pdf",
-    "cover_image": "covers/122.png"
+    "cover_image": "covers/122.png",
+    "source_sha256": "4a9024b72de7f64fdb5a6e5500d2223ed82c378e68350e97d61d3ed2224e2758"
   },
   {
     "id": 123,
@@ -6202,7 +6324,7 @@
     "description_en": "An academic marketing study exploring customer loyalty policies and programs and their impact on consumer behavior, highlighting the role of information systems and modern approaches to direct marketing and long-term customer relationship building.",
     "publisher": "دار كنوز المعرفة العلمية للنشر والتوزيع",
     "publisher_en": "Dar Kunuz Al-Ma'rifah for Publishing and Distribution",
-    "year": "2012",
+    "year": 2012,
     "isbn": "978-9957-74-236-2",
     "keywords": [
       "ولاء الزبون",
@@ -6230,11 +6352,12 @@
     ],
     "target_audience": "الأساتذة والباحثون وطلاب الدراسات العليا والمختصون في مجال التسويق وإدارة العلاقات مع الزبائن.",
     "target_audience_en": "Professors, researchers, postgraduate students, and professionals in marketing and customer relationship management.",
-    "pages": "209",
+    "pages": 209,
     "file_size": "15.20 MB",
     "file_type": "PDF",
     "file_path": "pdf/سياسات_وبرامج_الزبون_واثرها.pdf",
-    "cover_image": "covers/123.png"
+    "cover_image": "covers/123.png",
+    "source_sha256": "62899f07e799a5f851a22aea5c146b58ee168009d1a53f123c5c18be9eaea02a"
   },
   {
     "id": 124,
@@ -6250,7 +6373,7 @@
     "description_en": "A comprehensive academic reference discussing marketing activity management through a contemporary strategic approach. Volume One covers fundamental marketing concepts and evolution, marketing research, consumer and industrial buyer behavior, strategic marketing planning, market segmentation, targeting, and product/corporate positioning.",
     "publisher": "دار الفكر العربي",
     "publisher_en": "Dar Al-Fikr Al-Arabi",
-    "year": "1988",
+    "year": 1988,
     "isbn": "",
     "keywords": [
       "إدارة التسويق",
@@ -6286,11 +6409,12 @@
     ],
     "target_audience": "طلاب الدراسات العليا وكليات التجارة وإدارة الأعمال، والباحثين والممارسين في مجالات التسويق والإدارة الاستراتيجية",
     "target_audience_en": "Undergraduate and postgraduate business students, academic researchers, and marketing professionals and practitioners",
-    "pages": "725",
+    "pages": 725,
     "file_size": "9.86 MB",
     "file_type": "PDF",
     "file_path": "pdf/ادارة_النشاط_التسويقي.pdf",
-    "cover_image": "covers/124.png"
+    "cover_image": "covers/124.png",
+    "source_sha256": "3dece1bf29b4d2fae87102dde55a6a7614880601a314f9e270ee33cd5d14e608"
   },
   {
     "id": 125,
@@ -6306,7 +6430,7 @@
     "description_en": "A comprehensive academic textbook covering applied statistics with clear explanations and practical examples. Topics include data organization and presentation, measures of central tendency and dispersion, correlation and regression, index numbers, time series analysis, vital statistics, probability theory, probability distributions, sampling distributions, hypothesis testing, non-parametric tests, and analysis of variance (ANOVA).",
     "publisher": "عمادة شؤون المكتبات - جامعة الملك سعود / مكتبة العبيكان",
     "publisher_en": "King Saud University Libraries / Obeikan Bookshop",
-    "year": "1995",
+    "year": 1995,
     "isbn": "9960-05-206-0",
     "keywords": [
       "الإحصاء التطبيقي",
@@ -6342,11 +6466,12 @@
     ],
     "target_audience": "طلاب الجامعات والباحثون في كليات العلوم، والآداب، والزراعة، والتربية، والعلوم الاجتماعية والطلاب الراغبون في تعلم الأساليب الإحصائية التطبيقية.",
     "target_audience_en": "University students and researchers in science, arts, agriculture, education, and social sciences seeking an applied introduction to statistics.",
-    "pages": "445",
+    "pages": 445,
     "file_size": "9.42 MB",
     "file_type": "PDF",
     "file_path": "pdf/الاحصاء_التطبيقي2.pdf",
-    "cover_image": "covers/125.png"
+    "cover_image": "covers/125.png",
+    "source_sha256": "03424f72ea88b6429d17774561405cbc93c512db860a9e399390fbc9e41cac56"
   },
   {
     "id": 126,
@@ -6362,7 +6487,7 @@
     "description_en": "A book exploring the concepts of knowledge and contemporary thinking, focusing on modern thinking patterns, methods of knowledge acquisition, and mechanisms for developing cognitive abilities.",
     "publisher": "شركة دار الأكاديميون للنشر والتوزيع",
     "publisher_en": "Dar Al-Academicians for Publishing and Distribution",
-    "year": "",
+    "year": 0,
     "isbn": "",
     "keywords": [
       "المعرفة",
@@ -6394,11 +6519,12 @@
     ],
     "target_audience": "المهتمون بالتنمية الفكرية والمعرفية، والباحثون في مجال العلوم التربوية والفلسفية، وقراء كتب التفكير وتطوير الذات.",
     "target_audience_en": "Those interested in intellectual and cognitive development, researchers in educational and philosophical sciences, and readers of thinking and self-development books.",
-    "pages": "168",
+    "pages": 168,
     "file_size": "13.32 MB",
     "file_type": "PDF",
     "file_path": "pdf/المعرفة_والتفكير_المعاصر.pdf",
-    "cover_image": "covers/126.png"
+    "cover_image": "covers/126.png",
+    "source_sha256": "923d549507e8f654c0eeb7cb56de518dc021752ca083f96370ff2044c8b28f17"
   },
   {
     "id": 127,
@@ -6414,7 +6540,7 @@
     "description_en": "A comprehensive academic textbook covering the theoretical and practical framework of governmental and non-profit accounting. It focuses on fund accounting theory, recording and measurement bases, the institutional and legal framework of Jordan's financial control system, and the state budget preparation, execution, and auditing processes.",
     "publisher": "دار وائل للنشر والتوزيع",
     "publisher_en": "Dar Wael for Publishing and Distribution",
-    "year": "2008",
+    "year": 2008,
     "isbn": "978-9957-11-757-3",
     "keywords": [
       "المحاسبة الحكومية",
@@ -6448,11 +6574,12 @@
     ],
     "target_audience": "طلاب وأساتذة المحاسبة والعلوم المالية والإدارية، والمهنيون والمحاسبون والمدققون في القطاع الحكومي والمنظمات غير الربحية.",
     "target_audience_en": "Students and faculty in accounting and administrative sciences, as well as accountants, auditors, and financial practitioners in the public sector and non-profit organizations.",
-    "pages": "413",
+    "pages": 413,
     "file_size": "32.48 MB",
     "file_type": "PDF",
     "file_path": "pdf/المحاسبة_الحكومية2.pdf",
-    "cover_image": "covers/127.png"
+    "cover_image": "covers/127.png",
+    "source_sha256": "7869264fd8460a16bef33a68f6ad2e1df08e864506ffa0cf37a53f60ab8c3a6f"
   },
   {
     "id": 128,
@@ -6468,7 +6595,7 @@
     "description_en": "A peer-reviewed academic book covering the theoretical and methodological foundations for constructing and designing psychological and educational tests and scales, highlighting their practical applications in educational and psychological measurement.",
     "publisher": "دار أمجد للنشر والتوزيع",
     "publisher_en": "Amjad Publishing House",
-    "year": "2016",
+    "year": 2016,
     "isbn": "",
     "keywords": [
       "الاختبارات النفسية",
@@ -6496,11 +6623,12 @@
     ],
     "target_audience": "الأساتذة والباحثون وطلاب الدراسات العليا والمختصون في مجال علم النفس والتربية والتقويم التربوي",
     "target_audience_en": "Professors, researchers, postgraduate students, and specialists in psychology, education, and educational evaluation",
-    "pages": "206",
+    "pages": 206,
     "file_size": "21.73 MB",
     "file_type": "PDF",
     "file_path": "pdf/بناء_وتصميم_الاختبارات_والمقاييس_النفسية_والتربوية.pdf",
-    "cover_image": "covers/128.png"
+    "cover_image": "covers/128.png",
+    "source_sha256": "8cdda207466162be12d2b4c9a5dd7c9325c1b6609556dbd32e0d0f0c8481042e"
   },
   {
     "id": 129,
@@ -6516,7 +6644,7 @@
     "description_en": "An academic book offering an in-depth analysis of the foundations and principles of public administration from a contemporary perspective. It addresses concepts of local governance, administrative decentralization, and the role of local councils in achieving comprehensive development.",
     "publisher": "",
     "publisher_en": "",
-    "year": "",
+    "year": 0,
     "isbn": "",
     "keywords": [
       "الإدارة العامة",
@@ -6544,11 +6672,12 @@
     ],
     "target_audience": "الطلاب والباحثون والأكاديميون والمتخصصون في مجالات الإدارة العامة والعلوم السياسية والخدمة المدنية.",
     "target_audience_en": "Students, researchers, academics, and professionals in public administration, political science, and civil service.",
-    "pages": "303",
+    "pages": 303,
     "file_size": "3.74 MB",
     "file_type": "PDF",
     "file_path": "pdf/تحليل_اسس_الادارة_العامة.pdf",
-    "cover_image": "covers/129.png"
+    "cover_image": "covers/129.png",
+    "source_sha256": "89528ac5c1dfc850663dc2b4536954c7294708abb0b2620948e33439449d57ee"
   },
   {
     "id": 130,
@@ -6564,7 +6693,7 @@
     "description_en": "A legal study highlighting forms of modern financial crimes, specifically forgery and fraud related to credit and electronic payment cards, examining criminal and legislative protection and legal liabilities.",
     "publisher": "دار مجدلاوي للنشر والتوزيع",
     "publisher_en": "Majdalawi House for Publishing and Distribution",
-    "year": "2008",
+    "year": 2008,
     "isbn": "978-9957-02-349-2",
     "keywords": [
       "الجرائم المالية",
@@ -6594,11 +6723,12 @@
     ],
     "target_audience": "القضاة، المحامون، رجال القانون، العاملون في القطاع المصرفي والمالي، والباحثون الأكاديميون.",
     "target_audience_en": "Judges, lawyers, legal professionals, banking and financial sector employees, and academic researchers.",
-    "pages": "113",
+    "pages": 113,
     "file_size": "8.42 MB",
     "file_type": "PDF",
     "file_path": "pdf/سلسلة_الجرائم_المالية.pdf",
-    "cover_image": "covers/130.png"
+    "cover_image": "covers/130.png",
+    "source_sha256": "ea6dc2c352d21d16bda73f2814ea1e9cac1607047b746d88a88476e449c2f01a"
   },
   {
     "id": 131,
@@ -6614,7 +6744,7 @@
     "description_en": "A textbook designed to introduce basic descriptive and inferential statistical methods to library and information science professionals, demonstrating how to apply statistical techniques to library planning, evaluation, and research.",
     "publisher": "دار المريخ للنشر",
     "publisher_en": "Dar Al-Mirrikh Publishing",
-    "year": "1998",
+    "year": 1998,
     "isbn": "9960-24-457-1",
     "keywords": [
       "الإحصاء الوصفي",
@@ -6650,11 +6780,12 @@
     ],
     "target_audience": "أخصائيو المكتبات والمعلومات، طلاب أقسام المكتبات، والباحثون في العلوم الاجتماعية والإنسانية.",
     "target_audience_en": "Librarians, information professionals, library science students, and social sciences researchers.",
-    "pages": "196",
+    "pages": 196,
     "file_size": "5.13 MB",
     "file_type": "PDF",
     "file_path": "pdf/الاحصاء_للمكتبيين.pdf",
-    "cover_image": "covers/131.png"
+    "cover_image": "covers/131.png",
+    "source_sha256": "4fa97cd2c2b55e3bdbcaf28ae1672fef0fcc50771ef521833be0efa126b74f32"
   },
   {
     "id": 132,
@@ -6670,7 +6801,7 @@
     "description_en": "A comprehensive book explaining the concepts of decision-making and decision-taking in administration. It outlines the criteria for rational decisions, causes of decision-making failure, common errors in personnel management, and the development of management information systems.",
     "publisher": "نيو لينك للنشر والتدريب",
     "publisher_en": "New Link for Publishing & Training",
-    "year": "2015",
+    "year": 2015,
     "isbn": "978-977-6494-00-8",
     "keywords": [
       "اتخاذ القرارات",
@@ -6701,11 +6832,12 @@
     ],
     "target_audience": "المدراء، القادة الإداريون، الموظفون، وطلاب إدارة الأعمال والتنمية البشرية.",
     "target_audience_en": "Managers, administrative leaders, employees, and students of business administration and human development.",
-    "pages": "163",
+    "pages": 163,
     "file_size": "5.32 MB",
     "file_type": "PDF",
     "file_path": "pdf/كيف_يمكنك_اتخاذ_القرارات_الادارية؟.pdf",
-    "cover_image": "covers/132.png"
+    "cover_image": "covers/132.png",
+    "source_sha256": "cbe1abd1b9b61372ef65202b45c25d849f092146336ad8c871515b077d493a92"
   },
   {
     "id": 133,
@@ -6721,7 +6853,7 @@
     "description_en": "This book addresses the topic of public relations in terms of concept, definition, and historical origins, emphasizing its vital role in modern administrative systems, highlighting institutional image, and effective communication with the public.",
     "publisher": "",
     "publisher_en": "",
-    "year": "",
+    "year": 0,
     "isbn": "",
     "keywords": [
       "العلاقات العامة",
@@ -6749,11 +6881,12 @@
     ],
     "target_audience": "الطلاب والباحثون والمهنيون العاملون في مجالات العلاقات العامة والإعلام والإدارة.",
     "target_audience_en": "Students, researchers, and professionals working in public relations, media, and management.",
-    "pages": "153",
+    "pages": 153,
     "file_size": "7.28 MB",
     "file_type": "PDF",
     "file_path": "pdf/العلاقات_العامة.pdf",
-    "cover_image": "covers/133.png"
+    "cover_image": "covers/133.png",
+    "source_sha256": "dc7a2be11897a3579567a5879c28d912a2d84b7cb19b08b7d277c1761cd92a7f"
   },
   {
     "id": 134,
@@ -6769,7 +6902,7 @@
     "description_en": "A comprehensive academic study discussing the tax system and its economic and social objectives through a contemporary analytical approach. The book covers tax policy concepts, determinants of tax systems, criteria for a good tax system, causes and solutions for tax leakage and evasion, the impact of tax incentives and customs duties on economic growth and income distribution, along with a comparative analysis of the Egyptian and US tax systems.",
     "publisher": "جامعة الإسكندرية - كلية التجارة",
     "publisher_en": "Alexandria University - Faculty of Commerce",
-    "year": "2019",
+    "year": 2019,
     "isbn": "",
     "keywords": [
       "النظام الضريبي",
@@ -6807,11 +6940,12 @@
     ],
     "target_audience": "طلاب وخريجو كليات التجارة والاقتصاد، الباحثون والأكاديميون في المالية العامة، المحاسبون والمستشارون الضريبيون، وصناع القرار المالي والضريبي.",
     "target_audience_en": "Students and graduates of Commerce and Economics, researchers in public finance, tax accountants and consultants, and fiscal policy makers.",
-    "pages": "302",
+    "pages": 302,
     "file_size": "34.71 MB",
     "file_type": "PDF",
     "file_path": "pdf/النظام_الضريبي_واهداف_المجتمع.pdf",
-    "cover_image": "covers/134.png"
+    "cover_image": "covers/134.png",
+    "source_sha256": "564e0889bf314a604ef1b1004e7e5e099f1a6f0a678e99395a1f15c8f3488ddd"
   },
   {
     "id": 135,
@@ -6827,7 +6961,7 @@
     "description_en": "An academic book offering in-depth studies on the Islamic financial system and its core components. It covers the economic and distributive impacts of Zakat using mathematical modeling, the rationalization of public expenditure compared to capitalist and Keynesian thought, public projects and ownership in Islam, addressing public debt issues, Islamic Sukuk manufacturing and challenges, and the state's public budget in both early and contemporary Islamic practice.",
     "publisher": "جامعة الإسكندرية - كلية التجارة",
     "publisher_en": "Alexandria University - Faculty of Commerce",
-    "year": "2019",
+    "year": 2019,
     "isbn": "",
     "keywords": [
       "النظام المالي الإسلامي",
@@ -6867,11 +7001,12 @@
     ],
     "target_audience": "الأساتذة والباحثون وطلاب الدراسات العليا والمتخصصون في مجالات الاقتصاد الإسلامي، المالية العامة، والعلوم التجارية والصيرفة الإسلامية.",
     "target_audience_en": "Professors, researchers, postgraduate students, and specialists in Islamic economics, public finance, commercial sciences, and Islamic banking.",
-    "pages": "242",
+    "pages": 242,
     "file_size": "41.18 MB",
     "file_type": "PDF",
     "file_path": "pdf/دراسات_في_النظام_المالي_الاسلامي.pdf",
-    "cover_image": "covers/135.png"
+    "cover_image": "covers/135.png",
+    "source_sha256": "ba8ea6e0f3853dab7de8107f50aea128266150336a816d88c75d7ad19625d4dc"
   },
   {
     "id": 136,
@@ -6887,7 +7022,7 @@
     "description_en": "A comparative economic and jurisprudential study examining the issue of money and inflation. The author traces the history of Arab and Islamic currency, analyzes changes in purchasing power, indexation, and currency speculation, while offering Islamic solutions to mitigate the effects of inflation.",
     "publisher": "دار الفكر الجامعي",
     "publisher_en": "Dar Al-Fikr Al-Jami'i",
-    "year": "2017",
+    "year": 2017,
     "isbn": "978-977-379-347-6",
     "keywords": [
       "النقود",
@@ -6923,11 +7058,12 @@
     ],
     "target_audience": "الباحثون والدارسون والطلاب في مجالات الاقتصاد الإسلامي والعلوم المالية والفقه والشرع",
     "target_audience_en": "Researchers, scholars, and students in Islamic economics, finance, and Islamic jurisprudence",
-    "pages": "359",
+    "pages": 359,
     "file_size": "36.64 MB",
     "file_type": "PDF",
     "file_path": "pdf/النقود_والتضخم.pdf",
-    "cover_image": "covers/136.png"
+    "cover_image": "covers/136.png",
+    "source_sha256": "e9a93656abf19979fc83d81b1b7797e17d52cf1ac1a87d002ec6d6e166d497e3"
   },
   {
     "id": 137,
@@ -6943,7 +7079,7 @@
     "description_en": "A comparative scientific study addressing consumer protection in Islamic economic jurisprudence compared to positive economic systems and contemporary legal frameworks (such as Jordanian law). The study examines the concepts, objectives, controls, and levels of consumption (subsistence, sufficiency, welfare), as well as production elements and controls, and legal/exceptional mechanisms used in Islam to protect consumers, including prohibitions on usury, monopoly, and fraud, along with price controls and market oversight institutions.",
     "publisher": "دار مجدلاوي للنشر والتوزيع",
     "publisher_en": "Dar Majdalawi for Publishing & Distribution",
-    "year": "2002",
+    "year": 2002,
     "isbn": "9957-02-089-7",
     "keywords": [
       "حماية المستهلك",
@@ -6981,11 +7117,12 @@
     ],
     "target_audience": "الباحثون والدارسون في مجالات الاقتصاد الإسلامي، الفقه المقارن، القانون والتشريعات التجارية، والمهتمون بحماية المستهلك وتنظيم الأسواق.",
     "target_audience_en": "Researchers and scholars in Islamic economics, comparative jurisprudence, commercial law, and professionals interested in consumer protection and market regulation.",
-    "pages": "369",
+    "pages": 369,
     "file_size": "22.25 MB",
     "file_type": "PDF",
     "file_path": "pdf/حماية_المستهلك_في_الفقه_الاقتصادي_الاسلامي.pdf",
-    "cover_image": "covers/137.png"
+    "cover_image": "covers/137.png",
+    "source_sha256": "bf4c1f5977200ab1cfe4ad88d5043a5da4f376e0134940bf55b2697b71b6bc17"
   },
   {
     "id": 138,
@@ -7001,7 +7138,7 @@
     "description_en": "A comprehensive academic textbook providing an in-depth analysis of financial accounting theory. It covers the evolution of accounting theory, the conceptual framework, international accounting, research methodologies, income concepts, financial statements (Income Statement, Balance Sheet, Cash Flows), asset and liability valuation, equity, income taxes, leases, post-retirement benefits, business combinations, and ethical responsibilities in financial reporting.",
     "publisher": "دار المريخ للنشر",
     "publisher_en": "Dar Al-Mirrikh Publishing",
-    "year": "2007",
+    "year": 2007,
     "isbn": "9960-24-616-7",
     "keywords": [
       "نظرية المحاسبة",
@@ -7037,11 +7174,12 @@
     ],
     "target_audience": "طلاب الدراسات العليا والبكالوريوس في تخصصات المحاسبة والمالية، الأكاديميون، والمحاسبون والمراجعون المهنيون.",
     "target_audience_en": "Undergraduate and graduate students in accounting and finance, academics, researchers, and professional accountants and auditors.",
-    "pages": "351",
+    "pages": 351,
     "file_size": "19.49 MB",
     "file_type": "PDF",
     "file_path": "pdf/نظرية_المحاسبة.pdf",
-    "cover_image": "covers/138.png"
+    "cover_image": "covers/138.png",
+    "source_sha256": "6aa7fc9d8d3851f75ba5821f1d529cc41b35cd9af3a226856f0978a02b845efb"
   },
   {
     "id": 139,
@@ -7057,7 +7195,7 @@
     "description_en": "An academic textbook covering the principles and fundamentals of cost accounting from a contemporary approach for business students. It addresses financial reporting in relation to cost accounting, cost concepts and classifications, cost measurement systems such as job-order costing and process costing, indirect manufacturing cost control and allocation, flexible budgeting, as well as Activity-Based Costing (ABC) and Time-Driven Activity-Based Costing (TD-ABC).",
     "publisher": "جامعة الإسكندرية - كلية التجارة / مكتبة الاقتصاد",
     "publisher_en": "Alexandria University - Faculty of Commerce / Economics Library",
-    "year": "2019",
+    "year": 2019,
     "isbn": "",
     "keywords": [
       "محاسبة التكاليف",
@@ -7093,10 +7231,55 @@
     ],
     "target_audience": "طلاب كلية التجارة (الفرقة الثالثة)، والباحثون والمهتمون بمجال محاسبة التكاليف والمحاسبة الإدارية.",
     "target_audience_en": "Faculty of Commerce students (Third Year), as well as researchers and practitioners in cost and managerial accounting.",
-    "pages": "364",
+    "pages": 364,
     "file_size": "23.79 MB",
     "file_type": "PDF",
     "file_path": "pdf/مبادئ_محاسبة_التكاليف.pdf",
-    "cover_image": "covers/139.png"
+    "cover_image": "covers/139.png",
+    "source_sha256": "bfcfb7557d8a197b2727723850226af660c7f38b011c8826d0788d5458865658"
+  },
+  {
+    "id": 140,
+    "title": "سياسات صندوق النقد الدولي وأثرها على الدول النامية",
+    "title_en": "Policies of the International Monetary Fund and Their Impact on Developing Countries",
+    "author": "محمد عبد الله محمد شاهين",
+    "author_en": "",
+    "category": "الاقتصاد",
+    "category_en": "",
+    "description": "يتناول الكتاب نشأة صندوق النقد الدولي وأهدافه وتطوره منذ اتفاقية بريتون وودز، مع التركيز على دراسة برامج التثبيت الاقتصادي والتكييف الهيكلي ومشكلة المديونية الخارجية، وتقييم أثر سياسات وشروط الصندوق على اقتصاديات الدول النامية.",
+    "description_en": "",
+    "publisher": "شركة دار الأكاديميون للنشر والتوزيع",
+    "publisher_en": "",
+    "type": "كتاب",
+    "type_en": "",
+    "target_audience": "المهتمون والاقتصاديون والباحثون في الشؤون المالية والنقدية والتنمية الاقتصادية",
+    "target_audience_en": "",
+    "year": 0,
+    "pages": 312,
+    "file_size": "20.4 MB",
+    "isbn": "",
+    "keywords": [
+      "صندوق النقد الدولي",
+      "الدول النامية",
+      "التكييف الهيكلي",
+      "التثبيت الاقتصادي",
+      "المديونية الخارجية",
+      "بريتون وودز"
+    ],
+    "keywords_en": [],
+    "key_points": [
+      "نشأة صندوق النقد الدولي وتطوره وأهدافه في النظام النقدي الدولي",
+      "سياسات التثبيت الاقتصادي وبرامج التكييف الهيكلي وأثرها على البلدان النامية",
+      "معالجة مشكلة المديونية الخارجية ودور نادي باريس في إعادة الجدولة",
+      "طبيعة العلاقة بين صندوق النقد الدولي والبنك الدولي ومنظمة التجارة العالمية"
+    ],
+    "key_points_en": [],
+    "featured": false,
+    "badge_text": "",
+    "badge_text_en": "",
+    "file_path": "pdf/سياسات_صندوق_النقد_الدولي_واثرها_على_الدول_النامية.pdf",
+    "file_name": "سياسات_صندوق_النقد_الدولي_واثرها_على_الدول_النامية.pdf",
+    "cover_image": "covers/140.png",
+    "source_sha256": "3f0ac8f7b7f5eb0b3ddee5c993f95bf67e057bc147663b21ef0d9503127efa33"
   }
 ]
