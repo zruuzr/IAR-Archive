@@ -5,7 +5,7 @@
 #
 # To update: change the numbers here, then let Dependabot open a PR.
 
-google-genai~=1.55.0
+google-genai~=2.24.0
 firecrawl-anydoc~=0.2.4
 pypdf~=5.1.0
 groq~=0.13.0
