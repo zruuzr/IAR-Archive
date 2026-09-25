@@ -2,18 +2,30 @@
 # https://github.com/firebase/firebase-tools
 
 name: Deploy to Firebase Hosting on merge
+
 on:
   push:
     branches:
       - main
+    paths-ignore:
+      - 'pdf/**'
+
+permissions:
+  contents: read
+
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
-          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: false
+
+      - name: Deploy to Firebase Hosting
+        uses: FirebaseExtended/action-hosting-deploy@500ac625ca2dd40cbd15f7659af953801858032a # v0.11.0
+        with:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_IAR_ARCHIVE_328BC }}
           channelId: live
           projectId: iar-archive-328bc
