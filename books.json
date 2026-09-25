@@ -7042,5 +7042,61 @@
     "file_type": "PDF",
     "file_path": "pdf/نظرية_المحاسبة.pdf",
     "cover_image": "covers/138.png"
+  },
+  {
+    "id": 139,
+    "title": "مبادئ محاسبة التكاليف: مدخل معاصر",
+    "title_en": "Principles of Cost Accounting: A Contemporary Approach",
+    "author": "ناصر نور الدين",
+    "author_en": "Nasser Nour Eldin",
+    "category": "محاسبة مالية وإدارية",
+    "category_en": "Financial and Managerial Accounting",
+    "type": "كتاب أكاديمي / جامعي",
+    "type_en": "Academic / University Textbook",
+    "description": "كتاب أكاديمي يتناول مبادئ وأساسيات محاسبة التكاليف من منظور معاصر لطلاب كلية التجارة. يشمل دراسة العلاقة بين التقارير المالية ومحاسبة التكاليف، ومفاهيم وتصنيفات التكاليف، وأنظمة قياس التكاليف النمطية مثل نظام تكاليف الأوامر وتكاليف المراحل، والرقابة على التكاليف الصناعية غير المباشرة وتخصيصها والموازنات المرنة، بالإضافة إلى نظام التكاليف على أساس النشاط (ABC) والتكاليف الموجهة بالوقت (TD-ABC).",
+    "description_en": "An academic textbook covering the principles and fundamentals of cost accounting from a contemporary approach for business students. It addresses financial reporting in relation to cost accounting, cost concepts and classifications, cost measurement systems such as job-order costing and process costing, indirect manufacturing cost control and allocation, flexible budgeting, as well as Activity-Based Costing (ABC) and Time-Driven Activity-Based Costing (TD-ABC).",
+    "publisher": "جامعة الإسكندرية - كلية التجارة / مكتبة الاقتصاد",
+    "publisher_en": "Alexandria University - Faculty of Commerce / Economics Library",
+    "year": "2019",
+    "isbn": "",
+    "keywords": [
+      "محاسبة التكاليف",
+      "جامعة الإسكندرية",
+      "تكاليف الأوامر",
+      "التكاليف على أساس النشاط",
+      "تصنيف التكاليف",
+      "الموازنات المرنة",
+      "الرقابة على التكاليف"
+    ],
+    "keywords_en": [
+      "Cost Accounting",
+      "Alexandria University",
+      "Job Order Costing",
+      "Activity Based Costing",
+      "Cost Classification",
+      "Flexible Budgeting",
+      "Cost Control"
+    ],
+    "key_points": [
+      "توضيح العلاقة بين المحاسبة المالية ومحاسبة التكاليف وطريقة إعداد القوائم المالية وقوائم التكاليف في المنشآت التجارية والصناعية.",
+      "شرح سلوك التكاليف وتقسيماتها المختلفة (المباشرة وغير المباشرة، المتغيرة والثابتة والمختلطة) وطرق فصل التكاليف.",
+      "تناول أنظمة قياس تكلفة الإنتاج المختلفة بما في ذلك نظام تكاليف الأوامر الإنتاجية وتكاليف المراحل والخدمات.",
+      "دراسة كيفية تخصيص التكاليف الصناعية غير المباشرة وإعداد الموازنات المرنة وتحليل انحرافات التكاليف للرقابة وتقييم الأداء.",
+      "تطبيق نظام التكاليف على أساس النشاط (ABC) ونظام التكاليف على أساس النشاط الموجه بالوقت (TD-ABC)."
+    ],
+    "key_points_en": [
+      "Clarifying the relationship between financial accounting and cost accounting, and methods of preparing financial and cost statements in commercial and industrial entities.",
+      "Explaining cost behavior and classifications (direct/indirect, variable, fixed, and mixed costs) along with cost separation techniques.",
+      "Covering various production cost measurement systems including job-order costing, process costing, and service costing.",
+      "Analyzing indirect manufacturing cost allocation, flexible budget preparation, and cost variance analysis for control and performance evaluation.",
+      "Applying Activity-Based Costing (ABC) and Time-Driven Activity-Based Costing (TD-ABC)."
+    ],
+    "target_audience": "طلاب كلية التجارة (الفرقة الثالثة)، والباحثون والمهتمون بمجال محاسبة التكاليف والمحاسبة الإدارية.",
+    "target_audience_en": "Faculty of Commerce students (Third Year), as well as researchers and practitioners in cost and managerial accounting.",
+    "pages": "364",
+    "file_size": "23.79 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/مبادئ_محاسبة_التكاليف.pdf",
+    "cover_image": "covers/139.png"
   }
 ]
