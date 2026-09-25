@@ -14,7 +14,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  PYTHON_VERSION: '3.10'
+  PYTHON_VERSION: '3.13'
   PIP_DISABLE_PIP_VERSION_CHECK: '1'
   PYTHONDONTWRITEBYTECODE: '1'
 
@@ -42,6 +42,12 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
 
+      - name: Verify Python Environment
+        run: |
+          python --version
+          python -m pip --version
+          python -m pip check
+
       - name: Verify API Keys
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
@@ -64,14 +70,23 @@ jobs:
             echo "✓ Groq API key is configured."
           fi
 
-      - name: Verify anydoc Installation
+      - name: Verify Dependencies
         run: |
-          python -c "import anydoc; print('anydoc:', getattr(anydoc, '__version__', 'unknown'))"
+          python - <<'PY'
+          import anydoc
+          import groq
+          import pypdf
+          from google import genai
 
-      - name: Verify Groq Installation
+          print("anydoc:", getattr(anydoc, "__version__", "unknown"))
+          print("groq:", getattr(groq, "__version__", "unknown"))
+          print("pypdf:", getattr(pypdf, "__version__", "unknown"))
+          print("google-genai:", getattr(genai, "__version__", "unknown"))
+          PY
+
+      - name: Validate Python Syntax
         run: |
-          python -c "import groq; print('groq:', getattr(groq, '__version__', 'unknown'))" \
-            || echo "Groq package not available"
+          python -m py_compile process_books.py validate_books.py
 
       - name: Run Extraction Script
         env:
@@ -80,30 +95,9 @@ jobs:
         run: |
           python process_books.py
 
-      - name: Validate Generated Catalog
+      - name: Validate Book Catalog
         run: |
-          python - <<'PY'
-          import json
-          from pathlib import Path
-
-          path = Path("books.json")
-
-          if not path.is_file():
-              raise SystemExit("books.json was not generated.")
-
-          if path.stat().st_size == 0:
-              raise SystemExit("books.json is empty.")
-
-          try:
-              data = json.loads(path.read_text(encoding="utf-8"))
-          except json.JSONDecodeError as exc:
-              raise SystemExit(f"books.json contains invalid JSON: {exc}") from exc
-
-          if not isinstance(data, list):
-              raise SystemExit("books.json must contain a top-level JSON array.")
-
-          print(f"✓ books.json validated successfully: {len(data)} records")
-          PY
+          python validate_books.py
 
       - name: Commit and Push Changes
         env:
