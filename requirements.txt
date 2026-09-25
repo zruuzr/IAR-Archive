@@ -3,10 +3,9 @@
 # within the SAME minor version. Patch updates are safe; minor
 # updates require manual review.
 #
-# Example: google-genai~=1.55.0  →  >=1.55.0, <1.56.0
-#
 # To update: change the numbers here, then let Dependabot open a PR.
 
 google-genai~=1.55.0
 firecrawl-anydoc~=0.2.4
 pypdf~=5.1.0
+groq~=0.13.0
