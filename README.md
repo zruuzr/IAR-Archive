@@ -215,6 +215,7 @@ text
   │  Book   │  │  Retry   │  │  Book  │
   └─────────┘  │  Later   │  └────────┘
                └──────────┘
+---
 
 📄 Copyright and Usage
 Copyright © 2026 Zenvex. All Rights Reserved.
