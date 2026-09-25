@@ -8,151 +8,424 @@
 
 **مستودع رقمي لأرشفة وتنظيم المراجع الإدارية العراقية**
 
-[![Hosted on Firebase Hosting](https://img.shields.io/badge/Hosted%20on-Firebase%20Hosting-orange?style=flat\&logo=firebase)](https://iararchive.web.app/)
-[![Database](https://img.shields.io/badge/Database-Firebase-yellow?style=flat\&logo=firebase)](https://firebase.google.com/)
+[![Hosted on Firebase](https://img.shields.io/badge/Hosted%20on-Firebase%20Hosting-orange?style=flat\&logo=firebase)](https://iararchive.web.app/)
+[![Database](https://img.shields.io/badge/Database-Firebase%20Firestore-yellow?style=flat\&logo=firebase)](https://firebase.google.com/docs/firestore)
 [![PWA](https://img.shields.io/badge/PWA-Installable-blueviolet?style=flat\&logo=pwa)](https://web.dev/progressive-web-apps/)
 [![License](https://img.shields.io/badge/License-All%20Rights%20Reserved-red.svg)](COPYRIGHT.md)
 [![Auto Process](https://github.com/zruuzr/IAR-Archive/actions/workflows/auto_process.yml/badge.svg)](https://github.com/zruuzr/IAR-Archive/actions/workflows/auto_process.yml)
 
-A digital repository built to archive and organize Iraqi administrative references.
+A digital repository dedicated to archiving, organizing, and presenting Iraqi administrative references.
 
-It provides quick summaries, APA citations, and custom document bundles to help researchers and executive managers access official materials efficiently.
+IAR Archive provides structured reference metadata, concise summaries, APA-style citations, searchable categories, document bundles, and direct access to administrative materials.
 
-Installable as a Progressive Web App (PWA) on desktop and mobile devices.
+**Arabic RTL and English LTR support • Progressive Web App • Automated document indexing**
 
 </div>
 
 ---
 
+## 🏛️ About IAR Archive
+
+**IAR Archive — Iraqi Administrative Reference Repository** is a digital repository designed to organize Iraqi administrative, academic, and professional references in a structured and searchable environment.
+
+The project aims to make administrative references easier to discover, understand, cite, and use by researchers, university students, administrative professionals, and executive managers.
+
+The repository combines:
+
+* Structured bibliographic metadata.
+* Concise reference summaries.
+* Administrative and academic categorization.
+* Keyword-based discovery.
+* APA-style citation generation.
+* Custom research bundles.
+* PDF document access.
+* Community ratings and download statistics.
+* Automated document processing and metadata extraction.
+* Arabic and English interfaces.
+
+> **من ألواح سومر إلى أوراق الحاضر.**
+
+---
+
 ## ✨ Features
 
-* **3-Minute Summaries:** Quick overviews of core concepts and target audiences for each reference.
-* **One-Click APA Citations:** Direct copying for academic and official use.
-* **Custom Bundles:** Group multiple references together and share them through a single link.
-* **Bilingual UI:** Native Arabic (RTL) and English (LTR) support.
-* **Dark Mode:** Built-in theme switching with local storage persistence.
-* **Cuneiform Hero:** Babylonian cylinder-seal marquee featuring Sumerian cuneiform glyphs (Unicode U+12000–U+123FF).
-* **Download Progress Overlay:** Large circular progress ring showing real-time percentage, transferred/total size, and a cancel button.
-* **Community Metrics:** Basic analytics for downloads, ratings, and unique visits through Firebase.
-* **Installable PWA:** Installable on desktop and mobile devices, with offline support for core assets.
+### 📚 Reference Library
+
+* Search references by title, author, publisher, keywords, and other metadata.
+* Browse references by category and year.
+* Grid and list viewing modes.
+* Featured references and highlighted resources.
+* Favorite references stored locally in the browser.
+* Bilingual metadata where available.
+
+### 📝 3-Minute Summaries
+
+Each reference can include a concise overview covering its main subject, concepts, and intended audience.
+
+The goal is to help users determine the relevance of a reference before opening or downloading the complete document.
+
+### 📑 APA-Style Citations
+
+The application can generate and copy structured APA-style citations for references.
+
+The generated citation is intended for practical academic and administrative use; formatting may vary depending on the metadata available for each reference.
+
+### 📦 Custom Research Bundles
+
+Users can group selected references into custom bundles and share them through a generated link.
+
+This makes it possible to prepare focused collections around a particular administrative, academic, or research topic.
+
+### 🌐 Bilingual Interface
+
+The interface supports:
+
+* Arabic — RTL
+* English — LTR
+
+Language and text direction are updated dynamically according to the selected interface language.
+
+### 🌙 Dark Mode
+
+The application includes a persistent light/dark theme preference using browser local storage.
+
+### 🏺 Cuneiform Visual Identity
+
+The interface incorporates Babylonian/Sumerian-inspired visual elements, including a cuneiform marquee using Unicode Cuneiform characters from the U+12000–U+123FF range.
+
+The visual identity connects the digital archive with the historical heritage of Mesopotamian writing.
+
+### 📥 Download System
+
+The application provides a download interface with:
+
+* Download progress.
+* Percentage completed.
+* Transferred and total size where available.
+* Cancellation support.
+* Error and timeout handling.
+
+Large PDF documents are delivered directly from GitHub Raw rather than Firebase Hosting.
+
+### 📊 Community Metrics
+
+Firebase is used to maintain application metrics such as:
+
+* Reference download counts.
+* User ratings.
+* Visit statistics.
+
+The application uses Firebase Anonymous Authentication so visitors can interact with supported Firebase features without creating a traditional account.
 
 ---
 
-## 🏗️ Stack & Architecture
+## 🏗️ Technology Stack
 
-Built using lightweight and widely available technologies, with a focus on simplicity, maintainability, and performance.
+IAR Archive intentionally uses a lightweight architecture without a frontend framework.
 
-* **Frontend:** Vanilla JavaScript, HTML5, and CSS3 (no framework).
-* **Typography:** IBM Plex Sans Arabic for the UI and Noto Sans Cuneiform for the Babylonian seal marquee.
-* **Hosting:** Firebase Hosting (primary) + Cloudflare Pages (secondary).
-* **Asset Management:** Large PDF files are served directly through GitHub Raw (`raw.githubusercontent.com`) to avoid standard static-hosting size limitations.
-* **Database:** Firebase Firestore and Firebase Authentication for dynamic data such as ratings and visit/download statistics.
-* **PWA:** Web App Manifest + Service Worker for installability, offline access, and asset caching.
-* **Document Extraction:** `firecrawl-anydoc` (Rust-based) for Markdown extraction across 22 document formats, with `pypdf` as a fallback for PDFs.
-* **AI Providers:** Gemini 3.6 Flash as the primary provider, with automatic fallback to Groq for text-based documents.
-* **CI/CD:** GitHub Actions automatically processes new references, updates `books.json`, and deploys the site to Firebase Hosting.
-
----
-
-## 📱 Progressive Web App (PWA)
-
-The site is installable as a PWA on supported browsers, including Chrome, Edge, Safari, and Android Chrome.
-
-### Components
-
-* **Manifest:** `manifest.json` — defines the application name, icons, theme color, and display mode.
-* **Service Worker:** `sw.js` — implements a mixed caching strategy:
-
-  * **Cache First** for static assets such as HTML, CSS, JavaScript, icons, and covers.
-  * **Network First** for `books.json`, allowing dynamically updated reference data to be retrieved from the network.
-  * **Bypass** for Firebase API calls, GitHub Raw, and external CDN requests.
-* **Icons:** Standard and maskable icons at 192×192 and 512×512, plus an `apple-touch-icon` for iOS.
-* **Cache Version:** Update `CACHE_VERSION` in `sw.js` to invalidate existing caches after significant application updates.
-
-### Installation
-
-* **Desktop (Chrome/Edge):** Use the install icon in the address bar or the in-app **Install** button.
-* **Android (Chrome):** Select **Add to Home screen**.
-* **iOS (Safari):** Open the Share menu and select **Add to Home Screen**.
+| Layer               | Technology                        |
+| ------------------- | --------------------------------- |
+| Frontend            | HTML5, CSS3, Vanilla JavaScript   |
+| Database            | Firebase Firestore                |
+| Authentication      | Firebase Anonymous Authentication |
+| Hosting             | Firebase Hosting                  |
+| Document Delivery   | GitHub Raw                        |
+| PDF Viewer          | Mozilla PDF.js                    |
+| PWA                 | Web App Manifest + Service Worker |
+| Document Extraction | `firecrawl-anydoc` + `pypdf`      |
+| Primary AI          | Google Gemini                     |
+| AI Fallback         | Groq                              |
+| Automation          | GitHub Actions                    |
+| Dependency Updates  | Dependabot                        |
 
 ---
 
-## 🤖 Automation Pipeline
+## 🧩 Architecture
 
-The repository uses an automated indexing pipeline that runs when new supported documents are added to the `pdf/` directory.
+The project separates the presentation layer, reference metadata, document storage, and automated processing.
+
+```text
+                         IAR Archive
+                              │
+          ┌───────────────────┼───────────────────┐
+          │                   │                   │
+          ▼                   ▼                   ▼
+      Frontend             Firebase          GitHub Actions
+          │                   │                   │
+          │             ┌─────┴─────┐             │
+          │             │           │             │
+          │         Firestore     Auth            │
+          │             │           │             │
+          │             └─────┬─────┘             │
+          │                   │                   │
+          │                   │              process_books.py
+          │                   │                   │
+          │                   │          ┌────────┴────────┐
+          │                   │          │                 │
+          ▼                   ▼        AnyDoc          AI Providers
+     books.json           Metrics       │           ┌──────┴──────┐
+          │                              │           │             │
+          │                              ▼        Gemini         Groq
+          │                           pypdf          │             │
+          │                                           └──────┬──────┘
+          │                                                  │
+          │                                             books.json
+          │
+          ▼
+     GitHub Raw
+          │
+          ▼
+      PDF Files
+          │
+          ▼
+       PDF.js
+```
+
+---
+
+## 📱 Progressive Web App
+
+IAR Archive is installable as a Progressive Web App on supported browsers.
+
+### PWA Components
+
+* `manifest.json` — application metadata, icons, theme, and display mode.
+* `sw.js` — service worker responsible for caching and network strategies.
+* Standard and maskable icons.
+* Apple touch icon.
+* Offline availability for selected core assets.
+
+### Service Worker Strategy
+
+The Service Worker uses different strategies according to resource type:
+
+| Resource              | Strategy      |
+| --------------------- | ------------- |
+| HTML/CSS/JS           | Cache First   |
+| Icons and covers      | Cache First   |
+| `books.json`          | Network First |
+| Firebase requests     | Bypass        |
+| GitHub Raw            | Bypass        |
+| External CDN requests | Bypass        |
+
+The cache version is controlled through `CACHE_VERSION` in `sw.js`.
+
+---
+
+## 🤖 Automated Document Processing
+
+New documents added to the `pdf/` directory can be processed automatically through GitHub Actions.
+
+### Supported Input
+
+The processing pipeline is designed to handle formats including:
+
+* PDF
+* DOCX
+* XLSX
+* PPTX
+* ODT
+* RTF
+* EPUB
+* CSV
+* ZIP
 
 ### Processing Flow
 
-1. **Trigger** — A push event adds a new document such as PDF, DOCX, XLSX, PPTX, ODT, RTF, EPUB, CSV, or ZIP to `pdf/`.
-2. **Extract** — ZIP archives are automatically expanded, while unsafe archive paths are rejected.
-3. **AnyDoc Extraction** — Each document is converted into clean, structured Markdown using `firecrawl-anydoc`. If AnyDoc fails on a PDF, `pypdf` is used as a fallback.
-4. **Scanned PDF Detection** — AnyDoc can identify fully scanned PDFs through `NeedsOcrError`. Such files are uploaded directly to Gemini because Groq is not used for this processing path.
-5. **AI Analysis** — Extracted text is sent to **Gemini 3.6 Flash** to extract structured metadata, including:
+```text
+New Document
+     │
+     ▼
+GitHub Actions
+     │
+     ▼
+process_books.py
+     │
+     ▼
+AnyDoc Extraction
+     │
+     ├───────────────┐
+     │               │
+     ▼               ▼
+Text Extracted   Needs OCR
+     │               │
+     ▼               ▼
+   Gemini        Gemini File Upload
+     │
+     ├───────────────┐
+     │               │
+   Success         Failure
+     │               │
+     │               ▼
+     │             Groq
+     │               │
+     └───────┬───────┘
+             │
+             ▼
+        Metadata
+             │
+             ▼
+        books.json
+             │
+             ▼
+     Git Commit / Push
+             │
+             ▼
+     Firebase Deployment
+```
 
-   * Title in Arabic and English
-   * Author
-   * Publisher
-   * Year
-   * ISBN
-   * Category
-   * Type
-   * Keywords
-   * Key points
-   * Description
-   * Target audience in Arabic and English
-6. **Fallback Strategy** — If Gemini fails because of a rate limit, temporary service unavailability, network error, or another handled failure, the request is retried through **Groq** using `llama-3.3-70b-versatile`.
-7. **Persist** — Successfully processed metadata is appended to `books.json` and committed back to the repository.
-8. **Deploy** — GitHub Actions triggers a Firebase Hosting deployment, publishing the updated site.
+### Metadata Extraction
 
-The pipeline is designed to be **idempotent**: files that have already been processed, identified by their path, are skipped during subsequent runs.
+The AI processing stage can extract structured information such as:
+
+* Title
+* English title
+* Author
+* Publisher
+* Publication year
+* ISBN
+* Category
+* Type
+* Keywords
+* Key points
+* Description
+* Target audience
+
+The pipeline is designed to skip files that have already been processed based on their path.
+
+---
+
+## 🧠 AI Processing Strategy
+
+The current processing architecture uses two AI providers.
+
+### Primary Provider
+
+**Google Gemini**
+
+Used as the primary provider for metadata extraction and for processing document files that require direct file upload.
+
+### Fallback Provider
+
+**Groq**
+
+Used as a fallback for supported text-based documents when the primary Gemini request fails under handled failure conditions.
+
+The fallback mechanism is intended to improve processing reliability without requiring manual intervention for every transient API failure.
 
 ---
 
 ## ⚙️ Configuration
 
-The automated workflow requires the following GitHub Actions secrets:
+The automated processing workflow uses GitHub Actions secrets.
 
-| Secret           | Status       | Purpose                                            |
-| ---------------- | ------------ | -------------------------------------------------- |
-| `GEMINI_API_KEY` | **Required** | Google Gemini API key used for primary AI analysis |
-| `GROQ_API_KEY`   | **Optional** | Groq API key used as an AI fallback                |
+| Secret           | Required | Purpose                                  |
+| ---------------- | -------- | ---------------------------------------- |
+| `GEMINI_API_KEY` | Yes      | Gemini API key for primary AI processing |
+| `GROQ_API_KEY`   | No       | Groq API key for fallback processing     |
 
-Both secrets are configured through the repository's **GitHub Actions settings**.
+Optional environment variables include:
 
-### Optional Environment Variables
+| Variable             | Default                   | Purpose                    |
+| -------------------- | ------------------------- | -------------------------- |
+| `GEMINI_MODEL`       | `gemini-3.6-flash`        | Gemini model               |
+| `GROQ_MODEL`         | `llama-3.3-70b-versatile` | Groq fallback model        |
+| `MAX_UPLOAD_SIZE_MB` | `50`                      | Maximum direct-upload size |
+| `LOG_LEVEL`          | `INFO`                    | Python logging level       |
 
-The workflow also supports the following optional environment variables:
+If `GROQ_API_KEY` is not configured, the pipeline continues without the Groq fallback.
 
-| Variable             | Default                   | Purpose                                |
-| -------------------- | ------------------------- | -------------------------------------- |
-| `GEMINI_MODEL`       | `gemini-3.6-flash`        | Gemini model used for primary analysis |
-| `GROQ_MODEL`         | `llama-3.3-70b-versatile` | Groq model used for fallback analysis  |
-| `MAX_UPLOAD_SIZE_MB` | `50`                      | Maximum PDF size for direct upload     |
-| `LOG_LEVEL`          | `INFO`                    | Python logging level                   |
+---
 
-If `GROQ_API_KEY` is not configured, the workflow continues using Gemini only and the fallback provider is disabled.
+## 🔐 Firebase & Data Security
+
+Firebase Authentication uses **Anonymous Authentication** for user interactions that require an authenticated Firebase session.
+
+Current Firestore rules provide:
+
+* Public read access to Firestore documents.
+* Authenticated writes for ratings.
+* Authenticated writes for download statistics.
+* Authenticated writes for visit statistics.
+* Deletion disabled for the main statistics collections.
+
+The current rules also perform basic type validation for rating aggregate fields.
+
+### Important Implementation Note
+
+The current Firestore rules do not fully enforce the mathematical integrity of rating and statistics values at the security-rule level.
+
+For example, the rules currently verify that fields such as:
+
+```text
+ratingSum
+ratingCount
+average
+voters
+```
+
+have the expected data types, but do not fully enforce all relationships between those values.
+
+Similarly, download and visit counters are writable by authenticated clients.
+
+The application currently relies on its client-side logic for the intended increment and aggregation behavior.
+
+**Future security hardening may move sensitive aggregation logic to trusted server-side operations and use more restrictive Firestore validation rules.**
 
 ---
 
 ## 🔒 Security Practices
 
-The repository follows several supply-chain and CI/CD hardening practices:
+The project incorporates several security-oriented practices:
 
-* **Pinned Actions** — GitHub Actions are pinned to full commit SHAs rather than mutable tags to reduce supply-chain risks associated with compromised action tags.
-* **Automated Updates** — Dependabot opens weekly pull requests for GitHub Actions SHAs and Python dependency updates.
-* **Scoped Commits** — The workflow commits only the intended generated files, primarily `books.json` and `covers/`, instead of using unrestricted staging commands.
-* **Explicit Error Handling** — The workflow uses `set -euo pipefail` and aborts on rebase conflicts rather than silently ignoring failures.
-* **Push Retries** — Up to three retry attempts are used to handle transient network failures during `git push`.
-* **Path Validation** — ZIP archive members are validated to prevent path traversal attacks.
-* **Secret Verification** — The workflow fails fast when `GEMINI_API_KEY` is missing and warns when `GROQ_API_KEY` is unavailable.
-* **Content Security** — The Service Worker bypasses Firebase, GitHub Raw, and other external requests to avoid caching sensitive or dynamic data.
-* **Extraction Safety** — `anydoc` applies built-in limits for decompression size and document nesting, while the workflow handles supported exception types explicitly.
+* Firebase Anonymous Authentication for authenticated client interactions.
+* Firestore rules that disable deletion of the primary statistics documents.
+* Basic Firestore data-type validation.
+* ZIP path validation to reduce path traversal risks.
+* Document extraction limits provided by the extraction tooling.
+* Explicit exception handling in the document-processing pipeline.
+* Controlled Git commits for generated data.
+* Retry handling for transient Git push failures.
+* Service Worker bypass for Firebase and external document requests.
+* Secrets stored through GitHub Actions Secrets rather than committed to the repository.
+
+### GitHub Actions
+
+Some GitHub Actions are pinned to commit SHAs.
+
+Other workflows currently use action version tags.
+
+The project therefore does **not** currently claim that every GitHub Action is pinned to a full commit SHA.
 
 ---
 
-## 🌐 Live Demo
+## 📦 Storage Architecture
 
-👉 **[iararchive.web.app](https://iararchive.web.app/)**
+The project currently uses GitHub as the repository and document source.
+
+```text
+GitHub Repository
+├── Source Code
+├── books.json
+├── Covers
+└── PDF Documents
+       │
+       ▼
+GitHub Raw
+       │
+       ▼
+IAR Archive Web Application
+```
+
+Firebase Hosting is used for the web application itself.
+
+Large PDF documents are excluded from Firebase Hosting deployment through `firebase.json` and are served directly through GitHub Raw.
+
+### Current Storage Model
+
+This architecture keeps infrastructure costs low and is suitable for the current stage of the project.
+
+As the document collection grows significantly, object storage such as Firebase Storage, Cloudflare R2, or another dedicated storage service may become more appropriate.
 
 ---
 
@@ -162,109 +435,175 @@ The repository follows several supply-chain and CI/CD hardening practices:
 IAR-Archive/
 ├── .github/
 │   ├── workflows/
-│   │   ├── auto_process.yml                   # Automatic indexing workflow
-│   │   ├── firebase-hosting-merge.yml         # Firebase Hosting deployment
-│   │   └── firebase-hosting-pull-request.yml  # Firebase Hosting preview
-│   └── dependabot.yml                          # Automated dependency updates
+│   │   ├── auto_process.yml
+│   │   ├── firebase-hosting-merge.yml
+│   │   └── firebase-hosting-pull-request.yml
+│   └── dependabot.yml
 │
 ├── assets/
-│   ├── logo.svg                                # Primary project logo (128×128)
-│   ├── logo-mark.svg                           # Compact mark for favicon (64×64)
-│   ├── logo-full.svg                            # Horizontal logo with text
-│   └── logo-mono.svg                            # Monochrome logo using currentColor
+│   ├── logo.svg
+│   ├── logo-mark.svg
+│   ├── logo-full.svg
+│   └── logo-mono.svg
 │
-├── covers/                                     # Generated book cover images
-├── icons/                                      # PWA icons (192, 512, maskable, Apple)
-├── pdf/                                        # Source documents (PDF, DOCX, XLSX, ...)
+├── covers/
+├── icons/
+├── pdf/
 │
-├── index.html                                  # Main application entry
-├── style.css                                   # Styling and theme rules
-├── app.js                                      # Core application logic
-├── manifest.json                               # PWA manifest
-├── sw.js                                       # Service Worker
-├── _headers                                    # Cloudflare Pages custom headers
-├── books.json                                  # Administrative references database
+├── index.html
+├── style.css
+├── app.js
+├── books.json
+├── manifest.json
+├── sw.js
+├── _headers
 │
-├── process_books.py                            # Document indexing script
-├── requirements.txt                            # Python dependencies
-├── .gitignore                                  # Ignored files and artifacts
+├── process_books.py
+├── requirements.txt
+├── .gitignore
 │
-├── COPYRIGHT.md                                # Copyright and usage terms
-├── firebase.json                               # Firebase Hosting configuration
-├── .firebaserc                                 # Firebase project alias
-└── README.md                                   # Project documentation
+├── COPYRIGHT.md
+├── firebase.json
+├── .firebaserc
+└── README.md
 ```
 
 ---
 
-## 🔧 Document Processing Pipeline — Technical Detail
+## 📄 Document Processing Details
 
-The indexing script (`process_books.py`) follows the following decision tree for each file:
+`process_books.py` performs document extraction and metadata generation.
+
+The processing strategy distinguishes between text-based and scanned documents.
+
+### Text-Based Documents
 
 ```text
-┌─────────────────────────────────────────────┐
-│ 1. Extract text with AnyDoc                 │
-│    (22 formats)                             │
-└──────────────────────┬──────────────────────┘
-                       │
-             ┌─────────┴─────────┐
-             │                   │
-          Success          NeedsOcrError
-             │                   │
-             ▼                   ▼
-      ┌────────────┐      ┌──────────────┐
-      │  Text OK   │      │ Scanned PDF  │
-      └─────┬──────┘      └──────┬───────┘
-            │                    │
-            ▼                    ▼
-      ┌────────────┐      ┌──────────────┐
-      │ Try Gemini │      │ Upload to    │
-      └─────┬──────┘      │ Gemini only  │
-            │             │ (file upload)│
-       ┌────┴────┐        └──────┬───────┘
-       │         │               │
-    Success   Failure            │
-       │         │               │
-       │         ▼               │
-       │   ┌────────────┐        │
-       │   │ Try Groq   │        │
-       │   └─────┬──────┘        │
-       │         │               │
-       │    ┌────┴────┐          │
-       │    │         │          │
-       │ Success   Failure       │
-       │    │         │          │
-       ▼    ▼         ▼          ▼
-   ┌───────────┐  ┌──────────┐  ┌───────────┐
-   │ Save Book │  │ Skip +   │  │ Save Book │
-   │           │  │ Retry    │  │           │
-   │           │  │ Later    │  │           │
-   └───────────┘  └──────────┘  └───────────┘
+Document
+   ↓
+AnyDoc
+   ↓
+Structured Markdown
+   ↓
+Gemini
+   ↓
+Groq fallback if required
+   ↓
+Metadata
 ```
+
+### Scanned PDFs
+
+```text
+Scanned PDF
+     ↓
+AnyDoc
+     ↓
+NeedsOcrError
+     ↓
+Gemini File Upload
+     ↓
+Metadata
+```
+
+The processing script also handles supported extraction and resource-related errors explicitly.
 
 ---
 
-## 📄 Copyright and Usage
+## 🌐 Live Demo
+
+👉 **[iararchive.web.app](https://iararchive.web.app/)**
+
+---
+
+## 🔄 CI/CD
+
+The project uses GitHub Actions for automated processing and deployment.
+
+The general workflow is:
+
+```text
+New document
+      ↓
+GitHub push
+      ↓
+Automatic processing
+      ↓
+Metadata extraction
+      ↓
+books.json update
+      ↓
+Git commit
+      ↓
+Firebase Hosting deployment
+```
+
+The Firebase deployment workflows also provide preview deployments for pull requests where configured.
+
+---
+
+## 📈 Current Limitations & Future Improvements
+
+The current architecture is intentionally lightweight, but several areas can be improved as the repository grows.
+
+### Firestore
+
+The current rating architecture stores voter information in the rating document.
+
+For a significantly larger user base, individual vote records or a dedicated vote subcollection would provide better scalability.
+
+### Statistics Integrity
+
+Download and visit counters are currently updated from the client.
+
+A future implementation may move aggregation to trusted server-side functions and enforce stricter Firestore validation.
+
+### Document Storage
+
+Keeping large PDFs inside the Git repository is practical for the current stage but is not ideal for a very large archive.
+
+Dedicated object storage can be introduced when repository size or document traffic becomes significant.
+
+### Catalog Scalability
+
+The current reference catalog is maintained through `books.json`.
+
+For a very large number of references, a queryable backend or segmented catalog may eventually provide better performance.
+
+### Frontend Modularity
+
+The application currently uses a single main `app.js` file.
+
+As functionality expands, individual concerns such as Firebase operations, downloads, ratings, routing, PWA behavior, and UI rendering can be separated into dedicated modules.
+
+---
+
+## 📜 Copyright and Usage
 
 **Copyright © 2026 Zenvex. All Rights Reserved.**
 
 This repository is publicly available for viewing and reference purposes.
 
-Public access to this repository **does not constitute a license or grant permission** to copy, modify, reproduce, distribute, publish, sublicense, sell, or otherwise use the source code, in whole or in part.
+Public visibility of this repository does **not** constitute an open-source license or grant permission to copy, modify, reproduce, distribute, publish, sublicense, sell, or otherwise use the source code, in whole or in part.
 
 No permission is granted to create derivative works, redistribute the source code, incorporate the source code into another project, or use the project for commercial purposes without prior written permission from the copyright holder.
 
-The following are also protected independently, where applicable:
+The following are also protected independently where applicable:
 
 * Source code and software architecture.
-* Project name, logo, visual identity, and associated graphical assets.
+* Project name.
+* Logo and visual identity.
+* Original graphical assets.
 * Original documentation and written materials.
-* Database structure and original database content.
+* Database structure.
+* Original database content.
 * Generated metadata and organizational structures created specifically for this project.
 
-The presence of third-party libraries, frameworks, services, or publicly available reference materials within or in connection with this project does not transfer ownership of those materials to Zenvex. Such third-party materials remain subject to their respective terms, licenses, and copyrights.
+Third-party libraries, services, APIs, frameworks, fonts, and reference materials remain subject to their respective licenses and terms.
 
-For permission to use, reproduce, modify, distribute, or otherwise utilize any protected part of this project, contact the copyright holder.
+Nothing in this repository transfers ownership of third-party materials to Zenvex.
+
+For permission to use, reproduce, modify, distribute, or otherwise utilize protected project materials, contact the copyright holder.
 
 **All Rights Reserved.**
 
@@ -272,8 +611,22 @@ For permission to use, reproduce, modify, distribute, or otherwise utilize any p
 
 ## ℹ️ Repository Notice
 
-This repository is intentionally public to support project visibility, deployment infrastructure, technical reference, and transparency.
+This repository is intentionally public to support:
+
+* Project visibility.
+* Deployment infrastructure.
+* Technical reference.
+* Documentation.
+* Transparency.
 
 Being able to view the source code on GitHub does **not** mean that the source code is open source or freely licensed for reuse.
 
 Unauthorized copying, modification, redistribution, republication, or commercial use of protected project materials is not permitted.
+
+---
+
+## 🏺 IAR Archive
+
+**من ألواح سومر إلى أوراق الحاضر.**
+
+An evolving digital reference repository for Iraqi administrative knowledge.
