@@ -1,20 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="IAR Archive logo">
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="IAR Archive">
+  <title>IAR Archive</title>
   <defs>
-    <linearGradient id="iarBg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%"  stop-color="#0ea5e9"/>
-      <stop offset="100%" stop-color="#1e3a8a"/>
+    <linearGradient id="brandGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e0b876"/>
+      <stop offset="0.6" stop-color="#c89d5c"/>
+      <stop offset="1" stop-color="#a87a34"/>
     </linearGradient>
   </defs>
-
-  <rect x="0" y="0" width="128" height="128" rx="28" ry="28" fill="url(#iarBg)"/>
-
-  <g transform="translate(24,24) scale(5)" fill="#ffffff">
-    <path fill-rule="evenodd" d="M6 1h6v7a.5.5 0 0 1-.757.429L9 7.083 6.757 8.43A.5.5 0 0 1 6 8z"/>
+  <rect width="128" height="128" rx="28" fill="url(#brandGrad)"/>
+  <g transform="translate(24,24) scale(5)" fill="#0f1218">
+    <path d="M6 1h6v7a.5.5 0 0 1-.757.429L9 7.083 6.757 8.43A.5.5 0 0 1 6 8z"/>
     <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
     <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
   </g>
-
-  <rect x="0"    y="120" width="42.7"  height="8" fill="#CE1126"/>
-  <rect x="42.7" y="120" width="42.6"  height="8" fill="#FFFFFF"/>
-  <rect x="85.3" y="120" width="42.7"  height="8" fill="#000000"/>
 </svg>
