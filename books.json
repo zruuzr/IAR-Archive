@@ -6928,5 +6928,63 @@
     "file_type": "PDF",
     "file_path": "pdf/النقود_والتضخم.pdf",
     "cover_image": "covers/136.png"
+  },
+  {
+    "id": 137,
+    "title": "حماية المستهلك في الفقه الاقتصادي الإسلامي: دراسة مقارنة",
+    "title_en": "Protection of Consumer in Islamic Legislation: Comparative Study",
+    "author": "موفق محمد عبده",
+    "author_en": "Muwaffaq Muhammad Abdo",
+    "category": "الاقتصاد الإسلامي",
+    "category_en": "Islamic Economics",
+    "type": "كتاب أكاديمي / دراسة مقارنة",
+    "type_en": "Academic Book / Comparative Study",
+    "description": "دراسة علمية مقارنة تتناول موضوع حماية المستهلك في التشريع والفكر الاقتصادي الإسلامي مقارنة بالنظم الاقتصادية الوضعية والقوانين المعاصرة (مثل القانون الأردني). تبحث الدراسة في مفهوم الاستهلاك وأهدافه وضوابطه ومستوياته (حد الكفاف، الكفاية، الرفاه)، إضافة إلى مفهوم الإنتاج وعناصره وضوابطه وأثره على المستهلك، والوسائل الشرعية والاستثنائية التي شرعها الإسلام لحماية المستهلك كتحريم الربا والاحتکار والتغرير والتدليس وتطبيق نظام الخيارات والتسعير وجهاز الحسبة والمؤسسات الحكومية المعاصرة.",
+    "description_en": "A comparative scientific study addressing consumer protection in Islamic economic jurisprudence compared to positive economic systems and contemporary legal frameworks (such as Jordanian law). The study examines the concepts, objectives, controls, and levels of consumption (subsistence, sufficiency, welfare), as well as production elements and controls, and legal/exceptional mechanisms used in Islam to protect consumers, including prohibitions on usury, monopoly, and fraud, along with price controls and market oversight institutions.",
+    "publisher": "دار مجدلاوي للنشر والتوزيع",
+    "publisher_en": "Dar Majdalawi for Publishing & Distribution",
+    "year": "2002",
+    "isbn": "9957-02-089-7",
+    "keywords": [
+      "حماية المستهلك",
+      "الاقتصاد الإسلامي",
+      "الفقه الإسلامي",
+      "الاستهلاك",
+      "الإنتاج",
+      "الاحتكار",
+      "التسعير",
+      "الحسبة"
+    ],
+    "keywords_en": [
+      "Consumer Protection",
+      "Islamic Economics",
+      "Islamic Jurisprudence",
+      "Consumption",
+      "Production",
+      "Monopoly",
+      "Price Control",
+      "Hisbah"
+    ],
+    "key_points": [
+      "تأصيل مفهوم حماية المستهلك في الشريعة الإسلامية وإبراز سبق الفكر الإسلامي للنظم الاقتصادية الحديثة في هذا المجال.",
+      "المقارنة بين الفكرين الإسلامي والوضعي في أهداف وضوابط الاستهلاك والإنتاج ونظرة كل منهما للمنفعة وسلوك المستهلك.",
+      "تحديد مستويات المعيشة في الفكر الإسلامي والتفريق بين حد الكفاف وحد الكفاية ومستوى الرفاه وضوابطه.",
+      "بيان الوسائل الشرعية لحماية المستهلك مثل تحريم الربا والاحتکار والغبن والتدليس وتفعيل نظام الخيارات وتضمين الصنّاع.",
+      "توضيح الوسائل الاستثنائية المرنة لتدخل الدولة لحماية المستهلك كالتسعير ودور جهاز الحسبة والمؤسسات الحكومية المعاصرة."
+    ],
+    "key_points_en": [
+      "Establishing the foundations of consumer protection in Islamic law and highlighting how Islamic thought preceded modern economic systems in this field.",
+      "Comparing Islamic and positive economic thought regarding objectives, controls of consumption and production, and consumer behavior.",
+      "Defining living standards in Islamic economics, differentiating between subsistence, sufficiency, and welfare levels.",
+      "Explaining Islamic legal mechanisms for consumer protection, such as prohibitions on usury, monopoly, fraud, and misrepresentation, as well as transaction options.",
+      "Detailing flexible state intervention measures to protect consumers, including price controls, the institution of Hisbah, and modern regulatory bodies."
+    ],
+    "target_audience": "الباحثون والدارسون في مجالات الاقتصاد الإسلامي، الفقه المقارن، القانون والتشريعات التجارية، والمهتمون بحماية المستهلك وتنظيم الأسواق.",
+    "target_audience_en": "Researchers and scholars in Islamic economics, comparative jurisprudence, commercial law, and professionals interested in consumer protection and market regulation.",
+    "pages": "369",
+    "file_size": "22.25 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/حماية_المستهلك_في_الفقه_الاقتصادي_الاسلامي.pdf",
+    "cover_image": "covers/137.png"
   }
 ]
