@@ -18,7 +18,7 @@
     favorites: new Set(savedArray('iar_favorites')), bundle: new Set(), bundleMode: false,
     single: null, summary: null, loaded: false, loading: true, error: false,
     metricsLoadedIds: new Set(), metricsLoadingIds: new Set(), metricsAllLoaded: false, metricsAllLoading: false,
-    ratedIds: new Set(),
+    ratedIds: new Set(), ratedLoadedIds: new Set(),
     visitsLoaded: false, visitsLoading: false
   };
   const motion = () => matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
@@ -142,20 +142,42 @@
   }
 
   async function loadRatedStatuses(ids) {
-    await firebaseReady;
-    if (!db || !auth?.currentUser) return false;
-    const uid = auth.currentUser.uid;
+    try {
+      await firebaseReady;
+      if (!db || !auth?.currentUser) return false;
+      const uid = auth.currentUser.uid;
+      const values = [...new Set(ids.map(Number).filter(Number.isSafeInteger))]
+        .filter(id => !state.ratedLoadedIds.has(id));
+      if (!values.length) return true;
+
+      const results = await Promise.allSettled(values.map(async id => {
+        const voteRef = db.collection('ratings').doc(String(id)).collection('votes').doc(uid);
+        const voteDoc = await timeout(voteRef.get());
+        if (voteDoc.exists) state.ratedIds.add(id);
+        else state.ratedIds.delete(id);
+        state.ratedLoadedIds.add(id);
+      }));
+
+      return results.every(result => result.status === 'fulfilled');
+    } catch (error) {
+      console.warn('Unable to load private rating status:', error.message);
+      return false;
+    }
+  }
+
+  function scheduleRatedStatusLoad(ids) {
     const values = [...new Set(ids.map(Number).filter(Number.isSafeInteger))];
-    if (!values.length) return true;
-
-    const results = await Promise.allSettled(values.map(async id => {
-      const voteRef = db.collection('ratings').doc(String(id)).collection('votes').doc(uid);
-      const voteDoc = await timeout(voteRef.get());
-      if (voteDoc.exists) state.ratedIds.add(id);
-      else state.ratedIds.delete(id);
-    }));
-
-    return results.every(result => result.status === 'fulfilled');
+    if (!values.length) return;
+    const run = () => {
+      void loadRatedStatuses(values).then(ok => {
+        if (ok) refreshRatings();
+      });
+    };
+    if (typeof window.requestIdleCallback === 'function') {
+      window.requestIdleCallback(run, { timeout: 1500 });
+    } else {
+      window.setTimeout(run, 0);
+    }
   }
 
   async function loadMetricChunks(name, ids) {
@@ -186,7 +208,6 @@
     state.metricsAllLoading = false;
     if (!state.metricsAllLoaded) return;
     state.books.forEach(book => state.metricsLoadedIds.add(book.id));
-    await loadRatedStatuses(visibleMetricIds());
     refreshRatings();
     refreshCounts();
   }
@@ -213,7 +234,6 @@
       ]);
       const complete = results.every(result => result.status === 'fulfilled' && result.value === true);
       if (complete) needed.forEach(id => state.metricsLoadedIds.add(id));
-      await loadRatedStatuses(needed);
       refreshRatings();
       refreshCounts();
     } finally {
@@ -566,18 +586,18 @@
           <div class="featured-copy">
             <span class="featured-badge-top">${i('stars')}${esc(field(book,'badge_text') || t('في دائرة الضوء','In the spotlight'))}</span>
             <div>
-      <span class="badge-tag">${esc(categoryLabel(book))}</span>
-      <span class="featured-index">01 / IAR SELECTION</span>
-    </div>
-    <h2><a href="${esc(bookUrl(book.id))}" data-action="details" data-id="${book.id}">${esc(field(book,'title'))}</a></h2>
-    <p class="book-author">${esc(field(book,'author'))}</p>
-    <p class="book-desc">${esc(field(book,'description'))}</p>
-    ${stars(book)}
-    ${actions(book)}
-  </div>
-</div>
-</div>
-</article>`;
+              <span class="badge-tag">${esc(categoryLabel(book))}</span>
+              <span class="featured-index">01 / IAR SELECTION</span>
+            </div>
+            <h2><a href="${esc(bookUrl(book.id))}" data-action="details" data-id="${book.id}">${esc(field(book,'title'))}</a></h2>
+            <p class="book-author">${esc(field(book,'author'))}</p>
+            <p class="book-desc">${esc(field(book,'description'))}</p>
+            ${stars(book)}
+            ${actions(book)}
+          </div>
+        </div>
+      </div>
+    </article>`;
   }
 
   function filteredBooks() {
@@ -671,6 +691,7 @@
     attr('favoritesOnlyBtn', 'aria-pressed', state.favoritesOnly);
     syncLibraryHistoryState();
     void loadMetricsForCurrentState();
+    scheduleRatedStatusLoad(visibleMetricIds());
   }
 
   function librarySnapshot() {
@@ -1187,6 +1208,7 @@
       state.metricsAllLoaded = false;
       state.metricsAllLoading = false;
       state.ratedIds.clear();
+      state.ratedLoadedIds.clear();
       state.visitsLoaded = false;
       state.visitsLoading = false;
       state.books = payload.map(normalize).filter(book => {
