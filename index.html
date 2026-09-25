@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" data-bs-theme="light">
+<html lang="ar" dir="rtl" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="description" content="IAR Archive — المكتبة الرقمية العراقية للمراجع الإدارية. ملخصات، توثيق APA، حزم بحثية.">
-<meta name="theme-color" content="#f6f8fc">
+<meta name="theme-color" content="#0f1218">
 
 <meta property="og:title" content="IAR Archive | Iraqi Administrative Reference">
 <meta property="og:description" content="مكتبة رقمية لأرشفة المراجع الإدارية العراقية مع ملخصات وتوثيق أكاديمي">
@@ -28,8 +28,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Noto+Sans+Cuneiform&display=swap" rel="stylesheet">
 
-<link id="bootstrapCSS" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 <link rel="stylesheet" href="style.css">
 
 <script>
@@ -42,7 +40,7 @@
   var r = document.documentElement;
   r.setAttribute('lang', lang);
   r.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-  r.setAttribute('data-bs-theme', theme);
+  r.setAttribute('data-theme', theme);
 })();
 </script>
 
@@ -51,6 +49,7 @@ window.__iarInstallPrompt = null;
 window.addEventListener('beforeinstallprompt', function (e) {
   e.preventDefault();
   window.__iarInstallPrompt = e;
+  if (typeof window.__iarPWAReady === 'function') window.__iarPWAReady(e);
 });
 window.addEventListener('appinstalled', function () {
   window.__iarInstallPrompt = null;
@@ -60,6 +59,50 @@ window.addEventListener('appinstalled', function () {
 </script>
 </head>
 <body>
+
+<svg class="svg-sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></symbol>
+    <symbol id="i-heart-filled" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></symbol>
+    <symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></symbol>
+    <symbol id="i-zap" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></symbol>
+    <symbol id="i-star-filled" viewBox="0 0 24 24"><polygon fill="currentColor" stroke="none" points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></symbol>
+    <symbol id="i-layers-filled" viewBox="0 0 24 24"><g fill="currentColor" stroke="none"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polygon points="2 17 12 22 22 17" opacity=".65"/><polygon points="2 12 12 17 22 12" opacity=".85"/></g></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></symbol>
+    <symbol id="i-file-text" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></symbol>
+    <symbol id="i-chevron-right" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></symbol>
+    <symbol id="i-chevron-left" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></symbol>
+    <symbol id="i-list" viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/></symbol>
+    <symbol id="i-arrow-right" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></symbol>
+    <symbol id="i-arrow-left" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></symbol>
+    <symbol id="i-arrow-down" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+    <symbol id="i-award" viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></symbol>
+    <symbol id="i-lightbulb" viewBox="0 0 24 24"><path d="M9 18h6M10 22h4M12 2a6 6 0 0 0-4 10.5c1 1 1 2 1 3.5h6c0-1.5 0-2.5 1-3.5A6 6 0 0 0 12 2z"/></symbol>
+    <symbol id="i-hourglass" viewBox="0 0 24 24"><path d="M6 2h12M6 22h12M6 2v4a6 6 0 0 0 12 0V2M6 22v-4a6 6 0 0 1 12 0v4"/></symbol>
+    <symbol id="i-cloud-off" viewBox="0 0 24 24"><path d="M22.61 16.95A5 5 0 0 0 18 10h-1.26a8 8 0 0 0-7.05-6M5 5a8 8 0 0 0 4 15h9a5 5 0 0 0 1.7-.3"/><line x1="2" y1="2" x2="22" y2="22"/></symbol>
+    <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M12 3l1.6 4.8L18 9.5l-4.4 1.7L12 16l-1.6-4.8L6 9.5l4.4-1.7z"/><path d="M19 15l.8 2.4L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.6z"/></symbol>
+    <symbol id="i-quote" viewBox="0 0 24 24"><path d="M7 15h3a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8"/><path d="M7 15c0 2.5-1 3-2.5 3.5M17 15h3a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v8"/><path d="M17 15c0 2.5-1 3-2.5 3.5"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+    <symbol id="i-command" viewBox="0 0 24 24"><path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12"/></symbol>
+    <symbol id="i-git-branch" viewBox="0 0 24 24"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></symbol>
+    <symbol id="i-asterisk" viewBox="0 0 24 24"><path d="M12 2v20M4 6l16 12M20 6L4 18"/></symbol>
+    <symbol id="i-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></symbol>
+    <symbol id="i-telegram" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M22 3 2 10.5l5.5 2L9 19l3-3 5.5 4L22 3zm-3 3.5-9 8 .5 4-1.5-5z"/></symbol>
+    <symbol id="i-tiktok" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M16.5 3a4.5 4.5 0 0 0 4.5 4.5V11a8 8 0 0 1-4.5-1.4V15a6 6 0 1 1-6-6c.34 0 .67.03 1 .08V12.6a3 3 0 1 0 2 2.83V3z"/></symbol>
+  </defs>
+</svg>
 
 <div class="aurora-stage" aria-hidden="true">
   <span class="aurora-blob aurora-a"></span>
@@ -80,7 +123,7 @@ window.addEventListener('appinstalled', function () {
 
 <header class="site-header">
   <div class="container header-row">
-    <a class="brand-lockup" href="#" id="brandLockup" aria-label="IAR Archive — العودة إلى المكتبة">
+    <a class="brand-lockup" href="#" aria-label="IAR Archive — العودة إلى المكتبة">
       <span class="brand-mark" aria-hidden="true">
         <svg viewBox="0 0 128 128" width="40" height="40">
           <defs>
@@ -105,19 +148,19 @@ window.addEventListener('appinstalled', function () {
     </a>
     <div class="header-actions">
       <button type="button" id="installBtn" class="pill-btn d-none" aria-label="تثبيت التطبيق">
-        <i class="bi bi-download" aria-hidden="true"></i>
-        <span>تثبيت</span>
+        <svg class="icon"><use href="#i-download"/></svg>
+        <span id="txt-install">تثبيت</span>
       </button>
       <button type="button" id="favoritesOnlyBtn" class="pill-btn" aria-pressed="false" aria-label="المفضلة">
-        <i class="bi bi-heart" aria-hidden="true"></i>
+        <svg class="icon"><use href="#i-heart"/></svg>
         <span id="txt-favorites-only">مفضلة</span>
       </button>
       <button type="button" id="langToggleBtn" class="icon-btn" aria-label="تبديل اللغة">
-        <i class="bi bi-globe" aria-hidden="true"></i>
+        <svg class="icon"><use href="#i-globe"/></svg>
         <span class="sr-only" id="langLabel">EN</span>
       </button>
       <button type="button" id="themeToggleBtn" class="icon-btn" aria-label="تبديل المظهر" aria-pressed="false">
-        <i class="bi bi-moon" id="themeIcon" aria-hidden="true"></i>
+        <svg class="icon" id="themeIcon"><use href="#i-moon"/></svg>
       </button>
     </div>
   </div>
@@ -127,13 +170,14 @@ window.addEventListener('appinstalled', function () {
 
   <section class="hero" aria-labelledby="txt-about-title">
 
+    <!-- شريط مسماري علوي -->
     <div class="seal-band top" aria-hidden="true">
       <div class="seal-track">
         <div class="seal-text">
-          <span>𒀭𒈗𒂗𒆠𒌷𒂍𒀀𒁹</span><span class="sep">◆</span><span>𒋀𒆠𒂗𒂠</span><span class="sep">◆</span><span>𒌨𒆠</span><span class="sep">◆</span><span>𒆍𒀭𒊏𒆠</span><span class="sep">◆</span><span>𒀸𒀹</span><span class="sep">◆</span><span>𒆠𒌋𒈬𒃻</span><span class="sep">◆</span><span>𒋗𒁺</span><span class="sep">◆</span><span>𒀸𒀹𒂗𒈗𒆠𒌷𒂍</span><span class="sep">◆</span><span>𒀭𒈗𒂗𒆠𒌷𒂍𒀀𒁹</span><span class="sep">◆</span><span>𒋀𒆠𒂗𒂠</span><span class="sep">◆</span><span>𒌨𒆠</span><span class="sep">◆</span><span>𒆍𒀭𒊏𒆠</span><span class="sep">◆</span><span>𒀸𒀹</span><span class="sep">◆</span><span>𒆠𒌋𒈬𒃻</span><span class="sep">◆</span><span>𒋗𒁺</span><span class="sep">◆</span><span>𒀸𒀹𒂗𒈗𒆠𒌷𒂍</span><span class="sep">◆</span><span>𒀭𒈗𒂗𒆠𒌷𒂍𒀀𒁹</span><span class="sep">◆</span><span>𒋀𒆠𒂗𒂠</span><span class="sep">◆</span><span>𒌨𒆠</span><span class="sep">◆</span><span>𒆍𒀭𒊏𒆠</span><span class="sep">◆</span><span>𒀸𒀹</span><span class="sep">◆</span><span>𒆠𒌋𒈬𒃻</span><span class="sep">◆</span><span>𒋗𒁺</span><span class="sep">◆</span><span>𒀸𒀹𒂗𒈗𒆠𒌷𒂍</span><span class="sep">◆</span>
+          <span>𒀭𒈗𒂗𒆠𒌷𒂍𒀀𒁹</span><span class="sep">◆</span><span>𒋀𒆠𒂗𒂠</span><span class="sep">◆</span><span>𒌨𒆠</span><span class="sep">◆</span><span>𒆍𒀭𒊏𒆠</span><span class="sep">◆</span><span>𒀸𒀹</span><span class="sep">◆</span><span>𒆠𒌋𒈬𒃻</span><span class="sep">◆</span><span>𒋗𒁺</span><span class="sep">◆</span><span>𒀸𒀹𒂗𒈗𒆠𒌷𒂍</span><span class="sep">◆</span><span>𒀭𒈗𒂗𒆠𒌷𒂍𒀀𒁹</span><span class="sep">◆</span><span>𒋀𒆠𒂗𒂠</span><span class="sep">◆</span><span>𒌨𒆠</span><span class="sep">◆</span><span>𒆍𒀭𒊏𒆠</span><span class="sep">◆</span><span>𒀸𒀹</span><span class="sep">◆</span><span>𒆠𒌋𒈬𒃻</span><span class="sep">◆</span><span>𒋗𒁺</span><span class="sep">◆</span><span>𒀸𒀹𒂗𒈗𒆠𒌷𒂍</span><span class="sep">◆</span>
         </div>
         <div class="seal-text">
-          <span>𒀭𒈗𒂗𒆠𒌷𒂍𒀀𒁹</span><span class="sep">◆</span><span>𒋀𒆠𒂗𒂠</span><span class="sep">◆</span><span>𒌨𒆠</span><span class="sep">◆</span><span>𒆍𒀭𒊏𒆠</span><span class="sep">◆</span><span>𒀸𒀹</span><span class="sep">◆</span><span>𒆠𒌋𒈬𒃻</span><span class="sep">◆</span><span>𒋗𒁺</span><span class="sep">◆</span><span>𒀸𒀹𒂗𒈗𒆠𒌷𒂍</span><span class="sep">◆</span><span>𒀭𒈗𒂗𒆠𒌷𒂍𒀀𒁹</span><span class="sep">◆</span><span>𒋀𒆠𒂗𒂠</span><span class="sep">◆</span><span>𒌨𒆠</span><span class="sep">◆</span><span>𒆍𒀭𒊏𒆠</span><span class="sep">◆</span><span>𒀸𒀹</span><span class="sep">◆</span><span>𒆠𒌋𒈬𒃻</span><span class="sep">◆</span><span>𒋗𒁺</span><span class="sep">◆</span><span>𒀸𒀹𒂗𒈗𒆠𒌷𒂍</span><span class="sep">◆</span><span>𒀭𒈗𒂗𒆠𒌷𒂍𒀀𒁹</span><span class="sep">◆</span><span>𒋀𒆠𒂗𒂠</span><span class="sep">◆</span><span>𒌨𒆠</span><span class="sep">◆</span><span>𒆍𒀭𒊏𒆠</span><span class="sep">◆</span><span>𒀸𒀹</span><span class="sep">◆</span><span>𒆠𒌋𒈬𒃻</span><span class="sep">◆</span><span>𒋗𒁺</span><span class="sep">◆</span><span>𒀸𒀹𒂗𒈗𒆠𒌷𒂍</span><span class="sep">◆</span>
+          <span>𒀭𒈗𒂗𒆠𒌷𒂍𒀀𒁹</span><span class="sep">◆</span><span>𒋀𒆠𒂗𒂠</span><span class="sep">◆</span><span>𒌨𒆠</span><span class="sep">◆</span><span>𒆍𒀭𒊏𒆠</span><span class="sep">◆</span><span>𒀸𒀹</span><span class="sep">◆</span><span>𒆠𒌋𒈬𒃻</span><span class="sep">◆</span><span>𒋗𒁺</span><span class="sep">◆</span><span>𒀸𒀹𒂗𒈗𒆠𒌷𒂍</span><span class="sep">◆</span><span>𒀭𒈗𒂗𒆠𒌷𒂍𒀀𒁹</span><span class="sep">◆</span><span>𒋀𒆠𒂗𒂠</span><span class="sep">◆</span><span>𒌨𒆠</span><span class="sep">◆</span><span>𒆍𒀭𒊏𒆠</span><span class="sep">◆</span><span>𒀸𒀹</span><span class="sep">◆</span><span>𒆠𒌋𒈬𒃻</span><span class="sep">◆</span><span>𒋗𒁺</span><span class="sep">◆</span><span>𒀸𒀹𒂗𒈗𒆠𒌷𒂍</span><span class="sep">◆</span>
         </div>
       </div>
     </div>
@@ -142,34 +186,36 @@ window.addEventListener('appinstalled', function () {
       <div class="hero-copy">
         <span class="hero-kicker">
           <span class="pulse-dot" aria-hidden="true"></span>
-          <i class="bi bi-stars" aria-hidden="true"></i>
-          <span id="txt-kicker">مساحة للمعرفة الإدارية</span>
+          <svg class="icon"><use href="#i-sparkles"/></svg>
+          <span id="txt-kicker">𒆠𒂗𒂠 · المكتبة الرقمية العراقية · 2026</span>
         </span>
-        <h1 class="hero-title" id="txt-about-title">معرفة تُلهمك.<br>ومراجع تصنع الأثر.</h1>
+        <h1 class="hero-title" id="txt-about-title">من ألواح سومر إلى أوراق الحاضر.</h1>
         <p class="hero-desc" id="txt-about-desc">
-          مساحتك لاستكشاف علوم الإدارة. اقرأ، اكتشف الأفكار، وابنِ حزمة مراجعك القادمة — كل ذلك في مكان واحد.
+          مجموعة منتقاة من المراجع الإدارية، مفهرسة بعناية، مرفقة بملخصات مركزة
+          وتوثيق أكاديمي مباشر — لتكون وجهتك الأولى للبحث والاطلاع.
         </p>
-        <ul class="hero-tags" id="heroFeatureList" role="list" aria-label="ميزات الأرشيف">
-          <li><i class="bi bi-clock" aria-hidden="true"></i> <span id="txt-tag-summary">ملخصات 3 دقائق</span></li>
-          <li><i class="bi bi-quote" aria-hidden="true"></i> <span id="txt-tag-cite">توثيق APA مباشر</span></li>
-          <li><i class="bi bi-collection" aria-hidden="true"></i> <span id="txt-tag-bundle">حزم بحثية مخصصة</span></li>
+        <ul class="hero-tags" role="list">
+          <li><svg class="icon"><use href="#i-clock"/></svg> <span id="txt-tag-summary">ملخصات 3 دقائق</span></li>
+          <li><svg class="icon"><use href="#i-quote"/></svg> <span id="txt-tag-cite">توثيق APA مباشر</span></li>
+          <li><svg class="icon"><use href="#i-layers"/></svg> <span id="txt-tag-bundle">حزم بحثية مخصصة</span></li>
         </ul>
       </div>
       <div class="hero-stats">
         <div class="stat"><div class="stat-num grad-text" id="booksCounter">—</div><div class="stat-cap" id="txt-stat-books">مرجع في الأرشيف</div></div>
         <div class="stat"><div class="stat-num grad-text" id="catCounter">—</div><div class="stat-cap" id="txt-stat-cats">مسارات معرفية</div></div>
-        <div class="stat"><div class="stat-num grad-text" id="siteVisitsCounter">—</div><div class="stat-cap" id="txt-stat-visits">زيارات يومية تقريبية</div></div>
+        <div class="stat"><div class="stat-num grad-text" id="siteVisitsCounter">—</div><div class="stat-cap" id="txt-stat-visits">الزيارات اليومية</div></div>
         <div class="stat"><div class="stat-num grad-text" id="archiveYear">2026</div><div class="stat-cap" id="txt-stat-year">سنة الأرشفة</div></div>
       </div>
     </div>
 
+    <!-- شريط مسماري سفلي -->
     <div class="seal-band bottom" aria-hidden="true">
       <div class="seal-track">
         <div class="seal-text">
-          <span>𒆠𒂗𒂠</span><span class="sep">◆</span><span>𒌨𒆠</span><span class="sep">◆</span><span>𒆍𒀭𒊏𒆠</span><span class="sep">◆</span><span>𒀭𒈗𒂗𒆠𒌷𒂍𒀀𒁹</span><span class="sep">◆</span><span>𒋀𒆠𒂗𒂠</span><span class="sep">◆</span><span>𒌨𒆠</span><span class="sep">◆</span><span>𒀸𒀹</span><span class="sep">◆</span><span>𒆠𒌋𒈬𒃻𒋗𒁺</span><span class="sep">◆</span><span>𒆠𒂗𒂠</span><span class="sep">◆</span><span>𒌨𒆠</span><span class="sep">◆</span><span>𒆍𒀭𒊏𒆠</span><span class="sep">◆</span><span>𒀭𒈗𒂗𒆠𒌷𒂍𒀀𒁹</span><span class="sep">◆</span><span>𒋀𒆠𒂗𒂠</span><span class="sep">◆</span><span>𒌨𒆠</span><span class="sep">◆</span><span>𒀸𒀹</span><span class="sep">◆</span><span>𒆠𒌋𒈬𒃻𒋗𒁺</span><span class="sep">◆</span><span>𒆠𒂗𒂠</span><span class="sep">◆</span><span>𒌨𒆠</span><span class="sep">◆</span><span>𒆍𒀭𒊏𒆠</span><span class="sep">◆</span><span>𒀭𒈗𒂗𒆠𒌷𒂍𒀀𒁹</span><span class="sep">◆</span><span>𒋀𒆠𒂗𒂠</span><span class="sep">◆</span><span>𒌨𒆠</span><span class="sep">◆</span><span>𒀸𒀹</span><span class="sep">◆</span><span>𒆠𒌋𒈬𒃻𒋗𒁺</span><span class="sep">◆</span>
+          <span>𒆠𒂗𒂠</span><span class="sep">◆</span><span>𒌨𒆠</span><span class="sep">◆</span><span>𒆍𒀭𒊏𒆠</span><span class="sep">◆</span><span>𒀭𒈗𒂗𒆠𒌷𒂍𒀀𒁹</span><span class="sep">◆</span><span>𒋀𒆠𒂗𒂠</span><span class="sep">◆</span><span>𒌨𒆠</span><span class="sep">◆</span><span>𒀸𒀹</span><span class="sep">◆</span><span>𒆠𒌋𒈬𒃻𒋗𒁺</span><span class="sep">◆</span><span>𒆠𒂗𒂠</span><span class="sep">◆</span><span>𒌨𒆠</span><span class="sep">◆</span><span>𒆍𒀭𒊏𒆠</span><span class="sep">◆</span><span>𒀭𒈗𒂗𒆠𒌷𒂍𒀀𒁹</span><span class="sep">◆</span><span>𒋀𒆠𒂗𒂠</span><span class="sep">◆</span><span>𒌨𒆠</span><span class="sep">◆</span><span>𒀸𒀹</span><span class="sep">◆</span><span>𒆠𒌋𒈬𒃻𒋗𒁺</span><span class="sep">◆</span>
         </div>
         <div class="seal-text">
-          <span>𒆠𒂗𒂠</span><span class="sep">◆</span><span>𒌨𒆠</span><span class="sep">◆</span><span>𒆍𒀭𒊏𒆠</span><span class="sep">◆</span><span>𒀭𒈗𒂗𒆠𒌷𒂍𒀀𒁹</span><span class="sep">◆</span><span>𒋀𒆠𒂗𒂠</span><span class="sep">◆</span><span>𒌨𒆠</span><span class="sep">◆</span><span>𒀸𒀹</span><span class="sep">◆</span><span>𒆠𒌋𒈬𒃻𒋗𒁺</span><span class="sep">◆</span><span>𒆠𒂗𒂠</span><span class="sep">◆</span><span>𒌨𒆠</span><span class="sep">◆</span><span>𒆍𒀭𒊏𒆠</span><span class="sep">◆</span><span>𒀭𒈗𒂗𒆠𒌷𒂍𒀀𒁹</span><span class="sep">◆</span><span>𒋀𒆠𒂗𒂠</span><span class="sep">◆</span><span>𒌨𒆠</span><span class="sep">◆</span><span>𒀸𒀹</span><span class="sep">◆</span><span>𒆠𒌋𒈬𒃻𒋗𒁺</span><span class="sep">◆</span><span>𒆠𒂗𒂠</span><span class="sep">◆</span><span>𒌨𒆠</span><span class="sep">◆</span><span>𒆍𒀭𒊏𒆠</span><span class="sep">◆</span><span>𒀭𒈗𒂗𒆠𒌷𒂍𒀀𒁹</span><span class="sep">◆</span><span>𒋀𒆠𒂗𒂠</span><span class="sep">◆</span><span>𒌨𒆠</span><span class="sep">◆</span><span>𒀸𒀹</span><span class="sep">◆</span><span>𒆠𒌋𒈬𒃻𒋗𒁺</span><span class="sep">◆</span>
+          <span>𒆠𒂗𒂠</span><span class="sep">◆</span><span>𒌨𒆠</span><span class="sep">◆</span><span>𒆍𒀭𒊏𒆠</span><span class="sep">◆</span><span>𒀭𒈗𒂗𒆠𒌷𒂍𒀀𒁹</span><span class="sep">◆</span><span>𒋀𒆠𒂗𒂠</span><span class="sep">◆</span><span>𒌨𒆠</span><span class="sep">◆</span><span>𒀸𒀹</span><span class="sep">◆</span><span>𒆠𒌋𒈬𒃻𒋗𒁺</span><span class="sep">◆</span><span>𒆠𒂗𒂠</span><span class="sep">◆</span><span>𒌨𒆠</span><span class="sep">◆</span><span>𒆍𒀭𒊏𒆠</span><span class="sep">◆</span><span>𒀭𒈗𒂗𒆠𒌷𒂍𒀀𒁹</span><span class="sep">◆</span><span>𒋀𒆠𒂗𒂠</span><span class="sep">◆</span><span>𒌨𒆠</span><span class="sep">◆</span><span>𒀸𒀹</span><span class="sep">◆</span><span>𒆠𒌋𒈬𒃻𒋗𒁺</span><span class="sep">◆</span>
         </div>
       </div>
     </div>
@@ -181,15 +227,15 @@ window.addEventListener('appinstalled', function () {
 
   <div class="bundle-bar d-none" id="bundleBar">
     <div class="bundle-text">
-      <span class="bundle-orb"><i class="bi bi-collection-fill" aria-hidden="true"></i></span>
+      <span class="bundle-orb"><svg class="icon"><use href="#i-layers-filled"/></svg></span>
       <span id="txt-bundle-text">تم تحديد <strong id="bundleCount">0</strong> مراجع لحزمتك</span>
     </div>
     <div class="bundle-actions">
-      <button type="button" class="btn btn-iar-action" id="copyBundleBtn">
-        <i class="bi bi-share" aria-hidden="true"></i> <span id="txt-bundle-btn">نسخ رابط الحزمة</span>
+      <button type="button" class="btn btn-light" id="copyBundleBtn">
+        <svg class="icon"><use href="#i-share"/></svg> <span id="txt-bundle-btn">نسخ رابط الحزمة</span>
       </button>
-      <button type="button" class="btn btn-iar-action" id="clearBundleBtn">
-        <i class="bi bi-x-lg" aria-hidden="true"></i> <span id="txt-clear-bundle">إلغاء الحزمة</span>
+      <button type="button" class="btn btn-outline" id="clearBundleBtn">
+        <svg class="icon"><use href="#i-x"/></svg> <span id="txt-clear-bundle">إلغاء الحزمة</span>
       </button>
     </div>
   </div>
@@ -198,15 +244,15 @@ window.addEventListener('appinstalled', function () {
 
   <section class="controls" id="controlsRow">
     <div class="search-wrap">
-      <i class="bi bi-search search-icon" aria-hidden="true"></i>
+      <svg class="icon search-icon"><use href="#i-search"/></svg>
       <label class="sr-only" for="searchInput" id="searchLabel">البحث في المراجع</label>
       <input type="search" id="searchInput" placeholder="ابحث بعنوان، مؤلف، أو فكرة…" autocomplete="off">
       <button type="button" class="clear-btn d-none" id="btnClearSearch" aria-label="مسح البحث">
-        <i class="bi bi-x-lg" aria-hidden="true"></i>
+        <svg class="icon"><use href="#i-x"/></svg>
       </button>
     </div>
     <div class="select-wrap">
-      <i class="bi bi-list-ul select-icon" aria-hidden="true"></i>
+      <svg class="icon select-icon"><use href="#i-list"/></svg>
       <select id="sortOrder" aria-label="ترتيب المراجع">
         <option value="default" id="opt-sort-default">اختيار الأرشيف</option>
         <option value="title" id="opt-sort-title">العنوان: أ — ي</option>
@@ -217,31 +263,29 @@ window.addEventListener('appinstalled', function () {
         <option value="rating" id="opt-sort-rating">الأعلى تقييماً</option>
       </select>
     </div>
-    <div class="view-toggle" id="viewSwitch" role="group" aria-label="طريقة العرض">
-      <button type="button" id="btnViewGrid" class="active" aria-label="عرض شبكي" aria-pressed="true"><i class="bi bi-grid-3x3-gap-fill" aria-hidden="true"></i></button>
-      <button type="button" id="btnViewList" aria-label="عرض قائمة" aria-pressed="false"><i class="bi bi-list-ul" aria-hidden="true"></i></button>
+    <div class="view-toggle" role="group" aria-label="طريقة العرض">
+      <button type="button" id="btnViewGrid" class="active" aria-label="عرض شبكي" aria-pressed="true"><svg class="icon"><use href="#i-grid"/></svg></button>
+      <button type="button" id="btnViewList" aria-label="عرض قائمة" aria-pressed="false"><svg class="icon"><use href="#i-list"/></svg></button>
     </div>
   </section>
 
-  <div class="results-count" id="resultsCount"></div>
-
   <div class="chips-container">
-    <button type="button" class="chips-scroll-btn chips-scroll-left" id="chipsScrollLeft" aria-label="السابق" tabindex="-1"><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+    <button type="button" class="chips-scroll-btn chips-scroll-left" id="chipsScrollLeft" aria-label="السابق" tabindex="-1"><svg class="icon"><use href="#i-chevron-right"/></svg></button>
     <div class="chips-wrapper" id="categoryChips" tabindex="0" role="region" aria-label="التصنيفات">
       <button type="button" class="chip-item active" data-category="all" aria-pressed="true">كل المراجع</button>
     </div>
-    <button type="button" class="chips-scroll-btn chips-scroll-right" id="chipsScrollRight" aria-label="التالي" tabindex="-1"><i class="bi bi-chevron-left" aria-hidden="true"></i></button>
+    <button type="button" class="chips-scroll-btn chips-scroll-right" id="chipsScrollRight" aria-label="التالي" tabindex="-1"><svg class="icon"><use href="#i-chevron-left"/></svg></button>
   </div>
 
   <div id="booksDisplayContainer" aria-live="polite"></div>
 
   <nav aria-label="صفحات المراجع" class="pagination-nav">
-    <ul id="paginationContainer" class="pagination"></ul>
+    <ul id="paginationContainer"></ul>
   </nav>
 
   <div id="singleBookView" class="single-view d-none">
     <button type="button" class="btn-back" id="btnBackToList">
-      <i class="bi bi-arrow-right" aria-hidden="true"></i> <span id="txt-back-to-list">العودة إلى المكتبة</span>
+      <svg class="icon"><use href="#i-arrow-right"/></svg> <span id="txt-back-to-list">العودة إلى المكتبة</span>
     </button>
     <div class="single-grid">
       <div class="single-aside">
@@ -250,28 +294,28 @@ window.addEventListener('appinstalled', function () {
       </div>
       <div class="single-body">
         <h1 class="single-title" id="singleBookTitle"></h1>
-        <p class="single-author"><i class="bi bi-person" aria-hidden="true"></i> <span id="singleBookAuthor"></span></p>
+        <p class="single-author"><svg class="icon"><use href="#i-user"/></svg> <span id="singleBookAuthor"></span></p>
         <div class="single-badges">
           <span class="badge-tag" id="singleBookCategory"></span>
           <span class="badge-type" id="singleBookType"></span>
         </div>
         <div class="single-section">
-          <h6><i class="bi bi-file-earmark-text" aria-hidden="true"></i> <span id="singleDescLabel">عن المرجع</span></h6>
+          <h6><svg class="icon"><use href="#i-file-text"/></svg> <span id="singleDescLabel">عن المرجع</span></h6>
           <p id="singleBookDescription"></p>
         </div>
         <div class="single-section">
-          <h6><i class="bi bi-lightbulb" aria-hidden="true"></i> <span id="singleKeyPointsLabel">الأفكار الرئيسية</span></h6>
+          <h6><svg class="icon"><use href="#i-lightbulb"/></svg> <span id="singleKeyPointsLabel">الأفكار الرئيسية</span></h6>
           <ul id="singleBookKeyPoints"></ul>
         </div>
         <div class="single-section">
-          <h6><i class="bi bi-award" aria-hidden="true"></i> <span id="singleAudienceLabel">الفئة المستهدفة</span></h6>
+          <h6><svg class="icon"><use href="#i-award"/></svg> <span id="singleAudienceLabel">الفئة المستهدفة</span></h6>
           <p id="singleBookAudience"></p>
         </div>
         <div class="single-actions">
-          <button class="btn btn-iar-primary" id="singleReadBtn"><i class="bi bi-book" aria-hidden="true"></i> <span id="singleReadLabel">قراءة</span></button>
-          <button class="btn btn-iar-primary" id="singleDownloadBtn"><i class="bi bi-arrow-down" aria-hidden="true"></i> <span id="singleDownloadLabel">تحميل</span> <span class="download-count" id="singleDownloadCount">0</span></button>
-          <button class="btn btn-iar-action" id="singleCiteBtn"><i class="bi bi-quote" aria-hidden="true"></i> <span id="singleCiteLabel">توثيق APA</span></button>
-          <button class="btn btn-iar-action" id="singleShareBtn"><i class="bi bi-share" aria-hidden="true"></i> <span id="singleShareLabel">مشاركة</span></button>
+          <button class="btn btn-primary" id="singleReadBtn"><svg class="icon"><use href="#i-book"/></svg> <span id="singleReadLabel">قراءة</span></button>
+          <button class="btn btn-primary" id="singleDownloadBtn"><svg class="icon"><use href="#i-download"/></svg> <span id="singleDownloadLabel">تحميل</span> <span class="count-badge" id="singleDownloadCount">0</span></button>
+          <button class="btn btn-ghost" id="singleCiteBtn"><svg class="icon"><use href="#i-quote"/></svg> <span id="singleCiteLabel">توثيق APA</span></button>
+          <button class="btn btn-ghost" id="singleShareBtn"><svg class="icon"><use href="#i-share"/></svg> <span id="singleShareLabel">مشاركة</span></button>
         </div>
       </div>
     </div>
@@ -283,81 +327,108 @@ window.addEventListener('appinstalled', function () {
   <div class="container footer-inner">
     <div class="footer-brand">IAR Archive</div>
     <div class="social-links">
-      <a href="https://t.me/iarArchive" target="_blank" rel="noopener" class="social-link telegram" aria-label="Telegram"><i class="bi bi-telegram" aria-hidden="true"></i></a>
-      <a href="https://www.tiktok.com/@iar.archive?_r=1&_t=ZS-99lvhM76Ak6" target="_blank" rel="noopener" class="social-link tiktok" aria-label="TikTok"><i class="bi bi-tiktok" aria-hidden="true"></i></a>
+      <a href="https://t.me/iarArchive" target="_blank" rel="noopener" class="social-link telegram" aria-label="Telegram"><svg class="icon"><use href="#i-telegram"/></svg></a>
+      <a href="https://www.tiktok.com/@iar.archive?_r=1&_t=ZS-99lvhM76Ak6" target="_blank" rel="noopener" class="social-link tiktok" aria-label="TikTok"><svg class="icon"><use href="#i-tiktok"/></svg></a>
     </div>
     <p class="copyright">© 2026 Zenvex</p>
   </div>
 </footer>
 
-<div class="modal fade" id="summaryModal" tabindex="-1" aria-labelledby="summaryModalTitle" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="summaryModalTitle">ملخص المرجع · 3 دقائق</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" id="summaryDismissBtn" aria-label="إغلاق"></button>
+<div class="modal" id="summaryModal" role="dialog" aria-modal="true" aria-labelledby="summaryModalTitle" hidden>
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-panel modal-panel-lg">
+    <header class="modal-head">
+      <h5 id="summaryModalTitle">ملخص المرجع · 3 دقائق</h5>
+      <button type="button" class="modal-close" data-close aria-label="إغلاق" id="summaryDismissBtn"><svg class="icon"><use href="#i-x"/></svg></button>
+    </header>
+    <div class="modal-body">
+      <div class="modal-meta">
+        <span class="badge-tag" id="summaryCategory"></span>
+        <span class="badge-type" id="summaryType"></span>
+        <span class="meta-chip" id="summaryPages"></span>
+        <span class="meta-chip" id="summarySize"></span>
       </div>
-      <div class="modal-body">
-        <div class="modal-meta">
-          <span class="badge-tag" id="summaryCategory"></span>
-          <span class="badge-type" id="summaryType"></span>
-          <span class="meta-spec-chip" id="summaryPages"></span>
-          <span class="meta-spec-chip" id="summarySize"></span>
-        </div>
-        <h4 class="modal-book-title" id="summaryBookTitle"></h4>
-        <p class="modal-book-author" id="summaryBookAuthor"></p>
-        <div class="detail-card ideas">
-          <h6 id="txt-modal-ideas-title">أهم الأفكار</h6>
-          <ul id="summaryKeyPoints"></ul>
-        </div>
-        <div class="detail-card audience">
-          <h6 id="txt-modal-audience-title">الفئة المستهدفة</h6>
-          <p id="summaryAudience"></p>
-        </div>
-        <div class="detail-card apa">
-          <h6 id="txt-modal-apa-title">التوثيق الأكاديمي · APA</h6>
-          <code id="summaryAPA"></code>
-        </div>
+      <h4 class="modal-book-title" id="summaryBookTitle"></h4>
+      <p class="modal-book-author" id="summaryBookAuthor"></p>
+      <div class="detail-card ideas">
+        <h6 id="txt-modal-ideas-title">أهم الأفكار</h6>
+        <ul id="summaryKeyPoints"></ul>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-iar-action" id="modalShareBtn"><i class="bi bi-share" aria-hidden="true"></i> <span id="txt-share-modal-btn">مشاركة</span></button>
-        <button type="button" class="btn btn-iar-primary" data-bs-dismiss="modal" id="txt-modal-close">إغلاق</button>
+      <div class="detail-card audience">
+        <h6 id="txt-modal-audience-title">الفئة المستهدفة</h6>
+        <p id="summaryAudience"></p>
       </div>
+      <div class="detail-card apa">
+        <h6 id="txt-modal-apa-title">التوثيق الأكاديمي · APA</h6>
+        <code id="summaryAPA"></code>
+      </div>
+    </div>
+    <footer class="modal-foot">
+      <button type="button" class="btn btn-ghost" id="modalShareBtn"><svg class="icon"><use href="#i-share"/></svg> <span id="txt-share-modal-btn">مشاركة</span></button>
+      <button type="button" class="btn btn-primary" data-close id="txt-modal-close">إغلاق</button>
+    </footer>
+  </div>
+</div>
+
+<div class="modal modal-full" id="pdfReaderModal" role="dialog" aria-modal="true" aria-labelledby="modalBookTitle" hidden>
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-panel modal-panel-full">
+    <header class="modal-head">
+      <h5 id="modalBookTitle"></h5>
+      <button type="button" class="modal-close" data-close aria-label="إغلاق" id="pdfDismissBtn"><svg class="icon"><use href="#i-x"/></svg></button>
+    </header>
+    <div class="modal-body modal-body-flush">
+      <iframe id="pdfFrame" src="about:blank" title="قارئ الملفات"></iframe>
     </div>
   </div>
 </div>
 
-<div class="modal fade" id="pdfReaderModal" tabindex="-1" aria-labelledby="modalBookTitle" aria-hidden="true">
-  <div class="modal-dialog modal-fullscreen">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modalBookTitle"></h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" id="pdfDismissBtn" aria-label="إغلاق"></button>
-      </div>
-      <div class="modal-body modal-body-flush">
-        <div class="pdf-reader-state" id="pdfReaderState" hidden>
-          <div class="pdf-reader-spinner" aria-hidden="true"></div>
-          <p id="pdfReaderStateText"></p>
-          <a id="pdfExternalLink" href="#" target="_blank" rel="noopener" class="btn btn-iar-action"></a>
-        </div>
-        <iframe id="pdfFrame" src="about:blank" title="قارئ الملفات"></iframe>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade" id="coverImageModal" tabindex="-1" aria-label="عرض الغلاف" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content modal-content-cover">
-      <button type="button" class="btn-close btn-close-white absolute" data-bs-dismiss="modal" aria-label="إغلاق"></button>
-      <img id="coverImageLarge" src="" alt="">
-    </div>
+<div class="modal" id="coverImageModal" role="dialog" aria-modal="true" aria-label="عرض الغلاف" hidden>
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-panel modal-panel-cover">
+    <button type="button" class="modal-close absolute" data-close aria-label="إغلاق"><svg class="icon"><use href="#i-x"/></svg></button>
+    <img id="coverImageLarge" src="" alt="">
   </div>
 </div>
 
 <div class="notification-host" id="notificationHost" aria-live="polite"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- ============================================================
+     Download Progress Overlay
+     ============================================================ -->
+<div class="download-overlay" id="downloadOverlay" role="dialog" aria-modal="true" aria-labelledby="dlTitle" hidden>
+  <div class="download-overlay__backdrop"></div>
+  <div class="download-overlay__panel">
+
+    <div class="download-overlay__ring-wrap">
+      <svg class="dl-ring" viewBox="0 0 200 200" aria-hidden="true">
+        <defs>
+          <linearGradient id="dlRingGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#d4b48a"/>
+            <stop offset=".5" stop-color="#c89d5c"/>
+            <stop offset="1" stop-color="#a87a34"/>
+          </linearGradient>
+        </defs>
+        <circle class="dl-ring-bg" cx="100" cy="100" r="88" />
+        <circle class="dl-ring-fg" cx="100" cy="100" r="88" />
+      </svg>
+      <div class="dl-ring-center">
+        <span class="dl-ring-percent" id="dlPercent" aria-live="polite">0</span>
+        <span class="dl-ring-symbol">%</span>
+      </div>
+    </div>
+
+    <h3 class="download-overlay__title" id="dlTitle">جارٍ تحضير الملف…</h3>
+    <p class="download-overlay__book" id="dlBook"></p>
+    <p class="download-overlay__meta" id="dlMeta">—</p>
+
+    <button type="button" class="btn btn-ghost download-overlay__cancel" id="dlCancel">
+      <svg class="icon"><use href="#i-x"/></svg>
+      <span id="dlCancelLabel">إلغاء</span>
+    </button>
+
+  </div>
+</div>
 
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
@@ -367,7 +438,9 @@ window.addEventListener('appinstalled', function () {
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async () => {
     try {
-      const reg = await navigator.serviceWorker.register('/sw.js', { updateViaCache: 'none' });
+      const reg = await navigator.serviceWorker.register('/sw.js', {
+        updateViaCache: 'none'
+      });
       setInterval(() => reg.update().catch(() => {}), 60 * 60 * 1000);
       window.addEventListener('focus', () => reg.update().catch(() => {}));
       reg.addEventListener('updatefound', () => {
