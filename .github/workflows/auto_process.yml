@@ -5,6 +5,27 @@ on:
     paths:
       - 'pdf/*.pdf'
       - 'pdf/*.PDF'
+      - 'pdf/*.doc'
+      - 'pdf/*.docx'
+      - 'pdf/*.DOC'
+      - 'pdf/*.DOCX'
+      - 'pdf/*.ppt'
+      - 'pdf/*.pptx'
+      - 'pdf/*.PPT'
+      - 'pdf/*.PPTX'
+      - 'pdf/*.xls'
+      - 'pdf/*.xlsx'
+      - 'pdf/*.XLS'
+      - 'pdf/*.XLSX'
+      - 'pdf/*.odt'
+      - 'pdf/*.ods'
+      - 'pdf/*.odp'
+      - 'pdf/*.rtf'
+      - 'pdf/*.RTF'
+      - 'pdf/*.epub'
+      - 'pdf/*.EPUB'
+      - 'pdf/*.csv'
+      - 'pdf/*.CSV'
       - 'pdf/*.zip'
       - 'pdf/*.ZIP'
   workflow_dispatch:
@@ -52,6 +73,10 @@ jobs:
             echo "::error title=Missing Secret::GEMINI_API_KEY is not set in repository secrets."
             exit 1
           fi
+
+      - name: Verify anydoc Installation
+        run: |
+          python -c "import anydoc; print('anydoc version:', getattr(anydoc, '__version__', 'unknown'))"
 
       - name: Run Extraction Script
         env:
