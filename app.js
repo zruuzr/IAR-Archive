@@ -53,7 +53,9 @@
       deferredPrompt: null,
       busyRatings: new Set(),
       busyDownloads: new Set(),
-      downloadAbort: null
+      downloadAbort: null,
+      ratedIds: new Set(),
+      ratedLoadedIds: new Set()
     }
   };
 
@@ -146,7 +148,6 @@
     book.publicRating = 0;
     book.ratingSum = 0;
     book.ratingCount = 0;
-    book.voters = [];
     return book;
   }
 
@@ -188,6 +189,53 @@
     }
   }
 
+  async function loadRatedStatuses(ids) {
+    try {
+      await firebaseReady;
+      if (!db || !auth?.currentUser) return false;
+
+      const uid = auth.currentUser.uid;
+      const values = [...new Set(ids.map(Number).filter(Number.isSafeInteger))]
+        .filter(id => !state.meta.ratedLoadedIds.has(id));
+
+      if (!values.length) return true;
+
+      const results = await Promise.allSettled(values.map(async id => {
+        const voteRef = db.collection('ratings')
+          .doc(String(id))
+          .collection('votes')
+          .doc(uid);
+
+        const voteDoc = await timeout(voteRef.get());
+        if (voteDoc.exists) state.meta.ratedIds.add(id);
+        else state.meta.ratedIds.delete(id);
+        state.meta.ratedLoadedIds.add(id);
+      }));
+
+      return results.every(result => result.status === 'fulfilled');
+    } catch (error) {
+      console.warn('Unable to load private rating status:', error.message);
+      return false;
+    }
+  }
+
+  function scheduleRatedStatusLoad(ids) {
+    const values = [...new Set(ids.map(Number).filter(Number.isSafeInteger))];
+    if (!values.length) return;
+
+    const run = () => {
+      void loadRatedStatuses(values).then(ok => {
+        if (ok) refreshRatings();
+      });
+    };
+
+    if (typeof window.requestIdleCallback === 'function') {
+      window.requestIdleCallback(run, { timeout: 1500 });
+    } else {
+      window.setTimeout(run, 0);
+    }
+  }
+
   async function loadMetrics() {
     await firebaseReady;
     if (!db) { text('siteVisitsCounter', '—'); return; }
@@ -196,17 +244,15 @@
       const snapshot = await timeout(db.collection(name).get());
       snapshot.forEach(doc => {
         const book = byId(doc.id);
-        if (!book) return;
-        const data = doc.data();
+        if (!book || !doc.exists) return;
+        const data = doc.data() || {};
+
         if (name === 'downloads') {
           book.downloadCount = finite(data.count);
         } else {
           book.ratingSum = finite(data.ratingSum);
           book.ratingCount = finite(data.ratingCount);
           book.publicRating = Math.min(5, finite(data.average));
-          book.voters = Array.isArray(data.voters)
-            ? data.voters.filter(v => typeof v === 'string')
-            : [];
         }
       });
     }));
@@ -217,18 +263,29 @@
     try {
       const visits = db.collection('stats').doc('visits');
       const last = finite(store.get('iar_last_visit', '0'));
+      const day = new Intl.DateTimeFormat('en-CA', {
+        timeZone: 'Asia/Baghdad',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+      }).format(new Date());
       let count;
 
       if (auth?.currentUser && Date.now() - last > 86400000) {
         count = await timeout(db.runTransaction(async transaction => {
           const doc = await transaction.get(visits);
-          const next = finite(doc.data()?.count) + 1;
-          transaction.set(visits, { count: next }, { merge: true });
+          const data = doc.data() || {};
+          const next = data.date === day
+            ? finite(data.count) + 1
+            : 1;
+
+          transaction.set(visits, { date: day, count: next }, { merge: true });
           return next;
         }));
         store.set('iar_last_visit', Date.now());
       } else {
-        count = finite((await timeout(visits.get())).data()?.count);
+        const data = (await timeout(visits.get())).data() || {};
+        count = data.date === day ? finite(data.count) : 0;
       }
 
       text('siteVisitsCounter', number(count));
@@ -584,8 +641,7 @@ ${field(book, 'publisher') || labels().unknown}.`;
     }
   }
 
-  const rated = book =>
-    Array.isArray(book.voters) && book.voters.includes(auth?.currentUser?.uid);
+  const rated = book => state.meta.ratedIds.has(book.id);
 
   function stars(book) {
     const done = rated(book);
@@ -626,33 +682,58 @@ ${[1, 2, 3, 4, 5].map(value =>
 
       const uid = auth.currentUser.uid;
       const result = await db.runTransaction(async transaction => {
-        const ref = db.collection('ratings').doc(String(book.id));
-        const doc = await transaction.get(ref);
-        const data = doc.data() || {};
-        const voters = Array.isArray(data.voters) ? data.voters : [];
-        if (voters.includes(uid)) throw new Error('ALREADY_VOTED');
+        const aggregateRef = db.collection('ratings').doc(String(book.id));
+        const voteRef = aggregateRef.collection('votes').doc(uid);
+
+        // Firestore transactions require all reads before writes.
+        const aggregateDoc = await transaction.get(aggregateRef);
+        const voteDoc = await transaction.get(voteRef);
+
+        if (voteDoc.exists) throw new Error('ALREADY_VOTED');
+
+        const data = aggregateDoc.data() || {};
+        const legacyVoters = Array.isArray(data.voters)
+          ? data.voters.filter(v => typeof v === 'string')
+          : [];
+
+        // Preserve duplicate-vote protection for legacy aggregate documents
+        // until the old public voter list is fully migrated.
+        if (legacyVoters.includes(uid)) throw new Error('ALREADY_VOTED');
 
         const ratingSum = finite(data.ratingSum) + value;
         const ratingCount = finite(data.ratingCount) + 1;
         const result = {
           ratingSum,
           ratingCount,
-          average: Number((ratingSum / ratingCount).toFixed(2)),
-          voters: [...voters, uid]
+          average: Number((ratingSum / ratingCount).toFixed(2))
         };
-        transaction.set(ref, result);
+
+        // Keep a legacy voters list only when the aggregate already has one.
+        // New aggregate documents never receive this public field.
+        if (Array.isArray(data.voters)) {
+          result.voters = [...legacyVoters, uid];
+        }
+
+        transaction.create(voteRef, { value });
+        transaction.set(aggregateRef, result);
         return result;
       });
 
       Object.assign(book, {
         ratingSum: result.ratingSum,
         ratingCount: result.ratingCount,
-        publicRating: result.average,
-        voters: result.voters
+        publicRating: result.average
       });
 
+      state.meta.ratedIds.add(book.id);
+      state.meta.ratedLoadedIds.add(book.id);
       toast(t('تم حفظ تقييمك.', 'Your rating was saved.'));
     } catch (error) {
+      if (error.message === 'ALREADY_VOTED') {
+        state.meta.ratedIds.add(book.id);
+        state.meta.ratedLoadedIds.add(book.id);
+      }
+
       toast(
         error.message === 'ALREADY_VOTED'
           ? t('سبق أن قيّمت هذا المرجع.', 'You already rated this reference.')
@@ -934,6 +1015,10 @@ ${[1, 2, 3, 4, 5].map(value =>
     attr('btnViewList', 'aria-pressed', state.ui.view === 'list');
     $('favoritesOnlyBtn')?.classList.toggle('active', state.filters.favoritesOnly);
     attr('favoritesOnlyBtn', 'aria-pressed', state.filters.favoritesOnly);
+
+    const visibleIds = page.map(book => book.id);
+    if (spotlight) visibleIds.unshift(spotlight.id);
+    scheduleRatedStatusLoad(visibleIds);
   }
 
   function categories() {
@@ -1062,6 +1147,7 @@ ${[1, 2, 3, 4, 5].map(value =>
     if (starsContainer) starsContainer.innerHTML = stars(book);
 
     text('singleDownloadCount', number(book.downloadCount));
+    scheduleRatedStatusLoad([book.id]);
 
     if ($('singleReadBtn')) {
       $('singleReadBtn').disabled = !book.file_path;
