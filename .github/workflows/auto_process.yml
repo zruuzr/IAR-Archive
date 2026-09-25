@@ -65,22 +65,33 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
 
-      - name: Verify API Key
+      - name: Verify API Keys
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: |
           if [ -z "${GEMINI_API_KEY}" ]; then
-            echo "::error title=Missing Secret::GEMINI_API_KEY is not set in repository secrets."
+            echo "::error title=Missing Secret::GEMINI_API_KEY is not set."
             exit 1
+          fi
+          if [ -z "${GROQ_API_KEY}" ]; then
+            echo "::warning title=Missing Groq::GROQ_API_KEY not set — running Gemini-only."
+          else
+            echo "✓ Both API keys present."
           fi
 
       - name: Verify anydoc Installation
         run: |
-          python -c "import anydoc; print('anydoc version:', getattr(anydoc, '__version__', 'unknown'))"
+          python -c "import anydoc; print('anydoc:', getattr(anydoc, '__version__', 'unknown'))"
+
+      - name: Verify Groq Installation
+        run: |
+          python -c "import groq; print('groq:', getattr(groq, '__version__', 'unknown'))" || echo "Groq not installed"
 
       - name: Run Extraction Script
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: python process_books.py
 
       - name: Commit and Push Changes
