@@ -4,7 +4,7 @@ IAR Archive — automated book indexing.
 Pipeline:
     document
         ↓
-    anydoc / pypdf extraction
+    anydoc / pypdf
         ↓
     Gemini structured extraction
         ↓
@@ -16,7 +16,8 @@ Pipeline:
 
 Hardening:
 - Safe Unicode filenames during Gemini upload.
-- Gemini Structured JSON output.
+- Gemini structured JSON output.
+- Automatic Function Calling disabled.
 - Groq JSON fallback.
 - SHA-256 source tracking.
 - Safe ZIP extraction.
@@ -62,8 +63,15 @@ except ImportError:
 JSON_PATH = Path("books.json")
 PDF_DIR = Path("pdf")
 
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "").strip()
-GROQ_API_KEY = os.getenv("GROQ_API_KEY", "").strip()
+GEMINI_API_KEY = os.getenv(
+    "GEMINI_API_KEY",
+    "",
+).strip()
+
+GROQ_API_KEY = os.getenv(
+    "GROQ_API_KEY",
+    "",
+).strip()
 
 GEMINI_MODEL = os.getenv(
     "GEMINI_MODEL",
@@ -78,17 +86,10 @@ GROQ_MODEL = os.getenv(
 GEMINI_RETRIES = 5
 GROQ_RETRIES = 3
 
-# Gemini PDF upload limit.
 MAX_UPLOAD_SIZE_MB = 50
-
-# Local safety limit.
 MAX_PDF_SIZE_MB = 500
-
-# Text sent to the AI when local extraction is available.
 MAX_SAMPLE_CHARS = 25_000
-
 MIN_MEANINGFUL_TEXT = 150
-
 MAX_BOOKS = 10_000
 
 SUPPORTED_EXTENSIONS = {
@@ -116,7 +117,8 @@ SUPPORTED_EXTENSIONS = {
 }
 
 SUPPORTED_DOCUMENT_EXTENSIONS = (
-    SUPPORTED_EXTENSIONS - {".zip"}
+    SUPPORTED_EXTENSIONS
+    - {".zip"}
 )
 
 GENERIC_BANNED_TITLES = {
@@ -146,7 +148,9 @@ logging.basicConfig(
     format="%(asctime)s | %(levelname)s | %(message)s",
 )
 
-logger = logging.getLogger("iar-archive")
+logger = logging.getLogger(
+    "iar-archive"
+)
 
 
 # ============================================================
@@ -224,25 +228,23 @@ AI_PROMPT = """
 You are an expert bibliographic metadata extraction system for
 IAR Archive — the Iraqi Administrative Reference Repository.
 
-Your task is to extract factual metadata from the provided document.
+Extract factual metadata from the supplied document.
 
 Rules:
-
 1. Do not invent information.
 2. Prefer the title printed on the cover or title page.
-3. Prefer the actual author, editor, organization, or issuing body
-   explicitly stated in the document.
+3. Prefer the actual author, editor, organization, or issuing body.
 4. Identify the publisher only when supported by the document.
-5. Extract the publication year only when supported.
+5. Extract publication year only when supported.
 6. Extract ISBN only when explicitly available.
 7. Categorize according to the actual subject matter.
-8. Write a concise factual description suitable for a public archive.
-9. key_points must contain useful concepts actually present in the text.
-10. keywords should be concise subject terms.
-11. target_audience should identify the most relevant readers.
-12. title_en may be empty when an English title is unavailable.
-13. year must be 0 when the publication year cannot be reliably determined.
-14. Never fabricate authors, publishers, ISBNs, dates, statistics, or concepts.
+8. Write a concise factual description.
+9. key_points must contain useful concepts actually present.
+10. keywords must be concise subject terms.
+11. target_audience should identify relevant readers.
+12. title_en may be empty when unsupported.
+13. year must be 0 when unknown.
+14. Never fabricate facts.
 15. Return JSON only according to the supplied schema.
 
 Factual accuracy is more important than filling every field.
@@ -283,11 +285,21 @@ class Book:
     file_size: str = ""
     isbn: str = ""
 
-    keywords: list[str] = field(default_factory=list)
-    keywords_en: list[str] = field(default_factory=list)
+    keywords: list[str] = field(
+        default_factory=list
+    )
 
-    key_points: list[str] = field(default_factory=list)
-    key_points_en: list[str] = field(default_factory=list)
+    keywords_en: list[str] = field(
+        default_factory=list
+    )
+
+    key_points: list[str] = field(
+        default_factory=list
+    )
+
+    key_points_en: list[str] = field(
+        default_factory=list
+    )
 
     featured: bool = False
 
@@ -306,10 +318,13 @@ class Book:
         compare=False,
     )
 
-    def to_json_dict(self) -> dict[str, Any]:
-        data = asdict(self)
+    def to_json_dict(
+        self,
+    ) -> dict[str, Any]:
+        data = asdict(
+            self
+        )
 
-        # Internal field must never reach books.json.
         data.pop(
             "_ai_provider",
             None,
@@ -322,44 +337,69 @@ class Book:
 # Generic helpers
 # ============================================================
 
-def normalize_string(value: Any) -> str:
+def normalize_string(
+    value: Any,
+) -> str:
     if value is None:
         return ""
 
-    return str(value).strip()
+    return str(
+        value
+    ).strip()
 
 
 def normalize_list(
     value: Any,
     limit: int = 50,
 ) -> list[str]:
-    if not isinstance(value, list):
+
+    if not isinstance(
+        value,
+        list,
+    ):
         return []
 
     result: list[str] = []
 
     for item in value[:limit]:
-        text = normalize_string(item)
+        text = normalize_string(
+            item
+        )
 
         if text:
-            result.append(text)
+            result.append(
+                text
+            )
 
     return result
 
 
-def safe_int(value: Any) -> int:
-    if value in (None, "", False):
+def safe_int(
+    value: Any,
+) -> int:
+    if value in (
+        None,
+        "",
+        False,
+    ):
         return 0
 
     try:
-        number = int(value)
+        number = int(
+            value
+        )
+
     except (
         TypeError,
         ValueError,
     ):
         return 0
 
-    return number if number >= 0 else 0
+    return (
+        number
+        if number >= 0
+        else 0
+    )
 
 
 def format_file_size(
@@ -375,14 +415,23 @@ def format_file_size(
         "GB",
     )
 
-    size = float(size_bytes)
+    size = float(
+        size_bytes
+    )
 
     for unit in units:
-        if size < 1024 or unit == units[-1]:
+        if (
+            size < 1024
+            or unit == units[-1]
+        ):
             if unit == "B":
-                return f"{int(size)} {unit}"
+                return (
+                    f"{int(size)} {unit}"
+                )
 
-            return f"{size:.1f} {unit}"
+            return (
+                f"{size:.1f} {unit}"
+            )
 
         size /= 1024
 
@@ -398,6 +447,7 @@ def sha256_file(
     with path.open(
         "rb"
     ) as file:
+
         while True:
             chunk = file.read(
                 chunk_size
@@ -406,7 +456,9 @@ def sha256_file(
             if not chunk:
                 break
 
-            digest.update(chunk)
+            digest.update(
+                chunk
+            )
 
     return digest.hexdigest()
 
@@ -420,22 +472,29 @@ def atomic_write_json(
         exist_ok=True,
     )
 
-    temp_path = path.with_suffix(
-        path.suffix + ".tmp"
+    temp_path = (
+        path.with_suffix(
+            path.suffix + ".tmp"
+        )
     )
 
-    payload = json.dumps(
-        data,
-        ensure_ascii=False,
-        indent=2,
+    payload = (
+        json.dumps(
+            data,
+            ensure_ascii=False,
+            indent=2,
+        )
+        + "\n"
     )
 
     temp_path.write_text(
-        payload + "\n",
+        payload,
         encoding="utf-8",
     )
 
-    temp_path.replace(path)
+    temp_path.replace(
+        path
+    )
 
 
 def load_books() -> list[dict[str, Any]]:
@@ -448,14 +507,19 @@ def load_books() -> list[dict[str, Any]]:
                 encoding="utf-8"
             )
         )
+
     except json.JSONDecodeError as exc:
         raise RuntimeError(
             f"Invalid JSON in {JSON_PATH}: {exc}"
         ) from exc
 
-    if not isinstance(data, list):
+    if not isinstance(
+        data,
+        list,
+    ):
         raise RuntimeError(
-            f"{JSON_PATH} must contain a top-level JSON array."
+            f"{JSON_PATH} must contain "
+            "a top-level JSON array."
         )
 
     return data
@@ -466,7 +530,8 @@ def save_books(
 ) -> None:
     if len(books) > MAX_BOOKS:
         raise RuntimeError(
-            f"Refusing to save more than {MAX_BOOKS} books."
+            f"Refusing to save more than "
+            f"{MAX_BOOKS} books."
         )
 
     atomic_write_json(
@@ -482,7 +547,10 @@ def next_book_id(
 
     for book in books:
         try:
-            value = int(book.get("id"))
+            value = int(
+                book.get("id")
+            )
+
         except (
             TypeError,
             ValueError,
@@ -490,18 +558,17 @@ def next_book_id(
             continue
 
         if value >= 0:
-            ids.append(value)
+            ids.append(
+                value
+            )
 
-    return max(
-        ids,
-        default=0,
-    ) + 1
-
-
-def extension_for(
-    path: Path,
-) -> str:
-    return path.suffix.lower()
+    return (
+        max(
+            ids,
+            default=0,
+        )
+        + 1
+    )
 
 
 def is_supported_document(
@@ -509,7 +576,7 @@ def is_supported_document(
 ) -> bool:
     return (
         path.is_file()
-        and extension_for(path)
+        and path.suffix.lower()
         in SUPPORTED_DOCUMENT_EXTENSIONS
     )
 
@@ -521,21 +588,14 @@ def is_supported_document(
 def decode_zip_name(
     name: str,
 ) -> str:
-    """
-    Best-effort conversion for legacy ZIP names.
-
-    UTF-8 names normally remain unchanged.
-    """
     try:
         encoded = name.encode(
             "cp437"
         )
 
-        decoded = encoded.decode(
+        return encoded.decode(
             "utf-8"
         )
-
-        return decoded
 
     except (
         UnicodeEncodeError,
@@ -552,7 +612,9 @@ def is_safe_archive_member(
         "/",
     )
 
-    if normalized.startswith("/"):
+    if normalized.startswith(
+        "/"
+    ):
         return False
 
     parts = Path(
@@ -560,7 +622,11 @@ def is_safe_archive_member(
     ).parts
 
     if any(
-        part in ("", ".", "..")
+        part in (
+            "",
+            ".",
+            "..",
+        )
         for part in parts
     ):
         return False
@@ -600,6 +666,7 @@ def extract_zips() -> list[Path]:
     )
 
     for archive in zip_files:
+
         logger.info(
             "Extracting ZIP: %s",
             archive,
@@ -612,6 +679,7 @@ def extract_zips() -> list[Path]:
             ) as zf:
 
                 for member in zf.infolist():
+
                     if member.is_dir():
                         continue
 
@@ -628,15 +696,24 @@ def extract_zips() -> list[Path]:
                         )
                         continue
 
-                    suffix = Path(
-                        raw_name
-                    ).suffix.lower()
+                    suffix = (
+                        Path(
+                            raw_name
+                        )
+                        .suffix
+                        .lower()
+                    )
 
-                    if suffix not in SUPPORTED_DOCUMENT_EXTENSIONS:
+                    if (
+                        suffix
+                        not in SUPPORTED_DOCUMENT_EXTENSIONS
+                    ):
                         continue
 
                     target_name = safe_filename(
-                        Path(raw_name)
+                        Path(
+                            raw_name
+                        )
                     )
 
                     destination = (
@@ -693,15 +770,16 @@ def extract_zips() -> list[Path]:
 
             continue
 
-        # The ZIP is only a staging input.
-        with suppress(OSError):
+        with suppress(
+            OSError
+        ):
             archive.unlink()
 
     return extracted
 
 
 # ============================================================
-# Local document extraction
+# Local extraction
 # ============================================================
 
 def extract_with_anydoc(
@@ -713,8 +791,6 @@ def extract_with_anydoc(
         )
 
     except Exception as exc:
-        # Keep extraction resilient because the next layer,
-        # pypdf/Gemini, may still be able to process the file.
         logger.warning(
             "anydoc extraction failed for %s: %s",
             path,
@@ -738,16 +814,10 @@ def extract_pdf_with_pypdf(
         )
 
         if reader.is_encrypted:
-            try:
+            with suppress(
+                Exception
+            ):
                 reader.decrypt("")
-
-            except Exception:
-                logger.warning(
-                    "Encrypted PDF could not be opened: %s",
-                    path,
-                )
-
-                return "", len(reader.pages)
 
         pages = len(
             reader.pages
@@ -755,31 +825,44 @@ def extract_pdf_with_pypdf(
 
         text_parts: list[str] = []
 
-        scan_indices: list[int] = []
+        indices: list[int] = []
 
-        # First 20 pages.
         for index in range(
-            min(pages, 20)
+            min(
+                pages,
+                20,
+            )
         ):
-            scan_indices.append(index)
+            indices.append(
+                index
+            )
 
-        # Last 5 pages.
         for index in range(
-            max(20, pages - 5),
+            max(
+                20,
+                pages - 5,
+            ),
             pages,
         ):
             if 0 <= index < pages:
-                scan_indices.append(index)
+                indices.append(
+                    index
+                )
 
         seen: set[int] = set()
 
-        for index in scan_indices:
+        for index in indices:
+
             if index in seen:
                 continue
 
-            seen.add(index)
+            seen.add(
+                index
+            )
 
-            with suppress(Exception):
+            with suppress(
+                Exception
+            ):
                 page_text = (
                     reader
                     .pages[index]
@@ -794,7 +877,9 @@ def extract_pdf_with_pypdf(
 
         return (
             normalize_string(
-                "\n\n".join(text_parts)
+                "\n\n".join(
+                    text_parts
+                )
             ),
             pages,
         )
@@ -806,22 +891,32 @@ def extract_pdf_with_pypdf(
             exc,
         )
 
-        return "", 0
+        return (
+            "",
+            0,
+        )
 
 
 def extract_document_text(
     path: Path,
-) -> tuple[str, int, bool]:
+) -> tuple[
+    str,
+    int,
+    bool,
+]:
     """
     Returns:
-        text
-        page_count
-        requires_ocr
+        text,
+        page_count,
+        needs_file_analysis
     """
 
     page_count = 0
 
-    if extension_for(path) == ".pdf":
+    if (
+        path.suffix.lower()
+        == ".pdf"
+    ):
 
         pdf_text, page_count = (
             extract_pdf_with_pypdf(
@@ -829,32 +924,42 @@ def extract_document_text(
             )
         )
 
-        markdown = extract_with_anydoc(
-            path
+        anydoc_text = (
+            extract_with_anydoc(
+                path
+            )
         )
 
-        if len(markdown) > len(pdf_text):
-            pdf_text = markdown
+        if len(anydoc_text) > len(
+            pdf_text
+        ):
+            pdf_text = anydoc_text
+
+        needs_file_analysis = (
+            len(pdf_text)
+            < MIN_MEANINGFUL_TEXT
+        )
 
         return (
             pdf_text,
             page_count,
-            len(pdf_text) < MIN_MEANINGFUL_TEXT,
+            needs_file_analysis,
         )
 
-    markdown = extract_with_anydoc(
+    text = extract_with_anydoc(
         path
     )
 
     return (
-        markdown,
+        text,
         0,
-        len(markdown) < MIN_MEANINGFUL_TEXT,
+        len(text)
+        < MIN_MEANINGFUL_TEXT,
     )
 
 
 # ============================================================
-# JSON extraction
+# AI helpers
 # ============================================================
 
 def extract_json_object(
@@ -879,7 +984,10 @@ def extract_json_object(
     )
 
     if fenced:
-        text = fenced.group(1).strip()
+        text = (
+            fenced.group(1)
+            .strip()
+        )
 
     try:
         parsed = json.loads(
@@ -887,12 +995,18 @@ def extract_json_object(
         )
 
     except json.JSONDecodeError:
-        start = text.find("{")
-        end = text.rfind("}")
+        start = text.find(
+            "{"
+        )
+
+        end = text.rfind(
+            "}"
+        )
 
         if start < 0 or end <= start:
             raise ValueError(
-                "No JSON object found in AI response."
+                "No JSON object found "
+                "in AI response."
             )
 
         parsed = json.loads(
@@ -915,28 +1029,22 @@ def extract_json_object(
 def build_prompt(
     text: str,
 ) -> str:
-    sample = text[
-        :MAX_SAMPLE_CHARS
-    ]
-
     return (
         f"{AI_PROMPT}\n\n"
         "DOCUMENT CONTENT:\n"
         "-----------------\n"
-        f"{sample}\n"
+        f"{text[:MAX_SAMPLE_CHARS]}\n"
         "-----------------\n"
     )
 
-
-# ============================================================
-# Retry helpers
-# ============================================================
 
 def retry_sleep(
     attempt: int,
 ) -> None:
     delay = 15 * (
-        2 ** (attempt - 1)
+        2 ** (
+            attempt - 1
+        )
     )
 
     logger.info(
@@ -962,10 +1070,27 @@ def make_gemini_client() -> Any | None:
     )
 
 
+def gemini_config() -> Any:
+    return types.GenerateContentConfig(
+        response_mime_type=(
+            "application/json"
+        ),
+        response_schema=(
+            AI_RESPONSE_SCHEMA
+        ),
+        automatic_function_calling=(
+            types.AutomaticFunctionCallingConfig(
+                disable=True
+            )
+        ),
+    )
+
+
 def call_gemini_text(
     client: Any,
     text: str,
 ) -> dict[str, Any]:
+
     prompt = build_prompt(
         text
     )
@@ -982,14 +1107,7 @@ def call_gemini_text(
                 client.models.generate_content(
                     model=GEMINI_MODEL,
                     contents=prompt,
-                    config=types.GenerateContentConfig(
-                        response_mime_type=(
-                            "application/json"
-                        ),
-                        response_schema=(
-                            AI_RESPONSE_SCHEMA
-                        ),
-                    ),
+                    config=gemini_config(),
                 )
             )
 
@@ -1021,10 +1139,9 @@ def create_ascii_temp_copy(
     source: Path,
 ) -> Path:
     """
-    Create a temporary ASCII-only path for APIs/libraries that
-    mishandle non-ASCII filenames.
+    Create a temporary ASCII-only filename.
 
-    The original file is never renamed or modified.
+    The original source file is never renamed.
     """
 
     suffix = (
@@ -1032,14 +1149,21 @@ def create_ascii_temp_copy(
     )
 
     descriptor = (
-        sha256_file(source)[:12]
+        sha256_file(
+            source
+        )[:12]
     )
 
-    temp_file = tempfile.NamedTemporaryFile(
-        mode="wb",
-        prefix=f"iar_upload_{descriptor}_",
-        suffix=suffix,
-        delete=False,
+    temp_file = (
+        tempfile.NamedTemporaryFile(
+            mode="wb",
+            prefix=(
+                f"iar_upload_"
+                f"{descriptor}_"
+            ),
+            suffix=suffix,
+            delete=False,
+        )
     )
 
     temp_path = Path(
@@ -1055,7 +1179,9 @@ def create_ascii_temp_copy(
         )
 
     except Exception:
-        with suppress(OSError):
+        with suppress(
+            OSError
+        ):
             temp_path.unlink()
 
         raise
@@ -1075,10 +1201,6 @@ def gemini_mime_type(
     if mime_type:
         return mime_type
 
-    extension = (
-        source.suffix.lower()
-    )
-
     known_types = {
         ".pdf": "application/pdf",
         ".doc": "application/msword",
@@ -1089,7 +1211,9 @@ def gemini_mime_type(
         ".docm": (
             "application/vnd.ms-word.document.macroEnabled.12"
         ),
-        ".ppt": "application/vnd.ms-powerpoint",
+        ".ppt": (
+            "application/vnd.ms-powerpoint"
+        ),
         ".pptx": (
             "application/vnd.openxmlformats-"
             "officedocument.presentationml.presentation"
@@ -1108,7 +1232,9 @@ def gemini_mime_type(
         ".csv": "text/csv",
         ".rtf": "application/rtf",
         ".epub": "application/epub+zip",
-        ".odt": "application/vnd.oasis.opendocument.text",
+        ".odt": (
+            "application/vnd.oasis.opendocument.text"
+        ),
         ".ods": (
             "application/vnd.oasis.opendocument.spreadsheet"
         ),
@@ -1118,7 +1244,7 @@ def gemini_mime_type(
     }
 
     return known_types.get(
-        extension,
+        source.suffix.lower(),
         "application/octet-stream",
     )
 
@@ -1136,15 +1262,12 @@ def call_gemini_file(
         * 1024
     ):
         raise RuntimeError(
-            f"Gemini upload skipped: "
             f"{source.name} exceeds "
             f"{MAX_UPLOAD_SIZE_MB} MB."
         )
 
-    mime_type = (
-        gemini_mime_type(
-            source
-        )
+    mime_type = gemini_mime_type(
+        source
     )
 
     last_error: Exception | None = None
@@ -1158,12 +1281,6 @@ def call_gemini_file(
         temp_path: Path | None = None
 
         try:
-            # ------------------------------------------------
-            # Critical Unicode hardening:
-            #
-            # NEVER give Gemini the original Arabic filename.
-            # Upload a temporary ASCII-only copy instead.
-            # ------------------------------------------------
             temp_path = (
                 create_ascii_temp_copy(
                     source
@@ -1171,26 +1288,30 @@ def call_gemini_file(
             )
 
             ascii_display_name = (
-                f"iar_document_"
+                "iar_document_"
                 f"{sha256_file(source)[:12]}"
                 f"{source.suffix.lower()}"
             )
 
             upload_config = (
                 types.UploadFileConfig(
-                    display_name=ascii_display_name,
+                    display_name=(
+                        ascii_display_name
+                    ),
                     mime_type=mime_type,
                 )
             )
 
             logger.info(
-                "Uploading temporary ASCII copy to Gemini: %s",
+                "Uploading ASCII temporary copy to Gemini: %s",
                 temp_path.name,
             )
 
             uploaded = (
                 client.files.upload(
-                    file=str(temp_path),
+                    file=str(
+                        temp_path
+                    ),
                     config=upload_config,
                 )
             )
@@ -1201,13 +1322,9 @@ def call_gemini_file(
                 None,
             ):
                 raise RuntimeError(
-                    "Gemini upload returned no valid file resource."
+                    "Gemini upload returned "
+                    "no valid file resource."
                 )
-
-            logger.info(
-                "Gemini file uploaded successfully: %s",
-                uploaded.name,
-            )
 
             response = (
                 client.models.generate_content(
@@ -1216,22 +1333,13 @@ def call_gemini_file(
                         AI_PROMPT,
                         uploaded,
                     ],
-                    config=types.GenerateContentConfig(
-                        response_mime_type=(
-                            "application/json"
-                        ),
-                        response_schema=(
-                            AI_RESPONSE_SCHEMA
-                        ),
-                    ),
+                    config=gemini_config(),
                 )
             )
 
-            result = extract_json_object(
+            return extract_json_object(
                 response.text or ""
             )
-
-            return result
 
         except Exception as exc:
             last_error = exc
@@ -1249,8 +1357,8 @@ def call_gemini_file(
                 )
 
         finally:
-            # Delete remote Gemini file.
             if uploaded is not None:
+
                 remote_name = getattr(
                     uploaded,
                     "name",
@@ -1258,18 +1366,22 @@ def call_gemini_file(
                 )
 
                 if remote_name:
-                    with suppress(Exception):
+                    with suppress(
+                        Exception
+                    ):
                         client.files.delete(
                             name=remote_name
                         )
 
-            # Delete local temporary ASCII file.
             if temp_path is not None:
-                with suppress(OSError):
+                with suppress(
+                    OSError
+                ):
                     temp_path.unlink()
 
     raise RuntimeError(
-        f"Gemini file extraction failed for {source.name}."
+        f"Gemini file extraction failed "
+        f"for {source.name}."
     ) from last_error
 
 
@@ -1293,6 +1405,7 @@ def call_groq(
     client: Any,
     text: str,
 ) -> dict[str, Any]:
+
     prompt = build_prompt(
         text
     )
@@ -1363,7 +1476,7 @@ def call_groq(
 
 
 # ============================================================
-# Metadata normalization
+# Metadata
 # ============================================================
 
 def clean_title(
@@ -1423,7 +1536,9 @@ def normalized_ai_data(
             30,
         ),
         "target_audience": normalize_string(
-            data.get("target_audience")
+            data.get(
+                "target_audience"
+            )
         ),
     }
 
@@ -1433,7 +1548,9 @@ def validate_metadata(
     source: Path,
 ) -> None:
 
-    if not metadata.get("title"):
+    if not metadata.get(
+        "title"
+    ):
         raise ValueError(
             f"AI did not return a usable title "
             f"for {source.name}."
@@ -1460,12 +1577,14 @@ def validate_metadata(
         0,
     )
 
-    if year:
-        if year < 1000 or year > 2100:
-            raise ValueError(
-                f"Suspicious publication year "
-                f"{year} for {source.name}."
-            )
+    if year and (
+        year < 1000
+        or year > 2100
+    ):
+        raise ValueError(
+            f"Suspicious publication year "
+            f"{year} for {source.name}."
+        )
 
 
 def make_book(
@@ -1495,54 +1614,36 @@ def make_book(
 
     return Book(
         id=book_id,
-
         title=metadata["title"],
         title_en=metadata["title_en"],
-
         author=metadata["author"],
-
         category=metadata["category"],
-
         description=metadata["description"],
-
         publisher=metadata["publisher"],
-
         type=metadata["type"],
-
         target_audience=(
             metadata["target_audience"]
         ),
-
         year=metadata["year"],
-
         pages=pages,
-
         file_size=format_file_size(
             source.stat().st_size
         ),
-
         isbn=metadata["isbn"],
-
         keywords=metadata["keywords"],
-
         key_points=metadata["key_points"],
-
         file_path=relative_path,
-
         file_name=source.name,
-
         cover_image=(
             f"covers/{book_id}.png"
         ),
-
         source_sha256=source_hash,
-
         _ai_provider=provider,
     )
 
 
 # ============================================================
-# Existing-record matching
+# Existing records
 # ============================================================
 
 def existing_book_maps(
@@ -1565,11 +1666,15 @@ def existing_book_maps(
     for book in books:
 
         file_path = normalize_string(
-            book.get("file_path")
+            book.get(
+                "file_path"
+            )
         )
 
         source_hash = normalize_string(
-            book.get("source_sha256")
+            book.get(
+                "source_sha256"
+            )
         )
 
         if file_path:
@@ -1591,7 +1696,6 @@ def existing_book_maps(
 def should_skip_existing(
     source: Path,
     by_path: dict[str, dict[str, Any]],
-    by_hash: dict[str, dict[str, Any]],
 ) -> bool:
 
     relative_path = (
@@ -1606,10 +1710,11 @@ def should_skip_existing(
         return False
 
     existing_hash = normalize_string(
-        existing.get("source_sha256")
+        existing.get(
+            "source_sha256"
+        )
     )
 
-    # New records have SHA-256.
     if existing_hash:
 
         current_hash = sha256_file(
@@ -1621,8 +1726,7 @@ def should_skip_existing(
             == existing_hash.lower()
         )
 
-    # Backward compatibility with old
-    # books.json records.
+    # Legacy fallback.
     return True
 
 
@@ -1653,7 +1757,7 @@ def process_one_book(
     if size_mb > MAX_PDF_SIZE_MB:
         logger.warning(
             "Skipping %s: %.1f MB exceeds "
-            "the local %s MB safety limit.",
+            "local %s MB safety limit.",
             source,
             size_mb,
             MAX_PDF_SIZE_MB,
@@ -1668,7 +1772,6 @@ def process_one_book(
     )
 
     metadata: dict[str, Any] | None = None
-
     provider = ""
 
     gemini_client = (
@@ -1680,10 +1783,14 @@ def process_one_book(
     )
 
     # --------------------------------------------------------
-    # Local text is sufficient.
+    # Normal text path
     # --------------------------------------------------------
 
-    if len(text) >= MIN_MEANINGFUL_TEXT:
+    if (
+        len(text)
+        >= MIN_MEANINGFUL_TEXT
+        and not needs_file_analysis
+    ):
 
         if gemini_client is not None:
             try:
@@ -1692,7 +1799,9 @@ def process_one_book(
                     text,
                 )
 
-                provider = "gemini-text"
+                provider = (
+                    "gemini-text"
+                )
 
             except Exception as exc:
                 logger.warning(
@@ -1723,18 +1832,14 @@ def process_one_book(
                 )
 
     # --------------------------------------------------------
-    # Local text is insufficient.
-    #
-    # Gemini file analysis is attempted first.
-    # This is where the ASCII temporary-copy
-    # protection matters.
+    # OCR / insufficient-text path
     # --------------------------------------------------------
 
     else:
 
         logger.info(
-            "Insufficient local text for %s; "
-            "attempting direct file analysis.",
+            "Insufficient or OCR-dependent text for %s; "
+            "attempting Gemini file analysis.",
             source.name,
         )
 
@@ -1743,13 +1848,16 @@ def process_one_book(
             and size_mb
             <= MAX_UPLOAD_SIZE_MB
         ):
+
             try:
                 metadata = call_gemini_file(
                     gemini_client,
                     source,
                 )
 
-                provider = "gemini-file"
+                provider = (
+                    "gemini-file"
+                )
 
             except Exception as exc:
                 logger.error(
@@ -1764,6 +1872,7 @@ def process_one_book(
             and size_mb
             > MAX_UPLOAD_SIZE_MB
         ):
+
             logger.warning(
                 "Gemini file upload skipped for %s: "
                 "%.1f MB exceeds %s MB.",
@@ -1772,9 +1881,30 @@ def process_one_book(
                 MAX_UPLOAD_SIZE_MB,
             )
 
-    # --------------------------------------------------------
-    # Nothing worked.
-    # --------------------------------------------------------
+        # If the file is too large for Gemini direct upload,
+        # use whatever text was successfully extracted.
+        if (
+            metadata is None
+            and len(text)
+            >= MIN_MEANINGFUL_TEXT
+            and groq_client is not None
+        ):
+
+            try:
+                metadata = call_groq(
+                    groq_client,
+                    text,
+                )
+
+                provider = "groq"
+
+            except Exception as exc:
+                logger.error(
+                    "Groq fallback failed "
+                    "for %s: %s",
+                    source.name,
+                    exc,
+                )
 
     if metadata is None:
 
@@ -1785,10 +1915,6 @@ def process_one_book(
         )
 
         return None
-
-    # --------------------------------------------------------
-    # Normalize and validate AI output.
-    # --------------------------------------------------------
 
     metadata = normalized_ai_data(
         metadata
@@ -1820,7 +1946,10 @@ def main() -> None:
             exist_ok=True,
         )
 
-    if not GEMINI_API_KEY and not GROQ_API_KEY:
+    if (
+        not GEMINI_API_KEY
+        and not GROQ_API_KEY
+    ):
         raise RuntimeError(
             "No AI provider is configured. "
             "Set GEMINI_API_KEY and/or GROQ_API_KEY."
@@ -1839,16 +1968,9 @@ def main() -> None:
         len(books),
     )
 
-    extracted = extract_zips()
+    extract_zips()
 
-    if extracted:
-        logger.info(
-            "Extracted %s supported documents "
-            "from ZIP archives.",
-            len(extracted),
-        )
-
-    by_path, by_hash = (
+    by_path, _ = (
         existing_book_maps(
             books
         )
@@ -1879,8 +2001,8 @@ def main() -> None:
         if should_skip_existing(
             source,
             by_path,
-            by_hash,
         ):
+
             skipped += 1
 
             logger.info(
@@ -1919,18 +2041,9 @@ def main() -> None:
             book.file_path
         ] = record
 
-        if book.source_sha256:
-            by_hash[
-                book.source_sha256
-            ] = record
-
         next_id += 1
-
         successful += 1
 
-        # Save after every successful record
-        # so an interruption does not discard
-        # all previously processed books.
         save_books(
             books
         )
@@ -1952,7 +2065,8 @@ def main() -> None:
 
     if not books:
         raise RuntimeError(
-            "books.json contains no books after processing."
+            "books.json contains no books "
+            "after processing."
         )
 
 
