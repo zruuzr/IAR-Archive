@@ -10,7 +10,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: auto-process-books-v2-${{ github.ref }}
+  group: auto-process-books-v3-${{ github.ref }}
   cancel-in-progress: true
 
 env:
@@ -86,7 +86,18 @@ jobs:
 
       - name: Validate Python Syntax
         run: |
-          python -m py_compile process_books.py validate_books.py
+          python -m py_compile \
+            process_books.py \
+            migrate_books.py \
+            validate_books.py
+
+      - name: Normalize Legacy Catalog
+        run: |
+          python migrate_books.py
+
+      - name: Validate Catalog After Migration
+        run: |
+          python validate_books.py
 
       - name: Run Extraction Script
         env:
@@ -95,14 +106,14 @@ jobs:
         run: |
           python process_books.py
 
-      - name: Validate Book Catalog
+      - name: Validate Final Book Catalog
         run: |
           python validate_books.py
 
       - name: Commit and Push Changes
         env:
           BRANCH: ${{ github.ref_name }}
-          COMMIT_MSG: "Auto-update books.json with new book info"
+          COMMIT_MSG: "Auto-update book catalog"
           GH_TOKEN: ${{ secrets.PAT_FOR_DEPLOY }}
         run: |
           set -euo pipefail
