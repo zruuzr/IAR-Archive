@@ -39,6 +39,7 @@ env/
 # ═══════════════════════════════════════════════════════════
 *.tmp
 books.json.tmp
+books.json.migration.bak
 
 # ═══════════════════════════════════════════════════════════
 # أرشيفات ZIP في مجلد PDF (بعد فك الضغط التلقائي)
@@ -46,12 +47,14 @@ books.json.tmp
 pdf/*.zip
 pdf/*.ZIP
 
+# ═══════════════════════════════════════════════════════════
 # Firebase CLI agent skills (local tooling only)
 .agents/
 skills-lock.json
 
+# ═══════════════════════════════════════════════════════════
 # Firebase local
 .firebase/
 
-# Virtual environment (also in .gitignore already, but redundant)
+# Virtual environment
 .venv/
