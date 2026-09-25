@@ -1,11 +1,15 @@
 # IAR Archive — Python dependencies
-# Pinned with ~= (compatible release): allows patch updates only,
-# within the SAME minor version. Patch updates are safe; minor
-# updates require manual review.
 #
-# To update: change the numbers here, then let Dependabot open a PR.
+# Hardening baseline — September 2026
+#
+# Compatible-release pins (~=) keep each dependency within the
+# same minor release series while allowing safe patch updates.
+#
+# Dependabot monitors these dependencies weekly.
+#
+# Python CI baseline: 3.13
 
-google-genai~=1.55.0
+google-genai~=2.25.0
 firecrawl-anydoc~=0.2.4
-pypdf~=5.1.0
-groq~=0.13.0
+pypdf~=6.19.0
+groq~=1.7.0
