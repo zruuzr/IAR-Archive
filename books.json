@@ -6986,5 +6986,61 @@
     "file_type": "PDF",
     "file_path": "pdf/حماية_المستهلك_في_الفقه_الاقتصادي_الاسلامي.pdf",
     "cover_image": "covers/137.png"
+  },
+  {
+    "id": 138,
+    "title": "نظرية المحاسبة",
+    "title_en": "Financial Accounting Theory and Analysis: Text, Readings and Cases",
+    "author": "ريتشارد شرويدر، مايرتل كلارك، جاك كاتشي",
+    "author_en": "Richard G. Schroeder, Myrtle W. Clark, Jack M. Cathey",
+    "category": "محاسبة ومالية",
+    "category_en": "Accounting & Finance",
+    "type": "كتاب تعليمي أكاديمي",
+    "type_en": "Academic Textbook",
+    "description": "كتاب أكاديمي شامل يناقش نظرية المحاسبة المالية وتحليلها، حيث يتناول تطور المفاهيم المحاسبية والإطار المفاهيمي، المحاسبة الدولية، منهجية البحث في استخدام المعلومات المحاسبية، مفاهيم قياس الدخل والقوائم المالية الرئيسية (قائمة الدخل، الميزانية العمومية، وقائمة التدفقات النقدية)، بالإضافة إلى معالجة الموضوعات المحاسبية المتقدمة مثل الأصول والالتزامات، حقوق الملكية، ضرائب الدخل، عقود الاستئجار، المعاشات والمنافع التقاعدية، وإندماج الشركات والتقارير المالية والمسؤوليات الأخلاقية للشارعين والمراجعين.",
+    "description_en": "A comprehensive academic textbook providing an in-depth analysis of financial accounting theory. It covers the evolution of accounting theory, the conceptual framework, international accounting, research methodologies, income concepts, financial statements (Income Statement, Balance Sheet, Cash Flows), asset and liability valuation, equity, income taxes, leases, post-retirement benefits, business combinations, and ethical responsibilities in financial reporting.",
+    "publisher": "دار المريخ للنشر",
+    "publisher_en": "Dar Al-Mirrikh Publishing",
+    "year": "2007",
+    "isbn": "9960-24-616-7",
+    "keywords": [
+      "نظرية المحاسبة",
+      "المحاسبة المالية",
+      "الإطار المفاهيمي",
+      "القوائم المالية",
+      "المعايير الدولية للمحاسبة",
+      "قياس الدخل",
+      "التقارير المالية"
+    ],
+    "keywords_en": [
+      "Accounting Theory",
+      "Financial Accounting",
+      "Conceptual Framework",
+      "Financial Statements",
+      "IFRS",
+      "Income Measurement",
+      "Financial Reporting"
+    ],
+    "key_points": [
+      "تتبع تطور نظرية المحاسبة والإطار المفاهيمي الصادر عن مجالس معايير المحاسبة المالية.",
+      "دراسة القوائم المالية وتقييم الأصول والالتزامات وحقوق الملكية وطرق القياس والتعرف.",
+      "مناقشة معايير المحاسبة الدولية (IAS/IFRS) وتوافقها مع المعايير الأمريكية (US GAAP).",
+      "تحليل موضوعات محاسبية متقدمة مثل ضرائب الدخل، الاستئجار، المنافع التقاعدية، والاندماجات.",
+      "استعراض أخلاقيات المهنة ومتطلبات الإفصاح والشفافية في التقارير المالية."
+    ],
+    "key_points_en": [
+      "Tracing the evolution of accounting theory and conceptual frameworks standard settings.",
+      "Examining financial statements, asset and liability valuation, equity, and recognition criteria.",
+      "Comparing International Accounting Standards (IAS/IFRS) with US GAAP.",
+      "Analyzing advanced accounting topics including income taxes, leases, pensions, and business combinations.",
+      "Highlighting professional ethics, disclosure requirements, and transparency in financial reporting."
+    ],
+    "target_audience": "طلاب الدراسات العليا والبكالوريوس في تخصصات المحاسبة والمالية، الأكاديميون، والمحاسبون والمراجعون المهنيون.",
+    "target_audience_en": "Undergraduate and graduate students in accounting and finance, academics, researchers, and professional accountants and auditors.",
+    "pages": "351",
+    "file_size": "19.49 MB",
+    "file_type": "PDF",
+    "file_path": "pdf/نظرية_المحاسبة.pdf",
+    "cover_image": "covers/138.png"
   }
 ]
