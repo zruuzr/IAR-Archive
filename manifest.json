@@ -1,4 +1,5 @@
 {
+  "id": "/",
   "name": "المرجع الإداري العراقي | IAR Archive",
   "short_name": "IAR Archive",
   "description": "مستودع رقمي لأرشفة وتنظيم المراجع الإدارية العراقية",
@@ -10,7 +11,11 @@
   "orientation": "portrait-primary",
   "background_color": "#0a0f1d",
   "theme_color": "#0a0f1d",
-  "categories": ["education", "books", "reference"],
+  "categories": [
+    "education",
+    "books",
+    "reference"
+  ],
   "icons": [
     {
       "src": "/icons/icon-192x192.png",
@@ -36,5 +41,6 @@
       "type": "image/png",
       "purpose": "maskable"
     }
-  ]
+  ],
+  "prefer_related_applications": false
 }
