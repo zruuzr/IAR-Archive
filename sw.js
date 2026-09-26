@@ -9,7 +9,7 @@
      - Controller change triggers auto-reload (handled in index.html)
    ============================================================ */
 
-const CACHE_VERSION = 'v21';
+const CACHE_VERSION = 'v22';
 const CACHE_NAME = `iar-archive-${CACHE_VERSION}`;
 
 const APP_SHELL = [
@@ -80,10 +80,7 @@ self.addEventListener('fetch', (event) => {
 
   const url = new URL(request.url);
 
-  // Bypass external hosts (Firebase, HuggingFace, CDNs, etc.)
   if (BYPASS_HOSTS.some((host) => url.hostname.includes(host))) return;
-
-  // Only handle same-origin
   if (url.origin !== self.location.origin) return;
 
   if (url.pathname.endsWith('/books.json')) {
