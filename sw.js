@@ -3,13 +3,13 @@
    Strategy:
      - Static assets (HTML/CSS/JS/icons/covers) → Cache First
      - books.json → Network First
-     - Firebase / GitHub Raw / HuggingFace / external → network only
+     - Firebase / GitHub Raw / external → network only
    Update flow:
      - Page can post { type: 'SKIP_WAITING' } to force activation
      - Controller change triggers auto-reload (handled in index.html)
    ============================================================ */
 
-const CACHE_VERSION = 'v22';
+const CACHE_VERSION = 'v23';
 const CACHE_NAME = `iar-archive-${CACHE_VERSION}`;
 
 const APP_SHELL = [
@@ -41,6 +41,8 @@ const BYPASS_HOSTS = [
   'xethub.hf.co',
   'hf.co',
 ];
+
+const NETWORK_TIMEOUT_MS = 8000;
 
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
@@ -80,7 +82,11 @@ self.addEventListener('fetch', (event) => {
 
   const url = new URL(request.url);
 
-  if (BYPASS_HOSTS.some((host) => url.hostname.includes(host))) return;
+  // Exact host matching (prevent "evil-gstatic.com" from matching "gstatic.com").
+  if (BYPASS_HOSTS.some((host) =>
+    url.hostname === host || url.hostname.endsWith('.' + host)
+  )) return;
+
   if (url.origin !== self.location.origin) return;
 
   if (url.pathname.endsWith('/books.json')) {
@@ -103,8 +109,12 @@ async function cacheFirst(request) {
     }
     return response;
   } catch (err) {
-    const fallback = await caches.match('/index.html');
-    if (fallback) return fallback;
+    // Only serve the app shell for navigation requests.
+    // For CSS/JS/images, return a proper 503 instead of HTML.
+    if (request.mode === 'navigate') {
+      const fallback = await caches.match('/index.html');
+      if (fallback) return fallback;
+    }
     return new Response('Offline', {
       status: 503,
       statusText: 'Offline',
@@ -115,7 +125,9 @@ async function cacheFirst(request) {
 
 async function networkFirst(request) {
   try {
-    const response = await fetch(request);
+    const response = await fetch(request, {
+      signal: AbortSignal.timeout(NETWORK_TIMEOUT_MS),
+    });
     if (response && response.status === 200) {
       const clone = response.clone();
       caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
