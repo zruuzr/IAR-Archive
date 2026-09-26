@@ -1,0 +1,108 @@
+Copyright © 2026 Zenvex. All Rights Reserved.
+
+================================================================
+PROPRIETARY SOFTWARE — PUBLICLY VIEWABLE FOR TECHNICAL REASONS
+================================================================
+
+This repository hosts the IAR Archive project (Iraqi Administrative
+Reference Repository). It is made publicly available for two reasons:
+
+  1. To serve as a CDN for the reference documents via GitHub Raw,
+     which is a technical requirement of the deployed website.
+
+  2. To allow public viewing of the reference documents contained
+     within it.
+
+Public availability of this repository does NOT constitute an
+open-source license, nor does it grant permission to use, modify,
+or distribute the source code or any other project material,
+except as explicitly stated below.
+
+
+----------------------------------------------------------------
+1. SOURCE CODE
+----------------------------------------------------------------
+
+All source code in this repository — including but not limited to
+HTML, CSS, JavaScript, Python, configuration files, build scripts,
+workflow definitions, and documentation — is proprietary.
+
+No permission is granted to copy, modify, reproduce, distribute,
+publish, sublicense, sell, or otherwise use the source code, in
+whole or in part, without prior written permission from the
+copyright holder.
+
+
+----------------------------------------------------------------
+2. REFERENCE DOCUMENTS
+----------------------------------------------------------------
+
+The reference documents contained in the `pdf/` directory are
+administrative and academic materials. Their copyright status
+varies:
+
+  - Some are official government publications and may be in the
+    public domain.
+  - Some are academic or institutional publications whose rights
+    belong to their original authors or publishers.
+  - Some are third-party materials whose rights belong to their
+    respective copyright holders.
+
+These documents are provided for viewing and educational reference
+only. No ownership is claimed over them. Redistribution, commercial
+use, or modification of these documents must comply with the
+original rights holders' terms.
+
+If you are a rights holder and believe a document has been
+included improperly, please contact us for prompt removal.
+
+
+----------------------------------------------------------------
+3. PROJECT DESIGN AND BRANDING
+----------------------------------------------------------------
+
+The IAR Archive name, visual design, icons, covers, and any
+original graphical assets are the property of the project owner.
+
+The "Iraqi Administrative Reference Repository" designation refers
+to the collection's subject matter and does not imply endorsement
+by any government or institutional body.
+
+
+----------------------------------------------------------------
+4. CONTRIBUTIONS
+----------------------------------------------------------------
+
+This project does not accept external contributions. Pull requests
+will be closed without review.
+
+If you would like to report an issue or a security concern, please
+see the SECURITY.md file.
+
+
+----------------------------------------------------------------
+5. NO WARRANTY
+----------------------------------------------------------------
+
+THE SOFTWARE AND DOCUMENTS ARE PROVIDED "AS IS", WITHOUT WARRANTY
+OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE,
+AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING
+FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE, DOCUMENTS, OR
+THE USE OR OTHER DEALINGS IN THEM.
+
+
+----------------------------------------------------------------
+6. CONTACT
+----------------------------------------------------------------
+
+For licensing inquiries, permissions, or takedown requests,
+please open an issue on the repository or contact the project
+owner directly.
+
+
+================================================================
+All rights reserved.
+================================================================
