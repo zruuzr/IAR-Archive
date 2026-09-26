@@ -19,7 +19,11 @@
       "__pycache__/**",
       "skills-lock.json",
       "**/node_modules/**",
-
+      "h origin main",
+      "googlea493ed01f21d992e.html",
+      "migrate_books.py",
+      "validate_books.py"
+      
       ".env",
       ".env.*",
       "**/.env",
