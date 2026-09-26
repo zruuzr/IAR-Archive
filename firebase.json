@@ -58,6 +58,15 @@
             "value": "no-cache, must-revalidate"
           }
         ]
+      },
+      {
+        "source": "/app.js",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache, must-revalidate"
+          }
+        ]
       }
     ]
   },
