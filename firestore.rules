@@ -1,0 +1,195 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function votePath(bookId) {
+      return /databases/$(database)/documents/ratings/$(bookId)/votes/$(request.auth.uid);
+    }
+
+    function validAverage() {
+      return request.resource.data.average is number
+        && request.resource.data.average >= 1
+        && request.resource.data.average <= 5
+        && request.resource.data.average >=
+          (request.resource.data.ratingSum / request.resource.data.ratingCount) - 0.005
+        && request.resource.data.average <=
+          (request.resource.data.ratingSum / request.resource.data.ratingCount) + 0.005;
+    }
+
+    function validCreateAggregateFields() {
+      return request.resource.data.keys().hasOnly([
+        'ratingSum',
+        'ratingCount',
+        'average'
+      ]);
+    }
+
+    function validUpdateAggregateFields() {
+      return request.resource.data.keys().hasOnly([
+        'ratingSum',
+        'ratingCount',
+        'average',
+        'voters'
+      ])
+      && (
+        (
+          !resource.data.keys().hasAny(['voters'])
+          && !request.resource.data.keys().hasAny(['voters'])
+        )
+        ||
+        (
+          resource.data.keys().hasAny(['voters'])
+          && request.resource.data.keys().hasAny(['voters'])
+          && resource.data.voters is list
+          && request.resource.data.voters is list
+          && request.resource.data.voters.size() == resource.data.voters.size() + 1
+          && request.resource.data.voters.hasAll(resource.data.voters)
+          && request.resource.data.voters.hasAny([request.auth.uid])
+        )
+      );
+    }
+
+    function validVoteFields() {
+      return request.resource.data.keys().hasOnly(['value']);
+    }
+
+    function validDownloadFields() {
+      return request.resource.data.keys().hasOnly(['count']);
+    }
+
+    function validVisitFields() {
+      return request.resource.data.keys().hasOnly(['date', 'count']);
+    }
+
+    function legacyVoterExists() {
+      return resource.data.keys().hasAny(['voters'])
+        && resource.data.voters is list
+        && resource.data.voters.hasAny([request.auth.uid]);
+    }
+
+    match /ratings/{bookId} {
+      allow read: if true;
+
+      allow create: if signedIn()
+                    && validCreateAggregateFields()
+                    && request.resource.data.ratingSum is int
+                    && request.resource.data.ratingSum >= 1
+                    && request.resource.data.ratingSum <= 5
+                    && request.resource.data.ratingCount is int
+                    && request.resource.data.ratingCount == 1
+                    && validAverage()
+                    && !exists(votePath(bookId))
+                    && getAfter(votePath(bookId)).data.value is int
+                    && getAfter(votePath(bookId)).data.value >= 1
+                    && getAfter(votePath(bookId)).data.value <= 5
+                    && request.resource.data.ratingSum
+                       == getAfter(votePath(bookId)).data.value;
+
+      allow update: if signedIn()
+                    && validUpdateAggregateFields()
+                    && resource.data.ratingSum is int
+                    && resource.data.ratingCount is int
+                    && resource.data.average is number
+                    && request.resource.data.ratingSum is int
+                    && request.resource.data.ratingCount is int
+                    && request.resource.data.average is number
+                    && request.resource.data.ratingCount
+                       == resource.data.ratingCount + 1
+                    && !exists(votePath(bookId))
+                    && getAfter(votePath(bookId)).data.value is int
+                    && getAfter(votePath(bookId)).data.value >= 1
+                    && getAfter(votePath(bookId)).data.value <= 5
+                    && request.resource.data.ratingSum
+                       == resource.data.ratingSum
+                        + getAfter(votePath(bookId)).data.value
+                    && validAverage()
+                    && !legacyVoterExists();
+
+      allow delete: if false;
+    }
+
+    match /ratings/{bookId}/votes/{userId} {
+      allow get: if signedIn() && request.auth.uid == userId;
+      allow list: if false;
+
+      allow create: if signedIn()
+                    && request.auth.uid == userId
+                    && validVoteFields()
+                    && request.resource.data.value is int
+                    && request.resource.data.value >= 1
+                    && request.resource.data.value <= 5;
+
+      allow update: if false;
+      allow delete: if false;
+    }
+
+    match /downloads/{bookId} {
+      allow read: if true;
+
+      allow create: if signedIn()
+                    && validDownloadFields()
+                    && request.resource.data.count is int
+                    && request.resource.data.count == 1;
+
+      allow update: if signedIn()
+                    && validDownloadFields()
+                    && resource.data.count is int
+                    && resource.data.count >= 1
+                    && request.resource.data.count is int
+                    && request.resource.data.count == resource.data.count + 1;
+
+      allow delete: if false;
+    }
+
+    match /stats/{statId} {
+      allow read: if statId == 'visits';
+
+      allow create: if statId == 'visits'
+                    && signedIn()
+                    && validVisitFields()
+                    && request.resource.data.date is string
+                    && request.resource.data.count is int
+                    && request.resource.data.count == 1;
+
+      allow update: if statId == 'visits'
+                    && signedIn()
+                    && validVisitFields()
+                    && request.resource.data.date is string
+                    && request.resource.data.count is int
+                    && (
+                      (
+                        resource.data.keys().hasAll(['date', 'count'])
+                        && resource.data.date is string
+                        && resource.data.count is int
+                        && request.resource.data.date == resource.data.date
+                        && request.resource.data.count == resource.data.count + 1
+                      )
+                      ||
+                      (
+                        resource.data.keys().hasAll(['date', 'count'])
+                        && resource.data.date is string
+                        && resource.data.count is int
+                        && request.resource.data.date != resource.data.date
+                        && request.resource.data.count == 1
+                      )
+                      ||
+                      (
+                        !resource.data.keys().hasAny(['date'])
+                        && resource.data.count is int
+                        && request.resource.data.count == resource.data.count + 1
+                      )
+                    );
+
+      allow delete: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
