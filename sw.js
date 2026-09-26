@@ -11,7 +11,7 @@
      - Controller change triggers auto-reload (handled in index.html)
    ============================================================ */
 
-const CACHE_VERSION = 'v26';
+const CACHE_VERSION = 'v27';
 const CACHE_NAME = `iar-archive-${CACHE_VERSION}`;
 
 const APP_SHELL = [
