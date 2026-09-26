@@ -8,9 +8,9 @@
 
 **مستودع رقمي لأرشفة وتنظيم المراجع الإدارية العراقية**
 
-[![Hosted on Firebase](https://img.shields.io/badge/Hosted%20on-Firebase%20Hosting-orange?style=flat\&logo=firebase)](https://iararchive.web.app/)
-[![Database](https://img.shields.io/badge/Database-Firebase%20Firestore-yellow?style=flat\&logo=firebase)](https://firebase.google.com/docs/firestore)
-[![PWA](https://img.shields.io/badge/PWA-Installable-blueviolet?style=flat\&logo=pwa)](https://web.dev/progressive-web-apps/)
+[![Hosted on Firebase](https://img.shields.io/badge/Hosted%20on-Firebase%20Hosting-orange?style=flat&logo=firebase)](https://iararchive.web.app/)
+[![Database](https://img.shields.io/badge/Database-Firebase%20Firestore-yellow?style=flat&logo=firebase)](https://firebase.google.com/docs/firestore)
+[![PWA](https://img.shields.io/badge/PWA-Installable-blueviolet?style=flat&logo=pwa)](https://web.dev/progressive-web-apps/)
 [![License](https://img.shields.io/badge/License-Proprietary-red.svg)](LICENSE)
 [![Auto Process](https://github.com/zruuzr/IAR-Archive/actions/workflows/auto_process.yml/badge.svg)](https://github.com/zruuzr/IAR-Archive/actions/workflows/auto_process.yml)
 
@@ -124,7 +124,45 @@ The application uses Firebase Anonymous Authentication so visitors can interact 
 IAR Archive intentionally uses a lightweight architecture without a frontend framework.
 
 | Layer               | Technology                        |
-| ------------------- | --------------------------------- |
+| 
+
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+
+- | 
+
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+
+ |
 | Frontend            | HTML5, CSS3, Vanilla JavaScript   |
 | Database            | Firebase Firestore                |
 | Authentication      | Firebase Anonymous Authentication |
@@ -200,20 +238,28 @@ IAR Archive is installable as a Progressive Web App on supported browsers.
 The Service Worker uses different strategies according to resource type:
 
 | Resource | Strategy |
-| --- | --- |
+| 
+
+---
+
+ | 
+
+---
+
+ |
 | HTML/CSS/JS | Cache First |
 | Icons and covers | Cache First |
 | `books.json` | Network First |
 | Firebase requests | Bypass |
 | GitHub Raw | Bypass |
 | External CDN requests | Bypass |
-The cache version is controlled through CACHE_VERSION in sw.js.
+The cache version is controlled through `CACHE_VERSION` in `sw.js`.
 
 ---
 
 ## 🤖 Automated Document Processing
 
-New documents added to the pdf/ directory can be processed automatically through GitHub Actions.
+New documents added to the `pdf/` directory can be processed automatically through GitHub Actions.
 
 ### Supported Input
 
@@ -231,12 +277,11 @@ The processing pipeline is designed to handle formats including:
 
 ### Processing Flow
 
-text
+```text
 New Document
      │
      ▼
-### GitHub Actions
-
+GitHub Actions
      │
      ▼
 process_books.py
@@ -272,6 +317,8 @@ Text Extracted   Needs OCR
              │
              ▼
      Firebase Deployment
+```
+
 ### Metadata Extraction
 
 The AI processing stage can extract structured information such as:
@@ -299,13 +346,13 @@ The current processing architecture uses two AI providers.
 
 ### Primary Provider
 
-Google Gemini
+**Google Gemini**
 
 Used as the primary provider for metadata extraction and for processing document files that require direct file upload.
 
 ### Fallback Provider
 
-Groq
+**Groq**
 
 Used as a fallback for supported text-based documents when the primary Gemini request fails under handled failure conditions.
 
@@ -318,18 +365,42 @@ The fallback mechanism is intended to improve processing reliability without req
 The automated processing workflow uses GitHub Actions secrets.
 
 | Secret | Required | Purpose |
-| --- | --- | --- |
+| 
+
+---
+
+ | 
+
+---
+
+ | 
+
+---
+
+ |
 | `GEMINI_API_KEY` | Yes | Gemini API key for primary AI processing |
 | `GROQ_API_KEY` | No | Groq API key for fallback processing |
 Optional environment variables include:
 
 | Variable | Default | Purpose |
-| --- | --- | --- |
+| 
+
+---
+
+ | 
+
+---
+
+ | 
+
+---
+
+ |
 | `GEMINI_MODEL` | `gemini-3.6-flash` | Gemini model |
 | `GROQ_MODEL` | `llama-3.3-70b-versatile` | Groq fallback model |
 | `MAX_UPLOAD_SIZE_MB` | `50` | Maximum direct-upload size |
 | `LOG_LEVEL` | `INFO` | Python logging level |
-If GROQ_API_KEY is not configured, the pipeline continues without the Groq fallback.
+If `GROQ_API_KEY` is not configured, the pipeline continues without the Groq fallback.
 
 ---
 
@@ -339,17 +410,12 @@ Firebase Authentication uses Anonymous Authentication for user interactions that
 
 Current Firestore rules provide:
 
-Public read access to Firestore documents.
-
-Authenticated writes for ratings.
-
-Authenticated writes for download statistics.
-
-Authenticated writes for visit statistics.
-
-Deletion disabled for the main statistics collections.
-
-The current rules also perform basic type validation for rating aggregate fields.
+- Public read access to Firestore documents.
+- Authenticated writes for ratings.
+- Authenticated writes for download statistics.
+- Authenticated writes for visit statistics.
+- Deletion disabled for the main statistics collections.
+- Basic type validation for rating aggregate fields.
 
 ### Important Implementation Note
 
@@ -357,11 +423,13 @@ The current Firestore rules do not fully enforce the mathematical integrity of r
 
 For example, the rules currently verify that fields such as:
 
-text
+```text
 ratingSum
 ratingCount
 average
 voters
+```
+
 have the expected data types, but do not fully enforce all relationships between those values.
 
 Similarly, download and visit counters are writable by authenticated clients.
@@ -376,25 +444,16 @@ Future security hardening may move sensitive aggregation logic to trusted server
 
 The project incorporates several security-oriented practices:
 
-Firebase Anonymous Authentication for authenticated client interactions.
-
-Firestore rules that disable deletion of the primary statistics documents.
-
-Basic Firestore data-type validation.
-
-ZIP path validation to reduce path traversal risks.
-
-Document extraction limits provided by the extraction tooling.
-
-Explicit exception handling in the document-processing pipeline.
-
-Controlled Git commits for generated data.
-
-Retry handling for transient Git push failures.
-
-Service Worker bypass for Firebase and external document requests.
-
-Secrets stored through GitHub Actions Secrets rather than committed to the repository.
+- Firebase Anonymous Authentication for authenticated client interactions.
+- Firestore rules that disable deletion of the primary statistics documents.
+- Basic Firestore data-type validation.
+- ZIP path validation to reduce path traversal risks.
+- Document extraction limits provided by the extraction tooling.
+- Explicit exception handling in the document-processing pipeline.
+- Controlled Git commits for generated data.
+- Retry handling for transient Git push failures.
+- Service Worker bypass for Firebase and external document requests.
+- Secrets stored through GitHub Actions Secrets rather than committed to the repository.
 
 ### GitHub Actions
 
@@ -423,9 +482,10 @@ GitHub Raw
        ▼
 IAR Archive Web Application
 ```
+
 Firebase Hosting is used for the web application itself.
 
-Large PDF documents are excluded from Firebase Hosting deployment through firebase.json and are served directly through GitHub Raw.
+Large PDF documents are excluded from Firebase Hosting deployment through `firebase.json` and are served directly through GitHub Raw.
 
 ### Current Storage Model
 
@@ -478,7 +538,7 @@ IAR-Archive/
 
 ## 📄 Document Processing Details
 
-process_books.py performs document extraction and metadata generation.
+`process_books.py` performs document extraction and metadata generation.
 
 The processing strategy distinguishes between text-based and scanned documents.
 
@@ -497,6 +557,7 @@ Groq fallback if required
    ↓
 Metadata
 ```
+
 ### Scanned PDFs
 
 ```text
@@ -510,13 +571,14 @@ Gemini File Upload
      ↓
 Metadata
 ```
+
 The processing script also handles supported extraction and resource-related errors explicitly.
 
 ---
 
 ## 🌐 Live Demo
 
-👉 iararchive.web.app
+👉 [iararchive.web.app](https://iararchive.web.app/)
 
 ---
 
@@ -569,13 +631,13 @@ Dedicated object storage can be introduced when repository size or document traf
 
 ### Catalog Scalability
 
-The current reference catalog is maintained through books.json.
+The current reference catalog is maintained through `books.json`.
 
 For a very large number of references, a queryable backend or segmented catalog may eventually provide better performance.
 
 ### Frontend Modularity
 
-The application currently uses a single main app.js file.
+The application currently uses a single main `app.js` file.
 
 As functionality expands, individual concerns such as Firebase operations, downloads, ratings, routing, PWA behavior, and UI rendering can be separated into dedicated modules.
 
@@ -593,11 +655,9 @@ For the full terms — including the distinct treatment of source code, referenc
 
 In summary, the repository contains three categories of content:
 
-Source code — proprietary. No reuse is permitted.
-
-Reference documents (pdf/) — rights belong to their original authors, publishers, or issuing bodies. Provided for viewing and educational reference only.
-
-Design and branding — the IAR Archive name, logo, visual identity, and original graphical assets are the property of the project owner.
+1. **Source code** — proprietary. No reuse is permitted.
+2. **Reference documents (`pdf/`)** — rights belong to their original authors, publishers, or issuing bodies. Provided for viewing and educational reference only.
+3. **Design and branding** — the IAR Archive name, logo, visual identity, and original graphical assets are the property of the project owner.
 
 Third-party libraries, services, APIs, frameworks, fonts, and reference materials remain subject to their respective licenses and terms. Nothing in this repository transfers ownership of third-party materials to Zenvex.
 
