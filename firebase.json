@@ -19,17 +19,40 @@
       "__pycache__/**",
       "skills-lock.json",
       "**/node_modules/**",
-      "*.py",
+
+      ".env",
+      ".env.*",
+      "**/.env",
+      "**/.env.*",
+
+      "**/*.py",
       "requirements.txt",
       "COPYRIGHT.md",
       "README.md",
       "books.json.tmp",
+      "books.json.tmp.*",
+
       "pdf",
       "pdf/**",
-      "*.tmp",
-      "*.md",
-      "*.lock",
-      "*.log"
+
+      "**/*.tmp",
+      "**/*.md",
+      "**/*.lock",
+      "**/*.log",
+
+      "_headers",
+      "validate_books.py",
+      "package.json",
+      "package-lock.json",
+      "yarn.lock",
+      "pnpm-lock.yaml",
+
+      ".DS_Store",
+      "Thumbs.db",
+      ".vscode",
+      ".vscode/**",
+      ".idea",
+      ".idea/**"
     ],
     "headers": [
       {
@@ -65,6 +88,72 @@
           {
             "key": "Cache-Control",
             "value": "no-cache, must-revalidate"
+          }
+        ]
+      },
+      {
+        "source": "/style.css",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache, must-revalidate"
+          }
+        ]
+      },
+      {
+        "source": "/covers/**",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=604800, immutable"
+          }
+        ]
+      },
+      {
+        "source": "/icons/**",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=604800, immutable"
+          }
+        ]
+      },
+      {
+        "source": "/assets/**",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=604800, immutable"
+          }
+        ]
+      },
+      {
+        "source": "/fonts/**",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=31536000, immutable"
+          }
+        ]
+      },
+      {
+        "source": "**",
+        "headers": [
+          {
+            "key": "X-Content-Type-Options",
+            "value": "nosniff"
+          },
+          {
+            "key": "Referrer-Policy",
+            "value": "strict-origin-when-cross-origin"
+          },
+          {
+            "key": "X-Frame-Options",
+            "value": "SAMEORIGIN"
+          },
+          {
+            "key": "Permissions-Policy",
+            "value": "camera=(), microphone=(), geolocation=()"
           }
         ]
       }
