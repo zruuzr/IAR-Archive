@@ -62,9 +62,9 @@ class TestGeminiMimeType:
     def test_pdf(self):
         assert gemini_mime_type(Path("book.pdf")) == "application/pdf"
 
-        def test_unknown_extension_falls_back(self):
-        # ملاحظة: .xyz معروف في mimetypes كـ chemical/x-xyz
-        # نستخدم امتدادًا وهميًا غير مسجّل
+    def test_unknown_extension_falls_back(self):
+        # ملاحظة: امتدادات مثل .xyz معروفة في mimetypes (chemical/x-xyz)
+        # نستخدم امتدادًا وهميًا غير مسجّل لاختبار الـ fallback
         assert gemini_mime_type(Path("book.qqq")) == "application/octet-stream"
 
     def test_docx(self):
