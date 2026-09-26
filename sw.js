@@ -1,8 +1,10 @@
 /* ============================================================
    IAR Archive — Service Worker
    Strategy:
-     - Static assets (HTML/CSS/JS/icons/covers) → Cache First
-     - books.json → Network First
+     - App shell (/, /index.html, /app.js, /style.css, /books.json)
+       → Network First (always fresh when online)
+     - Static assets (/covers/**, /icons/**, /assets/**)
+       → Cache First (immutable, rarely change)
      - Firebase / GitHub Raw / external → network only
    Update flow:
      - Page can post { type: 'SKIP_WAITING' } to force activation
@@ -82,20 +84,33 @@ self.addEventListener('fetch', (event) => {
 
   const url = new URL(request.url);
 
-  // Exact host matching (prevent "evil-gstatic.com" from matching "gstatic.com").
+  // Exact host matching (prevents "evil-gstatic.com" from matching "gstatic.com")
   if (BYPASS_HOSTS.some((host) =>
     url.hostname === host || url.hostname.endsWith('.' + host)
   )) return;
 
+  // Only handle same-origin requests from here on.
   if (url.origin !== self.location.origin) return;
 
-  if (url.pathname.endsWith('/books.json')) {
+  // App shell → Network First (always fresh content when online)
+  if (isAppShell(url.pathname)) {
     event.respondWith(networkFirst(request));
     return;
   }
 
+  // Static assets → Cache First (immutable, rarely change)
   event.respondWith(cacheFirst(request));
 });
+
+function isAppShell(pathname) {
+  if (pathname === '/' || pathname === '/index.html') return true;
+  if (pathname.endsWith('/index.html')) return true;
+  if (pathname.endsWith('/app.js')) return true;
+  if (pathname.endsWith('/style.css')) return true;
+  if (pathname.endsWith('/books.json')) return true;
+  if (pathname.endsWith('/manifest.json')) return true;
+  return false;
+}
 
 async function cacheFirst(request) {
   const cached = await caches.match(request);
@@ -128,17 +143,35 @@ async function networkFirst(request) {
     const response = await fetch(request, {
       signal: AbortSignal.timeout(NETWORK_TIMEOUT_MS),
     });
+
     if (response && response.status === 200) {
       const clone = response.clone();
       caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
     }
+
     return response;
   } catch (err) {
     const cached = await caches.match(request);
     if (cached) return cached;
-    return new Response(JSON.stringify({ error: 'offline' }), {
+
+    // Fall back to index.html for navigation requests when fully offline.
+    if (request.mode === 'navigate') {
+      const fallback = await caches.match('/index.html');
+      if (fallback) return fallback;
+    }
+
+    // For books.json, return a JSON error.
+    if (request.url.endsWith('/books.json')) {
+      return new Response(JSON.stringify({ error: 'offline' }), {
+        status: 503,
+        headers: { 'Content-Type': 'application/json; charset=utf-8' },
+      });
+    }
+
+    return new Response('Offline', {
       status: 503,
-      headers: { 'Content-Type': 'application/json; charset=utf-8' },
+      statusText: 'Offline',
+      headers: { 'Content-Type': 'text/plain; charset=utf-8' },
     });
   }
 }
