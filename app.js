@@ -626,30 +626,47 @@ ${[1, 2, 3, 4, 5].map(value =>
 
       const uid = auth.currentUser.uid;
       const result = await db.runTransaction(async transaction => {
-        const ref = db.collection('ratings').doc(String(book.id));
-        const doc = await transaction.get(ref);
-        const data = doc.data() || {};
-        const voters = Array.isArray(data.voters) ? data.voters : [];
-        if (voters.includes(uid)) throw new Error('ALREADY_VOTED');
+        const aggregateRef = db.collection('ratings').doc(String(book.id));
+        const voteRef = aggregateRef.collection('votes').doc(uid);
+
+        // Firestore: كل القراءات قبل كل الكتابات.
+        const aggregateDoc = await transaction.get(aggregateRef);
+        const voteDoc = await transaction.get(voteRef);
+
+        if (voteDoc.exists) throw new Error('ALREADY_VOTED');
+
+        const data = aggregateDoc.data() || {};
+
+        // دعم legacy: إن كان voters موجوداً، يجب إضافة uid (متطلب firestore.rules).
+        const legacyVoters = Array.isArray(data.voters) ? data.voters : [];
+        if (legacyVoters.includes(uid)) throw new Error('ALREADY_VOTED');
 
         const ratingSum = finite(data.ratingSum) + value;
         const ratingCount = finite(data.ratingCount) + 1;
-        const result = {
+
+        const newData = {
           ratingSum,
           ratingCount,
-          average: Number((ratingSum / ratingCount).toFixed(2)),
-          voters: [...voters, uid]
+          average: Number((ratingSum / ratingCount).toFixed(2))
         };
-        transaction.set(ref, result);
-        return result;
+
+        if (Array.isArray(data.voters)) {
+          newData.voters = [...data.voters, uid];
+        }
+
+        transaction.create(voteRef, { value });
+        transaction.set(aggregateRef, newData);
+        return newData;
       });
 
       Object.assign(book, {
         ratingSum: result.ratingSum,
         ratingCount: result.ratingCount,
-        publicRating: result.average,
-        voters: result.voters
+        publicRating: result.average
       });
+      if (Array.isArray(result.voters)) {
+        book.voters = result.voters;
+      }
 
       toast(t('تم حفظ تقييمك.', 'Your rating was saved.'));
     } catch (error) {
