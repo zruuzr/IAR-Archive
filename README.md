@@ -11,7 +11,7 @@
 [![Hosted on Firebase](https://img.shields.io/badge/Hosted%20on-Firebase%20Hosting-orange?style=flat\&logo=firebase)](https://iararchive.web.app/)
 [![Database](https://img.shields.io/badge/Database-Firebase%20Firestore-yellow?style=flat\&logo=firebase)](https://firebase.google.com/docs/firestore)
 [![PWA](https://img.shields.io/badge/PWA-Installable-blueviolet?style=flat\&logo=pwa)](https://web.dev/progressive-web-apps/)
-[![License](https://img.shields.io/badge/License-All%20Rights%20Reserved-red.svg)](COPYRIGHT.md)
+[![License](https://img.shields.io/badge/License-Proprietary-red.svg)](LICENSE)
 [![Auto Process](https://github.com/zruuzr/IAR-Archive/actions/workflows/auto_process.yml/badge.svg)](https://github.com/zruuzr/IAR-Archive/actions/workflows/auto_process.yml)
 
 A digital repository dedicated to archiving, organizing, and presenting Iraqi administrative references.
@@ -179,60 +179,58 @@ The project separates the presentation layer, reference metadata, document stora
           │
           ▼
        PDF.js
-```
-
----
-
-## 📱 Progressive Web App
-
+📱 Progressive Web App
 IAR Archive is installable as a Progressive Web App on supported browsers.
 
-### PWA Components
+PWA Components
+manifest.json — application metadata, icons, theme, and display mode.
 
-* `manifest.json` — application metadata, icons, theme, and display mode.
-* `sw.js` — service worker responsible for caching and network strategies.
-* Standard and maskable icons.
-* Apple touch icon.
-* Offline availability for selected core assets.
+sw.js — service worker responsible for caching and network strategies.
 
-### Service Worker Strategy
+Standard and maskable icons.
 
+Apple touch icon.
+
+Offline availability for selected core assets.
+
+Service Worker Strategy
 The Service Worker uses different strategies according to resource type:
 
-| Resource              | Strategy      |
-| --------------------- | ------------- |
-| HTML/CSS/JS           | Cache First   |
-| Icons and covers      | Cache First   |
-| `books.json`          | Network First |
-| Firebase requests     | Bypass        |
-| GitHub Raw            | Bypass        |
-| External CDN requests | Bypass        |
+Resource	Strategy
+HTML/CSS/JS	Cache First
+Icons and covers	Cache First
+books.json	Network First
+Firebase requests	Bypass
+GitHub Raw	Bypass
+External CDN requests	Bypass
+The cache version is controlled through CACHE_VERSION in sw.js.
 
-The cache version is controlled through `CACHE_VERSION` in `sw.js`.
+🤖 Automated Document Processing
+New documents added to the pdf/ directory can be processed automatically through GitHub Actions.
 
----
-
-## 🤖 Automated Document Processing
-
-New documents added to the `pdf/` directory can be processed automatically through GitHub Actions.
-
-### Supported Input
-
+Supported Input
 The processing pipeline is designed to handle formats including:
 
-* PDF
-* DOCX
-* XLSX
-* PPTX
-* ODT
-* RTF
-* EPUB
-* CSV
-* ZIP
+PDF
 
-### Processing Flow
+DOCX
 
-```text
+XLSX
+
+PPTX
+
+ODT
+
+RTF
+
+EPUB
+
+CSV
+
+ZIP
+
+Processing Flow
+text
 New Document
      │
      ▼
@@ -272,138 +270,134 @@ Text Extracted   Needs OCR
              │
              ▼
      Firebase Deployment
-```
-
-### Metadata Extraction
-
+Metadata Extraction
 The AI processing stage can extract structured information such as:
 
-* Title
-* English title
-* Author
-* Publisher
-* Publication year
-* ISBN
-* Category
-* Type
-* Keywords
-* Key points
-* Description
-* Target audience
+Title
+
+English title
+
+Author
+
+Publisher
+
+Publication year
+
+ISBN
+
+Category
+
+Type
+
+Keywords
+
+Key points
+
+Description
+
+Target audience
 
 The pipeline is designed to skip files that have already been processed based on their path.
 
----
-
-## 🧠 AI Processing Strategy
-
+🧠 AI Processing Strategy
 The current processing architecture uses two AI providers.
 
-### Primary Provider
-
-**Google Gemini**
+Primary Provider
+Google Gemini
 
 Used as the primary provider for metadata extraction and for processing document files that require direct file upload.
 
-### Fallback Provider
-
-**Groq**
+Fallback Provider
+Groq
 
 Used as a fallback for supported text-based documents when the primary Gemini request fails under handled failure conditions.
 
 The fallback mechanism is intended to improve processing reliability without requiring manual intervention for every transient API failure.
 
----
-
-## ⚙️ Configuration
-
+⚙️ Configuration
 The automated processing workflow uses GitHub Actions secrets.
 
-| Secret           | Required | Purpose                                  |
-| ---------------- | -------- | ---------------------------------------- |
-| `GEMINI_API_KEY` | Yes      | Gemini API key for primary AI processing |
-| `GROQ_API_KEY`   | No       | Groq API key for fallback processing     |
-
+Secret	Required	Purpose
+GEMINI_API_KEY	Yes	Gemini API key for primary AI processing
+GROQ_API_KEY	No	Groq API key for fallback processing
 Optional environment variables include:
 
-| Variable             | Default                   | Purpose                    |
-| -------------------- | ------------------------- | -------------------------- |
-| `GEMINI_MODEL`       | `gemini-3.6-flash`        | Gemini model               |
-| `GROQ_MODEL`         | `llama-3.3-70b-versatile` | Groq fallback model        |
-| `MAX_UPLOAD_SIZE_MB` | `50`                      | Maximum direct-upload size |
-| `LOG_LEVEL`          | `INFO`                    | Python logging level       |
+Variable	Default	Purpose
+GEMINI_MODEL	gemini-3.6-flash	Gemini model
+GROQ_MODEL	llama-3.3-70b-versatile	Groq fallback model
+MAX_UPLOAD_SIZE_MB	50	Maximum direct-upload size
+LOG_LEVEL	INFO	Python logging level
+If GROQ_API_KEY is not configured, the pipeline continues without the Groq fallback.
 
-If `GROQ_API_KEY` is not configured, the pipeline continues without the Groq fallback.
-
----
-
-## 🔐 Firebase & Data Security
-
-Firebase Authentication uses **Anonymous Authentication** for user interactions that require an authenticated Firebase session.
+🔐 Firebase & Data Security
+Firebase Authentication uses Anonymous Authentication for user interactions that require an authenticated Firebase session.
 
 Current Firestore rules provide:
 
-* Public read access to Firestore documents.
-* Authenticated writes for ratings.
-* Authenticated writes for download statistics.
-* Authenticated writes for visit statistics.
-* Deletion disabled for the main statistics collections.
+Public read access to Firestore documents.
+
+Authenticated writes for ratings.
+
+Authenticated writes for download statistics.
+
+Authenticated writes for visit statistics.
+
+Deletion disabled for the main statistics collections.
 
 The current rules also perform basic type validation for rating aggregate fields.
 
-### Important Implementation Note
-
+Important Implementation Note
 The current Firestore rules do not fully enforce the mathematical integrity of rating and statistics values at the security-rule level.
 
 For example, the rules currently verify that fields such as:
 
-```text
+text
 ratingSum
 ratingCount
 average
 voters
-```
-
 have the expected data types, but do not fully enforce all relationships between those values.
 
 Similarly, download and visit counters are writable by authenticated clients.
 
 The application currently relies on its client-side logic for the intended increment and aggregation behavior.
 
-**Future security hardening may move sensitive aggregation logic to trusted server-side operations and use more restrictive Firestore validation rules.**
+Future security hardening may move sensitive aggregation logic to trusted server-side operations and use more restrictive Firestore validation rules.
 
----
-
-## 🔒 Security Practices
-
+🔒 Security Practices
 The project incorporates several security-oriented practices:
 
-* Firebase Anonymous Authentication for authenticated client interactions.
-* Firestore rules that disable deletion of the primary statistics documents.
-* Basic Firestore data-type validation.
-* ZIP path validation to reduce path traversal risks.
-* Document extraction limits provided by the extraction tooling.
-* Explicit exception handling in the document-processing pipeline.
-* Controlled Git commits for generated data.
-* Retry handling for transient Git push failures.
-* Service Worker bypass for Firebase and external document requests.
-* Secrets stored through GitHub Actions Secrets rather than committed to the repository.
+Firebase Anonymous Authentication for authenticated client interactions.
 
-### GitHub Actions
+Firestore rules that disable deletion of the primary statistics documents.
 
+Basic Firestore data-type validation.
+
+ZIP path validation to reduce path traversal risks.
+
+Document extraction limits provided by the extraction tooling.
+
+Explicit exception handling in the document-processing pipeline.
+
+Controlled Git commits for generated data.
+
+Retry handling for transient Git push failures.
+
+Service Worker bypass for Firebase and external document requests.
+
+Secrets stored through GitHub Actions Secrets rather than committed to the repository.
+
+GitHub Actions
 Some GitHub Actions are pinned to commit SHAs.
 
 Other workflows currently use action version tags.
 
-The project therefore does **not** currently claim that every GitHub Action is pinned to a full commit SHA.
+The project therefore does not currently claim that every GitHub Action is pinned to a full commit SHA.
 
----
-
-## 📦 Storage Architecture
-
+📦 Storage Architecture
 The project currently uses GitHub as the repository and document source.
 
-```text
+text
 GitHub Repository
 ├── Source Code
 ├── books.json
@@ -415,23 +409,17 @@ GitHub Raw
        │
        ▼
 IAR Archive Web Application
-```
-
 Firebase Hosting is used for the web application itself.
 
-Large PDF documents are excluded from Firebase Hosting deployment through `firebase.json` and are served directly through GitHub Raw.
+Large PDF documents are excluded from Firebase Hosting deployment through firebase.json and are served directly through GitHub Raw.
 
-### Current Storage Model
-
+Current Storage Model
 This architecture keeps infrastructure costs low and is suitable for the current stage of the project.
 
 As the document collection grows significantly, object storage such as Firebase Storage, Cloudflare R2, or another dedicated storage service may become more appropriate.
 
----
-
-## 📁 Directory Structure
-
-```text
+📁 Directory Structure
+text
 IAR-Archive/
 ├── .github/
 │   ├── workflows/
@@ -462,23 +450,17 @@ IAR-Archive/
 ├── requirements.txt
 ├── .gitignore
 │
-├── COPYRIGHT.md
+├── LICENSE
 ├── firebase.json
 ├── .firebaserc
 └── README.md
-```
-
----
-
-## 📄 Document Processing Details
-
-`process_books.py` performs document extraction and metadata generation.
+📄 Document Processing Details
+process_books.py performs document extraction and metadata generation.
 
 The processing strategy distinguishes between text-based and scanned documents.
 
-### Text-Based Documents
-
-```text
+Text-Based Documents
+text
 Document
    ↓
 AnyDoc
@@ -490,11 +472,8 @@ Gemini
 Groq fallback if required
    ↓
 Metadata
-```
-
-### Scanned PDFs
-
-```text
+Scanned PDFs
+text
 Scanned PDF
      ↓
 AnyDoc
@@ -504,25 +483,17 @@ NeedsOcrError
 Gemini File Upload
      ↓
 Metadata
-```
-
 The processing script also handles supported extraction and resource-related errors explicitly.
 
----
+🌐 Live Demo
+👉 iararchive.web.app
 
-## 🌐 Live Demo
-
-👉 **[iararchive.web.app](https://iararchive.web.app/)**
-
----
-
-## 🔄 CI/CD
-
+🔄 CI/CD
 The project uses GitHub Actions for automated processing and deployment.
 
 The general workflow is:
 
-```text
+text
 New document
       ↓
 GitHub push
@@ -536,97 +507,75 @@ books.json update
 Git commit
       ↓
 Firebase Hosting deployment
-```
-
 The Firebase deployment workflows also provide preview deployments for pull requests where configured.
 
----
-
-## 📈 Current Limitations & Future Improvements
-
+📈 Current Limitations & Future Improvements
 The current architecture is intentionally lightweight, but several areas can be improved as the repository grows.
 
-### Firestore
-
+Firestore
 The current rating architecture stores voter information in the rating document.
 
 For a significantly larger user base, individual vote records or a dedicated vote subcollection would provide better scalability.
 
-### Statistics Integrity
-
+Statistics Integrity
 Download and visit counters are currently updated from the client.
 
 A future implementation may move aggregation to trusted server-side functions and enforce stricter Firestore validation.
 
-### Document Storage
-
+Document Storage
 Keeping large PDFs inside the Git repository is practical for the current stage but is not ideal for a very large archive.
 
 Dedicated object storage can be introduced when repository size or document traffic becomes significant.
 
-### Catalog Scalability
-
-The current reference catalog is maintained through `books.json`.
+Catalog Scalability
+The current reference catalog is maintained through books.json.
 
 For a very large number of references, a queryable backend or segmented catalog may eventually provide better performance.
 
-### Frontend Modularity
-
-The application currently uses a single main `app.js` file.
+Frontend Modularity
+The application currently uses a single main app.js file.
 
 As functionality expands, individual concerns such as Firebase operations, downloads, ratings, routing, PWA behavior, and UI rendering can be separated into dedicated modules.
 
----
+📜 License
+Copyright © 2026 Zenvex. All Rights Reserved.
 
-## 📜 Copyright and Usage
+This repository is proprietary. It is made publicly viewable for technical and transparency reasons — specifically because GitHub Raw is used to serve large PDF documents, and because the source code serves as a technical reference for the deployed application.
 
-**Copyright © 2026 Zenvex. All Rights Reserved.**
+Public visibility does not constitute an open-source license, nor does it grant permission to copy, modify, reproduce, distribute, sublicense, sell, or otherwise use the source code, in whole or in part.
 
-This repository is publicly available for viewing and reference purposes.
+For the full terms — including the distinct treatment of source code, reference documents, and design assets — see the LICENSE file.
 
-Public visibility of this repository does **not** constitute an open-source license or grant permission to copy, modify, reproduce, distribute, publish, sublicense, sell, or otherwise use the source code, in whole or in part.
+In summary, the repository contains three categories of content:
 
-No permission is granted to create derivative works, redistribute the source code, incorporate the source code into another project, or use the project for commercial purposes without prior written permission from the copyright holder.
+Source code — proprietary. No reuse is permitted.
 
-The following are also protected independently where applicable:
+Reference documents (pdf/) — rights belong to their original authors, publishers, or issuing bodies. Provided for viewing and educational reference only.
 
-* Source code and software architecture.
-* Project name.
-* Logo and visual identity.
-* Original graphical assets.
-* Original documentation and written materials.
-* Database structure.
-* Original database content.
-* Generated metadata and organizational structures created specifically for this project.
+Design and branding — the IAR Archive name, logo, visual identity, and original graphical assets are the property of the project owner.
 
-Third-party libraries, services, APIs, frameworks, fonts, and reference materials remain subject to their respective licenses and terms.
+Third-party libraries, services, APIs, frameworks, fonts, and reference materials remain subject to their respective licenses and terms. Nothing in this repository transfers ownership of third-party materials to Zenvex.
 
-Nothing in this repository transfers ownership of third-party materials to Zenvex.
-
-For permission to use, reproduce, modify, distribute, or otherwise utilize protected project materials, contact the copyright holder.
-
-**All Rights Reserved.**
-
----
-
-## ℹ️ Repository Notice
-
+Repository Notice
 This repository is intentionally public to support:
 
-* Project visibility.
-* Deployment infrastructure.
-* Technical reference.
-* Documentation.
-* Transparency.
+Project visibility.
 
-Being able to view the source code on GitHub does **not** mean that the source code is open source or freely licensed for reuse.
+Deployment infrastructure (GitHub Raw as a document CDN).
+
+Technical reference.
+
+Documentation.
+
+Transparency.
+
+Being able to view the source code on GitHub does not mean that the source code is open source or freely licensed for reuse.
 
 Unauthorized copying, modification, redistribution, republication, or commercial use of protected project materials is not permitted.
 
----
+For permission requests, licensing inquiries, or takedown requests, please open an issue on the repository.
 
-## 🏺 IAR Archive
-
-**من ألواح سومر إلى أوراق الحاضر.**
+🏺 IAR Archive
+من ألواح سومر إلى أوراق الحاضر.
 
 An evolving digital reference repository for Iraqi administrative knowledge.
