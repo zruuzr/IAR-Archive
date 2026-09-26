@@ -654,7 +654,7 @@ ${[1, 2, 3, 4, 5].map(value =>
           newData.voters = [...data.voters, uid];
         }
 
-        transaction.create(voteRef, { value });
+        transaction.set(voteRef, { value });
         transaction.set(aggregateRef, newData);
         return newData;
       });
