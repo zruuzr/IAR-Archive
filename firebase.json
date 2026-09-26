@@ -19,38 +19,33 @@
       "__pycache__/**",
       "skills-lock.json",
       "**/node_modules/**",
-      "h origin main",
-      "googlea493ed01f21d992e.html",
-      "migrate_books.py",
-      "validate_books.py"
-      
-      ".env",
-      ".env.*",
-      "**/.env",
-      "**/.env.*",
-
+      "*.py",
       "**/*.py",
       "requirements.txt",
+      "migrate_books.py",
+      "validate_books.py",
       "COPYRIGHT.md",
       "README.md",
+      "*.md",
+      "**/*.md",
       "books.json.tmp",
-      "books.json.tmp.*",
-
+      "h origin main",
+      "googlea493ed01f21d992e.html",
+      "_headers",
       "pdf",
       "pdf/**",
-
+      "*.tmp",
       "**/*.tmp",
-      "**/*.md",
+      "*.lock",
       "**/*.lock",
+      "*.log",
       "**/*.log",
-
-      "_headers",
-      "validate_books.py",
+      ".env",
+      ".env.*",
       "package.json",
       "package-lock.json",
       "yarn.lock",
       "pnpm-lock.yaml",
-
       ".DS_Store",
       "Thumbs.db",
       ".vscode",
@@ -128,36 +123,6 @@
           {
             "key": "Cache-Control",
             "value": "public, max-age=604800, immutable"
-          }
-        ]
-      },
-      {
-        "source": "/fonts/**",
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "public, max-age=31536000, immutable"
-          }
-        ]
-      },
-      {
-        "source": "**",
-        "headers": [
-          {
-            "key": "X-Content-Type-Options",
-            "value": "nosniff"
-          },
-          {
-            "key": "Referrer-Policy",
-            "value": "strict-origin-when-cross-origin"
-          },
-          {
-            "key": "X-Frame-Options",
-            "value": "SAMEORIGIN"
-          },
-          {
-            "key": "Permissions-Policy",
-            "value": "camera=(), microphone=(), geolocation=()"
           }
         ]
       }
