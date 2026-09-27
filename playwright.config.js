@@ -33,6 +33,10 @@ module.exports = defineConfig({
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
+    // منع Service Worker من التسجيل أثناء الاختبارات.
+    // السبب: SW يُطلق controllerchange → window.location.reload()
+    // مما يسبب flakiness في الاختبارات التي تقيس DOM بعد التحميل مباشرة.
+    serviceWorkers: 'block',
   },
 
   // متصفح واحد — Chromium فقط (الأخف والأسرع)
