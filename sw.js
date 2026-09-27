@@ -1,7 +1,7 @@
 /* ============================================================
    IAR Archive — Service Worker
    Strategy:
-     - App shell (/, /index.html, /app.js, /style.css, /books.json)
+     - App shell (/, /index.html, /app.js, /js/*.js, /style.css, /books.json)
        → Network First (always fresh when online)
      - Static assets (/covers/**, /icons/**, /assets/**)
        → Cache First (immutable, rarely change)
@@ -11,7 +11,7 @@
      - Controller change triggers auto-reload (handled in index.html)
    ============================================================ */
 
-const CACHE_VERSION = 'v27';
+const CACHE_VERSION = 'v28';
 const CACHE_NAME = `iar-archive-${CACHE_VERSION}`;
 
 const APP_SHELL = [
@@ -26,6 +26,22 @@ const APP_SHELL = [
   '/icons/maskable-192x192.png',
   '/icons/maskable-512x512.png',
   '/icons/apple-touch-icon.png',
+
+  // ES modules
+  '/js/utils.js',
+  '/js/state.js',
+  '/js/i18n.js',
+  '/js/data.js',
+  '/js/firebase.js',
+  '/js/ui-helpers.js',
+  '/js/download.js',
+  '/js/ratings.js',
+  '/js/render.js',
+  '/js/router.js',
+  '/js/ui-init.js',
+  '/js/data-fetch.js',
+  '/js/pwa.js',
+  '/js/events.js',
 ];
 
 const BYPASS_HOSTS = [
@@ -106,6 +122,7 @@ function isAppShell(pathname) {
   if (pathname === '/' || pathname === '/index.html') return true;
   if (pathname.endsWith('/index.html')) return true;
   if (pathname.endsWith('/app.js')) return true;
+  if (pathname.startsWith('/js/') && pathname.endsWith('.js')) return true;
   if (pathname.endsWith('/style.css')) return true;
   if (pathname.endsWith('/books.json')) return true;
   if (pathname.endsWith('/manifest.json')) return true;
@@ -124,8 +141,6 @@ async function cacheFirst(request) {
     }
     return response;
   } catch (err) {
-    // Only serve the app shell for navigation requests.
-    // For CSS/JS/images, return a proper 503 instead of HTML.
     if (request.mode === 'navigate') {
       const fallback = await caches.match('/index.html');
       if (fallback) return fallback;
@@ -154,13 +169,11 @@ async function networkFirst(request) {
     const cached = await caches.match(request);
     if (cached) return cached;
 
-    // Fall back to index.html for navigation requests when fully offline.
     if (request.mode === 'navigate') {
       const fallback = await caches.match('/index.html');
       if (fallback) return fallback;
     }
 
-    // For books.json, return a JSON error.
     if (request.url.endsWith('/books.json')) {
       return new Response(JSON.stringify({ error: 'offline' }), {
         status: 503,
