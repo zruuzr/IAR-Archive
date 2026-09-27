@@ -63,3 +63,12 @@ skills-lock.json
 # Firebase local
 # ═══════════════════════════════════════════════════════════
 .firebase/
+
+# ═══════════════════════════════════════════════════════════
+# Node / Playwright (E2E tests only)
+# ═══════════════════════════════════════════════════════════
+node_modules/
+playwright-report/
+test-results/
+.playwright/
+playwright/.cache/
