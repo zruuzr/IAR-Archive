@@ -258,7 +258,14 @@ export function render() {
   document.querySelector('.chips-container')?.classList.remove('d-none');
   $('paginationContainer')?.parentElement?.classList.remove('d-none');
 
-  syncBundle();
+    syncBundle();
+
+  // Sync search-derived UI (idempotent — works even if input handler missed)
+  if ($('searchInput') && $('searchInput').value !== state.filters.query) {
+    $('searchInput').value = state.filters.query;
+  }
+  visible('btnClearSearch', !!state.filters.query);
+
   if (!state.data.loaded) return;
 
   const books = filteredBooks();
