@@ -15,7 +15,11 @@ test.describe('Homepage loading', () => {
       !e.includes('Firebase') &&
       !e.includes('firebase') &&
       !e.includes('net::ERR') &&
-      !e.includes('Failed to load resource')
+      !e.includes('Failed to load resource') &&
+      // SW معطّل intentionally في E2E عبر serviceWorkers: 'block'
+      // نتجاهل الأخطاء المرتبطة بذلك
+      !e.includes('SW registration failed') &&
+      !e.includes('Service Worker')
     );
 
     expect(criticalErrors).toEqual([]);
