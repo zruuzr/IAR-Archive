@@ -1,0 +1,19 @@
+{
+  "name": "iar-archive",
+  "version": "1.0.0",
+  "private": true,
+  "description": "IAR Archive — E2E tests and development tooling (application is Vanilla JS, no build step)",
+  "scripts": {
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:debug": "playwright test --debug",
+    "install:browsers": "playwright install --with-deps chromium"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
