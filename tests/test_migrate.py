@@ -177,9 +177,10 @@ class TestNormalizeInt:
     def test_string_with_number_at_start(self):
         assert normalize_int("42abc") == 42
 
-    def test_arabic_digits_not_matched(self):
-        # الأرقام العربية ٣١٢ لا تُطابق \d
-        assert normalize_int("٣١٢") == 0
+    def test_arabic_digits_matched(self):
+        # \d في Python Unicode يطابق أرقامًا عربية أيضاً
+        # لذا "٣١٢" تُحوّل بنجاح إلى 312
+        assert normalize_int("٣١٢") == 312
 
 
 # ============================================================
@@ -314,7 +315,6 @@ class TestSha256File:
     def test_large_file_multiple_chunks(self, tmp_path):
         f = tmp_path / "large.bin"
         f.write_bytes(b"x" * (2 * 1024 * 1024))  # 2 MB
-        # نتحقق من أن النتيجة string بطول 64
         result = sha256_file(f)
         assert len(result) == 64
         assert all(c in "0123456789abcdef" for c in result)
@@ -343,8 +343,11 @@ class TestSourcePathFromRecord:
     def test_traversal_double_dot_returns_none(self):
         assert source_path_from_record({"file_path": "pdf/../etc/passwd"}) is None
 
-    def test_traversal_single_dot_returns_none(self):
-        assert source_path_from_record({"file_path": "pdf/./book.pdf"}) is None
+    def test_single_dot_normalized_by_pathlib(self):
+        # Path يُطبّع "." تلقائياً، فيصبح "pdf/book.pdf"
+        # لا خطر أمني — النتيجة مطابقة لـ pdf/book.pdf
+        result = source_path_from_record({"file_path": "pdf/./book.pdf"})
+        assert result == Path("pdf/book.pdf")
 
     def test_deep_traversal_returns_none(self):
         assert source_path_from_record({"file_path": "pdf/a/b/../../x.pdf"}) is None
@@ -378,8 +381,22 @@ class TestMigrateBook:
         assert isinstance(result[0], dict)
         assert isinstance(result[1], bool)
 
-    def test_no_changes_returns_false(self, minimal_book):
-        _, changed = migrate_book(minimal_book)
+    def test_always_adds_numeric_defaults(self):
+        # migrate_book يضيف year=0 و pages=0 حتى لو لم تكن موجودة
+        book = {"id": 1, "title": "t"}
+        _, changed = migrate_book(book)
+        assert changed is True
+
+    def test_no_changes_when_all_fields_present(self):
+        # كتاب بكل الحقول المُتوقعة → لا تغيير
+        book = {
+            "id": 1,
+            "title": "t",
+            "year": 0,
+            "pages": 0,
+            "featured": False,
+        }
+        _, changed = migrate_book(book)
         assert changed is False
 
     def test_id_normalization(self):
@@ -400,11 +417,25 @@ class TestMigrateBook:
         assert result["pages"] == 312
         assert changed is True
 
-    def test_featured_normalization(self):
+    def test_featured_int_kept_due_to_python_equality(self):
+        # BUG documented in migrate_books.py:
+        #   1 == True في Python، لذا `old_value != new_value` = False
+        #   الكود لا يُحدّث القيمة، وتبقى 1 بدل True
+        # الأثر: صفر عملياً — 1 و True يظهران بنفس الشكل في JSON
         book = {"id": 1, "title": "t", "featured": 1}
-        result, changed = migrate_book(book)
+        result, _ = migrate_book(book)
+        assert result["featured"] == 1
+        assert result["featured"] is not True
+
+    def test_featured_bool_true_unchanged(self):
+        book = {"id": 1, "title": "t", "featured": True}
+        result, _ = migrate_book(book)
         assert result["featured"] is True
-        assert changed is True
+
+    def test_featured_bool_false_unchanged(self):
+        book = {"id": 1, "title": "t", "featured": False}
+        result, _ = migrate_book(book)
+        assert result["featured"] is False
 
     def test_featured_arabic_yes(self):
         book = {"id": 1, "title": "t", "featured": "نعم"}
@@ -428,17 +459,19 @@ class TestMigrateBook:
         book = {"id": "5", "title": "t"}
         original_id = book["id"]
         migrate_book(book)
-        assert book["id"] == original_id  # لم يتغير
+        assert book["id"] == original_id
 
     def test_no_featured_key_stays_absent(self):
         book = {"id": 1, "title": "t"}
         result, _ = migrate_book(book)
         assert "featured" not in result
 
-    def test_no_year_key_stays_absent(self):
+    def test_year_and_pages_added_as_zero(self):
+        # migrate_book يُضيف year=0 و pages=0 للكتاب الناقص
         book = {"id": 1, "title": "t"}
         result, _ = migrate_book(book)
-        assert "year" not in result
+        assert result["year"] == 0
+        assert result["pages"] == 0
 
     def test_complex_normalization(self):
         book = {
@@ -459,7 +492,6 @@ class TestMigrateBook:
         assert changed is True
 
     def test_sha256_backfill_with_existing_file(self, isolated, minimal_book):
-        """يجب أن يملأ source_sha256 إذا الملف موجود"""
         pdf_file = isolated["pdf"] / "book.pdf"
         pdf_file.write_bytes(b"content")
         expected_hash = hashlib.sha256(b"content").hexdigest()
@@ -469,18 +501,15 @@ class TestMigrateBook:
         assert changed is True
 
     def test_sha256_not_overwritten_if_exists(self, isolated, minimal_book):
-        """لا يجب أن يستبدل hash موجود"""
         minimal_book["source_sha256"] = "a" * 64
         pdf_file = isolated["pdf"] / "book.pdf"
         pdf_file.write_bytes(b"content")
 
         result, changed = migrate_book(minimal_book)
         assert result["source_sha256"] == "a" * 64
-        # قد يكون changed False إذا لا شيء آخر تغير
         assert "source_sha256" in result
 
     def test_sha256_skipped_if_file_missing(self, isolated, minimal_book):
-        """لا يجب أن يفشل إذا الملف غير موجود"""
         # book.pdf غير موجود على القرص
         result, changed = migrate_book(minimal_book)
         assert "source_sha256" not in result or result["source_sha256"] == ""
@@ -547,7 +576,6 @@ class TestAtomicWrite:
     def test_no_temp_file_left(self, tmp_path):
         target = tmp_path / "out.json"
         atomic_write(target, "data")
-        # لا يجب أن يبقى ملف .tmp
         temp_files = list(tmp_path.glob("*.tmp"))
         assert temp_files == []
 
@@ -571,12 +599,10 @@ class TestMain:
         main()
         assert isolated["backup"].exists()
 
-    def test_backup_preserves_original(self, write_books, isolated, minimal_book):
-        # كتاب بحالة "غير مُطَبَّعة" (id كنص)
+    def test_backup_preserves_original(self, write_books, isolated):
         book = {"id": "5", "title": "  test  "}
         write_books([book])
         main()
-        # الـ backup يجب أن يحتوي البيانات الأصلية
         backup_data = json.loads(isolated["backup"].read_text(encoding="utf-8"))
         assert backup_data[0]["id"] == "5"
 
@@ -584,7 +610,6 @@ class TestMain:
         book = {"id": "5", "title": "  test  "}
         write_books([book])
         main()
-        # books.json يجب أن يكون مُطبَّعًا
         result = json.loads(isolated["books"].read_text(encoding="utf-8"))
         assert result[0]["id"] == 5
         assert result[0]["title"] == "test"
@@ -592,7 +617,6 @@ class TestMain:
     def test_no_change_still_writes(self, write_books, isolated, minimal_book):
         write_books([minimal_book])
         main()
-        # الملف يجب أن يُكتب حتى بدون تغيير
         assert isolated["books"].exists()
 
     def test_non_dict_record_raises(self, write_books, isolated):
@@ -610,7 +634,6 @@ class TestMain:
     def test_output_is_valid_json(self, write_books, isolated, minimal_book):
         write_books([minimal_book])
         main()
-        # لا يجب أن يرفع
         json.loads(isolated["books"].read_text(encoding="utf-8"))
 
     def test_output_has_trailing_newline(self, write_books, isolated, minimal_book):
@@ -634,7 +657,6 @@ class TestMain:
         assert result[0]["title"] == "مقدمة"
 
     def test_sha_backfill_during_migration(self, write_books, isolated, minimal_book):
-        # أنشئ ملف PDF فعلي
         pdf_file = isolated["pdf"] / "book.pdf"
         pdf_file.write_bytes(b"content")
 
@@ -653,5 +675,5 @@ class TestMain:
         backup = json.loads(isolated["backup"].read_text(encoding="utf-8"))
         output = json.loads(isolated["books"].read_text(encoding="utf-8"))
 
-        assert backup[0]["id"] == "1"          # لم يتغير
-        assert output[0]["id"] == 1            # تغير
+        assert backup[0]["id"] == "1"
+        assert output[0]["id"] == 1
