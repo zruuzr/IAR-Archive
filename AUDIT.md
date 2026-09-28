@@ -302,3 +302,77 @@ If the project ever opens for contributions:
 - `tests/` — test suite
 - `e2e/` — end-to-end tests
 - `.github/workflows/` — CI configuration
+
+---
+
+### Phase 3.2 — ESLint + Prettier + husky (Completed)
+
+**Problem:** After splitting app.js into 14 ES modules, no automated
+checks existed for code quality or formatting. Unused imports and
+inconsistent styling could accumulate silently.
+
+**Action:**
+- Added ESLint 9 (flat config: `eslint.config.mjs`)
+- Added Prettier 3 (`.prettierrc.json`, `.prettierignore`)
+- Added npm scripts: `lint`, `lint:fix`, `format`, `format:check`, `check`
+- Added husky pre-commit hook (runs lint + format:check on each commit)
+- Added `.github/workflows/lint.yml` (runs on push + PR)
+- Removed 5 unused imports identified during first lint run:
+  - `js/ratings.js`: `$`, `timeout`
+  - `js/render.js`: `$$`, `motion`
+  - `js/ui-helpers.js`: `clean`
+- Applied Prettier formatting across all 14 JS modules
+
+**Result:** 0 ESLint errors, 0 warnings. All files formatted consistently.
+
+**Files:** `eslint.config.mjs`, `.prettierrc.json`, `.prettierignore`,
+`package.json`, `.husky/pre-commit`, `.github/workflows/lint.yml`
+
+---
+
+### Phase 3.3 — Playwright E2E (Completed)
+
+**Problem:** No automated verification that the frontend works
+end-to-end after the module split. Manual testing was one-shot.
+
+**Action:**
+- Added `@playwright/test` (dev tooling only; app remains Vanilla JS)
+- Added `playwright.config.js` with:
+  - `python -m http.server` on port 8000 as webServer
+  - `serviceWorkers: 'block'` (prevents reload flakiness)
+  - Retries (2 in CI, 0 locally)
+- Added 19 E2E tests across 4 spec files:
+  - `e2e/home.spec.js` (5 tests)
+  - `e2e/search.spec.js` (5 tests)
+  - `e2e/routing.spec.js` (4 tests)
+  - `e2e/i18n.spec.js` (5 tests)
+- Added `.github/workflows/e2e.yml`
+
+**Bugs discovered and fixed:**
+1. **`#btnClearSearch` not synced:** Button visibility was only updated
+   by the input event handler. Fixed by deriving it from
+   `state.filters.query` inside `render()`.
+2. **Flaky category chips test:** Service Worker reload during test
+   caused chips to be empty. Fixed by `serviceWorkers: 'block'`.
+
+**Files:** `package.json`, `package-lock.json`, `playwright.config.js`,
+`e2e/*.spec.js`, `.github/workflows/e2e.yml`, `.gitignore`, `js/render.js`
+
+---
+
+## Test Suite Summary (Updated)
+
+| Suite | Count | Runtime |
+|---|---|---|
+| Python (process_books) | 118 | ~1s |
+| Python (validate_books) | 124 | ~0.5s |
+| Python (migrate_books) | 120 | ~0.3s |
+| **Python total** | **362** | **~4.4s** |
+| E2E (Playwright) | 19 | ~45s |
+| **Grand total** | **381** | **~50s** |
+
+**CI workflows on every push and PR:**
+- `Tests` (Python 3.12 + 3.13)
+- `E2E Tests` (Chromium)
+- `Lint & Format` (ESLint + Prettier)
+- `auto_process` (existing document processing)
