@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+
+# Build artifacts
+dist/
+build/
+
+# Generated files
+package-lock.json
+playwright-report/
+test-results/
+
+# Data files
+books.json
+
+# Coverage
+coverage/
+htmlcov/
+
+# System
+.DS_Store
+
+# Vendored / third-party
+*.min.js
+
+# Python
+*.py
+__pycache__/
+.venv/
+
+# Markdown (format manually)
+*.md
+
+# Firebase
+.firebase/
