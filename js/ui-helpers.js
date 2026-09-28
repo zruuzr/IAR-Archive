@@ -47,8 +47,11 @@ export async function copy(value) {
       document.body.append(helper);
       helper.select();
       let success;
-      try { success = document.execCommand('copy'); }
-      finally { helper.remove(); }
+      try {
+        success = document.execCommand('copy');
+      } finally {
+        helper.remove();
+      }
       if (!success) throw new Error('Copy unavailable');
     }
     toast(t('تم النسخ إلى الحافظة.', 'Copied to clipboard.'));
@@ -79,25 +82,25 @@ export const modal = {
     }, 220);
   },
   closeAll() {
-    $$('.modal.is-open').forEach(m => this.close(m.id));
+    $$('.modal.is-open').forEach((m) => this.close(m.id));
   }
 };
 
-document.addEventListener('click', e => {
+document.addEventListener('click', (e) => {
   const closeTrigger = e.target.closest('[data-close]');
   if (!closeTrigger) return;
   const modalEl = closeTrigger.closest('.modal');
   if (modalEl) modal.close(modalEl.id);
 });
 
-document.addEventListener('keydown', e => {
+document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     const open = document.querySelector('.modal.is-open');
     if (open) modal.close(open.id);
   }
 });
 
-export const citation = book =>
+export const citation = (book) =>
   `${field(book, 'author') || labels().unknown} (${book.year || t('د.ت.', 'n.d.')}).
 ${field(book, 'title')}.
 ${field(book, 'publisher') || labels().unknown}.`;

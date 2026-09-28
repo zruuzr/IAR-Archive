@@ -10,7 +10,7 @@ import { byId } from './data.js';
 import { toast } from './ui-helpers.js';
 import { fb } from './firebase.js';
 
-export const rated = book =>
+export const rated = (book) =>
   Array.isArray(book.voters) && book.voters.includes(fb.auth?.currentUser?.uid);
 
 export function stars(book) {
@@ -22,18 +22,21 @@ export function stars(book) {
     : t('كن أول المقيّمين', 'Be the first to rate');
 
   return `<div class="rating-stars" data-stars="${book.id}" role="group" aria-label="${esc(t('تقييم المرجع', 'Rate reference'))}">
-${[1, 2, 3, 4, 5].map(value =>
-  `<button type="button" class="star-button ${value <= Math.round(book.publicRating) ? 'active' : ''}"
+${[1, 2, 3, 4, 5]
+  .map(
+    (value) =>
+      `<button type="button" class="star-button ${value <= Math.round(book.publicRating) ? 'active' : ''}"
     data-action="rate" data-id="${book.id}" data-rating="${value}"
     aria-label="${esc(t(`تقييم ${value} من 5`, `Rate ${value} out of 5`))}"
     ${done || busy ? 'disabled' : ''}>${i(value <= Math.round(book.publicRating) ? 'star-filled' : 'star')}</button>`
-).join('')}
+  )
+  .join('')}
 <small>${ratingDisplay}</small>
 </div>`;
 }
 
 export function refreshRatings() {
-  $$('[data-stars]').forEach(el => {
+  $$('[data-stars]').forEach((el) => {
     const book = byId(el.dataset.stars);
     if (book) el.outerHTML = stars(book);
   });
@@ -51,7 +54,7 @@ export async function rate(book, value) {
     if (!fb.db || !fb.auth?.currentUser) throw new Error('AUTH');
 
     const uid = fb.auth.currentUser.uid;
-    const result = await fb.db.runTransaction(async transaction => {
+    const result = await fb.db.runTransaction(async (transaction) => {
       const aggregateRef = fb.db.collection('ratings').doc(String(book.id));
       const voteRef = aggregateRef.collection('votes').doc(uid);
 
@@ -97,7 +100,10 @@ export async function rate(book, value) {
     toast(
       error.message === 'ALREADY_VOTED'
         ? t('سبق أن قيّمت هذا المرجع.', 'You already rated this reference.')
-        : t('تعذّر حفظ التقييم. تحقق من الاتصال وصلاحيات Firebase.', 'Rating failed. Check connectivity and Firebase permissions.'),
+        : t(
+            'تعذّر حفظ التقييم. تحقق من الاتصال وصلاحيات Firebase.',
+            'Rating failed. Check connectivity and Firebase permissions.'
+          ),
       true
     );
   } finally {

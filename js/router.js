@@ -57,17 +57,24 @@ export function route() {
   const raw = params.get('book');
   const wasSingle = state.ui.single;
 
-  state.ui.single = raw !== null && raw.trim() !== '' &&
-    Number.isSafeInteger(Number(raw)) && byId(Number(raw))
-    ? Number(raw) : null;
+  state.ui.single =
+    raw !== null &&
+    raw.trim() !== '' &&
+    Number.isSafeInteger(Number(raw)) &&
+    byId(Number(raw))
+      ? Number(raw)
+      : null;
 
   const bundle = params.get('bundle');
   state.user.bundleMode = bundle !== null;
 
   if (bundle !== null) {
     state.user.bundle = new Set(
-      bundle.split(',').filter(v => v.trim() !== '').map(Number)
-        .filter(id => Number.isSafeInteger(id) && byId(id))
+      bundle
+        .split(',')
+        .filter((v) => v.trim() !== '')
+        .map(Number)
+        .filter((id) => Number.isSafeInteger(id) && byId(id))
     );
   }
 

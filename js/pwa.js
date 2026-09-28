@@ -7,8 +7,10 @@ import { state } from './state.js';
 import { t } from './i18n.js';
 
 function isStandalone() {
-  return window.matchMedia('(display-mode: standalone)').matches
-    || window.navigator.standalone === true;
+  return (
+    window.matchMedia('(display-mode: standalone)').matches ||
+    window.navigator.standalone === true
+  );
 }
 
 function showInstallButton(promptEvent) {
@@ -42,14 +44,16 @@ export function initPWA() {
       window.__iarInstallPrompt = null;
       $('installBtn')?.classList.add('d-none');
     } else {
-      alert(t(
-        'لتثبيت التطبيق:\n' +
-        '• Android/Chrome: افتح قائمة المتصفح (⋮) واختر "تثبيت التطبيق".\n' +
-        '• iPhone/Safari: اضغط زر المشاركة ثم "إضافة إلى الشاشة الرئيسية".',
-        'To install:\n' +
-        '• Android/Chrome: open browser menu (⋮) → "Install app".\n' +
-        '• iPhone/Safari: tap Share → "Add to Home Screen".'
-      ));
+      alert(
+        t(
+          'لتثبيت التطبيق:\n' +
+            '• Android/Chrome: افتح قائمة المتصفح (⋮) واختر "تثبيت التطبيق".\n' +
+            '• iPhone/Safari: اضغط زر المشاركة ثم "إضافة إلى الشاشة الرئيسية".',
+          'To install:\n' +
+            '• Android/Chrome: open browser menu (⋮) → "Install app".\n' +
+            '• iPhone/Safari: tap Share → "Add to Home Screen".'
+        )
+      );
     }
   });
 }

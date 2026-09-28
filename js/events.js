@@ -70,7 +70,7 @@ export function initEvents() {
     render();
   });
 
-  $('categoryChips')?.addEventListener('click', e => {
+  $('categoryChips')?.addEventListener('click', (e) => {
     const chip = e.target.closest('[data-category]');
     if (!chip) return;
     state.filters.category = chip.dataset.category;
@@ -96,7 +96,7 @@ export function initEvents() {
     })
   );
 
-  $('paginationContainer')?.addEventListener('click', e => {
+  $('paginationContainer')?.addEventListener('click', (e) => {
     const button = e.target.closest('[data-page]');
     if (!button || button.disabled) return;
     state.ui.page = Number(button.dataset.page);
@@ -106,7 +106,7 @@ export function initEvents() {
 
   $('btnBackToList')?.addEventListener('click', backToList);
 
-  document.querySelector('.brand-lockup')?.addEventListener('click', e => {
+  document.querySelector('.brand-lockup')?.addEventListener('click', (e) => {
     e.preventDefault();
     clearBundle();
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -127,7 +127,7 @@ export function initEvents() {
     if (book) share(book);
   });
 
-  document.addEventListener('change', async e => {
+  document.addEventListener('change', async (e) => {
     const input = e.target.closest('[data-action="bundle"]');
     if (!input) return;
 
@@ -136,8 +136,9 @@ export function initEvents() {
 
     input.checked ? state.user.bundle.add(id) : state.user.bundle.delete(id);
 
-    $$(`input[data-action="bundle"][data-id="${id}"]`)
-      .forEach(el => (el.checked = input.checked));
+    $$(`input[data-action="bundle"][data-id="${id}"]`).forEach(
+      (el) => (el.checked = input.checked)
+    );
 
     if (state.user.bundleMode) {
       const url = new URL(location.href);
@@ -150,17 +151,24 @@ export function initEvents() {
     }
   });
 
-  document.addEventListener('click', e => {
+  document.addEventListener('click', (e) => {
     const trigger = e.target.closest('[data-action]');
     if (!trigger) return;
     const name = trigger.dataset.action;
     if (name === 'bundle') return;
 
-    if (trigger.tagName === 'A' && (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey)) return;
+    if (trigger.tagName === 'A' && (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey))
+      return;
     e.preventDefault();
 
-    if (name === 'clear-bundle') { clearBundle(); return; }
-    if (name === 'retry') { fetchBooks(); return; }
+    if (name === 'clear-bundle') {
+      clearBundle();
+      return;
+    }
+    if (name === 'retry') {
+      fetchBooks();
+      return;
+    }
     if (name === 'reset') {
       state.filters.query = '';
       state.filters.category = 'all';
@@ -177,21 +185,37 @@ export function initEvents() {
     if (!book) return;
 
     switch (name) {
-      case 'details': navigateBook(book); break;
-      case 'read': readBook(book); break;
-      case 'download': download(book); break;
-      case 'summary': summary(book); break;
-      case 'cite': copy(citation(book)); break;
-      case 'share': share(book); break;
-      case 'rate': rate(book, Number(trigger.dataset.rating)); break;
+      case 'details':
+        navigateBook(book);
+        break;
+      case 'read':
+        readBook(book);
+        break;
+      case 'download':
+        download(book);
+        break;
+      case 'summary':
+        summary(book);
+        break;
+      case 'cite':
+        copy(citation(book));
+        break;
+      case 'share':
+        share(book);
+        break;
+      case 'rate':
+        rate(book, Number(trigger.dataset.rating));
+        break;
       case 'favorite': {
         const was = state.user.favorites.has(book.id);
         was ? state.user.favorites.delete(book.id) : state.user.favorites.add(book.id);
         store.set('iar_favorites', JSON.stringify([...state.user.favorites]));
         render();
-        toast(was
-          ? t('أزيل من المفضلة.', 'Removed from favorites.')
-          : t('أضيف إلى المفضلة.', 'Added to favorites.'));
+        toast(
+          was
+            ? t('أزيل من المفضلة.', 'Removed from favorites.')
+            : t('أضيف إلى المفضلة.', 'Added to favorites.')
+        );
         break;
       }
       case 'cover': {
@@ -203,27 +227,31 @@ export function initEvents() {
     }
   });
 
-  document.addEventListener('error', e => {
-    const img = e.target;
-    if (img.tagName !== 'IMG') return;
+  document.addEventListener(
+    'error',
+    (e) => {
+      const img = e.target;
+      if (img.tagName !== 'IMG') return;
 
-    if (img.classList.contains('cover-img')) {
-      img.hidden = true;
-      if (img.nextElementSibling) img.nextElementSibling.hidden = false;
-    } else if (img.id === 'singleBookCover') {
-      img.hidden = true;
-      const book = byId(state.ui.single);
-      if (book && $('singleCoverFallback')) {
-        $('singleCoverFallback').innerHTML = '';
+      if (img.classList.contains('cover-img')) {
+        img.hidden = true;
+        if (img.nextElementSibling) img.nextElementSibling.hidden = false;
+      } else if (img.id === 'singleBookCover') {
+        img.hidden = true;
+        const book = byId(state.ui.single);
+        if (book && $('singleCoverFallback')) {
+          $('singleCoverFallback').innerHTML = '';
+        }
       }
-    }
-  }, true);
+    },
+    true
+  );
 
   window.addEventListener('popstate', route);
 
   $('dlCancel')?.addEventListener('click', cancelDownload);
 
-  document.addEventListener('keydown', e => {
+  document.addEventListener('keydown', (e) => {
     if (e.key !== 'Escape') return;
     const overlay = $('downloadOverlay');
     if (overlay && overlay.classList.contains('is-open')) {

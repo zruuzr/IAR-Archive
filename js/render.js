@@ -60,10 +60,12 @@ function cover(book, featured = false) {
 
 function action(book, name, icon, label, primary = false, iconOnly = false) {
   const disabled = ['read', 'download'].includes(name) && !book.file_path;
-  const pressed = name === 'favorite' ? `aria-pressed="${state.user.favorites.has(book.id)}"` : '';
-  const count = name === 'download'
-    ? `<span class="download-count" data-download-count="${book.id}">${number(book.downloadCount)}</span>`
-    : '';
+  const pressed =
+    name === 'favorite' ? `aria-pressed="${state.user.favorites.has(book.id)}"` : '';
+  const count =
+    name === 'download'
+      ? `<span class="download-count" data-download-count="${book.id}">${number(book.downloadCount)}</span>`
+      : '';
 
   return `<button type="button" class="btn ${primary ? 'btn-primary' : 'btn-ghost'}"
     data-action="${name}" data-id="${book.id}" ${disabled ? 'disabled' : ''}
@@ -81,10 +83,16 @@ function actions(book) {
     ${action(book, 'download', 'download', l.download, true)}
     ${action(book, 'summary', 'zap', l.summary)}
     ${action(book, 'cite', 'quote', l.cite, false, true)}
-    ${action(book, 'favorite',
+    ${action(
+      book,
+      'favorite',
       fav ? 'heart-filled' : 'heart',
-      fav ? t('إزالة من المفضلة', 'Remove favorite') : t('إضافة إلى المفضلة', 'Add favorite'),
-      false, true)}
+      fav
+        ? t('إزالة من المفضلة', 'Remove favorite')
+        : t('إضافة إلى المفضلة', 'Add favorite'),
+      false,
+      true
+    )}
     ${action(book, 'share', 'share', l.share, false, true)}
   </div>`;
 }
@@ -153,28 +161,31 @@ function featured(book) {
 }
 
 function filteredBooks() {
-  const norm = v => v
-    .toLocaleLowerCase(state.ui.lang)
-    .normalize('NFKD')
-    .replace(/[\u064B-\u065F\u0670]/g, '')
-    .replace(/\u0640/g, '');
+  const norm = (v) =>
+    v
+      .toLocaleLowerCase(state.ui.lang)
+      .normalize('NFKD')
+      .replace(/[\u064B-\u065F\u0670]/g, '')
+      .replace(/\u0640/g, '');
 
   const query = norm(state.filters.query);
 
-  const books = state.data.books.filter(book => {
+  const books = state.data.books.filter((book) => {
     if (state.user.bundleMode && !state.user.bundle.has(book.id)) return false;
     if (state.filters.favoritesOnly && !state.user.favorites.has(book.id)) return false;
-    if (state.filters.category !== 'all' && categoryKey(book) !== state.filters.category) return false;
+    if (state.filters.category !== 'all' && categoryKey(book) !== state.filters.category)
+      return false;
 
     const haystack = ['title', 'author', 'publisher', 'description', 'category']
-      .flatMap(key => [book[key], book[key + '_en']])
+      .flatMap((key) => [book[key], book[key + '_en']])
       .concat(book.keywords, book.keywords_en)
       .join(' ');
 
     return !query || norm(haystack).includes(query);
   });
 
-  const titleSort = (a, b) => field(a, 'title').localeCompare(field(b, 'title'), state.ui.lang);
+  const titleSort = (a, b) =>
+    field(a, 'title').localeCompare(field(b, 'title'), state.ui.lang);
 
   const sorts = {
     default: (a, b) => Number(b.featured) - Number(a.featured) || a.id - b.id,
@@ -184,7 +195,8 @@ function filteredBooks() {
     downloads: (a, b) => b.downloadCount - a.downloadCount,
     rating: (a, b) => b.publicRating - a.publicRating,
     favorites: (a, b) =>
-      Number(state.user.favorites.has(b.id)) - Number(state.user.favorites.has(a.id)) || titleSort(a, b)
+      Number(state.user.favorites.has(b.id)) - Number(state.user.favorites.has(a.id)) ||
+      titleSort(a, b)
   };
 
   return books.sort(sorts[$('sortOrder')?.value] || sorts.default);
@@ -196,12 +208,18 @@ function pagination(total) {
   nav.innerHTML = '';
   if (total <= 1) return;
 
-  const values = [...new Set([
-    1, total, state.ui.page - 1, state.ui.page, state.ui.page + 1,
-    ...(state.ui.page < 4 ? [2, 3, 4, 5] : []),
-    ...(state.ui.page > total - 3 ? [total - 4, total - 3, total - 2, total - 1] : [])
-  ])]
-    .filter(v => v > 0 && v <= total)
+  const values = [
+    ...new Set([
+      1,
+      total,
+      state.ui.page - 1,
+      state.ui.page,
+      state.ui.page + 1,
+      ...(state.ui.page < 4 ? [2, 3, 4, 5] : []),
+      ...(state.ui.page > total - 3 ? [total - 4, total - 3, total - 2, total - 1] : [])
+    ])
+  ]
+    .filter((v) => v > 0 && v <= total)
     .sort((a, b) => a - b);
 
   const button = (value, label, disabled = false, role = '') =>
@@ -214,10 +232,15 @@ function pagination(total) {
       </button>
     </li>`;
 
-  let html = button(state.ui.page - 1, t('السابق', 'Previous'), state.ui.page === 1, 'prev');
+  let html = button(
+    state.ui.page - 1,
+    t('السابق', 'Previous'),
+    state.ui.page === 1,
+    'prev'
+  );
   let last = 0;
 
-  values.forEach(value => {
+  values.forEach((value) => {
     if (last && value - last > 1) {
       html += `<li class="page-item"><span class="page-ellipsis" aria-hidden="true">…</span></li>`;
     }
@@ -225,7 +248,9 @@ function pagination(total) {
     last = value;
   });
 
-  nav.innerHTML = html + button(state.ui.page + 1, t('التالي', 'Next'), state.ui.page === total, 'next');
+  nav.innerHTML =
+    html +
+    button(state.ui.page + 1, t('التالي', 'Next'), state.ui.page === total, 'next');
 }
 
 export function syncBundle() {
@@ -250,15 +275,18 @@ export function syncBundle() {
 }
 
 export function render() {
-  if (state.ui.single !== null) { renderSingle(); return; }
+  if (state.ui.single !== null) {
+    renderSingle();
+    return;
+  }
 
   visible('singleBookView', false);
-  ['booksDisplayContainer', 'controlsRow'].forEach(id => visible(id, true));
+  ['booksDisplayContainer', 'controlsRow'].forEach((id) => visible(id, true));
 
   document.querySelector('.chips-container')?.classList.remove('d-none');
   $('paginationContainer')?.parentElement?.classList.remove('d-none');
 
-    syncBundle();
+  syncBundle();
 
   // Sync search-derived UI (idempotent — works even if input handler missed)
   if ($('searchInput') && $('searchInput').value !== state.filters.query) {
@@ -276,14 +304,12 @@ export function render() {
     !state.user.bundleMode &&
     !state.filters.favoritesOnly;
 
-  const featuredBook = isDefaultView ? books.find(b => b.featured) : null;
+  const featuredBook = isDefaultView ? books.find((b) => b.featured) : null;
   const spotlight = isDefaultView && state.ui.page === 1 ? featuredBook : null;
 
   $('featuredSection').innerHTML = spotlight ? featured(spotlight) : '';
 
-  const gridBooks = featuredBook
-    ? books.filter(b => b.id !== featuredBook.id)
-    : books;
+  const gridBooks = featuredBook ? books.filter((b) => b.id !== featuredBook.id) : books;
 
   const size = 6;
   const total = Math.ceil(gridBooks.length / size);
@@ -314,15 +340,20 @@ export function render() {
 
 export function categories() {
   const map = new Map();
-  state.data.books.forEach(book => map.set(categoryKey(book), categoryLabel(book)));
+  state.data.books.forEach((book) => map.set(categoryKey(book), categoryLabel(book)));
   text('catCounter', number(map.size));
 
   const chips = $('categoryChips');
   if (!chips) return;
 
   chips.innerHTML = [['all', t('كل المراجع', 'All references')], ...map]
-    .map(([key, label]) => `<button type="button" class="chip-item ${state.filters.category === key ? 'active' : ''}"
-      data-category="${esc(key)}" aria-pressed="${state.filters.category === key}">${esc(label)}</button>`)
+    .map(
+      ([
+        key,
+        label
+      ]) => `<button type="button" class="chip-item ${state.filters.category === key ? 'active' : ''}"
+      data-category="${esc(key)}" aria-pressed="${state.filters.category === key}">${esc(label)}</button>`
+    )
     .join('');
 
   requestAnimationFrame(updateChips);
@@ -356,9 +387,13 @@ export function metadata(book = null) {
       );
 
   document.title = title;
-  document.querySelector('meta[name="description"]')?.setAttribute('content', description.slice(0, 160));
+  document
+    .querySelector('meta[name="description"]')
+    ?.setAttribute('content', description.slice(0, 160));
   document.querySelector('meta[property="og:title"]')?.setAttribute('content', title);
-  document.querySelector('meta[property="og:description"]')?.setAttribute('content', description.slice(0, 160));
+  document
+    .querySelector('meta[property="og:description"]')
+    ?.setAttribute('content', description.slice(0, 160));
 }
 
 export function summary(book) {
@@ -377,7 +412,10 @@ export function summary(book) {
   if (apa) apa.dir = 'auto';
 
   const list = $('summaryKeyPoints');
-  if (list) list.innerHTML = points(book).map(p => `<li>${esc(p)}</li>`).join('');
+  if (list)
+    list.innerHTML = points(book)
+      .map((p) => `<li>${esc(p)}</li>`)
+      .join('');
 
   modal.open('summaryModal');
 }
@@ -386,8 +424,12 @@ export function renderSingle() {
   const book = byId(state.ui.single);
   if (!book) return;
 
-  ['booksDisplayContainer', 'controlsRow', 'bundleBar', 'bundleModeAlertContainer']
-    .forEach(id => visible(id, false));
+  [
+    'booksDisplayContainer',
+    'controlsRow',
+    'bundleBar',
+    'bundleModeAlertContainer'
+  ].forEach((id) => visible(id, false));
   document.querySelector('.chips-container')?.classList.add('d-none');
   $('paginationContainer')?.parentElement?.classList.add('d-none');
   $('featuredSection').innerHTML = '';
@@ -422,7 +464,10 @@ export function renderSingle() {
   text('singleBookAudience', field(book, 'target_audience') || labels().unknown);
 
   const kp = $('singleBookKeyPoints');
-  if (kp) kp.innerHTML = points(book).map(p => `<li>${esc(p)}</li>`).join('');
+  if (kp)
+    kp.innerHTML = points(book)
+      .map((p) => `<li>${esc(p)}</li>`)
+      .join('');
 
   const starsContainer = $('singleBookStars');
   if (starsContainer) starsContainer.innerHTML = stars(book);
@@ -434,7 +479,8 @@ export function renderSingle() {
     $('singleReadBtn').onclick = () => readBook(book);
   }
   if ($('singleDownloadBtn')) {
-    $('singleDownloadBtn').disabled = !book.file_path || state.meta.busyDownloads.has(book.id);
+    $('singleDownloadBtn').disabled =
+      !book.file_path || state.meta.busyDownloads.has(book.id);
     $('singleDownloadBtn').onclick = () => download(book);
   }
   if ($('singleCiteBtn')) $('singleCiteBtn').onclick = () => copy(citation(book));

@@ -15,13 +15,25 @@ export function language() {
   root.dir = state.ui.lang === 'ar' ? 'rtl' : 'ltr';
 
   const pairs = {
-    'langLabel': ['EN', 'عربي'],
+    langLabel: ['EN', 'عربي'],
     'txt-install': ['تثبيت', 'Install'],
-    'txt-announcement': ['IAR ARCHIVE · مساحة للمعرفة الإدارية', 'IAR ARCHIVE · A space for management knowledge'],
+    'txt-announcement': [
+      'IAR ARCHIVE · مساحة للمعرفة الإدارية',
+      'IAR ARCHIVE · A space for management knowledge'
+    ],
     'txt-subtitle': ['الأرشيف الإداري العراقي', 'Iraqi Administrative Reference'],
-    'txt-about-title': ['من ألواح سومر إلى أوراق الحاضر.', 'From Sumer\'s tablets to today\'s pages.'],
-    'txt-about-desc': ['مجموعة منتقاة من المراجع الإدارية، مفهرسة بعناية، مرفقة بملخصات مركزة وتوثيق أكاديمي مباشر — لتكون وجهتك الأولى للبحث والاطلاع.', 'A curated collection of administrative references — indexed with care, accompanied by focused summaries and direct academic citation — so it becomes your first stop for research and reading.'],
-    'txt-kicker': ['𒆠𒂗𒂠 · المكتبة الرقمية العراقية · 2026', '𒆠𒂗𒂠 · The Iraqi Digital Library · 2026'],
+    'txt-about-title': [
+      'من ألواح سومر إلى أوراق الحاضر.',
+      "From Sumer's tablets to today's pages."
+    ],
+    'txt-about-desc': [
+      'مجموعة منتقاة من المراجع الإدارية، مفهرسة بعناية، مرفقة بملخصات مركزة وتوثيق أكاديمي مباشر — لتكون وجهتك الأولى للبحث والاطلاع.',
+      'A curated collection of administrative references — indexed with care, accompanied by focused summaries and direct academic citation — so it becomes your first stop for research and reading.'
+    ],
+    'txt-kicker': [
+      '𒆠𒂗𒂠 · المكتبة الرقمية العراقية · 2026',
+      '𒆠𒂗𒂠 · The Iraqi Digital Library · 2026'
+    ],
     'txt-tag-summary': ['ملخصات 3 دقائق', '3-minute summaries'],
     'txt-tag-cite': ['توثيق APA مباشر', 'Direct APA citations'],
     'txt-tag-bundle': ['حزم بحثية مخصصة', 'Curated research bundles'],
@@ -31,7 +43,7 @@ export function language() {
     'txt-stat-cats': ['مسارات معرفية', 'Knowledge paths'],
     'txt-stat-visits': ['الزيارات اليومية', 'Daily visits'],
     'txt-stat-year': ['سنة الأرشفة', 'Archive year'],
-    'searchLabel': ['البحث في المراجع', 'Search references'],
+    searchLabel: ['البحث في المراجع', 'Search references'],
     'opt-sort-default': ['اختيار الأرشيف', 'Archive selection'],
     'opt-sort-title': ['العنوان: أ — ي', 'Title: A — Z'],
     'opt-sort-year': ['الأحدث أولاً', 'Newest first'],
@@ -41,23 +53,23 @@ export function language() {
     'opt-sort-rating': ['الأعلى تقييماً', 'Highest rated'],
     'txt-bundle-btn': ['نسخ رابط الحزمة', 'Copy bundle link'],
     'txt-clear-bundle': ['إلغاء الحزمة', 'Clear bundle'],
-    'summaryModalTitle': ['ملخص المرجع · 3 دقائق', 'Reference summary · 3 minutes'],
+    summaryModalTitle: ['ملخص المرجع · 3 دقائق', 'Reference summary · 3 minutes'],
     'txt-modal-ideas-title': ['أهم الأفكار', 'Key ideas'],
     'txt-modal-audience-title': ['الفئة المستهدفة', 'Target audience'],
     'txt-modal-apa-title': ['التوثيق الأكاديمي · APA', 'Academic citation · APA'],
     'txt-modal-close': ['إغلاق', 'Close'],
     'txt-share-modal-btn': ['مشاركة', 'Share'],
     'txt-back-to-list': ['العودة إلى المكتبة', 'Back to the library'],
-    'singleDescLabel': ['عن المرجع', 'About this reference'],
-    'singleKeyPointsLabel': ['الأفكار الرئيسية', 'Key concepts'],
-    'singleAudienceLabel': ['الفئة المستهدفة', 'Target audience'],
-    'singleReadLabel': ['قراءة', 'Read'],
-    'singleDownloadLabel': ['تحميل', 'Download'],
-    'singleCiteLabel': ['توثيق APA', 'Cite APA'],
-    'singleShareLabel': ['مشاركة', 'Share'],
+    singleDescLabel: ['عن المرجع', 'About this reference'],
+    singleKeyPointsLabel: ['الأفكار الرئيسية', 'Key concepts'],
+    singleAudienceLabel: ['الفئة المستهدفة', 'Target audience'],
+    singleReadLabel: ['قراءة', 'Read'],
+    singleDownloadLabel: ['تحميل', 'Download'],
+    singleCiteLabel: ['توثيق APA', 'Cite APA'],
+    singleShareLabel: ['مشاركة', 'Share'],
     'txt-loading': ['جارٍ تحميل المراجع…', 'Loading references…'],
-    'dlCancelLabel': ['إلغاء', 'Cancel'],
-    'dlTitle': ['جارٍ تحضير الملف…', 'Preparing file…']
+    dlCancelLabel: ['إلغاء', 'Cancel'],
+    dlTitle: ['جارٍ تحضير الملف…', 'Preparing file…']
   };
 
   Object.entries(pairs).forEach(([id, values]) =>
@@ -65,7 +77,10 @@ export function language() {
   );
 
   const attributes = {
-    searchInput: ['placeholder', t('ابحث بعنوان، مؤلف، أو فكرة…', 'Search a title, author or idea…')],
+    searchInput: [
+      'placeholder',
+      t('ابحث بعنوان، مؤلف، أو فكرة…', 'Search a title, author or idea…')
+    ],
     btnClearSearch: ['aria-label', t('مسح البحث', 'Clear search')],
     langToggleBtn: ['aria-label', t('Switch to English', 'التبديل إلى العربية')],
     themeToggleBtn: ['aria-label', t('تبديل المظهر', 'Toggle theme')],
@@ -82,7 +97,10 @@ export function language() {
 
   Object.entries(attributes).forEach(([id, [key, value]]) => attr(id, key, value));
 
-  $('paginationContainer')?.parentElement?.setAttribute('aria-label', t('صفحات المراجع', 'Reference pages'));
+  $('paginationContainer')?.parentElement?.setAttribute(
+    'aria-label',
+    t('صفحات المراجع', 'Reference pages')
+  );
 
   const bundleTextEl = $('txt-bundle-text');
   if (bundleTextEl) {
@@ -92,12 +110,21 @@ export function language() {
     );
   }
 
-  text('booksCounter', state.data.books.length
-    ? new Intl.NumberFormat(state.ui.lang === 'ar' ? 'ar-u-nu-latn' : 'en-US').format(state.data.books.length)
-    : '—');
+  text(
+    'booksCounter',
+    state.data.books.length
+      ? new Intl.NumberFormat(state.ui.lang === 'ar' ? 'ar-u-nu-latn' : 'en-US').format(
+          state.data.books.length
+        )
+      : '—'
+  );
 
-  if (state.data.loaded) { categories(); render(); }
-  else { syncBundle(); }
+  if (state.data.loaded) {
+    categories();
+    render();
+  } else {
+    syncBundle();
+  }
 
   metadata(state.ui.single !== null ? byId(state.ui.single) : null);
 
@@ -107,7 +134,10 @@ export function language() {
 
   const backIcon = $('btnBackToList')?.querySelector('use');
   if (backIcon) {
-    backIcon.setAttribute('href', `#i-arrow-${state.ui.lang === 'ar' ? 'right' : 'left'}`);
+    backIcon.setAttribute(
+      'href',
+      `#i-arrow-${state.ui.lang === 'ar' ? 'right' : 'left'}`
+    );
   }
 
   text('archiveYear', '2026');
@@ -116,9 +146,13 @@ export function language() {
 export function theme() {
   document.documentElement.dataset.theme = state.ui.theme;
   const icon = $('themeIcon');
-  if (icon) icon.querySelector('use')?.setAttribute('href', state.ui.theme === 'dark' ? '#i-sun' : '#i-moon');
+  if (icon)
+    icon
+      .querySelector('use')
+      ?.setAttribute('href', state.ui.theme === 'dark' ? '#i-sun' : '#i-moon');
   attr('themeToggleBtn', 'aria-pressed', state.ui.theme === 'dark');
-  document.querySelector('meta[name="theme-color"]')
+  document
+    .querySelector('meta[name="theme-color"]')
     ?.setAttribute('content', state.ui.theme === 'dark' ? '#0a0d14' : '#f4efe4');
 }
 
@@ -129,14 +163,25 @@ export function initAmbient() {
   if (canHover && !reduceMotion) {
     const glow = $('cursorGlow');
     if (glow) {
-      let rafId = 0, pendingX = 0, pendingY = 0;
-      const flush = () => { glow.style.left = pendingX + 'px'; glow.style.top = pendingY + 'px'; rafId = 0; };
+      let rafId = 0,
+        pendingX = 0,
+        pendingY = 0;
+      const flush = () => {
+        glow.style.left = pendingX + 'px';
+        glow.style.top = pendingY + 'px';
+        rafId = 0;
+      };
 
-      window.addEventListener('pointermove', e => {
-        pendingX = e.clientX; pendingY = e.clientY;
-        if (!rafId) rafId = requestAnimationFrame(flush);
-        glow.classList.add('is-active');
-      }, { passive: true });
+      window.addEventListener(
+        'pointermove',
+        (e) => {
+          pendingX = e.clientX;
+          pendingY = e.clientY;
+          if (!rafId) rafId = requestAnimationFrame(flush);
+          glow.classList.add('is-active');
+        },
+        { passive: true }
+      );
 
       window.addEventListener('pointerleave', () => glow.classList.remove('is-active'));
       document.addEventListener('pointerleave', () => glow.classList.remove('is-active'));

@@ -16,26 +16,31 @@ import { route } from './router.js';
 
 export async function loadMetrics() {
   await fb.ready;
-  if (!fb.db) { text('siteVisitsCounter', '—'); return; }
+  if (!fb.db) {
+    text('siteVisitsCounter', '—');
+    return;
+  }
 
-  await Promise.allSettled(['ratings', 'downloads'].map(async name => {
-    const snapshot = await timeout(fb.db.collection(name).get());
-    snapshot.forEach(doc => {
-      const book = byId(doc.id);
-      if (!book) return;
-      const data = doc.data();
-      if (name === 'downloads') {
-        book.downloadCount = finite(data.count);
-      } else {
-        book.ratingSum = finite(data.ratingSum);
-        book.ratingCount = finite(data.ratingCount);
-        book.publicRating = Math.min(5, finite(data.average));
-        book.voters = Array.isArray(data.voters)
-          ? data.voters.filter(v => typeof v === 'string')
-          : [];
-      }
-    });
-  }));
+  await Promise.allSettled(
+    ['ratings', 'downloads'].map(async (name) => {
+      const snapshot = await timeout(fb.db.collection(name).get());
+      snapshot.forEach((doc) => {
+        const book = byId(doc.id);
+        if (!book) return;
+        const data = doc.data();
+        if (name === 'downloads') {
+          book.downloadCount = finite(data.count);
+        } else {
+          book.ratingSum = finite(data.ratingSum);
+          book.ratingCount = finite(data.ratingCount);
+          book.publicRating = Math.min(5, finite(data.average));
+          book.voters = Array.isArray(data.voters)
+            ? data.voters.filter((v) => typeof v === 'string')
+            : [];
+        }
+      });
+    })
+  );
 
   refreshRatings();
   refreshCounts();
@@ -46,12 +51,14 @@ export async function loadMetrics() {
     let count;
 
     if (fb.auth?.currentUser && Date.now() - last > 86400000) {
-      count = await timeout(fb.db.runTransaction(async transaction => {
-        const doc = await transaction.get(visits);
-        const next = finite(doc.data()?.count) + 1;
-        transaction.set(visits, { count: next }, { merge: true });
-        return next;
-      }));
+      count = await timeout(
+        fb.db.runTransaction(async (transaction) => {
+          const doc = await transaction.get(visits);
+          const next = finite(doc.data()?.count) + 1;
+          transaction.set(visits, { count: next }, { merge: true });
+          return next;
+        })
+      );
       store.set('iar_last_visit', Date.now());
     } else {
       count = finite((await timeout(visits.get())).data()?.count);
@@ -91,7 +98,7 @@ export async function fetchBooks() {
     if (!Array.isArray(payload)) throw new Error('books.json must contain an array');
 
     const ids = new Set();
-    state.data.books = payload.map(normalize).filter(book => {
+    state.data.books = payload.map(normalize).filter((book) => {
       if (!book || ids.has(book.id)) return false;
       ids.add(book.id);
       return true;

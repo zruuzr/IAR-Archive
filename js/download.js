@@ -78,7 +78,9 @@ function hideDownloadOverlay() {
 export function cancelDownload() {
   const controller = state.meta.downloadAbort;
   if (controller) {
-    try { controller.abort(); } catch {}
+    try {
+      controller.abort();
+    } catch {}
   }
 }
 
@@ -92,7 +94,9 @@ export async function download(book) {
   const controller = new AbortController();
   state.meta.downloadAbort = controller;
   const timeoutId = setTimeout(() => {
-    try { controller.abort(new DOMException('Timeout', 'TimeoutError')); } catch {}
+    try {
+      controller.abort(new DOMException('Timeout', 'TimeoutError'));
+    } catch {}
   }, 120000);
 
   try {
@@ -100,9 +104,10 @@ export async function download(book) {
     if (!response.ok) throw new Error('Download unavailable');
 
     const total = Number(response.headers.get('Content-Length')) || 0;
-    const reader = response.body && typeof response.body.getReader === 'function'
-      ? response.body.getReader()
-      : null;
+    const reader =
+      response.body && typeof response.body.getReader === 'function'
+        ? response.body.getReader()
+        : null;
 
     let blob;
     if (reader) {
@@ -135,15 +140,14 @@ export async function download(book) {
     setTimeout(() => URL.revokeObjectURL(url), 60000);
 
     if (total > 0) updateDownloadOverlay(total, total);
-    await new Promise(r => setTimeout(r, 400));
+    await new Promise((r) => setTimeout(r, 400));
 
     if (fb.db && fb.auth?.currentUser) {
       try {
         const ref = fb.db.collection('downloads').doc(String(book.id));
-        await timeout(ref.set(
-          { count: firebase.firestore.FieldValue.increment(1) },
-          { merge: true }
-        ));
+        await timeout(
+          ref.set({ count: firebase.firestore.FieldValue.increment(1) }, { merge: true })
+        );
         book.downloadCount = finite((await timeout(ref.get())).data()?.count);
       } catch {}
     }
@@ -172,7 +176,7 @@ export async function download(book) {
 }
 
 export function setDownloadBusy(id, busy) {
-  $$(`[data-action="download"][data-id="${id}"]`).forEach(button => {
+  $$(`[data-action="download"][data-id="${id}"]`).forEach((button) => {
     button.disabled = busy;
     button.setAttribute('aria-busy', String(busy));
   });
@@ -182,9 +186,9 @@ export function setDownloadBusy(id, busy) {
 }
 
 export function refreshCounts() {
-  state.data.books.forEach(book => {
+  state.data.books.forEach((book) => {
     $$(`[data-download-count="${book.id}"]`).forEach(
-      el => (el.textContent = number(book.downloadCount))
+      (el) => (el.textContent = number(book.downloadCount))
     );
   });
   if (state.ui.single != null) {

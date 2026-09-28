@@ -10,12 +10,10 @@ export const t = (ar, en) => (state.ui.lang === 'ar' ? ar : en);
 export const field = (book, name) =>
   state.ui.lang === 'en' && book[name + '_en'] ? book[name + '_en'] : book[name];
 
-export const number = v =>
-  new Intl.NumberFormat(
-    state.ui.lang === 'ar' ? 'ar-u-nu-latn' : 'en-US'
-  ).format(v);
+export const number = (v) =>
+  new Intl.NumberFormat(state.ui.lang === 'ar' ? 'ar-u-nu-latn' : 'en-US').format(v);
 
-export const i = name =>
+export const i = (name) =>
   `<svg class="icon" aria-hidden="true"><use href="#i-${name}"/></svg>`;
 
 export const labels = () => ({

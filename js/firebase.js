@@ -14,7 +14,9 @@ export function timeout(promise, ms = 8000) {
   let timer;
   return Promise.race([
     promise,
-    new Promise((_, reject) => { timer = setTimeout(() => reject(new Error('Timeout')), ms); })
+    new Promise((_, reject) => {
+      timer = setTimeout(() => reject(new Error('Timeout')), ms);
+    })
   ]).finally(() => clearTimeout(timer));
 }
 

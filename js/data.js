@@ -26,7 +26,9 @@ export function asset(value, pdf = false) {
       : location.href;
     const url = new URL(raw.replace(/^\/+/, ''), base);
     return ['http:', 'https:', 'file:'].includes(url.protocol) ? url.href : '';
-  } catch { return ''; }
+  } catch {
+    return '';
+  }
 }
 
 export function normalize(raw) {
@@ -35,23 +37,34 @@ export function normalize(raw) {
   if (!Number.isSafeInteger(id) || id < 0 || !clean(raw.title)) return null;
 
   const book = { id };
-  ['title', 'author', 'category', 'description', 'publisher', 'type', 'target_audience', 'badge_text']
-    .forEach(key => {
-      book[key] = clean(raw[key]);
-      book[key + '_en'] = clean(raw[key + '_en']);
-    });
+  [
+    'title',
+    'author',
+    'category',
+    'description',
+    'publisher',
+    'type',
+    'target_audience',
+    'badge_text'
+  ].forEach((key) => {
+    book[key] = clean(raw[key]);
+    book[key + '_en'] = clean(raw[key + '_en']);
+  });
 
-  ['year', 'pages', 'file_size'].forEach(key => (book[key] = clean(raw[key])));
-  ['keywords', 'keywords_en', 'key_points', 'key_points_en']
-    .forEach(key => (book[key] = words(raw[key])));
+  ['year', 'pages', 'file_size'].forEach((key) => (book[key] = clean(raw[key])));
+  ['keywords', 'keywords_en', 'key_points', 'key_points_en'].forEach(
+    (key) => (book[key] = words(raw[key]))
+  );
 
   book.featured = raw.featured === true;
   book.cover_image = asset(raw.cover_image);
   book.file_path = asset(raw.file_path, true);
 
-  let name = clean(raw.file_name) ||
-    clean(raw.file_path).split('/').pop()?.split('?')[0] || '';
-  try { name = decodeURIComponent(name); } catch {}
+  let name =
+    clean(raw.file_name) || clean(raw.file_path).split('/').pop()?.split('?')[0] || '';
+  try {
+    name = decodeURIComponent(name);
+  } catch {}
   book.file_name = name.replace(/[\\/\u0000-\u001f]/g, '_') || `IAR-${id}.pdf`;
 
   book.downloadCount = 0;
@@ -62,16 +75,22 @@ export function normalize(raw) {
   return book;
 }
 
-export const byId = id => state.data.books.find(b => b.id === Number(id));
-export const categoryKey = b => b.category || '__general__';
-export const categoryLabel = b => field(b, 'category') || t('عام', 'General');
+export const byId = (id) => state.data.books.find((b) => b.id === Number(id));
+export const categoryKey = (b) => b.category || '__general__';
+export const categoryLabel = (b) => field(b, 'category') || t('عام', 'General');
 
 export function points(book) {
-  const list = state.ui.lang === 'en' && book.key_points_en.length
-    ? book.key_points_en
-    : book.key_points;
+  const list =
+    state.ui.lang === 'en' && book.key_points_en.length
+      ? book.key_points_en
+      : book.key_points;
 
   return list.length
     ? list
-    : [t('لم يُرفق ملخص لهذا المرجع بعد.', 'No summary has been provided for this reference yet.')];
+    : [
+        t(
+          'لم يُرفق ملخص لهذا المرجع بعد.',
+          'No summary has been provided for this reference yet.'
+        )
+      ];
 }

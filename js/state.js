@@ -9,7 +9,9 @@ export function savedArray(key) {
   try {
     const v = JSON.parse(store.get(key, '[]'));
     return Array.isArray(v) ? v.filter(Number.isSafeInteger) : [];
-  } catch { return []; }
+  } catch {
+    return [];
+  }
 }
 
 export const state = {
