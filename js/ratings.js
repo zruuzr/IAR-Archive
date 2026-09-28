@@ -3,12 +3,12 @@
    Stars rendering, transaction-based rating, refresh.
    ============================================================ */
 
-import { $, $$, esc, finite } from './utils.js';
+import { $$, esc, finite } from './utils.js';
 import { state } from './state.js';
 import { t, i, number } from './i18n.js';
 import { byId } from './data.js';
 import { toast } from './ui-helpers.js';
-import { fb, timeout } from './firebase.js';
+import { fb } from './firebase.js';
 
 export const rated = book =>
   Array.isArray(book.voters) && book.voters.includes(fb.auth?.currentUser?.uid);
