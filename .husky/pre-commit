@@ -1,9 +1,2 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
-# ESLint + Prettier على الملفات المُعدَّلة
 npm run lint
 npm run format:check
-
-# ملاحظة: لا نشغّل E2E هنا لأنه بطيء (~45 ثانية)
-# E2E يعمل في CI على GitHub
