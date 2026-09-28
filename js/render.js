@@ -3,7 +3,7 @@
    Cards, featured, pagination, single view, summary, categories.
    ============================================================ */
 
-import { $, $$, esc, text, attr, visible, motion } from './utils.js';
+import { $, esc, text, attr, visible } from './utils.js';
 import { state } from './state.js';
 import { t, field, number, i, labels } from './i18n.js';
 import { byId, categoryKey, categoryLabel, points } from './data.js';
