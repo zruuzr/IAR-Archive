@@ -3,7 +3,7 @@
    Toast notifications, clipboard, modal system, citation, share.
    ============================================================ */
 
-import { $, $$, clean } from './utils.js';
+import { $, $$ } from './utils.js';
 import { t, field, labels } from './i18n.js';
 
 export function toast(message, error = false) {
