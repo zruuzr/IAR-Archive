@@ -72,3 +72,6 @@ playwright-report/
 test-results/
 .playwright/
 playwright/.cache/
+
+# ESLint
+.eslintcache
