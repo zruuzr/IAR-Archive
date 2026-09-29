@@ -34,18 +34,6 @@ please report it privately using one of the following methods:
 This creates a private security advisory visible only to the
 maintainer. It is the fastest and most secure channel.
 
-### Alternative method — Direct email
-
-If you prefer email, contact:
-
-**Email:** `security@iararchive.example` *(placeholder — see note below)*
-
-Please use the subject line: `[SECURITY] IAR Archive — <short summary>`
-
-*Note: If you do not receive a response within 7 days, please open
-a public issue with NO technical details, asking for a secure channel.
-Do not include vulnerability details in the issue.*
-
 ---
 
 ## What to Include in Your Report
