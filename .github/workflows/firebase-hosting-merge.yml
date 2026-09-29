@@ -23,6 +23,45 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Diagnostic — Check secret presence
+        env:
+          SECRET_VALUE: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_IAR_ARCHIVE_328BC }}
+        run: |
+          echo "::group::Secret Diagnostics"
+          if [ -z "$SECRET_VALUE" ]; then
+            echo "❌ SECRET IS EMPTY — value not received"
+            echo "::endgroup::"
+            exit 1
+          fi
+          echo "✅ Secret received. Length: ${#SECRET_VALUE} characters"
+
+          FIRST_CHAR=$(echo "$SECRET_VALUE" | head -c 1)
+          if [ "$FIRST_CHAR" = "{" ]; then
+            echo "✅ Secret starts with '{' — looks like JSON"
+          else
+            echo "⚠️ Secret does NOT start with '{' — received first char: '$FIRST_CHAR'"
+          fi
+
+          LAST_CHAR=$(echo "$SECRET_VALUE" | tail -c 1)
+          if [ "$LAST_CHAR" = "}" ]; then
+            echo "✅ Secret ends with '}' — looks like complete JSON"
+          else
+            echo "⚠️ Secret does NOT end with '}'"
+          fi
+
+          if echo "$SECRET_VALUE" | grep -q '"type": *"service_account"'; then
+            echo "✅ Contains '\"type\": \"service_account\"' — valid Firebase SA"
+          else
+            echo "⚠️ Missing '\"type\": \"service_account\"' — may not be a Firebase SA"
+          fi
+
+          if echo "$SECRET_VALUE" | grep -q '"project_id": *"iar-archive-328bc"'; then
+            echo "✅ Contains correct project_id 'iar-archive-328bc'"
+          else
+            echo "⚠️ Missing or wrong project_id"
+          fi
+          echo "::endgroup::"
+
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@500ac625ca2dd40cbd15f7659af953801858032a # v0.11.0
         with:
