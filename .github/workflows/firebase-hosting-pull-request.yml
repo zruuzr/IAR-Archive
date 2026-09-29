@@ -12,22 +12,7 @@ permissions:
 
 jobs:
   build_and_preview:
-    # Run only for PRs from this repository, AND skip Dependabot PRs.
-    #
-    # Why skip Dependabot?
-    #   GitHub Actions does not pass repository secrets to workflows
-    #   triggered by Dependabot PRs (security policy). The Firebase
-    #   deploy action requires a service account secret, so it would
-    #   fail on every Dependabot PR.
-    #
-    #   Dependabot PRs are dependency updates — they do not change
-    #   the site's runtime behavior, so a preview deployment is not
-    #   necessary. The full CI suite (Tests, E2E, Lint) still runs.
-    if: >
-      ${{
-        github.event.pull_request.head.repo.full_name == github.repository
-        && github.actor != 'dependabot[bot]'
-      }}
+    if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
     runs-on: ubuntu-latest
 
     steps:
