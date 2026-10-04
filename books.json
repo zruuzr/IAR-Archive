@@ -7414,39 +7414,5 @@
     "file_name": "سيكلوجية_الادارة.pdf",
     "cover_image": "covers/143.png",
     "source_sha256": "04551c2cc13dc5385eb551c39cd9fb1385c902c1abf4792942bdaab161af71a0"
-  },
-  {
-    "id": 144,
-    "title": "غير محدد",
-    "title_en": "",
-    "author": "غير معروف",
-    "author_en": "",
-    "category": "عام",
-    "category_en": "",
-    "description": "المستند يحتوي فقط على روابط مكررة لموقع إلكتروني دون توفر بيانات مكتبية أو نصوص موضوعية.",
-    "description_en": "",
-    "publisher": "",
-    "publisher_en": "",
-    "type": "مستند",
-    "type_en": "",
-    "target_audience": "غير محدد",
-    "target_audience_en": "",
-    "year": 0,
-    "pages": 343,
-    "file_size": "10.5 MB",
-    "isbn": "",
-    "keywords": [
-      "ibtesama"
-    ],
-    "keywords_en": [],
-    "key_points": [],
-    "key_points_en": [],
-    "featured": false,
-    "badge_text": "",
-    "badge_text_en": "",
-    "file_path": "pdf/الادارة_بالنتائج.pdf",
-    "file_name": "الادارة_بالنتائج.pdf",
-    "cover_image": "covers/144.png",
-    "source_sha256": "fb5d5c273ba0d22ad51dd3d158101fdb3832e2c22e08c8eb1695be8bc3d34d3d"
   }
 ]
