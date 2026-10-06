@@ -8052,41 +8052,5 @@
     "file_name": "دعاوى_العمل_والدعاوى_المستعجلة.pdf",
     "cover_image": "covers/157.png",
     "source_sha256": "dd85fbafa6a45c7a3d728c7efc2af873cb7cb3a84a35bebd494fb305702cb7fe"
-  },
-  {
-    "id": 158,
-    "title": "Scanned Document",
-    "title_en": "",
-    "author": "Unknown",
-    "author_en": "",
-    "category": "Uncategorized",
-    "category_en": "",
-    "description": "The provided document contains only scanner watermarks and no extractable text content.",
-    "description_en": "",
-    "publisher": "Unknown",
-    "publisher_en": "",
-    "type": "Scanned Document",
-    "type_en": "",
-    "target_audience": "General",
-    "target_audience_en": "",
-    "year": 0,
-    "pages": 334,
-    "file_size": "33.9 MB",
-    "isbn": "",
-    "keywords": [
-      "scanned document"
-    ],
-    "keywords_en": [],
-    "key_points": [
-      "No legible text content available in the document."
-    ],
-    "key_points_en": [],
-    "featured": false,
-    "badge_text": "",
-    "badge_text_en": "",
-    "file_path": "pdf/استقالة_الموظف_العام.pdf",
-    "file_name": "استقالة_الموظف_العام.pdf",
-    "cover_image": "covers/158.png",
-    "source_sha256": "fc42116066a0184967b9fd0ac7c9be8fd07bda52bb92bb438db2c5b0350e7e88"
   }
 ]
