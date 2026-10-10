@@ -4,14 +4,21 @@ on:
   push:
     paths:
       - 'pdf/**'
+  schedule:
+    # Completes records still marked ai_status="partial" and picks up any
+    # file a previous run could not finish. Runs on the default branch only.
+    - cron: '23 */3 * * *'
   workflow_dispatch:
 
 permissions:
   contents: write
 
+# Never cancel a running extraction: progress is only committed at the end
+# of the job, so cancelling would throw away every book processed so far.
+# Runs are idempotent (each run scans all of pdf/), so queued runs are safe.
 concurrency:
-  group: auto-process-books-v3-${{ github.ref }}
-  cancel-in-progress: true
+  group: auto-process-books-${{ github.ref }}
+  cancel-in-progress: false
 
 env:
   PYTHON_VERSION: '3.13'
@@ -21,7 +28,9 @@ env:
 jobs:
   process-pdf:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    # The script itself stops at 100 minutes (see "Run Extraction Script"),
+    # leaving time to validate, commit and push.
+    timeout-minutes: 120
 
     steps:
       - name: Checkout Repository
@@ -51,24 +60,25 @@ jobs:
       - name: Verify API Keys
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEYS: ${{ secrets.GEMINI_API_KEYS }}
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          GROQ_API_KEYS: ${{ secrets.GROQ_API_KEYS }}
+          OPENAI_COMPAT_BASE_URL: ${{ vars.OPENAI_COMPAT_BASE_URL }}
         run: |
-          if [ -z "${GEMINI_API_KEY:-}" ] && [ -z "${GROQ_API_KEY:-}" ]; then
-            echo "::error title=Missing AI Providers::Neither GEMINI_API_KEY nor GROQ_API_KEY is configured."
+          has_gemini=0; has_groq=0; has_compat=0
+          if [ -n "${GEMINI_API_KEY:-}" ] || [ -n "${GEMINI_API_KEYS:-}" ]; then has_gemini=1; fi
+          if [ -n "${GROQ_API_KEY:-}" ] || [ -n "${GROQ_API_KEYS:-}" ]; then has_groq=1; fi
+          if [ -n "${OPENAI_COMPAT_BASE_URL:-}" ]; then has_compat=1; fi
+
+          if [ "$has_gemini$has_groq$has_compat" = "000" ]; then
+            echo "::error title=Missing AI Providers::No GEMINI_API_KEY(S), GROQ_API_KEY(S) or OPENAI_COMPAT_BASE_URL is configured."
             exit 1
           fi
 
-          if [ -z "${GEMINI_API_KEY:-}" ]; then
-            echo "::warning title=Gemini Missing::GEMINI_API_KEY is not set — Groq fallback will be used."
-          else
-            echo "✓ Gemini API key is configured."
-          fi
-
-          if [ -z "${GROQ_API_KEY:-}" ]; then
-            echo "::warning title=Groq Missing::GROQ_API_KEY is not set — Gemini will be used without Groq fallback."
-          else
-            echo "✓ Groq API key is configured."
-          fi
+          [ "$has_gemini" = 1 ] && echo "✓ Gemini is configured." || echo "::warning title=Gemini Missing::Gemini is not configured."
+          [ "$has_groq" = 1 ] && echo "✓ Groq is configured." || echo "::warning title=Groq Missing::Groq is not configured."
+          [ "$has_compat" = 1 ] && echo "✓ OpenAI-compatible provider is configured."
+          exit 0
 
       - name: Verify Dependencies
         run: |
@@ -91,6 +101,25 @@ jobs:
             migrate_books.py \
             validate_books.py
 
+      # Raw AI answers keyed by file hash. They survive between runs, so a
+      # book already analysed is never paid for twice (and survives an outage).
+      - name: Restore AI Answer Cache
+        uses: actions/cache@v4
+        with:
+          path: ai_cache
+          key: ai-cache-${{ github.run_id }}
+          restore-keys: |
+            ai-cache-
+
+      # Optional local OCR for scanned PDFs. Enable by creating the
+      # repository variable ENABLE_OCR = true (Settings > Variables).
+      - name: Install OCR Tools (optional)
+        if: ${{ vars.ENABLE_OCR == 'true' }}
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            ocrmypdf tesseract-ocr tesseract-ocr-ara
+
       - name: Normalize Legacy Catalog
         run: |
           python migrate_books.py
@@ -99,12 +128,34 @@ jobs:
         run: |
           python validate_books.py
 
+      # continue-on-error: whatever was processed before a crash or the time
+      # limit must still be validated and committed. A crash is reported by
+      # the "Fail If Extraction Crashed" step at the end.
       - name: Run Extraction Script
+        id: extract
+        continue-on-error: true
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEYS: ${{ secrets.GEMINI_API_KEYS }}
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          GROQ_API_KEYS: ${{ secrets.GROQ_API_KEYS }}
+          OPENAI_COMPAT_API_KEY: ${{ secrets.OPENAI_COMPAT_API_KEY }}
+          # Optional repository variables (comma-separated model lists).
+          GEMINI_MODELS: ${{ vars.GEMINI_MODELS }}
+          GROQ_MODELS: ${{ vars.GROQ_MODELS }}
+          OPENAI_COMPAT_BASE_URL: ${{ vars.OPENAI_COMPAT_BASE_URL }}
+          OPENAI_COMPAT_MODELS: ${{ vars.OPENAI_COMPAT_MODELS }}
         run: |
-          python process_books.py
+          set +e
+          timeout --signal=TERM --kill-after=60 100m python process_books.py
+          code=$?
+
+          if [ "$code" -eq 124 ]; then
+            echo "::warning title=Time budget reached::Stopped after 100 minutes. Progress is saved; remaining files continue on the next run."
+            exit 0
+          fi
+
+          exit "$code"
 
       - name: Validate Final Book Catalog
         run: |
@@ -151,6 +202,12 @@ jobs:
           done
 
           echo "::error title=Push Failed::Could not push after 3 attempts."
+          exit 1
+
+      - name: Fail If Extraction Crashed
+        if: ${{ steps.extract.outcome == 'failure' }}
+        run: |
+          echo "::error title=Extraction Failed::process_books.py crashed. Work done before the crash was validated and committed; check the logs of the extraction step."
           exit 1
 
       - name: Notify on Failure
