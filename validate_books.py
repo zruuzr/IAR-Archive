@@ -14,6 +14,15 @@ Why?
 
 Missing author therefore generates a warning instead of failing
 the workflow.
+
+Partial records
+---------------
+process_books.py never drops a book when AI providers are unavailable:
+it writes a record marked  "ai_status": "partial"  built from local data
+only and completes it automatically on a later run. For such records only
+id, title and file_path are mandatory; category, type and description may
+be empty (the website shows neutral labels for empty values). Records
+without ai_status, or with "complete", are validated strictly as before.
 """
 
 from __future__ import annotations
@@ -42,6 +51,20 @@ REQUIRED_FIELDS = {
     "type",
     "file_path",
 }
+
+# Minimum for records still waiting for AI enrichment (ai_status="partial").
+PARTIAL_REQUIRED_FIELDS = {
+    "id",
+    "title",
+    "file_path",
+}
+
+VALID_AI_STATUSES = {
+    "complete",
+    "partial",
+}
+
+MAX_AI_ATTEMPTS = 1_000
 
 SUPPORTED_EXTENSIONS = {
     ".pdf",
@@ -549,6 +572,37 @@ def validate_sha256(
 
 
 # ============================================================
+# AI enrichment bookkeeping (ai_status / ai_attempts)
+# ============================================================
+
+def validate_ai_fields(
+    book: dict[str, Any],
+    index: int,
+) -> None:
+    status = book.get(
+        "ai_status"
+    )
+
+    if status is not None and (
+        not isinstance(status, str)
+        or status not in VALID_AI_STATUSES
+    ):
+        fail(
+            f"Book #{index}: ai_status must be one of "
+            + ", ".join(sorted(VALID_AI_STATUSES))
+            + "."
+        )
+
+    validate_integer(
+        book,
+        "ai_attempts",
+        index,
+        minimum=0,
+        maximum=MAX_AI_ATTEMPTS,
+    )
+
+
+# ============================================================
 # Book validation
 # ============================================================
 
@@ -565,8 +619,14 @@ def validate_book(
             f"Book #{index}: expected a JSON object."
         )
 
+    partial = book.get("ai_status") == "partial"
+
     missing = sorted(
-        REQUIRED_FIELDS
+        (
+            PARTIAL_REQUIRED_FIELDS
+            if partial
+            else REQUIRED_FIELDS
+        )
         - book.keys()
     )
 
@@ -596,6 +656,8 @@ def validate_book(
             book,
             field,
             index,
+            # Partial records may leave everything but the title empty.
+            allow_empty=partial and field != "title",
         )
 
     # --------------------------------------------------------
@@ -618,6 +680,7 @@ def validate_book(
         "badge_text_en",
         "file_name",
         "file_size",
+        "file_type",
     }
 
     for field in optional_strings:
@@ -671,6 +734,15 @@ def validate_book(
     )
 
     validate_sha256(
+        book,
+        index,
+    )
+
+    # --------------------------------------------------------
+    # AI enrichment bookkeeping
+    # --------------------------------------------------------
+
+    validate_ai_fields(
         book,
         index,
     )
@@ -765,6 +837,18 @@ def main() -> None:
             book,
             index,
             seen_ids,
+        )
+
+    partial_count = sum(
+        1
+        for book in data
+        if book.get("ai_status") == "partial"
+    )
+
+    if partial_count:
+        warning(
+            f"{partial_count} record(s) are marked 'partial' and "
+            "will be completed automatically on a later run."
         )
 
     print(
