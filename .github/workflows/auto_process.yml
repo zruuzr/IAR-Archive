@@ -104,7 +104,7 @@ jobs:
       # Raw AI answers keyed by file hash. They survive between runs, so a
       # book already analysed is never paid for twice (and survives an outage).
       - name: Restore AI Answer Cache
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ai_cache
           key: ai-cache-${{ github.run_id }}
