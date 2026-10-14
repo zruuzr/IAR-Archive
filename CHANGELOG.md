@@ -9,6 +9,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **Modern Bayt al-Hikma Design System** (`README-DESIGN.md`):
+  - Mesopotamian archival ticker with cuneiform inscriptions and live pulse indicator.
+  - Sovereign site header with brand crest, live metrics counter chips, and accessible toolbar.
+  - Featured Spotlight showcase with 3D leather-bound codex and gold filigree styling.
+  - Exhibition Plinth reference cards featuring dynamic leather facades, cuneiform seals, and responsive action arrays.
+  - Floating Research Bundle Dock with real-time counter and single-click shareable bundle links.
+  - Full WCAG 2.1 AA accessibility compliance with enhanced ARIA labels, live regions, and semantic landmarks.
+- **Architectural JS Modularization**:
+  - Structured modules organized into 4 distinct layers: `js/core/`, `js/data/`, `js/ui/`, and `js/features/`.
+  - Zero-breaking-change backward compatibility bridges in `js/` root.
+
+### Changed
+- **`style.css`**: Radical redesign implementing modern Bayt al-Hikma editorial design tokens, CSS variables, typography scales, hardcover card perspectives, and responsive layouts.
+- **`index.html`**: Completely refactored with modern HTML5 semantic landmarks (`<header>`, `<main>`, `<article>`, `<aside>`, `<footer>`), embedded SVG icon sprite, and accessible modals.
+- **`sw.js`**: Bumped cache version to `v29`, pre-caching modular JavaScript bundles.
+
 ### Planned
 - Migration of PDF storage from GitHub Raw to object storage
   (Cloudflare R2) — see `AUDIT.md` for details.
