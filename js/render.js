@@ -36,25 +36,32 @@ if (pdfModal) {
 
 function cover(book, featured = false) {
   const title = esc(field(book, 'title'));
+  const author = esc(field(book, 'author') || '');
   const color = book.id % 5;
-  const symbols = ['command', 'git-branch', 'layers', 'asterisk', 'circle'];
+  const tones = ['tone-navy', 'tone-lapis', 'tone-slate', 'tone-obsidian', 'tone-bronze'];
 
   const image = book.cover_image
     ? `<img class="cover-img" src="${esc(book.cover_image)}" alt="${title}" loading="${featured ? 'eager' : 'lazy'}">`
     : '';
 
-  const fallback = `<span class="cover-placeholder designed-cover cover-tone-${color}" ${image ? 'hidden' : ''}>
-    <span class="cover-edition">IAR / ${esc(book.year || 'ARCHIVE')}</span>
-    <span class="cover-symbol" aria-hidden="true">${i(symbols[color])}</span>
-    <span class="cover-name">${title}</span>
-    <span class="cover-caption">IAR ARCHIVE</span>
-  </span>`;
+  const fallback = `<div class="leather-book-facade ${tones[color]}" ${image ? 'hidden' : ''}>
+    <div class="volume-spine-ridge"></div>
+    <div class="volume-edge-pages"></div>
+    <div class="volume-filigree-frame"></div>
+    <div class="volume-cuneiform-seal">
+      <svg class="icon"><use href="#i-book"/></svg>
+    </div>
+    <div class="volume-calligraphy-title">${title}</div>
+    <div class="volume-author-stamp">${author}</div>
+    <div class="volume-gold-stamp">IAR ARCHIVE · ${esc(book.year || '2026')}</div>
+  </div>`;
 
   return `<div class="cover-container ${featured ? 'featured-cover' : ''}">
-    <button type="button" class="cover-btn" data-action="${book.cover_image ? 'cover' : 'details'}" data-id="${book.id}" aria-label="${esc(t('عرض', 'View'))}: ${title}">
+    <button type="button" class="cover-btn volume-3d-btn" data-action="${book.cover_image ? 'cover' : 'details'}" data-id="${book.id}" aria-label="${esc(t('عرض', 'View'))}: ${title}">
       ${image}
       ${fallback}
     </button>
+    <div class="plinth-ground-shadow" aria-hidden="true"></div>
   </div>`;
 }
 
@@ -79,10 +86,10 @@ function actions(book) {
   const fav = state.user.favorites.has(book.id);
 
   return `<div class="book-actions">
+    ${action(book, 'summary', 'zap', t('ملخص 3 دقائق', '3-min summary'), true)}
+    ${action(book, 'cite', 'quote', t('توثيق APA', 'Cite APA'))}
     ${action(book, 'read', 'book', l.read)}
-    ${action(book, 'download', 'download', l.download, true)}
-    ${action(book, 'summary', 'zap', l.summary)}
-    ${action(book, 'cite', 'quote', l.cite, false, true)}
+    ${action(book, 'download', 'download', l.download)}
     ${action(
       book,
       'favorite',
@@ -98,7 +105,7 @@ function actions(book) {
 }
 
 function bookCard(book) {
-  return `<article class="book-card">
+  return `<article class="book-card exhibition-plinth">
     <div class="book-topline">
       <span class="badge-type">${esc(field(book, 'type') || t('مرجع إداري', 'Reference'))}</span>
       <label class="bundle-select">
@@ -109,7 +116,9 @@ function bookCard(book) {
       </label>
     </div>
     <div class="book-main">
-      ${cover(book)}
+      <div class="book-stage">
+        ${cover(book)}
+      </div>
       <div class="book-info">
         <span class="badge-tag">${esc(categoryLabel(book))}</span>
         <h3 class="book-title">
@@ -117,7 +126,7 @@ function bookCard(book) {
             ${esc(field(book, 'title'))}
           </a>
         </h3>
-        <p class="book-author">${esc(field(book, 'author') || labels().unknown)}</p>
+        <p class="book-author"><svg class="icon"><use href="#i-user"/></svg> <span>${esc(field(book, 'author') || labels().unknown)}</span></p>
         ${stars(book)}
         <div class="book-meta">
           <span class="meta-chip">${i('calendar')} ${esc(book.year || '—')}</span>
