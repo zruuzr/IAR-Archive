@@ -18,10 +18,13 @@ export function language() {
     langLabel: ['EN', 'عربي'],
     'txt-install': ['تثبيت', 'Install'],
     'txt-announcement': [
-      'IAR ARCHIVE · مساحة للمعرفة الإدارية',
-      'IAR ARCHIVE · A space for management knowledge'
+      'دار الحكمة المعاصرة · IAR ARCHIVE · من ألواح سومر إلى أوراق الحاضر',
+      'Modern Bayt al-Hikma · IAR ARCHIVE · From Sumer to Today'
     ],
-    'txt-subtitle': ['الأرشيف الإداري العراقي', 'Iraqi Administrative Reference'],
+    'txt-subtitle': [
+      'دار الحكمة المعاصرة · مستودع المراجع الإدارية العراقية',
+      'Modern Bayt al-Hikma · Iraqi Administrative Reference'
+    ],
     'txt-about-title': [
       'من ألواح سومر إلى أوراق الحاضر.',
       "From Sumer's tablets to today's pages."
