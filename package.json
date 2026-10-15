@@ -30,9 +30,9 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
-    "@astrojs/svelte": "^7.2.5",
+    "@astrojs/svelte": "^9.1.0",
     "@vite-pwa/astro": "^1.2.0",
-    "astro": "^5.18.2",
+    "astro": "^7.4.0",
     "svelte": "^5.57.2",
     "typescript": "^5.9.3"
   }
