@@ -1,7 +1,7 @@
 /* ============================================================
    IAR Archive — Service Worker
    Strategy:
-     - App shell (/, /index.html, /app.js, /js/*.js, /style.css, /books.json)
+     - App shell (/, /index.html, /app.js, /js/**/*.js, /style.css, /books.json)
        → Network First (always fresh when online)
      - Static assets (/covers/**, /icons/**, /assets/**)
        → Cache First (immutable, rarely change)
@@ -11,7 +11,7 @@
      - Controller change triggers auto-reload (handled in index.html)
    ============================================================ */
 
-const CACHE_VERSION = 'v28';
+const CACHE_VERSION = 'v29';
 const CACHE_NAME = `iar-archive-${CACHE_VERSION}`;
 
 const APP_SHELL = [
@@ -27,7 +27,29 @@ const APP_SHELL = [
   '/icons/maskable-512x512.png',
   '/icons/apple-touch-icon.png',
 
-  // ES modules
+  // ES modules - Core
+  '/js/core/utils.js',
+  '/js/core/state.js',
+  '/js/core/i18n.js',
+  '/js/core/router.js',
+
+  // ES modules - Data
+  '/js/data/data.js',
+  '/js/data/data-fetch.js',
+  '/js/data/firebase.js',
+
+  // ES modules - UI
+  '/js/ui/ui-helpers.js',
+  '/js/ui/ui-init.js',
+  '/js/ui/render.js',
+
+  // ES modules - Features
+  '/js/features/download.js',
+  '/js/features/ratings.js',
+  '/js/features/pwa.js',
+  '/js/features/events.js',
+
+  // ES modules - Legacy bridges
   '/js/utils.js',
   '/js/state.js',
   '/js/i18n.js',

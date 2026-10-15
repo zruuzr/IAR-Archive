@@ -1,25 +1,34 @@
-# 🏛️ Modern Bayt al-Hikma Editorial — دار الحكمة المعاصرة
-## مستودع المراجع الإدارية العراقية (IAR Archive)
+# 🏛️ IAR Archive — Modern Bayt al-Hikma Editorial
+## مستودع المراجع الإدارية العراقية · دار الحكمة المعاصرة
 
 > **"من ألواح سومر إلى أوراق الحاضر"**  
+> *From Sumer's tablets to today's pages.*  
 > An ancient library with the soul of a 21st-century contemporary cultural magazine.
 
 ---
 
-### 1. Vision & Design Philosophy
+### 1. الفلسفة المعمارية والتصميمية (Design Philosophy)
 
-The **Modern Bayt al-Hikma Editorial** design language translates the scholarly spirit of Baghdad's historic Abbasid *House of Wisdom* (Bayt al-Hikma) into a world-class, contemporary digital reading experience.
+يقوم نظام تصميم **دار الحكمة المعاصرة (Modern Bayt al-Hikma Editorial)** على محاكاة الروح العلمية لبيت الحكمة العباسي في بغداد من خلال لغة تحريرية ورقمية معاصرة رفيعة المستوى:
 
-- **Warm Alabaster Canvas (`#f8f6f0` / `#efe9db`)**: Soft, tactile archival paper tones replace harsh clinical whites.
-- **Deep Lapis & Indigo Ink (`#152238` / `#22334d`)**: Archival ink tones provide high-contrast, fatigue-free reading.
-- **Gilded Accents (`#b8924a` / `#d4b48a`)**: Antique gold accents evoke illuminated manuscripts, seals, and embossed bindings.
-- **Classical Mesopotamian & Republican Heritage**: Arched entrance portals, Republican Golden Eagle medallions, and Mesopotamian cuneiform seal motifs.
+1. **الأصالة الرافدينية والتراث الجمهوري**:
+   - بوابة الصرح المعماري الرخامية الكلاسيكية تعلو واجهة المستودع.
+   - وسام النسر الجمهوري الذهبي كختم سيادي مركزي.
+   - الرموز المسمارية التاريخية (`Noto Sans Cuneiform`) والأختام الطينية التحريرية.
+2. **الوقار الأكاديمي والتحريري (Editorial Luxury)**:
+   - خلفية حجر المرمر والأوراق الأرشيفية المعتقة (`#f8f6f0` / `#efe9db`).
+   - حبر اللازورد النيلي العميق (`#152238` / `#22334d`) بدلاً من السواد الحاد لتجربة قراءة مريحة.
+   - لمسات الذهب المعتق (`#b8924a` / `#d4b48a`) للمخطوطات والوسوم وحواف التجليد.
+3. **الدقة الوظيفية وتجربة المستخدم**:
+   - شبكة كبسولات التصنيف السريعة مع حالة التحديد الذهبية (`القيادة الاستراتيجية`).
+   - منصة المجلد ثلاثي الأبعاد المميز على قاعدة رخامية.
+   - بطاقات مرجعية بثلاثة أعمدة تشمل وسام التوثيق المرجعي المباشر (APA)، تقييم النجوم، وأزرار التحميل المباشر.
 
 ---
 
-### 2. Architecture: Astro 5 + Svelte 5 Islands
+### 2. هندسة البرمجيات: Astro 5 + Svelte 5 Islands
 
-The platform is migrated from legacy client-side Vanilla JS to a **Zero-JS by Default** Static Site Generator architecture:
+تم ترحيل الواجهة إلى معمارية التوليد الثابت (SSG) الخالية من الجافاسكريبت افتراضياً (**Zero-JS by Default**)، مع حصر التفاعلية في جزر Svelte 5:
 
 ```
 ┌────────────────────────────────────────────────────────┐
@@ -43,80 +52,79 @@ The platform is migrated from legacy client-side Vanilla JS to a **Zero-JS by De
 │                                                        │
 │  ┌─────────────────────────┐  ┌─────────────────────┐  │
 │  │ book/[id].astro         │  │ Colophon.astro      │  │
-│  │ (141 Static Book Pages) │  │ (Manifesto & Seals) │  │
+│  │ (Static Dynamic Pages)  │  │ (Manifesto & Seals) │  │
 │  └─────────────────────────┘  └─────────────────────┘  │
 └────────────────────────────────────────────────────────┘
 ```
 
-#### Key Architecture Benefits:
-1. **Zero-JS Baseline**: All structural HTML and CSS render at build time. JavaScript is isolated strictly to interactive islands (`client:load`).
-2. **Deterministic Build**: 141 static book pages generated at build time with perfect SEO meta tags and schema markup.
-3. **PWA Offline Resilience**: Built-in Service Worker caching static assets, covers, and offline reads using `@vite-pwa/astro` and Workbox.
-4. **Data Integrity**: Uses `books.json` directly as single source of truth without altering backend schema or Python pipelines.
+#### الميزات التقنية الرئيسية:
+1. **سرعة وأداء استثنائي (Zero JS Baseline)**: بناء جميع هياكل HTML وتنسيقات CSS مسبقاً أثناء البناء.
+2. **عزل التفاعلية (Astro Islands)**: لا يُحمّل المتصفح كود الجافاسكريبت إلا للأجزاء التفاعلية الحيوية عبر الجزيرة `BaytAlHikmaArchive.svelte`.
+3. **توليد ثابت لكل كتاب (`/book/[id]`)**: صفحات ثابتة مستقلة لكل مرجع إداري لتعزيز الأرشفة ومحركات البحث (SEO).
+4. **تطبيق الويب التقدمي (PWA)**: عمل كامل دون اتصال عبر `@vite-pwa/astro` وتخزين الخطوط والأغلفة مؤقتاً عبر Workbox.
+5. **سلامة وتكامل البيانات**: الحفاظ التام على بنية `books.json` وسكربتات البايثون وقواعد أمان Firestore.
 
 ---
 
-### 3. File Structure
+### 3. بنية الملفات (File Structure)
 
 ```
-├── astro.config.mjs            # Astro 5 configuration with Svelte & PWA integrations
-├── books.json                  # Source of truth (141 curated administrative books)
-├── dist/                       # Production build output ready for Firebase Hosting
-├── e2e/                        # Playwright end-to-end test suite
-├── public/                     # Static public assets
-│   ├── covers/                 # Book covers and 3D tome artwork
-│   ├── icons/                  # Classical architectural arches and medallions
-│   └── favicon.svg             # Vector favicon
+├── astro.config.mjs            # إعدادات Astro 5 مع تكامل Svelte 5 و PWA
+├── books.json                  # قاعدة بيانات المراجع الإدارية العراقية
+├── dist/                       # مخرجات البناء الجاهزة للاستضافة على Firebase Hosting
+├── e2e/                        # اختبارات Playwright الشاملة للواجهة
+├── public/                     # الأصول الثابتة
+│   ├── covers/                 # أغلفة الكتب وتصاميم المجلدات الثلاثية الأبعاد
+│   ├── icons/                  # بوابة الصرح الكلاسيكية، وميدالية النسر الذهبي
+│   └── favicon.svg             # أيقونة الموقع
 ├── src/
 │   ├── components/
-│   │   ├── bayt-al-hikma/      # Visual components (HeaderPortal, etc.)
-│   │   ├── editorial/          # Colophon, manifesto, archival seals
-│   │   └── islands/            # Interactive Svelte 5 components (BaytAlHikmaArchive)
+│   │   ├── bayt-al-hikma/      # مكونات الصرح (HeaderPortal، إلخ)
+│   │   ├── editorial/          # مكونات التحرير (Colophon، الأختام السومرية)
+│   │   └── islands/            # جزر Svelte التفاعلية (BaytAlHikmaArchive)
 │   ├── layouts/
-│   │   └── BaseLayout.astro    # Master layout with Google Fonts, metadata, and tokens
+│   │   └── BaseLayout.astro    # المخطط العام، الخطوط، والوسوم الوصفية
 │   ├── pages/
-│   │   ├── index.astro         # Main archival magazine cover & catalog
-│   │   └── book/[id].astro     # Dynamic SSG page for every catalog book
+│   │   ├── index.astro         # غلاف المجلة الأرشيفية والكتالوج الرئيسي
+│   │   └── book/[id].astro     # الصفحة الثابتة المخصصة لكل مرجع
 │   └── styles/
-│       └── tokens.css          # Modern Bayt al-Hikma CSS variables & typography tokens
-└── tests/                      # Python automated test suite (362 unit & regression tests)
+│       └── tokens.css          # متغيرات الألوان والطباعة لدار الحكمة المعاصرة
+└── tests/                      # اختبارات Python المؤتمتة (Pytest)
 ```
 
 ---
 
-### 4. Running & Building Locally
+### 4. التشغيل والبناء محلياً (Running & Building Locally)
 
-#### Development:
+#### خادم التطوير:
 ```bash
-# Start Astro dev server
 ASTRO_TELEMETRY_DISABLED=1 npm run dev
 ```
 
-#### Production Build:
+#### بناء الإنتاج (Production Build):
 ```bash
-# Compile SSG pages and PWA service worker into dist/
 ASTRO_TELEMETRY_DISABLED=1 npm run build
 ```
 
-#### Testing:
+#### التحقق والاختبارات:
 ```bash
-# Python regression tests (362 tests)
+# اختبارات بايثون
 source .venv/bin/activate
 pytest tests/ -q
 
-# Code hygiene
+# فحص جودة وتنسيق الكود
 npm run lint
 npm run format:check
 
-# Playwright E2E verification
+# اختبارات Playwright E2E
 npx playwright test
 ```
 
 ---
 
-### 5. Deployment
+### 5. النشر (Deployment)
 
-Static assets in `dist/` can be served directly by Firebase Hosting:
+تُرفع مخرجات المجلد الثابت `dist/` مباشرة إلى استضافة Firebase:
 ```bash
 firebase deploy --only hosting
 ```
