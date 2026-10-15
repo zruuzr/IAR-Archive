@@ -32,7 +32,7 @@
   "dependencies": {
     "@astrojs/svelte": "^7.2.5",
     "@vite-pwa/astro": "^1.2.0",
-    "astro": "^5.18.2",
+    "astro": "^7.2.8",
     "svelte": "^5.57.2",
     "typescript": "^5.9.3"
   }
