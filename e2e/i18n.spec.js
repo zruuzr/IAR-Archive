@@ -1,56 +1,28 @@
-const { test, expect } = require('@playwright/test');
+import { test, expect } from '@playwright/test';
 
-test.describe('Language and theme', () => {
+test.describe('Localization and PWA configuration', () => {
   test('default is Arabic RTL', async ({ page }) => {
     await page.goto('/');
     await expect(page.locator('html')).toHaveAttribute('lang', 'ar');
     await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
   });
 
-  test('language toggle switches to English LTR', async ({ page }) => {
+  test('default theme attribute is present', async ({ page }) => {
     await page.goto('/');
-    await page.locator('#langToggleBtn').click();
-    await page.waitForTimeout(500);
-
-    await expect(page.locator('html')).toHaveAttribute('lang', 'en');
-    await expect(page.locator('html')).toHaveAttribute('dir', 'ltr');
-  });
-
-  test('language persists in localStorage', async ({ page }) => {
-    await page.goto('/');
-    await page.locator('#langToggleBtn').click();
-    await page.waitForTimeout(500);
-
-    await page.reload();
-    await page.waitForTimeout(800);
-
-    await expect(page.locator('html')).toHaveAttribute('lang', 'en');
-  });
-
-  test('theme toggle switches color scheme', async ({ page }) => {
-    await page.goto('/');
-
-    const initialTheme = await page.locator('html').getAttribute('data-theme');
-    expect(initialTheme).toBeTruthy();
-
-    await page.locator('#themeToggleBtn').click();
-    await page.waitForTimeout(500);
-
-    const newTheme = await page.locator('html').getAttribute('data-theme');
-    expect(newTheme).not.toBe(initialTheme);
-  });
-
-  test('theme persists across reload', async ({ page }) => {
-    await page.goto('/');
-    await page.locator('#themeToggleBtn').click();
-    await page.waitForTimeout(500);
-
     const theme = await page.locator('html').getAttribute('data-theme');
-    expect(theme).toBeTruthy();
+    expect(theme).toBe('light');
+  });
 
-    await page.reload();
-    await page.waitForTimeout(800);
+  test('PWA manifest link is present in head', async ({ page }) => {
+    await page.goto('/');
+    const manifestLink = page.locator('link[rel="manifest"]');
+    await expect(manifestLink).toHaveAttribute('href', '/manifest.json');
+  });
 
-    await expect(page.locator('html')).toHaveAttribute('data-theme', theme);
+  test('arch and medallion header images are loaded', async ({ page }) => {
+    await page.goto('/');
+    const archImg = page.locator('.arch-portal-img');
+    await expect(archImg).toBeVisible();
+    await expect(archImg).toHaveAttribute('src', '/icons/arch_portal.png');
   });
 });

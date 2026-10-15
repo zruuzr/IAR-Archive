@@ -1,0 +1,43 @@
+---
+interface Props {
+  symbol?: string;
+}
+
+const { symbol = "❖" } = Astro.props;
+---
+
+<div class="ornament-divider" aria-hidden="true">
+  <span class="ornament-symbol">{symbol}</span>
+</div>
+
+<style>
+  .ornament-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--s-4);
+    margin-block: var(--s-8);
+    color: var(--gold);
+    width: 100%;
+  }
+
+  .ornament-divider::before,
+  .ornament-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--gold-line) 20%,
+      var(--gold-line) 80%,
+      transparent
+    );
+  }
+
+  .ornament-symbol {
+    font-size: 16px;
+    color: var(--gold-deep);
+    transform: translateY(-1px);
+  }
+</style>

@@ -2,14 +2,19 @@
   "name": "iar-archive",
   "version": "1.0.0",
   "private": true,
-  "description": "IAR Archive — E2E tests and development tooling (application is Vanilla JS, no build step)",
+  "description": "IAR Archive — Modern Bayt al-Hikma Editorial digital repository (Astro 5 + Svelte)",
+  "type": "module",
   "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:headed": "playwright test --headed",
     "test:e2e:debug": "playwright test --debug",
     "install:browsers": "playwright install --with-deps chromium",
-
     "lint": "eslint js/ app.js",
     "lint:fix": "eslint js/ app.js --fix",
     "format": "prettier --write \"js/**/*.js\" \"app.js\"",
@@ -23,5 +28,12 @@
   },
   "engines": {
     "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@astrojs/svelte": "^7.2.5",
+    "@vite-pwa/astro": "^1.2.0",
+    "astro": "^5.18.2",
+    "svelte": "^5.57.2",
+    "typescript": "^5.9.3"
   }
 }

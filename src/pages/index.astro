@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HeaderPortal from '../components/bayt-al-hikma/HeaderPortal.astro';
+import BaytAlHikmaArchive from '../components/islands/BaytAlHikmaArchive.svelte';
+import Colophon from '../components/editorial/Colophon.astro';
+import { getAllBooks, getFeaturedBook, getCategoriesWithCounts } from '../lib/books';
+
+const books = getAllBooks();
+const featuredBook = getFeaturedBook();
+const categories = getCategoriesWithCounts();
+---
+
+<BaseLayout>
+  <!-- Architectural Portal Header (Marble Arch + Golden Medallion + Titles) -->
+  <HeaderPortal />
+
+  <!-- Main Bayt al-Hikma Catalog Island (Search + Filters + Featured Plinth + 3-Col Cards) -->
+  <main id="main-content" class="main-canvas">
+    <BaytAlHikmaArchive
+      client:load
+      initialBooks={books}
+      categories={categories}
+      featuredBook={featuredBook}
+    />
+  </main>
+
+  <!-- Editorial Colophon & Archival Manifesto -->
+  <Colophon />
+</BaseLayout>
+
+<style>
+  .main-canvas {
+    min-height: 80vh;
+    padding-bottom: var(--s-10);
+  }
+</style>

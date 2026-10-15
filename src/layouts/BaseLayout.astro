@@ -1,0 +1,64 @@
+---
+import '../styles/tokens.css';
+import '../styles/typography.css';
+import '../styles/layout.css';
+import '../styles/editorial.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "مستودع المراجع الإدارية العراقية | IAR ARCHIVE · دار الحكمة المعاصرة",
+  description = "مستودع المراجع الإدارية العراقية — دار الحكمة المعاصرة. المرجع الوطني الأول للدراسات الإدارية والتنظيمية من ألواح سومر إلى أوراق الحاضر."
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#f8f6f0" />
+
+    <!-- Open Graph / Meta -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://iararchive.web.app/" />
+    <meta property="og:image" content="/icons/icon-512x512.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-192x192.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
+
+    <!-- Google Fonts for Modern Bayt al-Hikma Editorial -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Noto+Sans+Cuneiform&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>{title}</title>
+  </head>
+  <body class="bayt-al-hikma-canvas">
+    <slot />
+  </body>
+</html>
+
+<style is:global>
+  body.bayt-al-hikma-canvas {
+    background-color: var(--paper);
+    color: var(--ink);
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+</style>

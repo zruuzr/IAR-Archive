@@ -1,0 +1,107 @@
+/* ============================================================
+   Modern Bayt al-Hikma Editorial — Typography Scale
+   ============================================================ */
+
+:root {
+  --font-display: 'Aref Ruqaa', 'Amiri', serif;
+  --font-serif: 'Amiri', serif;
+  --font-body: 'IBM Plex Sans Arabic', system-ui, -apple-system, sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+  --font-cuneiform: 'Noto Sans Cuneiform', serif;
+}
+
+/* Typography Classes */
+.font-display-xl {
+  font-family: var(--font-display);
+  font-size: clamp(48px, 6vw, 96px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+}
+
+.font-display-l {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 4.5vw, 64px);
+  line-height: 1.10;
+  letter-spacing: -0.015em;
+  font-weight: 700;
+}
+
+.font-display-m {
+  font-family: var(--font-display);
+  font-size: clamp(26px, 3vw, 40px);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  font-weight: 700;
+}
+
+.font-heading-l {
+  font-family: var(--font-body);
+  font-size: clamp(24px, 2.5vw, 32px);
+  line-height: 1.20;
+  font-weight: 600;
+}
+
+.font-heading-m {
+  font-family: var(--font-body);
+  font-size: clamp(19px, 2vw, 24px);
+  line-height: 1.30;
+  font-weight: 600;
+}
+
+.font-body-l {
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.65;
+  font-weight: 400;
+}
+
+.font-body-m {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.60;
+  font-weight: 400;
+}
+
+.font-caption {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.45;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+.font-overline {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.40;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.font-cuneiform {
+  font-family: var(--font-cuneiform);
+}
+
+/* Editorial Drop Caps */
+.drop-cap::first-letter {
+  float: right;
+  font-family: var(--font-display);
+  font-size: 3.2em;
+  line-height: 0.8;
+  padding: 4px 0 0 12px;
+  color: var(--gold-deep);
+  font-weight: 700;
+}
+
+[dir="ltr"] .drop-cap::first-letter {
+  float: left;
+  padding: 4px 12px 0 0;
+}
+
+/* Editorial Text Align */
+.text-justify {
+  text-align: justify;
+  text-justify: inter-word;
+}

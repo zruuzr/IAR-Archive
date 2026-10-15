@@ -1,0 +1,95 @@
+/* ============================================================
+   Modern Bayt al-Hikma Editorial — Design Tokens
+   Warm alabaster stone, deep navy ink, gilded Mesopotamian accents.
+   ============================================================ */
+
+:root {
+  /* Paper (Aged alabaster & ivory surfaces) */
+  --paper: #f8f6f0;
+  --paper-deep: #f0ebe0;
+  --paper-surface: #ffffff;
+  --paper-card: #ffffff;
+
+  /* Ink (Deep navy slate — matching the Bayt al-Hikma mockup) */
+  --ink: #152238;
+  --ink-soft: #4b586e;
+  --ink-faint: #7e8b9f;
+  --ink-contrast: #ffffff;
+
+  /* Gold (Mesopotamian & Abbasid guild accents) */
+  --gold: #b8924a;
+  --gold-bright: #d4b48a;
+  --gold-deep: #8a6a2e;
+  --gold-subtle: rgba(184, 146, 74, 0.12);
+  --gold-line: rgba(184, 146, 74, 0.32);
+
+  /* Primary Action Navy */
+  --navy-primary: #152238;
+  --navy-hover: #1f3252;
+
+  /* Accents */
+  --accent-warm: #a8442c;
+  --accent-cool: #2d4a5e;
+
+  /* Spacing Scale (8px system) */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+  --s-7: 48px;
+  --s-8: 64px;
+  --s-9: 96px;
+  --s-10: 128px;
+  --s-11: 192px;
+  --s-12: 256px;
+
+  /* Radii */
+  --radius-xs: 3px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+
+  /* Shadows (Refined architectural depth) */
+  --shadow-sm: 0 2px 6px rgba(21, 34, 56, 0.04);
+  --shadow-md: 0 8px 20px -4px rgba(21, 34, 56, 0.08);
+  --shadow-lg: 0 16px 36px -8px rgba(21, 34, 56, 0.12);
+  --shadow-card: 0 4px 14px rgba(21, 34, 56, 0.05);
+
+  /* Transitions */
+  --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);
+  --transition-fast: 0.18s var(--ease-editorial);
+  --transition-normal: 0.32s var(--ease-editorial);
+  --transition-slow: 0.6s var(--ease-editorial);
+}
+
+[data-theme="dark"] {
+  --paper: #0c1017;
+  --paper-deep: #131924;
+  --paper-surface: #1a2230;
+  --paper-card: #1f293a;
+
+  --ink: #f0ecdf;
+  --ink-soft: #a8b4c8;
+  --ink-faint: #6c788d;
+  --ink-contrast: #0c1017;
+
+  --gold: #d4b48a;
+  --gold-bright: #e6ceaa;
+  --gold-deep: #a87a34;
+  --gold-subtle: rgba(212, 180, 138, 0.15);
+  --gold-line: rgba(212, 180, 138, 0.28);
+
+  --navy-primary: #d4b48a;
+  --navy-hover: #e6ceaa;
+
+  --accent-warm: #d96448;
+  --accent-cool: #5482a4;
+
+  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 8px 20px -4px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 16px 36px -8px rgba(0, 0, 0, 0.6);
+  --shadow-card: 0 4px 14px rgba(0, 0, 0, 0.4);
+}
