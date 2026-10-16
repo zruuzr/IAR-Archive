@@ -11,6 +11,8 @@
 [![Hosted on Firebase](https://img.shields.io/badge/Hosted%20on-Firebase%20Hosting-orange?style=flat&logo=firebase)](https://iararchive.web.app/)
 [![Database](https://img.shields.io/badge/Database-Firebase%20Firestore-yellow?style=flat&logo=firebase)](https://firebase.google.com/docs/firestore)
 [![PWA](https://img.shields.io/badge/PWA-Installable-blueviolet?style=flat&logo=pwa)](https://web.dev/progressive-web-apps/)
+[![References](https://img.shields.io/badge/References-173%20Indexed-gold?style=flat&logo=bookmeter)](books.json)
+[![Tests](https://img.shields.io/badge/Tests-418%20Passed-brightgreen?style=flat)](tests/)
 [![License](https://img.shields.io/badge/License-Proprietary-red.svg)](LICENSE)
 [![Auto Process](https://github.com/zruuzr/IAR-Archive/actions/workflows/auto_process.yml/badge.svg)](https://github.com/zruuzr/IAR-Archive/actions/workflows/auto_process.yml)
 
@@ -30,7 +32,7 @@ IAR Archive provides structured reference metadata, concise summaries, APA-style
 
 The project aims to make administrative references easier to discover, understand, cite, and use by researchers, university students, administrative professionals, and executive managers.
 
-The repository combines:
+The repository currently indexes **173 administrative and academic references** (covering 1974–2026) across **14 core thematic pathways**, combining:
 
 * Structured bibliographic metadata.
 * Concise reference summaries.
@@ -123,20 +125,22 @@ The application uses Firebase Anonymous Authentication so visitors can interact 
 
 IAR Archive intentionally uses a lightweight architecture without a frontend framework.
 
-| Layer               | Technology                        |
-| ------------------- | --------------------------------- |
-| Frontend            | HTML5, CSS3, Vanilla JavaScript   |
-| Database            | Firebase Firestore                |
-| Authentication      | Firebase Anonymous Authentication |
-| Hosting             | Firebase Hosting                  |
-| Document Delivery   | GitHub Raw                        |
-| PDF Viewer          | Mozilla PDF.js                    |
-| PWA                 | Web App Manifest + Service Worker |
-| Document Extraction | `firecrawl-anydoc` + `pypdf`      |
-| Primary AI          | Google Gemini                     |
-| AI Fallback         | Groq                              |
-| Automation          | GitHub Actions                    |
-| Dependency Updates  | Dependabot                        |
+| Layer               | Technology                                             |
+| ------------------- | ------------------------------------------------------ |
+| Frontend            | HTML5, CSS3, Vanilla JavaScript (14 Modular ES Modules)|
+| Database            | Firebase Firestore                                     |
+| Authentication      | Firebase Anonymous Authentication                      |
+| Hosting             | Firebase Hosting                                       |
+| Document Delivery   | GitHub Raw                                             |
+| PDF Viewer          | Mozilla PDF.js                                         |
+| PWA                 | Web App Manifest + Service Worker                      |
+| Document Extraction | `firecrawl-anydoc` + `pypdf`                           |
+| Primary AI          | Google Gemini                                          |
+| AI Fallback         | Groq                                                   |
+| Automated Testing   | Pytest (418 unit/integration tests) + Playwright (19 E2E browser tests) |
+| Automation          | GitHub Actions                                         |
+| Code Quality        | ESLint + Prettier + Husky                              |
+| Dependency Updates  | Dependabot                                             |
 
 ---
 
@@ -201,7 +205,7 @@ The Service Worker uses different strategies according to resource type:
 
 | Resource              | Strategy      |
 | --------------------- | ------------- |
-| HTML/CSS/JS           | Cache First   |
+| HTML/CSS/JS (`app.js`, `/js/*.js`) | Cache First   |
 | Icons and covers      | Cache First   |
 | `books.json`          | Network First |
 | Firebase requests     | Bypass        |
@@ -435,33 +439,73 @@ IAR-Archive/
 ├── .github/
 │   ├── workflows/
 │   │   ├── auto_process.yml
+│   │   ├── e2e.yml
 │   │   ├── firebase-hosting-merge.yml
-│   │   └── firebase-hosting-pull-request.yml
+│   │   ├── firebase-hosting-pull-request.yml
+│   │   ├── lint.yml
+│   │   └── test.yml
 │   └── dependabot.yml
 │
 ├── assets/
-│   ├── logo.svg
-│   ├── logo-mark.svg
-│   ├── logo-full.svg
-│   └── logo-mono.svg
+│   └── logo.svg
 │
-├── covers/
-├── icons/
-├── pdf/
+├── covers/              # Reference book covers (1.png – 173.png)
+├── icons/               # PWA app icons and favicons
+├── pdf/                 # Reference documents and administrative publications
+│
+├── js/                  # Modular ES Architecture (14 Modules)
+│   ├── data-fetch.js    # Remote catalog loading & caching
+│   ├── data.js          # In-memory datasets & lookups
+│   ├── download.js      # Direct download streaming & progress ring
+│   ├── events.js        # Global DOM event delegation
+│   ├── firebase.js      # Anonymous auth, Firestore ratings & counters
+│   ├── i18n.js          # Bilingual dictionary (AR/EN) & RTL switching
+│   ├── pwa.js           # PWA installation prompt & registration
+│   ├── ratings.js       # Five-star rating system & vote submission
+│   ├── render.js        # Dynamic book card grid & modal rendering
+│   ├── router.js        # Hash-based routing & single-book views
+│   ├── state.js         # Reactive central application state
+│   ├── ui-helpers.js    # Toast notifications, modals & clipboard
+│   ├── ui-init.js       # DOM references caching & theme setup
+│   └── utils.js         # Pure utility functions & formatters
+│
+├── tests/               # Python test suite (418 tests)
+│   ├── test_ai_helpers.py
+│   ├── test_book_model.py
+│   ├── test_generic_helpers.py
+│   ├── test_json_io.py
+│   ├── test_metadata.py
+│   ├── test_migrate.py
+│   ├── test_resilience.py
+│   ├── test_validate.py
+│   ├── test_validate_partial.py
+│   └── test_zip_safety.py
+│
+├── e2e/                 # Playwright E2E browser tests (19 tests)
+│   ├── home.spec.js
+│   ├── i18n.spec.js
+│   ├── routing.spec.js
+│   └── search.spec.js
 │
 ├── index.html
 ├── style.css
 ├── app.js
-├── books.json
+├── books.json           # Indexed reference catalog (173 records)
 ├── manifest.json
 ├── sw.js
 ├── _headers
 │
 ├── process_books.py
+├── validate_books.py
 ├── requirements.txt
+├── package.json
+├── playwright.config.js
 ├── .gitignore
 │
 ├── LICENSE
+├── SECURITY.md
+├── AUDIT.md
+├── CHANGELOG.md
 ├── firebase.json
 ├── .firebaserc
 └── README.md
@@ -571,9 +615,7 @@ For a very large number of references, a queryable backend or segmented catalog 
 
 ### Frontend Modularity
 
-The application currently uses a single main `app.js` file.
-
-As functionality expands, individual concerns such as Firebase operations, downloads, ratings, routing, PWA behavior, and UI rendering can be separated into dedicated modules.
+The application frontend is structured into 14 focused ES modules under `js/` (bootstrapped by `app.js`), cleanly separating concerns across application state, catalog fetching, book rendering, modals, client-side routing, PWA handling, and Firebase ratings/telemetry with comprehensive E2E and lint coverage.
 
 ---
 

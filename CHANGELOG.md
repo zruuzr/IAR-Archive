@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **Catalog expansion to 173 references** — added 32 new administrative, legal, economic, and managerial treatises (books #142 through #173) with structured bilingual metadata, key points, 3-minute executive briefs, APA citations, and generated high-resolution cover graphics.
+- **Resilience test suite** — added `tests/test_resilience.py` and `tests/test_validate_partial.py` covering retry semantics, rate limits, and partial metadata validation (increasing total test count from 362 to 418 passed tests).
+- **Dependency resilience** — integrated `json-repair` fallback for robust LLM response recovery during automated processing.
+
 ### Planned
 - Migration of PDF storage from GitHub Raw to object storage
   (Cloudflare R2) — see `AUDIT.md` for details.
