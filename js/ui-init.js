@@ -7,7 +7,14 @@ import { $, attr, text } from './utils.js';
 import { state } from './state.js';
 import { t } from './i18n.js';
 import { byId } from './data.js';
-import { render, categories, syncBundle, metadata, summary } from './render.js';
+import {
+  render,
+  categories,
+  syncBundle,
+  metadata,
+  summary,
+  updateInstantReader
+} from './render.js';
 
 export function language() {
   const root = document.documentElement;
@@ -17,35 +24,30 @@ export function language() {
   const pairs = {
     langLabel: ['EN', 'عربي'],
     'txt-install': ['تثبيت', 'Install'],
-    'txt-announcement': [
-      'دار الحكمة المعاصرة · IAR ARCHIVE · من ألواح سومر إلى أوراق الحاضر',
-      'Modern Bayt al-Hikma · IAR ARCHIVE · From Sumer to Today'
-    ],
     'txt-subtitle': [
-      'دار الحكمة المعاصرة · مستودع المراجع الإدارية العراقية',
-      'Modern Bayt al-Hikma · Iraqi Administrative Reference'
+      'مستودع المراجع الإدارية العراقية',
+      'Iraqi Administrative Reference Repository'
     ],
     'txt-about-title': [
-      'من ألواح سومر إلى أوراق الحاضر.',
-      "From Sumer's tablets to today's pages."
+      'مستودع المراجع الإدارية العراقية · من ألواح سومر إلى أوراق الحاضر',
+      'Iraqi Administrative Reference · From Sumer to Today'
     ],
     'txt-about-desc': [
       'مجموعة منتقاة من المراجع الإدارية، مفهرسة بعناية، مرفقة بملخصات مركزة وتوثيق أكاديمي مباشر — لتكون وجهتك الأولى للبحث والاطلاع.',
       'A curated collection of administrative references — indexed with care, accompanied by focused summaries and direct academic citation — so it becomes your first stop for research and reading.'
     ],
     'txt-kicker': [
-      '𒆠𒂗𒂠 · المكتبة الرقمية العراقية · 2026',
-      '𒆠𒂗𒂠 · The Iraqi Digital Library · 2026'
+      'المكتبة الرقمية العراقية · الإصدار التفاعلي 2026',
+      'The Iraqi Digital Library · Interactive Edition 2026'
     ],
-    'txt-tag-summary': ['ملخصات 3 دقائق', '3-minute summaries'],
-    'txt-tag-cite': ['توثيق APA مباشر', 'Direct APA citations'],
-    'txt-tag-bundle': ['حزم بحثية مخصصة', 'Curated research bundles'],
-    'txt-library-title': ['رفوف المعرفة', 'The knowledge shelves'],
+    'txt-search-btn': ['بحث', 'Search'],
+    'txt-library-title': ['فهرس المراجع التفاعلي', 'Interactive Reference Catalog'],
     'txt-favorites-only': ['مفضلة', 'My favorites'],
-    'txt-stat-books': ['مرجع في الأرشيف', 'Archived references'],
-    'txt-stat-cats': ['مسارات معرفية', 'Knowledge paths'],
-    'txt-stat-visits': ['الزيارات اليومية', 'Daily visits'],
-    'txt-stat-year': ['سنة الأرشفة', 'Archive year'],
+    'txt-reader-toggle': ['القارئ الفوري', 'Instant Reader'],
+    'txt-stat-books': ['مرجع', 'References'],
+    'txt-stat-cats': ['تصنيف', 'Categories'],
+    'txt-stat-visits': ['زيارة', 'Visits'],
+    'txt-stat-year': ['إصدار', 'Edition'],
     searchLabel: ['البحث في المراجع', 'Search references'],
     'opt-sort-default': ['اختيار الأرشيف', 'Archive selection'],
     'opt-sort-title': ['العنوان: أ — ي', 'Title: A — Z'],
@@ -54,6 +56,24 @@ export function language() {
     'opt-sort-downloads': ['الأكثر تحميلاً', 'Most downloaded'],
     'opt-sort-favorites': ['المفضلة أولاً', 'Favorites first'],
     'opt-sort-rating': ['الأعلى تقييماً', 'Highest rated'],
+    'txt-tab-brief': ['ملخص 3 دقائق & APA', '3-Min Summary & APA'],
+    'txt-tab-pdf': ['معاينة PDF مباشرة', 'Live PDF Preview'],
+    'txt-reader-of': ['من', 'of'],
+    'txt-sheet-inst': [
+      'جمهورية العراق · المكتبة الرقمية للمراجع الإدارية',
+      'Republic of Iraq · Digital Library of Administrative References'
+    ],
+    'txt-sheet-sub': [
+      'REPUBLIC OF IRAQ · IAR DIGITAL REPOSITORY',
+      'REPUBLIC OF IRAQ · IAR DIGITAL REPOSITORY'
+    ],
+    'txt-sheet-desc-h': ['الملخص التنفيذي للمرجع', 'Executive Reference Summary'],
+    'txt-sheet-points-h': ['المرتكزات والأفكار المحورية', 'Core Pillars & Key Concepts'],
+    'txt-sheet-audience-h': ['الفئة المستهدفة', 'Target Audience'],
+    'txt-sheet-apa-h': ['التوثيق الأكاديمي (APA 7th)', 'Academic Citation (APA 7th)'],
+    'txt-sheet-copy-apa': ['نسخ التوثيق', 'Copy Citation'],
+    'txt-reader-full': ['قراءة بملء الشاشة', 'Fullscreen Reader'],
+    'txt-reader-dl': ['تحميل PDF', 'Download PDF'],
     'txt-bundle-btn': ['نسخ رابط الحزمة', 'Copy bundle link'],
     'txt-clear-bundle': ['إلغاء الحزمة', 'Clear bundle'],
     summaryModalTitle: ['ملخص المرجع · 3 دقائق', 'Reference summary · 3 minutes'],
@@ -82,7 +102,10 @@ export function language() {
   const attributes = {
     searchInput: [
       'placeholder',
-      t('ابحث بعنوان، مؤلف، أو فكرة…', 'Search a title, author or idea…')
+      t(
+        'ابحث في المستودع حسب العنوان، المؤلف، أو الكلمات المفتاحية...',
+        'Search repository by title, author, or keywords...'
+      )
     ],
     btnClearSearch: ['aria-label', t('مسح البحث', 'Clear search')],
     langToggleBtn: ['aria-label', t('Switch to English', 'التبديل إلى العربية')],
@@ -108,8 +131,8 @@ export function language() {
   const bundleTextEl = $('txt-bundle-text');
   if (bundleTextEl) {
     bundleTextEl.innerHTML = t(
-      'تم تحديد <strong id="bundleCount">0</strong> مراجع لحزمتك',
-      'Selected <strong id="bundleCount">0</strong> references for your bundle'
+      'حزمة الأبحاث (<strong id="bundleCount">0</strong> كتب مختارة)',
+      'Research Bundle (<strong id="bundleCount">0</strong> selected)'
     );
   }
 
@@ -125,6 +148,7 @@ export function language() {
   if (state.data.loaded) {
     categories();
     render();
+    updateInstantReader();
   } else {
     syncBundle();
   }
@@ -156,7 +180,7 @@ export function theme() {
   attr('themeToggleBtn', 'aria-pressed', state.ui.theme === 'dark');
   document
     .querySelector('meta[name="theme-color"]')
-    ?.setAttribute('content', state.ui.theme === 'dark' ? '#0a0d14' : '#f4efe4');
+    ?.setAttribute('content', state.ui.theme === 'dark' ? '#0b0f19' : '#f8fafc');
 }
 
 export function initAmbient() {

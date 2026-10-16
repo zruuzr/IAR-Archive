@@ -7,7 +7,15 @@ import { $, $$, visible, attr, store } from './utils.js';
 import { state } from './state.js';
 import { t } from './i18n.js';
 import { byId } from './data.js';
-import { render, summary, categories, updateChips, readBook } from './render.js';
+import {
+  render,
+  summary,
+  categories,
+  updateChips,
+  readBook,
+  updateInstantReader,
+  filteredBooks
+} from './render.js';
 import { route, navigateBook, backToList, clearBundle } from './router.js';
 import { download, cancelDownload } from './download.js';
 import { rate } from './ratings.js';
@@ -44,6 +52,105 @@ export function initEvents() {
     state.filters.favoritesOnly = !state.filters.favoritesOnly;
     state.ui.page = 1;
     render();
+  });
+
+  $('btnToggleReaderPane')?.addEventListener('click', () => {
+    state.ui.readerPaneOpen = !state.ui.readerPaneOpen;
+    updateInstantReader();
+  });
+
+  $('btnCloseReaderPane')?.addEventListener('click', () => {
+    state.ui.readerPaneOpen = false;
+    updateInstantReader();
+  });
+
+  $('tabReaderBrief')?.addEventListener('click', () => {
+    state.ui.readerTab = 'brief';
+    updateInstantReader();
+  });
+
+  $('tabReaderPdf')?.addEventListener('click', () => {
+    state.ui.readerTab = 'pdf';
+    updateInstantReader();
+  });
+
+  const stepReaderBook = (delta) => {
+    const list = filteredBooks();
+    const pool = list.length ? list : state.data.books;
+    if (!pool.length) return;
+    const idx = pool.findIndex((b) => b.id === state.ui.readerBookId);
+    const nextIdx = (idx + delta + pool.length) % pool.length;
+    const nextBook = pool[nextIdx];
+    if (nextBook) {
+      state.ui.readerBookId = nextBook.id;
+      updateInstantReader(nextBook);
+    }
+  };
+
+  $('btnReaderPrev')?.addEventListener('click', () => stepReaderBook(-1));
+  $('btnReaderNext')?.addEventListener('click', () => stepReaderBook(1));
+
+  $('btnReaderCopyApa')?.addEventListener('click', () => {
+    const book = byId(state.ui.readerBookId);
+    if (book) copy(citation(book));
+  });
+
+  $('btnReaderFullModal')?.addEventListener('click', () => {
+    const book = byId(state.ui.readerBookId);
+    if (book) readBook(book);
+  });
+
+  $('btnReaderDownload')?.addEventListener('click', () => {
+    const book = byId(state.ui.readerBookId);
+    if (book) download(book);
+  });
+
+  $('btnSearchFocus')?.addEventListener('click', () => {
+    state.ui.page = 1;
+    render();
+    $('booksDisplayContainer')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+
+  document.querySelector('.workspace-nav-rail')?.addEventListener('click', (e) => {
+    const railBtn = e.target.closest('[data-rail-action]');
+    if (!railBtn) return;
+    const action = railBtn.dataset.railAction;
+    $$('.rail-btn').forEach((b) => b.classList.toggle('active', b === railBtn));
+
+    if (action === 'all') {
+      state.filters.query = '';
+      state.filters.category = 'all';
+      state.filters.favoritesOnly = false;
+      state.ui.page = 1;
+      if ($('searchInput')) $('searchInput').value = '';
+      visible('btnClearSearch', false);
+      categories();
+      render();
+    } else if (action === 'favorites') {
+      state.filters.favoritesOnly = !state.filters.favoritesOnly;
+      state.ui.page = 1;
+      render();
+    } else if (action === 'reader') {
+      state.ui.readerPaneOpen = !state.ui.readerPaneOpen;
+      updateInstantReader();
+    } else if (action === 'top-rated') {
+      if ($('sortOrder')) {
+        $('sortOrder').value = 'rating';
+        state.ui.page = 1;
+        render();
+      }
+    } else if (action === 'bundle') {
+      if (state.user.bundle.size > 0) {
+        $('bundleBar')?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      } else {
+        toast(
+          t(
+            'حدّد خيار «حزمة البحث» على أي مرجع لإضافته إلى حزمتك.',
+            'Check "Bundle" on any reference to add it to your research bundle.'
+          )
+        );
+      }
+    }
   });
 
   let searchTimer;
@@ -185,6 +292,11 @@ export function initEvents() {
     if (!book) return;
 
     switch (name) {
+      case 'preview-reader':
+        state.ui.readerPaneOpen = true;
+        state.ui.readerBookId = book.id;
+        updateInstantReader(book);
+        break;
       case 'details':
         navigateBook(book);
         break;

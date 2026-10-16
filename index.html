@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" data-theme="light">
+<html lang="ar" dir="rtl" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="description" content="IAR Archive — المكتبة الرقمية العراقية للمراجع الإدارية. ملخصات، توثيق APA، حزم بحثية.">
-<meta name="theme-color" content="#0f1218">
+<meta name="description" content="IAR Archive — مستودع المراجع الإدارية العراقية. مكتبة رقمية تفاعلية مع قارئ فوري، ملخصات 3 دقائق، وتوثيق APA.">
+<meta name="theme-color" content="#0b0f19">
 
-<meta property="og:title" content="IAR Archive | Iraqi Administrative Reference">
-<meta property="og:description" content="مكتبة رقمية لأرشفة المراجع الإدارية العراقية مع ملخصات وتوثيق أكاديمي">
+<meta property="og:title" content="IAR Archive | مستودع المراجع الإدارية العراقية">
+<meta property="og:description" content="مكتبة رقمية لأرشفة المراجع الإدارية العراقية مع قارئ فوري وملخصات وتوثيق أكاديمي">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://iararchive.web.app/">
 <meta property="og:image" content="https://iararchive.web.app/icons/icon-512x512.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="IAR Archive">
-<meta name="twitter:description" content="مكتبة رقمية للمراجع الإدارية">
+<meta name="twitter:description" content="مكتبة رقمية للمراجع الإدارية العراقية">
 <meta name="twitter:image" content="https://iararchive.web.app/icons/icon-512x512.png">
 <link rel="canonical" href="https://iararchive.web.app/">
 
@@ -26,7 +26,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@600;700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Noto+Sans+Cuneiform&family=Scheherazade+New:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@500;600;700;800&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="style.css">
 
@@ -35,8 +35,7 @@
   var l, t;
   try { l = localStorage.getItem('iar_lang'); t = localStorage.getItem('iar_theme'); } catch (_) {}
   var lang = l === 'en' ? 'en' : 'ar';
-  var theme = (t === 'dark' || t === 'light') ? t
-    : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  var theme = (t === 'dark' || t === 'light') ? t : 'dark';
   var r = document.documentElement;
   r.setAttribute('lang', lang);
   r.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
@@ -81,7 +80,7 @@ window.addEventListener('appinstalled', function () {
     <symbol id="i-file-text" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></symbol>
     <symbol id="i-chevron-right" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></symbol>
     <symbol id="i-chevron-left" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></symbol>
-    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></symbol>
     <symbol id="i-list" viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/></symbol>
     <symbol id="i-arrow-right" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></symbol>
     <symbol id="i-arrow-left" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></symbol>
@@ -94,58 +93,63 @@ window.addEventListener('appinstalled', function () {
     <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M12 3l1.6 4.8L18 9.5l-4.4 1.7L12 16l-1.6-4.8L6 9.5l4.4-1.7z"/><path d="M19 15l.8 2.4L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.6z"/></symbol>
     <symbol id="i-quote" viewBox="0 0 24 24"><path d="M7 15h3a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8"/><path d="M7 15c0 2.5-1 3-2.5 3.5M17 15h3a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v8"/><path d="M17 15c0 2.5-1 3-2.5 3.5"/></symbol>
     <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
-    <symbol id="i-command" viewBox="0 0 24 24"><path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12"/></symbol>
-    <symbol id="i-git-branch" viewBox="0 0 24 24"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></symbol>
-    <symbol id="i-asterisk" viewBox="0 0 24 24"><path d="M12 2v20M4 6l16 12M20 6L4 18"/></symbol>
-    <symbol id="i-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/></symbol>
-    <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></symbol>
+    <symbol id="i-maximize" viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></symbol>
     <symbol id="i-telegram" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M22 3 2 10.5l5.5 2L9 19l3-3 5.5 4L22 3zm-3 3.5-9 8 .5 4-1.5-5z"/></symbol>
     <symbol id="i-tiktok" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M16.5 3a4.5 4.5 0 0 0 4.5 4.5V11a8 8 0 0 1-4.5-1.4V15a6 6 0 1 1-6-6c.34 0 .67.03 1 .08V12.6a3 3 0 1 0 2 2.83V3z"/></symbol>
   </defs>
 </svg>
 
-<div class="aurora-stage" aria-hidden="true">
-  <span class="aurora-blob aurora-a"></span>
-  <span class="aurora-blob aurora-b"></span>
-  <span class="aurora-blob aurora-c"></span>
-  <span class="aurora-grid"></span>
-</div>
-<div class="grain-layer" aria-hidden="true"></div>
-<div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
 <div class="scroll-progress" aria-hidden="true"><span id="scrollProgressFill"></span></div>
+<div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
 
-<div class="live-ticker">
-  <div class="container">
-    <span class="live-dot" aria-hidden="true"></span>
-    <span id="txt-announcement">IAR ARCHIVE · مساحة للمعرفة الإدارية</span>
-  </div>
-</div>
-
+<!-- Top Command-Center Header (Mockup 3) -->
 <header class="site-header">
-  <div class="container header-row">
+  <div class="workspace-container header-row">
     <a class="brand-lockup" href="#" aria-label="IAR Archive — العودة إلى المكتبة">
       <span class="brand-mark" aria-hidden="true">
-        <svg viewBox="0 0 128 128" width="40" height="40">
+        <svg viewBox="0 0 64 64" width="42" height="42">
           <defs>
-            <linearGradient id="brandGrad" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stop-color="#e0b876"/>
-              <stop offset="0.6" stop-color="#c89d5c"/>
-              <stop offset="1" stop-color="#a87a34"/>
+            <linearGradient id="cyanBookGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#38bdf8"/>
+              <stop offset="100%" stop-color="#0284c7"/>
+            </linearGradient>
+            <linearGradient id="goldCrestGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#fbbf24"/>
+              <stop offset="100%" stop-color="#d97706"/>
             </linearGradient>
           </defs>
-          <rect width="128" height="128" rx="28" fill="url(#brandGrad)"/>
-          <g transform="translate(24,24) scale(5)" fill="#0f1218">
-            <path d="M6 1h6v7a.5.5 0 0 1-.757.429L9 7.083 6.757 8.43A.5.5 0 0 1 6 8z"/>
-            <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
-            <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
-          </g>
+          <!-- Glowing open book pages -->
+          <path d="M8 18 C18 16, 26 20, 32 25 C38 20, 46 16, 56 18 L56 48 C46 46, 38 50, 32 55 C26 50, 18 46, 8 48 Z" fill="url(#cyanBookGrad)" opacity="0.92"/>
+          <path d="M12 13 C20 12, 27 15, 32 20 C37 15, 44 12, 52 13 L52 44 C44 42, 37 46, 32 51 C27 46, 20 42, 12 44 Z" fill="#38bdf8" opacity="0.35"/>
+          <!-- Golden diamond crest above book -->
+          <polygon points="32,4 38,11 32,18 26,11" fill="url(#goldCrestGrad)"/>
+          <line x1="32" y1="22" x2="32" y2="54" stroke="#0b0f19" stroke-width="2"/>
         </svg>
       </span>
       <span class="brand-text">
-        <span class="brand-title">IAR Archive</span>
-        <span class="brand-subtitle" id="txt-subtitle">دار الحكمة المعاصرة · مستودع المراجع الإدارية</span>
+        <span class="brand-title" id="txt-subtitle">مستودع المراجع الإدارية العراقية</span>
+        <span class="brand-subtitle">IAR Archive</span>
       </span>
     </a>
+
+    <!-- Central Command Search Bar (Mockup 3) -->
+    <div class="header-command-search" id="controlsRow">
+      <div class="search-wrap">
+        <svg class="icon search-icon"><use href="#i-search"/></svg>
+        <label class="sr-only" for="searchInput" id="searchLabel">البحث في المراجع</label>
+        <input type="search" id="searchInput" placeholder="ابحث بعنوان، مؤلف، أو فكرة…" autocomplete="off">
+        <button type="button" class="clear-btn d-none" id="btnClearSearch" aria-label="مسح البحث">
+          <svg class="icon"><use href="#i-x"/></svg>
+        </button>
+      </div>
+      <button type="button" class="btn-search-gold" id="btnSearchFocus">
+        <svg class="icon"><use href="#i-search"/></svg>
+        <span id="txt-search-btn">البحث</span>
+      </button>
+    </div>
+
+    <!-- Left Header Actions & Status -->
     <div class="header-actions">
       <button type="button" id="installBtn" class="pill-btn d-none" aria-label="تثبيت التطبيق">
         <svg class="icon"><use href="#i-download"/></svg>
@@ -157,41 +161,33 @@ window.addEventListener('appinstalled', function () {
       </button>
       <button type="button" id="langToggleBtn" class="icon-btn" aria-label="تبديل اللغة">
         <svg class="icon"><use href="#i-globe"/></svg>
-        <span class="sr-only" id="langLabel">EN</span>
+        <span class="lang-code" id="langLabel">EN</span>
       </button>
-      <button type="button" id="themeToggleBtn" class="icon-btn" aria-label="تبديل المظهر" aria-pressed="false">
-        <svg class="icon" id="themeIcon"><use href="#i-moon"/></svg>
+      <button type="button" id="themeToggleBtn" class="icon-btn" aria-label="تبديل المظهر" aria-pressed="true">
+        <svg class="icon" id="themeIcon"><use href="#i-sun"/></svg>
       </button>
+      <div class="researcher-badge" aria-hidden="true">
+        <span class="researcher-dot"></span>
+        <span id="txt-announcement">بوابة الباحثين</span>
+      </div>
     </div>
   </div>
 </header>
 
-<main class="container main-content">
+<main class="workspace-container main-content">
 
+  <!-- Compact Hero & Live Telemetry Strip -->
   <section class="hero" aria-labelledby="txt-about-title">
-
-    <div class="seal-band top" aria-hidden="true">
-      <div class="seal-track">
-        <div class="seal-text">
-          <span>𒀭𒈗𒂗𒆠𒌷𒂍𒀀𒁹</span><span class="sep">◆</span><span>𒋀𒆠𒂗𒂠</span><span class="sep">◆</span><span>𒌨𒆠</span><span class="sep">◆</span><span>𒆍𒀭𒊏𒆠</span><span class="sep">◆</span><span>𒀸𒀹</span><span class="sep">◆</span><span>𒆠𒌋𒈬𒃻</span><span class="sep">◆</span><span>𒋗𒁺</span><span class="sep">◆</span><span>𒀸𒀹𒂗𒈗𒆠𒌷𒂍</span><span class="sep">◆</span><span>𒀭𒈗𒂗𒆠𒌷𒂍𒀀𒁹</span><span class="sep">◆</span><span>𒋀𒆠𒂗𒂠</span><span class="sep">◆</span><span>𒌨𒆠</span><span class="sep">◆</span><span>𒆍𒀭𒊏𒆠</span><span class="sep">◆</span><span>𒀸𒀹</span><span class="sep">◆</span><span>𒆠𒌋𒈬𒃻</span><span class="sep">◆</span><span>𒋗𒁺</span><span class="sep">◆</span><span>𒀸𒀹𒂗𒈗𒆠𒌷𒂍</span><span class="sep">◆</span>
-        </div>
-        <div class="seal-text">
-          <span>𒀭𒈗𒂗𒆠𒌷𒂍𒀀𒁹</span><span class="sep">◆</span><span>𒋀𒆠𒂗𒂠</span><span class="sep">◆</span><span>𒌨𒆠</span><span class="sep">◆</span><span>𒆍𒀭𒊏𒆠</span><span class="sep">◆</span><span>𒀸𒀹</span><span class="sep">◆</span><span>𒆠𒌋𒈬𒃻</span><span class="sep">◆</span><span>𒋗𒁺</span><span class="sep">◆</span><span>𒀸𒀹𒂗𒈗𒆠𒌷𒂍</span><span class="sep">◆</span><span>𒀭𒈗𒂗𒆠𒌷𒂍𒀀𒁹</span><span class="sep">◆</span><span>𒋀𒆠𒂗𒂠</span><span class="sep">◆</span><span>𒌨𒆠</span><span class="sep">◆</span><span>𒆍𒀭𒊏𒆠</span><span class="sep">◆</span><span>𒀸𒀹</span><span class="sep">◆</span><span>𒆠𒌋𒈬𒃻</span><span class="sep">◆</span><span>𒋗𒁺</span><span class="sep">◆</span><span>𒀸𒀹𒂗𒈗𒆠𒌷𒂍</span><span class="sep">◆</span>
-        </div>
-      </div>
-    </div>
-
     <div class="hero-inner">
       <div class="hero-copy">
         <span class="hero-kicker">
           <span class="pulse-dot" aria-hidden="true"></span>
           <svg class="icon"><use href="#i-sparkles"/></svg>
-          <span id="txt-kicker">𒆠𒂗𒂠 · المكتبة الرقمية العراقية · 2026</span>
+          <span id="txt-kicker">المكتبة الرقمية العراقية · 2026</span>
         </span>
         <h1 class="hero-title" id="txt-about-title">من ألواح سومر إلى أوراق الحاضر.</h1>
         <p class="hero-desc" id="txt-about-desc">
-          مجموعة منتقاة من المراجع الإدارية، مفهرسة بعناية، مرفقة بملخصات مركزة
-          وتوثيق أكاديمي مباشر — لتكون وجهتك الأولى للبحث والاطلاع.
+          مجموعة منتقاة من المراجع الإدارية، مفهرسة بعناية، مرفقة بملخصات مركزة وتوثيق أكاديمي مباشر — لتكون وجهتك الأولى للبحث والاطلاع.
         </p>
         <ul class="hero-tags" role="list">
           <li><svg class="icon"><use href="#i-clock"/></svg> <span id="txt-tag-summary">ملخصات 3 دقائق</span></li>
@@ -200,87 +196,192 @@ window.addEventListener('appinstalled', function () {
         </ul>
       </div>
       <div class="hero-stats">
-        <div class="stat"><div class="stat-num grad-text" id="booksCounter">—</div><div class="stat-cap" id="txt-stat-books">مرجع في الأرشيف</div></div>
-        <div class="stat"><div class="stat-num grad-text" id="catCounter">—</div><div class="stat-cap" id="txt-stat-cats">مسارات معرفية</div></div>
-        <div class="stat"><div class="stat-num grad-text" id="siteVisitsCounter">—</div><div class="stat-cap" id="txt-stat-visits">الزيارات اليومية</div></div>
-        <div class="stat"><div class="stat-num grad-text" id="archiveYear">2026</div><div class="stat-cap" id="txt-stat-year">سنة الأرشفة</div></div>
+        <div class="stat"><div class="stat-num" id="booksCounter">—</div><div class="stat-cap" id="txt-stat-books">مرجع في الأرشيف</div></div>
+        <div class="stat"><div class="stat-num" id="catCounter">—</div><div class="stat-cap" id="txt-stat-cats">مسارات معرفية</div></div>
+        <div class="stat"><div class="stat-num" id="siteVisitsCounter">—</div><div class="stat-cap" id="txt-stat-visits">الزيارات اليومية</div></div>
+        <div class="stat"><div class="stat-num" id="archiveYear">2026</div><div class="stat-cap" id="txt-stat-year">سنة الأرشفة</div></div>
       </div>
     </div>
-
-    <div class="seal-band bottom" aria-hidden="true">
-      <div class="seal-track">
-        <div class="seal-text">
-          <span>𒆠𒂗𒂠</span><span class="sep">◆</span><span>𒌨𒆠</span><span class="sep">◆</span><span>𒆍𒀭𒊏𒆠</span><span class="sep">◆</span><span>𒀭𒈗𒂗𒆠𒌷𒂍𒀀𒁹</span><span class="sep">◆</span><span>𒋀𒆠𒂗𒂠</span><span class="sep">◆</span><span>𒌨𒆠</span><span class="sep">◆</span><span>𒀸𒀹</span><span class="sep">◆</span><span>𒆠𒌋𒈬𒃻𒋗𒁺</span><span class="sep">◆</span><span>𒆠𒂗𒂠</span><span class="sep">◆</span><span>𒌨𒆠</span><span class="sep">◆</span><span>𒆍𒀭𒊏𒆠</span><span class="sep">◆</span><span>𒀭𒈗𒂗𒆠𒌷𒂍𒀀𒁹</span><span class="sep">◆</span><span>𒋀𒆠𒂗𒂠</span><span class="sep">◆</span><span>𒌨𒆠</span><span class="sep">◆</span><span>𒀸𒀹</span><span class="sep">◆</span><span>𒆠𒌋𒈬𒃻𒋗𒁺</span><span class="sep">◆</span>
-        </div>
-        <div class="seal-text">
-          <span>𒆠𒂗𒂠</span><span class="sep">◆</span><span>𒌨𒆠</span><span class="sep">◆</span><span>𒆍𒀭𒊏𒆠</span><span class="sep">◆</span><span>𒀭𒈗𒂗𒆠𒌷𒂍𒀀𒁹</span><span class="sep">◆</span><span>𒋀𒆠𒂗𒂠</span><span class="sep">◆</span><span>𒌨𒆠</span><span class="sep">◆</span><span>𒀸𒀹</span><span class="sep">◆</span><span>𒆠𒌋𒈬𒃻𒋗𒁺</span><span class="sep">◆</span><span>𒆠𒂗𒂠</span><span class="sep">◆</span><span>𒌨𒆠</span><span class="sep">◆</span><span>𒆍𒀭𒊏𒆠</span><span class="sep">◆</span><span>𒀭𒈗𒂗𒆠𒌷𒂍𒀀𒁹</span><span class="sep">◆</span><span>𒋀𒆠𒂗𒂠</span><span class="sep">◆</span><span>𒌨𒆠</span><span class="sep">◆</span><span>𒀸𒀹</span><span class="sep">◆</span><span>𒆠𒌋𒈬𒃻𒋗𒁺</span><span class="sep">◆</span>
-        </div>
-      </div>
-    </div>
-
-    <h2 class="sr-only" id="txt-library-title">رفوف المعرفة</h2>
   </section>
 
-  <div id="featuredSection"></div>
-
-  <div class="bundle-bar d-none" id="bundleBar">
-    <div class="bundle-text">
-      <span class="bundle-orb"><svg class="icon"><use href="#i-layers-filled"/></svg></span>
-      <span id="txt-bundle-text">تم تحديد <strong id="bundleCount">0</strong> مراجع لحزمتك</span>
+  <!-- Category Filter Pills & Sort Toolbar (Mockup 3) -->
+  <div class="filter-command-bar">
+    <div class="chips-container">
+      <button type="button" class="chips-scroll-btn chips-scroll-left" id="chipsScrollLeft" aria-label="السابق" tabindex="-1"><svg class="icon"><use href="#i-chevron-right"/></svg></button>
+      <div class="chips-wrapper" id="categoryChips" tabindex="0" role="region" aria-label="التصنيفات">
+        <button type="button" class="chip-item active" data-category="all" aria-pressed="true">كل المراجع</button>
+      </div>
+      <button type="button" class="chips-scroll-btn chips-scroll-right" id="chipsScrollRight" aria-label="التالي" tabindex="-1"><svg class="icon"><use href="#i-chevron-left"/></svg></button>
     </div>
-    <div class="bundle-actions">
-      <button type="button" class="btn btn-light" id="copyBundleBtn">
-        <svg class="icon"><use href="#i-share"/></svg> <span id="txt-bundle-btn">نسخ رابط الحزمة</span>
-      </button>
-      <button type="button" class="btn btn-outline" id="clearBundleBtn">
-        <svg class="icon"><use href="#i-x"/></svg> <span id="txt-clear-bundle">إلغاء الحزمة</span>
-      </button>
+
+    <div class="catalog-toolbar">
+      <h2 class="catalog-heading" id="txt-library-title">كشاف الكتب والمراجع</h2>
+      <div class="toolbar-controls">
+        <div class="select-wrap">
+          <svg class="icon select-icon"><use href="#i-list"/></svg>
+          <select id="sortOrder" aria-label="ترتيب المراجع">
+            <option value="default" id="opt-sort-default">اختيار الأرشيف</option>
+            <option value="title" id="opt-sort-title">العنوان: أ — ي</option>
+            <option value="year" id="opt-sort-year">الأحدث أولاً</option>
+            <option value="pages" id="opt-sort-pages">الأقل صفحات أولاً</option>
+            <option value="downloads" id="opt-sort-downloads">الأكثر تحميلاً</option>
+            <option value="favorites" id="opt-sort-favorites">المفضلة أولاً</option>
+            <option value="rating" id="opt-sort-rating">الأعلى تقييماً</option>
+          </select>
+        </div>
+        <div class="view-toggle" role="group" aria-label="طريقة العرض">
+          <button type="button" id="btnViewGrid" class="active" aria-label="عرض شبكي" aria-pressed="true"><svg class="icon"><use href="#i-grid"/></svg></button>
+          <button type="button" id="btnViewList" aria-label="عرض قائمة" aria-pressed="false"><svg class="icon"><use href="#i-list"/></svg></button>
+        </div>
+        <button type="button" id="btnToggleReaderPane" class="pill-btn reader-toggle-btn active" aria-pressed="true" title="إظهار/إخفاء القارئ الفوري">
+          <svg class="icon"><use href="#i-book"/></svg>
+          <span id="txt-toggle-reader">القارئ الفوري</span>
+        </button>
+      </div>
     </div>
   </div>
 
   <div id="bundleModeAlertContainer"></div>
+  <div id="featuredSection" class="d-none"></div>
 
-  <section class="controls" id="controlsRow">
-    <div class="search-wrap">
-      <svg class="icon search-icon"><use href="#i-search"/></svg>
-      <label class="sr-only" for="searchInput" id="searchLabel">البحث في المراجع</label>
-      <input type="search" id="searchInput" placeholder="ابحث بعنوان، مؤلف، أو فكرة…" autocomplete="off">
-      <button type="button" class="clear-btn d-none" id="btnClearSearch" aria-label="مسح البحث">
-        <svg class="icon"><use href="#i-x"/></svg>
+  <!-- Split-Pane Interactive Workspace (Mockup 3: Catalog Grid on Right + Instant PDF Reader on Left) -->
+  <div class="library-split-workspace" id="libraryWorkspace">
+
+    <!-- Far-Right Icon Rail (Mockup 3 Navigation Rail) -->
+    <aside class="workspace-nav-rail" aria-label="أدوات سريعة">
+      <button type="button" class="rail-btn" data-rail-action="home" title="الرئيسية" aria-label="الرئيسية">
+        <svg class="icon"><use href="#i-home"/></svg>
       </button>
-    </div>
-    <div class="select-wrap">
-      <svg class="icon select-icon"><use href="#i-list"/></svg>
-      <select id="sortOrder" aria-label="ترتيب المراجع">
-        <option value="default" id="opt-sort-default">اختيار الأرشيف</option>
-        <option value="title" id="opt-sort-title">العنوان: أ — ي</option>
-        <option value="year" id="opt-sort-year">الأحدث أولاً</option>
-        <option value="pages" id="opt-sort-pages">الأقل صفحات أولاً</option>
-        <option value="downloads" id="opt-sort-downloads">الأكثر تحميلاً</option>
-        <option value="favorites" id="opt-sort-favorites">المفضلة أولاً</option>
-        <option value="rating" id="opt-sort-rating">الأعلى تقييماً</option>
-      </select>
-    </div>
-    <div class="view-toggle" role="group" aria-label="طريقة العرض">
-      <button type="button" id="btnViewGrid" class="active" aria-label="عرض شبكي" aria-pressed="true"><svg class="icon"><use href="#i-grid"/></svg></button>
-      <button type="button" id="btnViewList" aria-label="عرض قائمة" aria-pressed="false"><svg class="icon"><use href="#i-list"/></svg></button>
-    </div>
-  </section>
+      <button type="button" class="rail-btn active" data-rail-action="grid" title="كشاف الكتب" aria-label="كشاف الكتب">
+        <svg class="icon"><use href="#i-grid"/></svg>
+      </button>
+      <button type="button" class="rail-btn" data-rail-action="reader" title="القارئ الفوري" aria-label="القارئ الفوري">
+        <svg class="icon"><use href="#i-book"/></svg>
+      </button>
+      <button type="button" class="rail-btn" data-rail-action="favorites" title="المفضلة" aria-label="المفضلة">
+        <svg class="icon"><use href="#i-heart"/></svg>
+      </button>
+      <button type="button" class="rail-btn" data-rail-action="bundle" title="حزمة الأبحاث" aria-label="حزمة الأبحاث">
+        <svg class="icon"><use href="#i-layers"/></svg>
+      </button>
+    </aside>
 
-  <div class="chips-container">
-    <button type="button" class="chips-scroll-btn chips-scroll-left" id="chipsScrollLeft" aria-label="السابق" tabindex="-1"><svg class="icon"><use href="#i-chevron-right"/></svg></button>
-    <div class="chips-wrapper" id="categoryChips" tabindex="0" role="region" aria-label="التصنيفات">
-      <button type="button" class="chip-item active" data-category="all" aria-pressed="true">كل المراجع</button>
+    <!-- Main Books Catalog Area -->
+    <div class="workspace-catalog-col">
+      <div id="booksDisplayContainer" aria-live="polite"></div>
+
+      <nav aria-label="صفحات المراجع" class="pagination-nav">
+        <ul id="paginationContainer"></ul>
+      </nav>
     </div>
-    <button type="button" class="chips-scroll-btn chips-scroll-right" id="chipsScrollRight" aria-label="التالي" tabindex="-1"><svg class="icon"><use href="#i-chevron-left"/></svg></button>
+
+    <!-- Left Split-Pane: Instant PDF & Reference Reader (Mockup 3) -->
+    <aside class="instant-reader-pane" id="instantReaderPane" aria-label="القارئ الفوري للمراجع">
+      <header class="reader-pane-header">
+        <button type="button" class="reader-icon-btn" id="btnCloseReaderPane" aria-label="إغلاق القارئ" title="إخفاء القارئ">
+          <svg class="icon"><use href="#i-x"/></svg>
+        </button>
+        <div class="reader-pane-title-wrap">
+          <span class="reader-pane-badge">Instant PDF reader</span>
+        </div>
+      </header>
+
+      <div class="reader-pane-toolbar">
+        <div class="reader-mode-tabs" role="tablist">
+          <button type="button" class="reader-tab active" id="tabReaderBrief" role="tab" aria-selected="true">
+            <svg class="icon"><use href="#i-file-text"/></svg>
+            <span id="txt-tab-brief">الورقة المرجعية</span>
+          </button>
+          <button type="button" class="reader-tab" id="tabReaderPdf" role="tab" aria-selected="false">
+            <svg class="icon"><use href="#i-book"/></svg>
+            <span id="txt-tab-pdf">ملف PDF المباشر</span>
+          </button>
+        </div>
+        <div class="reader-page-indicator">
+          <span id="readerCurrentNum">1</span>
+          <span>of</span>
+          <span id="readerTotalNum">173</span>
+        </div>
+        <div class="reader-tool-actions">
+          <button type="button" class="reader-icon-btn" id="btnReaderFullModal" title="تكبير بملء الشاشة" aria-label="تكبير بملء الشاشة">
+            <svg class="icon"><use href="#i-maximize"/></svg>
+          </button>
+          <button type="button" class="reader-icon-btn" id="btnReaderDownload" title="تحميل PDF" aria-label="تحميل PDF">
+            <svg class="icon"><use href="#i-download"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Reader Paper Sheet Canvas (Mockup 3 White Document Sheet inside Dark Reader) -->
+      <div class="reader-pane-body">
+        <div class="reader-paper-sheet" id="readerPaperSheet">
+          <div class="paper-sheet-header">
+            <div class="paper-ministry-note">
+              <span>جمهورية العراق</span>
+              <span>المكتبة الإدارية الرقمية</span>
+            </div>
+            <div class="paper-crest" aria-hidden="true">🦅</div>
+            <div class="paper-doc-meta">
+              <span id="readerDocCategory">القانون الإداري</span>
+              <span id="readerDocYear">2026</span>
+            </div>
+          </div>
+
+          <h3 class="paper-doc-title" id="readerDocTitle">—</h3>
+          <p class="paper-doc-author" id="readerDocAuthor">—</p>
+          <p class="paper-doc-pages" id="readerDocPages">—</p>
+
+          <div class="paper-divider"></div>
+
+          <div class="paper-section">
+            <h4 class="paper-section-heading" id="txt-reader-desc-heading">المستخلص التنفيذي:</h4>
+            <p class="paper-doc-desc" id="readerDocDesc">—</p>
+          </div>
+
+          <div class="paper-section">
+            <h4 class="paper-section-heading" id="txt-reader-points-heading">المحاور والأفكار الرئيسية:</h4>
+            <ol class="paper-doc-points" id="readerDocPoints"></ol>
+          </div>
+
+          <div class="paper-section">
+            <h4 class="paper-section-heading" id="txt-reader-audience-heading">الفئة المستهدفة:</h4>
+            <p class="paper-doc-audience" id="readerDocAudience">—</p>
+          </div>
+
+          <div class="paper-apa-box">
+            <div class="paper-apa-head">
+              <span id="txt-reader-apa-heading">التوثيق المرجعي (APA):</span>
+              <button type="button" class="paper-copy-btn" id="btnReaderCopyApa">
+                <svg class="icon"><use href="#i-quote"/></svg>
+                <span id="txt-reader-copy-apa">نسخ التوثيق</span>
+              </button>
+            </div>
+            <code id="readerDocApa">—</code>
+          </div>
+
+          <div class="paper-sheet-footer-num" id="readerSheetPageNum">1</div>
+        </div>
+
+        <!-- Embedded Live PDF Viewer (shown when switching to PDF tab) -->
+        <div class="reader-inline-pdf d-none" id="readerInlinePdfWrap">
+          <iframe id="inlinePdfFrame" src="about:blank" title="معاينة ملف PDF"></iframe>
+        </div>
+      </div>
+
+      <footer class="reader-pane-footer">
+        <button type="button" class="reader-nav-btn" id="btnReaderPrev" aria-label="المرجع السابق">
+          <svg class="icon"><use href="#i-chevron-right"/></svg>
+        </button>
+        <span class="reader-footer-status" id="readerFooterStatus">Page 1</span>
+        <button type="button" class="reader-nav-btn" id="btnReaderNext" aria-label="المرجع التالي">
+          <svg class="icon"><use href="#i-chevron-left"/></svg>
+        </button>
+      </footer>
+    </aside>
+
   </div>
 
-  <div id="booksDisplayContainer" aria-live="polite"></div>
-
-  <nav aria-label="صفحات المراجع" class="pagination-nav">
-    <ul id="paginationContainer"></ul>
-  </nav>
-
+  <!-- Single Book Full View (Preserved for direct URLs ?book=ID & E2E routing tests) -->
   <div id="singleBookView" class="single-view d-none">
     <button type="button" class="btn-back" id="btnBackToList">
       <svg class="icon"><use href="#i-arrow-right"/></svg> <span id="txt-back-to-list">العودة إلى المكتبة</span>
@@ -321,9 +422,31 @@ window.addEventListener('appinstalled', function () {
 
 </main>
 
+<!-- Floating Bottom Research Bundle Dock (Mockup 3) -->
+<div class="bundle-bar d-none" id="bundleBar">
+  <div class="bundle-dock-info">
+    <div class="bundle-dock-header">
+      <span class="bundle-orb"><svg class="icon"><use href="#i-layers-filled"/></svg></span>
+      <div>
+        <h4 class="bundle-dock-title" id="txt-bundle-heading">حزمة الأبحاث</h4>
+        <p class="bundle-dock-sub" id="txt-bundle-text">تم تحديد <strong id="bundleCount">0</strong> مراجع لحزمتك</p>
+      </div>
+    </div>
+    <div class="bundle-actions">
+      <button type="button" class="btn btn-cyan-glow" id="copyBundleBtn">
+        <svg class="icon"><use href="#i-share"/></svg> <span id="txt-bundle-btn">نسخ رابط الحزمة</span>
+      </button>
+      <button type="button" class="btn btn-outline" id="clearBundleBtn">
+        <svg class="icon"><use href="#i-x"/></svg> <span id="txt-clear-bundle">إلغاء الحزمة</span>
+      </button>
+    </div>
+  </div>
+  <div class="bundle-thumbs-row" id="bundleThumbsContainer" aria-label="المراجع المختارة في الحزمة"></div>
+</div>
+
 <footer class="site-footer">
-  <div class="container footer-inner">
-    <div class="footer-brand">IAR Archive</div>
+  <div class="workspace-container footer-inner">
+    <div class="footer-brand">IAR Archive · مستودع المراجع الإدارية العراقية</div>
     <div class="social-links">
       <a href="https://t.me/iarArchive" target="_blank" rel="noopener" class="social-link telegram" aria-label="Telegram"><svg class="icon"><use href="#i-telegram"/></svg></a>
       <a href="https://www.tiktok.com/@iar.archive?_r=1&_t=ZS-99lvhM76Ak6" target="_blank" rel="noopener" class="social-link tiktok" aria-label="TikTok"><svg class="icon"><use href="#i-tiktok"/></svg></a>
@@ -398,9 +521,9 @@ window.addEventListener('appinstalled', function () {
       <svg class="dl-ring" viewBox="0 0 200 200" aria-hidden="true">
         <defs>
           <linearGradient id="dlRingGrad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#d4b48a"/>
-            <stop offset=".5" stop-color="#c89d5c"/>
-            <stop offset="1" stop-color="#a87a34"/>
+            <stop offset="0" stop-color="#38bdf8"/>
+            <stop offset=".5" stop-color="#f59e0b"/>
+            <stop offset="1" stop-color="#d97706"/>
           </linearGradient>
         </defs>
         <circle class="dl-ring-bg" cx="100" cy="100" r="88" />
