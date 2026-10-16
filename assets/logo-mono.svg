@@ -7,8 +7,8 @@
       <stop offset="100%" stop-color="#a87a34"/>
     </linearGradient>
     <linearGradient id="obsidianCoreMono" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#141b29"/>
-      <stop offset="100%" stop-color="#070a10"/>
+      <stop offset="0%" stop-color="#162646"/>
+      <stop offset="100%" stop-color="#0e1b33"/>
     </linearGradient>
   </defs>
   <rect x="4" y="4" width="120" height="120" rx="28" fill="url(#sumerGoldFrameMono)"/>

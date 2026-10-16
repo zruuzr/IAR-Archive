@@ -9,19 +9,19 @@
   --gold-mid: #c89d5c;
   --gold-deep: #a87a34;
   --gold-bright: #e8d0a8;
-  --gold-contrast: #6e4d19;
+  --gold-contrast: #7a531a;
 
-  /* ============ Backgrounds (Light Mode: Parchment & Cream) ============ */
-  --bg-base: #f4efe4;
+  /* ============ Backgrounds (Light Mode: Bayt al-Hikma Alabaster & Ivory) ============ */
+  --bg-base: #faf7f0;
   --bg-raised: #ffffff;
-  --bg-sunken: #e8e0ce;
-  --bg-inverse: #0a0d14;
-  --bg-glass: rgba(244, 239, 228, 0.92);
-  --bg-overlay: rgba(10, 13, 20, 0.72);
-  --bg-tint: rgba(200, 157, 92, 0.1);
-  --bg-tint-strong: rgba(168, 122, 52, 0.22);
+  --bg-sunken: #f4efe4;
+  --bg-inverse: #0e1b33;
+  --bg-glass: rgba(250, 247, 240, 0.94);
+  --bg-overlay: rgba(14, 27, 51, 0.75);
+  --bg-tint: rgba(200, 157, 92, 0.12);
+  --bg-tint-strong: rgba(168, 122, 52, 0.24);
   --bg-ambient-1: rgba(200, 157, 92, 0.14);
-  --bg-ambient-2: rgba(168, 122, 52, 0.09);
+  --bg-ambient-2: rgba(168, 122, 52, 0.08);
 
   /* ============ Leather Codex Facade Tones ============ */
   --bg-facade-start: #2b2118;
@@ -38,33 +38,33 @@
   --tone-bronze-b: #1f1209;
   --facade-page-a: #f5ecd6;
   --facade-page-b: #c4b08f;
-  --plinth-shadow: rgba(10, 13, 20, 0.42);
+  --plinth-shadow: rgba(14, 27, 51, 0.28);
 
-  /* ============ Text (WCAG AA Checked) ============ */
-  --ink-primary: #1a1f2e;
-  --ink-secondary: #4a5260;
-  --ink-tertiary: #59606e;
-  --ink-inverse: #e8e4d8;
-  --ink-on-gold: #0a0d14;
-  --ink-on-facade: #f4efe4;
+  /* ============ Text (Deep Royal Lapis Ink & WCAG AA/AAA Checked) ============ */
+  --ink-primary: #0e1b33;
+  --ink-secondary: #4a5568;
+  --ink-tertiary: #718096;
+  --ink-inverse: #faf7f0;
+  --ink-on-gold: #0e1b33;
+  --ink-on-facade: #faf7f0;
 
   /* ============ Borders ============ */
-  --border-subtle: rgba(168, 122, 52, 0.22);
-  --border-strong: rgba(168, 122, 52, 0.48);
+  --border-subtle: rgba(200, 157, 92, 0.24);
+  --border-strong: rgba(168, 122, 52, 0.45);
   --border-accent: #a87a34;
 
   /* ============ Semantic ============ */
-  --success: #4a7c59;
+  --success: #3b704c;
   --warning: #c89858;
   --danger: #a8442c;
-  --info: #2d4a5e;
+  --info: #1b3d54;
 
   /* ============ Document Paper Sheet Tokens ============ */
   --paper-bg: #ffffff;
-  --paper-surface: #f4efe4;
-  --paper-ink: #1a1f2e;
-  --paper-muted: #4a5260;
-  --paper-border: rgba(168, 122, 52, 0.28);
+  --paper-surface: #faf7f0;
+  --paper-ink: #0e1b33;
+  --paper-muted: #4a5568;
+  --paper-border: rgba(168, 122, 52, 0.32);
 
   /* ============ Gradients, Shadows & Glows ============ */
   --grad-gold: linear-gradient(
@@ -84,9 +84,9 @@
     var(--gold-deep),
     transparent
   );
-  --shadow-sm: 0 2px 8px rgba(10, 13, 20, 0.05);
-  --shadow-md: 0 10px 26px -6px rgba(10, 13, 20, 0.09);
-  --shadow-lg: 0 22px 46px -12px rgba(10, 13, 20, 0.16);
+  --shadow-sm: 0 2px 8px rgba(14, 27, 51, 0.05);
+  --shadow-md: 0 10px 28px -6px rgba(14, 27, 51, 0.09);
+  --shadow-lg: 0 24px 48px -12px rgba(14, 27, 51, 0.15);
   --shadow-glow:
     0 0 0 1px rgba(200, 157, 92, 0.35), 0 10px 28px -6px rgba(200, 157, 92, 0.35);
 
@@ -149,7 +149,7 @@
   color-scheme: light;
 }
 
-/* ============ Dark Mode (Obsidian & Sumerian Gold) ============ */
+/* ============ Dark Mode (Sovereign Obsidian & Mesopotamian Gold) ============ */
 :root[data-theme='dark'] {
   --gold-primary: #d4b48a;
   --gold-mid: #c89d5c;
@@ -157,12 +157,12 @@
   --gold-bright: #e8d0a8;
   --gold-contrast: #e8d0a8;
 
-  --bg-base: #0a0d14;
-  --bg-raised: #0f141e;
-  --bg-sunken: #070a0f;
-  --bg-inverse: #f4efe4;
-  --bg-glass: rgba(10, 13, 20, 0.9);
-  --bg-overlay: rgba(5, 8, 16, 0.82);
+  --bg-base: #080c14;
+  --bg-raised: #0f1522;
+  --bg-sunken: #05080f;
+  --bg-inverse: #faf7f0;
+  --bg-glass: rgba(8, 12, 20, 0.92);
+  --bg-overlay: rgba(4, 7, 12, 0.85);
   --bg-tint: rgba(212, 180, 138, 0.1);
   --bg-tint-strong: rgba(212, 180, 138, 0.22);
   --bg-ambient-1: rgba(212, 180, 138, 0.09);
@@ -171,12 +171,18 @@
   --ink-primary: #e8e4d8;
   --ink-secondary: #c4bfb2;
   --ink-tertiary: #9a9588;
-  --ink-inverse: #1a1f2e;
-  --ink-on-gold: #0a0d14;
+  --ink-inverse: #0e1b33;
+  --ink-on-gold: #080c14;
 
   --border-subtle: rgba(212, 180, 138, 0.18);
   --border-strong: rgba(212, 180, 138, 0.44);
   --border-accent: #d4b48a;
+
+  --paper-bg: #0f1522;
+  --paper-surface: #080c14;
+  --paper-ink: #e8e4d8;
+  --paper-muted: #c4bfb2;
+  --paper-border: rgba(212, 180, 138, 0.28);
 
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.45);
   --shadow-md: 0 12px 30px -8px rgba(0, 0, 0, 0.7);
@@ -421,15 +427,18 @@ button:disabled {
 .brand-mark {
   display: grid;
   place-items: center;
-  width: 46px;
-  height: 46px;
-  border-radius: var(--r-lg);
+  width: 48px;
+  height: 48px;
+  border-radius: var(--r-full);
   background: var(--bg-sunken);
-  border: 1px solid var(--border-strong);
-  box-shadow: var(--shadow-glow);
+  border: 1.5px solid var(--gold-mid);
+  box-shadow: 0 4px 14px rgba(200, 157, 92, 0.25);
   flex-shrink: 0;
   overflow: hidden;
-  padding: 2px;
+  padding: 3px;
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out);
 }
 
 .brand-text {
@@ -1040,6 +1049,169 @@ button:disabled {
 .view-toggle button.active {
   background: var(--grad-gold);
   color: var(--ink-on-gold);
+}
+
+/* ============================================================
+   Editorial Spotlight Panel (Model 1: Bayt al-Hikma Curated Codex)
+   ============================================================ */
+#featuredSection {
+  margin-bottom: var(--s-5);
+}
+
+.editorial-spotlight-panel {
+  position: relative;
+  background: var(--bg-raised);
+  border: 1px solid var(--border-strong);
+  border-top: 3px solid var(--border-accent);
+  border-radius: var(--r-xl);
+  padding: var(--s-4);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  transition:
+    box-shadow var(--dur-base) var(--ease-out),
+    border-color var(--dur-base) var(--ease-out);
+}
+
+.editorial-spotlight-panel:hover {
+  box-shadow: var(--shadow-lg), var(--shadow-glow);
+  border-color: var(--gold-mid);
+}
+
+.spotlight-top-badge {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-2);
+  margin-bottom: var(--s-3);
+  padding-bottom: var(--s-2);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.spotlight-seal-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-1);
+  background: var(--bg-tint);
+  color: var(--gold-contrast);
+  font-size: var(--fs-caption);
+  font-weight: 700;
+  padding: 3px var(--s-3);
+  border-radius: var(--r-full);
+  border: 1px solid var(--border-subtle);
+}
+
+.spotlight-seal-kicker .icon {
+  color: var(--gold-mid);
+}
+
+.spotlight-cat-badge {
+  font-size: var(--fs-caption);
+  font-weight: 600;
+  color: var(--gold-contrast);
+  background: var(--bg-sunken);
+  padding: 3px var(--s-3);
+  border-radius: var(--r-full);
+  border: 1px solid var(--border-subtle);
+}
+
+.spotlight-body-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s-4);
+}
+
+.spotlight-cover-col {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.spotlight-narrative-col {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--s-2);
+}
+
+.spotlight-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-2);
+  margin-bottom: var(--s-1);
+}
+
+.spotlight-title {
+  font-family: var(--font-base);
+  font-size: var(--fs-h-5);
+  font-weight: 700;
+  color: var(--ink-primary);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--heading-tracking);
+}
+
+.spotlight-title a:hover {
+  color: var(--gold-contrast);
+}
+
+.spotlight-author {
+  display: flex;
+  align-items: center;
+  gap: var(--s-1);
+  font-size: var(--fs-body-s);
+  color: var(--ink-secondary);
+  font-weight: 500;
+}
+
+.spotlight-author .icon {
+  color: var(--gold-mid);
+}
+
+.spotlight-excerpt {
+  font-size: var(--fs-body-s);
+  color: var(--ink-secondary);
+  line-height: var(--lh-base);
+  margin-block: var(--s-2);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.spotlight-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-2);
+  padding-top: var(--s-3);
+  border-top: 1px solid var(--border-subtle);
+  margin-top: auto;
+}
+
+@media (min-width: 768px) {
+  .editorial-spotlight-panel {
+    padding: var(--s-5);
+  }
+
+  .spotlight-body-layout {
+    flex-direction: row;
+    align-items: stretch;
+    gap: var(--s-6);
+  }
+
+  .spotlight-cover-col {
+    flex-shrink: 0;
+    width: 200px;
+    background: var(--bg-sunken);
+    border-radius: var(--r-lg);
+    border: 1px solid var(--border-subtle);
+    padding: var(--s-4);
+  }
 }
 
 /* ============================================================
@@ -2505,14 +2677,15 @@ button:disabled {
 .footer-emblem {
   display: grid;
   place-items: center;
-  width: 38px;
-  height: 38px;
-  border-radius: var(--r-md);
+  width: 42px;
+  height: 42px;
+  border-radius: var(--r-full);
   background: var(--bg-sunken);
-  border: 1px solid var(--border-strong);
-  box-shadow: var(--shadow-sm);
-  padding: 2px;
+  border: 1.5px solid var(--border-strong);
+  box-shadow: 0 2px 10px rgba(200, 157, 92, 0.2);
+  padding: 3px;
   flex-shrink: 0;
+  overflow: hidden;
 }
 
 .footer-brand-copy {

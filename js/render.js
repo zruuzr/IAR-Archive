@@ -392,6 +392,99 @@ export function syncBundle() {
     : '';
 }
 
+function renderFeaturedSpotlight() {
+  const host = $('featuredSection');
+  if (!host) return;
+
+  const show =
+    state.filters.query === '' &&
+    state.filters.category === 'all' &&
+    !state.filters.favoritesOnly &&
+    !state.user.bundleMode &&
+    state.ui.page === 1;
+
+  if (!show || !state.data.loaded || !state.data.books.length) {
+    host.innerHTML = '';
+    host.classList.add('d-none');
+    return;
+  }
+
+  const book = state.data.books.find((b) => b.featured) || state.data.books[0];
+  if (!book) {
+    host.innerHTML = '';
+    host.classList.add('d-none');
+    return;
+  }
+
+  host.classList.remove('d-none');
+
+  const title = esc(field(book, 'title'));
+  const author = esc(field(book, 'author') || labels().unknown);
+  const desc = esc(field(book, 'description') || '');
+  const cat = esc(categoryLabel(book));
+  const year = esc(book.year || '2026');
+  const pages = esc(book.pages || '—');
+  const size = esc(book.file_size || 'PDF');
+  const fav = state.user.favorites.has(book.id);
+
+  host.innerHTML = `
+    <section class="editorial-spotlight-panel" aria-label="${esc(t('المرجع المختار المميز', 'Featured Reference'))}">
+      <div class="spotlight-top-badge">
+        <span class="spotlight-seal-kicker">
+          ${i('sparkles')}
+          <span>${t('مختارات دار الحكمة · الإصدار الإداري المميز', 'Bayt al-Hikma Selection · Curated Volume')}</span>
+        </span>
+        <span class="spotlight-cat-badge">${cat}</span>
+      </div>
+
+      <div class="spotlight-body-layout">
+        <div class="spotlight-cover-col">
+          ${cover(book, true)}
+        </div>
+
+        <div class="spotlight-narrative-col">
+          <div class="spotlight-meta-row">
+            <span class="meta-chip">${i('calendar')} ${year}</span>
+            <span class="meta-chip">${i('file-text')} ${pages} ${t('صفحة', 'pages')}</span>
+            <span class="meta-chip">${i('award')} ${size}</span>
+          </div>
+
+          <h2 class="spotlight-title">
+            <a href="${esc(bookUrl(book.id))}" data-action="details" data-id="${book.id}">
+              ${title}
+            </a>
+          </h2>
+
+          <p class="spotlight-author">
+            ${i('user')} <span>${author}</span>
+          </p>
+
+          <p class="spotlight-excerpt">${desc}</p>
+
+          <div class="spotlight-actions">
+            <button type="button" class="btn btn-primary" data-action="preview-reader" data-id="${book.id}">
+              ${i('book')} <span>${t('معاينة في القارئ الفوري', 'Preview in Instant Reader')}</span>
+            </button>
+            <button type="button" class="btn btn-ghost" data-action="summary" data-id="${book.id}">
+              ${i('zap')} <span>${t('ملخص 3 دقائق', '3m Summary')}</span>
+            </button>
+            <button type="button" class="btn btn-ghost" data-action="download" data-id="${book.id}" ${!book.file_path ? 'disabled' : ''}>
+              ${i('download')} <span>${t('تحميل النسخة المعتمدة', 'Download Volume')}</span>
+              <span class="download-count" data-download-count="${book.id}">${number(book.downloadCount)}</span>
+            </button>
+            <button type="button" class="btn btn-ghost btn-icon-only" data-action="cite" data-id="${book.id}" aria-label="${esc(t('توثيق APA', 'Cite APA'))}" title="${esc(t('توثيق APA', 'Cite APA'))}">
+              ${i('quote')}
+            </button>
+            <button type="button" class="btn btn-ghost btn-icon-only" data-action="favorite" data-id="${book.id}" aria-label="${esc(t('المفضلة', 'Favorite'))}" aria-pressed="${fav}">
+              ${i(fav ? 'heart-filled' : 'heart')}
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
 export function render() {
   if (state.ui.single !== null) {
     renderSingle();
@@ -414,11 +507,9 @@ export function render() {
 
   if (!state.data.loaded) return;
 
-  const books = filteredBooks();
+  renderFeaturedSpotlight();
 
-  if ($('featuredSection')) {
-    $('featuredSection').innerHTML = '';
-  }
+  const books = filteredBooks();
 
   const size = 6;
   const total = Math.ceil(books.length / size);

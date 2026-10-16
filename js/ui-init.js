@@ -30,16 +30,16 @@ export function language() {
       'Iraqi Administrative Reference Repository'
     ],
     'txt-about-title': [
-      'مستودع المراجع الإدارية العراقية · من ألواح سومر إلى أوراق الحاضر',
-      'Iraqi Administrative Reference · From Sumer to Today'
+      'دار الحكمة المعاصرة للمراجع الإدارية.',
+      'Modern Bayt al-Hikma for Administrative References.'
     ],
     'txt-about-desc': [
       'مجموعة منتقاة من المراجع الإدارية، مفهرسة بعناية، مرفقة بملخصات مركزة وتوثيق أكاديمي مباشر — لتكون وجهتك الأولى للبحث والاطلاع.',
       'A curated collection of administrative references — indexed with care, accompanied by focused summaries and direct academic citation — so it becomes your first stop for research and reading.'
     ],
     'txt-kicker': [
-      'المكتبة الرقمية العراقية · الإصدار التفاعلي 2026',
-      'The Iraqi Digital Library · Interactive Edition 2026'
+      'مستودع المراجع الإدارية العراقية · من ألواح سومر إلى أوراق الحاضر',
+      'Iraqi Administrative Reference Repository · From Sumerian Tablets to Modern Folios'
     ],
     'txt-tag-summary': ['ملخصات 3 دقائق', '3-minute summaries'],
     'txt-tag-cite': ['توثيق APA مباشر', 'Direct APA citations'],
@@ -196,7 +196,7 @@ export function theme() {
   attr('themeToggleBtn', 'aria-pressed', state.ui.theme === 'dark');
   document
     .querySelector('meta[name="theme-color"]')
-    ?.setAttribute('content', state.ui.theme === 'dark' ? '#0a0d14' : '#f4efe4');
+    ?.setAttribute('content', state.ui.theme === 'dark' ? '#080c14' : '#faf7f0');
 }
 
 export function initAmbient() {
