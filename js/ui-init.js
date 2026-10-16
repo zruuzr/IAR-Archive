@@ -24,6 +24,7 @@ export function language() {
   const pairs = {
     langLabel: ['EN', 'عربي'],
     'txt-install': ['تثبيت', 'Install'],
+    'txt-announcement': ['بوابة الباحثين', 'Researcher Portal'],
     'txt-subtitle': [
       'مستودع المراجع الإدارية العراقية',
       'Iraqi Administrative Reference Repository'
@@ -40,10 +41,13 @@ export function language() {
       'المكتبة الرقمية العراقية · الإصدار التفاعلي 2026',
       'The Iraqi Digital Library · Interactive Edition 2026'
     ],
+    'txt-tag-summary': ['ملخصات 3 دقائق', '3-minute summaries'],
+    'txt-tag-cite': ['توثيق APA مباشر', 'Direct APA citations'],
+    'txt-tag-bundle': ['حزم بحثية مخصصة', 'Curated research bundles'],
     'txt-search-btn': ['بحث', 'Search'],
     'txt-library-title': ['فهرس المراجع التفاعلي', 'Interactive Reference Catalog'],
     'txt-favorites-only': ['مفضلة', 'My favorites'],
-    'txt-reader-toggle': ['القارئ الفوري', 'Instant Reader'],
+    'txt-toggle-reader': ['القارئ الفوري', 'Instant Reader'],
     'txt-stat-books': ['مرجع', 'References'],
     'txt-stat-cats': ['تصنيف', 'Categories'],
     'txt-stat-visits': ['زيارة', 'Visits'],
@@ -56,26 +60,27 @@ export function language() {
     'opt-sort-downloads': ['الأكثر تحميلاً', 'Most downloaded'],
     'opt-sort-favorites': ['المفضلة أولاً', 'Favorites first'],
     'opt-sort-rating': ['الأعلى تقييماً', 'Highest rated'],
+    'txt-reader-badge': ['القارئ الفوري للمراجع', 'Instant Reference Reader'],
     'txt-tab-brief': ['ملخص 3 دقائق & APA', '3-Min Summary & APA'],
     'txt-tab-pdf': ['معاينة PDF مباشرة', 'Live PDF Preview'],
     'txt-reader-of': ['من', 'of'],
-    'txt-sheet-inst': [
-      'جمهورية العراق · المكتبة الرقمية للمراجع الإدارية',
-      'Republic of Iraq · Digital Library of Administrative References'
+    'txt-paper-state': ['جمهورية العراق', 'Republic of Iraq'],
+    'txt-paper-lib': ['المكتبة الإدارية الرقمية', 'Digital Administrative Library'],
+    'txt-reader-desc-heading': ['المستخلص التنفيذي:', 'Executive Summary:'],
+    'txt-reader-points-heading': [
+      'المحاور والأفكار الرئيسية:',
+      'Core Pillars & Key Concepts:'
     ],
-    'txt-sheet-sub': [
-      'REPUBLIC OF IRAQ · IAR DIGITAL REPOSITORY',
-      'REPUBLIC OF IRAQ · IAR DIGITAL REPOSITORY'
-    ],
-    'txt-sheet-desc-h': ['الملخص التنفيذي للمرجع', 'Executive Reference Summary'],
-    'txt-sheet-points-h': ['المرتكزات والأفكار المحورية', 'Core Pillars & Key Concepts'],
-    'txt-sheet-audience-h': ['الفئة المستهدفة', 'Target Audience'],
-    'txt-sheet-apa-h': ['التوثيق الأكاديمي (APA 7th)', 'Academic Citation (APA 7th)'],
-    'txt-sheet-copy-apa': ['نسخ التوثيق', 'Copy Citation'],
-    'txt-reader-full': ['قراءة بملء الشاشة', 'Fullscreen Reader'],
-    'txt-reader-dl': ['تحميل PDF', 'Download PDF'],
+    'txt-reader-audience-heading': ['الفئة المستهدفة:', 'Target Audience:'],
+    'txt-reader-apa-heading': ['التوثيق المرجعي (APA):', 'Academic Citation (APA):'],
+    'txt-reader-copy-apa': ['نسخ التوثيق', 'Copy Citation'],
+    'txt-bundle-heading': ['حزمة الأبحاث', 'Research Bundle'],
     'txt-bundle-btn': ['نسخ رابط الحزمة', 'Copy bundle link'],
     'txt-clear-bundle': ['إلغاء الحزمة', 'Clear bundle'],
+    'txt-footer-brand': [
+      'IAR Archive · مستودع المراجع الإدارية العراقية',
+      'IAR Archive · Iraqi Administrative Reference Repository'
+    ],
     summaryModalTitle: ['ملخص المرجع · 3 دقائق', 'Reference summary · 3 minutes'],
     'txt-modal-ideas-title': ['أهم الأفكار', 'Key ideas'],
     'txt-modal-audience-title': ['الفئة المستهدفة', 'Target audience'],
@@ -103,8 +108,8 @@ export function language() {
     searchInput: [
       'placeholder',
       t(
-        'ابحث في المستودع حسب العنوان، المؤلف، أو الكلمات المفتاحية...',
-        'Search repository by title, author, or keywords...'
+        'ابحث في المستودع حسب العنوان، المؤلف، أو الكلمات المفتاحية…',
+        'Search repository by title, author, or keywords…'
       )
     ],
     btnClearSearch: ['aria-label', t('مسح البحث', 'Clear search')],
@@ -116,6 +121,11 @@ export function language() {
     categoryChips: ['aria-label', t('التصنيفات', 'Categories')],
     chipsScrollLeft: ['aria-label', t('السابق', 'Previous')],
     chipsScrollRight: ['aria-label', t('التالي', 'Next')],
+    btnCloseReaderPane: ['aria-label', t('إغلاق القارئ', 'Close reader')],
+    btnReaderFullModal: ['aria-label', t('تكبير بملء الشاشة', 'Fullscreen reader')],
+    btnReaderDownload: ['aria-label', t('تحميل PDF', 'Download PDF')],
+    btnReaderPrev: ['aria-label', t('المرجع السابق', 'Previous reference')],
+    btnReaderNext: ['aria-label', t('المرجع التالي', 'Next reference')],
     summaryDismissBtn: ['aria-label', t('إغلاق', 'Close')],
     pdfDismissBtn: ['aria-label', t('إغلاق', 'Close')],
     dlCancel: ['aria-label', t('إلغاء التحميل', 'Cancel download')]
@@ -131,8 +141,8 @@ export function language() {
   const bundleTextEl = $('txt-bundle-text');
   if (bundleTextEl) {
     bundleTextEl.innerHTML = t(
-      'حزمة الأبحاث (<strong id="bundleCount">0</strong> كتب مختارة)',
-      'Research Bundle (<strong id="bundleCount">0</strong> selected)'
+      'حزمة الأبحاث (<strong id="bundleCount">0</strong> مراجع مختارة)',
+      'Research Bundle (<strong id="bundleCount">0</strong> references selected)'
     );
   }
 
@@ -159,12 +169,18 @@ export function language() {
     summary(byId(state.ui.summary));
   }
 
+  const isAr = state.ui.lang === 'ar';
+  const prevChevron = isAr ? '#i-chevron-right' : '#i-chevron-left';
+  const nextChevron = isAr ? '#i-chevron-left' : '#i-chevron-right';
+
+  $('chipsScrollLeft')?.querySelector('use')?.setAttribute('href', prevChevron);
+  $('chipsScrollRight')?.querySelector('use')?.setAttribute('href', nextChevron);
+  $('btnReaderPrev')?.querySelector('use')?.setAttribute('href', prevChevron);
+  $('btnReaderNext')?.querySelector('use')?.setAttribute('href', nextChevron);
+
   const backIcon = $('btnBackToList')?.querySelector('use');
   if (backIcon) {
-    backIcon.setAttribute(
-      'href',
-      `#i-arrow-${state.ui.lang === 'ar' ? 'right' : 'left'}`
-    );
+    backIcon.setAttribute('href', `#i-arrow-${isAr ? 'right' : 'left'}`);
   }
 
   text('archiveYear', '2026');
@@ -180,7 +196,7 @@ export function theme() {
   attr('themeToggleBtn', 'aria-pressed', state.ui.theme === 'dark');
   document
     .querySelector('meta[name="theme-color"]')
-    ?.setAttribute('content', state.ui.theme === 'dark' ? '#0b0f19' : '#f8fafc');
+    ?.setAttribute('content', state.ui.theme === 'dark' ? '#0a0d14' : '#f4efe4');
 }
 
 export function initAmbient() {
