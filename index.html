@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="description" content="IAR Archive — مستودع المراجع الإدارية العراقية. مكتبة رقمية تفاعلية مع قارئ فوري، ملخصات 3 دقائق، وتوثيق APA.">
-<meta name="theme-color" content="#0b0f19">
+<meta name="theme-color" content="#0a0d14">
 
 <meta property="og:title" content="IAR Archive | مستودع المراجع الإدارية العراقية">
 <meta property="og:description" content="مكتبة رقمية لأرشفة المراجع الإدارية العراقية مع قارئ فوري وملخصات وتوثيق أكاديمي">
@@ -20,13 +20,14 @@
 <title id="pageTitle">IAR Archive | Iraqi Administrative Reference</title>
 
 <link rel="manifest" href="/manifest.json">
+<link rel="icon" type="image/svg+xml" href="/assets/logo-mark.svg">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-192x192.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@500;600;700;800&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=Noto+Sans+Cuneiform&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="style.css">
 
@@ -103,29 +104,12 @@ window.addEventListener('appinstalled', function () {
 <div class="scroll-progress" aria-hidden="true"><span id="scrollProgressFill"></span></div>
 <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
 
-<!-- Top Command-Center Header (Mockup 3) -->
+<!-- Top Command-Center Header -->
 <header class="site-header">
   <div class="workspace-container header-row">
     <a class="brand-lockup" href="#" aria-label="IAR Archive — العودة إلى المكتبة">
       <span class="brand-mark" aria-hidden="true">
-        <svg viewBox="0 0 64 64" width="42" height="42">
-          <defs>
-            <linearGradient id="cyanBookGrad" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#38bdf8"/>
-              <stop offset="100%" stop-color="#0284c7"/>
-            </linearGradient>
-            <linearGradient id="goldCrestGrad" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#fbbf24"/>
-              <stop offset="100%" stop-color="#d97706"/>
-            </linearGradient>
-          </defs>
-          <!-- Glowing open book pages -->
-          <path d="M8 18 C18 16, 26 20, 32 25 C38 20, 46 16, 56 18 L56 48 C46 46, 38 50, 32 55 C26 50, 18 46, 8 48 Z" fill="url(#cyanBookGrad)" opacity="0.92"/>
-          <path d="M12 13 C20 12, 27 15, 32 20 C37 15, 44 12, 52 13 L52 44 C44 42, 37 46, 32 51 C27 46, 20 42, 12 44 Z" fill="#38bdf8" opacity="0.35"/>
-          <!-- Golden diamond crest above book -->
-          <polygon points="32,4 38,11 32,18 26,11" fill="url(#goldCrestGrad)"/>
-          <line x1="32" y1="22" x2="32" y2="54" stroke="#0b0f19" stroke-width="2"/>
-        </svg>
+        <img class="logo-svg" src="assets/logo-full.svg" width="40" height="40" alt="IAR Archive">
       </span>
       <span class="brand-text">
         <span class="brand-title" id="txt-subtitle">مستودع المراجع الإدارية العراقية</span>
@@ -275,14 +259,14 @@ window.addEventListener('appinstalled', function () {
       </nav>
     </div>
 
-    <!-- Left Split-Pane: Instant PDF & Reference Reader (Mockup 3) -->
+    <!-- Left Split-Pane: Instant PDF & Reference Reader -->
     <aside class="instant-reader-pane" id="instantReaderPane" aria-label="القارئ الفوري للمراجع">
       <header class="reader-pane-header">
         <button type="button" class="reader-icon-btn" id="btnCloseReaderPane" aria-label="إغلاق القارئ" title="إخفاء القارئ">
           <svg class="icon"><use href="#i-x"/></svg>
         </button>
         <div class="reader-pane-title-wrap">
-          <span class="reader-pane-badge">Instant PDF reader</span>
+          <span class="reader-pane-badge" id="txt-reader-badge">القارئ الفوري للمراجع</span>
         </div>
       </header>
 
@@ -299,7 +283,7 @@ window.addEventListener('appinstalled', function () {
         </div>
         <div class="reader-page-indicator">
           <span id="readerCurrentNum">1</span>
-          <span>of</span>
+          <span id="txt-reader-of">من</span>
           <span id="readerTotalNum">173</span>
         </div>
         <div class="reader-tool-actions">
@@ -312,15 +296,17 @@ window.addEventListener('appinstalled', function () {
         </div>
       </div>
 
-      <!-- Reader Paper Sheet Canvas (Mockup 3 White Document Sheet inside Dark Reader) -->
+      <!-- Reader Paper Sheet Canvas -->
       <div class="reader-pane-body">
         <div class="reader-paper-sheet" id="readerPaperSheet">
           <div class="paper-sheet-header">
             <div class="paper-ministry-note">
-              <span>جمهورية العراق</span>
-              <span>المكتبة الإدارية الرقمية</span>
+              <span id="txt-paper-state">جمهورية العراق</span>
+              <span id="txt-paper-lib">المكتبة الإدارية الرقمية</span>
             </div>
-            <div class="paper-crest" aria-hidden="true">🦅</div>
+            <div class="paper-crest" aria-hidden="true">
+              <img class="logo-svg paper-logo" src="assets/logo-mark.svg" width="28" height="28" alt="">
+            </div>
             <div class="paper-doc-meta">
               <span id="readerDocCategory">القانون الإداري</span>
               <span id="readerDocYear">2026</span>
@@ -372,7 +358,7 @@ window.addEventListener('appinstalled', function () {
         <button type="button" class="reader-nav-btn" id="btnReaderPrev" aria-label="المرجع السابق">
           <svg class="icon"><use href="#i-chevron-right"/></svg>
         </button>
-        <span class="reader-footer-status" id="readerFooterStatus">Page 1</span>
+        <span class="reader-footer-status" id="readerFooterStatus">—</span>
         <button type="button" class="reader-nav-btn" id="btnReaderNext" aria-label="المرجع التالي">
           <svg class="icon"><use href="#i-chevron-left"/></svg>
         </button>
@@ -422,7 +408,7 @@ window.addEventListener('appinstalled', function () {
 
 </main>
 
-<!-- Floating Bottom Research Bundle Dock (Mockup 3) -->
+<!-- Floating Bottom Research Bundle Dock -->
 <div class="bundle-bar d-none" id="bundleBar">
   <div class="bundle-dock-info">
     <div class="bundle-dock-header">
@@ -446,7 +432,10 @@ window.addEventListener('appinstalled', function () {
 
 <footer class="site-footer">
   <div class="workspace-container footer-inner">
-    <div class="footer-brand">IAR Archive · مستودع المراجع الإدارية العراقية</div>
+    <div class="footer-brand">
+      <img class="logo-svg logo-mono" src="assets/logo-mono.svg" width="24" height="24" alt="">
+      <span id="txt-footer-brand">IAR Archive · مستودع المراجع الإدارية العراقية</span>
+    </div>
     <div class="social-links">
       <a href="https://t.me/iarArchive" target="_blank" rel="noopener" class="social-link telegram" aria-label="Telegram"><svg class="icon"><use href="#i-telegram"/></svg></a>
       <a href="https://www.tiktok.com/@iar.archive?_r=1&_t=ZS-99lvhM76Ak6" target="_blank" rel="noopener" class="social-link tiktok" aria-label="TikTok"><svg class="icon"><use href="#i-tiktok"/></svg></a>
@@ -521,9 +510,9 @@ window.addEventListener('appinstalled', function () {
       <svg class="dl-ring" viewBox="0 0 200 200" aria-hidden="true">
         <defs>
           <linearGradient id="dlRingGrad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#38bdf8"/>
-            <stop offset=".5" stop-color="#f59e0b"/>
-            <stop offset="1" stop-color="#d97706"/>
+            <stop offset="0" stop-color="#e8d0a8"/>
+            <stop offset=".5" stop-color="#c89d5c"/>
+            <stop offset="1" stop-color="#a87a34"/>
           </linearGradient>
         </defs>
         <circle class="dl-ring-bg" cx="100" cy="100" r="88" />
