@@ -78,8 +78,8 @@ export function language() {
     'txt-bundle-btn': ['نسخ رابط الحزمة', 'Copy bundle link'],
     'txt-clear-bundle': ['إلغاء الحزمة', 'Clear bundle'],
     'txt-footer-brand': [
-      'IAR Archive · مستودع المراجع الإدارية العراقية',
-      'IAR Archive · Iraqi Administrative Reference Repository'
+      'مستودع المراجع الإدارية العراقية',
+      'Iraqi Administrative Reference Repository'
     ],
     summaryModalTitle: ['ملخص المرجع · 3 دقائق', 'Reference summary · 3 minutes'],
     'txt-modal-ideas-title': ['أهم الأفكار', 'Key ideas'],

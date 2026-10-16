@@ -79,7 +79,7 @@ function action(book, name, icon, label, primary = false, iconOnly = false) {
       ? `<span class="download-count" data-download-count="${book.id}">${number(book.downloadCount)}</span>`
       : '';
 
-  return `<button type="button" class="btn ${primary ? 'btn-primary' : 'btn-ghost'}"
+  return `<button type="button" class="btn ${primary ? 'btn-primary' : 'btn-ghost'} btn-action-${name} ${iconOnly ? 'btn-icon-only' : ''}"
     data-action="${name}" data-id="${book.id}" ${disabled ? 'disabled' : ''}
     aria-label="${esc(label)}" title="${esc(label)}" ${pressed}>
     ${i(icon)}${iconOnly ? '' : `<span>${esc(label)}</span>`}${count}
@@ -100,8 +100,8 @@ function actions(book) {
       isActiveReader
     )}
     ${action(book, 'summary', 'zap', t('ملخص 3د', '3m Brief'), !isActiveReader)}
-    ${action(book, 'cite', 'quote', t('توثيق APA', 'Cite APA'))}
     ${action(book, 'download', 'download', l.download)}
+    ${action(book, 'cite', 'quote', t('توثيق APA', 'Cite APA'))}
     ${action(
       book,
       'favorite',
@@ -301,26 +301,29 @@ function pagination(total) {
       state.ui.page - 1,
       state.ui.page,
       state.ui.page + 1,
-      ...(state.ui.page < 4 ? [2, 3, 4, 5] : []),
-      ...(state.ui.page > total - 3 ? [total - 4, total - 3, total - 2, total - 1] : [])
+      ...(state.ui.page < 4 ? [2, 3, 4] : []),
+      ...(state.ui.page > total - 3 ? [total - 3, total - 2, total - 1] : [])
     ])
   ]
     .filter((v) => v > 0 && v <= total)
     .sort((a, b) => a - b);
 
-  const button = (value, label, disabled = false, role = '') =>
+  const prevIcon = i(state.ui.lang === 'ar' ? 'chevron-right' : 'chevron-left');
+  const nextIcon = i(state.ui.lang === 'ar' ? 'chevron-left' : 'chevron-right');
+
+  const button = (value, labelHtml, disabled = false, role = '') =>
     `<li class="page-item">
-      <button type="button" class="page-btn ${value === state.ui.page ? 'active' : ''}"
+      <button type="button" class="page-btn ${role ? `page-btn-${role}` : ''} ${value === state.ui.page && !role ? 'active' : ''}"
         ${role ? `data-page-${role}` : ''}
         data-page="${value}" ${disabled ? 'disabled' : ''}
-        ${value === state.ui.page ? 'aria-current="page"' : ''}>
-        <span class="page-label">${label}</span>
+        ${value === state.ui.page && !role ? 'aria-current="page"' : ''}>
+        <span class="page-label">${labelHtml}</span>
       </button>
     </li>`;
 
   let html = button(
     state.ui.page - 1,
-    t('السابق', 'Previous'),
+    `${prevIcon}<span>${t('السابق', 'Prev')}</span>`,
     state.ui.page === 1,
     'prev'
   );
@@ -334,9 +337,18 @@ function pagination(total) {
     last = value;
   });
 
-  nav.innerHTML =
-    html +
-    button(state.ui.page + 1, t('التالي', 'Next'), state.ui.page === total, 'next');
+  html += button(
+    state.ui.page + 1,
+    `<span>${t('التالي', 'Next')}</span>${nextIcon}`,
+    state.ui.page === total,
+    'next'
+  );
+
+  html += `<li class="page-item page-status-item" aria-hidden="true">
+    <span class="page-status-pill">${t('صفحة', 'Page')} <strong>${number(state.ui.page)}</strong> ${t('من', 'of')} ${number(total)}</span>
+  </li>`;
+
+  nav.innerHTML = html;
 }
 
 export function syncBundle() {
@@ -408,7 +420,7 @@ export function render() {
     $('featuredSection').innerHTML = '';
   }
 
-  const size = 8;
+  const size = 6;
   const total = Math.ceil(books.length / size);
   state.ui.page = Math.min(state.ui.page, Math.max(1, total));
 
