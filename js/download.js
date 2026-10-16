@@ -18,27 +18,13 @@ function fmtBytes(b) {
   return (b / 1073741824).toFixed(2) + ' GB';
 }
 
-function parseEstimatedBytes(sizeStr) {
-  if (!sizeStr || typeof sizeStr !== 'string') return 0;
-  const match = sizeStr.trim().match(/^([\d.]+)\s*(B|KB|MB|GB)/i);
-  if (!match) return 0;
-  const val = parseFloat(match[1]);
-  if (!Number.isFinite(val) || val <= 0) return 0;
-  const unit = match[2].toUpperCase();
-  if (unit === 'B') return Math.round(val);
-  if (unit === 'KB') return Math.round(val * 1024);
-  if (unit === 'MB') return Math.round(val * 1048576);
-  if (unit === 'GB') return Math.round(val * 1073741824);
-  return 0;
-}
-
 function showDownloadOverlay(book) {
   const overlay = $('downloadOverlay');
   if (!overlay) return;
 
   text('dlBook', field(book, 'title') || '');
   text('dlPercent', '0');
-  text('dlMeta', book.file_size || '—');
+  text('dlMeta', '—');
 
   const ring = overlay.querySelector('.dl-ring-fg');
   if (ring) {
@@ -52,7 +38,7 @@ function showDownloadOverlay(book) {
   document.body.style.overflow = 'hidden';
 }
 
-function updateDownloadOverlay(received, total, isDone = false) {
+function updateDownloadOverlay(received, total) {
   const overlay = $('downloadOverlay');
   if (!overlay || overlay.hidden) return;
 
@@ -60,21 +46,8 @@ function updateDownloadOverlay(received, total, isDone = false) {
   const pctEl = $('dlPercent');
   const metaEl = $('dlMeta');
 
-  if (isDone) {
-    if (pctEl) pctEl.textContent = '100';
-    if (ring) {
-      ring.style.strokeDasharray = DL_RING_CIRC;
-      ring.style.strokeDashoffset = 0;
-      ring.classList.remove('is-indeterminate');
-    }
-    if (metaEl && received > 0) {
-      metaEl.textContent = `${fmtBytes(received)} / ${fmtBytes(received)}`;
-    }
-    return;
-  }
-
   if (total > 0) {
-    const p = Math.max(0, Math.min(0.99, received / total));
+    const p = Math.max(0, Math.min(1, received / total));
     const percent = Math.round(p * 100);
     if (pctEl) pctEl.textContent = String(percent);
     if (ring) {
@@ -84,14 +57,8 @@ function updateDownloadOverlay(received, total, isDone = false) {
     }
     if (metaEl) metaEl.textContent = `${fmtBytes(received)} / ${fmtBytes(total)}`;
   } else {
-    const pseudoP = received > 0 ? Math.min(0.9, 1 - Math.exp(-received / 2097152)) : 0;
-    const percent = Math.round(pseudoP * 100);
-    if (pctEl) pctEl.textContent = String(percent);
-    if (ring) {
-      ring.style.strokeDasharray = DL_RING_CIRC;
-      ring.style.strokeDashoffset = DL_RING_CIRC * (1 - pseudoP);
-      ring.classList.toggle('is-indeterminate', received === 0);
-    }
+    if (pctEl) pctEl.textContent = '—';
+    if (ring) ring.classList.add('is-indeterminate');
     if (metaEl) metaEl.textContent = received > 0 ? fmtBytes(received) : '—';
   }
 }
@@ -136,36 +103,32 @@ export async function download(book) {
     const response = await fetch(book.file_path, { signal: controller.signal });
     if (!response.ok) throw new Error('Download unavailable');
 
-    const headerTotal = Number(response.headers.get('Content-Length')) || 0;
-    const total = headerTotal || parseEstimatedBytes(book.file_size);
+    const total = Number(response.headers.get('Content-Length')) || 0;
     const reader =
       response.body && typeof response.body.getReader === 'function'
         ? response.body.getReader()
         : null;
 
     let blob;
-    let received = 0;
     if (reader) {
       const chunks = [];
-      updateDownloadOverlay(0, total, false);
+      let received = 0;
+      updateDownloadOverlay(0, total);
 
       for (;;) {
         const { done, value } = await reader.read();
         if (done) break;
         chunks.push(value);
         received += value.length;
-        updateDownloadOverlay(received, Math.max(total, received), false);
+        updateDownloadOverlay(received, total);
       }
 
       const mime = response.headers.get('Content-Type') || 'application/pdf';
       blob = new Blob(chunks, { type: mime });
     } else {
-      updateDownloadOverlay(0, total, false);
+      updateDownloadOverlay(0, 0);
       blob = await response.blob();
-      received = blob.size || total;
     }
-
-    updateDownloadOverlay(received || total, received || total, true);
 
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -176,7 +139,8 @@ export async function download(book) {
     link.remove();
     setTimeout(() => URL.revokeObjectURL(url), 60000);
 
-    await new Promise((r) => setTimeout(r, 450));
+    if (total > 0) updateDownloadOverlay(total, total);
+    await new Promise((r) => setTimeout(r, 400));
 
     if (fb.db && fb.auth?.currentUser) {
       try {

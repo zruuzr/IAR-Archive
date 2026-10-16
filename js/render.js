@@ -1,10 +1,9 @@
 /* ============================================================
    IAR Archive — rendering layer
-   Cards, Instant Reader split-pane, pagination, single view,
-   3-minute summary modal, categories, and Research Bundle dock.
+   Cards, featured, pagination, single view, summary, categories.
    ============================================================ */
 
-import { $, $$, esc, text, attr, visible } from './utils.js';
+import { $, esc, text, attr, visible } from './utils.js';
 import { state } from './state.js';
 import { t, field, number, i, labels } from './i18n.js';
 import { byId, categoryKey, categoryLabel, points } from './data.js';
@@ -37,49 +36,38 @@ if (pdfModal) {
 
 function cover(book, featured = false) {
   const title = esc(field(book, 'title'));
-  const author = esc(field(book, 'author') || '');
   const color = book.id % 5;
-  const tones = ['tone-navy', 'tone-lapis', 'tone-slate', 'tone-obsidian', 'tone-bronze'];
+  const symbols = ['command', 'git-branch', 'layers', 'asterisk', 'circle'];
 
   const image = book.cover_image
     ? `<img class="cover-img" src="${esc(book.cover_image)}" alt="${title}" loading="${featured ? 'eager' : 'lazy'}">`
     : '';
 
-  const fallback = `<div class="leather-book-facade ${tones[color]}" ${image ? 'hidden' : ''}>
-    <div class="volume-spine-ridge"></div>
-    <div class="volume-edge-pages"></div>
-    <div class="volume-filigree-frame"></div>
-    <div class="volume-cuneiform-seal">
-      <svg class="icon"><use href="#i-book"/></svg>
-    </div>
-    <div class="volume-calligraphy-title">${title}</div>
-    <div class="volume-author-stamp">${author}</div>
-    <div class="volume-gold-stamp">IAR ARCHIVE · ${esc(book.year || '2026')}</div>
-  </div>`;
+  const fallback = `<span class="cover-placeholder designed-cover cover-tone-${color}" ${image ? 'hidden' : ''}>
+    <span class="cover-edition">IAR / ${esc(book.year || 'ARCHIVE')}</span>
+    <span class="cover-symbol" aria-hidden="true">${i(symbols[color])}</span>
+    <span class="cover-name">${title}</span>
+    <span class="cover-caption">IAR ARCHIVE</span>
+  </span>`;
 
   return `<div class="cover-container ${featured ? 'featured-cover' : ''}">
-    <button type="button" class="cover-btn volume-3d-btn" data-action="preview-reader" data-id="${book.id}" aria-label="${esc(t('معاينة في القارئ الفوري', 'Preview in Instant Reader'))}: ${title}">
+    <button type="button" class="cover-btn" data-action="${book.cover_image ? 'cover' : 'details'}" data-id="${book.id}" aria-label="${esc(t('عرض', 'View'))}: ${title}">
       ${image}
       ${fallback}
     </button>
-    <div class="plinth-ground-shadow" aria-hidden="true"></div>
   </div>`;
 }
 
 function action(book, name, icon, label, primary = false, iconOnly = false) {
   const disabled = ['read', 'download'].includes(name) && !book.file_path;
   const pressed =
-    name === 'favorite'
-      ? `aria-pressed="${state.user.favorites.has(book.id)}"`
-      : name === 'preview-reader'
-        ? `aria-pressed="${state.ui.readerBookId === book.id}"`
-        : '';
+    name === 'favorite' ? `aria-pressed="${state.user.favorites.has(book.id)}"` : '';
   const count =
     name === 'download'
       ? `<span class="download-count" data-download-count="${book.id}">${number(book.downloadCount)}</span>`
       : '';
 
-  return `<button type="button" class="btn ${primary ? 'btn-primary' : 'btn-ghost'} btn-action-${name} ${iconOnly ? 'btn-icon-only' : ''}"
+  return `<button type="button" class="btn ${primary ? 'btn-primary' : 'btn-ghost'}"
     data-action="${name}" data-id="${book.id}" ${disabled ? 'disabled' : ''}
     aria-label="${esc(label)}" title="${esc(label)}" ${pressed}>
     ${i(icon)}${iconOnly ? '' : `<span>${esc(label)}</span>`}${count}
@@ -89,19 +77,12 @@ function action(book, name, icon, label, primary = false, iconOnly = false) {
 function actions(book) {
   const l = labels();
   const fav = state.user.favorites.has(book.id);
-  const isActiveReader = state.ui.readerBookId === book.id;
 
   return `<div class="book-actions">
-    ${action(
-      book,
-      'preview-reader',
-      'book',
-      t('معاينة فورية', 'Quick Preview'),
-      isActiveReader
-    )}
-    ${action(book, 'summary', 'zap', t('ملخص 3د', '3m Brief'), !isActiveReader)}
-    ${action(book, 'download', 'download', l.download)}
-    ${action(book, 'cite', 'quote', t('توثيق APA', 'Cite APA'))}
+    ${action(book, 'read', 'book', l.read)}
+    ${action(book, 'download', 'download', l.download, true)}
+    ${action(book, 'summary', 'zap', l.summary)}
+    ${action(book, 'cite', 'quote', l.cite, false, true)}
     ${action(
       book,
       'favorite',
@@ -117,14 +98,7 @@ function actions(book) {
 }
 
 function bookCard(book) {
-  const isActiveReader = state.ui.readerBookId === book.id;
-  const isFeatured = Boolean(book.featured);
-  const ribbon = isFeatured
-    ? `<span class="card-featured-ribbon">${i('sparkles')} ${esc(field(book, 'badge_text') || t('مميز', 'Featured'))}</span>`
-    : '';
-
-  return `<article class="book-card exhibition-plinth ${isActiveReader ? 'is-active-reader' : ''} ${isFeatured ? 'is-featured-glow' : ''}" data-book-id="${book.id}">
-    ${ribbon}
+  return `<article class="book-card">
     <div class="book-topline">
       <span class="badge-type">${esc(field(book, 'type') || t('مرجع إداري', 'Reference'))}</span>
       <label class="bundle-select">
@@ -135,9 +109,7 @@ function bookCard(book) {
       </label>
     </div>
     <div class="book-main">
-      <div class="book-stage">
-        ${cover(book)}
-      </div>
+      ${cover(book)}
       <div class="book-info">
         <span class="badge-tag">${esc(categoryLabel(book))}</span>
         <h3 class="book-title">
@@ -145,7 +117,7 @@ function bookCard(book) {
             ${esc(field(book, 'title'))}
           </a>
         </h3>
-        <p class="book-author"><svg class="icon"><use href="#i-user"/></svg> <span>${esc(field(book, 'author') || labels().unknown)}</span></p>
+        <p class="book-author">${esc(field(book, 'author') || labels().unknown)}</p>
         ${stars(book)}
         <div class="book-meta">
           <span class="meta-chip">${i('calendar')} ${esc(book.year || '—')}</span>
@@ -158,7 +130,37 @@ function bookCard(book) {
   </article>`;
 }
 
-export function filteredBooks() {
+function featured(book) {
+  return `<article class="featured-card">
+    <div class="featured-inner">
+      <div class="featured-sweep" aria-hidden="true"></div>
+      <div class="featured-layout">
+        ${cover(book, true)}
+        <div class="featured-copy">
+          <span class="featured-badge">
+            ${i('sparkles')}
+            ${esc(field(book, 'badge_text') || t('في دائرة الضوء', 'In the spotlight'))}
+          </span>
+          <div class="featured-meta-row">
+            <span class="badge-tag">${esc(categoryLabel(book))}</span>
+            <span class="featured-index">01 / IAR SELECTION</span>
+          </div>
+          <h2>
+            <a href="${esc(bookUrl(book.id))}" data-action="details" data-id="${book.id}">
+              ${esc(field(book, 'title'))}
+            </a>
+          </h2>
+          <p class="book-author">${esc(field(book, 'author'))}</p>
+          <p class="book-desc">${esc(field(book, 'description'))}</p>
+          ${stars(book)}
+          ${actions(book)}
+        </div>
+      </div>
+    </div>
+  </article>`;
+}
+
+function filteredBooks() {
   const norm = (v) =>
     v
       .toLocaleLowerCase(state.ui.lang)
@@ -200,94 +202,6 @@ export function filteredBooks() {
   return books.sort(sorts[$('sortOrder')?.value] || sorts.default);
 }
 
-export function updateInstantReader(targetBook = null) {
-  const pane = $('instantReaderPane');
-  const workspace = $('libraryWorkspace');
-  if (!pane || !state.data.loaded) return;
-
-  const isOpen = state.ui.readerPaneOpen && state.ui.single === null;
-  pane.hidden = !isOpen;
-  workspace?.classList.toggle('is-reader-closed', !isOpen);
-  $('btnToggleReaderPane')?.classList.toggle('active', isOpen);
-  attr('btnToggleReaderPane', 'aria-pressed', isOpen);
-
-  const list = filteredBooks();
-  const pool = list.length ? list : state.data.books;
-  if (!pool.length) return;
-
-  const book =
-    targetBook || byId(state.ui.readerBookId) || pool.find((b) => b.featured) || pool[0];
-
-  if (!book) return;
-  state.ui.readerBookId = book.id;
-
-  const idx = Math.max(
-    0,
-    pool.findIndex((b) => b.id === book.id)
-  );
-  text('readerCurrentNum', number(idx + 1));
-  text('readerTotalNum', number(pool.length));
-
-  text('readerDocTitle', field(book, 'title'));
-  text('readerDocAuthor', field(book, 'author') || labels().unknown);
-  text('readerDocCategory', categoryLabel(book));
-  text('readerDocYear', `${t('سنة النشر:', 'Year:')} ${book.year || '2026'}`);
-  text('readerDocPages', `${book.pages || '—'} ${t('صفحة', 'pages')}`);
-  text('readerDocDesc', field(book, 'description') || labels().unknown);
-  text('readerDocAudience', field(book, 'target_audience') || labels().unknown);
-  text('readerDocApa', citation(book));
-
-  const apaEl = $('readerDocApa');
-  if (apaEl) apaEl.dir = 'auto';
-
-  const ptsEl = $('readerDocPoints');
-  if (ptsEl) {
-    ptsEl.innerHTML = points(book)
-      .map((p) => `<li>${esc(p)}</li>`)
-      .join('');
-  }
-
-  text(
-    'readerFooterStatus',
-    `${field(book, 'type') || t('مرجع إداري', 'Reference')} · ${book.file_size || 'PDF'}`
-  );
-
-  const isPdfTab = state.ui.readerTab === 'pdf';
-  visible('readerPaperSheet', !isPdfTab);
-  visible('readerInlinePdfWrap', isPdfTab);
-  $('tabReaderBrief')?.classList.toggle('active', !isPdfTab);
-  attr('tabReaderBrief', 'aria-selected', !isPdfTab);
-  $('tabReaderPdf')?.classList.toggle('active', isPdfTab);
-  attr('tabReaderPdf', 'aria-selected', isPdfTab);
-
-  const inlineFrame = $('inlinePdfFrame');
-  if (inlineFrame) {
-    if (isPdfTab && book.file_path) {
-      const absoluteUrl = new URL(book.file_path, location.href).href;
-      const viewerUrl = `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(absoluteUrl)}`;
-      if (inlineFrame.dataset.loadedBook !== String(book.id)) {
-        inlineFrame.src = viewerUrl;
-        inlineFrame.dataset.loadedBook = String(book.id);
-      }
-    } else if (!isPdfTab) {
-      inlineFrame.src = 'about:blank';
-      delete inlineFrame.dataset.loadedBook;
-    }
-  }
-
-  // Highlight active card in the grid without full re-render
-  $$('.book-card').forEach((card) => {
-    const id = Number(card.dataset.bookId);
-    card.classList.toggle('is-active-reader', id === book.id);
-    const previewBtn = card.querySelector('[data-action="preview-reader"].btn');
-    if (previewBtn) {
-      previewBtn.classList.toggle('btn-primary', id === book.id);
-      previewBtn.classList.toggle('btn-ghost', id !== book.id);
-      previewBtn.setAttribute('aria-pressed', String(id === book.id));
-    }
-  });
-}
-
 function pagination(total) {
   const nav = $('paginationContainer');
   if (!nav) return;
@@ -301,29 +215,26 @@ function pagination(total) {
       state.ui.page - 1,
       state.ui.page,
       state.ui.page + 1,
-      ...(state.ui.page < 4 ? [2, 3, 4] : []),
-      ...(state.ui.page > total - 3 ? [total - 3, total - 2, total - 1] : [])
+      ...(state.ui.page < 4 ? [2, 3, 4, 5] : []),
+      ...(state.ui.page > total - 3 ? [total - 4, total - 3, total - 2, total - 1] : [])
     ])
   ]
     .filter((v) => v > 0 && v <= total)
     .sort((a, b) => a - b);
 
-  const prevIcon = i(state.ui.lang === 'ar' ? 'chevron-right' : 'chevron-left');
-  const nextIcon = i(state.ui.lang === 'ar' ? 'chevron-left' : 'chevron-right');
-
-  const button = (value, labelHtml, disabled = false, role = '') =>
+  const button = (value, label, disabled = false, role = '') =>
     `<li class="page-item">
-      <button type="button" class="page-btn ${role ? `page-btn-${role}` : ''} ${value === state.ui.page && !role ? 'active' : ''}"
+      <button type="button" class="page-btn ${value === state.ui.page ? 'active' : ''}"
         ${role ? `data-page-${role}` : ''}
         data-page="${value}" ${disabled ? 'disabled' : ''}
-        ${value === state.ui.page && !role ? 'aria-current="page"' : ''}>
-        <span class="page-label">${labelHtml}</span>
+        ${value === state.ui.page ? 'aria-current="page"' : ''}>
+        <span class="page-label">${label}</span>
       </button>
     </li>`;
 
   let html = button(
     state.ui.page - 1,
-    `${prevIcon}<span>${t('السابق', 'Prev')}</span>`,
+    t('السابق', 'Previous'),
     state.ui.page === 1,
     'prev'
   );
@@ -337,18 +248,9 @@ function pagination(total) {
     last = value;
   });
 
-  html += button(
-    state.ui.page + 1,
-    `<span>${t('التالي', 'Next')}</span>${nextIcon}`,
-    state.ui.page === total,
-    'next'
-  );
-
-  html += `<li class="page-item page-status-item" aria-hidden="true">
-    <span class="page-status-pill">${t('صفحة', 'Page')} <strong>${number(state.ui.page)}</strong> ${t('من', 'of')} ${number(total)}</span>
-  </li>`;
-
-  nav.innerHTML = html;
+  nav.innerHTML =
+    html +
+    button(state.ui.page + 1, t('التالي', 'Next'), state.ui.page === total, 'next');
 }
 
 export function syncBundle() {
@@ -356,26 +258,6 @@ export function syncBundle() {
   visible('bundleBar', state.user.bundle.size > 0 && state.ui.single === null);
 
   if ($('copyBundleBtn')) $('copyBundleBtn').disabled = state.user.bundle.size === 0;
-
-  const thumbsHost = $('bundleThumbsContainer');
-  if (thumbsHost) {
-    const selectedBooks = [...state.user.bundle]
-      .map((id) => byId(id))
-      .filter(Boolean)
-      .slice(0, 6);
-    thumbsHost.innerHTML = selectedBooks
-      .map((b) => {
-        const title = esc(field(b, 'title'));
-        return b.cover_image
-          ? `<button type="button" class="bundle-thumb-btn" data-action="preview-reader" data-id="${b.id}" title="${title}">
-              <img src="${esc(b.cover_image)}" alt="${title}" class="bundle-thumb-img">
-            </button>`
-          : `<button type="button" class="bundle-thumb-btn bundle-thumb-fallback" data-action="preview-reader" data-id="${b.id}" title="${title}">
-              ${i('book')}
-            </button>`;
-      })
-      .join('');
-  }
 
   const host = $('bundleModeAlertContainer');
   visible('bundleModeAlertContainer', state.ui.single === null);
@@ -392,99 +274,6 @@ export function syncBundle() {
     : '';
 }
 
-function renderFeaturedSpotlight() {
-  const host = $('featuredSection');
-  if (!host) return;
-
-  const show =
-    state.filters.query === '' &&
-    state.filters.category === 'all' &&
-    !state.filters.favoritesOnly &&
-    !state.user.bundleMode &&
-    state.ui.page === 1;
-
-  if (!show || !state.data.loaded || !state.data.books.length) {
-    host.innerHTML = '';
-    host.classList.add('d-none');
-    return;
-  }
-
-  const book = state.data.books.find((b) => b.featured) || state.data.books[0];
-  if (!book) {
-    host.innerHTML = '';
-    host.classList.add('d-none');
-    return;
-  }
-
-  host.classList.remove('d-none');
-
-  const title = esc(field(book, 'title'));
-  const author = esc(field(book, 'author') || labels().unknown);
-  const desc = esc(field(book, 'description') || '');
-  const cat = esc(categoryLabel(book));
-  const year = esc(book.year || '2026');
-  const pages = esc(book.pages || '—');
-  const size = esc(book.file_size || 'PDF');
-  const fav = state.user.favorites.has(book.id);
-
-  host.innerHTML = `
-    <section class="editorial-spotlight-panel" aria-label="${esc(t('المرجع المختار المميز', 'Featured Reference'))}">
-      <div class="spotlight-top-badge">
-        <span class="spotlight-seal-kicker">
-          ${i('sparkles')}
-          <span>${t('مختارات دار الحكمة · الإصدار الإداري المميز', 'Bayt al-Hikma Selection · Curated Volume')}</span>
-        </span>
-        <span class="spotlight-cat-badge">${cat}</span>
-      </div>
-
-      <div class="spotlight-body-layout">
-        <div class="spotlight-cover-col">
-          ${cover(book, true)}
-        </div>
-
-        <div class="spotlight-narrative-col">
-          <div class="spotlight-meta-row">
-            <span class="meta-chip">${i('calendar')} ${year}</span>
-            <span class="meta-chip">${i('file-text')} ${pages} ${t('صفحة', 'pages')}</span>
-            <span class="meta-chip">${i('award')} ${size}</span>
-          </div>
-
-          <h2 class="spotlight-title">
-            <a href="${esc(bookUrl(book.id))}" data-action="details" data-id="${book.id}">
-              ${title}
-            </a>
-          </h2>
-
-          <p class="spotlight-author">
-            ${i('user')} <span>${author}</span>
-          </p>
-
-          <p class="spotlight-excerpt">${desc}</p>
-
-          <div class="spotlight-actions">
-            <button type="button" class="btn btn-primary" data-action="preview-reader" data-id="${book.id}">
-              ${i('book')} <span>${t('معاينة في القارئ الفوري', 'Preview in Instant Reader')}</span>
-            </button>
-            <button type="button" class="btn btn-ghost" data-action="summary" data-id="${book.id}">
-              ${i('zap')} <span>${t('ملخص 3 دقائق', '3m Summary')}</span>
-            </button>
-            <button type="button" class="btn btn-ghost" data-action="download" data-id="${book.id}" ${!book.file_path ? 'disabled' : ''}>
-              ${i('download')} <span>${t('تحميل النسخة المعتمدة', 'Download Volume')}</span>
-              <span class="download-count" data-download-count="${book.id}">${number(book.downloadCount)}</span>
-            </button>
-            <button type="button" class="btn btn-ghost btn-icon-only" data-action="cite" data-id="${book.id}" aria-label="${esc(t('توثيق APA', 'Cite APA'))}" title="${esc(t('توثيق APA', 'Cite APA'))}">
-              ${i('quote')}
-            </button>
-            <button type="button" class="btn btn-ghost btn-icon-only" data-action="favorite" data-id="${book.id}" aria-label="${esc(t('المفضلة', 'Favorite'))}" aria-pressed="${fav}">
-              ${i(fav ? 'heart-filled' : 'heart')}
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
-  `;
-}
-
 export function render() {
   if (state.ui.single !== null) {
     renderSingle();
@@ -492,7 +281,6 @@ export function render() {
   }
 
   visible('singleBookView', false);
-  visible('libraryWorkspace', true);
   ['booksDisplayContainer', 'controlsRow'].forEach((id) => visible(id, true));
 
   document.querySelector('.chips-container')?.classList.remove('d-none');
@@ -500,6 +288,7 @@ export function render() {
 
   syncBundle();
 
+  // Sync search-derived UI (idempotent — works even if input handler missed)
   if ($('searchInput') && $('searchInput').value !== state.filters.query) {
     $('searchInput').value = state.filters.query;
   }
@@ -507,22 +296,28 @@ export function render() {
 
   if (!state.data.loaded) return;
 
-  renderFeaturedSpotlight();
-
   const books = filteredBooks();
 
+  const isDefaultView =
+    !state.filters.query &&
+    state.filters.category === 'all' &&
+    !state.user.bundleMode &&
+    !state.filters.favoritesOnly;
+
+  const featuredBook = isDefaultView ? books.find((b) => b.featured) : null;
+  const spotlight = isDefaultView && state.ui.page === 1 ? featuredBook : null;
+
+  $('featuredSection').innerHTML = spotlight ? featured(spotlight) : '';
+
+  const gridBooks = featuredBook ? books.filter((b) => b.id !== featuredBook.id) : books;
+
   const size = 6;
-  const total = Math.ceil(books.length / size);
+  const total = Math.ceil(gridBooks.length / size);
   state.ui.page = Math.min(state.ui.page, Math.max(1, total));
 
-  const page = books.slice((state.ui.page - 1) * size, state.ui.page * size);
+  const page = gridBooks.slice((state.ui.page - 1) * size, state.ui.page * size);
 
-  if (!state.ui.readerBookId || !books.some((b) => b.id === state.ui.readerBookId)) {
-    const defaultReaderBook = page[0] || books[0] || state.data.books[0];
-    if (defaultReaderBook) state.ui.readerBookId = defaultReaderBook.id;
-  }
-
-  $('booksDisplayContainer').innerHTML = books.length
+  $('booksDisplayContainer').innerHTML = gridBooks.length
     ? `<div class="books-grid ${state.ui.view === 'list' ? 'is-list' : ''}">${page.map(bookCard).join('')}</div>`
     : `<div class="empty-state">
         ${i('search')}
@@ -534,7 +329,6 @@ export function render() {
   pagination(total);
   refreshCounts();
   updateChips();
-  updateInstantReader();
 
   $('btnViewGrid')?.classList.toggle('active', state.ui.view === 'grid');
   attr('btnViewGrid', 'aria-pressed', state.ui.view === 'grid');
@@ -631,7 +425,6 @@ export function renderSingle() {
   if (!book) return;
 
   [
-    'libraryWorkspace',
     'booksDisplayContainer',
     'controlsRow',
     'bundleBar',
@@ -639,7 +432,7 @@ export function renderSingle() {
   ].forEach((id) => visible(id, false));
   document.querySelector('.chips-container')?.classList.add('d-none');
   $('paginationContainer')?.parentElement?.classList.add('d-none');
-  if ($('featuredSection')) $('featuredSection').innerHTML = '';
+  $('featuredSection').innerHTML = '';
 
   visible('singleBookView', true);
 

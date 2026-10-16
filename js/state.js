@@ -22,10 +22,7 @@ export const state = {
     view: store.get('iar_view_mode', 'grid') === 'list' ? 'list' : 'grid',
     page: 1,
     single: null,
-    summary: null,
-    readerBookId: null,
-    readerPaneOpen: true,
-    readerTab: 'brief'
+    summary: null
   },
   filters: { query: '', category: 'all', favoritesOnly: false },
   user: {
