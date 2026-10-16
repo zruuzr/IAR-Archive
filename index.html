@@ -34,7 +34,14 @@
 <script>
 (function () {
   var l, t;
-  try { l = localStorage.getItem('iar_lang'); t = localStorage.getItem('iar_theme'); } catch (_) {}
+  try {
+    l = localStorage.getItem('iar_lang');
+    if (!localStorage.getItem('iar_theme_v2_bayt_al_hikma')) {
+      localStorage.setItem('iar_theme', 'light');
+      localStorage.setItem('iar_theme_v2_bayt_al_hikma', '1');
+    }
+    t = localStorage.getItem('iar_theme');
+  } catch (_) {}
   var lang = l === 'en' ? 'en' : 'ar';
   var theme = (t === 'dark' || t === 'light') ? t : 'light';
   var r = document.documentElement;
