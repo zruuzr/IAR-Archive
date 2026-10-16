@@ -1,2 +1,190 @@
-if(!self.define){let e,o={};const b=(b,i)=>(b=new URL(b+".js",i).href,o[b]||new Promise(o=>{if("document"in self){const e=document.createElement("script");e.src=b,e.onload=o,document.head.appendChild(e)}else e=b,importScripts(b),o()}).then(()=>{let e=o[b];if(!e)throw new Error(`Module ${b} didn’t register its module`);return e}));self.define=(i,c)=>{const r=e||("document"in self?document.currentScript.src:"")||location.href;if(o[r])return;let d={};const a=e=>b(e,r),f={module:{uri:r},exports:d,require:a};o[r]=Promise.all(i.map(e=>f[e]||a(e))).then(e=>(c(...e),d))}}define(["./workbox-e190f46a"],function(e){"use strict";self.skipWaiting(),e.clientsClaim(),e.precacheAndRoute([{url:"registerSW.js",revision:"1872c500de691dce40960bb85481de07"},{url:"manifest.json",revision:"bfffdffd91cdc4f2be074f2ef9a3a30f"},{url:"/",revision:"a2ddaecc9836fae83eb8cb617751ac0c"},{url:"favicon.ico",revision:"939f6d99418947ad429c621fa5951b70"},{url:"books.json",revision:"ed060592f6f2e19310ef348f935702a5"},{url:"icons/maskable-512x512.png",revision:"8bdbf71fac49ed11c93dd2df4ca4d85a"},{url:"icons/maskable-192x192.png",revision:"018bf7d3e224d007ed7d9ab045f5d97b"},{url:"icons/icon-512x512.png",revision:"8bdbf71fac49ed11c93dd2df4ca4d85a"},{url:"icons/icon-192x192.png",revision:"018bf7d3e224d007ed7d9ab045f5d97b"},{url:"icons/golden_seal.png",revision:"9330765f0eef48b845770fae78deddad"},{url:"icons/golden_medallion.png",revision:"c5e10902e9035bed737bfde23f9dd206"},{url:"icons/arch_top_pure.png",revision:"498bc9f343f925b537047ea260b3db7b"},{url:"icons/arch_portal.png",revision:"0a46f772030f291862a4f0d74d4413a1"},{url:"icons/arch_header.png",revision:"15e084549435d91cee44334dd8413528"},{url:"icons/apple-touch-icon.png",revision:"8c3a4ba8c4c81e6ad6f0663b03f2f2c5"},{url:"book/99",revision:"c6430522fa126bd80ca82de339422360"},{url:"book/98",revision:"bfa54d1877645db8930aea63c4090305"},{url:"book/97",revision:"4075d9831f57010edcde4a6105efb835"},{url:"book/96",revision:"e573687dcade3754fbb78bd12c08a080"},{url:"book/95",revision:"be29707bfc52e16699181081d5bed8c4"},{url:"book/94",revision:"363fef8c0b081af57974d493b7e7119f"},{url:"book/93",revision:"d7034531a404e703030be3170ab1f3e8"},{url:"book/92",revision:"7197abdc3468789eadb1698d48695a32"},{url:"book/91",revision:"1f761af361c2e5dc9e4ce1a935aa37fe"},{url:"book/90",revision:"219d859837ba9098031b34e867203b59"},{url:"book/9",revision:"42e62368ca098bfd6be28cc42dfb556d"},{url:"book/89",revision:"10fb3f17ece554c02ad389566df91b3d"},{url:"book/88",revision:"39c1a0aaff70c24ae8492bc3cabad7c4"},{url:"book/87",revision:"69346029891832f7cf5aaafb0c5f4781"},{url:"book/86",revision:"c7231dac5f25ff412847e478c5a2508a"},{url:"book/85",revision:"441cb62a4250f49bd34b7944eaf35572"},{url:"book/84",revision:"b6380c34b29c3cf969818cca8eab5d8c"},{url:"book/83",revision:"95f484a6c7b2b7759f6bda23e6a07c95"},{url:"book/82",revision:"b813171c0f6c78dd2035cf9ee581d77c"},{url:"book/81",revision:"69b87ad49d43d1a4ae9596f63b186959"},{url:"book/80",revision:"cd702118bbf5a714d76e423ec3aa400d"},{url:"book/8",revision:"b7f838a8ec03f33528631643e7926615"},{url:"book/79",revision:"c16fd68811edce7f72ca40df3802a764"},{url:"book/78",revision:"9becc47ccfaa7098cbc508aade21b03a"},{url:"book/77",revision:"61a72ea605007441728d0baa3763a4e0"},{url:"book/76",revision:"3a2e700febf4ab5654744e510972a158"},{url:"book/75",revision:"e548cba963793c1d162705d63b25536b"},{url:"book/74",revision:"c429e4b76dafb6fb6c28057748e4e358"},{url:"book/73",revision:"1d2c865ca073f9462d0b071dd2f397ec"},{url:"book/72",revision:"e865c387f0fda240243cc6fb0d8219c8"},{url:"book/71",revision:"4a52fef59b65544d6380a98f9db10e44"},{url:"book/70",revision:"f4d3b621cb76c51ccf5bfc657a8e4376"},{url:"book/7",revision:"f605eed98e0660be79c7abe894311e2f"},{url:"book/69",revision:"3983e74d7b02bdb5413079f50845303e"},{url:"book/68",revision:"e887b641e53961af9fec6bfdd144c3b4"},{url:"book/67",revision:"b0aa79df2a2a93406dc81f6f78413877"},{url:"book/66",revision:"9075426ad18facf3e71cbb3a47196f2f"},{url:"book/65",revision:"e12a18e351b164272818cad746b594cc"},{url:"book/64",revision:"08d17007d6357cd641d9fbaf9488066c"},{url:"book/63",revision:"bba4019e4307e2828140589d2024e352"},{url:"book/62",revision:"0cc12d5c5fa4e196053487434b3785ea"},{url:"book/61",revision:"a1ecba39419e8f3d7b10d9864e88b723"},{url:"book/60",revision:"b0b0c1763c66df2cc0a87afd67c10e8a"},{url:"book/6",revision:"320650ef78d1cd47efe10ad2c8aaf939"},{url:"book/59",revision:"b1feb7018e9936468344189a61051681"},{url:"book/58",revision:"7902255d72b7bd61b2fa52c8ab3d83b7"},{url:"book/57",revision:"921ac05279396872e487e61c2721b5c6"},{url:"book/56",revision:"869fc0af9e139212dcda9754c099d19d"},{url:"book/55",revision:"cbad31ab1538abecefbe6d38eac22b1a"},{url:"book/54",revision:"f096875d5bedd06ac3f3b3c54b928106"},{url:"book/53",revision:"2647d7ca40c82fc53fb779c8c2b0cf2c"},{url:"book/52",revision:"b9f349e1c729cb8dd457aba9eb6cc9e3"},{url:"book/51",revision:"a132534d03075e874eb9a3dfb40fa8c3"},{url:"book/50",revision:"219ce8deaa0d0cf818ed7bb5c331c191"},{url:"book/5",revision:"af80e4ffbbcf78109888edcf4ac295b4"},{url:"book/49",revision:"97eac0efa99260dbeba9973e5f470d3a"},{url:"book/48",revision:"24f102f4db14d3d6f2b4a74ca1b39e92"},{url:"book/47",revision:"fc662fa3fed7c1a38089f5666cdf5927"},{url:"book/46",revision:"06e9a7d93fda731c1cfe47c3a27dd970"},{url:"book/45",revision:"b06933c3286e37ab1495fae75c201503"},{url:"book/44",revision:"ad87add4b1c5849ce67601d2a744ca8f"},{url:"book/43",revision:"35f32fcd77fe303cdf6827305d0f829c"},{url:"book/42",revision:"c1aa397f8bb12bf3de9c24e5cac0694a"},{url:"book/41",revision:"86d78922de7da11c657a094bb151e94d"},{url:"book/40",revision:"91b94b91676e0ce4030f1629a1a946b6"},{url:"book/4",revision:"d1bc71f1c7a76336a53260df487e299c"},{url:"book/39",revision:"69d6385bca82d3ef477020bcc74570bc"},{url:"book/38",revision:"f2e94371b0196301cc664d0a8d7eed32"},{url:"book/37",revision:"662bcee3c985658a37bd349e5914034b"},{url:"book/36",revision:"0ee2de67eb44367af48ab162afb1caa1"},{url:"book/35",revision:"5a4dec1de3e1b14be81258448ac0af4c"},{url:"book/34",revision:"4aeab6c2989c711e9967b74bc98a063a"},{url:"book/33",revision:"7f40e8394b4db4f5f9de9c1761a2ef55"},{url:"book/32",revision:"6bb57531d6e9a2b8215b3283312f4a06"},{url:"book/31",revision:"c399436800bdc29d1c88e30f5750460f"},{url:"book/30",revision:"d070966a1828545b7b5e0289e94bcec2"},{url:"book/3",revision:"f9158706c8d8004a09f8fe56d55f2e96"},{url:"book/29",revision:"d10975f50259a40e21ee3ca7885b5468"},{url:"book/28",revision:"7c9515b0a93d9ad87b38f172ea3eccf3"},{url:"book/27",revision:"0dded3ad17e473d7c390ae8e5ccb2220"},{url:"book/26",revision:"efec8a40cc89813a8eff16c4dd14d847"},{url:"book/25",revision:"c79287b34fc69e03c094f0a343e83f0d"},{url:"book/24",revision:"ef8c278f09cf2a8c33d66444eccf8c40"},{url:"book/23",revision:"59c0b24ce7cfbd84a58977107c322c09"},{url:"book/22",revision:"a0a2f97d045b6a621c61987d6425a6bf"},{url:"book/21",revision:"2c519071b7c107752c7b37faa5c7d1c8"},{url:"book/20",revision:"0ce8bf70045344775a077d70d322b03f"},{url:"book/2",revision:"245b7b92167204eabbdf28698b1419c0"},{url:"book/19",revision:"cb9faa6a94524b7dd5df1663795313a1"},{url:"book/18",revision:"5427ba957f9382f8c8d040cedafd43ae"},{url:"book/173",revision:"a617b24d98cb53fbe37ee3204c32a700"},{url:"book/172",revision:"3f5c8515f58e9ab83753869a3adc08f5"},{url:"book/171",revision:"64c9853c7a948342f2f9b7eb00bd2dce"},{url:"book/170",revision:"530b2cb7b528466dc536d925733340ba"},{url:"book/17",revision:"3cad1e5634de511c297304c4eee85e28"},{url:"book/169",revision:"3c4a064a258a16b004aaa7c1d6e842a3"},{url:"book/168",revision:"18788d9b42e36134d8970ee87d3ee788"},{url:"book/167",revision:"fffba905ba9ddddb9090312ced06e8ec"},{url:"book/166",revision:"4004eabb1e53f5090604b63c7be3fe68"},{url:"book/165",revision:"06e864a09222ab12eebbbe0475b43a07"},{url:"book/164",revision:"6698d6f4d3967dd35bb8a8eb3ed41c53"},{url:"book/163",revision:"53861533f91bf806a0aa708287ceb6b9"},{url:"book/162",revision:"11b64b195bda1d3b416ad7973cc81454"},{url:"book/161",revision:"535017beb2c4f9f56e04bedfc6d92bcd"},{url:"book/160",revision:"c1bb23e1bb5023de4500da95c8ffe64b"},{url:"book/16",revision:"94d5bcdbef99f161c71f59228cab3f72"},{url:"book/159",revision:"0e3ad47c89186c0454313986e15c3020"},{url:"book/158",revision:"0f061a23637b03f4899c901aa9077f9b"},{url:"book/157",revision:"e46cef6a5031bf30cff9e6d3615bf87e"},{url:"book/156",revision:"c2686efd38e112f1295ca22c1ed66a8d"},{url:"book/155",revision:"637ea1f09c3ae06a52a4657efbdbfe06"},{url:"book/154",revision:"8da48085b97e2433e314bfb3ab56416a"},{url:"book/153",revision:"3e4d9d15ef395241509ade9f760aebeb"},{url:"book/152",revision:"d53e78f14d20d430ce82c9d4122b00e4"},{url:"book/151",revision:"6ff8d33062203e08dc40ff8316424987"},{url:"book/150",revision:"fa2f38d464a4f923afa14877f961f42b"},{url:"book/15",revision:"b99904c729b5fec78efa1348d0d2e006"},{url:"book/149",revision:"606e9f03dc23d800f126058bbe6f3039"},{url:"book/148",revision:"82d9408a112d1ee53cac60450cb9834c"},{url:"book/147",revision:"9d0dbf089dd3a29b72f48f4a0a748fe6"},{url:"book/146",revision:"7e0791608c9c487b0bdc772d71e3e321"},{url:"book/145",revision:"738605481a2b5c3c4e501f0bc858cd47"},{url:"book/144",revision:"b96de187ab8dfc0bf731ce166ba26845"},{url:"book/143",revision:"07603883e15347b8ec3ceb0d72a7cbdd"},{url:"book/142",revision:"adc6448715fbc4fabdc2cefbc58bda1c"},{url:"book/141",revision:"e204b27c2059c1c7f4b75580ece90770"},{url:"book/140",revision:"fd8f0bbe28e4de5eaf4a5ba20a8b584a"},{url:"book/14",revision:"9206673f51f9ce70875b921047dc2c7f"},{url:"book/139",revision:"0292c1e6fa7654ca8dc23dd68b6440b9"},{url:"book/138",revision:"964d4bb6df8db20b2b10b9bbd5f8d573"},{url:"book/137",revision:"ff7fd19af32b64c96a289382ec352983"},{url:"book/136",revision:"8ddd213c1725bea2a0853d1f36ef07f8"},{url:"book/135",revision:"1ce46e10aa4d5950a8ffb08623e31234"},{url:"book/134",revision:"655ebeb9ddb6a79e824a189dd873004d"},{url:"book/133",revision:"06de17eef52c5ab28b25e500a27685c5"},{url:"book/132",revision:"40b78c020cff512e55af9929426d8105"},{url:"book/131",revision:"75dac383b89dff2afb45a541c3e33e8e"},{url:"book/130",revision:"7b178e49e3ffa8e867227f62f5113121"},{url:"book/13",revision:"de93129751ea6bbda3bebbee0a5e9567"},{url:"book/129",revision:"e6462de0ac1bde4cf9e795e819fe9740"},{url:"book/128",revision:"c0d52aa8568540c09d0c0390611df6fb"},{url:"book/127",revision:"ceb890dd2897b796ce2837f2a6a2a5c1"},{url:"book/126",revision:"ecefc880a94d33eb0508e0dbc17ed996"},{url:"book/125",revision:"0d7cc10d2ac9b2c9ea3fc068407d62de"},{url:"book/124",revision:"8a17a6f1069def5abf44d10761920276"},{url:"book/123",revision:"febebf181533fdbe2253b42eed7fd6a3"},{url:"book/122",revision:"3aa44bf7c27421485fbeb7f90d123882"},{url:"book/121",revision:"8b1d6b6545672a0594d2001ba7ad76ca"},{url:"book/120",revision:"8197157810963b65c18b885eaaca6cb1"},{url:"book/12",revision:"6011f139c7b32bea352eb6e1d325337e"},{url:"book/119",revision:"46ce11a6e4040834a3150aeade855657"},{url:"book/118",revision:"9b03ca3c89b414dd44d28fb3898989bc"},{url:"book/117",revision:"1dbdb263769ed43a0ed3b4fa316bcd0e"},{url:"book/116",revision:"f05ff9a56232634c66485fff300c88f8"},{url:"book/115",revision:"5279194aaf02eb6485d4bdd8c3899b86"},{url:"book/114",revision:"dd5a3e3580572ac076c5246b66254abf"},{url:"book/113",revision:"889da281d66b6602ca7d7402c2b0ee3f"},{url:"book/112",revision:"e22e00c11b3ef0529eb0ee917c78dd81"},{url:"book/111",revision:"deb2fbc77c17c3438f7c1580843f3446"},{url:"book/110",revision:"d4407e5898f515afefc74a586100cc4e"},{url:"book/11",revision:"7ccbd64363e97afcab6fc3c1e2408d9e"},{url:"book/109",revision:"8db1c38bdcc5a94dea1a4c7518cff426"},{url:"book/108",revision:"d743e6b2cb35ce1c4590b70f867729f8"},{url:"book/107",revision:"990f14d4260b460f3717665f665ea9d7"},{url:"book/106",revision:"fe4f22150590cf1db1c8de7711668ca4"},{url:"book/105",revision:"9a747afb8a4b71c4951c3fb423ea3d3f"},{url:"book/104",revision:"7954fa171e174453e6f1710699513916"},{url:"book/103",revision:"68a13871865428f96df16ce10379c0a4"},{url:"book/102",revision:"7352e52be55f626868170cc531935d9d"},{url:"book/101",revision:"39e35c07431dad2d09982dd9c232da7c"},{url:"book/100",revision:"f687dbc2c96bcbd7e052e1e331af376b"},{url:"book/10",revision:"a92053933749fae45251a85997a74e2b"},{url:"book/1",revision:"e4e8850b2343ed024630513b0fb15859"},{url:"_astro/render.CbVMp5GG.js",revision:null},{url:"_astro/index.C9qTGLnE.css",revision:null},{url:"_astro/index.BcU6YHDk.css",revision:null},{url:"_astro/client.svelte.Bv-D35_y.js",revision:null},{url:"_astro/_id_.CT6U7ZF3.css",revision:null},{url:"_astro/_id_.BSbyQea8.css",revision:null},{url:"_astro/BaytAlHikmaArchive.Dk42Q989.js",revision:null},{url:"manifest.webmanifest",revision:"371c157af5a328bf593a5ffd142ea631"}],{directoryIndex:"index.html"}),e.cleanupOutdatedCaches(),e.registerRoute(/\/covers\/.*\.(?:png|jpg|jpeg|svg|webp)$/i,new e.CacheFirst({cacheName:"covers-cache",plugins:[new e.ExpirationPlugin({maxEntries:200,maxAgeSeconds:2592e3})]}),"GET"),e.registerRoute(/^https:\/\/fonts\.(?:googleapis|gstatic)\.com\/.*/i,new e.CacheFirst({cacheName:"google-fonts-cache",plugins:[new e.ExpirationPlugin({maxEntries:20,maxAgeSeconds:31536e3})]}),"GET")});
-self.addEventListener("activate",e=>{e.waitUntil(caches.keys().then(n=>Promise.all(n.filter(n=>n.startsWith("iar-archive-")).map(n=>caches.delete(n)))))});
+/* ============================================================
+   IAR Archive — Service Worker
+   Strategy:
+     - App shell (/, /index.html, /app.js, /js/*.js, /style.css, /books.json)
+       → Network First (always fresh when online)
+     - Static assets (/covers/**, /icons/**, /assets/**)
+       → Cache First (immutable, rarely change)
+     - Firebase / GitHub Raw / external → network only
+   Update flow:
+     - Page can post { type: 'SKIP_WAITING' } to force activation
+     - Controller change triggers auto-reload (handled in index.html)
+   ============================================================ */
+
+const CACHE_VERSION = 'v28';
+const CACHE_NAME = `iar-archive-${CACHE_VERSION}`;
+
+const APP_SHELL = [
+  '/',
+  '/index.html',
+  '/style.css',
+  '/app.js',
+  '/books.json',
+  '/manifest.json',
+  '/icons/icon-192x192.png',
+  '/icons/icon-512x512.png',
+  '/icons/maskable-192x192.png',
+  '/icons/maskable-512x512.png',
+  '/icons/apple-touch-icon.png',
+
+  // ES modules
+  '/js/utils.js',
+  '/js/state.js',
+  '/js/i18n.js',
+  '/js/data.js',
+  '/js/firebase.js',
+  '/js/ui-helpers.js',
+  '/js/download.js',
+  '/js/ratings.js',
+  '/js/render.js',
+  '/js/router.js',
+  '/js/ui-init.js',
+  '/js/data-fetch.js',
+  '/js/pwa.js',
+  '/js/events.js',
+];
+
+const BYPASS_HOSTS = [
+  'firestore.googleapis.com',
+  'identitytoolkit.googleapis.com',
+  'firebaseapp.com',
+  'firebaseio.com',
+  'gstatic.com',
+  'raw.githubusercontent.com',
+  'fonts.googleapis.com',
+  'fonts.gstatic.com',
+  'cdn.jsdelivr.net',
+  'mozilla.github.io',
+  'huggingface.co',
+  'xethub.hf.co',
+  'hf.co',
+];
+
+const NETWORK_TIMEOUT_MS = 8000;
+
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
+});
+
+self.addEventListener('install', (event) => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => {
+      return Promise.all(
+        APP_SHELL.map((url) =>
+          cache.add(url).catch((err) => {
+            console.warn(`[SW] Failed to cache ${url}:`, err);
+          })
+        )
+      );
+    }).then(() => self.skipWaiting())
+  );
+});
+
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then((names) =>
+      Promise.all(
+        names
+          .filter((name) => name !== CACHE_NAME)
+          .map((name) => caches.delete(name))
+      )
+    ).then(() => self.clients.claim())
+  );
+});
+
+self.addEventListener('fetch', (event) => {
+  const request = event.request;
+  if (request.method !== 'GET') return;
+
+  const url = new URL(request.url);
+
+  // Exact host matching (prevents "evil-gstatic.com" from matching "gstatic.com")
+  if (BYPASS_HOSTS.some((host) =>
+    url.hostname === host || url.hostname.endsWith('.' + host)
+  )) return;
+
+  // Only handle same-origin requests from here on.
+  if (url.origin !== self.location.origin) return;
+
+  // App shell → Network First (always fresh content when online)
+  if (isAppShell(url.pathname)) {
+    event.respondWith(networkFirst(request));
+    return;
+  }
+
+  // Static assets → Cache First (immutable, rarely change)
+  event.respondWith(cacheFirst(request));
+});
+
+function isAppShell(pathname) {
+  if (pathname === '/' || pathname === '/index.html') return true;
+  if (pathname.endsWith('/index.html')) return true;
+  if (pathname.endsWith('/app.js')) return true;
+  if (pathname.startsWith('/js/') && pathname.endsWith('.js')) return true;
+  if (pathname.endsWith('/style.css')) return true;
+  if (pathname.endsWith('/books.json')) return true;
+  if (pathname.endsWith('/manifest.json')) return true;
+  return false;
+}
+
+async function cacheFirst(request) {
+  const cached = await caches.match(request);
+  if (cached) return cached;
+
+  try {
+    const response = await fetch(request);
+    if (response && response.status === 200 && response.type === 'basic') {
+      const clone = response.clone();
+      caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
+    }
+    return response;
+  } catch (err) {
+    if (request.mode === 'navigate') {
+      const fallback = await caches.match('/index.html');
+      if (fallback) return fallback;
+    }
+    return new Response('Offline', {
+      status: 503,
+      statusText: 'Offline',
+      headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+    });
+  }
+}
+
+async function networkFirst(request) {
+  try {
+    const response = await fetch(request, {
+      signal: AbortSignal.timeout(NETWORK_TIMEOUT_MS),
+    });
+
+    if (response && response.status === 200) {
+      const clone = response.clone();
+      caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
+    }
+
+    return response;
+  } catch (err) {
+    const cached = await caches.match(request);
+    if (cached) return cached;
+
+    if (request.mode === 'navigate') {
+      const fallback = await caches.match('/index.html');
+      if (fallback) return fallback;
+    }
+
+    if (request.url.endsWith('/books.json')) {
+      return new Response(JSON.stringify({ error: 'offline' }), {
+        status: 503,
+        headers: { 'Content-Type': 'application/json; charset=utf-8' },
+      });
+    }
+
+    return new Response('Offline', {
+      status: 503,
+      statusText: 'Offline',
+      headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+    });
+  }
+}
