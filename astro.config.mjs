@@ -9,7 +9,7 @@ export default defineConfig({
     AstroPWA({
       registerType: 'autoUpdate',
       workbox: {
-        navigateFallback: '/index.html',
+        navigateFallback: null,
         globPatterns: ['**/*.{js,css,html,ico,png,svg,json,woff,woff2}'],
         globIgnores: ['**/covers/**', '**/pdf/**'],
         maximumFileSizeToCacheInBytes: 15 * 1024 * 1024,

@@ -48,6 +48,24 @@ const {
   </head>
   <body class="bayt-al-hikma-canvas">
     <slot />
+    <script is:inline>
+      if ('caches' in window) {
+        caches.keys().then(function (names) {
+          names.forEach(function (name) {
+            if (name.indexOf('iar-archive-') === 0) {
+              caches.delete(name);
+            }
+          });
+        });
+      }
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker.register('/sw.js').then(function (reg) {
+            reg.update();
+          }).catch(function () {});
+        });
+      }
+    </script>
   </body>
 </html>
 
