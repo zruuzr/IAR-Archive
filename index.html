@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" data-theme="dark">
+<html lang="ar" dir="rtl" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="description" content="IAR Archive — مستودع المراجع الإدارية العراقية. مكتبة رقمية تفاعلية مع قارئ فوري، ملخصات 3 دقائق، وتوثيق APA.">
-<meta name="theme-color" content="#0a0d14">
+<meta name="description" content="IAR Archive — مستودع المراجع الإدارية العراقية. دار الحكمة المعاصرة لأرشفة المراجع الإدارية مع قارئ فوري وملخصات وتوثيق أكاديمي مباشر.">
+<meta name="theme-color" content="#faf7f0">
 
 <meta property="og:title" content="IAR Archive | مستودع المراجع الإدارية العراقية">
 <meta property="og:description" content="مكتبة رقمية لأرشفة المراجع الإدارية العراقية مع قارئ فوري وملخصات وتوثيق أكاديمي">
@@ -36,7 +36,7 @@
   var l, t;
   try { l = localStorage.getItem('iar_lang'); t = localStorage.getItem('iar_theme'); } catch (_) {}
   var lang = l === 'en' ? 'en' : 'ar';
-  var theme = (t === 'dark' || t === 'light') ? t : 'dark';
+  var theme = (t === 'dark' || t === 'light') ? t : 'light';
   var r = document.documentElement;
   r.setAttribute('lang', lang);
   r.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
@@ -147,8 +147,8 @@ window.addEventListener('appinstalled', function () {
         <svg class="icon"><use href="#i-globe"/></svg>
         <span class="lang-code" id="langLabel">EN</span>
       </button>
-      <button type="button" id="themeToggleBtn" class="icon-btn" aria-label="تبديل المظهر" aria-pressed="true">
-        <svg class="icon" id="themeIcon"><use href="#i-sun"/></svg>
+      <button type="button" id="themeToggleBtn" class="icon-btn" aria-label="تبديل المظهر" aria-pressed="false">
+        <svg class="icon" id="themeIcon"><use href="#i-moon"/></svg>
       </button>
       <div class="researcher-badge" aria-hidden="true">
         <span class="researcher-dot"></span>
@@ -185,7 +185,7 @@ window.addEventListener('appinstalled', function () {
             <span>𒂍</span><span>𒁾</span><span>𒁀</span><span>𒀀</span>
           </span>
         </span>
-        <h1 class="hero-title" id="txt-about-title">من ألواح سومر إلى أوراق الحاضر.</h1>
+        <h1 class="hero-title" id="txt-about-title">دار الحكمة المعاصرة للمراجع الإدارية.</h1>
         <p class="hero-desc" id="txt-about-desc">
           مجموعة منتقاة من المراجع الإدارية، مفهرسة بعناية، مرفقة بملخصات مركزة وتوثيق أكاديمي مباشر — لتكون وجهتك الأولى للبحث والاطلاع.
         </p>

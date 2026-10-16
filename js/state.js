@@ -18,7 +18,7 @@ export const state = {
   data: { books: [], loaded: false, loading: true, error: false },
   ui: {
     lang: document.documentElement.lang === 'en' ? 'en' : 'ar',
-    theme: document.documentElement.dataset.theme === 'light' ? 'light' : 'dark',
+    theme: document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light',
     view: store.get('iar_view_mode', 'grid') === 'list' ? 'list' : 'grid',
     page: 1,
     single: null,
