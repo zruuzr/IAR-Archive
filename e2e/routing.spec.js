@@ -1,46 +1,55 @@
-import { test, expect } from '@playwright/test';
+const { test, expect } = require('@playwright/test');
 
-test.describe('Routing and detail modal', () => {
-  test('clicking a book card opens 3-minute summary modal', async ({ page }) => {
+test.describe('Routing', () => {
+  test('clicking a book opens single view', async ({ page }) => {
     await page.goto('/');
-    await page.locator('.reference-card').first().waitFor({ timeout: 15_000 });
+    await page.locator('.book-card').first().waitFor({ timeout: 15_000 });
 
-    await page.locator('.reference-card').first().click();
-    await page.waitForTimeout(400);
+    // انقر على عنوان أول كتاب
+    await page.locator('.book-card .book-title a').first().click();
+    await page.waitForTimeout(700);
 
-    await expect(page.locator('.modal-sheet')).toBeVisible();
-    await expect(page.locator('#modal-book-title')).not.toHaveText('');
+    await expect(page.locator('#singleBookView')).toBeVisible();
+    await expect(page.locator('#singleBookTitle')).not.toHaveText('');
   });
 
-  test('modal closes when close button is clicked', async ({ page }) => {
+  test('back button restores grid', async ({ page }) => {
     await page.goto('/');
-    await page.locator('.reference-card').first().waitFor({ timeout: 15_000 });
+    await page.locator('.book-card').first().waitFor({ timeout: 15_000 });
 
-    await page.locator('.reference-card').first().click();
-    await page.waitForTimeout(400);
-    await expect(page.locator('.modal-sheet')).toBeVisible();
+    await page.locator('.book-card .book-title a').first().click();
+    await page.waitForTimeout(700);
+    await expect(page.locator('#singleBookView')).toBeVisible();
 
-    await page.locator('.modal-close-btn').click();
-    await page.waitForTimeout(300);
-    await expect(page.locator('.modal-sheet')).not.toBeVisible();
+    await page.locator('#btnBackToList').click();
+    await page.waitForTimeout(500);
+
+    await expect(page.locator('#booksDisplayContainer')).toBeVisible();
   });
 
-  test('direct URL to static book page works', async ({ page }) => {
-    await page.goto('/book/1/');
-    await expect(page.locator('.book-dossier-card')).toBeVisible({ timeout: 10_000 });
-    await expect(page.locator('.dossier-title')).toBeVisible();
-    await expect(page.locator('.breadcrumbs')).toBeVisible();
-    await expect(page.locator('.apa-citation-block')).toBeVisible();
+  test('direct URL to book works', async ({ page }) => {
+    // احصل على رابط كتاب
+    await page.goto('/');
+    await page.locator('.book-card').first().waitFor({ timeout: 15_000 });
+    const href = await page.locator('.book-card .book-title a').first().getAttribute('href');
+
+    expect(href).toContain('?book=');
+
+    // افتح الرابط مباشرة
+    await page.goto(href);
+    await page.waitForTimeout(800);
+
+    await expect(page.locator('#singleBookView')).toBeVisible();
   });
 
-  test('APA citation button in modal works', async ({ page }) => {
+  test('URL contains book query param after navigation', async ({ page }) => {
     await page.goto('/');
-    await page.locator('.reference-card').first().waitFor({ timeout: 15_000 });
+    await page.locator('.book-card').first().waitFor({ timeout: 15_000 });
 
-    await page.locator('.reference-card').first().click();
-    await page.waitForTimeout(400);
+    await page.locator('.book-card .book-title a').first().click();
+    await page.waitForTimeout(500);
 
-    await expect(page.locator('.modal-citation-box')).toBeVisible();
-    await expect(page.locator('.btn-copy-citation')).toBeVisible();
+    const url = page.url();
+    expect(url).toContain('?book=');
   });
 });

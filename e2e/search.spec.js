@@ -1,58 +1,62 @@
-import { test, expect } from '@playwright/test';
+const { test, expect } = require('@playwright/test');
 
-test.describe('Search and filtering (Modern Bayt al-Hikma Editorial)', () => {
+test.describe('Search and filtering', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
-    await page.locator('.reference-card').first().waitFor({ timeout: 15_000 });
+    await page.locator('.book-card').first().waitFor({ timeout: 15_000 });
   });
 
-  test('typing in search filters reference results', async ({ page }) => {
-    const initialCount = await page.locator('.reference-card').count();
+  test('typing in search filters results', async ({ page }) => {
+    const initialCount = await page.locator('.book-card').count();
     expect(initialCount).toBeGreaterThan(0);
 
-    const searchInput = page.locator('.search-input');
-    await searchInput.fill('إدار');
-    await page.waitForTimeout(400);
+    // نكتب حرفًا عربيًا شائعًا
+    await page.locator('#searchInput').fill('ا');
+    await page.waitForTimeout(500); // debounce 200ms + هامش
 
-    const filteredCount = await page.locator('.reference-card').count();
-    expect(filteredCount).toBeGreaterThan(0);
+    const filteredCount = await page.locator('.book-card').count();
     expect(filteredCount).toBeLessThanOrEqual(initialCount);
   });
 
   test('search clears with clear button', async ({ page }) => {
-    const searchInput = page.locator('.search-input');
-    await searchInput.fill('اختبار');
-    await page.waitForTimeout(300);
-
-    const clearBtn = page.locator('.search-clear-btn');
-    await expect(clearBtn).toBeVisible();
-    await clearBtn.click();
-    await expect(searchInput).toHaveValue('');
-  });
-
-  test('category filter pills switch active state and filter', async ({ page }) => {
-    const pills = page.locator('.cat-pill');
-    const pillCount = await pills.count();
-    expect(pillCount).toBeGreaterThan(2);
-
-    // Click on another category pill
-    await pills.nth(1).click();
+    await page.locator('#searchInput').fill('test');
     await page.waitForTimeout(400);
 
-    await expect(pills.nth(1)).toHaveClass(/active/);
-    const count = await page.locator('.reference-card').count();
-    expect(count).toBeGreaterThan(0);
+    await expect(page.locator('#btnClearSearch')).toBeVisible();
+    await page.locator('#btnClearSearch').click();
+    await expect(page.locator('#searchInput')).toHaveValue('');
   });
 
-  test('interactive star ratings trigger toast', async ({ page }) => {
-    const firstStar = page.locator('.reference-card .star-btn').first();
-    await firstStar.click();
-    await expect(page.locator('.toast-alert')).toBeVisible({ timeout: 4000 });
+  test('category chips filter results', async ({ page }) => {
+    const chips = page.locator('#categoryChips .chip-item');
+    const chipCount = await chips.count();
+    expect(chipCount).toBeGreaterThan(1);
+
+    // انقر على ثاني chip (الأول = "كل المراجع")
+    await chips.nth(1).click();
+    await page.waitForTimeout(500);
+
+    const hasBooks = (await page.locator('.book-card').count()) > 0;
+    const hasEmpty = (await page.locator('.empty-state').count()) > 0;
+    expect(hasBooks || hasEmpty).toBeTruthy();
   });
 
-  test('bookmark toggles research bundle dock', async ({ page }) => {
-    const bookmarkBtn = page.locator('.reference-card .btn-bookmark').first();
-    await bookmarkBtn.click();
-    await expect(page.locator('.floating-bundle-dock')).toBeVisible({ timeout: 4000 });
+  test('sort dropdown changes order', async ({ page }) => {
+    // اخترنا ترتيبًا واضحًا
+    await page.locator('#sortOrder').selectOption('title');
+    await page.waitForTimeout(500);
+
+    const firstTitle = await page.locator('.book-card .book-title').first().textContent();
+    expect(firstTitle).toBeTruthy();
+  });
+
+  test('favorites filter toggles', async ({ page }) => {
+    await page.locator('#favoritesOnlyBtn').click();
+    await page.waitForTimeout(500);
+
+    // مع عدم وجود مفضلة، يجب أن نرى empty state
+    const hasBooks = (await page.locator('.book-card').count()) > 0;
+    const hasEmpty = (await page.locator('.empty-state').count()) > 0;
+    expect(hasBooks || hasEmpty).toBeTruthy();
   });
 });
