@@ -76,6 +76,10 @@ playwright/.cache/
 # ESLint
 .eslintcache
 
+# Vite / TypeScript build artifacts
+dist/
+*.tsbuildinfo
+
 # ═══════════════════════════════════════════════════════════
 # process_books.py (ملفات تشغيل محلية — لا تُرفع)
 # ═══════════════════════════════════════════════════════════

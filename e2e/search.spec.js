@@ -12,7 +12,7 @@ test.describe('Search and filtering', () => {
 
     // نكتب حرفًا عربيًا شائعًا
     await page.locator('#searchInput').fill('ا');
-    await page.waitForTimeout(500); // debounce 200ms + هامش
+    await page.waitForTimeout(300);
 
     const filteredCount = await page.locator('.book-card').count();
     expect(filteredCount).toBeLessThanOrEqual(initialCount);
@@ -20,7 +20,7 @@ test.describe('Search and filtering', () => {
 
   test('search clears with clear button', async ({ page }) => {
     await page.locator('#searchInput').fill('test');
-    await page.waitForTimeout(400);
+    await page.waitForTimeout(200);
 
     await expect(page.locator('#btnClearSearch')).toBeVisible();
     await page.locator('#btnClearSearch').click();
@@ -34,7 +34,7 @@ test.describe('Search and filtering', () => {
 
     // انقر على ثاني chip (الأول = "كل المراجع")
     await chips.nth(1).click();
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(300);
 
     const hasBooks = (await page.locator('.book-card').count()) > 0;
     const hasEmpty = (await page.locator('.empty-state').count()) > 0;
@@ -42,9 +42,8 @@ test.describe('Search and filtering', () => {
   });
 
   test('sort dropdown changes order', async ({ page }) => {
-    // اخترنا ترتيبًا واضحًا
     await page.locator('#sortOrder').selectOption('title');
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(300);
 
     const firstTitle = await page.locator('.book-card .book-title').first().textContent();
     expect(firstTitle).toBeTruthy();
@@ -52,11 +51,31 @@ test.describe('Search and filtering', () => {
 
   test('favorites filter toggles', async ({ page }) => {
     await page.locator('#favoritesOnlyBtn').click();
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(300);
 
     // مع عدم وجود مفضلة، يجب أن نرى empty state
     const hasBooks = (await page.locator('.book-card').count()) > 0;
     const hasEmpty = (await page.locator('.empty-state').count()) > 0;
     expect(hasBooks || hasEmpty).toBeTruthy();
+  });
+
+  test('3-minute summary modal, cover zoom modal, and interactive rating work', async ({
+    page
+  }) => {
+    // فتح نافذة ملخص 3 دقائق
+    await page.locator('[data-testid^="book-summary-btn-"]').first().click();
+    await expect(page.locator('[data-testid="summary-dialog"]')).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(page.locator('[data-testid="summary-dialog"]')).toHaveCount(0);
+
+    // فتح نافذة تكبير الغلاف
+    await page.locator('[data-testid^="book-cover-btn-"]').first().click();
+    await expect(page.locator('[data-testid="cover-zoom-dialog"]')).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(page.locator('[data-testid="cover-zoom-dialog"]')).toHaveCount(0);
+
+    // التقييم بالنجوم (محليًا دون الكتابة إلى Firebase في بيئة الاختبار)
+    await page.locator('[data-testid^="rate-star-"][data-testid$="-5"]').first().click();
+    await expect(page.locator('[data-testid="toast-notice"]').first()).toBeVisible();
   });
 });

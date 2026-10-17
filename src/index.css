@@ -1,0 +1,117 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *, [data-theme="dark"] *));
+
+:root {
+  --background: #f6f2e9;
+  --foreground: #141821;
+  --card: #fcf9f2;
+  --card-foreground: #141821;
+  --popover: #fcf9f2;
+  --popover-foreground: #141821;
+  --primary: #9e7029;
+  --primary-foreground: #fcf9f2;
+  --secondary: #ede6d6;
+  --secondary-foreground: #1c212c;
+  --muted: #ede6d6;
+  --muted-foreground: #5a5346;
+  --accent: #e5dcc8;
+  --accent-foreground: #141821;
+  --destructive: #a8362e;
+  --destructive-foreground: #fcf9f2;
+  --border: #dfd5c0;
+  --input: #dfd5c0;
+  --ring: #9e7029;
+  --teal: #1f5d5a;
+  --teal-foreground: #fcf9f2;
+  --warning: #b45309;
+  --success: #1f6f54;
+  --radius: 0.75rem;
+}
+
+.dark,
+[data-theme='dark'] {
+  --background: #0b0e14;
+  --foreground: #ece6d8;
+  --card: #121722;
+  --card-foreground: #ece6d8;
+  --popover: #121722;
+  --popover-foreground: #ece6d8;
+  --primary: #d4a860;
+  --primary-foreground: #0b0e14;
+  --secondary: #1a2130;
+  --secondary-foreground: #ece6d8;
+  --muted: #1a2130;
+  --muted-foreground: #9a9280;
+  --accent: #222b3d;
+  --accent-foreground: #ece6d8;
+  --destructive: #c94a42;
+  --destructive-foreground: #ece6d8;
+  --border: #242c3d;
+  --input: #242c3d;
+  --ring: #d4a860;
+  --teal: #3b9b96;
+  --teal-foreground: #0b0e14;
+  --warning: #f59e0b;
+  --success: #34d399;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-teal: var(--teal);
+  --color-teal-foreground: var(--teal-foreground);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --font-sans:
+    'IBM Plex Sans Arabic', 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+  --font-cuneiform: 'Noto Sans Cuneiform', serif;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    overflow-x: clip;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    line-height: 1.7;
+    overflow-x: clip;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

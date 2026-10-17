@@ -9,6 +9,7 @@ build/
 package-lock.json
 playwright-report/
 test-results/
+*.tsbuildinfo
 
 # Data files
 books.json

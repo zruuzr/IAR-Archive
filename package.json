@@ -2,26 +2,57 @@
   "name": "iar-archive",
   "version": "1.0.0",
   "private": true,
-  "description": "IAR Archive — E2E tests and development tooling (application is Vanilla JS, no build step)",
+  "description": "IAR Archive — Iraqi Administrative Reference (React + Vite + TypeScript)",
   "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc -b --noEmit",
+    "test:unit": "vitest run src",
+    "test:unit:watch": "vitest src",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:headed": "playwright test --headed",
     "test:e2e:debug": "playwright test --debug",
     "install:browsers": "playwright install --with-deps chromium",
-
-    "lint": "eslint js/ app.js",
-    "lint:fix": "eslint js/ app.js --fix",
-    "format": "prettier --write \"js/**/*.js\" \"app.js\"",
-    "format:check": "prettier --check \"js/**/*.js\" \"app.js\"",
-    "check": "npm run lint && npm run format:check"
+    "lint": "eslint js/ app.js src/ vite.config.ts",
+    "lint:fix": "eslint js/ app.js src/ vite.config.ts --fix",
+    "format": "prettier --write \"js/**/*.js\" \"app.js\" \"src/**/*.{ts,tsx,css}\" \"vite.config.ts\" \"index.html\" \"migration.html\"",
+    "format:check": "prettier --check \"js/**/*.js\" \"app.js\" \"src/**/*.{ts,tsx,css}\" \"vite.config.ts\" \"index.html\" \"migration.html\"",
+    "check": "npm run typecheck && npm run lint && npm run format:check"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.5",
     "@playwright/test": "^1.48.0",
+    "@tailwindcss/vite": "^4.3.3",
+    "@testing-library/dom": "^10.4.2",
+    "@testing-library/react": "^16.3.3",
+    "@types/node": "^26.6.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
     "eslint": "^9.39.5",
-    "prettier": "^3.9.9"
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.7",
+    "jsdom": "^30.1.3",
+    "prettier": "^3.9.9",
+    "tailwindcss": "^4.3.3",
+    "tw-animate-css": "^1.4.0",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.71.2",
+    "vite": "^8.3.4",
+    "vitest": "^5.0.5"
   },
   "engines": {
     "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "firebase": "^13.0.0",
+    "lucide-react": "^1.59.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "tailwind-merge": "^3.7.0"
   }
 }
