@@ -1,13 +1,21 @@
 /* ============================================================
    ESLint Configuration — Flat Config (ESLint 9+)
    ============================================================
-   هذا الملف يحدد قواعد فحص الكود لجافاسكريبت في مشروع IAR Archive.
+   هذا الملف يحدد قواعد فحص الكود لجافاسكريبت وتايبسكريبت في مشروع IAR Archive.
    ============================================================ */
+
+import js from '@eslint/js';
+import tseslint from 'typescript-eslint';
+import reactHooks from 'eslint-plugin-react-hooks';
+import reactRefresh from 'eslint-plugin-react-refresh';
 
 export default [
   {
+    ignores: ['dist/**', 'node_modules/**', 'playwright-report/**', 'test-results/**']
+  },
+  {
     // ============================================================
-    // 1. الملفات المستهدفة بالفحص
+    // 1. الملفات المستهدفة بالفحص (الواجهة الحالية Vanilla JS)
     // ============================================================
     files: ['js/**/*.js', 'app.js'],
 
@@ -81,48 +89,56 @@ export default [
     // ============================================================
     rules: {
       // ─── Errors: أخطاء حقيقية ────────────────────────────
-      'no-undef': 'error',              // استخدام متغير غير معرّف
-      'no-unused-vars': ['warn', {       // متغيرات مستوردة/معرّفة ولم تُستخدم
-        args: 'after-used',              // تجاهل args في نهاية الدالة
-        argsIgnorePattern: '^_',          // تجاهل args تبدأ بـ _
-        varsIgnorePattern: '^_',          // تجاهل vars تبدأ بـ _
-        caughtErrors: 'none',             // لا تفحص catch(e)
-        ignoreRestSiblings: true          // تجاهل { a, ...rest }
-      }],
-      'no-redeclare': 'error',          // تعريف نفس المتغير مرتين
-      'no-unreachable': 'error',         // كود لن يُنفَّذ أبدًا
-      'no-dupe-keys': 'error',           // مفاتيح مكررة في object
-      'no-dupe-args': 'error',           // args مكررة في دالة
-      'no-constant-condition': 'warn',   // if (true) أو while (1)
-      'no-empty': ['warn', { allowEmptyCatch: true }],  // بلوك فارغ
-      'no-fallthrough': 'error',         // switch بدون break
-      'no-cond-assign': ['error', 'except-parens'],  // if (x = 5)
-      'use-isnan': 'error',              // x === NaN (بدل Number.isNaN)
-      'valid-typeof': 'error',           // typeof x === 'strng' (خطأ كتابي)
-      'no-self-assign': 'error',         // x = x
-      'no-self-compare': 'error',        // x === x
-      'no-unmodified-loop-condition': 'warn',  // while (x < 5) بدون تعديل x
+      'no-undef': 'error', // استخدام متغير غير معرّف
+      'no-unused-vars': [
+        'warn',
+        {
+          // متغيرات مستوردة/معرّفة ولم تُستخدم
+          args: 'after-used', // تجاهل args في نهاية الدالة
+          argsIgnorePattern: '^_', // تجاهل args تبدأ بـ _
+          varsIgnorePattern: '^_', // تجاهل vars تبدأ بـ _
+          caughtErrors: 'none', // لا تفحص catch(e)
+          ignoreRestSiblings: true // تجاهل { a, ...rest }
+        }
+      ],
+      'no-redeclare': 'error', // تعريف نفس المتغير مرتين
+      'no-unreachable': 'error', // كود لن يُنفَّذ أبدًا
+      'no-dupe-keys': 'error', // مفاتيح مكررة في object
+      'no-dupe-args': 'error', // args مكررة في دالة
+      'no-constant-condition': 'warn', // if (true) أو while (1)
+      'no-empty': ['warn', { allowEmptyCatch: true }], // بلوك فارغ
+      'no-fallthrough': 'error', // switch بدون break
+      'no-cond-assign': ['error', 'except-parens'], // if (x = 5)
+      'use-isnan': 'error', // x === NaN (بدل Number.isNaN)
+      'valid-typeof': 'error', // typeof x === 'strng' (خطأ كتابي)
+      'no-self-assign': 'error', // x = x
+      'no-self-compare': 'error', // x === x
+      'no-unmodified-loop-condition': 'warn', // while (x < 5) بدون تعديل x
 
       // ─── Best Practices: ممارسات جيدة ──────────────────────
-      'eqeqeq': ['warn', 'smart'],       // استخدم === بدل ==
-      'no-var': 'error',                 // استخدم let/const بدل var
-      'prefer-const': ['warn', {         // استخدم const إذا لم تُعدّل
-        destructuring: 'all'
-      }],
-      'no-eval': 'error',                // eval() خطر أمني
-      'no-implied-eval': 'error',        // setTimeout('code', ...) خطر
-      'no-new-func': 'error',            // new Function() خطر
+      eqeqeq: ['warn', 'smart'], // استخدم === بدل ==
+      'no-var': 'error', // استخدم let/const بدل var
+      'prefer-const': [
+        'warn',
+        {
+          // استخدم const إذا لم تُعدّل
+          destructuring: 'all'
+        }
+      ],
+      'no-eval': 'error', // eval() خطر أمني
+      'no-implied-eval': 'error', // setTimeout('code', ...) خطر
+      'no-new-func': 'error', // new Function() خطر
       'no-return-assign': ['error', 'except-parens'],
-      'no-sequences': 'warn',            // (a, b) commas
-      'no-throw-literal': 'warn',        // throw 'error' (استخدم Error)
-      'no-useless-catch': 'warn',        // try/catch يرمي نفس الخطأ
-      'no-useless-concat': 'warn',       // 'a' + 'b' بدل 'ab'
-      'no-useless-escape': 'warn',       // \. في regex حيث . كافٍ
+      'no-sequences': 'warn', // (a, b) commas
+      'no-throw-literal': 'warn', // throw 'error' (استخدم Error)
+      'no-useless-catch': 'warn', // try/catch يرمي نفس الخطأ
+      'no-useless-concat': 'warn', // 'a' + 'b' بدل 'ab'
+      'no-useless-escape': 'warn', // \. في regex حيث . كافٍ
 
       // ─── Style: تنسيق (أخف من Prettier لكن مفيد) ────────────
-      'no-trailing-spaces': 'warn',      // مسافات في نهاية السطر
+      'no-trailing-spaces': 'warn', // مسافات في نهاية السطر
       'no-multiple-empty-lines': ['warn', { max: 2 }],
-      'no-tabs': 'warn'                   // استخدم مسافات لا tabs
+      'no-tabs': 'warn' // استخدم مسافات لا tabs
     }
   },
 
@@ -137,6 +153,50 @@ export default [
         self: 'readonly',
         clients: 'readonly'
       }
+    }
+  },
+
+  // ============================================================
+  // 5. ملفات TypeScript و React (src/**/*.{ts,tsx} و vite.config.ts)
+  // ============================================================
+  ...tseslint.configs.recommended.map((cfg) => ({
+    ...cfg,
+    files: ['src/**/*.{ts,tsx}', 'vite.config.ts']
+  })),
+  {
+    files: ['src/**/*.{ts,tsx}', 'vite.config.ts'],
+    plugins: {
+      'react-hooks': reactHooks,
+      'react-refresh': reactRefresh
+    },
+    rules: {
+      ...js.configs.recommended.rules,
+      ...reactHooks.configs.recommended.rules,
+      'no-undef': 'off', // TypeScript compiler handles undefined identifiers
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          args: 'after-used',
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          caughtErrors: 'none',
+          ignoreRestSiblings: true
+        }
+      ],
+      'react-refresh/only-export-components': [
+        'warn',
+        {
+          allowConstantExport: true,
+          allowExportNames: [
+            'buttonVariants',
+            'useI18n',
+            'readStoredLanguage',
+            'applyDocumentLanguage',
+            'formatLocalizedNumber'
+          ]
+        }
+      ]
     }
   }
 ];

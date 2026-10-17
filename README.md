@@ -9,10 +9,13 @@
 **مستودع رقمي لأرشفة وتنظيم المراجع الإدارية العراقية**
 
 [![Hosted on Firebase](https://img.shields.io/badge/Hosted%20on-Firebase%20Hosting-orange?style=flat&logo=firebase)](https://iararchive.web.app/)
-[![Database](https://img.shields.io/badge/Database-Firebase%20Firestore-yellow?style=flat&logo=firebase)](https://firebase.google.com/docs/firestore)
-[![PWA](https://img.shields.io/badge/PWA-Installable-blueviolet?style=flat&logo=pwa)](https://web.dev/progressive-web-apps/)
+[![React](https://img.shields.io/badge/React-19.3-61dafb?style=flat&logo=react)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-6.0.3-blue?style=flat&logo=typescript)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-8.3.4-646cff?style=flat&logo=vite)](https://vitejs.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-38b2ac?style=flat&logo=tailwindcss)](https://tailwindcss.com/)
+[![PWA](https://img.shields.io/badge/PWA-SW%20v33-blueviolet?style=flat&logo=pwa)](https://web.dev/progressive-web-apps/)
 [![References](https://img.shields.io/badge/References-173%20Indexed-gold?style=flat&logo=bookmeter)](books.json)
-[![Tests](https://img.shields.io/badge/Tests-418%20Passed-brightgreen?style=flat)](tests/)
+[![Tests](https://img.shields.io/badge/Tests-518%20Passed-brightgreen?style=flat)](tests/)
 [![License](https://img.shields.io/badge/License-Proprietary-red.svg)](LICENSE)
 [![Auto Process](https://github.com/zruuzr/IAR-Archive/actions/workflows/auto_process.yml/badge.svg)](https://github.com/zruuzr/IAR-Archive/actions/workflows/auto_process.yml)
 
@@ -32,7 +35,7 @@ IAR Archive provides structured reference metadata, concise summaries, APA-style
 
 The project aims to make administrative references easier to discover, understand, cite, and use by researchers, university students, administrative professionals, and executive managers.
 
-The repository currently indexes **173 administrative and academic references** (covering 1974–2026) across **14 core thematic pathways**, combining:
+The repository currently indexes **173 administrative and academic references** (covering 1974–2026) organized across **14 core thematic pathways** (the foundational administrative domains) and navigated through **114 specific granular categories** with density filtering and an interactive directory, combining:
 
 * Structured bibliographic metadata.
 * Concise reference summaries.
@@ -123,96 +126,115 @@ The application uses Firebase Anonymous Authentication so visitors can interact 
 
 ## 🏗️ Technology Stack
 
-IAR Archive intentionally uses a lightweight architecture without a frontend framework.
+IAR Archive uses a modern, type-safe, and highly optimized frontend architecture powered by React 19, TypeScript, and Vite.
 
 | Layer               | Technology                                             |
 | ------------------- | ------------------------------------------------------ |
-| Frontend            | HTML5, CSS3, Vanilla JavaScript (14 Modular ES Modules)|
-| Database            | Firebase Firestore                                     |
-| Authentication      | Firebase Anonymous Authentication                      |
-| Hosting             | Firebase Hosting                                       |
-| Document Delivery   | GitHub Raw                                             |
-| PDF Viewer          | Mozilla PDF.js                                         |
-| PWA                 | Web App Manifest + Service Worker                      |
+| Frontend Framework  | React 19 (`react` + `react-dom` 19.3)                  |
+| Language & Tooling  | TypeScript 6.0.3 with strict type checking             |
+| Build & Bundler     | Vite 8.3 (`@vitejs/plugin-react`, ES modules, chunking)|
+| Styling & UI Tokens | Tailwind CSS v4 (`@tailwindcss/vite`, modern `@theme`) |
+| UI Primitives       | Radix UI / shadcn-inspired components + Lucide Icons   |
+| Database            | Firebase Firestore (Modular SDK v13.0.0)               |
+| Authentication      | Firebase Anonymous Authentication (Modular SDK v13.0.0)|
+| Web Hosting         | Firebase Hosting (`iararchive` on `iar-archive-328bc`)  |
+| Document Delivery   | GitHub Raw CDN (direct streamed downloads & previews)  |
+| PDF Viewer          | In-app Modal PDF reader & direct reading fallback      |
+| PWA & Offline       | Web App Manifest + Service Worker v33 (`sw.js`)        |
 | Document Extraction | `firecrawl-anydoc` + `pypdf`                           |
-| Primary AI          | Google Gemini                                          |
-| AI Fallback         | Groq                                                   |
-| Automated Testing   | Pytest (418 unit/integration tests) + Playwright (19 E2E browser tests) |
-| Automation          | GitHub Actions                                         |
-| Code Quality        | ESLint + Prettier + Husky                              |
+| Primary AI          | Google Gemini (Gemini 3.6 Flash)                       |
+| AI Fallback         | Groq (Llama 3.3 70B Versatile)                         |
+| Unit & Integration  | Vitest 5 (81 unit/component tests)                     |
+| E2E Browser Testing | Playwright (19 browser tests on Chromium)              |
+| Python Pipeline     | Pytest (418 unit/integration tests)                    |
+| CI/CD & Automation  | GitHub Actions (typecheck, lint, test, e2e, deploy)    |
+| Code Quality        | ESLint 9 + Prettier 3 + Husky                          |
 | Dependency Updates  | Dependabot                                             |
 
 ---
 
 ## 🧩 Architecture
 
-The project separates the presentation layer, reference metadata, document storage, and automated processing.
+The application is structured around a modular, reactive architecture that decouples UI components, catalog state, service layers, and background processing pipelines:
 
 ```text
-                         IAR Archive
-                              │
-          ┌───────────────────┼───────────────────┐
-          │                   │                   │
-          ▼                   ▼                   ▼
-      Frontend             Firebase          GitHub Actions
-          │                   │                   │
-          │             ┌─────┴─────┐             │
-          │             │           │             │
-          │         Firestore     Auth            │
-          │             │           │             │
-          │             └─────┬─────┘             │
-          │                   │                   │
-          │                   │              process_books.py
-          │                   │                   │
-          │                   │          ┌────────┴────────┐
-          │                   │          │                 │
-          ▼                   ▼        AnyDoc          AI Providers
-     books.json           Metrics       │           ┌──────┴──────┐
-          │                              │           │             │
-          │                              ▼        Gemini         Groq
-          │                           pypdf          │             │
-          │                                           └──────┬──────┘
-          │                                                  │
-          │                                             books.json
-          │
-          ▼
-     GitHub Raw
-          │
-          ▼
-      PDF Files
-          │
-          ▼
-       PDF.js
+                           IAR Archive (React 19 + TypeScript)
+                                         │
+        ┌────────────────────────────────┼────────────────────────────────┐
+        ▼                                ▼                                ▼
+  React Application              Firebase Services                 GitHub Actions
+  (Vite Bundled)             (Modular Web SDK v13)               (Continuous Delivery)
+        │                                │                                │
+  ┌─────┴──────────────────┐      ┌──────┴──────┐                  ┌──────┴──────┐
+  │ Components & UI        │      │  Firestore  │                  │  Workflows  │
+  │ • Header & Hero        │      │  (Ratings,  │                  │ • lint.yml  │
+  │ • CategoryPathways     │      │   Metrics)  │                  │ • e2e.yml   │
+  │ • SearchAndControls    │      ├─────────────┤                  │ • test.yml  │
+  │ • BookGrid & BookCard  │      │  Anonymous  │                  │ • hosting   │
+  │ • Modals (BookDetails, │      │    Auth     │                  └──────┬──────┘
+  │   Summary, CoverZoom,  │      └─────────────┘                         │
+  │   Bundle, Ratings)     │                                              ▼
+  └─────┬──────────────────┘                                       process_books.py
+        │                                                                 │
+  ┌─────┴──────────────────┐                                       ┌──────┴──────┐
+  │ Hooks & Services       │                                       ▼             ▼
+  │ • useLibraryState      │                                    Gemini          Groq
+  │ • useBookRatings       │                                       │             │
+  │ • usePwaInstall        │                                       └──────┬──────┘
+  │ • catalog.ts           │                                              │
+  │ • catalog-query.ts     │                                              ▼
+  │ • arabic-search.ts     │                                          books.json
+  └─────┬──────────────────┘                                              │
+        ▼                                                                 ▼
+   books.json (173 Indexed References) ─────────────────────────► GitHub Repository
+        │                                                                 │
+        ▼                                                                 ▼
+   GitHub Raw CDN ──────────────────────────────────────────────► PDF Documents
 ```
+
+### Component Hierarchy & Clean Separation
+
+- **`src/components/`**: Cleanly divided into functional domains:
+  - **`layout/`**: `Header`, `Hero`, `FeaturedSpotlight`, and Mesopotamian-themed visual accents.
+  - **`library/`**: `LibrarySection`, `SearchAndControls`, `CategoryPathways` (density chips + full 114-category directory), `BookGrid`, `BookCard`, `EmptyState`, and accessible `Pagination`.
+  - **`modals/`**: `BookDetailsDialog`, `SummaryDialog` (3-minute executive brief), `CoverZoomDialog` (with focus restoration and aspect ratio enforcement), `BundleDialog` (custom research collections), `RatingsDialog`, and `PdfReaderDialog`.
+  - **`ui/`**: Radix-style atomic UI components (`button`, `dialog`, `badge`, `input`, `card`, `toast`).
+- **`src/hooks/`**: Encapsulates stateful behaviors (`useLibraryState`, `useBookRatings`, `useDebounce`, `usePwaInstall`, `useDirection`).
+- **`src/services/`**: Pure async clients for the catalog, Firebase Firestore metrics/ratings, streaming PDF downloads, and telemetry.
+- **`src/lib/`**: Deterministic utilities including diacritic-insensitive Arabic search (`arabic-search.ts`), catalog query/sort/filter engine (`catalog-query.ts`), and asset resolver (`catalog.ts`).
+- **`src/i18n/`**: Bilingual dictionary (Arabic RTL & English LTR) with context provider and instant direction synchronization.
 
 ---
 
 ## 📱 Progressive Web App
 
-IAR Archive is installable as a Progressive Web App on supported browsers.
+IAR Archive is installable as a Progressive Web App on all modern browsers (Desktop and Mobile).
 
 ### PWA Components
 
-* `manifest.json` — application metadata, icons, theme, and display mode.
-* `sw.js` — service worker responsible for caching and network strategies.
-* Standard and maskable icons.
-* Apple touch icon.
-* Offline availability for selected core assets.
+* `manifest.json` — application metadata, theme colors (`#1a2b4c`), display mode `standalone`, and bilingual descriptors.
+* `sw.js` — Service Worker (version **`v33`**) with intelligent caching, auto-precaching of Vite production bundles, and instant offline availability.
+* Standard (192x192, 512x512) and maskable icons.
+* Apple touch icon (`/icons/apple-touch-icon.png`).
+* Offline availability for the complete application shell and cached references.
 
-### Service Worker Strategy
+### Service Worker v33 Strategy
 
-The Service Worker uses different strategies according to resource type:
+The Service Worker operates with an optimized multi-tier caching model:
 
-| Resource              | Strategy      |
-| --------------------- | ------------- |
-| HTML/CSS/JS (`app.js`, `/js/*.js`) | Cache First   |
-| Icons and covers      | Cache First   |
-| `books.json`          | Network First |
-| Firebase requests     | Bypass        |
-| GitHub Raw            | Bypass        |
-| External CDN requests | Bypass        |
+| Resource Type                     | Strategy          | Purpose                                                  |
+| --------------------------------- | ----------------- | -------------------------------------------------------- |
+| App Shell (`/`, `/index.html`)    | Network First     | Delivers the latest code with instant offline fallback    |
+| Catalog Metadata (`books.json`)   | Network First     | Ensures newly indexed references appear without delay    |
+| Manifest (`manifest.json`)        | Network First     | Keeps PWA metadata synchronized                          |
+| Fingerprinted Bundles (`/bundles/*`)| Cache First     | Immutable fingerprinted JS/CSS chunks cached permanently |
+| Static Covers (`/covers/*.png`)   | Cache First       | Instant visual rendering of book covers                  |
+| App Icons (`/icons/*`, logo)      | Cache First       | Fast offline icon loading                                |
+| Firebase Auth & Firestore APIs    | Network Only      | Bypassed to prevent stale ratings and telemetry          |
+| GitHub Raw PDF Documents          | Network Only      | Bypassed for direct streaming and byte-range downloads   |
+| External CDNs & Google Fonts      | Network Only      | Bypassed to avoid cache bloat                            |
 
-The cache version is controlled through `CACHE_VERSION` in `sw.js`.
+> **Note on Upgrades:** On activation, Service Worker `v33` automatically purges legacy caches from previous versions (including `v28` and `v32` Vanilla JS caches), preventing cache collision or reload loops.
 
 ---
 
@@ -438,38 +460,38 @@ As the document collection grows significantly, object storage such as Firebase 
 IAR-Archive/
 ├── .github/
 │   ├── workflows/
-│   │   ├── auto_process.yml
-│   │   ├── e2e.yml
-│   │   ├── firebase-hosting-merge.yml
-│   │   ├── firebase-hosting-pull-request.yml
-│   │   ├── lint.yml
-│   │   └── test.yml
+│   │   ├── auto_process.yml             # Document OCR & AI metadata pipeline
+│   │   ├── e2e.yml                      # Playwright E2E browser tests
+│   │   ├── firebase-hosting-merge.yml   # Live production deployment on merge to main
+│   │   ├── firebase-hosting-pull-request.yml # Preview channel deployment on PR
+│   │   ├── lint.yml                     # TypeScript check, ESLint, Prettier & unit tests
+│   │   └── test.yml                     # Python pytest suite (3.12 & 3.13)
 │   └── dependabot.yml
 │
 ├── assets/
-│   └── logo.svg
+│   └── logo.svg                         # Cuneiform Babylonian logo
+├── covers/                              # Reference covers (1.png – 173.png)
+├── icons/                               # PWA app icons and favicons
+├── pdf/                                 # 173 Reference PDF documents
 │
-├── covers/              # Reference book covers (1.png – 173.png)
-├── icons/               # PWA app icons and favicons
-├── pdf/                 # Reference documents and administrative publications
+├── src/                                 # React 19 + TypeScript Application
+│   ├── components/                      # Modular UI components
+│   │   ├── features/                    # PDF reader & download dialogs
+│   │   ├── layout/                      # Header, Hero, FeaturedSpotlight
+│   │   ├── library/                     # SearchAndControls, CategoryPathways, BookGrid, BookCard, Pagination, EmptyState
+│   │   ├── modals/                      # BookDetailsDialog, SummaryDialog, CoverZoomDialog, BundleDialog, RatingsDialog
+│   │   └── ui/                          # Radix/shadcn atomic UI primitives (button, dialog, badge, input, etc.)
+│   ├── hooks/                           # Custom React hooks (useLibraryState, useBookRatings, useDebounce, etc.)
+│   ├── i18n/                            # Bilingual provider (Arabic RTL / English LTR) & translations
+│   ├── lib/                             # Pure business algorithms (arabic-search, catalog-query, utils)
+│   ├── locales/                         # Structured localization dictionaries (ar.ts, en.ts)
+│   ├── services/                        # Service layer (catalog, firebase, firebase-metrics, firebase-ratings, download)
+│   ├── types/                           # TypeScript domain models (Book, Category, Firebase, UI)
+│   ├── App.tsx                          # Root React component
+│   ├── main.tsx                         # Client hydration & entry point
+│   └── index.css                        # Tailwind CSS v4 directives & design tokens
 │
-├── js/                  # Modular ES Architecture (14 Modules)
-│   ├── data-fetch.js    # Remote catalog loading & caching
-│   ├── data.js          # In-memory datasets & lookups
-│   ├── download.js      # Direct download streaming & progress ring
-│   ├── events.js        # Global DOM event delegation
-│   ├── firebase.js      # Anonymous auth, Firestore ratings & counters
-│   ├── i18n.js          # Bilingual dictionary (AR/EN) & RTL switching
-│   ├── pwa.js           # PWA installation prompt & registration
-│   ├── ratings.js       # Five-star rating system & vote submission
-│   ├── render.js        # Dynamic book card grid & modal rendering
-│   ├── router.js        # Hash-based routing & single-book views
-│   ├── state.js         # Reactive central application state
-│   ├── ui-helpers.js    # Toast notifications, modals & clipboard
-│   ├── ui-init.js       # DOM references caching & theme setup
-│   └── utils.js         # Pure utility functions & formatters
-│
-├── tests/               # Python test suite (418 tests)
+├── tests/                               # Python test suite (418 tests)
 │   ├── test_ai_helpers.py
 │   ├── test_book_model.py
 │   ├── test_generic_helpers.py
@@ -481,35 +503,72 @@ IAR-Archive/
 │   ├── test_validate_partial.py
 │   └── test_zip_safety.py
 │
-├── e2e/                 # Playwright E2E browser tests (19 tests)
+├── e2e/                                 # Playwright E2E browser tests (19 tests)
 │   ├── home.spec.js
 │   ├── i18n.spec.js
 │   ├── routing.spec.js
 │   └── search.spec.js
 │
-├── index.html
-├── style.css
-├── app.js
-├── books.json           # Indexed reference catalog (173 records)
-├── manifest.json
-├── sw.js
-├── _headers
+├── js/                                  # Preserved legacy Vanilla JS modules (reference & regression checks)
+├── index.html                           # Application entry point (Vite mounts src/main.tsx)
+├── migration.html                       # Migration test entry point (preserved)
+├── books.json                           # Indexed reference catalog (173 records)
+├── manifest.json                        # PWA web app manifest
+├── sw.js                                # Service Worker v33 (App shell & bundle caching)
+├── _headers                             # Security headers & cache control
 │
-├── process_books.py
-├── validate_books.py
-├── requirements.txt
-├── package.json
-├── playwright.config.js
-├── .gitignore
+├── vite.config.ts                       # Vite 8 configuration & bundle precache plugin
+├── tsconfig.json                        # TypeScript strict configuration
+├── tsconfig.app.json                    # Application compiler settings
+├── tsconfig.node.json                   # Node/Vite compiler settings
+├── package.json                         # Dependencies & scripts
+├── playwright.config.js                 # Playwright test configuration
+├── eslint.config.mjs                    # ESLint 9 configuration
+├── .prettierrc.json                     # Prettier formatting rules
 │
-├── LICENSE
-├── SECURITY.md
-├── AUDIT.md
-├── CHANGELOG.md
-├── firebase.json
-├── .firebaserc
-└── README.md
+├── process_books.py                     # Document processing & AI extraction
+├── validate_books.py                    # Catalog schema validation
+├── requirements.txt                     # Python dependencies
+│
+├── LICENSE                              # Proprietary license terms
+├── SECURITY.md                          # Security & vulnerability reporting policy
+├── AUDIT.md                             # Audit log & architectural evolution
+├── CHANGELOG.md                         # Release history & version notes
+├── firebase.json                        # Firebase Hosting & Firestore configuration
+└── .firebaserc                          # Firebase project target (`iar-archive-328bc`)
 ```
+
+---
+
+## 🛠️ Developer Commands & Scripts
+
+The repository includes a comprehensive set of scripts for development, testing, building, and code quality.
+
+### Frontend (Node.js & Vite)
+
+| Command                  | Description                                                          |
+| ------------------------ | -------------------------------------------------------------------- |
+| `npm run dev`            | Starts Vite local development server with instant HMR                |
+| `npm run build`          | Typechecks with `tsc -b` and builds production bundle to `dist/`     |
+| `npm run preview`        | Previews production build locally with Vite preview server           |
+| `npm run typecheck`      | Executes TypeScript compiler check without emitting files            |
+| `npm run test:unit`      | Runs Vitest unit & component test suite (81 tests)                   |
+| `npm run test:unit:watch`| Runs Vitest in interactive watch mode                               |
+| `npm run test:e2e`       | Executes Playwright E2E browser tests on Chromium (19 tests)         |
+| `npm run test:e2e:ui`    | Launches Playwright interactive UI test runner                       |
+| `npm run lint`           | Runs ESLint 9 across `src/`, `js/`, and config files                 |
+| `npm run lint:fix`       | Automatically fixes fixable ESLint warnings and errors               |
+| `npm run format:check`   | Validates formatting using Prettier                                  |
+| `npm run format`         | Formats codebase using Prettier                                      |
+| `npm run check`          | Complete pre-commit verification (`typecheck + lint + format:check`) |
+
+### Catalog & Document Ingestion (Python)
+
+| Command                    | Description                                                |
+| -------------------------- | ---------------------------------------------------------- |
+| `pytest tests/ -v`         | Runs full Python test suite (418 unit & integration tests) |
+| `python validate_books.py` | Validates `books.json` schema, covers, and references       |
+| `python process_books.py`  | Runs document extraction & AI metadata generation pipeline |
 
 ---
 
@@ -613,9 +672,16 @@ The current reference catalog is maintained through `books.json`.
 
 For a very large number of references, a queryable backend or segmented catalog may eventually provide better performance.
 
-### Frontend Modularity
+### Frontend Architecture & Modernization
 
-The application frontend is structured into 14 focused ES modules under `js/` (bootstrapped by `app.js`), cleanly separating concerns across application state, catalog fetching, book rendering, modals, client-side routing, PWA handling, and Firebase ratings/telemetry with comprehensive E2E and lint coverage.
+The application was successfully modernized from legacy Vanilla JavaScript to a production-grade React 19, TypeScript, and Vite architecture (Phases 2.1 – 2.8).
+
+Key architectural highlights:
+- **Type Safety**: End-to-end TypeScript models for the catalog, ratings, download states, and search queries.
+- **Component Modularity**: 30+ reusable React components adhering to accessible Radix/shadcn design patterns under `src/components/`.
+- **Dual Catalog Navigation**: Seamlessly connects the **14 broad thematic pathways** with the full **114 granular categories** through instant count-aware chip filters and a searchable modal directory.
+- **Service Worker v33**: Automatic precache injection of fingerprinted Vite bundles, immutable cache-first static delivery, and network-first freshness for catalog metadata.
+- **Rigorous Verification**: 518 total automated tests across Vitest (81 unit/component), Playwright (19 E2E browser tests), and Pytest (418 catalog tests) with 100% pass rates.
 
 ---
 

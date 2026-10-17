@@ -360,19 +360,60 @@ end-to-end after the module split. Manual testing was one-shot.
 
 ---
 
-## Test Suite Summary (Updated)
+---
 
-| Suite | Count | Runtime |
-|---|---|---|
-| Python (process_books) | 118 | ~1s |
-| Python (validate_books) | 124 | ~0.5s |
-| Python (migrate_books) | 120 | ~0.3s |
-| **Python total** | **362** | **~4.4s** |
-| E2E (Playwright) | 19 | ~45s |
-| **Grand total** | **381** | **~50s** |
+### Phase 4 — Migration to React 19, TypeScript & Vite (October 2026) ✅
+
+**Problem:**
+The Vanilla JavaScript architecture (14 ES modules) lacked compile-time type safety, component modularity, and atomic UI state management. As the catalog grew to 173 references and 114 granular categories, maintaining state synchronization across deep links, modals, ratings, and filters required modern declarative patterns and build optimization without sacrificing performance or offline capabilities.
+
+**Action (Phases 2.1 – 2.8):**
+1. **Phase 2.1 (Foundation):** Scaffolded React 19, TypeScript 6.0.3, Vite 8.3.4, and Tailwind CSS v4 alongside Vitest.
+2. **Phase 2.2A–D (Core Services & Logic):**
+   - Ported catalog normalization, asset resolution, and APA citation generation (`src/services/catalog.ts`).
+   - Modernized Firebase SDK to Modular Web SDK v13.0.0 (`src/services/firebase.ts`, `firebase-metrics.ts`, `firebase-ratings.ts`).
+   - Implemented streaming PDF download engine with cancellation and progress reporting (`src/services/download.ts`).
+   - Created pure, diacritic-insensitive Arabic search and catalog query engine (`src/lib/arabic-search.ts`, `src/lib/catalog-query.ts`).
+   - Encapsulated reactive state into custom hooks (`useLibraryState`, `useBookRatings`, `usePwaInstall`).
+   - Implemented bilingual context provider (`I18nProvider`) with instant Arabic RTL / English LTR direction toggling.
+3. **Phase 2.3A–B (Component Modernization & Modals):**
+   - Built 30+ accessible Radix/shadcn-inspired components across layout, library, and modal domains.
+   - Solved the 114-category navigation challenge by separating **14 core thematic pathways** from **114 specific categories** with live book counts and a searchable directory modal (`CategoryPathways.tsx`).
+   - Created full interactive modal suite: `BookDetailsDialog`, `SummaryDialog` (3-minute brief), `CoverZoomDialog`, `BundleDialog`, `RatingsDialog`, and `PdfReaderDialog`.
+4. **Phase 2.4 (Technical Cutover):**
+   - Switched `index.html` to Vite entry point mounting `src/main.tsx`.
+   - Upgraded Service Worker to **`v33`** with `iarRootAssetsPlugin` bundle precaching and automated legacy cache purging.
+5. **Phase 2.5 (Independent Pre-Launch Audit):**
+   - Verified 100% test pass rate (81 Vitest, 19 Playwright, 418 Pytest = 518 total).
+   - Validated catalog integrity (173 books, 173 covers verified with `naturalWidth > 0`).
+   - Confirmed 0 console errors, 0 ESLint warnings, 0 type errors.
+6. **Phase 2.6A–B (Release Candidate & Hosting Prep):**
+   - Pinned clean release candidate commit `5a76b57c5ffe2357447acc527c098fea2fdd3ee6`.
+   - Audited `.firebaserc` (`iar-archive-328bc`), `firebase.json` (`iararchive`), and security rules.
+7. **Phase 2.7 & Post-Deploy Audit (Production Deployment & Verification):**
+   - Deployed directly to Firebase Hosting live target (`https://iararchive.web.app`).
+   - Conducted live Playwright audit on Chromium against production:
+     - React mounted cleanly on `#root` with 0 console errors and 0 network failures.
+     - 173 references loaded from `books.json` with 114 pathways.
+     - Covers rendered with valid natural dimensions.
+     - Deep linking (`/?book=1`, `/?bundle=1,2`), instant search, category filtering, light/dark mode, and RTL/LTR verified.
+     - Service Worker `v33` active with `iar-archive-v33` cache and zero reload loops.
+
+---
+
+## Test Suite Summary (Modernized Architecture)
+
+| Suite | Framework | Count | Scope |
+|---|---|---|---|
+| Catalog & Ingestion | Pytest (Python 3.12/3.13) | 418 | Model validation, JSON I/O, AI helpers, ZIP safety, resilience |
+| Component & Services | Vitest 5 (JSDOM) | 81 | React components, hooks, services, search algorithms, modals |
+| End-to-End Browser | Playwright (Chromium) | 19 | Full user journeys, routing, deep links, i18n, search |
+| **Grand total** | | **518** | **100% Passing Tests** |
 
 **CI workflows on every push and PR:**
-- `Tests` (Python 3.12 + 3.13)
-- `E2E Tests` (Chromium)
-- `Lint & Format` (ESLint + Prettier)
-- `auto_process` (existing document processing)
+- `Tests` (Python pytest across 3.12 and 3.13)
+- `E2E Tests` (Playwright on Chromium)
+- `Lint & Format` (TypeScript typecheck, ESLint 9, Prettier 3, and Vitest unit tests)
+- `auto_process` (Automated document processing & AI catalog ingestion)
+- `Deploy to Firebase Hosting on merge` (Automatic production deployment on merge to `main`)
+- `Deploy to Firebase Hosting on PR` (Automatic preview channel deployment on pull request)

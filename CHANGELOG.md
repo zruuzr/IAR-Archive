@@ -9,15 +9,64 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Added
-- **Catalog expansion to 173 references** — added 32 new administrative, legal, economic, and managerial treatises (books #142 through #173) with structured bilingual metadata, key points, 3-minute executive briefs, APA citations, and generated high-resolution cover graphics.
-- **Resilience test suite** — added `tests/test_resilience.py` and `tests/test_validate_partial.py` covering retry semantics, rate limits, and partial metadata validation (increasing total test count from 362 to 418 passed tests).
-- **Dependency resilience** — integrated `json-repair` fallback for robust LLM response recovery during automated processing.
-
 ### Planned
 - Migration of PDF storage from GitHub Raw to object storage
   (Cloudflare R2) — see `AUDIT.md` for details.
 - Possible ESLint rule refinements if new patterns emerge.
+
+---
+
+## [2.0.0] - 2026-10-17
+
+Major architecture modernization release. Migrates the frontend from legacy Vanilla
+JavaScript to a high-performance, type-safe architecture using React 19, TypeScript,
+and Vite, achieving 100% feature parity, complete catalog preservation, and zero regressions.
+
+### Added
+
+- **React 19 & TypeScript Core Architecture**:
+  - Full TypeScript implementation with strict type checking across the entire frontend.
+  - Component-driven modular architecture under `src/components/`, `src/hooks/`, `src/services/`, and `src/lib/`.
+  - Reactive central state management via custom hooks (`useLibraryState`, `useBookRatings`, `usePwaInstall`).
+  - Bilingual Context Provider (`I18nProvider`) supporting seamless, real-time Arabic (RTL) and English (LTR) transitions.
+- **Vite 8 & Tailwind CSS v4 Build System**:
+  - Lightning-fast dev server with Hot Module Replacement (HMR).
+  - Modern CSS configuration using `@tailwindcss/vite` and CSS-first `@theme` design tokens.
+  - Fingerprinted production bundling with automated asset hashing, code splitting, and sub-second build times.
+  - `iarRootAssetsPlugin` Vite plugin to automatically copy static root assets and inject fingerprinted bundle paths into the Service Worker precache.
+- **Enhanced Catalog Navigation & Dual Classification**:
+  - Clear taxonomy separating **14 core thematic pathways** from **114 specific granular categories**.
+  - `CategoryPathways` component providing top density pathways, active category indicator with 1-click reset, and a searchable modal directory indexing all 114 categories with live counts.
+  - Diacritic-insensitive Arabic and English search engine (`src/lib/arabic-search.ts`).
+  - Deep linking and URL query synchronization for single-book views (`?book=1`), custom bundles (`?bundle=1,2`), category filters (`?category=...`), and search queries (`?q=...`).
+- **Research Tools & Interactive Modals**:
+  - **3-Minute Summary Modal**: Rapid executive brief highlighting key findings, target audience, and 1-click citation copy.
+  - **Cover Zoom Modal**: High-fidelity cover inspection with keyboard navigation and aspect-ratio preservation.
+  - **Research Bundle Builder**: Custom selection of references with shareable bundle link generation.
+  - **APA Citation Generator**: Bilingual academic and administrative citation generation.
+  - **Integrated PDF Reader**: In-app modal PDF viewing with direct download fallback.
+  - **Firebase Community Ratings & Telemetry**: 5-star rating system with duplicate prevention and download counter synchronization via Firebase Modular SDK v13.0.0.
+- **Service Worker v33**:
+  - Upgraded to Service Worker `v33` with intelligent multi-tier caching.
+  - Network-first strategy for root navigations (`/`, `/index.html`) and catalog metadata (`books.json`).
+  - Cache-first strategy for immutable Vite bundles (`/bundles/*`), book covers (`/covers/*.png`), and icons.
+  - Automated activation cleanup purging obsolete legacy caches (including `v28` and `v32` Vanilla JS caches).
+- **Comprehensive Vitest Suite**:
+  - Added 81 unit and component tests across 8 test suites covering services, catalog query engine, hooks, i18n, modals, and library UI.
+  - Total automated tests across the repository increased to **518 tests** (81 Vitest + 19 Playwright + 418 Pytest).
+
+### Changed
+
+- **`index.html`**: Converted to modern Vite HTML entry point mounting `src/main.tsx`.
+- **`firebase.json`**: Updated hosting configuration to deploy from `dist/` with explicit security and cache-control headers.
+- **`README.md`**, **`AUDIT.md`**: Fully updated to document the React 19 architecture, test commands, and deployment verification.
+
+### Preserved
+
+- Complete 173-book catalog (`books.json`) and corresponding cover images (`covers/1.png` – `173.png`).
+- Legacy ES modules in `js/` and `app.js` preserved for regression auditing.
+- `migration.html` preserved as an isolated testbed entry point.
+- Zero breaking changes to public URLs, routing parameters, or citation formats.
 
 ---
 
@@ -124,5 +173,6 @@ during the September 2026 engineering audit (see `AUDIT.md`).
 
 ---
 
-[Unreleased]: https://github.com/zruuzr/IAR-Archive/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/zruuzr/IAR-Archive/compare/v2.0.0...HEAD
+[2.0.0]: https://github.com/zruuzr/IAR-Archive/compare/v1.0.0...v2.0.0
 [1.0.0]: https://github.com/zruuzr/IAR-Archive/releases/tag/v1.0.0

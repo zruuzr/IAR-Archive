@@ -2,10 +2,10 @@
 const { defineConfig, devices } = require('@playwright/test');
 
 /**
- * Playwright Configuration for IAR Archive
+ * Playwright Configuration for IAR Archive (React + Vite Application)
  *
- * يستخدم python http.server محليًا لتقديم الملفات الثابتة.
- * لا يحتاج Firebase — الاختبارات لا تعتمد على الشبكة الخارجية.
+ * Launches the local Vite server on port 8000 serving the main `index.html` entry point.
+ * Isolated from production Firebase writes via `navigator.webdriver` guard.
  */
 module.exports = defineConfig({
   testDir: './e2e',
@@ -23,35 +23,30 @@ module.exports = defineConfig({
   workers: process.env.CI ? 1 : undefined,
 
   // تقارير
-  reporter: process.env.CI
-    ? [['github'], ['list']]
-    : [['list']],
+  reporter: process.env.CI ? [['github'], ['list']] : [['list']],
 
   // إعدادات مشتركة
   use: {
-    baseURL: 'http://localhost:8000',
+    baseURL: 'http://127.0.0.1:8000',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
-    // منع Service Worker من التسجيل أثناء الاختبارات.
-    // السبب: SW يُطلق controllerchange → window.location.reload()
-    // مما يسبب flakiness في الاختبارات التي تقيس DOM بعد التحميل مباشرة.
-    serviceWorkers: 'block',
+    serviceWorkers: 'block'
   },
 
   // متصفح واحد — Chromium فقط (الأخف والأسرع)
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
-    },
+      use: { ...devices['Desktop Chrome'] }
+    }
   ],
 
-  // خادم محلي تلقائي
+  // خادم Vite للمعاينة لتقديم حزمة الإنتاج الفعلية في dist/
   webServer: {
-    command: 'python3 -m http.server 8000',
-    url: 'http://localhost:8000',
+    command: 'npx vite preview --host 127.0.0.1 --port 8000 --strictPort',
+    url: 'http://127.0.0.1:8000',
     reuseExistingServer: !process.env.CI,
-    timeout: 30_000,
-  },
+    timeout: 30_000
+  }
 });

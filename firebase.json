@@ -1,7 +1,7 @@
 {
   "hosting": {
     "target": "iararchive",
-    "public": ".",
+    "public": "dist",
     "ignore": [
       "firebase.json",
       ".firebaserc",
@@ -32,6 +32,13 @@
       "_headers",
       "pdf",
       "pdf/**",
+      "src",
+      "src/**",
+      "e2e",
+      "e2e/**",
+      "tests",
+      "tests/**",
+      "migration.html",
       "ai_cache",
       "ai_cache/**",
       "firestore.rules",
@@ -53,6 +60,15 @@
       ".idea/**"
     ],
     "headers": [
+      {
+        "source": "/index.html",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache, must-revalidate"
+          }
+        ]
+      },
       {
         "source": "/sw.js",
         "headers": [
@@ -81,20 +97,11 @@
         ]
       },
       {
-        "source": "/app.js",
+        "source": "/bundles/**",
         "headers": [
           {
             "key": "Cache-Control",
-            "value": "no-cache, must-revalidate"
-          }
-        ]
-      },
-      {
-        "source": "/style.css",
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "no-cache, must-revalidate"
+            "value": "public, max-age=31536000, immutable"
           }
         ]
       },
