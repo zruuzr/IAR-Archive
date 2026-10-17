@@ -368,10 +368,10 @@ end-to-end after the module split. Manual testing was one-shot.
 The Vanilla JavaScript architecture (14 ES modules) lacked compile-time type safety, component modularity, and atomic UI state management. As the catalog grew to 173 references and 114 granular categories, maintaining state synchronization across deep links, modals, ratings, and filters required modern declarative patterns and build optimization without sacrificing performance or offline capabilities.
 
 **Action (Phases 2.1 – 2.8):**
-1. **Phase 2.1 (Foundation):** Scaffolded React 19, TypeScript 5.8+, Vite 6, and Tailwind CSS v4 alongside Vitest.
+1. **Phase 2.1 (Foundation):** Scaffolded React 19, TypeScript 6.0.3, Vite 8.3.4, and Tailwind CSS v4 alongside Vitest.
 2. **Phase 2.2A–D (Core Services & Logic):**
    - Ported catalog normalization, asset resolution, and APA citation generation (`src/services/catalog.ts`).
-   - Modernized Firebase SDK to Modular Web SDK v11 (`src/services/firebase.ts`, `firebase-metrics.ts`, `firebase-ratings.ts`).
+   - Modernized Firebase SDK to Modular Web SDK v13.0.0 (`src/services/firebase.ts`, `firebase-metrics.ts`, `firebase-ratings.ts`).
    - Implemented streaming PDF download engine with cancellation and progress reporting (`src/services/download.ts`).
    - Created pure, diacritic-insensitive Arabic search and catalog query engine (`src/lib/arabic-search.ts`, `src/lib/catalog-query.ts`).
    - Encapsulated reactive state into custom hooks (`useLibraryState`, `useBookRatings`, `usePwaInstall`).

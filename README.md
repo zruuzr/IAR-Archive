@@ -10,8 +10,8 @@
 
 [![Hosted on Firebase](https://img.shields.io/badge/Hosted%20on-Firebase%20Hosting-orange?style=flat&logo=firebase)](https://iararchive.web.app/)
 [![React](https://img.shields.io/badge/React-19.3-61dafb?style=flat&logo=react)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.8%2B-blue?style=flat&logo=typescript)](https://www.typescriptlang.org/)
-[![Vite](https://img.shields.io/badge/Vite-6.x-646cff?style=flat&logo=vite)](https://vitejs.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-6.0.3-blue?style=flat&logo=typescript)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-8.3.4-646cff?style=flat&logo=vite)](https://vitejs.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-38b2ac?style=flat&logo=tailwindcss)](https://tailwindcss.com/)
 [![PWA](https://img.shields.io/badge/PWA-SW%20v33-blueviolet?style=flat&logo=pwa)](https://web.dev/progressive-web-apps/)
 [![References](https://img.shields.io/badge/References-173%20Indexed-gold?style=flat&logo=bookmeter)](books.json)
@@ -131,12 +131,12 @@ IAR Archive uses a modern, type-safe, and highly optimized frontend architecture
 | Layer               | Technology                                             |
 | ------------------- | ------------------------------------------------------ |
 | Frontend Framework  | React 19 (`react` + `react-dom` 19.3)                  |
-| Language & Tooling  | TypeScript 5.8+ with strict type checking              |
-| Build & Bundler     | Vite 6 (`@vitejs/plugin-react`, ES modules, chunking)  |
+| Language & Tooling  | TypeScript 6.0.3 with strict type checking             |
+| Build & Bundler     | Vite 8.3 (`@vitejs/plugin-react`, ES modules, chunking)|
 | Styling & UI Tokens | Tailwind CSS v4 (`@tailwindcss/vite`, modern `@theme`) |
 | UI Primitives       | Radix UI / shadcn-inspired components + Lucide Icons   |
-| Database            | Firebase Firestore (Modular SDK v11)                   |
-| Authentication      | Firebase Anonymous Authentication (Modular SDK v11)    |
+| Database            | Firebase Firestore (Modular SDK v13.0.0)               |
+| Authentication      | Firebase Anonymous Authentication (Modular SDK v13.0.0)|
 | Web Hosting         | Firebase Hosting (`iararchive` on `iar-archive-328bc`)  |
 | Document Delivery   | GitHub Raw CDN (direct streamed downloads & previews)  |
 | PDF Viewer          | In-app Modal PDF reader & direct reading fallback      |
@@ -163,7 +163,7 @@ The application is structured around a modular, reactive architecture that decou
         ┌────────────────────────────────┼────────────────────────────────┐
         ▼                                ▼                                ▼
   React Application              Firebase Services                 GitHub Actions
-  (Vite Bundled)             (Modular Web SDK v11)               (Continuous Delivery)
+  (Vite Bundled)             (Modular Web SDK v13)               (Continuous Delivery)
         │                                │                                │
   ┌─────┴──────────────────┐      ┌──────┴──────┐                  ┌──────┴──────┐
   │ Components & UI        │      │  Firestore  │                  │  Workflows  │
@@ -517,7 +517,7 @@ IAR-Archive/
 ├── sw.js                                # Service Worker v33 (App shell & bundle caching)
 ├── _headers                             # Security headers & cache control
 │
-├── vite.config.ts                       # Vite 6 configuration & bundle precache plugin
+├── vite.config.ts                       # Vite 8 configuration & bundle precache plugin
 ├── tsconfig.json                        # TypeScript strict configuration
 ├── tsconfig.app.json                    # Application compiler settings
 ├── tsconfig.node.json                   # Node/Vite compiler settings

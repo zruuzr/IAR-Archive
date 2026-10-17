@@ -29,7 +29,7 @@ and Vite, achieving 100% feature parity, complete catalog preservation, and zero
   - Component-driven modular architecture under `src/components/`, `src/hooks/`, `src/services/`, and `src/lib/`.
   - Reactive central state management via custom hooks (`useLibraryState`, `useBookRatings`, `usePwaInstall`).
   - Bilingual Context Provider (`I18nProvider`) supporting seamless, real-time Arabic (RTL) and English (LTR) transitions.
-- **Vite 6 & Tailwind CSS v4 Build System**:
+- **Vite 8 & Tailwind CSS v4 Build System**:
   - Lightning-fast dev server with Hot Module Replacement (HMR).
   - Modern CSS configuration using `@tailwindcss/vite` and CSS-first `@theme` design tokens.
   - Fingerprinted production bundling with automated asset hashing, code splitting, and sub-second build times.
@@ -45,7 +45,7 @@ and Vite, achieving 100% feature parity, complete catalog preservation, and zero
   - **Research Bundle Builder**: Custom selection of references with shareable bundle link generation.
   - **APA Citation Generator**: Bilingual academic and administrative citation generation.
   - **Integrated PDF Reader**: In-app modal PDF viewing with direct download fallback.
-  - **Firebase Community Ratings & Telemetry**: 5-star rating system with duplicate prevention and download counter synchronization via Firebase Modular SDK v11.
+  - **Firebase Community Ratings & Telemetry**: 5-star rating system with duplicate prevention and download counter synchronization via Firebase Modular SDK v13.0.0.
 - **Service Worker v33**:
   - Upgraded to Service Worker `v33` with intelligent multi-tier caching.
   - Network-first strategy for root navigations (`/`, `/index.html`) and catalog metadata (`books.json`).
