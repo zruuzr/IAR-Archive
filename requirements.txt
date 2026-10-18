@@ -12,7 +12,7 @@
 # Runtime
 google-genai~=2.25.0
 firecrawl-anydoc~=0.2.4   # provides the `anydoc` module
-pypdf~=6.19.0
+pypdf~=6.20.1
 groq~=1.7.0
 json-repair~=0.64.0   # optional: repairs truncated / damaged AI JSON answers
 
