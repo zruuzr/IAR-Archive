@@ -17,6 +17,6 @@ groq~=1.7.0
 json-repair~=0.64.0   # optional: repairs truncated / damaged AI JSON answers
 
 # Testing
-pytest~=8.3.0
+pytest~=9.1.1
 pytest-cov~=6.0.0
 pytest-mock~=3.14.0
