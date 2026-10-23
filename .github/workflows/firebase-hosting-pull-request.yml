@@ -41,3 +41,4 @@ jobs:
           projectId: iar-archive-328bc
           target: iararchive
           expires: 7d
+          firebaseToolsVersion: '15.34.0'

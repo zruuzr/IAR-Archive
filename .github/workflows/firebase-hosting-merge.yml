@@ -42,3 +42,4 @@ jobs:
           channelId: live
           projectId: iar-archive-328bc
           target: iararchive
+          firebaseToolsVersion: '15.34.0'
