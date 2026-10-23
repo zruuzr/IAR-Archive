@@ -59,7 +59,7 @@ export function SearchAndControls({
   onToggleFavoritesOnly,
   onResetFilters
 }: SearchAndControlsProps) {
-  const { t, translate, formatNumber } = useI18n();
+  const { lang, t, translate, formatNumber } = useI18n();
   const [draftQuery, setDraftQuery] = useState<string>(query);
 
   // Preserve spaces while typing, while automatically syncing if query is cleared/reset externally
@@ -273,13 +273,26 @@ export function SearchAndControls({
               title={t('viewWorkbenchAria')}
               onClick={() => onViewModeChange('workbench')}
               className={cn(
-                'inline-flex size-8.5 items-center justify-center rounded-md text-xs transition-colors focus-visible:outline-2 focus-visible:outline-ring',
+                'inline-flex h-8.5 items-center gap-1.5 px-2.5 rounded-md text-xs font-bold transition-colors focus-visible:outline-2 focus-visible:outline-ring cursor-pointer',
                 viewMode === 'workbench'
                   ? 'bg-primary text-primary-foreground shadow-2xs'
-                  : 'text-muted-foreground hover:text-foreground'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-muted/60'
               )}
             >
-              <Columns2 className="size-4" aria-hidden="true" />
+              <Columns2 className="size-4 shrink-0" aria-hidden="true" />
+              <span className="hidden sm:inline whitespace-nowrap">
+                {t('viewWorkbench')}
+              </span>
+              <span
+                className={cn(
+                  'text-[10px] px-1.5 py-0.2 rounded-full font-bold border transition-colors shrink-0',
+                  viewMode === 'workbench'
+                    ? 'bg-primary-foreground/20 text-primary-foreground border-primary-foreground/30'
+                    : 'bg-primary/15 text-primary border-primary/25'
+                )}
+              >
+                {lang === 'ar' ? 'جديد' : 'New'}
+              </span>
             </button>
           </div>
         </div>

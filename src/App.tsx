@@ -1,4 +1,4 @@
-import { AlertCircle, CheckCircle2, X } from 'lucide-react';
+import { AlertCircle, CheckCircle2, Columns2, X } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { CoverZoomDialog } from '@/components/features/CoverZoomDialog';
 import { DownloadProgressDialog } from '@/components/features/DownloadProgressDialog';
@@ -17,6 +17,7 @@ import { FeaturedSpotlight } from '@/components/library/FeaturedSpotlight';
 import { PaginationNav } from '@/components/library/PaginationNav';
 import { ScholarWorkbench } from '@/components/library/ScholarWorkbench';
 import { SearchAndControls } from '@/components/library/SearchAndControls';
+import { Button } from '@/components/ui/button';
 import { useBookDownload } from '@/hooks/useBookDownload';
 import { useCatalog, type UseCatalogOptions } from '@/hooks/useCatalog';
 import { useLibraryState } from '@/hooks/useLibraryState';
@@ -471,6 +472,47 @@ export function LibraryWorkspace({
                 activeCategory={category}
                 onSelectCategory={setCategory}
               />
+            )}
+
+            {/* Workbench Discovery Prompt (shown when in standard grid mode and catalog loaded) */}
+            {viewMode !== 'workbench' && loaded && !error && (
+              <div
+                data-testid="workbench-discovery-banner"
+                className="rounded-2xl border border-primary/35 bg-gradient-to-r from-primary/10 via-card to-card p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm"
+              >
+                <div className="flex items-start gap-3 min-w-0">
+                  <span className="p-2.5 rounded-xl bg-primary/15 text-primary shrink-0 shadow-2xs">
+                    <Columns2 className="size-5" aria-hidden="true" />
+                  </span>
+                  <div className="space-y-0.5 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="font-extrabold text-sm sm:text-base text-foreground">
+                        {lang === 'ar'
+                          ? 'محطة الباحث الأكاديمي المتزامنة'
+                          : "The Scholar's Dual-Pane Workbench"}
+                      </span>
+                      <span className="text-[10px] bg-primary/20 text-primary dark:text-primary-foreground font-bold px-2 py-0.5 rounded-full border border-primary/30">
+                        {lang === 'ar' ? 'نموذج جديد' : 'New Model'}
+                      </span>
+                    </div>
+                    <p className="text-xs text-muted-foreground leading-relaxed">
+                      {lang === 'ar'
+                        ? 'تصفح متزامن ثنائي الجناح مع ملخصات 3 دقائق، وتوثيق APA وBibTeX فوري، وملاحظات بحثية شخصية محفوظة.'
+                        : 'Dual-pane synchronised workspace with 3-minute summaries, live APA/BibTeX citations, and persistent research notes.'}
+                    </p>
+                  </div>
+                </div>
+
+                <Button
+                  type="button"
+                  onClick={() => setViewMode('workbench')}
+                  data-testid="launch-workbench-btn"
+                  className="w-full sm:w-auto shrink-0 gap-2 font-bold cursor-pointer"
+                >
+                  <Columns2 className="size-4" aria-hidden="true" />
+                  <span>{lang === 'ar' ? 'تشغيل المحطة الآن' : 'Launch Workbench'}</span>
+                </Button>
+              </div>
             )}
 
             {/* Main Reference Views: Workbench or Grid/List */}

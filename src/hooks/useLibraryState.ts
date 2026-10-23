@@ -31,6 +31,13 @@ export interface SavedLibrarySnapshot {
 
 export function readStoredViewMode(): ViewMode {
   try {
+    if (typeof window !== 'undefined' && window.location?.search) {
+      const params = new URLSearchParams(window.location.search);
+      const urlView = params.get('view');
+      if (urlView === 'workbench' || urlView === 'grid' || urlView === 'list') {
+        return urlView;
+      }
+    }
     const stored = localStorage.getItem(VIEW_MODE_STORAGE_KEY);
     if (stored === 'list' || stored === 'workbench') return stored;
     return 'grid';
@@ -296,16 +303,30 @@ export function useLibraryState({
     setPageState(1);
   }, []);
 
-  const setViewMode = useCallback((nextView: ViewMode) => {
-    const normalized: ViewMode =
-      nextView === 'list' || nextView === 'workbench' ? nextView : 'grid';
-    setViewModeState(normalized);
-    try {
-      localStorage.setItem(VIEW_MODE_STORAGE_KEY, normalized);
-    } catch {
-      // Ignore storage write errors
-    }
-  }, []);
+  const setViewMode = useCallback(
+    (nextView: ViewMode) => {
+      const normalized: ViewMode =
+        nextView === 'list' || nextView === 'workbench' ? nextView : 'grid';
+      setViewModeState(normalized);
+      try {
+        localStorage.setItem(VIEW_MODE_STORAGE_KEY, normalized);
+      } catch {
+        // Ignore storage write errors
+      }
+      if (syncUrl && typeof window !== 'undefined' && window.location && window.history) {
+        const url = new URL(window.location.href);
+        if (normalized === 'workbench') {
+          url.searchParams.set('view', 'workbench');
+        } else if (normalized === 'list') {
+          url.searchParams.set('view', 'list');
+        } else {
+          url.searchParams.delete('view');
+        }
+        window.history.replaceState({}, '', url.toString());
+      }
+    },
+    [syncUrl]
+  );
 
   const setFavoritesOnly = useCallback((enabled: boolean) => {
     setFavoritesOnlyState(Boolean(enabled));
