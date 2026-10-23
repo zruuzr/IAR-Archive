@@ -14,8 +14,8 @@
 [![Vite](https://img.shields.io/badge/Vite-8.3.4-646cff?style=flat&logo=vite)](https://vitejs.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-38b2ac?style=flat&logo=tailwindcss)](https://tailwindcss.com/)
 [![PWA](https://img.shields.io/badge/PWA-SW%20v33-blueviolet?style=flat&logo=pwa)](https://web.dev/progressive-web-apps/)
-[![References](https://img.shields.io/badge/References-173%20Indexed-gold?style=flat&logo=bookmeter)](books.json)
-[![Tests](https://img.shields.io/badge/Tests-518%20Passed-brightgreen?style=flat)](tests/)
+[![References](https://img.shields.io/badge/References-175%20Indexed-gold?style=flat&logo=bookmeter)](books.json)
+[![Tests](https://img.shields.io/badge/Tests-522%20Passed-brightgreen?style=flat)](tests/)
 [![License](https://img.shields.io/badge/License-Proprietary-red.svg)](LICENSE)
 [![Auto Process](https://github.com/zruuzr/IAR-Archive/actions/workflows/auto_process.yml/badge.svg)](https://github.com/zruuzr/IAR-Archive/actions/workflows/auto_process.yml)
 
@@ -35,7 +35,7 @@ IAR Archive provides structured reference metadata, concise summaries, APA-style
 
 The project aims to make administrative references easier to discover, understand, cite, and use by researchers, university students, administrative professionals, and executive managers.
 
-The repository currently indexes **173 administrative and academic references** (covering 1974–2026) organized across **14 core thematic pathways** (the foundational administrative domains) and navigated through **114 specific granular categories** with density filtering and an interactive directory, combining:
+The repository currently indexes **175 administrative and academic references** (covering 1974–2026) organized across **14 core thematic pathways** (the foundational administrative domains) and navigated through **114 specific granular categories** with density filtering and an interactive directory, combining:
 
 * Structured bibliographic metadata.
 * Concise reference summaries.
@@ -186,7 +186,7 @@ The application is structured around a modular, reactive architecture that decou
   │ • arabic-search.ts     │                                          books.json
   └─────┬──────────────────┘                                              │
         ▼                                                                 ▼
-   books.json (173 Indexed References) ─────────────────────────► GitHub Repository
+   books.json (175 Indexed References) ─────────────────────────► GitHub Repository
         │                                                                 │
         ▼                                                                 ▼
    GitHub Raw CDN ──────────────────────────────────────────────► PDF Documents
@@ -470,9 +470,9 @@ IAR-Archive/
 │
 ├── assets/
 │   └── logo.svg                         # Cuneiform Babylonian logo
-├── covers/                              # Reference covers (1.png – 173.png)
+├── covers/                              # Reference covers (1.png – 175.png)
 ├── icons/                               # PWA app icons and favicons
-├── pdf/                                 # 173 Reference PDF documents
+├── pdf/                                 # 175 Reference PDF documents
 │
 ├── src/                                 # React 19 + TypeScript Application
 │   ├── components/                      # Modular UI components
@@ -503,7 +503,7 @@ IAR-Archive/
 │   ├── test_validate_partial.py
 │   └── test_zip_safety.py
 │
-├── e2e/                                 # Playwright E2E browser tests (19 tests)
+├── e2e/                                 # Playwright E2E browser tests (23 tests)
 │   ├── home.spec.js
 │   ├── i18n.spec.js
 │   ├── routing.spec.js
@@ -512,7 +512,7 @@ IAR-Archive/
 ├── js/                                  # Preserved legacy Vanilla JS modules (reference & regression checks)
 ├── index.html                           # Application entry point (Vite mounts src/main.tsx)
 ├── migration.html                       # Migration test entry point (preserved)
-├── books.json                           # Indexed reference catalog (173 records)
+├── books.json                           # Indexed reference catalog (175 records)
 ├── manifest.json                        # PWA web app manifest
 ├── sw.js                                # Service Worker v33 (App shell & bundle caching)
 ├── _headers                             # Security headers & cache control
