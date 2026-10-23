@@ -215,10 +215,17 @@ describe('Phase 2.3A & 2.3B — Library UI, Reference Experience & Interactive M
     fireEvent.click(screen.getByTestId('clear-search-btn'));
     expect(screen.getByTestId('book-card-2')).toBeTruthy();
 
-    // Switch view mode between Grid and List
+    // Switch view mode between Grid, List, and Workbench
     const listBtn = screen.getByTestId('view-list-btn');
     fireEvent.click(listBtn);
     expect(screen.getByTestId('books-grid').getAttribute('data-view-mode')).toBe('list');
+
+    const workbenchBtn = screen.getByTestId('view-workbench-btn');
+    fireEvent.click(workbenchBtn);
+    expect(screen.getByTestId('books-grid').getAttribute('data-view-mode')).toBe(
+      'workbench'
+    );
+    expect(screen.getByTestId('workbench-inspector')).toBeTruthy();
   });
 
   it('wires favorites, research bundle bar, APA citation copy, PDF reader dialog, and single book details view', async () => {
