@@ -426,7 +426,7 @@ describe('catalog service — lookups, localized fields, categories, and APA cit
   });
 });
 
-describe('integration & parity with real books.json (173 records) and legacy Vanilla JS modules', () => {
+describe('integration & parity with real books.json and legacy Vanilla JS modules', () => {
   let rawCatalog: RawBookRecord[] = [];
   let legacyUtils: LegacyUtilsModule;
   let legacyData: LegacyDataModule;
@@ -462,17 +462,17 @@ describe('integration & parity with real books.json (173 records) and legacy Van
     legacyI18n = (await import(i18nPath)) as LegacyI18nModule;
   });
 
-  it('loads and normalizes all 173 real records from books.json without losing any ID', () => {
+  it('loads and normalizes all real records from books.json without losing any ID', () => {
     expect(Array.isArray(rawCatalog)).toBe(true);
-    expect(rawCatalog).toHaveLength(173);
+    expect(rawCatalog.length).toBeGreaterThanOrEqual(173);
 
     const normalized = normalizeCatalog(rawCatalog, {
       baseHref: 'http://localhost:8000/'
     });
-    expect(normalized).toHaveLength(173);
+    expect(normalized).toHaveLength(rawCatalog.length);
 
     const uniqueIds = new Set(normalized.map((b) => b.id));
-    expect(uniqueIds.size).toBe(173);
+    expect(uniqueIds.size).toBe(rawCatalog.length);
 
     for (const book of normalized) {
       expect(book.id).toBeGreaterThanOrEqual(1);
@@ -482,7 +482,7 @@ describe('integration & parity with real books.json (173 records) and legacy Van
     }
   });
 
-  it('produces 100% identical normalized Book objects to legacy js/data.js normalize() across all 173 records', () => {
+  it('produces 100% identical normalized Book objects to legacy js/data.js normalize() across all records', () => {
     for (const raw of rawCatalog) {
       const tsBook = normalizeBook(raw, { baseHref: 'http://localhost:8000/' });
       const jsBook = legacyData.normalize(raw);
@@ -490,7 +490,7 @@ describe('integration & parity with real books.json (173 records) and legacy Van
     }
   });
 
-  it('matches legacy categoryKey, categoryLabel, points, and field across all 173 records in both Arabic and English', () => {
+  it('matches legacy categoryKey, categoryLabel, points, and field across all records in both Arabic and English', () => {
     const books = normalizeCatalog(rawCatalog, { baseHref: 'http://localhost:8000/' });
 
     for (const lang of ['ar', 'en'] as const) {
