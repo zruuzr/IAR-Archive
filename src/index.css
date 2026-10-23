@@ -115,3 +115,57 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* ============================================================
+   Architectural & Editorial Utilities
+   ============================================================ */
+
+/* Subtle Mesopotamian Geometric Lattice Motif */
+.bg-mesopotamian-lattice {
+  background-image:
+    radial-gradient(ellipse at 50% 0%, rgba(158, 112, 41, 0.08), transparent 70%),
+    linear-gradient(to right, rgba(158, 112, 41, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(158, 112, 41, 0.035) 1px, transparent 1px);
+  background-size:
+    100% 100%,
+    32px 32px,
+    32px 32px;
+}
+
+.dark .bg-mesopotamian-lattice,
+[data-theme='dark'] .bg-mesopotamian-lattice {
+  background-image:
+    radial-gradient(ellipse at 50% 0%, rgba(212, 168, 96, 0.12), transparent 70%),
+    linear-gradient(to right, rgba(212, 168, 96, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(212, 168, 96, 0.04) 1px, transparent 1px);
+  background-size:
+    100% 100%,
+    32px 32px,
+    32px 32px;
+}
+
+/* Tactile 3D Book Spine & Elevation */
+.book-cover-tactile {
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.08),
+    0 4px 12px rgba(0, 0, 0, 0.05),
+    -3px 0 6px -1px rgba(0, 0, 0, 0.12);
+  transition:
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.3s ease;
+}
+
+.group:hover .book-cover-tactile {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow:
+    0 8px 24px -4px rgba(158, 112, 41, 0.18),
+    0 4px 12px rgba(0, 0, 0, 0.08),
+    -4px 0 8px -1px rgba(0, 0, 0, 0.15);
+}
+
+/* Glassmorphism Surface */
+.glass-surface {
+  background: color-mix(in srgb, var(--card) 85%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}

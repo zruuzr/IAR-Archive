@@ -122,7 +122,7 @@ export function CategoryPathways({
           aria-pressed={activeCategory === ALL_CATEGORIES_KEY}
           onClick={() => onSelectCategory(ALL_CATEGORIES_KEY)}
           className={cn(
-            'chip-item inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-semibold transition-colors cursor-pointer focus-visible:outline-2 focus-visible:outline-ring',
+            'chip-item inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-semibold transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xs cursor-pointer focus-visible:outline-2 focus-visible:outline-ring',
             activeCategory === ALL_CATEGORIES_KEY
               ? 'active border-primary bg-primary text-primary-foreground shadow-2xs'
               : 'border-border bg-card text-foreground hover:border-primary/50 hover:bg-secondary/70'
@@ -153,7 +153,7 @@ export function CategoryPathways({
               aria-pressed={isActive}
               onClick={() => onSelectCategory(isActive ? ALL_CATEGORIES_KEY : cat.key)}
               className={cn(
-                'chip-item inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-medium transition-colors cursor-pointer focus-visible:outline-2 focus-visible:outline-ring max-w-full',
+                'chip-item inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-medium transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xs cursor-pointer focus-visible:outline-2 focus-visible:outline-ring max-w-full',
                 isActive
                   ? 'active border-primary bg-primary text-primary-foreground shadow-2xs'
                   : 'border-border bg-card text-foreground/90 hover:border-primary/50 hover:bg-secondary/70'

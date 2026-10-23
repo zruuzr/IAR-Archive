@@ -85,10 +85,16 @@ export function BookCard({
       data-testid={`book-card-${book.id}`}
       data-book-id={book.id}
       className={cn(
-        'book-card group flex flex-col justify-between rounded-xl border border-border bg-card p-4 sm:p-5 text-card-foreground shadow-2xs transition-colors hover:border-primary/45',
+        'book-card group relative flex flex-col justify-between rounded-2xl border border-border/80 bg-card p-4 sm:p-5 text-card-foreground shadow-2xs transition-all duration-300 hover:-translate-y-1 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5',
         viewMode === 'list' && 'sm:flex-row sm:items-start sm:gap-5'
       )}
     >
+      {/* Subtle Golden Sheen on Hover */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 h-0.5 rounded-t-2xl bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+      />
+
       <div className={cn('flex-1 min-w-0 space-y-3.5')}>
         {/* Topline: Reference Type Badge & Bundle Toggle */}
         <div className="flex items-center justify-between gap-2">

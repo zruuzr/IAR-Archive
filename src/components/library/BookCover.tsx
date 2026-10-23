@@ -86,11 +86,20 @@ export function BookCover({
           </span>
         </span>
       )}
+      {/* Realistic Book Spine Highlight & Perimeter Sheen */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-y-0 start-0 w-2.5 bg-gradient-to-r from-black/25 via-white/10 to-transparent z-10"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 rounded-lg ring-1 ring-inset ring-black/10 dark:ring-white/10 z-10"
+      />
     </>
   );
 
   const containerClasses = cn(
-    'group/cover relative overflow-hidden rounded-lg border border-border bg-secondary/40 shadow-2xs shrink-0 aspect-[3/4]',
+    'group/cover book-cover-tactile relative overflow-hidden rounded-lg border border-border/80 bg-secondary/40 shrink-0 aspect-[3/4]',
     featured ? 'w-36 sm:w-44 md:w-48' : 'w-24 sm:w-28',
     className
   );

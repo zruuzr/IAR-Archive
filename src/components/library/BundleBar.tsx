@@ -80,7 +80,7 @@ export function BundleBar({ bundle, onCopyBundleUrl, onClearBundle }: BundleBarP
           role="region"
           aria-label={t('bundleCheckboxLabel')}
           data-testid="bundle-bar"
-          className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-primary/45 bg-card px-4 py-3 shadow-sm"
+          className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-primary/40 bg-card/95 backdrop-blur-md px-4 py-3.5 shadow-lg shadow-primary/10 ring-1 ring-primary/20 animate-in slide-in-from-bottom-2 duration-300"
         >
           <div className="flex items-center gap-2.5 text-xs sm:text-sm font-medium text-foreground">
             <span className="inline-flex size-7 items-center justify-center rounded-lg bg-primary/15 text-primary font-bold tabular-nums">

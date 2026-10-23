@@ -1,4 +1,4 @@
-import { Download, Globe, Heart, Moon, Sun, X } from 'lucide-react';
+import { Download, Globe, Heart, Moon, Search, Sun, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { UsePWAInstallReturn } from '@/hooks/usePWAInstall';
 import { useTheme } from '@/hooks/useTheme';
@@ -10,19 +10,21 @@ export interface SiteHeaderProps {
   favoritesCount: number;
   onToggleFavoritesOnly: () => void;
   onBrandClick?: () => void;
+  onOpenSpotlight?: () => void;
   pwa: UsePWAInstallReturn;
 }
 
 /**
  * Main sticky editorial header for IAR Archive.
- * Houses the institutional brand lockup, PWA install trigger, favorites filter toggle,
- * language switcher (AR/EN), and theme switcher (Light/Dark).
+ * Houses the institutional brand lockup, spotlight search trigger, PWA install trigger,
+ * favorites filter toggle, language switcher (AR/EN), and theme switcher (Light/Dark).
  */
 export function SiteHeader({
   favoritesOnly,
   favoritesCount,
   onToggleFavoritesOnly,
   onBrandClick,
+  onOpenSpotlight,
   pwa
 }: SiteHeaderProps) {
   const { t, translate, formatNumber, toggleLang } = useI18n();
@@ -31,7 +33,7 @@ export function SiteHeader({
   return (
     <header
       data-testid="site-header"
-      className="site-header sticky top-0 z-30 w-full border-b border-border bg-background/95 backdrop-blur-xs transition-colors"
+      className="site-header sticky top-0 z-40 w-full border-b border-border/80 bg-background/80 backdrop-blur-md transition-all shadow-xs"
     >
       <div className="mx-auto flex max-w-[1360px] items-center justify-between gap-2 px-3 py-3 sm:px-6 lg:px-8">
         {/* Brand Identity Lockup */}
@@ -91,6 +93,26 @@ export function SiteHeader({
 
         {/* Navigation & Utility Actions */}
         <div className="flex items-center gap-1 sm:gap-2 shrink-0">
+          {/* Spotlight Quick Search Trigger */}
+          {onOpenSpotlight && (
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              data-testid="header-spotlight-btn"
+              onClick={onOpenSpotlight}
+              aria-label={t('spotlightSearch')}
+              title={t('spotlightSearch')}
+              className="h-9 px-2.5 sm:px-3 text-xs font-medium text-muted-foreground hover:text-foreground"
+            >
+              <Search className="size-3.5 text-primary shrink-0" aria-hidden="true" />
+              <span className="hidden sm:inline">{t('searchShortcut')}</span>
+              <kbd className="hidden md:inline-flex items-center rounded border border-border bg-secondary/80 px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground ms-1">
+                ⌘K
+              </kbd>
+            </Button>
+          )}
+
           {!pwa.isInstalled && (
             <Button
               type="button"
