@@ -127,7 +127,11 @@ export function SearchAndControls({
             autoComplete="off"
             className="h-10 w-full rounded-lg border border-input bg-background ps-9 pe-9 text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-ring transition-colors"
           />
-          {inputValue.length > 0 && (
+          {inputValue.length === 0 ? (
+            <kbd className="pointer-events-none absolute top-1/2 -translate-y-1/2 end-3 hidden sm:inline-flex items-center rounded border border-border/80 bg-secondary/80 px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground shadow-2xs">
+              Ctrl + K
+            </kbd>
+          ) : (
             <button
               type="button"
               id="btnClearSearch"

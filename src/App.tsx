@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { CoverZoomDialog } from '@/components/features/CoverZoomDialog';
 import { DownloadProgressDialog } from '@/components/features/DownloadProgressDialog';
 import { PdfReaderDialog } from '@/components/features/PdfReaderDialog';
+import { SpotlightSearchDialog } from '@/components/features/SpotlightSearchDialog';
 import { SummaryDialog } from '@/components/features/SummaryDialog';
 import { HeroAcademic } from '@/components/layout/HeroAcademic';
 import { SiteFooter } from '@/components/layout/SiteFooter';
@@ -128,8 +129,21 @@ export function LibraryWorkspace({
   const [readerBook, setReaderBook] = useState<Book | null>(null);
   const [summaryBook, setSummaryBook] = useState<Book | null>(null);
   const [zoomCoverBook, setZoomCoverBook] = useState<Book | null>(null);
+  const [spotlightOpen, setSpotlightOpen] = useState<boolean>(false);
   const [toasts, setToasts] = useState<ToastNotice[]>([]);
   const toastIdRef = useRef<number>(0);
+
+  // Global keyboard shortcut: Ctrl+K or Cmd+K opens Spotlight Search
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setSpotlightOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   const pushToast = useCallback((message: string, isError = false) => {
     const id = ++toastIdRef.current;
@@ -345,6 +359,7 @@ export function LibraryWorkspace({
           toggleFavoritesOnly();
         }}
         onBrandClick={handleBrandClick}
+        onOpenSpotlight={() => setSpotlightOpen(true)}
         pwa={pwa}
       />
 
@@ -354,6 +369,14 @@ export function LibraryWorkspace({
         categoriesCount={categories.length}
         visitsCount={visitsCount}
         loaded={loaded}
+        onOpenSpotlight={() => setSpotlightOpen(true)}
+        onSelectKeyword={(kw) => {
+          if (singleBook || isInvalidBookParam) {
+            backToList();
+          }
+          setQuery(kw);
+          document.getElementById('controlsRow')?.scrollIntoView({ behavior: 'smooth' });
+        }}
       />
 
       {/* Main Library Content Area */}
@@ -544,6 +567,22 @@ export function LibraryWorkspace({
 
       {/* Streaming Download Progress Overlay */}
       <DownloadProgressDialog downloadState={downloadState} />
+
+      {/* Fast Spotlight Search Command Palette (Ctrl+K) */}
+      <SpotlightSearchDialog
+        open={spotlightOpen}
+        onOpenChange={setSpotlightOpen}
+        books={books}
+        categories={categories}
+        onSelectBook={handleOpenDetails}
+        onSelectCategory={(catKey) => {
+          if (singleBook || isInvalidBookParam) {
+            backToList();
+          }
+          setCategory(catKey);
+          document.getElementById('controlsRow')?.scrollIntoView({ behavior: 'smooth' });
+        }}
+      />
 
       {/* Accessible Toast Notification Host */}
       {toasts.length > 0 && (
