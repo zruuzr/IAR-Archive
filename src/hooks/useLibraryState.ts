@@ -17,7 +17,7 @@ import type {
 import { buildBookUrl, useBundle, type UseBundleReturn } from './useBundle';
 import { useFavorites, type UseFavoritesReturn } from './useFavorites';
 
-export type ViewMode = 'grid' | 'list';
+export type ViewMode = 'grid' | 'list' | 'workbench';
 
 export const VIEW_MODE_STORAGE_KEY = 'iar_view_mode';
 
@@ -31,7 +31,9 @@ export interface SavedLibrarySnapshot {
 
 export function readStoredViewMode(): ViewMode {
   try {
-    return localStorage.getItem(VIEW_MODE_STORAGE_KEY) === 'list' ? 'list' : 'grid';
+    const stored = localStorage.getItem(VIEW_MODE_STORAGE_KEY);
+    if (stored === 'list' || stored === 'workbench') return stored;
+    return 'grid';
   } catch {
     return 'grid';
   }
@@ -216,7 +218,9 @@ export function useLibraryState({
       setFavoritesOnlyState(saved.favoritesOnly);
     }
     if (typeof saved.view === 'string') {
-      setViewModeState(saved.view === 'list' ? 'list' : 'grid');
+      setViewModeState(
+        saved.view === 'list' || saved.view === 'workbench' ? saved.view : 'grid'
+      );
     }
     savedLibraryStateRef.current = null;
     return true;
@@ -262,7 +266,11 @@ export function useLibraryState({
     if (typeof window === 'undefined') return undefined;
     const handleStorage = (event: StorageEvent) => {
       if (event.key !== VIEW_MODE_STORAGE_KEY) return;
-      setViewModeState(event.newValue === 'list' ? 'list' : 'grid');
+      setViewModeState(
+        event.newValue === 'list' || event.newValue === 'workbench'
+          ? event.newValue
+          : 'grid'
+      );
     };
     window.addEventListener('storage', handleStorage);
     return () => window.removeEventListener('storage', handleStorage);
@@ -289,7 +297,8 @@ export function useLibraryState({
   }, []);
 
   const setViewMode = useCallback((nextView: ViewMode) => {
-    const normalized: ViewMode = nextView === 'list' ? 'list' : 'grid';
+    const normalized: ViewMode =
+      nextView === 'list' || nextView === 'workbench' ? nextView : 'grid';
     setViewModeState(normalized);
     try {
       localStorage.setItem(VIEW_MODE_STORAGE_KEY, normalized);
