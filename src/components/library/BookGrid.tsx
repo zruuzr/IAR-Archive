@@ -69,26 +69,30 @@ export function BookGrid({
         className="space-y-4"
       >
         <p className="sr-only">{t('txtLoading')}</p>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+        <div
+          className={cn(
+            'grid gap-5',
+            viewMode === 'list'
+              ? 'grid-cols-1'
+              : 'grid-cols-1 sm:grid-cols-2 xl:grid-cols-3'
+          )}
+        >
           {Array.from({ length: 6 }, (_, index) => (
             <div
               key={index}
-              className="flex flex-col justify-between rounded-xl border border-border bg-card p-5 shadow-2xs animate-pulse space-y-4"
+              className="flex flex-col justify-between rounded-2xl border border-slate-200 dark:border-border bg-white dark:bg-card p-5 doc-shadow animate-pulse space-y-4 min-h-[380px]"
             >
               <div className="flex items-center justify-between">
-                <div className="h-4 w-24 rounded-md bg-secondary" />
-                <div className="h-4 w-16 rounded-md bg-secondary" />
+                <div className="h-4 w-24 rounded-full bg-slate-200 dark:bg-slate-800" />
+                <div className="h-4 w-14 rounded-md bg-slate-200 dark:bg-slate-800" />
               </div>
-              <div className="flex gap-4">
-                <div className="h-32 w-24 shrink-0 rounded-lg bg-secondary" />
-                <div className="flex-1 space-y-2.5 py-1">
-                  <div className="h-3.5 w-20 rounded-sm bg-secondary" />
-                  <div className="h-5 w-full rounded-sm bg-secondary" />
-                  <div className="h-4 w-2/3 rounded-sm bg-secondary" />
-                  <div className="h-3.5 w-28 rounded-sm bg-secondary" />
-                </div>
+              <div className="mx-auto h-40 w-28 rounded-xl bg-slate-200 dark:bg-slate-800 shadow-sm" />
+              <div className="space-y-2 text-center">
+                <div className="mx-auto h-5 w-3/4 rounded-sm bg-slate-200 dark:bg-slate-800" />
+                <div className="mx-auto h-3.5 w-1/2 rounded-sm bg-slate-200 dark:bg-slate-800" />
+                <div className="mx-auto h-3 w-1/3 rounded-sm bg-slate-200 dark:bg-slate-800" />
               </div>
-              <div className="h-8 w-full rounded-md bg-secondary/70" />
+              <div className="h-8 w-full rounded-xl bg-slate-200 dark:bg-slate-800" />
             </div>
           ))}
         </div>
@@ -188,10 +192,10 @@ export function BookGrid({
         data-testid="books-grid"
         data-view-mode={viewMode}
         className={cn(
-          'grid gap-4 sm:gap-5',
+          'grid gap-4 sm:gap-5 items-stretch',
           viewMode === 'list'
             ? 'grid-cols-1'
-            : 'grid-cols-1 md:grid-cols-2 xl:grid-cols-3'
+            : 'grid-cols-1 sm:grid-cols-2 xl:grid-cols-3'
         )}
       >
         {books.map((book) => (
