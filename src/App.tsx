@@ -16,6 +16,8 @@ import { CategoryPathways } from '@/components/library/CategoryPathways';
 import { FeaturedSpotlight } from '@/components/library/FeaturedSpotlight';
 import { PaginationNav } from '@/components/library/PaginationNav';
 import { SearchAndControls } from '@/components/library/SearchAndControls';
+import { SovereignSidebar } from '@/components/library/SovereignSidebar';
+import { TYPE_FACETS } from '@/lib/sovereign-facets';
 import { useBookDownload } from '@/hooks/useBookDownload';
 import { useCatalog, type UseCatalogOptions } from '@/hooks/useCatalog';
 import { useLibraryState } from '@/hooks/useLibraryState';
@@ -132,6 +134,18 @@ export function LibraryWorkspace({
   const [spotlightOpen, setSpotlightOpen] = useState<boolean>(false);
   const [toasts, setToasts] = useState<ToastNotice[]>([]);
   const toastIdRef = useRef<number>(0);
+
+  // Sovereign Facet Filter States (Concept 1: البوابة السيادية الوطنية)
+  const [sidebarIssuer, setSidebarIssuer] = useState<string>('');
+  const [sidebarEra, setSidebarEra] = useState<string>('era_all');
+  const [sidebarType, setSidebarType] = useState<string>('type_all');
+
+  const handleResetAllFilters = useCallback(() => {
+    setSidebarIssuer('');
+    setSidebarEra('era_all');
+    setSidebarType('type_all');
+    resetFilters();
+  }, [resetFilters]);
 
   // Global keyboard shortcut: Ctrl+K or Cmd+K opens Spotlight Search
   useEffect(() => {
@@ -352,6 +366,7 @@ export function LibraryWorkspace({
       <SiteHeader
         favoritesOnly={favoritesOnly}
         favoritesCount={favorites.count}
+        booksCount={books.length}
         onToggleFavoritesOnly={() => {
           if (singleBook || isInvalidBookParam) {
             backToList();
@@ -369,6 +384,21 @@ export function LibraryWorkspace({
         categoriesCount={categories.length}
         visitsCount={visitsCount}
         loaded={loaded}
+        query={query}
+        category={category}
+        categories={categories}
+        onQueryChange={(q) => {
+          if (singleBook || isInvalidBookParam) {
+            backToList();
+          }
+          setQuery(q);
+        }}
+        onCategoryChange={(cat) => {
+          if (singleBook || isInvalidBookParam) {
+            backToList();
+          }
+          setCategory(cat);
+        }}
         onOpenSpotlight={() => setSpotlightOpen(true)}
         onSelectKeyword={(kw) => {
           if (singleBook || isInvalidBookParam) {
@@ -412,21 +442,112 @@ export function LibraryWorkspace({
             onBackToList={backToList}
           />
         ) : (
-          <>
-            {/* Research Bundle Bar & Shared Bundle Notice */}
-            <BundleBar
-              bundle={bundle}
-              onCopyBundleUrl={handleCopyBundleUrl}
-              onClearBundle={clearBundleAndReset}
-            />
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
+            {/* Left Facets Sidebar (National Archive Filter Tree) */}
+            <div className="lg:col-span-1">
+              <SovereignSidebar
+                books={books as Book[]}
+                activeCategory={category}
+                activeIssuer={sidebarIssuer}
+                activeEra={sidebarEra}
+                activeType={sidebarType}
+                onSelectCategory={setCategory}
+                onSelectIssuer={(issuer) => {
+                  setSidebarIssuer(issuer);
+                  setQuery(issuer);
+                }}
+                onSelectEra={(era) => {
+                  setSidebarEra(era);
+                }}
+                onSelectType={(type) => {
+                  setSidebarType(type);
+                  const found = TYPE_FACETS.find((t) => t.id === type);
+                  if (found && found.keyword) {
+                    setQuery(found.keyword);
+                  } else if (type === 'type_all') {
+                    setQuery('');
+                  }
+                }}
+                onResetFilters={handleResetAllFilters}
+              />
+            </div>
 
-            {/* Featured Spotlight Reference (only on default view Page 1) */}
-            {loaded && !error && catalogResult.spotlightBook && (
-              <FeaturedSpotlight
-                book={catalogResult.spotlightBook}
-                isFavorite={favorites.isFavorite(catalogResult.spotlightBook.id)}
-                isInBundle={bundle.isInBundle(catalogResult.spotlightBook.id)}
-                isDownloadBusy={downloadState.isBusy(catalogResult.spotlightBook.id)}
+            {/* Main Document Catalog Feed */}
+            <div className="lg:col-span-3 space-y-6 min-w-0">
+              {/* Research Bundle Bar & Shared Bundle Notice */}
+              <BundleBar
+                bundle={bundle}
+                onCopyBundleUrl={handleCopyBundleUrl}
+                onClearBundle={clearBundleAndReset}
+              />
+
+              {/* Featured Spotlight Reference (only on default view Page 1) */}
+              {loaded && !error && catalogResult.spotlightBook && (
+                <FeaturedSpotlight
+                  book={catalogResult.spotlightBook}
+                  isFavorite={favorites.isFavorite(catalogResult.spotlightBook.id)}
+                  isInBundle={bundle.isInBundle(catalogResult.spotlightBook.id)}
+                  isDownloadBusy={downloadState.isBusy(catalogResult.spotlightBook.id)}
+                  onRead={handleReadBook}
+                  onDownload={handleDownloadBook}
+                  onToggleFavorite={handleToggleFavorite}
+                  onToggleBundle={handleToggleBundle}
+                  onCopyCitation={(book) => {
+                    void handleCopyCitation(book);
+                  }}
+                  onOpenDetails={handleOpenDetails}
+                  onOpenSummary={handleOpenSummary}
+                  onZoomCover={handleZoomCover}
+                  onShare={(book) => {
+                    void handleShareBook(book);
+                  }}
+                  onRate={(bookId, stars) => {
+                    void handleRateBook(bookId, stars);
+                  }}
+                />
+              )}
+
+              {/* Search, Sort & View Controls */}
+              <SearchAndControls
+                query={query}
+                category={category}
+                sort={sort}
+                viewMode={viewMode}
+                favoritesOnly={favoritesOnly}
+                totalMatching={catalogResult.totalFiltered}
+                onQueryChange={setQuery}
+                onClearSearch={clearSearch}
+                onSortChange={setSort}
+                onViewModeChange={setViewMode}
+                onToggleFavoritesOnly={toggleFavoritesOnly}
+                onResetFilters={handleResetAllFilters}
+              />
+
+              {/* 114-Category Pathways & Searchable Directory */}
+              {loaded && !error && (
+                <CategoryPathways
+                  books={books}
+                  categories={categories}
+                  activeCategory={category}
+                  onSelectCategory={setCategory}
+                />
+              )}
+
+              {/* Main Reference Grid / List / Skeleton / Empty States */}
+              <BookGrid
+                books={catalogResult.pageBooks}
+                loading={loading}
+                error={error}
+                errorMessage={errorMessage}
+                viewMode={viewMode}
+                favoritesOnly={favoritesOnly}
+                favoritesSet={favorites.favoritesSet}
+                bundleSet={bundle.bundleSet}
+                isDownloadBusy={downloadState.isBusy}
+                onRetry={() => {
+                  void reload();
+                }}
+                onResetFilters={handleResetAllFilters}
                 onRead={handleReadBook}
                 onDownload={handleDownloadBook}
                 onToggleFavorite={handleToggleFavorite}
@@ -444,77 +565,18 @@ export function LibraryWorkspace({
                   void handleRateBook(bookId, stars);
                 }}
               />
-            )}
 
-            {/* Search, Sort & View Controls */}
-            <SearchAndControls
-              query={query}
-              category={category}
-              sort={sort}
-              viewMode={viewMode}
-              favoritesOnly={favoritesOnly}
-              totalMatching={catalogResult.totalFiltered}
-              onQueryChange={setQuery}
-              onClearSearch={clearSearch}
-              onSortChange={setSort}
-              onViewModeChange={setViewMode}
-              onToggleFavoritesOnly={toggleFavoritesOnly}
-              onResetFilters={resetFilters}
-            />
-
-            {/* 114-Category Pathways & Searchable Directory */}
-            {loaded && !error && (
-              <CategoryPathways
-                books={books}
-                categories={categories}
-                activeCategory={category}
-                onSelectCategory={setCategory}
-              />
-            )}
-
-            {/* Main Reference Grid / List / Skeleton / Empty States */}
-            <BookGrid
-              books={catalogResult.pageBooks}
-              loading={loading}
-              error={error}
-              errorMessage={errorMessage}
-              viewMode={viewMode}
-              favoritesOnly={favoritesOnly}
-              favoritesSet={favorites.favoritesSet}
-              bundleSet={bundle.bundleSet}
-              isDownloadBusy={downloadState.isBusy}
-              onRetry={() => {
-                void reload();
-              }}
-              onResetFilters={resetFilters}
-              onRead={handleReadBook}
-              onDownload={handleDownloadBook}
-              onToggleFavorite={handleToggleFavorite}
-              onToggleBundle={handleToggleBundle}
-              onCopyCitation={(book) => {
-                void handleCopyCitation(book);
-              }}
-              onOpenDetails={handleOpenDetails}
-              onOpenSummary={handleOpenSummary}
-              onZoomCover={handleZoomCover}
-              onShare={(book) => {
-                void handleShareBook(book);
-              }}
-              onRate={(bookId, stars) => {
-                void handleRateBook(bookId, stars);
-              }}
-            />
-
-            {/* Accessible Pagination */}
-            {loaded && !error && (
-              <PaginationNav
-                currentPage={catalogResult.currentPage}
-                totalPages={catalogResult.totalPages}
-                tokens={catalogResult.tokens}
-                onPageChange={handlePageChange}
-              />
-            )}
-          </>
+              {/* Accessible Pagination */}
+              {loaded && !error && (
+                <PaginationNav
+                  currentPage={catalogResult.currentPage}
+                  totalPages={catalogResult.totalPages}
+                  tokens={catalogResult.tokens}
+                  onPageChange={handlePageChange}
+                />
+              )}
+            </div>
+          </div>
         )}
       </main>
 

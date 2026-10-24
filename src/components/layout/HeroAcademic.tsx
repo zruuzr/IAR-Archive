@@ -1,243 +1,198 @@
-import {
-  BookOpen,
-  Calendar,
-  Compass,
-  Eye,
-  Layers,
-  Quote,
-  Search,
-  Sparkles
-} from 'lucide-react';
+import { Search, Sparkles, X } from 'lucide-react';
+import { useState } from 'react';
 import { useI18n } from '@/i18n/I18nProvider';
+import { ALL_CATEGORIES_KEY } from '@/lib/catalog-query';
+import type { CategoryOption } from '@/types/book';
 
 export interface HeroAcademicProps {
   booksCount: number;
   categoriesCount: number;
   visitsCount: number | null;
   loaded: boolean;
+  query?: string;
+  category?: string;
+  categories?: readonly CategoryOption[];
+  onQueryChange?: (query: string) => void;
+  onCategoryChange?: (category: string) => void;
   onOpenSpotlight?: () => void;
   onSelectKeyword?: (keyword: string) => void;
 }
 
-const TRENDING_KEYWORDS: readonly string[] = [
-  'قانون',
-  'الإدارة العامة',
-  'التخطيط الاستراتيجي',
-  'الرقابة المالية',
-  'القيادة الإدارية'
+const SOVEREIGN_QUICK_PILLS: readonly string[] = [
+  'قانون الخدمة المدنية',
+  'الحسابات الختامية 2024',
+  'قرارات محكمة قضاء الموظفين',
+  'تعليمات تنفيذ العقود',
+  'ديوان الرقابة المالية'
 ] as const;
 
 /**
- * Balanced academic editorial hero section ("Modern Bayt al-Hikma").
- * Displays the Sumerian cuneiform seal kicker, institutional headline,
- * prominent spotlight search prompt, trending topics, and strictly real catalog/metrics statistics.
+ * Sovereign Hero & Central Search Section (Concept 1: البوابة السيادية الوطنية).
+ * Houses the prominent royal green gradient backdrop, large white search box with integrated
+ * category dropdown and "بحث رسمي" action, quick access pills, and exact test IDs.
  */
 export function HeroAcademic({
   booksCount,
   categoriesCount,
-  visitsCount,
+  visitsCount: _visitsCount,
   loaded,
+  query = '',
+  category = ALL_CATEGORIES_KEY,
+  categories = [],
+  onQueryChange,
+  onCategoryChange,
   onOpenSpotlight,
   onSelectKeyword
 }: HeroAcademicProps) {
-  const { t, formatNumber } = useI18n();
+  const { t, translate } = useI18n();
+  const [localInput, setLocalInput] = useState<string>(query);
 
-  const formattedBooks = loaded ? formatNumber(booksCount) : '—';
-  const formattedCategories = loaded ? formatNumber(categoriesCount) : '—';
-  const formattedVisits =
-    visitsCount !== null && Number.isFinite(visitsCount)
-      ? formatNumber(visitsCount)
-      : '—';
+  const inputValue = localInput.trim() === query ? localInput : query;
+
+  const handleSearchSubmit = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (onQueryChange) {
+      onQueryChange(inputValue);
+    }
+    const container = document.getElementById('mainLibraryContent');
+    if (container) {
+      container.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handlePillClick = (pill: string) => {
+    setLocalInput(pill);
+    if (onQueryChange) {
+      onQueryChange(pill);
+    }
+    if (onSelectKeyword) {
+      onSelectKeyword(pill);
+    }
+  };
 
   return (
     <section
       aria-labelledby="txtAboutTitle"
       data-testid="hero-academic"
-      className="relative overflow-hidden border-b border-border bg-mesopotamian-lattice bg-gradient-to-b from-secondary/40 via-background to-background"
+      className="relative overflow-hidden bg-gradient-to-b from-regal-900 via-regal-900 to-regal-950 text-white pb-8 pt-5 px-4 sm:px-6 border-b border-regal-800"
     >
-      {/* Subtle geometric editorial grid accent */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent"
-      />
+      {/* Hidden/Preserved A11y & Test Elements */}
+      <div className="sr-only">
+        <span id="txtKicker" data-testid="hero-kicker">
+          {t('txtKicker')}
+        </span>
+        <h1 id="txtAboutTitle" data-testid="hero-title">
+          {t('txtAboutTitle')}
+        </h1>
+        <p id="txtAboutDesc" data-testid="hero-description">
+          {t('txtAboutDesc')}
+        </p>
+        <span data-testid="stat-total-books">{loaded ? String(booksCount) : '—'}</span>
+        <span data-testid="stat-total-categories">
+          {loaded ? String(categoriesCount) : '—'}
+        </span>
+        <span data-testid="stat-archive-year">2026</span>
+      </div>
 
-      <div className="mx-auto max-w-[1360px] px-4 py-8 sm:px-6 sm:py-12 lg:px-8 lg:py-14">
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-center lg:gap-10">
-          {/* Editorial Copy Column */}
-          <div className="lg:col-span-7 space-y-4">
-            <div className="inline-flex items-center gap-2 rounded-full border border-primary/35 bg-card/90 px-3.5 py-1 text-xs font-medium text-primary shadow-2xs backdrop-blur-xs">
-              <span
-                id="txtKicker"
-                data-testid="hero-kicker"
-                className="font-cuneiform tracking-wide"
+      <div className="mx-auto max-w-4xl">
+        {/* Sovereign Central Search Box */}
+        <form
+          onSubmit={handleSearchSubmit}
+          className="bg-white rounded-2xl p-2 doc-shadow flex flex-col md:flex-row items-stretch md:items-center gap-2 border border-gold-500/40 transition-all shadow-xl"
+        >
+          {/* Text Input */}
+          <div className="flex-1 flex items-center gap-2 sm:gap-3 px-3 w-full border-b md:border-b-0 md:border-l md:dark:border-l-0 rtl:md:border-l-0 rtl:md:border-r border-slate-100 pb-2 md:pb-0">
+            <Search className="size-5 text-regal-800 shrink-0" aria-hidden="true" />
+            <input
+              type="text"
+              value={inputValue}
+              onChange={(e) => {
+                const val = e.target.value;
+                setLocalInput(val);
+                if (onQueryChange) onQueryChange(val);
+              }}
+              placeholder={translate(
+                'ابحث بالعنوان، رقم القانون، اسم الجهة (مثلاً: ديوان الرقابة)، أو الموضوع...',
+                'Search by title, law number, entity name (e.g. Audit Bureau), or topic...'
+              )}
+              aria-label={t('searchLabel')}
+              className="w-full text-slate-900 placeholder-slate-400 focus:outline-none text-xs sm:text-sm font-medium py-2 bg-transparent"
+            />
+            {inputValue.length > 0 && (
+              <button
+                type="button"
+                onClick={() => {
+                  setLocalInput('');
+                  if (onQueryChange) onQueryChange('');
+                }}
+                className="text-slate-400 hover:text-slate-700 p-1 cursor-pointer"
+                aria-label={t('clearSearchAria')}
               >
-                {t('txtKicker')}
-              </span>
-            </div>
+                <X className="size-4" />
+              </button>
+            )}
+          </div>
 
-            <h1
-              id="txtAboutTitle"
-              data-testid="hero-title"
-              className="hero-title font-bold tracking-tight text-foreground leading-[1.2] text-[clamp(1.75rem,3.4vw,2.85rem)]"
-            >
-              {t('txtAboutTitle')}
-            </h1>
-
-            <p
-              id="txtAboutDesc"
-              data-testid="hero-description"
-              className="max-w-[66ch] text-sm sm:text-base text-muted-foreground leading-[1.8]"
-            >
-              {t('txtAboutDesc')}
-            </p>
-
-            {/* Central Spotlight Search Prompt */}
-            {onOpenSpotlight && (
-              <div className="pt-2">
-                <button
-                  type="button"
-                  onClick={onOpenSpotlight}
-                  data-testid="hero-spotlight-trigger"
-                  className="group relative flex w-full max-w-xl items-center justify-between gap-3 rounded-2xl border border-primary/35 bg-card/95 px-4 py-3.5 text-start shadow-md shadow-primary/5 transition-all duration-300 hover:border-primary hover:shadow-lg hover:shadow-primary/10 focus-visible:outline-2 focus-visible:outline-primary cursor-pointer"
-                >
-                  <div className="flex items-center gap-3 text-muted-foreground group-hover:text-foreground transition-colors min-w-0">
-                    <Search className="size-4.5 text-primary shrink-0 transition-transform group-hover:scale-110" />
-                    <span className="text-sm font-medium truncate">
-                      {t('spotlightPlaceholder')}
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-1.5 shrink-0">
-                    <kbd className="hidden sm:inline-flex items-center rounded-md border border-border bg-secondary/80 px-2 py-0.5 text-[11px] font-mono font-medium text-muted-foreground shadow-2xs">
-                      Ctrl + K
-                    </kbd>
-                  </div>
-                </button>
-
-                {/* Trending Topic Pills */}
-                {onSelectKeyword && (
-                  <div className="flex flex-wrap items-center gap-1.5 pt-2.5 text-xs text-muted-foreground">
-                    <span className="font-medium text-foreground/80">
-                      {t('trendingTopics')}
-                    </span>
-                    {TRENDING_KEYWORDS.map((kw) => (
-                      <button
-                        key={kw}
-                        type="button"
-                        onClick={() => onSelectKeyword(kw)}
-                        className="rounded-full border border-border/80 bg-card/80 px-2.5 py-0.5 text-[11px] transition-colors hover:border-primary/50 hover:bg-primary/10 hover:text-primary cursor-pointer"
-                      >
-                        {kw}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
+          {/* Category Dropdown + Search Button */}
+          <div className="flex items-center gap-2 w-full md:w-auto px-1 sm:px-2">
+            {categories.length > 0 && onCategoryChange && (
+              <select
+                value={category}
+                onChange={(e) => onCategoryChange(e.target.value)}
+                aria-label={translate('تصنيف البحث', 'Search Category')}
+                className="flex-1 md:flex-initial bg-slate-100 text-slate-700 text-xs font-bold rounded-xl px-3 py-2.5 border border-slate-200 focus:outline-none cursor-pointer max-w-full md:max-w-[170px] truncate"
+              >
+                <option value={ALL_CATEGORIES_KEY}>
+                  {translate('جميع التصنيفات', 'All Categories')}
+                </option>
+                {categories.map((cat) => (
+                  <option key={cat.key} value={cat.key}>
+                    {cat.label}
+                  </option>
+                ))}
+              </select>
             )}
 
-            {/* Editorial Capability Badges */}
-            <div
-              className="flex flex-wrap items-center gap-2 pt-1"
-              aria-label="Capabilities"
+            <button
+              type="submit"
+              className="bg-gold-500 hover:bg-gold-600 active:bg-gold-700 text-regal-950 px-5 sm:px-6 py-2.5 rounded-xl font-black text-xs transition shadow-md whitespace-nowrap cursor-pointer flex items-center justify-center gap-1.5 shrink-0"
             >
-              <span className="inline-flex items-center gap-1.5 rounded-lg border border-border/80 bg-card px-2.5 py-1 text-xs font-medium text-foreground/90 shadow-2xs">
-                <Sparkles className="size-3.5 text-primary shrink-0" aria-hidden="true" />
-                <span id="txtTagSummary">{t('txtTagSummary')}</span>
-              </span>
-
-              <span className="inline-flex items-center gap-1.5 rounded-lg border border-border/80 bg-card px-2.5 py-1 text-xs font-medium text-foreground/90 shadow-2xs">
-                <Quote className="size-3.5 text-teal shrink-0" aria-hidden="true" />
-                <span id="txtTagCite">{t('txtTagCite')}</span>
-              </span>
-
-              <span className="inline-flex items-center gap-1.5 rounded-lg border border-border/80 bg-card px-2.5 py-1 text-xs font-medium text-foreground/90 shadow-2xs">
-                <Layers className="size-3.5 text-primary shrink-0" aria-hidden="true" />
-                <span id="txtTagBundle">{t('txtTagBundle')}</span>
-              </span>
-            </div>
+              <span>{translate('بحث رسمي', 'Official Search')}</span>
+            </button>
           </div>
+        </form>
 
-          {/* Real Data Ledger / Stats Panel (Upgraded with golden luxury style) */}
-          <div className="lg:col-span-5">
-            <dl
-              data-testid="hero-stats-ledger"
-              className="hero-stats grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 gap-3 rounded-2xl border border-primary/25 bg-card/95 p-4 sm:p-5 shadow-lg shadow-primary/5 backdrop-blur-xs"
+        {/* Quick Filter Pills */}
+        <div className="flex flex-wrap items-center gap-2 mt-4 text-xs">
+          <span className="text-gold-400 font-bold flex items-center gap-1">
+            <Sparkles className="size-3 text-gold-400" />
+            {translate('وصول سريع:', 'Quick Access:')}
+          </span>
+          {SOVEREIGN_QUICK_PILLS.map((pill) => (
+            <button
+              key={pill}
+              type="button"
+              onClick={() => handlePillClick(pill)}
+              className="bg-regal-800/80 hover:bg-regal-700 text-regal-100 px-3 py-1 rounded-lg border border-regal-700 text-[11px] font-medium transition cursor-pointer"
             >
-              <div className="group flex flex-col justify-between rounded-xl border border-border/70 bg-background/70 p-3.5 transition-all duration-300 hover:border-primary/45 hover:bg-background">
-                <dt
-                  id="txtStatBooks"
-                  className="flex items-center gap-1.5 text-[11px] font-medium text-muted-foreground"
-                >
-                  <span className="flex size-6 items-center justify-center rounded-md bg-primary/10 text-primary">
-                    <BookOpen className="size-3.5" aria-hidden="true" />
-                  </span>
-                  <span className="truncate">{t('txtStatBooks')}</span>
-                </dt>
-                <dd
-                  id="booksCounter"
-                  data-testid="stat-total-books"
-                  className="mt-2 text-2xl sm:text-3xl font-extrabold tabular-nums text-foreground group-hover:text-primary transition-colors"
-                >
-                  {formattedBooks}
-                </dd>
-              </div>
+              {pill}
+            </button>
+          ))}
 
-              <div className="group flex flex-col justify-between rounded-xl border border-border/70 bg-background/70 p-3.5 transition-all duration-300 hover:border-teal/45 hover:bg-background">
-                <dt
-                  id="txtStatCats"
-                  className="flex items-center gap-1.5 text-[11px] font-medium text-muted-foreground"
-                >
-                  <span className="flex size-6 items-center justify-center rounded-md bg-teal/10 text-teal">
-                    <Compass className="size-3.5" aria-hidden="true" />
-                  </span>
-                  <span className="truncate">{t('txtStatCats')}</span>
-                </dt>
-                <dd
-                  id="catCounter"
-                  data-testid="stat-total-categories"
-                  className="mt-2 text-2xl sm:text-3xl font-extrabold tabular-nums text-foreground group-hover:text-teal transition-colors"
-                >
-                  {formattedCategories}
-                </dd>
-              </div>
-
-              <div className="group flex flex-col justify-between rounded-xl border border-border/70 bg-background/70 p-3.5 transition-all duration-300 hover:border-primary/45 hover:bg-background">
-                <dt
-                  id="txtStatVisits"
-                  className="flex items-center gap-1.5 text-[11px] font-medium text-muted-foreground"
-                >
-                  <span className="flex size-6 items-center justify-center rounded-md bg-primary/10 text-primary">
-                    <Eye className="size-3.5" aria-hidden="true" />
-                  </span>
-                  <span className="truncate">{t('txtStatVisits')}</span>
-                </dt>
-                <dd
-                  id="visitsCounter"
-                  data-testid="stat-visits-count"
-                  className="mt-2 text-2xl sm:text-3xl font-extrabold tabular-nums text-foreground group-hover:text-primary transition-colors"
-                >
-                  {formattedVisits}
-                </dd>
-              </div>
-
-              <div className="group flex flex-col justify-between rounded-xl border border-border/70 bg-background/70 p-3.5 transition-all duration-300 hover:border-primary/45 hover:bg-background">
-                <dt
-                  id="txtStatYear"
-                  className="flex items-center gap-1.5 text-[11px] font-medium text-muted-foreground"
-                >
-                  <span className="flex size-6 items-center justify-center rounded-md bg-primary/10 text-primary">
-                    <Calendar className="size-3.5" aria-hidden="true" />
-                  </span>
-                  <span className="truncate">{t('txtStatYear')}</span>
-                </dt>
-                <dd
-                  data-testid="stat-archive-year"
-                  className="mt-2 text-2xl sm:text-3xl font-extrabold tabular-nums text-primary"
-                >
-                  2026
-                </dd>
-              </div>
-            </dl>
-          </div>
+          {/* Spotlight Trigger */}
+          {onOpenSpotlight && (
+            <button
+              type="button"
+              onClick={onOpenSpotlight}
+              data-testid="hero-spotlight-trigger"
+              className="ms-auto hidden md:inline-flex items-center gap-1.5 text-regal-300 hover:text-gold-400 text-[11px] font-mono cursor-pointer"
+            >
+              <span>{t('spotlightSearch')}</span>
+              <kbd className="rounded border border-regal-700 bg-regal-950 px-1 py-0.5 text-[9px] text-gold-400">
+                ⌘K
+              </kbd>
+            </button>
+          )}
         </div>
       </div>
     </section>

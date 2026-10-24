@@ -67,19 +67,24 @@ export function SearchAndControls({
       className="mb-5 space-y-3"
     >
       {/* Section Header & Results Counter */}
-      <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <div className="flex items-center gap-2.5">
-          <h2
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white dark:bg-card p-4 rounded-2xl border border-slate-200 dark:border-border doc-shadow">
+        <div className="flex items-center gap-2.5 text-xs text-slate-600 dark:text-slate-400">
+          <span
+            className="font-bold text-sm text-regal-900 dark:text-gold-400"
             id="txtLibraryTitle"
-            className="text-lg sm:text-xl font-bold tracking-tight text-foreground"
           >
             {t('txtLibraryTitle')}
-          </h2>
-          <span
-            data-testid="results-counter"
-            className="inline-flex items-center rounded-full border border-border bg-secondary/75 px-2.5 py-0.5 text-xs font-semibold tabular-nums text-secondary-foreground"
-          >
-            {formatNumber(totalMatching)}
+          </span>
+          <span>•</span>
+          <span>
+            {translate('يتم عرض', 'Displaying')}{' '}
+            <strong
+              data-testid="results-counter"
+              className="text-slate-900 dark:text-white font-mono font-bold"
+            >
+              {formatNumber(totalMatching)}
+            </strong>{' '}
+            {translate('وثيقة ومجلد رسمي', 'official documents')}
           </span>
         </div>
 
@@ -93,7 +98,7 @@ export function SearchAndControls({
               setDraftQuery('');
               onResetFilters();
             }}
-            className="text-xs text-primary hover:text-primary"
+            className="text-xs text-regal-800 dark:text-gold-400 hover:text-gold-600 font-bold"
           >
             <RotateCcw className="size-3 shrink-0" aria-hidden="true" />
             <span>{t('resetFilters')}</span>
@@ -102,7 +107,7 @@ export function SearchAndControls({
       </div>
 
       {/* Main Search & Control Bar */}
-      <div className="grid grid-cols-1 gap-2.5 md:grid-cols-12 md:items-center rounded-xl border border-border bg-card p-3 shadow-2xs">
+      <div className="grid grid-cols-1 gap-2.5 md:grid-cols-12 md:items-center rounded-2xl border border-slate-200 dark:border-border bg-white dark:bg-card p-3 doc-shadow">
         {/* Search Input */}
         <div className="relative md:col-span-6 lg:col-span-7">
           <label htmlFor="searchInput" className="sr-only">

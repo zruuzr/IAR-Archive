@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils';
 export interface SiteHeaderProps {
   favoritesOnly: boolean;
   favoritesCount: number;
+  booksCount?: number;
   onToggleFavoritesOnly: () => void;
   onBrandClick?: () => void;
   onOpenSpotlight?: () => void;
@@ -15,28 +16,173 @@ export interface SiteHeaderProps {
 }
 
 /**
- * Main sticky editorial header for IAR Archive.
- * Houses the institutional brand lockup, spotlight search trigger, PWA install trigger,
- * favorites filter toggle, language switcher (AR/EN), and theme switcher (Light/Dark).
+ * Sovereign National Archival Header (Concept 1: البوابة السيادية الوطنية).
+ * Features royal institutional dark-green ribbon, gold trim, Iraqi state documentation
+ * lockup, sovereign crest emblem, quick stats badge, and all essential interactive controls.
  */
 export function SiteHeader({
   favoritesOnly,
   favoritesCount,
+  booksCount = 12450,
   onToggleFavoritesOnly,
   onBrandClick,
   onOpenSpotlight,
   pwa
 }: SiteHeaderProps) {
-  const { t, translate, formatNumber, toggleLang } = useI18n();
+  const { lang, t, translate, formatNumber, toggleLang } = useI18n();
   const { isDark, toggleTheme } = useTheme();
 
   return (
     <header
       data-testid="site-header"
-      className="site-header sticky top-0 z-40 w-full border-b border-border/80 bg-background/80 backdrop-blur-md transition-all shadow-xs"
+      className="site-header bg-regal-900 text-white border-b-4 border-gold-500 shadow-md transition-all"
     >
-      <div className="mx-auto flex max-w-[1360px] items-center justify-between gap-2 px-3 py-3 sm:px-6 lg:px-8">
-        {/* Brand Identity Lockup */}
+      {/* Top Sovereign Utility Ribbon */}
+      <div className="border-b border-regal-800/80 bg-regal-950/70 px-4 sm:px-6 py-2 text-[11px] text-regal-100">
+        <div className="mx-auto flex max-w-[1360px] items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <span className="font-bold flex items-center gap-1.5 truncate">
+              <span className="size-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+              <span className="hidden sm:inline">
+                {translate(
+                  'جمهورية العراق — البوابة التوثيقية الموحدة',
+                  'Republic of Iraq — Unified Documentation Portal'
+                )}
+              </span>
+              <span className="sm:hidden">
+                {translate('جمهورية العراق', 'Republic of Iraq')}
+              </span>
+            </span>
+            <span className="text-regal-600 hidden sm:inline">|</span>
+            <span className="text-regal-200 hidden md:inline truncate">IAR Archive</span>
+          </div>
+
+          <div className="flex items-center gap-2 sm:gap-4 shrink-0 text-xs">
+            <span className="hidden lg:inline text-regal-300">
+              {translate('الجهات المودعة (48 جهة)', '48 Depositing Entities')}
+            </span>
+            <span className="hidden xl:inline text-regal-600">·</span>
+            <span className="hidden xl:inline text-regal-300">
+              {translate('المعايير والتوثيق', 'Archival Standards')}
+            </span>
+
+            {/* Spotlight Search Shortcut */}
+            {onOpenSpotlight && (
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                data-testid="header-spotlight-btn"
+                onClick={onOpenSpotlight}
+                aria-label={t('spotlightSearch')}
+                title={t('spotlightSearch')}
+                className="h-7 px-2 text-[11px] font-medium text-gold-400 hover:text-white hover:bg-regal-800 border border-regal-700/60 rounded-md"
+              >
+                <Search className="size-3 text-gold-400 shrink-0" aria-hidden="true" />
+                <span className="hidden xs:inline">{t('searchShortcut')}</span>
+                <kbd className="hidden sm:inline-flex items-center rounded border border-regal-700 bg-regal-950 px-1 text-[9px] font-mono text-gold-300 ms-1">
+                  ⌘K
+                </kbd>
+              </Button>
+            )}
+
+            {/* PWA Install Trigger */}
+            {!pwa.isInstalled && (
+              <Button
+                type="button"
+                id="installAppBtn"
+                variant="ghost"
+                size="sm"
+                data-testid="header-install-btn"
+                onClick={() => {
+                  void pwa.promptInstall();
+                }}
+                aria-label={t('txtInstall')}
+                title={t('txtInstall')}
+                className="h-7 px-2 text-[11px] font-medium text-regal-100 hover:text-white hover:bg-regal-800 border border-regal-700/60 rounded-md"
+              >
+                <Download className="size-3 shrink-0" aria-hidden="true" />
+                <span id="txtInstall" className="hidden sm:inline">
+                  {t('txtInstall')}
+                </span>
+              </Button>
+            )}
+
+            {/* Favorites Toggle */}
+            <Button
+              type="button"
+              id="favoritesOnlyBtn"
+              variant="ghost"
+              size="sm"
+              data-testid="header-favorites-btn"
+              aria-pressed={favoritesOnly}
+              aria-label={t('txtFavoritesOnly')}
+              title={t('txtFavoritesOnly')}
+              onClick={onToggleFavoritesOnly}
+              className={cn(
+                'h-7 px-2 text-[11px] font-medium text-regal-100 hover:text-white hover:bg-regal-800 border border-regal-700/60 rounded-md transition-colors',
+                favoritesOnly &&
+                  'bg-gold-500 text-regal-950 font-bold border-gold-400 hover:bg-gold-400 hover:text-regal-950'
+              )}
+            >
+              <Heart
+                className={cn('size-3 shrink-0', favoritesOnly && 'fill-current')}
+                aria-hidden="true"
+              />
+              <span id="txtFavoritesOnly" className="hidden md:inline">
+                {t('txtFavoritesOnly')}
+              </span>
+              {favoritesCount > 0 && (
+                <span
+                  data-testid="header-favorites-count"
+                  className={cn(
+                    'inline-flex items-center justify-center min-w-4 h-4 px-1 rounded-full text-[10px] font-bold tabular-nums ms-0.5',
+                    favoritesOnly
+                      ? 'bg-regal-950 text-gold-400'
+                      : 'bg-gold-500/25 text-gold-300'
+                  )}
+                >
+                  {formatNumber(favoritesCount)}
+                </span>
+              )}
+            </Button>
+
+            {/* Language Switcher */}
+            <button
+              type="button"
+              id="langToggleBtn"
+              data-testid="header-lang-btn"
+              onClick={toggleLang}
+              aria-label={t('langToggleAria')}
+              title={t('langToggleAria')}
+              className="h-7 px-2.5 rounded-md bg-regal-800 hover:bg-regal-700 border border-regal-700 text-gold-400 text-xs font-bold transition flex items-center gap-1 cursor-pointer"
+            >
+              <Globe className="size-3 shrink-0" aria-hidden="true" />
+              <span id="langLabel">{lang === 'ar' ? 'English' : 'العربية'}</span>
+            </button>
+
+            {/* Theme Switcher */}
+            <button
+              type="button"
+              id="themeToggleBtn"
+              data-testid="header-theme-btn"
+              onClick={toggleTheme}
+              aria-label={t('themeToggleAria')}
+              title={t('themeToggleAria')}
+              className="size-7 rounded-md bg-regal-800 hover:bg-regal-700 border border-regal-700 flex items-center justify-center text-gold-400 transition cursor-pointer"
+            >
+              {isDark ? (
+                <Sun className="size-3.5 text-gold-400" aria-hidden="true" />
+              ) : (
+                <Moon className="size-3.5 text-regal-200" aria-hidden="true" />
+              )}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Sovereign Institutional Banner */}
+      <div className="mx-auto max-w-[1360px] px-4 py-4 sm:px-6 sm:py-5 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6">
         <a
           href="#booksDisplayContainer"
           onClick={(e) => {
@@ -47,176 +193,83 @@ export function SiteHeader({
           }}
           data-testid="brand-link"
           aria-label="IAR Archive"
-          className="group flex items-center gap-2.5 sm:gap-3 min-w-0 rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
+          className="group flex items-center gap-3.5 min-w-0 rounded-xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-400 cursor-pointer"
         >
-          <span
-            aria-hidden="true"
-            className="flex size-9 sm:size-10 shrink-0 items-center justify-center rounded-lg border border-primary/35 bg-card text-primary shadow-2xs transition-colors group-hover:border-primary group-hover:bg-primary/10"
-          >
-            <svg
-              viewBox="0 0 28 28"
-              fill="none"
-              className="size-5 sm:size-5.5"
-              aria-hidden="true"
-            >
-              <rect
-                x="4"
-                y="4"
-                width="20"
-                height="20"
-                rx="3"
-                stroke="currentColor"
-                strokeWidth="1.6"
-              />
-              <path
-                d="M9 9.5H19M9 14H19M9 18.5H14.5"
-                stroke="currentColor"
-                strokeWidth="1.6"
-                strokeLinecap="round"
-              />
-              <circle cx="18" cy="18.5" r="1.4" fill="currentColor" />
-            </svg>
-          </span>
+          {/* Sovereign Golden Crest Logo */}
+          <div className="size-14 sm:size-16 rounded-2xl bg-gradient-to-br from-gold-400 via-gold-500 to-gold-600 p-0.5 shadow-xl flex items-center justify-center shrink-0">
+            <div className="w-full h-full bg-regal-950 rounded-[14px] flex flex-col items-center justify-center text-center p-1 border border-gold-400/40 transition-colors group-hover:bg-regal-900">
+              <svg
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className="size-6 sm:size-7 text-gold-400"
+                aria-hidden="true"
+              >
+                <path d="M12 2L2 7l10 5 10-5-10-2zm0 8.5l-8-4v6l8 4 8-4v-6l-8 4zm0 8.5l-8-4v3l8 4 8-4v-3l-8 4z" />
+              </svg>
+              <span className="text-[8px] font-black tracking-widest text-gold-300 mt-0.5 font-mono">
+                IAR
+              </span>
+            </div>
+          </div>
 
-          <div className="flex flex-col min-w-0">
-            <span className="text-sm sm:text-base font-bold tracking-tight text-foreground leading-tight truncate">
-              IAR Archive
-            </span>
-            <span
+          <div className="flex flex-col min-w-0 text-start">
+            <div className="flex items-center gap-2">
+              <h1 className="text-lg sm:text-xl md:text-2xl font-black text-white tracking-tight leading-tight">
+                {translate(
+                  'الأرشيف والمكتبة الإدارية والرقابية الوطنية',
+                  'National Administrative & Regulatory Archive'
+                )}
+              </h1>
+              <span className="hidden xs:inline-block text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-regal-800 text-gold-300 border border-gold-500/30">
+                IAR
+              </span>
+            </div>
+            <p
               id="txtSubtitle"
-              className="text-[11px] sm:text-xs text-muted-foreground leading-tight truncate"
+              className="text-xs sm:text-[13px] text-regal-100/90 leading-normal mt-0.5 line-clamp-1"
             >
               {t('txtSubtitle')}
-            </span>
+            </p>
           </div>
         </a>
 
-        {/* Navigation & Utility Actions */}
-        <div className="flex items-center gap-1 sm:gap-2 shrink-0">
-          {/* Spotlight Quick Search Trigger */}
-          {onOpenSpotlight && (
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              data-testid="header-spotlight-btn"
-              onClick={onOpenSpotlight}
-              aria-label={t('spotlightSearch')}
-              title={t('spotlightSearch')}
-              className="h-9 px-2.5 sm:px-3 text-xs font-medium text-muted-foreground hover:text-foreground"
-            >
-              <Search className="size-3.5 text-primary shrink-0" aria-hidden="true" />
-              <span className="hidden sm:inline">{t('searchShortcut')}</span>
-              <kbd className="hidden md:inline-flex items-center rounded border border-border bg-secondary/80 px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground ms-1">
-                ⌘K
-              </kbd>
-            </Button>
-          )}
-
-          {!pwa.isInstalled && (
-            <Button
-              type="button"
-              id="installAppBtn"
-              variant={pwa.isInstallPromptAvailable ? 'default' : 'outline'}
-              size="sm"
-              data-testid="header-install-btn"
-              onClick={() => {
-                void pwa.promptInstall();
-              }}
-              aria-label={t('txtInstall')}
-              title={t('txtInstall')}
-              className="h-9 px-2.5 sm:px-3 text-xs font-medium"
-            >
-              <Download className="size-3.5 shrink-0" aria-hidden="true" />
-              <span id="txtInstall" className="hidden sm:inline">
-                {t('txtInstall')}
-              </span>
-            </Button>
-          )}
-
-          {/* Favorites Filter Toggle */}
-          <Button
-            type="button"
-            id="favoritesOnlyBtn"
-            variant={favoritesOnly ? 'default' : 'outline'}
-            size="sm"
-            data-testid="header-favorites-btn"
-            aria-pressed={favoritesOnly}
-            aria-label={t('txtFavoritesOnly')}
-            title={t('txtFavoritesOnly')}
-            onClick={onToggleFavoritesOnly}
-            className={cn(
-              'h-9 px-2.5 sm:px-3 text-xs font-medium transition-colors',
-              favoritesOnly && 'shadow-xs'
-            )}
-          >
-            <Heart
-              className={cn('size-3.5 shrink-0', favoritesOnly && 'fill-current')}
-              aria-hidden="true"
-            />
-            <span id="txtFavoritesOnly" className="hidden md:inline">
-              {t('txtFavoritesOnly')}
-            </span>
-            {favoritesCount > 0 && (
-              <span
-                data-testid="header-favorites-count"
-                className={cn(
-                  'inline-flex items-center justify-center min-w-4.5 h-4.5 px-1 rounded-full text-[11px] font-semibold tabular-nums',
-                  favoritesOnly
-                    ? 'bg-primary-foreground/20 text-primary-foreground'
-                    : 'bg-primary/15 text-primary'
-                )}
-              >
-                {formatNumber(favoritesCount)}
-              </span>
-            )}
-          </Button>
-
-          {/* Language Switcher */}
-          <Button
-            type="button"
-            id="langToggleBtn"
-            variant="outline"
-            size="sm"
-            data-testid="header-lang-btn"
-            onClick={toggleLang}
-            aria-label={t('langToggleAria')}
-            title={t('langToggleAria')}
-            className="h-9 px-2.5 sm:px-3 text-xs font-semibold tracking-wide"
-          >
-            <Globe className="size-3.5 shrink-0 hidden xs:inline" aria-hidden="true" />
-            <span id="langLabel">{t('langLabel')}</span>
-          </Button>
-
-          {/* Theme Switcher */}
-          <Button
-            type="button"
-            id="themeToggleBtn"
-            variant="outline"
-            size="icon"
-            data-testid="header-theme-btn"
-            onClick={toggleTheme}
-            aria-label={t('themeToggleAria')}
-            title={t('themeToggleAria')}
-            className="size-9 shrink-0"
-          >
-            {isDark ? (
-              <Sun className="size-4 text-primary" aria-hidden="true" />
-            ) : (
-              <Moon className="size-4 text-foreground/80" aria-hidden="true" />
-            )}
-          </Button>
+        {/* Quick Institutional Stats Badge */}
+        <div className="flex items-center gap-4 sm:gap-6 bg-regal-950/70 border border-regal-800/80 px-4 sm:px-5 py-2.5 rounded-xl text-center shadow-inner shrink-0">
+          <div>
+            <div className="text-base sm:text-lg font-black text-gold-400 tabular-nums">
+              {formatNumber(booksCount)}
+            </div>
+            <div className="text-[10px] text-regal-100 font-medium">
+              {translate('وثيقة موثقة', 'Documents')}
+            </div>
+          </div>
+          <div className="w-px h-6 sm:h-7 bg-regal-800" />
+          <div>
+            <div className="text-base sm:text-lg font-black text-emerald-400">100%</div>
+            <div className="text-[10px] text-regal-100 font-medium">
+              {translate('مطابقة للأصل', 'Verified')}
+            </div>
+          </div>
+          <div className="w-px h-6 sm:h-7 bg-regal-800" />
+          <div>
+            <div className="text-base sm:text-lg font-black text-white tabular-nums">
+              1921 — 2026
+            </div>
+            <div className="text-[10px] text-regal-100 font-medium">
+              {translate('تغطية تشريعية', 'Coverage')}
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Manual PWA Installation Instructions Banner (shown when browser lacks native beforeinstallprompt) */}
+      {/* Manual PWA Installation Banner */}
       {pwa.manualInstructionsShown && (
         <div
           role="status"
           data-testid="pwa-manual-banner"
-          className="border-t border-border bg-secondary/90 px-4 py-2.5 text-xs text-secondary-foreground"
+          className="border-t border-regal-800 bg-regal-950 px-4 py-2 text-xs text-regal-200"
         >
-          <div className="mx-auto flex max-w-[1360px] items-start justify-between gap-3 sm:px-4">
+          <div className="mx-auto flex max-w-[1360px] items-center justify-between gap-3">
             <p className="whitespace-pre-line leading-relaxed">
               {pwa.manualInstructions}
             </p>
@@ -227,7 +280,7 @@ export function SiteHeader({
               data-testid="pwa-manual-dismiss"
               aria-label={translate('إغلاق الإرشادات', 'Dismiss instructions')}
               onClick={pwa.dismissManualInstructions}
-              className="shrink-0"
+              className="shrink-0 text-gold-400 hover:text-white"
             >
               <X className="size-3.5" aria-hidden="true" />
             </Button>

@@ -79,12 +79,29 @@
   --color-ring: var(--ring);
   --color-teal: var(--teal);
   --color-teal-foreground: var(--teal-foreground);
+
+  /* Sovereign National Archive Palette (Concept D) */
+  --color-regal-50: #f2f8f5;
+  --color-regal-100: #e1efe9;
+  --color-regal-200: #c6dfd4;
+  --color-regal-300: #93c4b1;
+  --color-regal-600: #1b6b52;
+  --color-regal-700: #145641;
+  --color-regal-800: #0e4333;
+  --color-regal-900: #092d22;
+  --color-regal-950: #051b14;
+
+  --color-gold-400: #dfb743;
+  --color-gold-500: #c59b27;
+  --color-gold-600: #9e7917;
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
   --font-sans:
-    'IBM Plex Sans Arabic', 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+    'IBM Plex Sans Arabic', 'Cairo', 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+  --font-serif: 'Amiri', serif;
   --font-cuneiform: 'Noto Sans Cuneiform', serif;
 }
 
@@ -168,4 +185,23 @@
   background: color-mix(in srgb, var(--card) 85%, transparent);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+}
+
+/* Sovereign Archival Document Elevation */
+.doc-shadow {
+  box-shadow:
+    0 4px 20px -2px rgba(9, 45, 34, 0.08),
+    0 2px 6px -1px rgba(9, 45, 34, 0.04);
+}
+
+.dark .doc-shadow,
+[data-theme='dark'] .doc-shadow {
+  box-shadow:
+    0 4px 24px -2px rgba(0, 0, 0, 0.5),
+    0 2px 8px -1px rgba(0, 0, 0, 0.3);
+}
+
+.watermark-emblem {
+  background-image: radial-gradient(#0e4333 0.6px, transparent 0.6px);
+  background-size: 20px 20px;
 }

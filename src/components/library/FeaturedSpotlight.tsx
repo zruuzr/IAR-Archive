@@ -78,12 +78,12 @@ export function FeaturedSpotlight({
     >
       <article
         data-testid={`spotlight-card-${book.id}`}
-        className="relative overflow-hidden rounded-2xl border border-primary/35 bg-card text-card-foreground shadow-sm"
+        className="relative overflow-hidden rounded-2xl border border-gold-500/40 bg-white dark:bg-card text-card-foreground doc-shadow"
       >
-        {/* Subtle top bronze editorial rule */}
+        {/* Sovereign gold and regal rule */}
         <div
           aria-hidden="true"
-          className="h-1 w-full bg-gradient-to-r from-primary/70 via-teal/60 to-primary/30"
+          className="h-1.5 w-full bg-gradient-to-r from-gold-500 via-regal-600 to-gold-500"
         />
 
         <div className="p-5 sm:p-7 lg:p-8">
