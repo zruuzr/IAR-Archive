@@ -18,12 +18,18 @@ export interface HeroAcademicProps {
   onSelectKeyword?: (keyword: string) => void;
 }
 
-const SOVEREIGN_QUICK_PILLS: readonly string[] = [
-  'قانون الخدمة المدنية',
-  'الحسابات الختامية 2024',
-  'قرارات محكمة قضاء الموظفين',
-  'تعليمات تنفيذ العقود',
-  'ديوان الرقابة المالية'
+interface QuickPill {
+  readonly ar: string;
+  readonly en: string;
+}
+
+const MANAGEMENT_QUICK_PILLS: readonly QuickPill[] = [
+  { ar: 'إدارة الأعمال', en: 'Business Admin' },
+  { ar: 'القيادة والتنظيم', en: 'Leadership & Org' },
+  { ar: 'التحليل المالي والمحاسبة', en: 'Financial Analysis' },
+  { ar: 'بيتر دروكر والإدارة', en: 'Peter Drucker' },
+  { ar: 'مناهج البحث العلمي', en: 'Research Methods' },
+  { ar: 'التسويق الاستراتيجي', en: 'Strategic Marketing' }
 ] as const;
 
 /**
@@ -44,7 +50,7 @@ export function HeroAcademic({
   onOpenSpotlight,
   onSelectKeyword
 }: HeroAcademicProps) {
-  const { t, translate } = useI18n();
+  const { lang, t, translate } = useI18n();
   const [localInput, setLocalInput] = useState<string>(query);
 
   const inputValue = localInput.trim() === query ? localInput : query;
@@ -112,8 +118,8 @@ export function HeroAcademic({
                 if (onQueryChange) onQueryChange(val);
               }}
               placeholder={translate(
-                'ابحث بالعنوان، رقم القانون، اسم الجهة (مثلاً: ديوان الرقابة)، أو الموضوع...',
-                'Search by title, law number, entity name (e.g. Audit Bureau), or topic...'
+                'ابحث بالعنوان، المؤلف (مثلاً: دروكر، كارنيجي)، الحقل الإداري، أو الفكرة...',
+                'Search by title, author (e.g. Drucker, Carnegie), field, or concept...'
               )}
               aria-label={t('searchLabel')}
               className="w-full text-slate-900 placeholder-slate-400 focus:outline-none text-xs sm:text-sm font-medium py-2 bg-transparent"
@@ -157,7 +163,7 @@ export function HeroAcademic({
               type="submit"
               className="bg-gold-500 hover:bg-gold-600 active:bg-gold-700 text-regal-950 px-5 sm:px-6 py-2.5 rounded-xl font-black text-xs transition shadow-md whitespace-nowrap cursor-pointer flex items-center justify-center gap-1.5 shrink-0"
             >
-              <span>{translate('بحث رسمي', 'Official Search')}</span>
+              <span>{translate('بحث إداري', 'Search Archive')}</span>
             </button>
           </div>
         </form>
@@ -168,14 +174,14 @@ export function HeroAcademic({
             <Sparkles className="size-3 text-gold-400" />
             {translate('وصول سريع:', 'Quick Access:')}
           </span>
-          {SOVEREIGN_QUICK_PILLS.map((pill) => (
+          {MANAGEMENT_QUICK_PILLS.map((pill) => (
             <button
-              key={pill}
+              key={pill.ar}
               type="button"
-              onClick={() => handlePillClick(pill)}
+              onClick={() => handlePillClick(pill.ar)}
               className="bg-regal-800/80 hover:bg-regal-700 text-regal-100 px-3 py-1 rounded-lg border border-regal-700 text-[11px] font-medium transition cursor-pointer"
             >
-              {pill}
+              {lang === 'ar' ? pill.ar : pill.en}
             </button>
           ))}
 

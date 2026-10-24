@@ -1,6 +1,12 @@
 import { Filter, RotateCcw } from 'lucide-react';
 import { useI18n } from '@/i18n/I18nProvider';
 import { cn } from '@/lib/utils';
+import {
+  DISCIPLINE_FACETS,
+  ERA_FACETS,
+  TYPE_FACETS,
+  type DisciplineFacet
+} from '@/lib/sovereign-facets';
 import type { Book } from '@/types/book';
 
 export interface SovereignSidebarProps {
@@ -16,11 +22,9 @@ export interface SovereignSidebarProps {
   onResetFilters: () => void;
 }
 
-import { ERA_FACETS, ISSUER_FACETS, TYPE_FACETS } from '@/lib/sovereign-facets';
-
 /**
- * Sovereign Archival Sidebar (Concept 1: البوابة السيادية الوطنية).
- * Left-side (or right in RTL) faceted drill-down tree for Issuer, Time Period, and Document Type.
+ * Sovereign Archival Sidebar for Administrative Sciences.
+ * Multi-dimensional faceted taxonomy for Discipline, Publication Era, and Reference Type.
  */
 export function SovereignSidebar({
   books,
@@ -36,11 +40,11 @@ export function SovereignSidebar({
 }: SovereignSidebarProps) {
   const { lang, translate, formatNumber } = useI18n();
 
-  // Compute dynamic counts based on real books
-  const getIssuerCount = (keyword: string): number => {
+  // Compute dynamic counts based on real books in books.json
+  const getDisciplineCount = (facet: DisciplineFacet): number => {
     return books.filter((b) => {
       const text = `${b.title} ${b.author} ${b.category} ${b.description}`.toLowerCase();
-      return text.includes(keyword.toLowerCase());
+      return facet.keywords.some((k) => text.includes(k.toLowerCase()));
     }).length;
   };
 
@@ -57,7 +61,7 @@ export function SovereignSidebar({
 
   return (
     <aside
-      aria-label={translate('تصفية الأرشيف', 'Archive Filter')}
+      aria-label={translate('تصفية المراجع الإدارية', 'Filter Management References')}
       className="space-y-6"
     >
       <div className="bg-white dark:bg-card rounded-2xl p-5 border border-slate-200 dark:border-border doc-shadow">
@@ -65,7 +69,7 @@ export function SovereignSidebar({
         <div className="flex items-center justify-between pb-3.5 border-b border-slate-100 dark:border-border/70 mb-4">
           <h3 className="font-bold text-sm text-regal-900 dark:text-gold-400 flex items-center gap-2">
             <Filter className="size-4 text-gold-500 shrink-0" aria-hidden="true" />
-            <span>{translate('تصفية الأرشيف', 'Archive Facets')}</span>
+            <span>{translate('تصفية المراجع الإدارية', 'Management Facets')}</span>
           </h3>
 
           {hasAnyFilterActive && (
@@ -80,15 +84,15 @@ export function SovereignSidebar({
           )}
         </div>
 
-        {/* Facet 1: Issuing Ministry / Entity */}
+        {/* Facet 1: Administrative Sciences Discipline */}
         <div className="space-y-2.5 mb-5">
           <label className="text-xs font-black text-slate-700 dark:text-slate-300 uppercase tracking-wider block">
-            {translate('الجهة المصدرة', 'Issuing Entity')}
+            {translate('الحقل الإداري والمعرفي', 'Management Discipline')}
           </label>
           <div className="space-y-1.5 text-xs text-slate-600 dark:text-slate-400">
-            {ISSUER_FACETS.map((facet) => {
+            {DISCIPLINE_FACETS.map((facet) => {
               const isSelected = activeIssuer === facet.keyword;
-              const count = getIssuerCount(facet.keyword);
+              const count = getDisciplineCount(facet);
               return (
                 <button
                   key={facet.id}
@@ -119,11 +123,7 @@ export function SovereignSidebar({
                     </span>
                   </span>
                   <span className="text-slate-400 font-mono text-[11px] tabular-nums shrink-0 ms-2">
-                    (
-                    {formatNumber(
-                      count || (books.length > 0 ? Math.ceil(books.length / 5) : 12)
-                    )}
-                    )
+                    ({formatNumber(count)})
                   </span>
                 </button>
               );
@@ -131,10 +131,10 @@ export function SovereignSidebar({
           </div>
         </div>
 
-        {/* Facet 2: Time Period & Eras */}
+        {/* Facet 2: Publication Era */}
         <div className="space-y-2.5 mb-5 pt-4 border-t border-slate-100 dark:border-border/70">
           <label className="text-xs font-black text-slate-700 dark:text-slate-300 uppercase tracking-wider block">
-            {translate('الحقبة الزمنية', 'Time Period')}
+            {translate('الحقبة وتاريخ النشر', 'Publication Era')}
           </label>
           <div className="space-y-1.5 text-xs text-slate-600 dark:text-slate-400">
             {ERA_FACETS.map((era) => {
@@ -173,11 +173,7 @@ export function SovereignSidebar({
                     </span>
                   </span>
                   <span className="text-slate-400 font-mono text-[11px] tabular-nums shrink-0 ms-2">
-                    (
-                    {formatNumber(
-                      count || (books.length > 0 ? Math.ceil(books.length / 4) : 8)
-                    )}
-                    )
+                    ({formatNumber(count)})
                   </span>
                 </button>
               );
@@ -188,7 +184,7 @@ export function SovereignSidebar({
         {/* Facet 3: Document Content Type */}
         <div className="space-y-2.5 pt-4 border-t border-slate-100 dark:border-border/70">
           <label className="text-xs font-black text-slate-700 dark:text-slate-300 uppercase tracking-wider block">
-            {translate('نوع المحتوى', 'Content Type')}
+            {translate('طبيعة المرجع والمحتوى', 'Reference Type')}
           </label>
           <div className="flex flex-wrap gap-1.5 text-xs">
             {TYPE_FACETS.map((tf) => {

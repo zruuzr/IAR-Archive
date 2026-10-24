@@ -84,7 +84,7 @@ export function SearchAndControls({
             >
               {formatNumber(totalMatching)}
             </strong>{' '}
-            {translate('وثيقة ومجلد رسمي', 'official documents')}
+            {translate('مرجعاً ومؤلفاً إدارياً', 'administrative references')}
           </span>
         </div>
 

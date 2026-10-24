@@ -26,15 +26,15 @@ export function SiteFooter() {
             />
             <span className="font-black text-white text-sm sm:text-base tracking-tight">
               {translate(
-                'الأرشيف والمكتبة الإدارية والرقابية الوطنية — جمهورية العراق',
-                'National Administrative & Regulatory Archive — Republic of Iraq'
+                'المكتبة الرقمية وأرشيف العلوم الإدارية · IAR Archive',
+                'Digital Library & Administrative Sciences Archive · IAR Archive'
               )}
             </span>
           </div>
           <p className="text-slate-400 text-xs leading-relaxed">
             {translate(
-              'منظومة موحدة لخدمة الجهاز الإداري والقضائي والأكاديمي في الدولة العراقية مع التوثيق الأكاديمي والتحقق المعتمد.',
-              'A unified portal serving the administrative, judicial, and academic sectors in Iraq with academic citations and verified provenance.'
+              'المنصة الرقمية المتخصصة في أرشفة وتوثيق مراجع العلوم الإدارية، القيادة، إدارة الأعمال، والتحليل المالي وفق أحدث معايير الفهرسة الأكاديمية.',
+              'The dedicated digital platform for archiving and indexing management sciences, leadership, business administration, and financial analysis according to rigorous academic standards.'
             )}
           </p>
         </div>
@@ -84,7 +84,8 @@ export function SiteFooter() {
           </a>
 
           <span className="text-slate-500 font-mono">
-            &copy; 2026 IAR Archive · جمهورية العراق
+            &copy; 2026 IAR Archive ·{' '}
+            {translate('الأرشيف الإداري العراقي', 'Iraqi Administrative Reference')}
           </span>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import { AlertCircle, CheckCircle2, X } from 'lucide-react';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { CoverZoomDialog } from '@/components/features/CoverZoomDialog';
 import { DownloadProgressDialog } from '@/components/features/DownloadProgressDialog';
 import { PdfReaderDialog } from '@/components/features/PdfReaderDialog';
@@ -17,7 +17,7 @@ import { FeaturedSpotlight } from '@/components/library/FeaturedSpotlight';
 import { PaginationNav } from '@/components/library/PaginationNav';
 import { SearchAndControls } from '@/components/library/SearchAndControls';
 import { SovereignSidebar } from '@/components/library/SovereignSidebar';
-import { TYPE_FACETS } from '@/lib/sovereign-facets';
+import { ERA_FACETS, TYPE_FACETS } from '@/lib/sovereign-facets';
 import { useBookDownload } from '@/hooks/useBookDownload';
 import { useCatalog, type UseCatalogOptions } from '@/hooks/useCatalog';
 import { useLibraryState } from '@/hooks/useLibraryState';
@@ -96,6 +96,22 @@ export function LibraryWorkspace({
     ...catalogOptions
   });
 
+  // Faceted taxonomy filter states for Administrative Sciences
+  const [sidebarIssuer, setSidebarIssuer] = useState<string>('');
+  const [sidebarEra, setSidebarEra] = useState<string>('era_all');
+  const [sidebarType, setSidebarType] = useState<string>('type_all');
+
+  const activeBooks = useMemo(() => {
+    if (sidebarEra === 'era_all') return books;
+    const eraFacet = ERA_FACETS.find((e) => e.id === sidebarEra);
+    if (!eraFacet) return books;
+    return books.filter((b) => {
+      const yr = parseInt(b.year, 10);
+      if (isNaN(yr)) return false;
+      return yr >= eraFacet.min && yr <= eraFacet.max;
+    });
+  }, [books, sidebarEra]);
+
   const {
     query,
     category,
@@ -121,7 +137,7 @@ export function LibraryWorkspace({
     backToList,
     clearBundleAndReset
   } = useLibraryState({
-    books,
+    books: activeBooks,
     lang,
     syncUrl
   });
@@ -134,11 +150,6 @@ export function LibraryWorkspace({
   const [spotlightOpen, setSpotlightOpen] = useState<boolean>(false);
   const [toasts, setToasts] = useState<ToastNotice[]>([]);
   const toastIdRef = useRef<number>(0);
-
-  // Sovereign Facet Filter States (Concept 1: البوابة السيادية الوطنية)
-  const [sidebarIssuer, setSidebarIssuer] = useState<string>('');
-  const [sidebarEra, setSidebarEra] = useState<string>('era_all');
-  const [sidebarType, setSidebarType] = useState<string>('type_all');
 
   const handleResetAllFilters = useCallback(() => {
     setSidebarIssuer('');

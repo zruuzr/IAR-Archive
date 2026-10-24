@@ -45,12 +45,12 @@ export function SiteHeader({
               <span className="size-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
               <span className="hidden sm:inline">
                 {translate(
-                  'جمهورية العراق — البوابة التوثيقية الموحدة',
-                  'Republic of Iraq — Unified Documentation Portal'
+                  'الأرشيف الإداري العراقي · IAR Archive — منصة المعرفة والعلوم الإدارية',
+                  'IAR Archive · Iraqi Administrative Reference — Management Knowledge Portal'
                 )}
               </span>
               <span className="sm:hidden">
-                {translate('جمهورية العراق', 'Republic of Iraq')}
+                {translate('الأرشيف الإداري العراقي', 'IAR Archive')}
               </span>
             </span>
             <span className="text-regal-600 hidden sm:inline">|</span>
@@ -59,11 +59,11 @@ export function SiteHeader({
 
           <div className="flex items-center gap-2 sm:gap-4 shrink-0 text-xs">
             <span className="hidden lg:inline text-regal-300">
-              {translate('الجهات المودعة (48 جهة)', '48 Depositing Entities')}
+              {translate('114 مساراً وتصنيفاً إدارياً', '114 Management Pathways')}
             </span>
             <span className="hidden xl:inline text-regal-600">·</span>
             <span className="hidden xl:inline text-regal-300">
-              {translate('المعايير والتوثيق', 'Archival Standards')}
+              {translate('التوثيق الأكاديمي APA', 'APA Academic Citation')}
             </span>
 
             {/* Spotlight Search Shortcut */}
@@ -216,8 +216,8 @@ export function SiteHeader({
             <div className="flex items-center gap-2">
               <h1 className="text-lg sm:text-xl md:text-2xl font-black text-white tracking-tight leading-tight">
                 {translate(
-                  'الأرشيف والمكتبة الإدارية والرقابية الوطنية',
-                  'National Administrative & Regulatory Archive'
+                  'المكتبة الرقمية وأرشيف العلوم الإدارية',
+                  'Digital Library & Administrative Sciences Archive'
                 )}
               </h1>
               <span className="hidden xs:inline-block text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-regal-800 text-gold-300 border border-gold-500/30">
@@ -234,29 +234,31 @@ export function SiteHeader({
         </a>
 
         {/* Quick Institutional Stats Badge */}
-        <div className="flex items-center gap-4 sm:gap-6 bg-regal-950/70 border border-regal-800/80 px-4 sm:px-5 py-2.5 rounded-xl text-center shadow-inner shrink-0">
+        <div className="flex items-center gap-3 sm:gap-6 bg-regal-950/70 border border-regal-800/80 px-4 sm:px-5 py-2.5 rounded-xl text-center shadow-inner shrink-0">
           <div>
             <div className="text-base sm:text-lg font-black text-gold-400 tabular-nums">
               {formatNumber(booksCount)}
             </div>
             <div className="text-[10px] text-regal-100 font-medium">
-              {translate('وثيقة موثقة', 'Documents')}
+              {translate('مرجعاً إدارياً', 'References')}
             </div>
           </div>
           <div className="w-px h-6 sm:h-7 bg-regal-800" />
           <div>
-            <div className="text-base sm:text-lg font-black text-emerald-400">100%</div>
+            <div className="text-base sm:text-lg font-black text-emerald-400 tabular-nums">
+              114
+            </div>
             <div className="text-[10px] text-regal-100 font-medium">
-              {translate('مطابقة للأصل', 'Verified')}
+              {translate('مساراً معرفياً', 'Pathways')}
             </div>
           </div>
           <div className="w-px h-6 sm:h-7 bg-regal-800" />
           <div>
             <div className="text-base sm:text-lg font-black text-white tabular-nums">
-              1921 — 2026
+              100%
             </div>
             <div className="text-[10px] text-regal-100 font-medium">
-              {translate('تغطية تشريعية', 'Coverage')}
+              {translate('توثيق أكاديمي', 'APA Verified')}
             </div>
           </div>
         </div>

@@ -112,13 +112,13 @@ export function BookCard({
             </span>
 
             <span className="text-[11px] text-slate-400 dark:text-slate-500 font-mono">
-              {translate('رقم الإيداع:', 'Deposit No:')} IAR-
-              {book.id.toString().padStart(4, '0')}
+              {translate('رمز المرجع:', 'Ref ID:')} IAR-ADM-
+              {book.id.toString().padStart(3, '0')}
             </span>
 
             <span className="px-2 py-0.5 rounded bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/50 text-[10px] font-bold inline-flex items-center gap-1">
               <span>✓</span>
-              <span>{translate('نسخة أصلية معتمدة', 'Verified Original')}</span>
+              <span>{translate('مرجع إداري موثق', 'Verified Reference')}</span>
             </span>
 
             {bookType && (
@@ -220,7 +220,9 @@ export function BookCard({
               className="bg-regal-800 hover:bg-regal-700 text-white font-bold h-8 px-3.5 rounded-xl transition flex items-center gap-1.5 shadow-sm text-xs cursor-pointer"
             >
               <BookOpen className="size-3.5 text-gold-400 shrink-0" aria-hidden="true" />
-              <span>{translate('مطالعة الوثيقة في المتصفح', 'Read in Browser')}</span>
+              <span>
+                {translate('مطالعة المرجع في المتصفح', 'Read Reference in Browser')}
+              </span>
             </Button>
 
             <Button
@@ -272,7 +274,7 @@ export function BookCard({
               ) : (
                 <Quote className="size-3" aria-hidden="true" />
               )}
-              <span>{translate('نسخ التوثيق الرسمي', 'Official Citation')}</span>
+              <span>{translate('توثيق APA الأكاديمي', 'APA Academic Citation')}</span>
             </button>
 
             <span>•</span>
