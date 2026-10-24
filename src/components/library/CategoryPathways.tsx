@@ -124,8 +124,8 @@ export function CategoryPathways({
           className={cn(
             'chip-item inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-semibold transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xs cursor-pointer focus-visible:outline-2 focus-visible:outline-ring',
             activeCategory === ALL_CATEGORIES_KEY
-              ? 'active border-primary bg-primary text-primary-foreground shadow-2xs'
-              : 'border-border bg-card text-foreground hover:border-primary/50 hover:bg-secondary/70'
+              ? 'active border-amber-400 bg-gradient-to-r from-amber-400 to-yellow-400 text-regal-950 font-bold shadow-xs'
+              : 'border-border bg-card text-foreground hover:border-gold-500/50 hover:bg-secondary/70'
           )}
         >
           <span>{t('allReferences')}</span>
@@ -133,7 +133,7 @@ export function CategoryPathways({
             className={cn(
               'rounded-full px-1.5 py-0.2 text-[11px] tabular-nums',
               activeCategory === ALL_CATEGORIES_KEY
-                ? 'bg-primary-foreground/20 text-primary-foreground'
+                ? 'bg-regal-950/20 text-regal-950 font-bold'
                 : 'bg-secondary text-muted-foreground'
             )}
           >
@@ -155,8 +155,8 @@ export function CategoryPathways({
               className={cn(
                 'chip-item inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-medium transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xs cursor-pointer focus-visible:outline-2 focus-visible:outline-ring max-w-full',
                 isActive
-                  ? 'active border-primary bg-primary text-primary-foreground shadow-2xs'
-                  : 'border-border bg-card text-foreground/90 hover:border-primary/50 hover:bg-secondary/70'
+                  ? 'active border-amber-400 bg-gradient-to-r from-amber-400 to-yellow-400 text-regal-950 font-bold shadow-xs'
+                  : 'border-border bg-card text-foreground/90 hover:border-gold-500/50 hover:bg-secondary/70'
               )}
             >
               <span className="truncate max-w-[180px] sm:max-w-[220px]">{cat.label}</span>
@@ -164,7 +164,7 @@ export function CategoryPathways({
                 className={cn(
                   'rounded-full px-1.5 py-0.2 text-[10px] font-semibold tabular-nums shrink-0',
                   isActive
-                    ? 'bg-primary-foreground/20 text-primary-foreground'
+                    ? 'bg-regal-950/20 text-regal-950 font-bold'
                     : 'bg-secondary text-muted-foreground'
                 )}
               >
@@ -182,11 +182,11 @@ export function CategoryPathways({
             data-testid="category-chip-active-custom"
             aria-pressed={true}
             onClick={() => onSelectCategory(ALL_CATEGORIES_KEY)}
-            className="inline-flex items-center gap-1.5 rounded-lg border border-primary bg-primary px-2.5 py-1.5 text-xs font-semibold text-primary-foreground shadow-2xs cursor-pointer"
+            className="inline-flex items-center gap-1.5 rounded-lg border border-amber-400 bg-gradient-to-r from-amber-400 to-yellow-400 px-2.5 py-1.5 text-xs font-bold text-regal-950 shadow-xs cursor-pointer"
           >
             <Filter className="size-3 shrink-0" aria-hidden="true" />
             <span className="truncate max-w-[190px]">{activeCategoryObj.label}</span>
-            <span className="rounded-full bg-primary-foreground/20 px-1.5 py-0.2 text-[10px] tabular-nums">
+            <span className="rounded-full bg-regal-950/20 px-1.5 py-0.2 text-[10px] tabular-nums font-bold">
               {formatNumber(activeCategoryObj.count)}
             </span>
             <X className="size-3 shrink-0 opacity-85" aria-hidden="true" />

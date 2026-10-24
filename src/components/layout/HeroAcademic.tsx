@@ -110,8 +110,10 @@ export function HeroAcademic({
           <div className="flex-1 flex items-center gap-2 sm:gap-3 px-3 w-full border-b md:border-b-0 md:border-l md:dark:border-l-0 rtl:md:border-l-0 rtl:md:border-r border-slate-100 pb-2 md:pb-0">
             <Search className="size-5 text-regal-800 shrink-0" aria-hidden="true" />
             <input
+              id="searchInput"
               type="text"
               value={inputValue}
+              data-testid="search-input"
               onChange={(e) => {
                 const val = e.target.value;
                 setLocalInput(val);
@@ -127,6 +129,8 @@ export function HeroAcademic({
             {inputValue.length > 0 && (
               <button
                 type="button"
+                id="btnClearSearch"
+                data-testid="clear-search-btn"
                 onClick={() => {
                   setLocalInput('');
                   if (onQueryChange) onQueryChange('');
@@ -161,7 +165,7 @@ export function HeroAcademic({
 
             <button
               type="submit"
-              className="bg-gold-500 hover:bg-gold-600 active:bg-gold-700 text-regal-950 px-5 sm:px-6 py-2.5 rounded-xl font-black text-xs transition shadow-md whitespace-nowrap cursor-pointer flex items-center justify-center gap-1.5 shrink-0"
+              className="bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 hover:from-amber-300 hover:via-yellow-300 hover:to-amber-400 text-regal-950 px-5 sm:px-6 py-2.5 rounded-xl font-black text-xs transition shadow-md shadow-amber-500/25 whitespace-nowrap cursor-pointer flex items-center justify-center gap-1.5 shrink-0"
             >
               <span>{translate('بحث إداري', 'Search Archive')}</span>
             </button>

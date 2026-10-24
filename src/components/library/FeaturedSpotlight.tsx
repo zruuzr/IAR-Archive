@@ -182,14 +182,14 @@ export function FeaturedSpotlight({
                   disabled={!hasFile || isDownloadBusy}
                   data-testid={`spotlight-download-${book.id}`}
                   onClick={() => onDownload(book)}
-                  className="gap-1.5"
+                  className="gap-1.5 bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-regal-950 font-bold border border-amber-300 shadow-sm"
                 >
                   <Download className="size-4 shrink-0" aria-hidden="true" />
                   <span>{t('download')}</span>
                   {book.downloadCount > 0 && (
                     <span
                       data-download-count={book.id}
-                      className="ms-0.5 rounded-full bg-primary-foreground/20 px-1.5 py-0.2 text-[11px] font-semibold tabular-nums"
+                      className="ms-0.5 rounded-full bg-regal-950/20 px-1.5 py-0.2 text-[11px] font-semibold tabular-nums"
                     >
                       {formatNumber(book.downloadCount)}
                     </span>
@@ -198,14 +198,17 @@ export function FeaturedSpotlight({
 
                 <Button
                   type="button"
-                  variant="outline"
+                  variant="default"
                   size="sm"
                   disabled={!hasFile}
                   data-testid={`spotlight-read-${book.id}`}
                   onClick={() => onRead(book)}
-                  className="gap-1.5"
+                  className="gap-1.5 bg-regal-900 hover:bg-regal-800 text-white font-bold border border-regal-800 shadow-sm"
                 >
-                  <BookOpen className="size-4 shrink-0" aria-hidden="true" />
+                  <BookOpen
+                    className="size-4 text-gold-400 shrink-0"
+                    aria-hidden="true"
+                  />
                   <span>{t('read')}</span>
                 </Button>
 

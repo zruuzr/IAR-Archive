@@ -518,6 +518,16 @@ export function LibraryWorkspace({
                 />
               )}
 
+              {/* 114-Category Pathways & Searchable Directory */}
+              {loaded && !error && (
+                <CategoryPathways
+                  books={books}
+                  categories={categories}
+                  activeCategory={category}
+                  onSelectCategory={setCategory}
+                />
+              )}
+
               {/* Search, Sort & View Controls */}
               <SearchAndControls
                 query={query}
@@ -533,16 +543,6 @@ export function LibraryWorkspace({
                 onToggleFavoritesOnly={toggleFavoritesOnly}
                 onResetFilters={handleResetAllFilters}
               />
-
-              {/* 114-Category Pathways & Searchable Directory */}
-              {loaded && !error && (
-                <CategoryPathways
-                  books={books}
-                  categories={categories}
-                  activeCategory={category}
-                  onSelectCategory={setCategory}
-                />
-              )}
 
               {/* Main Reference Grid / List / Skeleton / Empty States */}
               <BookGrid
