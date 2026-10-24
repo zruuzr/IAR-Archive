@@ -1,13 +1,4 @@
-import {
-  ArrowUpDown,
-  Columns2,
-  Heart,
-  LayoutGrid,
-  List,
-  RotateCcw,
-  Search,
-  X
-} from 'lucide-react';
+import { ArrowUpDown, Heart, LayoutGrid, List, RotateCcw, Search, X } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import type { ViewMode } from '@/hooks/useLibraryState';
@@ -262,24 +253,6 @@ export function SearchAndControls({
               )}
             >
               <List className="size-4" aria-hidden="true" />
-            </button>
-
-            <button
-              type="button"
-              id="btnViewWorkbench"
-              data-testid="view-workbench-btn"
-              aria-label={t('viewWorkbenchAria')}
-              aria-pressed={viewMode === 'workbench'}
-              title={t('viewWorkbenchAria')}
-              onClick={() => onViewModeChange('workbench')}
-              className={cn(
-                'inline-flex size-8.5 items-center justify-center rounded-md text-xs transition-colors focus-visible:outline-2 focus-visible:outline-ring',
-                viewMode === 'workbench'
-                  ? 'bg-primary text-primary-foreground shadow-2xs'
-                  : 'text-muted-foreground hover:text-foreground'
-              )}
-            >
-              <Columns2 className="size-4" aria-hidden="true" />
             </button>
           </div>
         </div>

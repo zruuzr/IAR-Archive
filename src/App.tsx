@@ -15,7 +15,6 @@ import { BundleBar } from '@/components/library/BundleBar';
 import { CategoryPathways } from '@/components/library/CategoryPathways';
 import { FeaturedSpotlight } from '@/components/library/FeaturedSpotlight';
 import { PaginationNav } from '@/components/library/PaginationNav';
-import { ScholarWorkbench } from '@/components/library/ScholarWorkbench';
 import { SearchAndControls } from '@/components/library/SearchAndControls';
 import { useBookDownload } from '@/hooks/useBookDownload';
 import { useCatalog, type UseCatalogOptions } from '@/hooks/useCatalog';
@@ -473,84 +472,47 @@ export function LibraryWorkspace({
               />
             )}
 
-            {/* Main Reference Views: Workbench or Grid/List */}
-            {viewMode === 'workbench' ? (
-              <ScholarWorkbench
-                books={catalogResult.filteredBooks}
-                loading={loading}
-                error={error}
-                errorMessage={errorMessage}
-                favoritesSet={favorites.favoritesSet}
-                bundleSet={bundle.bundleSet}
-                isDownloadBusy={downloadState.isBusy}
-                onRetry={() => {
-                  void reload();
-                }}
-                onResetFilters={resetFilters}
-                onRead={handleReadBook}
-                onDownload={handleDownloadBook}
-                onToggleFavorite={handleToggleFavorite}
-                onToggleBundle={handleToggleBundle}
-                onCopyCitation={(book) => {
-                  void handleCopyCitation(book);
-                }}
-                onOpenDetails={handleOpenDetails}
-                onOpenSummary={handleOpenSummary}
-                onZoomCover={handleZoomCover}
-                onShare={(book) => {
-                  void handleShareBook(book);
-                }}
-                onRate={(bookId, stars) => {
-                  void handleRateBook(bookId, stars);
-                }}
-                onSearchKeyword={(kw) => {
-                  setQuery(kw);
-                }}
-              />
-            ) : (
-              <>
-                <BookGrid
-                  books={catalogResult.pageBooks}
-                  loading={loading}
-                  error={error}
-                  errorMessage={errorMessage}
-                  viewMode={viewMode}
-                  favoritesOnly={favoritesOnly}
-                  favoritesSet={favorites.favoritesSet}
-                  bundleSet={bundle.bundleSet}
-                  isDownloadBusy={downloadState.isBusy}
-                  onRetry={() => {
-                    void reload();
-                  }}
-                  onResetFilters={resetFilters}
-                  onRead={handleReadBook}
-                  onDownload={handleDownloadBook}
-                  onToggleFavorite={handleToggleFavorite}
-                  onToggleBundle={handleToggleBundle}
-                  onCopyCitation={(book) => {
-                    void handleCopyCitation(book);
-                  }}
-                  onOpenDetails={handleOpenDetails}
-                  onOpenSummary={handleOpenSummary}
-                  onZoomCover={handleZoomCover}
-                  onShare={(book) => {
-                    void handleShareBook(book);
-                  }}
-                  onRate={(bookId, stars) => {
-                    void handleRateBook(bookId, stars);
-                  }}
-                />
+            {/* Main Reference Grid / List / Skeleton / Empty States */}
+            <BookGrid
+              books={catalogResult.pageBooks}
+              loading={loading}
+              error={error}
+              errorMessage={errorMessage}
+              viewMode={viewMode}
+              favoritesOnly={favoritesOnly}
+              favoritesSet={favorites.favoritesSet}
+              bundleSet={bundle.bundleSet}
+              isDownloadBusy={downloadState.isBusy}
+              onRetry={() => {
+                void reload();
+              }}
+              onResetFilters={resetFilters}
+              onRead={handleReadBook}
+              onDownload={handleDownloadBook}
+              onToggleFavorite={handleToggleFavorite}
+              onToggleBundle={handleToggleBundle}
+              onCopyCitation={(book) => {
+                void handleCopyCitation(book);
+              }}
+              onOpenDetails={handleOpenDetails}
+              onOpenSummary={handleOpenSummary}
+              onZoomCover={handleZoomCover}
+              onShare={(book) => {
+                void handleShareBook(book);
+              }}
+              onRate={(bookId, stars) => {
+                void handleRateBook(bookId, stars);
+              }}
+            />
 
-                {/* Accessible Pagination */}
-                {loaded && !error && (
-                  <PaginationNav
-                    currentPage={catalogResult.currentPage}
-                    totalPages={catalogResult.totalPages}
-                    tokens={catalogResult.tokens}
-                    onPageChange={handlePageChange}
-                  />
-                )}
-              </>
+            {/* Accessible Pagination */}
+            {loaded && !error && (
+              <PaginationNav
+                currentPage={catalogResult.currentPage}
+                totalPages={catalogResult.totalPages}
+                tokens={catalogResult.tokens}
+                onPageChange={handlePageChange}
+              />
             )}
           </>
         )}
