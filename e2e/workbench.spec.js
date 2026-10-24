@@ -1,28 +1,8 @@
 // @ts-check
 import { test, expect } from '@playwright/test';
 import path from 'path';
-import fs from 'fs';
 
-const ARTIFACT_DIR =
-  process.env.ARTIFACT_DIR ||
-  '/home/zayan/.gemini/antigravity/brain/0bab4cb3-f49e-4c05-b32b-1d9aea0d041e';
-
-/**
- * @param {import('@playwright/test').Page} page
- * @param {string} filename
- */
-async function captureScreenshotSafely(page, filename) {
-  try {
-    if (fs.existsSync(ARTIFACT_DIR)) {
-      await page.screenshot({
-        path: path.join(ARTIFACT_DIR, filename),
-        fullPage: false
-      });
-    }
-  } catch {
-    // Ignore in environments where artifact directory is unavailable
-  }
-}
+const ARTIFACT_DIR = '/home/zayan/.gemini/antigravity/brain/0bab4cb3-f49e-4c05-b32b-1d9aea0d041e';
 
 test.describe("Scholar's Dual-Pane Workbench View Mode", () => {
   test.beforeEach(async ({ page }) => {
@@ -76,17 +56,26 @@ test.describe("Scholar's Dual-Pane Workbench View Mode", () => {
     // Capture desktop screenshots
     await page.setViewportSize({ width: 1440, height: 900 });
     // Light mode screenshot
-    await captureScreenshotSafely(page, 'workbench_desktop_light.png');
+    await page.screenshot({
+      path: path.join(ARTIFACT_DIR, 'workbench_desktop_light.png'),
+      fullPage: false
+    });
 
     // Toggle dark mode
     await page.locator('#themeToggleBtn').click();
     await page.waitForTimeout(300);
-    await captureScreenshotSafely(page, 'workbench_desktop_dark.png');
+    await page.screenshot({
+      path: path.join(ARTIFACT_DIR, 'workbench_desktop_dark.png'),
+      fullPage: false
+    });
 
     // Test English LTR
     await page.locator('#langToggleBtn').click();
     await page.waitForTimeout(300);
-    await captureScreenshotSafely(page, 'workbench_desktop_en_ltr.png');
+    await page.screenshot({
+      path: path.join(ARTIFACT_DIR, 'workbench_desktop_en_ltr.png'),
+      fullPage: false
+    });
   });
 
   test('adapts seamlessly to mobile viewport with tab switcher', async ({ page }) => {
@@ -104,13 +93,19 @@ test.describe("Scholar's Dual-Pane Workbench View Mode", () => {
     await expect(mobileSwitcher).toBeVisible();
 
     // Screenshot mobile stream list
-    await captureScreenshotSafely(page, 'workbench_mobile_stream.png');
+    await page.screenshot({
+      path: path.join(ARTIFACT_DIR, 'workbench_mobile_stream.png'),
+      fullPage: false
+    });
 
     // Click Inspector tab in mobile switcher
     await page.locator('[data-testid="workbench-mobile-tab-inspector"]').click();
     await page.waitForTimeout(300);
 
     // Screenshot mobile inspector
-    await captureScreenshotSafely(page, 'workbench_mobile_inspector.png');
+    await page.screenshot({
+      path: path.join(ARTIFACT_DIR, 'workbench_mobile_inspector.png'),
+      fullPage: false
+    });
   });
 });
