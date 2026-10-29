@@ -9045,5 +9045,42 @@
     "source_sha256": "d8e7ba7e456f088d83442fd056a06155a1b0e56a4278f385c6609911c72a19f3",
     "ai_status": "complete",
     "ai_attempts": 1
+  },
+  {
+    "id": 179,
+    "title": "غير معنون",
+    "title_en": "",
+    "author": "",
+    "author_en": "",
+    "category": "عام",
+    "category_en": "",
+    "description": "مستند يحتوي فقط على تكرار لعنوان رابط إلكتروني لمنتدى الابتسامة دون أي محتوى موضوعي أو نصوص إدارية.",
+    "description_en": "",
+    "publisher": "",
+    "publisher_en": "",
+    "type": "وثيقة رقمية",
+    "type_en": "",
+    "target_audience": "",
+    "target_audience_en": "",
+    "year": 0,
+    "pages": 244,
+    "file_size": "7.9 MB",
+    "isbn": "",
+    "keywords": [
+      "ibtesama.com"
+    ],
+    "keywords_en": [],
+    "key_points": [],
+    "key_points_en": [],
+    "featured": false,
+    "badge_text": "",
+    "badge_text_en": "",
+    "file_path": "pdf/الصناديق_والحسابات_الخاصة.pdf",
+    "file_name": "الصناديق_والحسابات_الخاصة.pdf",
+    "file_type": "PDF",
+    "cover_image": "covers/179.png",
+    "source_sha256": "9a87d0b0c2ac072bf1b031dcddf6a209bb717bb5d3f5c8b474fba1abeb90c053",
+    "ai_status": "complete",
+    "ai_attempts": 1
   }
 ]
