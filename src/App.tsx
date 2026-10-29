@@ -378,6 +378,7 @@ export function LibraryWorkspace({
         favoritesOnly={favoritesOnly}
         favoritesCount={favorites.count}
         booksCount={books.length}
+        categoriesCount={categories.length}
         onToggleFavoritesOnly={() => {
           if (singleBook || isInvalidBookParam) {
             backToList();

@@ -9,6 +9,7 @@ export interface SiteHeaderProps {
   favoritesOnly: boolean;
   favoritesCount: number;
   booksCount?: number;
+  categoriesCount?: number;
   onToggleFavoritesOnly: () => void;
   onBrandClick?: () => void;
   onOpenSpotlight?: () => void;
@@ -23,7 +24,8 @@ export interface SiteHeaderProps {
 export function SiteHeader({
   favoritesOnly,
   favoritesCount,
-  booksCount = 12450,
+  booksCount = 179,
+  categoriesCount = 110,
   onToggleFavoritesOnly,
   onBrandClick,
   onOpenSpotlight,
@@ -59,7 +61,10 @@ export function SiteHeader({
 
           <div className="flex items-center gap-2 sm:gap-4 shrink-0 text-xs">
             <span className="hidden lg:inline text-regal-300">
-              {translate('114 مساراً وتصنيفاً إدارياً', '114 Management Pathways')}
+              {translate(
+                `${formatNumber(categoriesCount)} مساراً وتصنيفاً إدارياً`,
+                `${formatNumber(categoriesCount)} Management Pathways`
+              )}
             </span>
             <span className="hidden xl:inline text-regal-600">·</span>
             <span className="hidden xl:inline text-regal-300">
@@ -246,7 +251,7 @@ export function SiteHeader({
           <div className="w-px h-6 sm:h-7 bg-regal-800" />
           <div>
             <div className="text-base sm:text-lg font-black text-emerald-400 tabular-nums">
-              114
+              {formatNumber(categoriesCount)}
             </div>
             <div className="text-[10px] text-regal-100 font-medium">
               {translate('مساراً معرفياً', 'Pathways')}

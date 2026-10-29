@@ -293,18 +293,18 @@ describe('catalog-query — pagination, ellipsis tokens, and queryCatalog()', ()
   });
 });
 
-describe('catalog-query — real books.json categories (114 categories) and bundle parameter parsing', () => {
+describe('catalog-query — real books.json categories (110 categories) and bundle parameter parsing', () => {
   const rawCatalog = JSON.parse(
     fs.readFileSync(BOOKS_JSON_PATH, 'utf8')
   ) as RawBookRecord[];
   const realBooks = normalizeCatalog(rawCatalog, { baseHref: 'http://localhost:8000/' });
 
-  it('extracts all 114 unique categories from books.json without merging or renaming', () => {
+  it('extracts all 110 unique categories from books.json without merging or renaming', () => {
     const categoriesAr = extractCategories(realBooks, 'ar');
     const categoriesEn = extractCategories(realBooks, 'en');
 
-    expect(categoriesAr).toHaveLength(114);
-    expect(categoriesEn).toHaveLength(114);
+    expect(categoriesAr).toHaveLength(110);
+    expect(categoriesEn).toHaveLength(110);
     expect(categoriesAr[0]).toEqual({
       key: 'التعليم والقبول',
       label: 'التعليم والقبول'
@@ -316,7 +316,7 @@ describe('catalog-query — real books.json categories (114 categories) and bund
 
     const chipsAr = getCategoryChips(realBooks, 'ar');
     const chipsEn = getCategoryChips(realBooks, 'en');
-    expect(chipsAr).toHaveLength(115);
+    expect(chipsAr).toHaveLength(111);
     expect(chipsAr[0]).toEqual({ key: ALL_CATEGORIES_KEY, label: 'كل المراجع' });
     expect(chipsEn[0]).toEqual({ key: ALL_CATEGORIES_KEY, label: 'All references' });
   });
