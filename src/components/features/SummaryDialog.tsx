@@ -125,18 +125,15 @@ export function SummaryDialog({
 
       <div
         ref={dialogContainerRef}
-        className="relative z-10 flex flex-col w-full max-w-2xl max-h-[90dvh] rounded-2xl border border-border bg-card text-card-foreground shadow-2xl overflow-hidden"
+        className="relative z-10 flex flex-col w-full max-w-2xl max-h-[90dvh] rounded-[4px] border hairline-border-strong bg-card text-card-foreground shadow-2xl overflow-hidden"
       >
-        {/* Top Accent Rule */}
-        <div
-          aria-hidden="true"
-          className="h-1 w-full bg-gradient-to-r from-primary via-teal to-primary/40 shrink-0"
-        />
+        {/* Top Burnt-Terracotta Editorial Rule */}
+        <div aria-hidden="true" className="h-[2px] w-full bg-primary shrink-0" />
 
         {/* Dialog Header */}
-        <header className="flex items-start justify-between gap-3 px-5 py-4 border-b border-border bg-card shrink-0">
+        <header className="flex items-start justify-between gap-3 px-5 py-4 border-b hairline-border bg-card shrink-0">
           <div className="space-y-1 min-w-0">
-            <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary">
+            <div className="inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.12em] font-semibold text-primary">
               <Sparkles className="size-3.5 shrink-0" aria-hidden="true" />
               <span>{t('summaryModalTitle')}</span>
             </div>
@@ -144,7 +141,7 @@ export function SummaryDialog({
             <h2
               id="summaryBookTitle"
               data-testid="summary-dialog-title"
-              className="text-base sm:text-lg font-bold text-foreground leading-snug"
+              className="font-serif text-lg sm:text-xl font-bold text-foreground leading-snug"
             >
               {title}
             </h2>

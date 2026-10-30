@@ -73,22 +73,22 @@ export function SovereignSidebar({
         <button
           type="button"
           onClick={() => setIsMobileOpen((prev) => !prev)}
-          className="w-full flex items-center justify-between p-3.5 bg-white dark:bg-card rounded-2xl border border-slate-200 dark:border-border doc-shadow font-bold text-xs text-regal-900 dark:text-gold-400 cursor-pointer shadow-sm transition"
+          className="w-full flex items-center justify-between p-3.5 bg-card rounded-[4px] border hairline-border-strong doc-shadow font-semibold text-xs text-foreground cursor-pointer transition-colors"
         >
           <div className="flex items-center gap-2">
-            <Filter className="size-4 text-gold-500 shrink-0" aria-hidden="true" />
+            <Filter className="size-3.5 text-primary shrink-0" aria-hidden="true" />
             <span>
               {translate('تصفية وفهرسة المراجع الإدارية', 'Filter Management References')}
             </span>
             {hasAnyFilterActive && (
-              <span className="bg-gradient-to-r from-amber-400 to-yellow-400 text-regal-950 px-2 py-0.5 rounded-full text-[10px] font-black shadow-2xs">
-                {translate('تصفية نشطة', 'Active')}
+              <span className="bg-primary text-primary-foreground px-2 py-0.5 rounded-[2px] text-[10px] font-mono font-semibold">
+                {translate('نشط', 'ACTIVE')}
               </span>
             )}
           </div>
           <ChevronDown
             className={cn(
-              'size-4 transition-transform duration-200 text-slate-400',
+              'size-4 transition-transform duration-200 text-muted-foreground',
               isMobileOpen && 'rotate-180'
             )}
             aria-hidden="true"
@@ -96,25 +96,29 @@ export function SovereignSidebar({
         </button>
       </div>
 
-      {/* Main Filter Tree Card */}
+      {/* Main Architectural Index Facet Panel */}
       <div
         className={cn(
-          'bg-white dark:bg-card rounded-2xl p-5 border border-slate-200 dark:border-border doc-shadow transition-all',
+          'bg-card rounded-[4px] p-5 border hairline-border-strong doc-shadow transition-all',
           !isMobileOpen && 'hidden lg:block'
         )}
       >
         {/* Header & Reset Button */}
-        <div className="flex items-center justify-between pb-3.5 border-b border-slate-100 dark:border-border/70 mb-4">
-          <h3 className="font-bold text-sm text-regal-900 dark:text-gold-400 flex items-center gap-2">
-            <Filter className="size-4 text-gold-500 shrink-0" aria-hidden="true" />
-            <span>{translate('تصفية المراجع الإدارية', 'Management Facets')}</span>
-          </h3>
+        <div className="flex items-center justify-between pb-3 border-b hairline-border mb-4">
+          <div className="space-y-0.5">
+            <span className="block font-mono text-[9.5px] uppercase tracking-[0.16em] text-muted-foreground">
+              INDEX · FACETS
+            </span>
+            <h3 className="font-serif font-bold text-base text-foreground flex items-center gap-2">
+              <span>{translate('تصفية المراجع الإدارية', 'Management Facets')}</span>
+            </h3>
+          </div>
 
           {hasAnyFilterActive && (
             <button
               type="button"
               onClick={onResetFilters}
-              className="text-xs text-slate-500 hover:text-regal-800 dark:hover:text-gold-400 flex items-center gap-1 cursor-pointer transition-colors"
+              className="text-xs text-primary hover:underline flex items-center gap-1 cursor-pointer transition-colors font-medium"
             >
               <RotateCcw className="size-3" />
               <span>{translate('إعادة تعيين', 'Reset')}</span>
@@ -124,10 +128,10 @@ export function SovereignSidebar({
 
         {/* Facet 1: Administrative Sciences Discipline */}
         <div className="space-y-2.5 mb-5">
-          <label className="text-xs font-black text-slate-700 dark:text-slate-300 uppercase tracking-wider block">
+          <label className="text-[11px] font-semibold text-muted-foreground uppercase tracking-[0.12em] block">
             {translate('الحقل الإداري والمعرفي', 'Management Discipline')}
           </label>
-          <div className="space-y-1.5 text-xs text-slate-600 dark:text-slate-400">
+          <div className="space-y-1 text-xs text-foreground/85">
             {DISCIPLINE_FACETS.map((facet) => {
               const isSelected = activeIssuer === facet.keyword;
               const count = getDisciplineCount(facet);
@@ -137,29 +141,29 @@ export function SovereignSidebar({
                   type="button"
                   onClick={() => onSelectIssuer(isSelected ? '' : facet.keyword)}
                   className={cn(
-                    'w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-start transition-colors cursor-pointer',
+                    'w-full flex items-center justify-between px-2.5 py-1.5 rounded-[3px] text-start transition-colors cursor-pointer border',
                     isSelected
-                      ? 'bg-regal-100 text-regal-900 dark:bg-regal-900/60 dark:text-gold-300 font-bold'
-                      : 'hover:bg-slate-50 dark:hover:bg-slate-800/60'
+                      ? 'border-primary/40 bg-primary/10 text-foreground font-semibold'
+                      : 'border-transparent hover:bg-secondary/70'
                   )}
                 >
                   <span className="flex items-center gap-2 min-w-0">
                     <span
                       className={cn(
-                        'size-3.5 rounded border flex items-center justify-center shrink-0 transition-colors',
+                        'size-3.5 rounded-[2px] border flex items-center justify-center shrink-0 transition-colors',
                         isSelected
-                          ? 'border-regal-800 bg-regal-800 text-white dark:border-gold-500 dark:bg-gold-500 dark:text-slate-950'
-                          : 'border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900'
+                          ? 'border-primary bg-primary text-primary-foreground'
+                          : 'hairline-border-strong bg-background'
                       )}
                     >
-                      {isSelected && <span className="text-[10px] leading-none">✓</span>}
+                      {isSelected && <span className="text-[9px] leading-none">✓</span>}
                     </span>
                     <span className="truncate">
                       {lang === 'ar' ? facet.name : facet.nameEn}
                     </span>
                   </span>
-                  <span className="text-slate-400 dark:text-slate-500 font-mono text-[11px] shrink-0 ms-2">
-                    ({formatNumber(count)})
+                  <span className="text-muted-foreground font-mono text-[11px] tabular-nums shrink-0 ms-2">
+                    {formatNumber(count)}
                   </span>
                 </button>
               );
@@ -168,11 +172,11 @@ export function SovereignSidebar({
         </div>
 
         {/* Facet 2: Publication Era & Decades */}
-        <div className="space-y-2.5 mb-5 pt-4 border-t border-slate-100 dark:border-border/70">
-          <label className="text-xs font-black text-slate-700 dark:text-slate-300 uppercase tracking-wider block">
+        <div className="space-y-2.5 mb-5 pt-4 border-t hairline-border">
+          <label className="text-[11px] font-semibold text-muted-foreground uppercase tracking-[0.12em] block">
             {translate('الحقبة وتاريخ النشر', 'Publication Era')}
           </label>
-          <div className="space-y-1.5 text-xs text-slate-600 dark:text-slate-400">
+          <div className="space-y-1 text-xs text-foreground/85">
             {ERA_FACETS.map((era) => {
               const isSelected = activeEra === era.id;
               const count =
@@ -183,10 +187,10 @@ export function SovereignSidebar({
                   type="button"
                   onClick={() => onSelectEra(era.id)}
                   className={cn(
-                    'w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-start transition-colors cursor-pointer',
+                    'w-full flex items-center justify-between px-2.5 py-1.5 rounded-[3px] text-start transition-colors cursor-pointer border',
                     isSelected
-                      ? 'bg-regal-100 text-regal-900 dark:bg-regal-900/60 dark:text-gold-300 font-bold'
-                      : 'hover:bg-slate-50 dark:hover:bg-slate-800/60'
+                      ? 'border-primary/40 bg-primary/10 text-foreground font-semibold'
+                      : 'border-transparent hover:bg-secondary/70'
                   )}
                 >
                   <span className="flex items-center gap-2 min-w-0">
@@ -194,20 +198,20 @@ export function SovereignSidebar({
                       className={cn(
                         'size-3.5 rounded-full border flex items-center justify-center shrink-0 transition-colors',
                         isSelected
-                          ? 'border-regal-800 bg-regal-800 dark:border-gold-500 dark:bg-gold-500'
-                          : 'border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900'
+                          ? 'border-primary bg-primary'
+                          : 'hairline-border-strong bg-background'
                       )}
                     >
                       {isSelected && (
-                        <span className="size-1.5 rounded-full bg-white dark:bg-slate-950" />
+                        <span className="size-1.5 rounded-full bg-primary-foreground" />
                       )}
                     </span>
                     <span className="truncate">
                       {lang === 'ar' ? era.label : era.labelEn}
                     </span>
                   </span>
-                  <span className="text-slate-400 dark:text-slate-500 font-mono text-[11px] shrink-0 ms-2">
-                    ({formatNumber(count)})
+                  <span className="text-muted-foreground font-mono text-[11px] tabular-nums shrink-0 ms-2">
+                    {formatNumber(count)}
                   </span>
                 </button>
               );
@@ -216,8 +220,8 @@ export function SovereignSidebar({
         </div>
 
         {/* Facet 3: Content / Reference Type */}
-        <div className="space-y-2.5 pt-4 border-t border-slate-100 dark:border-border/70">
-          <label className="text-xs font-black text-slate-700 dark:text-slate-300 uppercase tracking-wider block">
+        <div className="space-y-2.5 pt-4 border-t hairline-border">
+          <label className="text-[11px] font-semibold text-muted-foreground uppercase tracking-[0.12em] block">
             {translate('طبيعة المرجع والمحتوى', 'Reference Nature')}
           </label>
           <div className="flex flex-wrap gap-1.5 text-xs">
@@ -229,10 +233,10 @@ export function SovereignSidebar({
                   type="button"
                   onClick={() => onSelectType(type.id)}
                   className={cn(
-                    'px-2.5 py-1 rounded-lg border text-xs font-medium transition-colors cursor-pointer',
+                    'px-2.5 py-1 rounded-[3px] border text-xs font-medium transition-colors cursor-pointer',
                     isSelected
-                      ? 'bg-regal-900 text-gold-300 border-regal-800 font-bold'
-                      : 'bg-slate-50 dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700'
+                      ? 'bg-foreground text-background border-foreground font-semibold'
+                      : 'bg-background/70 text-foreground/85 hairline-border hover:bg-secondary'
                   )}
                 >
                   {lang === 'ar' ? type.label : type.labelEn}

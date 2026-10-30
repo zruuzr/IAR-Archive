@@ -60,23 +60,23 @@ export function SearchAndControls({
       id="controlsRow"
       aria-label={t('searchLabel')}
       data-testid="search-and-controls"
-      className="mb-5 bg-white dark:bg-card p-3 sm:p-4 rounded-2xl border border-slate-200 dark:border-border doc-shadow flex flex-col sm:flex-row items-center justify-between gap-3"
+      className="mb-5 bg-card p-3 sm:p-4 rounded-[4px] border hairline-border-strong doc-shadow flex flex-col sm:flex-row items-center justify-between gap-3"
     >
       {/* Right side (RTL) / Start: Library status, results count & active search badge */}
-      <div className="flex flex-wrap items-center gap-2 text-xs text-slate-600 dark:text-slate-400 w-full sm:w-auto justify-between sm:justify-start">
+      <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground w-full sm:w-auto justify-between sm:justify-start">
         <div className="flex items-center gap-2">
           <span
-            className="font-bold text-sm text-regal-900 dark:text-gold-400"
+            className="font-serif font-bold text-base text-foreground"
             id="txtLibraryTitle"
           >
             {t('txtLibraryTitle')}
           </span>
-          <span>•</span>
+          <span className="opacity-50">/</span>
           <span>
             {translate('يتم عرض', 'Displaying')}{' '}
             <strong
               data-testid="results-counter"
-              className="text-slate-900 dark:text-white font-mono font-bold"
+              className="text-foreground font-mono font-semibold tabular-nums"
             >
               {formatNumber(totalMatching)}
             </strong>{' '}
@@ -86,7 +86,7 @@ export function SearchAndControls({
 
         {/* Active Search Filter Pill */}
         {query && (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-gold-50 dark:bg-gold-950/40 text-gold-700 dark:text-gold-300 border border-gold-300 dark:border-gold-800 text-[11px] font-medium">
+          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-[3px] bg-primary/10 text-primary border border-primary/35 text-[11px] font-medium">
             <span>&ldquo;{query}&rdquo;</span>
             <button
               type="button"
@@ -107,7 +107,7 @@ export function SearchAndControls({
             size="xs"
             data-testid="controls-reset-filters"
             onClick={onResetFilters}
-            className="text-xs text-regal-800 dark:text-gold-400 hover:text-gold-600 font-bold h-6 px-2"
+            className="text-xs text-primary hover:text-primary/80 font-semibold h-6 px-2 rounded-[3px]"
           >
             <RotateCcw className="size-3 shrink-0" aria-hidden="true" />
             <span>{t('resetFilters')}</span>
@@ -134,7 +134,7 @@ export function SearchAndControls({
             }}
             aria-label={t('sortOrderAria')}
             data-testid="sort-select"
-            className="h-9 w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 ps-8 pe-3 text-xs font-bold text-slate-700 dark:text-slate-200 focus-visible:outline-2 focus-visible:outline-ring cursor-pointer"
+            className="h-9 w-full rounded-[3px] border hairline-border-strong bg-background/80 ps-8 pe-3 text-xs font-semibold text-foreground focus-visible:outline-2 focus-visible:outline-ring cursor-pointer"
           >
             <option id="optSortDefault" value="default">
               {t('optSortDefault')}
@@ -171,14 +171,14 @@ export function SearchAndControls({
           title={t('txtFavoritesOnly')}
           onClick={onToggleFavoritesOnly}
           className={cn(
-            'h-9 px-2.5 rounded-xl border shrink-0 transition-all cursor-pointer',
+            'h-9 px-2.5 rounded-[3px] border shrink-0 transition-colors cursor-pointer',
             favoritesOnly
-              ? 'bg-gradient-to-r from-amber-400 to-yellow-400 text-regal-950 font-bold border-amber-400 shadow-sm'
-              : 'border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 text-slate-700 dark:text-slate-200 hover:border-gold-500/50'
+              ? 'bg-primary text-primary-foreground font-semibold border-primary'
+              : 'hairline-border-strong bg-background/80 text-foreground hover:bg-secondary'
           )}
         >
           <Heart
-            className={cn('size-3.5', favoritesOnly && 'fill-current text-destructive')}
+            className={cn('size-3.5', favoritesOnly && 'fill-current')}
             aria-hidden="true"
           />
           <span className="hidden sm:inline text-xs">{t('txtFavoritesOnly')}</span>
@@ -188,7 +188,7 @@ export function SearchAndControls({
         <div
           role="group"
           aria-label={translate('نمط العرض', 'View mode')}
-          className="inline-flex items-center rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 p-0.5 shrink-0 h-9"
+          className="inline-flex items-center rounded-[3px] border hairline-border-strong bg-background/80 p-0.5 shrink-0 h-9"
         >
           <button
             type="button"
@@ -199,10 +199,10 @@ export function SearchAndControls({
             title={t('viewGridAria')}
             onClick={() => onViewModeChange('grid')}
             className={cn(
-              'inline-flex size-7.5 items-center justify-center rounded-lg text-xs transition-colors cursor-pointer',
+              'inline-flex size-7.5 items-center justify-center rounded-[2px] text-xs transition-colors cursor-pointer',
               viewMode === 'grid'
-                ? 'bg-regal-900 text-gold-400 font-bold shadow-xs'
-                : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
+                ? 'bg-foreground text-background font-semibold'
+                : 'text-muted-foreground hover:text-foreground'
             )}
           >
             <LayoutGrid className="size-3.5" aria-hidden="true" />
@@ -217,10 +217,10 @@ export function SearchAndControls({
             title={t('viewListAria')}
             onClick={() => onViewModeChange('list')}
             className={cn(
-              'inline-flex size-7.5 items-center justify-center rounded-lg text-xs transition-colors cursor-pointer',
+              'inline-flex size-7.5 items-center justify-center rounded-[2px] text-xs transition-colors cursor-pointer',
               viewMode === 'list'
-                ? 'bg-regal-900 text-gold-400 font-bold shadow-xs'
-                : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
+                ? 'bg-foreground text-background font-semibold'
+                : 'text-muted-foreground hover:text-foreground'
             )}
           >
             <List className="size-3.5" aria-hidden="true" />

@@ -15,7 +15,7 @@
        are purged on activate
    ============================================================ */
 
-const CACHE_VERSION = 'v34';
+const CACHE_VERSION = 'v35';
 const CACHE_NAME = `iar-archive-${CACHE_VERSION}`;
 
 const CORE_SHELL = [

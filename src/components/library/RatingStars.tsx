@@ -52,10 +52,10 @@ export function RatingStars({ book, onRate, size = 'sm', className }: RatingStar
                 aria-hidden="true"
                 className={cn(
                   'inline-flex items-center justify-center p-0.5',
-                  isActive ? 'text-amber-500' : 'text-muted-foreground/35'
+                  isActive ? 'text-primary' : 'text-muted-foreground/35'
                 )}
               >
-                <Star className={cn(starIconClass, isActive && 'fill-amber-500')} />
+                <Star className={cn(starIconClass, isActive && 'fill-primary')} />
               </span>
             );
           }
@@ -74,12 +74,12 @@ export function RatingStars({ book, onRate, size = 'sm', className }: RatingStar
               className={cn(
                 'inline-flex items-center justify-center rounded-xs p-0.5 transition-transform hover:scale-110 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ring cursor-pointer',
                 isActive
-                  ? 'text-amber-500'
-                  : 'text-muted-foreground/40 hover:text-amber-400'
+                  ? 'text-primary'
+                  : 'text-muted-foreground/35 hover:text-primary/80'
               )}
             >
               <Star
-                className={cn(starIconClass, isActive && 'fill-amber-500')}
+                className={cn(starIconClass, isActive && 'fill-primary')}
                 aria-hidden="true"
               />
             </button>

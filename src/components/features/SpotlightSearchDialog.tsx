@@ -194,7 +194,7 @@ export function SpotlightSearchDialog({
         aria-describedby={descId}
         onClick={(e) => e.stopPropagation()}
         onKeyDown={handleKeyDown}
-        className="w-full max-w-2xl overflow-hidden rounded-2xl border border-primary/30 bg-card text-card-foreground shadow-2xl ring-1 ring-primary/20 animate-in zoom-in-95 duration-200"
+        className="w-full max-w-2xl overflow-hidden rounded-[4px] border hairline-border-strong bg-card text-card-foreground shadow-2xl animate-in zoom-in-95 duration-200"
       >
         <span id={titleId} className="sr-only">
           {t('spotlightSearch')}
@@ -204,8 +204,8 @@ export function SpotlightSearchDialog({
         </span>
 
         {/* Search Input Bar */}
-        <div className="relative flex items-center border-b border-border/80 px-4 py-3.5 bg-secondary/30">
-          <Search className="size-5 shrink-0 text-primary" aria-hidden="true" />
+        <div className="relative flex items-center border-b hairline-border px-4 py-3.5 bg-secondary/40">
+          <Search className="size-4.5 shrink-0 text-primary" aria-hidden="true" />
           <input
             ref={inputRef}
             type="search"
@@ -221,14 +221,14 @@ export function SpotlightSearchDialog({
             <button
               type="button"
               onClick={() => setQuery('')}
-              className="rounded-md p-1 text-muted-foreground hover:bg-secondary hover:text-foreground"
+              className="rounded-[2px] p-1 text-muted-foreground hover:bg-secondary hover:text-foreground"
               aria-label={t('clearSearchAria')}
             >
               <X className="size-4" />
             </button>
           )}
-          <kbd className="hidden sm:inline-flex items-center gap-1 rounded-md border border-border bg-background px-2 py-0.5 text-[11px] font-mono text-muted-foreground">
-            Esc
+          <kbd className="hidden sm:inline-flex items-center gap-1 rounded-[2px] border hairline-border-strong bg-background px-2 py-0.5 text-[10.5px] font-mono text-muted-foreground">
+            ESC
           </kbd>
         </div>
 
@@ -254,16 +254,16 @@ export function SpotlightSearchDialog({
                   onClick={() => handleSelect(item)}
                   onMouseEnter={() => setSelectedIndex(idx)}
                   className={cn(
-                    'group flex items-center justify-between gap-3 rounded-xl px-3.5 py-3 cursor-pointer transition-colors',
+                    'group flex items-center justify-between gap-3 rounded-[3px] px-3.5 py-2.5 cursor-pointer transition-colors',
                     isSelected
-                      ? 'bg-primary/15 text-foreground ring-1 ring-primary/40'
-                      : 'text-foreground hover:bg-secondary/60'
+                      ? 'bg-primary/10 text-foreground border border-primary/35'
+                      : 'text-foreground border border-transparent hover:bg-secondary/60'
                   )}
                 >
                   <div className="flex items-center gap-3 min-w-0 flex-1">
                     <span
                       className={cn(
-                        'flex size-8 shrink-0 items-center justify-center rounded-lg border text-xs transition-colors',
+                        'flex size-8 shrink-0 items-center justify-center rounded-[3px] border text-xs transition-colors',
                         item.type === 'category'
                           ? 'border-teal/40 bg-teal/10 text-teal'
                           : 'border-primary/40 bg-primary/10 text-primary'
@@ -276,7 +276,7 @@ export function SpotlightSearchDialog({
                       )}
                     </span>
                     <div className="flex flex-col min-w-0">
-                      <span className="font-semibold text-sm truncate leading-snug">
+                      <span className="font-serif font-bold text-base truncate leading-snug">
                         {item.title}
                       </span>
                       {item.subtitle && (
@@ -302,10 +302,10 @@ export function SpotlightSearchDialog({
         </div>
 
         {/* Footer Shortcut Guide */}
-        <div className="flex items-center justify-between border-t border-border bg-secondary/40 px-4 py-2.5 text-[11px] text-muted-foreground">
+        <div className="flex items-center justify-between border-t hairline-border bg-secondary/40 px-4 py-2.5 text-[11px] text-muted-foreground">
           <span className="hidden sm:inline">{t('spotlightHint')}</span>
-          <span className="text-primary font-medium tracking-wide ms-auto">
-            IAR Archive · 2026
+          <span className="font-mono text-[10.5px] uppercase tracking-[0.12em] text-primary font-semibold ms-auto">
+            IAR ARCHIVE — المرجع الإداري العراقي
           </span>
         </div>
       </div>

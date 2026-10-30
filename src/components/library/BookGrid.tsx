@@ -80,19 +80,19 @@ export function BookGrid({
           {Array.from({ length: 6 }, (_, index) => (
             <div
               key={index}
-              className="flex flex-col justify-between rounded-2xl border border-slate-200 dark:border-border bg-white dark:bg-card p-5 doc-shadow animate-pulse space-y-4 min-h-[380px]"
+              className="flex flex-col justify-between rounded-[4px] border hairline-border-strong bg-card p-5 doc-shadow animate-pulse space-y-4 min-h-[380px]"
             >
               <div className="flex items-center justify-between">
-                <div className="h-4 w-24 rounded-full bg-slate-200 dark:bg-slate-800" />
-                <div className="h-4 w-14 rounded-md bg-slate-200 dark:bg-slate-800" />
+                <div className="h-4 w-24 rounded-[2px] bg-secondary" />
+                <div className="h-4 w-14 rounded-[2px] bg-secondary" />
               </div>
-              <div className="mx-auto h-40 w-28 rounded-xl bg-slate-200 dark:bg-slate-800 shadow-sm" />
-              <div className="space-y-2 text-center">
-                <div className="mx-auto h-5 w-3/4 rounded-sm bg-slate-200 dark:bg-slate-800" />
-                <div className="mx-auto h-3.5 w-1/2 rounded-sm bg-slate-200 dark:bg-slate-800" />
-                <div className="mx-auto h-3 w-1/3 rounded-sm bg-slate-200 dark:bg-slate-800" />
+              <div className="mx-auto h-40 w-28 rounded-[3px] bg-secondary" />
+              <div className="space-y-2">
+                <div className="h-5 w-3/4 rounded-[2px] bg-secondary" />
+                <div className="h-3.5 w-1/2 rounded-[2px] bg-secondary" />
+                <div className="h-3 w-1/3 rounded-[2px] bg-secondary" />
               </div>
-              <div className="h-8 w-full rounded-xl bg-slate-200 dark:bg-slate-800" />
+              <div className="h-8 w-full rounded-[3px] bg-secondary" />
             </div>
           ))}
         </div>
@@ -106,13 +106,13 @@ export function BookGrid({
         id="booksDisplayContainer"
         role="alert"
         data-testid="catalog-error-state"
-        className="rounded-2xl border border-destructive/40 bg-card p-8 text-center shadow-2xs max-w-xl mx-auto my-6 space-y-4"
+        className="rounded-[4px] border border-destructive/40 bg-card p-8 text-center doc-shadow max-w-xl mx-auto my-6 space-y-4"
       >
-        <div className="mx-auto flex size-12 items-center justify-center rounded-full bg-destructive/15 text-destructive">
+        <div className="mx-auto flex size-12 items-center justify-center rounded-[4px] border border-destructive/30 bg-destructive/10 text-destructive">
           <AlertCircle className="size-6" aria-hidden="true" />
         </div>
         <div className="space-y-1.5">
-          <h3 className="text-base sm:text-lg font-bold text-foreground">
+          <h3 className="font-serif text-lg sm:text-xl font-bold text-foreground">
             {t('errorLoadTitle')}
           </h3>
           <p className="text-xs sm:text-sm text-muted-foreground">
@@ -125,7 +125,7 @@ export function BookGrid({
           size="sm"
           data-testid="catalog-retry-btn"
           onClick={onRetry}
-          className="gap-1.5"
+          className="gap-1.5 rounded-[3px]"
         >
           <RotateCcw className="size-3.5" aria-hidden="true" />
           <span>{t('retry')}</span>
@@ -142,9 +142,9 @@ export function BookGrid({
         id="booksDisplayContainer"
         role="status"
         data-testid="catalog-empty-state"
-        className="empty-state rounded-2xl border border-border bg-card p-8 sm:p-10 text-center shadow-2xs max-w-xl mx-auto my-6 space-y-4"
+        className="empty-state rounded-[4px] border hairline-border-strong bg-card p-8 sm:p-10 text-center doc-shadow max-w-xl mx-auto my-6 space-y-4"
       >
-        <div className="mx-auto flex size-12 items-center justify-center rounded-full bg-secondary text-primary">
+        <div className="mx-auto flex size-12 items-center justify-center rounded-[4px] border hairline-border bg-secondary text-primary">
           {isNoFavoritesYet ? (
             <HeartOff className="size-6" aria-hidden="true" />
           ) : (
@@ -153,7 +153,7 @@ export function BookGrid({
         </div>
 
         <div className="space-y-1.5">
-          <h3 className="text-base sm:text-lg font-bold text-foreground">
+          <h3 className="font-serif text-lg sm:text-xl font-bold text-foreground">
             {isNoFavoritesYet
               ? translate(
                   'قائمة المفضلة فارغة حاليًا',
@@ -177,7 +177,7 @@ export function BookGrid({
           size="sm"
           data-testid="empty-reset-btn"
           onClick={onResetFilters}
-          className="gap-1.5"
+          className="gap-1.5 rounded-[3px] bg-foreground text-background hover:bg-primary hover:text-primary-foreground"
         >
           <RotateCcw className="size-3.5" aria-hidden="true" />
           <span>{t('resetFilters')}</span>

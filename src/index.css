@@ -3,58 +3,97 @@
 
 @custom-variant dark (&:is(.dark *, [data-theme="dark"] *));
 
+/* ==========================================================================
+   IAR ARCHIVE — المرجع الإداري العراقي
+   Design Direction: Mesopotamian Editorial Monograph & Tactile Cloth Library
+   ========================================================================== */
+
 :root {
-  --background: #fbf9f4;
-  --foreground: #0e1713;
-  --card: #ffffff;
-  --card-foreground: #0e1713;
-  --popover: #ffffff;
-  --popover-foreground: #0e1713;
-  --primary: #d4af37;
-  --primary-foreground: #051b14;
-  --secondary: #edf5f1;
-  --secondary-foreground: #0e4333;
-  --muted: #edf5f1;
-  --muted-foreground: #52635c;
-  --accent: #e1efe9;
-  --accent-foreground: #092d22;
-  --destructive: #b91c1c;
-  --destructive-foreground: #ffffff;
-  --border: #dbe7e1;
-  --input: #dbe7e1;
-  --ring: #d4af37;
-  --teal: #145641;
-  --teal-foreground: #ffffff;
-  --warning: #d97706;
-  --success: #15803d;
-  --radius: 0.75rem;
+  --canvas: #f2ede2;
+  --canvas-rgb: 242, 237, 226;
+  --surface: #faf7f0;
+  --surface-recess: #e7e0d2;
+  --ink: #181715;
+  --ink-soft: #45413a;
+  --ink-muted: #777063;
+  --hairline: rgba(24, 23, 21, 0.12);
+  --hairline-strong: rgba(24, 23, 21, 0.25);
+  --terracotta: #b03e23;
+  --terracotta-soft: rgba(176, 62, 35, 0.09);
+  --brass: #926f34;
+  --shadow-contact: rgba(28, 23, 16, 0.22);
+  --shadow-ambient: rgba(28, 23, 16, 0.11);
+
+  /* Semantic Shadcn/Tailwind mappings */
+  --background: var(--canvas);
+  --foreground: var(--ink);
+  --card: var(--surface);
+  --card-foreground: var(--ink);
+  --popover: var(--surface);
+  --popover-foreground: var(--ink);
+  --primary: var(--terracotta);
+  --primary-foreground: #faf7f0;
+  --secondary: var(--surface-recess);
+  --secondary-foreground: var(--ink-soft);
+  --muted: var(--surface-recess);
+  --muted-foreground: var(--ink-muted);
+  --accent: var(--surface-recess);
+  --accent-foreground: var(--ink);
+  --destructive: #9f2b1c;
+  --destructive-foreground: #faf7f0;
+  --border: #d7cfc0;
+  --input: #d7cfc0;
+  --ring: var(--terracotta);
+  --teal: #204447;
+  --teal-foreground: #faf7f0;
+  --warning: #926f34;
+  --success: #31463a;
+  --radius: 0.25rem;
+  --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);
+  color-scheme: light;
 }
 
 .dark,
 [data-theme='dark'] {
-  --background: #061510;
-  --foreground: #f0f7f4;
-  --card: #0c2018;
-  --card-foreground: #f0f7f4;
-  --popover: #0c2018;
-  --popover-foreground: #f0f7f4;
-  --primary: #f5c518;
-  --primary-foreground: #051b14;
-  --secondary: #132d23;
-  --secondary-foreground: #d1fae5;
-  --muted: #132d23;
-  --muted-foreground: #8aa398;
-  --accent: #193a2e;
-  --accent-foreground: #f0f7f4;
-  --destructive: #ef4444;
-  --destructive-foreground: #ffffff;
-  --border: #1d4334;
-  --input: #1d4334;
-  --ring: #f5c518;
-  --teal: #2dd4bf;
-  --teal-foreground: #051b14;
-  --warning: #fbbf24;
-  --success: #34d399;
+  --canvas: #131519;
+  --canvas-rgb: 19, 21, 25;
+  --surface: #1a1d23;
+  --surface-recess: #0e1013;
+  --ink: #ece6d9;
+  --ink-soft: #bdb5a5;
+  --ink-muted: #857e71;
+  --hairline: rgba(236, 230, 217, 0.11);
+  --hairline-strong: rgba(236, 230, 217, 0.24);
+  --terracotta: #d25d3f;
+  --terracotta-soft: rgba(210, 93, 63, 0.13);
+  --brass: #c5a059;
+  --shadow-contact: rgba(0, 0, 0, 0.65);
+  --shadow-ambient: rgba(0, 0, 0, 0.42);
+
+  --background: var(--canvas);
+  --foreground: var(--ink);
+  --card: var(--surface);
+  --card-foreground: var(--ink);
+  --popover: var(--surface);
+  --popover-foreground: var(--ink);
+  --primary: var(--terracotta);
+  --primary-foreground: #faf7f0;
+  --secondary: var(--surface-recess);
+  --secondary-foreground: var(--ink-soft);
+  --muted: var(--surface-recess);
+  --muted-foreground: var(--ink-muted);
+  --accent: #22262e;
+  --accent-foreground: var(--ink);
+  --destructive: #d25d3f;
+  --destructive-foreground: #faf7f0;
+  --border: #2a2e37;
+  --input: #2a2e37;
+  --ring: var(--terracotta);
+  --teal: #5d9297;
+  --teal-foreground: #131519;
+  --warning: #c5a059;
+  --success: #5a826b;
+  color-scheme: dark;
 }
 
 @theme inline {
@@ -79,31 +118,23 @@
   --color-ring: var(--ring);
   --color-teal: var(--teal);
   --color-teal-foreground: var(--teal-foreground);
+  --color-terracotta: var(--terracotta);
+  --color-brass: var(--brass);
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-recess: var(--surface-recess);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-muted: var(--ink-muted);
 
-  /* Sovereign National Archive Palette (Concept D) */
-  --color-regal-50: #f2f8f5;
-  --color-regal-100: #e1efe9;
-  --color-regal-200: #c6dfd4;
-  --color-regal-300: #93c4b1;
-  --color-regal-600: #1b6b52;
-  --color-regal-700: #145641;
-  --color-regal-800: #0e4333;
-  --color-regal-900: #092d22;
-  --color-regal-950: #051b14;
-
-  --color-gold-300: #fef08a;
-  --color-gold-400: #facc15;
-  --color-gold-500: #eab308;
-  --color-gold-600: #ca8a04;
-
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
+  --radius-sm: calc(var(--radius) - 1px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 2px);
   --radius-xl: calc(var(--radius) + 4px);
   --font-sans:
-    'IBM Plex Sans Arabic', 'Cairo', 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
-  --font-serif: 'Amiri', serif;
-  --font-cuneiform: 'Noto Sans Cuneiform', serif;
+    'IBM Plex Sans Arabic', 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+  --font-serif: 'Amiri', Georgia, serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
 }
 
 @layer base {
@@ -120,6 +151,9 @@
     @apply bg-background text-foreground font-sans antialiased;
     line-height: 1.7;
     overflow-x: clip;
+    transition:
+      background-color 0.4s ease,
+      color 0.4s ease;
   }
 }
 
@@ -134,75 +168,539 @@
   }
 }
 
-/* ============================================================
-   Architectural & Editorial Utilities
-   ============================================================ */
+/* ==========================================================================
+   Tactile Cotton-Rag Paper Grain & Editorial Hairlines
+   ========================================================================== */
 
-/* Subtle Mesopotamian Geometric Lattice Motif */
-.bg-mesopotamian-lattice {
+.paper-grain-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  opacity: 0.72;
   background-image:
-    radial-gradient(ellipse at 50% 0%, rgba(158, 112, 41, 0.08), transparent 70%),
-    linear-gradient(to right, rgba(158, 112, 41, 0.035) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(158, 112, 41, 0.035) 1px, transparent 1px);
-  background-size:
-    100% 100%,
-    32px 32px,
-    32px 32px;
+    radial-gradient(rgba(120, 108, 88, 0.045) 1px, transparent 0),
+    radial-gradient(rgba(25, 23, 20, 0.028) 1px, transparent 0);
+  background-size: 24px 24px;
+  background-position:
+    0 0,
+    12px 12px;
 }
 
-.dark .bg-mesopotamian-lattice,
-[data-theme='dark'] .bg-mesopotamian-lattice {
-  background-image:
-    radial-gradient(ellipse at 50% 0%, rgba(212, 168, 96, 0.12), transparent 70%),
-    linear-gradient(to right, rgba(212, 168, 96, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(212, 168, 96, 0.04) 1px, transparent 1px);
-  background-size:
-    100% 100%,
-    32px 32px,
-    32px 32px;
+.scroll-hairline-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 60;
+  background: transparent;
+  pointer-events: none;
 }
 
-/* Tactile 3D Book Spine & Elevation */
+.scroll-hairline-progress span {
+  display: block;
+  height: 100%;
+  background: var(--terracotta);
+  transition: width 0.12s linear;
+}
+
+.hairline-border {
+  border-color: var(--hairline);
+}
+
+.hairline-border-strong {
+  border-color: var(--hairline-strong);
+}
+
+/* ==========================================================================
+   Authentic Book-Cloth Pigments (9 Archival Binding Palettes)
+   ========================================================================== */
+
+[data-cloth='prussian'] {
+  --cloth-bg: #1f3449;
+  --cloth-deep: #162636;
+  --cloth-ink: #f1ebdd;
+  --cloth-muted: rgba(241, 235, 221, 0.66);
+  --cloth-rule: rgba(208, 174, 114, 0.42);
+  --cloth-accent: #d2af72;
+}
+
+[data-cloth='linen'] {
+  --cloth-bg: #e5dec9;
+  --cloth-deep: #d6ceb6;
+  --cloth-ink: #1b1916;
+  --cloth-muted: rgba(27, 25, 22, 0.62);
+  --cloth-rule: rgba(27, 25, 22, 0.22);
+  --cloth-accent: #a83b20;
+}
+
+[data-cloth='terracotta'] {
+  --cloth-bg: #8b3826;
+  --cloth-deep: #6e2a1b;
+  --cloth-ink: #f6efe4;
+  --cloth-muted: rgba(246, 239, 228, 0.72);
+  --cloth-rule: rgba(246, 239, 228, 0.28);
+  --cloth-accent: #e6c39a;
+}
+
+[data-cloth='cypress'] {
+  --cloth-bg: #31463a;
+  --cloth-deep: #23332a;
+  --cloth-ink: #efe9db;
+  --cloth-muted: rgba(239, 233, 219, 0.66);
+  --cloth-rule: rgba(201, 173, 121, 0.36);
+  --cloth-accent: #c9ad79;
+}
+
+[data-cloth='oatmeal'] {
+  --cloth-bg: #d9d1be;
+  --cloth-deep: #c8bfa9;
+  --cloth-ink: #1e2c3a;
+  --cloth-muted: rgba(30, 44, 58, 0.62);
+  --cloth-rule: rgba(30, 44, 58, 0.22);
+  --cloth-accent: #8b3826;
+}
+
+[data-cloth='oxblood'] {
+  --cloth-bg: #542328;
+  --cloth-deep: #3e181c;
+  --cloth-ink: #f2ece0;
+  --cloth-muted: rgba(242, 236, 224, 0.66);
+  --cloth-rule: rgba(212, 178, 124, 0.36);
+  --cloth-accent: #d4b27c;
+}
+
+[data-cloth='petrol'] {
+  --cloth-bg: #204447;
+  --cloth-deep: #163133;
+  --cloth-ink: #ede7da;
+  --cloth-muted: rgba(237, 231, 218, 0.68);
+  --cloth-rule: rgba(205, 176, 126, 0.34);
+  --cloth-accent: #cdb07e;
+}
+
+[data-cloth='ochre'] {
+  --cloth-bg: #654d35;
+  --cloth-deep: #4d3a27;
+  --cloth-ink: #f4eee3;
+  --cloth-muted: rgba(244, 238, 227, 0.68);
+  --cloth-rule: rgba(244, 238, 227, 0.26);
+  --cloth-accent: #e2c38f;
+}
+
+[data-cloth='slate'] {
+  --cloth-bg: #282b30;
+  --cloth-deep: #1c1e22;
+  --cloth-ink: #efeae0;
+  --cloth-muted: rgba(239, 234, 224, 0.64);
+  --cloth-rule: rgba(239, 234, 224, 0.22);
+  --cloth-accent: #c95b3c;
+}
+
+/* Woven linen micro-texture reusable helper */
+.cloth-weave {
+  background: linear-gradient(155deg, var(--cloth-bg) 0%, var(--cloth-deep) 100%);
+  color: var(--cloth-ink);
+  position: relative;
+}
+
+.cloth-weave::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.22;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.06) 0px,
+      rgba(255, 255, 255, 0.06) 1px,
+      transparent 1px,
+      transparent 3px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.06) 0px,
+      rgba(0, 0, 0, 0.06) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+}
+
+/* ==========================================================================
+   Interactive Cloth Bookshelf Stage (Hero)
+   ========================================================================== */
+
+.books-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 20px 0;
+  min-height: 360px;
+  max-width: 100%;
+}
+
+.shelf-architectural-ledge {
+  width: min(1160px, 94vw);
+  position: relative;
+  height: 22px;
+  pointer-events: none;
+}
+
+.shelf-contact-shadow {
+  position: absolute;
+  top: 0;
+  left: 4%;
+  right: 4%;
+  height: 18px;
+  background: radial-gradient(
+    ellipse at 50% 0%,
+    var(--shadow-contact) 0%,
+    transparent 72%
+  );
+  filter: blur(4px);
+}
+
+.shelf-hairline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--hairline-strong) 15%,
+    var(--hairline-strong) 85%,
+    transparent 100%
+  );
+}
+
+.shelf-book {
+  position: relative;
+  width: var(--spine-w, 56px);
+  height: var(--book-h, 338px);
+  flex-shrink: 0;
+  border-radius: 3px 3px 2px 2px;
+  background-color: var(--cloth-bg);
+  color: var(--cloth-ink);
+  cursor: pointer;
+  overflow: hidden;
+  user-select: none;
+  transition:
+    width 0.62s var(--ease-editorial),
+    transform 0.45s var(--ease-editorial),
+    box-shadow 0.45s var(--ease-editorial);
+  box-shadow:
+    -3px 4px 10px var(--shadow-ambient),
+    inset 3px 0 5px rgba(255, 255, 255, 0.14),
+    inset -3px 0 6px rgba(0, 0, 0, 0.24);
+}
+
+.shelf-book::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0.22;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.06) 0px,
+      rgba(255, 255, 255, 0.06) 1px,
+      transparent 1px,
+      transparent 3px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.06) 0px,
+      rgba(0, 0, 0, 0.06) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+}
+
+.shelf-book:not(.is-open):hover {
+  transform: translateY(-9px);
+  box-shadow:
+    -5px 12px 18px var(--shadow-contact),
+    inset 3px 0 5px rgba(255, 255, 255, 0.18),
+    inset -3px 0 6px rgba(0, 0, 0, 0.26);
+}
+
+.shelf-book.is-open {
+  width: 232px;
+  height: 348px;
+  border-radius: 3px 5px 4px 3px;
+  box-shadow:
+    -12px 14px 28px var(--shadow-contact),
+    -2px 3px 8px var(--shadow-ambient),
+    inset 1px 0 2px rgba(255, 255, 255, 0.2);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .shelf-book.is-open {
+    cursor: none;
+  }
+}
+
+.book-spine-view {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 6px;
+  z-index: 2;
+  opacity: 1;
+  transition: opacity 0.28s ease;
+}
+
+.shelf-book.is-open .book-spine-view {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.spine-title-vertical {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-family: var(--font-serif);
+  font-size: 1.02rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--cloth-ink);
+  white-space: nowrap;
+  line-height: 1;
+  max-height: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.book-cover-view {
+  position: absolute;
+  inset: 0;
+  width: 232px;
+  padding: 18px 20px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 2;
+  opacity: 0;
+  transform: translateX(12px);
+  transition:
+    opacity 0.42s ease 0.14s,
+    transform 0.52s var(--ease-editorial) 0.1s;
+  background: linear-gradient(155deg, var(--cloth-bg) 0%, var(--cloth-deep) 100%);
+}
+
+[dir='ltr'] .book-cover-view {
+  padding: 18px 16px 16px 20px;
+  transform: translateX(-12px);
+}
+
+.shelf-book.is-open .book-cover-view {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* French-Joint Binding Groove (Right in RTL, Left in LTR) */
+.book-cover-view::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  inset-inline-start: 10px;
+  width: 2px;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.32), rgba(255, 255, 255, 0.16));
+  pointer-events: none;
+}
+
+/* Magnetic floating preview badge on fine-pointer desktops */
+.magnetic-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 68px;
+  height: 68px;
+  margin-left: -34px;
+  margin-top: -34px;
+  border-radius: 50%;
+  background: var(--terracotta);
+  color: #faf7f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  pointer-events: none;
+  z-index: 80;
+  opacity: 0;
+  transform: scale(0.4);
+  transition:
+    opacity 0.22s ease,
+    transform 0.28s var(--ease-editorial);
+  box-shadow: 0 10px 26px rgba(176, 62, 35, 0.28);
+}
+
+.magnetic-cursor.is-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ==========================================================================
+   3D Hardcover Monograph Pedestal (RTL & LTR Aware)
+   ========================================================================== */
+
+.artifact-pedestal {
+  position: relative;
+  perspective: 1400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hardcover-3d {
+  position: relative;
+  width: 280px;
+  height: 400px;
+  transform-style: preserve-3d;
+  transform: rotateY(-17deg) rotateX(3deg);
+  transition: transform 0.35s ease-out;
+}
+
+[dir='ltr'] .hardcover-3d {
+  transform: rotateY(17deg) rotateX(3deg);
+}
+
+/* Multi-layered cream paper-block edge (Left in RTL, Right in LTR) */
+.hardcover-pages-edge {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 0;
+  width: 18px;
+  background: repeating-linear-gradient(
+    90deg,
+    #f7f2e7 0px,
+    #f7f2e7 1.5px,
+    #ded5c1 1.5px,
+    #ded5c1 3px
+  );
+  transform-origin: left center;
+  transform: rotateY(-88deg);
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.16);
+}
+
+[dir='ltr'] .hardcover-pages-edge {
+  left: auto;
+  right: 0;
+  transform-origin: right center;
+  transform: rotateY(88deg);
+}
+
+.hardcover-front {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 3px 6px 6px 3px;
+  background: linear-gradient(155deg, var(--cloth-bg) 0%, var(--cloth-deep) 100%);
+  color: var(--cloth-ink);
+  overflow: hidden;
+  box-shadow:
+    -18px 22px 38px var(--shadow-contact),
+    -4px 6px 12px var(--shadow-ambient),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.22);
+}
+
+[dir='ltr'] .hardcover-front {
+  border-radius: 6px 3px 3px 6px;
+  box-shadow:
+    18px 22px 38px var(--shadow-contact),
+    4px 6px 12px var(--shadow-ambient),
+    inset -1px 1px 2px rgba(255, 255, 255, 0.22);
+}
+
+.hardcover-front::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 12;
+  opacity: 0.2;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.06) 0px,
+      rgba(255, 255, 255, 0.06) 1px,
+      transparent 1px,
+      transparent 3px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.07) 0px,
+      rgba(0, 0, 0, 0.07) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+}
+
+.cover-hinge-groove {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  inset-inline-start: 12px;
+  width: 3px;
+  z-index: 15;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.36), rgba(255, 255, 255, 0.18));
+  pointer-events: none;
+}
+
+.artifact-floor-shadow {
+  width: 268px;
+  height: 22px;
+  margin-top: 18px;
+  background: radial-gradient(
+    ellipse at center,
+    var(--shadow-contact) 0%,
+    transparent 72%
+  );
+  filter: blur(6px);
+}
+
+/* ==========================================================================
+   Tactile Book Cover & Archival Surface Elevation
+   ========================================================================== */
+
 .book-cover-tactile {
   box-shadow:
-    0 1px 3px rgba(0, 0, 0, 0.08),
-    0 4px 12px rgba(0, 0, 0, 0.05),
-    -3px 0 6px -1px rgba(0, 0, 0, 0.12);
+    -3px 4px 10px var(--shadow-ambient),
+    0 1px 3px rgba(0, 0, 0, 0.08);
   transition:
-    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 0.3s ease;
+    transform 0.35s var(--ease-editorial),
+    box-shadow 0.35s var(--ease-editorial);
 }
 
 .group:hover .book-cover-tactile {
-  transform: translateY(-2px) scale(1.01);
+  transform: translateY(-3px);
   box-shadow:
-    0 8px 24px -4px rgba(158, 112, 41, 0.18),
-    0 4px 12px rgba(0, 0, 0, 0.08),
-    -4px 0 8px -1px rgba(0, 0, 0, 0.15);
+    -6px 12px 22px var(--shadow-contact),
+    0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
-/* Glassmorphism Surface */
-.glass-surface {
-  background: color-mix(in srgb, var(--card) 85%, transparent);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-
-/* Sovereign Archival Document Elevation */
 .doc-shadow {
-  box-shadow:
-    0 4px 20px -2px rgba(9, 45, 34, 0.08),
-    0 2px 6px -1px rgba(9, 45, 34, 0.04);
+  box-shadow: 0 2px 10px -2px var(--shadow-ambient);
 }
 
-.dark .doc-shadow,
-[data-theme='dark'] .doc-shadow {
-  box-shadow:
-    0 4px 24px -2px rgba(0, 0, 0, 0.5),
-    0 2px 8px -1px rgba(0, 0, 0, 0.3);
-}
-
-.watermark-emblem {
-  background-image: radial-gradient(#0e4333 0.6px, transparent 0.6px);
-  background-size: 20px 20px;
+@media (max-width: 1024px) {
+  .books-row {
+    justify-content: flex-start;
+    overflow-x: auto;
+    width: 100%;
+    padding-bottom: 10px;
+  }
 }

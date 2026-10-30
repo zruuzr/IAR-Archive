@@ -40,7 +40,7 @@ export function BundleBar({ bundle, onCopyBundleUrl, onClearBundle }: BundleBarP
           id="bundleModeAlertContainer"
           role="status"
           data-testid="bundle-mode-alert"
-          className="bundle-mode-notice flex flex-wrap items-center justify-between gap-3 rounded-xl border border-teal/40 bg-teal/10 px-4 py-3 text-xs sm:text-sm text-foreground"
+          className="bundle-mode-notice flex flex-wrap items-center justify-between gap-3 rounded-[4px] border border-teal/40 bg-teal/10 px-4 py-3 text-xs sm:text-sm text-foreground"
         >
           <div className="flex items-center gap-2 font-semibold">
             <Layers className="size-4 text-teal shrink-0" aria-hidden="true" />
@@ -56,6 +56,7 @@ export function BundleBar({ bundle, onCopyBundleUrl, onClearBundle }: BundleBarP
               size="xs"
               data-testid="exit-bundle-mode-btn"
               onClick={() => bundle.setBundleMode(false)}
+              className="rounded-[3px]"
             >
               {translate('عرض كل المكتبة', 'Show full library')}
             </Button>
@@ -66,6 +67,7 @@ export function BundleBar({ bundle, onCopyBundleUrl, onClearBundle }: BundleBarP
               size="xs"
               data-testid="bundle-notice-clear-btn"
               onClick={onClearBundle}
+              className="rounded-[3px]"
             >
               {t('backToLibraryShort')}
             </Button>
@@ -80,10 +82,10 @@ export function BundleBar({ bundle, onCopyBundleUrl, onClearBundle }: BundleBarP
           role="region"
           aria-label={t('bundleCheckboxLabel')}
           data-testid="bundle-bar"
-          className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-primary/40 bg-card/95 backdrop-blur-md px-4 py-3.5 shadow-lg shadow-primary/10 ring-1 ring-primary/20 animate-in slide-in-from-bottom-2 duration-300"
+          className="flex flex-wrap items-center justify-between gap-3 rounded-[4px] border hairline-border-strong bg-card px-4 py-3.5 doc-shadow animate-in slide-in-from-bottom-2 duration-300"
         >
           <div className="flex items-center gap-2.5 text-xs sm:text-sm font-medium text-foreground">
-            <span className="inline-flex size-7 items-center justify-center rounded-lg bg-primary/15 text-primary font-bold tabular-nums">
+            <span className="inline-flex size-7 items-center justify-center rounded-[3px] bg-primary text-primary-foreground font-mono font-bold tabular-nums">
               <span id="bundleCount" data-testid="bundle-count">
                 {formatNumber(bundle.bundleCount)}
               </span>

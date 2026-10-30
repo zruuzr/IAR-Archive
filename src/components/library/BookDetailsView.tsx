@@ -3,26 +3,25 @@ import {
   ArrowLeft,
   ArrowRight,
   BookOpen,
-  Calendar,
   Check,
   Download,
-  FileText,
-  HardDrive,
   Heart,
   Layers,
   Quote,
   Share2,
-  Sparkles,
-  Users,
   ZoomIn
 } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useI18n } from '@/i18n/I18nProvider';
+import {
+  classifyShelfDiscipline,
+  DisciplineOrnament,
+  getBookCloth
+} from '@/lib/editorial-cloth';
 import { cn } from '@/lib/utils';
 import { formatCitation, getBookKeyPoints, getCategoryLabel } from '@/services/catalog';
 import type { Book } from '@/types/book';
-import { BookCover } from './BookCover';
 import { RatingStars } from './RatingStars';
 
 export interface BookDetailsViewProps {
@@ -31,6 +30,8 @@ export interface BookDetailsViewProps {
   isInBundle: boolean;
   isDownloadBusy?: boolean;
   onBackToList: () => void;
+  onPrevBook?: () => void;
+  onNextBook?: () => void;
   onRead: (book: Book) => void;
   onDownload: (book: Book) => void;
   onToggleFavorite: (bookId: number) => void;
@@ -48,7 +49,6 @@ export interface BookNotFoundViewProps {
 
 /**
  * Rendered when the URL contains an invalid or non-existent `?book=` parameter.
- * Provides a clear message and a direct action to return to the library catalog.
  */
 export function BookNotFoundView({
   requestedParam,
@@ -63,17 +63,17 @@ export function BookNotFoundView({
       role="region"
       aria-labelledby="bookNotFoundTitle"
       data-testid="book-not-found-view"
-      className="mx-auto my-8 max-w-xl rounded-2xl border border-border bg-card p-6 sm:p-8 text-center text-card-foreground shadow-sm space-y-5"
+      className="mx-auto my-8 max-w-xl rounded-[4px] border hairline-border-strong bg-card p-6 sm:p-8 text-center text-card-foreground doc-shadow space-y-5"
     >
-      <div className="mx-auto flex size-12 items-center justify-center rounded-full bg-secondary text-primary">
-        <AlertCircle className="size-6" aria-hidden="true" />
+      <div className="mx-auto flex size-12 items-center justify-center rounded-full border hairline-border-strong bg-secondary text-primary">
+        <AlertCircle className="size-5" aria-hidden="true" />
       </div>
 
       <div className="space-y-2">
         <h1
           id="bookNotFoundTitle"
           data-testid="book-not-found-title"
-          className="text-lg sm:text-xl font-bold text-foreground"
+          className="font-serif text-xl sm:text-2xl font-bold text-foreground"
         >
           {translate('المرجع غير موجود', 'Reference not found')}
         </h1>
@@ -93,7 +93,7 @@ export function BookNotFoundView({
           size="sm"
           onClick={onBackToList}
           data-testid="not-found-back-btn"
-          className="gap-2 font-medium"
+          className="gap-2 rounded-[4px] bg-foreground text-background hover:bg-primary hover:text-primary-foreground"
         >
           <BackIcon className="size-4 shrink-0" aria-hidden="true" />
           <span>{t('txtBackToList')}</span>
@@ -104,9 +104,10 @@ export function BookNotFoundView({
 }
 
 /**
- * Editorial reference details & 3-minute summary view (`?book=ID`).
- * Displays full bibliographic metadata, cover zoom trigger, interactive 1-5 star rating,
- * description, key points, target audience, APA citation block, and Read/Download/Favorite/Bundle/Share actions.
+ * Two-Column Editorial Monograph Spread (`?book=ID`).
+ * Combines the museum-grade editorial spread typography, 4-column hairline specification grid,
+ * numbered 01..04 keypoints, and RTL/LTR-aware 3D hardcover book pedestal with full
+ * PDF reading, downloading, APA citation, rating, bundle, and cover zoom functionality.
  */
 export function BookDetailsView({
   book,
@@ -114,6 +115,8 @@ export function BookDetailsView({
   isInBundle,
   isDownloadBusy = false,
   onBackToList,
+  onPrevBook,
+  onNextBook,
   onRead,
   onDownload,
   onToggleFavorite,
@@ -125,9 +128,20 @@ export function BookDetailsView({
 }: BookDetailsViewProps) {
   const { lang, isRTL, t, translate, getBookField, formatNumber } = useI18n();
   const [copiedApa, setCopiedApa] = useState<boolean>(false);
+  const [failedCoverUrl, setFailedCoverUrl] = useState<string | null>(null);
+  const hardcoverRef = useRef<HTMLDivElement | null>(null);
+  const sheenRef = useRef<HTMLDivElement | null>(null);
 
   const BackIcon = isRTL ? ArrowRight : ArrowLeft;
   const title = getBookField(book, 'title');
+  const secondaryTitle =
+    lang === 'ar'
+      ? book.title_en && book.title_en !== book.title
+        ? book.title_en
+        : ''
+      : book.title && book.title !== book.title_en
+        ? book.title
+        : '';
   const author = getBookField(book, 'author');
   const publisher = getBookField(book, 'publisher');
   const description = getBookField(book, 'description') || t('unknown');
@@ -137,6 +151,74 @@ export function BookDetailsView({
   const keyPoints = getBookKeyPoints(book, lang);
   const apaText = formatCitation(book, lang);
   const hasFile = Boolean(book.file_path);
+
+  const cloth = getBookCloth(book.id);
+  const discipline = classifyShelfDiscipline(book);
+  const showCoverImg = Boolean(book.cover_image && failedCoverUrl !== book.cover_image);
+  const codeNum = String(book.id).padStart(3, '0');
+
+  // Escape returns to shelf when no modal dialog is active; ArrowLeft/Right steps books
+  useEffect(() => {
+    if (typeof window === 'undefined') return undefined;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (
+        target &&
+        (target.tagName === 'INPUT' ||
+          target.tagName === 'SELECT' ||
+          target.tagName === 'TEXTAREA')
+      ) {
+        return;
+      }
+      if (document.querySelector('[role="dialog"][aria-modal="true"]')) {
+        return;
+      }
+
+      if (e.key === 'Escape') {
+        onBackToList();
+      } else if (e.key === 'ArrowLeft') {
+        if (isRTL ? onNextBook : onPrevBook) {
+          (isRTL ? onNextBook : onPrevBook)?.();
+        }
+      } else if (e.key === 'ArrowRight') {
+        if (isRTL ? onPrevBook : onNextBook) {
+          (isRTL ? onPrevBook : onNextBook)?.();
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isRTL, onBackToList, onNextBook, onPrevBook]);
+
+  // Subtle interactive 3D hardcover tilt on desktop mouse move
+  useEffect(() => {
+    if (typeof window === 'undefined') return undefined;
+
+    const baseRotY = isRTL ? -17 : 17;
+    if (hardcoverRef.current) {
+      hardcoverRef.current.style.transform = `rotateY(${baseRotY}deg) rotateX(3deg)`;
+    }
+
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!hardcoverRef.current || window.innerWidth < 1024) return;
+      const nx = e.clientX / window.innerWidth - 0.5;
+      const ny = e.clientY / window.innerHeight - 0.5;
+      const rotY = baseRotY + nx * 13;
+      const rotX = 3 - ny * 9;
+      hardcoverRef.current.style.transform = `rotateY(${rotY.toFixed(2)}deg) rotateX(${rotX.toFixed(2)}deg)`;
+
+      if (sheenRef.current) {
+        const sx = 35 + nx * 40;
+        const sy = 25 + ny * 40;
+        sheenRef.current.style.background = `radial-gradient(circle at ${sx}% ${sy}%, rgba(255,255,255,0.16) 0%, transparent 62%)`;
+      }
+    };
+
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, [isRTL, book.id]);
 
   const handleCopyApa = () => {
     onCopyCitation(book);
@@ -153,345 +235,485 @@ export function BookDetailsView({
       data-testid="book-details-view"
       className="space-y-6"
     >
-      {/* Back to Library Navigation */}
-      <div>
-        <Button
+      {/* Top Monograph Navigation Bar */}
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b hairline-border-strong pb-4">
+        <button
           type="button"
           id="btnBackToList"
-          variant="outline"
-          size="sm"
           data-testid="back-to-library-btn"
           onClick={onBackToList}
-          className="gap-2 font-medium"
+          className="inline-flex items-center gap-2 rounded-[4px] border hairline-border-strong bg-transparent px-3.5 py-1.5 text-xs sm:text-sm font-medium text-foreground transition-colors hover:border-foreground hover:bg-foreground hover:text-background cursor-pointer"
         >
           <BackIcon className="size-4 shrink-0" aria-hidden="true" />
           <span id="txtBackToList">{t('txtBackToList')}</span>
-        </Button>
+          <kbd className="hidden sm:inline-block rounded-[3px] border border-current px-1.5 py-0.2 font-mono text-[10px] opacity-65">
+            ESC
+          </kbd>
+        </button>
+
+        <div className="font-mono text-xs tracking-[0.16em] text-muted-foreground uppercase">
+          IAR ARCHIVE · MONOGRAPH {codeNum}
+        </div>
+
+        {(onPrevBook || onNextBook) && (
+          <div className="flex items-center gap-2 text-xs font-medium">
+            {onPrevBook && (
+              <button
+                type="button"
+                data-testid="single-prev-book-btn"
+                onClick={onPrevBook}
+                className="px-1.5 py-1 text-secondary-foreground transition-colors hover:text-primary cursor-pointer"
+              >
+                {t('previous')}
+              </button>
+            )}
+            {onPrevBook && onNextBook && (
+              <span aria-hidden="true" className="text-border">
+                /
+              </span>
+            )}
+            {onNextBook && (
+              <button
+                type="button"
+                data-testid="single-next-book-btn"
+                onClick={onNextBook}
+                className="px-1.5 py-1 text-secondary-foreground transition-colors hover:text-primary cursor-pointer"
+              >
+                {t('next')}
+              </button>
+            )}
+          </div>
+        )}
       </div>
 
-      {/* Main Editorial Sheet */}
-      <article className="overflow-hidden rounded-2xl border border-border bg-card text-card-foreground shadow-sm">
-        <div
-          aria-hidden="true"
-          className="h-1 w-full bg-gradient-to-r from-primary via-teal to-primary/40"
-        />
+      {/* Main Two-Column Editorial Monograph Spread */}
+      <article className="rounded-[4px] border hairline-border-strong bg-card p-5 sm:p-8 lg:p-10 text-card-foreground doc-shadow">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.32fr_0.88fr] lg:gap-12 items-start">
+          {/* Column 1 (Start): Editorial Bibliographic Sheet */}
+          <div className="min-w-0 space-y-5 order-2 lg:order-1">
+            {/* Terracotta Rubric */}
+            <div className="flex flex-wrap items-center gap-2 text-xs font-semibold text-primary">
+              <span id="singleBookCategory">{category}</span>
+              <span aria-hidden="true">·</span>
+              <span id="singleBookType" className="text-muted-foreground font-medium">
+                {bookType}
+              </span>
+            </div>
 
-        <div className="p-5 sm:p-7 lg:p-9 space-y-8">
-          {/* Header Block: Cover + Primary Metadata + Actions */}
-          <div className="flex flex-col gap-6 md:flex-row md:items-start lg:gap-8">
-            <div className="flex flex-col items-center md:items-start gap-2 shrink-0">
-              <BookCover
-                book={book}
-                featured
-                onClick={onZoomCover ? () => onZoomCover(book) : undefined}
-                className="w-40 sm:w-48 md:w-52 shadow-md"
-              />
-              {onZoomCover && (
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="xs"
-                  onClick={() => onZoomCover(book)}
-                  data-testid="single-zoom-cover-btn"
-                  className="gap-1.5 text-xs text-muted-foreground hover:text-foreground"
+            {/* Monumental Amiri Title & Bilingual Subtitle */}
+            <div className="space-y-1.5">
+              <h1
+                id="singleBookTitle"
+                data-testid="single-book-title"
+                className="font-serif text-2xl sm:text-3xl lg:text-[2.35rem] font-bold tracking-tight text-foreground leading-[1.24]"
+              >
+                {title}
+              </h1>
+
+              {secondaryTitle && (
+                <p
+                  dir={lang === 'ar' ? 'ltr' : 'rtl'}
+                  className="font-mono text-xs text-muted-foreground text-start"
                 >
-                  <ZoomIn className="size-3.5 shrink-0" aria-hidden="true" />
-                  <span>{translate('تكبير الغلاف', 'Zoom cover')}</span>
-                </Button>
+                  {secondaryTitle}
+                </p>
               )}
             </div>
 
-            <div className="flex-1 min-w-0 space-y-4">
-              <div className="flex flex-wrap items-center gap-2">
-                <span
-                  id="singleBookCategory"
-                  className="inline-flex items-center rounded-md bg-teal/12 px-2.5 py-1 text-xs font-semibold text-teal"
-                >
-                  {category}
-                </span>
+            {/* Lead Abstract */}
+            <div className="space-y-1.5">
+              <h2 id="singleDescLabel" className="sr-only">
+                {t('singleDescLabel')}
+              </h2>
+              <p
+                id="singleBookDescription"
+                className="text-sm sm:text-[15px] text-secondary-foreground leading-[1.8] max-w-[66ch]"
+              >
+                {description}
+              </p>
+            </div>
 
-                <span
-                  id="singleBookType"
-                  className="inline-flex items-center rounded-md border border-border bg-secondary/70 px-2.5 py-1 text-xs font-medium text-secondary-foreground"
+            {/* 4-Column Architectural Hairline Specification Grid */}
+            <dl className="grid grid-cols-2 sm:grid-cols-4 border-y hairline-border-strong">
+              <div className="py-3 pe-3 border-b sm:border-b-0 border-e hairline-border">
+                <dt className="mb-1 text-[11px] text-muted-foreground">
+                  {translate('المؤلف / الجهة المصدرة', 'Author / Issuer')}
+                </dt>
+                <dd
+                  id="singleBookAuthor"
+                  className="text-xs sm:text-[13px] font-semibold text-foreground leading-snug"
                 >
-                  {bookType}
-                </span>
+                  {author || publisher || t('unknown')}
+                </dd>
+                {author && publisher && publisher !== author && (
+                  <dd className="mt-0.5 text-[11px] text-muted-foreground truncate">
+                    {publisher}
+                  </dd>
+                )}
               </div>
 
-              <div className="space-y-1.5">
-                <h1
-                  id="singleBookTitle"
-                  data-testid="single-book-title"
-                  className="text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight text-foreground leading-snug"
-                >
-                  {title}
-                </h1>
+              <div className="py-3 px-3 border-b sm:border-b-0 sm:border-e hairline-border">
+                <dt className="mb-1 text-[11px] text-muted-foreground">
+                  {translate('سنة الإصدار', 'Publication Year')}
+                </dt>
+                <dd className="font-mono text-xs sm:text-[13px] font-semibold text-foreground tabular-nums">
+                  {book.year && book.year !== '0' ? book.year : t('noDate')}
+                </dd>
+              </div>
 
-                {author && (
-                  <p
-                    id="singleBookAuthor"
-                    className="text-sm sm:text-base font-medium text-muted-foreground"
+              <div className="py-3 pe-3 sm:px-3 border-e hairline-border">
+                <dt className="mb-1 text-[11px] text-muted-foreground">
+                  {translate('عدد الصفحات', 'Pagination')}
+                </dt>
+                <dd className="text-xs sm:text-[13px] font-semibold text-foreground tabular-nums">
+                  {book.pages && book.pages !== '0'
+                    ? `${book.pages} ${t('pagesUnit')}`
+                    : '—'}
+                </dd>
+              </div>
+
+              <div className="py-3 ps-3">
+                <dt className="mb-1 text-[11px] text-muted-foreground">
+                  {translate('الوعاء والحجم', 'Format & Size')}
+                </dt>
+                <dd className="font-mono text-xs sm:text-[13px] font-semibold text-foreground tabular-nums">
+                  PDF{book.file_size ? ` · ${book.file_size}` : ''}
+                </dd>
+              </div>
+            </dl>
+
+            {/* Primary & Secondary Editorial Action Suite */}
+            <div className="flex flex-wrap items-center gap-2.5 pt-1">
+              <button
+                type="button"
+                id="singleReadBtn"
+                disabled={!hasFile}
+                data-testid="single-read-btn"
+                onClick={() => onRead(book)}
+                className="inline-flex h-10 items-center gap-2 rounded-[4px] border border-foreground bg-foreground px-5 text-xs sm:text-sm font-semibold text-background transition-all hover:border-primary hover:bg-primary hover:text-primary-foreground disabled:opacity-45 disabled:pointer-events-none cursor-pointer"
+              >
+                <BookOpen className="size-4 shrink-0" aria-hidden="true" />
+                <span id="singleReadLabel">
+                  {translate('مطالعة الوثيقة المرجعية', 'Read Reference Document')}
+                </span>
+              </button>
+
+              <button
+                type="button"
+                id="singleDownloadBtn"
+                disabled={!hasFile || isDownloadBusy}
+                data-testid="single-download-btn"
+                onClick={() => onDownload(book)}
+                className="inline-flex h-10 items-center gap-2 rounded-[4px] border hairline-border-strong bg-background px-4 text-xs sm:text-sm font-medium text-foreground transition-colors hover:border-foreground hover:bg-secondary disabled:opacity-45 disabled:pointer-events-none cursor-pointer"
+              >
+                <Download className="size-4 shrink-0" aria-hidden="true" />
+                <span id="singleDownloadLabel">{t('singleDownloadLabel')}</span>
+                {book.downloadCount > 0 && (
+                  <span
+                    id="singleDownloadCount"
+                    className="rounded-xs bg-secondary px-1.5 py-0.2 font-mono text-[11px] font-semibold tabular-nums"
                   >
-                    {author}
-                  </p>
-                )}
-
-                {publisher && (
-                  <p className="text-xs text-muted-foreground">{publisher}</p>
-                )}
-              </div>
-
-              {/* Bibliographic Chips */}
-              <div className="flex flex-wrap items-center gap-2.5 text-xs text-muted-foreground pt-1">
-                {book.year && (
-                  <span className="inline-flex items-center gap-1.5 rounded-md bg-secondary/70 px-2.5 py-1 font-mono tabular-nums">
-                    <Calendar
-                      className="size-3.5 text-primary shrink-0"
-                      aria-hidden="true"
-                    />
-                    <span>{book.year}</span>
+                    {formatNumber(book.downloadCount)}
                   </span>
                 )}
+              </button>
 
-                {book.pages && (
-                  <span className="inline-flex items-center gap-1.5 rounded-md bg-secondary/70 px-2.5 py-1 tabular-nums">
-                    <FileText
-                      className="size-3.5 text-teal shrink-0"
-                      aria-hidden="true"
-                    />
-                    <span>
-                      {book.pages} {t('pagesUnit')}
+              <button
+                type="button"
+                id="singleCiteBtn"
+                data-testid="single-cite-btn"
+                onClick={handleCopyApa}
+                className="inline-flex h-10 items-center gap-2 rounded-[4px] border hairline-border-strong bg-background px-4 text-xs sm:text-sm font-medium text-foreground transition-colors hover:border-foreground hover:bg-secondary cursor-pointer"
+              >
+                {copiedApa ? (
+                  <Check className="size-4 text-primary shrink-0" aria-hidden="true" />
+                ) : (
+                  <Quote className="size-4 shrink-0" aria-hidden="true" />
+                )}
+                <span id="singleCiteLabel">{t('singleCiteLabel')}</span>
+              </button>
+
+              <button
+                type="button"
+                data-testid="single-bundle-btn"
+                aria-pressed={isInBundle}
+                onClick={() => onToggleBundle(book.id)}
+                className={cn(
+                  'inline-flex h-10 items-center gap-1.5 rounded-[4px] border px-3 text-xs font-medium transition-colors cursor-pointer',
+                  isInBundle
+                    ? 'border-primary bg-primary/10 text-primary font-semibold'
+                    : 'hairline-border-strong bg-background text-secondary-foreground hover:border-foreground hover:text-foreground'
+                )}
+              >
+                <Layers className="size-3.5 shrink-0" aria-hidden="true" />
+                <span>{t('bundleCheckboxLabel')}</span>
+              </button>
+
+              <button
+                type="button"
+                data-testid="single-favorite-btn"
+                aria-pressed={isFavorite}
+                aria-label={isFavorite ? t('removeFavorite') : t('addFavorite')}
+                onClick={() => onToggleFavorite(book.id)}
+                className={cn(
+                  'inline-flex h-10 items-center gap-1.5 rounded-[4px] border px-3 text-xs font-medium transition-colors cursor-pointer',
+                  isFavorite
+                    ? 'border-primary bg-primary/10 text-primary font-semibold'
+                    : 'hairline-border-strong bg-background text-secondary-foreground hover:border-foreground hover:text-foreground'
+                )}
+              >
+                <Heart
+                  className={cn('size-3.5 shrink-0', isFavorite && 'fill-current')}
+                  aria-hidden="true"
+                />
+                <span>{t('favorite')}</span>
+              </button>
+
+              <button
+                type="button"
+                id="singleShareBtn"
+                data-testid="single-share-btn"
+                onClick={() => onShare(book)}
+                className="inline-flex h-10 items-center gap-1.5 rounded-[4px] border hairline-border bg-transparent px-3 text-xs font-medium text-muted-foreground transition-colors hover:border-foreground hover:text-foreground cursor-pointer"
+              >
+                <Share2 className="size-3.5 shrink-0" aria-hidden="true" />
+                <span id="singleShareLabel">{t('singleShareLabel')}</span>
+              </button>
+            </div>
+
+            {/* Numbered 01..04 Keypoints List */}
+            <div className="pt-2 space-y-2">
+              <h2
+                id="singleKeyPointsLabel"
+                className="text-xs font-bold tracking-wider text-muted-foreground uppercase"
+              >
+                {t('singleKeyPointsLabel')}
+              </h2>
+              <ol
+                id="singleBookKeyPoints"
+                data-testid="single-book-keypoints"
+                className="border-t hairline-border divide-y divide-[var(--hairline)] border-b"
+              >
+                {keyPoints.map((point, index) => (
+                  <li
+                    key={index}
+                    className="flex items-baseline gap-3 py-2.5 text-xs sm:text-sm text-secondary-foreground leading-relaxed"
+                  >
+                    <span className="font-mono text-xs font-medium text-primary shrink-0">
+                      {String(index + 1).padStart(2, '0')}
                     </span>
-                  </span>
-                )}
+                    <span>{point}</span>
+                  </li>
+                ))}
+              </ol>
+            </div>
 
-                {book.file_size && (
-                  <span className="inline-flex items-center gap-1.5 rounded-md bg-secondary/70 px-2.5 py-1 font-mono tabular-nums">
-                    <HardDrive
-                      className="size-3.5 text-muted-foreground shrink-0"
-                      aria-hidden="true"
-                    />
-                    <span>{book.file_size}</span>
-                  </span>
-                )}
-              </div>
+            {/* Target Audience & Interactive Rating Row */}
+            <div className="flex flex-wrap items-center justify-between gap-4 pt-1 text-xs">
+              {targetAudience && (
+                <div className="text-muted-foreground">
+                  <strong
+                    id="singleAudienceLabel"
+                    className="font-semibold text-foreground me-1.5"
+                  >
+                    {t('singleAudienceLabel')}:
+                  </strong>
+                  <span id="singleBookAudience">{targetAudience}</span>
+                </div>
+              )}
 
-              {/* Interactive Rating Block */}
               <div
                 id="singleRatingBox"
-                className="flex flex-wrap items-center gap-2 rounded-lg border border-border/80 bg-secondary/35 px-3 py-2"
+                className="inline-flex items-center gap-2 rounded-[4px] border hairline-border bg-background/70 px-3 py-1.5"
               >
-                <span className="text-xs font-medium text-foreground">
-                  {t('rateReference')}:
-                </span>
+                <span className="font-medium text-foreground">{t('rateReference')}:</span>
                 <RatingStars book={book} onRate={onRate} size="md" />
               </div>
+            </div>
 
-              {/* Primary Action Buttons */}
-              <div className="flex flex-wrap items-center gap-2.5 pt-3 border-t border-border/70">
-                <Button
-                  type="button"
-                  id="singleDownloadBtn"
-                  variant="default"
-                  size="sm"
-                  disabled={!hasFile || isDownloadBusy}
-                  data-testid="single-download-btn"
-                  onClick={() => onDownload(book)}
-                  className="gap-1.5"
-                >
-                  <Download className="size-4 shrink-0" aria-hidden="true" />
-                  <span id="singleDownloadLabel">{t('singleDownloadLabel')}</span>
-                  {book.downloadCount > 0 && (
-                    <span
-                      id="singleDownloadCount"
-                      className="rounded-full bg-primary-foreground/20 px-1.5 py-0.2 text-[11px] font-semibold tabular-nums"
-                    >
-                      {formatNumber(book.downloadCount)}
-                    </span>
-                  )}
-                </Button>
+            {/* Academic Citation (APA) Reference Box */}
+            <div className="rounded-[4px] border hairline-border-strong bg-background/65 p-3.5 space-y-2">
+              <div className="flex items-center justify-between gap-2">
+                <h2 className="flex items-center gap-1.5 text-xs font-bold tracking-wider text-foreground uppercase">
+                  <Quote className="size-3.5 text-primary shrink-0" aria-hidden="true" />
+                  <span>{t('txtModalApaTitle')}</span>
+                </h2>
 
-                <Button
+                <button
                   type="button"
-                  id="singleReadBtn"
-                  variant="outline"
-                  size="sm"
-                  disabled={!hasFile}
-                  data-testid="single-read-btn"
-                  onClick={() => onRead(book)}
-                  className="gap-1.5"
-                >
-                  <BookOpen className="size-4 shrink-0" aria-hidden="true" />
-                  <span id="singleReadLabel">{t('singleReadLabel')}</span>
-                </Button>
-
-                <Button
-                  type="button"
-                  id="singleCiteBtn"
-                  variant="outline"
-                  size="sm"
-                  data-testid="single-cite-btn"
+                  data-testid="single-copy-apa-box-btn"
                   onClick={handleCopyApa}
-                  className="gap-1.5"
+                  className="rounded-[3px] border hairline-border bg-card px-2.5 py-1 text-[11px] font-medium text-foreground transition-colors hover:border-primary hover:text-primary cursor-pointer"
                 >
-                  {copiedApa ? (
-                    <Check className="size-4 text-primary shrink-0" aria-hidden="true" />
-                  ) : (
-                    <Quote className="size-4 shrink-0" aria-hidden="true" />
-                  )}
-                  <span id="singleCiteLabel">{t('singleCiteLabel')}</span>
-                </Button>
-
-                <Button
-                  type="button"
-                  variant={isInBundle ? 'secondary' : 'outline'}
-                  size="sm"
-                  data-testid="single-bundle-btn"
-                  aria-pressed={isInBundle}
-                  onClick={() => onToggleBundle(book.id)}
-                  className={cn(
-                    'gap-1.5',
-                    isInBundle && 'border-primary text-primary font-semibold'
-                  )}
-                >
-                  <Layers className="size-4 shrink-0" aria-hidden="true" />
-                  <span>{t('bundleCheckboxLabel')}</span>
-                </Button>
-
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  data-testid="single-favorite-btn"
-                  aria-pressed={isFavorite}
-                  aria-label={isFavorite ? t('removeFavorite') : t('addFavorite')}
-                  onClick={() => onToggleFavorite(book.id)}
-                  className={cn(
-                    'gap-1.5',
-                    isFavorite && 'text-destructive border-destructive/40'
-                  )}
-                >
-                  <Heart
-                    className={cn('size-4 shrink-0', isFavorite && 'fill-current')}
-                    aria-hidden="true"
-                  />
-                  <span>{t('favorite')}</span>
-                </Button>
-
-                <Button
-                  type="button"
-                  id="singleShareBtn"
-                  variant="ghost"
-                  size="sm"
-                  data-testid="single-share-btn"
-                  onClick={() => onShare(book)}
-                  className="gap-1.5"
-                >
-                  <Share2 className="size-4 shrink-0" aria-hidden="true" />
-                  <span id="singleShareLabel">{t('singleShareLabel')}</span>
-                </Button>
+                  {copiedApa ? t('copiedToClipboard') : t('cite')}
+                </button>
               </div>
+
+              <pre
+                dir="auto"
+                data-testid="single-book-apa"
+                className="whitespace-pre-wrap break-words rounded-[3px] border hairline-border bg-card p-3 font-mono text-xs text-foreground/90 leading-relaxed"
+              >
+                {apaText}
+              </pre>
             </div>
           </div>
 
-          {/* Content Grid: Description, Key Points, Target Audience & APA Citation */}
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 border-t border-border pt-6">
-            <div className="lg:col-span-7 space-y-6">
-              {/* About This Reference */}
-              <div className="space-y-2">
-                <h2
-                  id="singleDescLabel"
-                  className="text-sm font-bold uppercase tracking-wider text-primary"
-                >
-                  {t('singleDescLabel')}
-                </h2>
-                <p
-                  id="singleBookDescription"
-                  className="text-sm sm:text-[15px] text-foreground/90 leading-[1.8]"
-                >
-                  {description}
-                </p>
+          {/* Column 2 (End): 3D Cloth-Bound Hardcover Artifact Pedestal */}
+          <div className="flex flex-col items-center justify-center order-1 lg:order-2 lg:sticky lg:top-24 py-2">
+            <div className="artifact-pedestal">
+              <div
+                ref={hardcoverRef}
+                data-cloth={cloth}
+                onClick={onZoomCover ? () => onZoomCover(book) : undefined}
+                role={onZoomCover ? 'button' : undefined}
+                tabIndex={onZoomCover ? 0 : undefined}
+                aria-label={onZoomCover ? `${t('view')}: ${title}` : undefined}
+                data-testid={`book-cover-btn-${book.id}`}
+                onKeyDown={
+                  onZoomCover
+                    ? (e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          onZoomCover(book);
+                        }
+                      }
+                    : undefined
+                }
+                className={cn('hardcover-3d', onZoomCover && 'cursor-pointer')}
+              >
+                {/* Layered Cream Paper-Block Edge */}
+                <div className="hardcover-pages-edge" aria-hidden="true" />
+
+                {/* Cloth-Bound Front Hardcover Board */}
+                <div className="hardcover-front">
+                  <div className="cover-hinge-groove" aria-hidden="true" />
+                  <div
+                    ref={sheenRef}
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 z-20"
+                    style={{
+                      background:
+                        'radial-gradient(circle at 35% 25%, rgba(255,255,255,0.12) 0%, transparent 60%)'
+                    }}
+                  />
+
+                  {showCoverImg ? (
+                    <div className="flex size-full flex-col justify-between p-4 ps-6">
+                      <div
+                        className="flex items-center justify-between border-b pb-2 font-mono text-[10px] tracking-[0.15em]"
+                        style={{
+                          color: 'var(--cloth-muted)',
+                          borderColor: 'var(--cloth-rule)'
+                        }}
+                      >
+                        <span>IAR ARCHIVE</span>
+                        <span>NO. {String(book.id).padStart(2, '0')}</span>
+                      </div>
+
+                      <div
+                        className="my-2.5 flex-1 overflow-hidden rounded-[2px] border bg-black/15 shadow-inner"
+                        style={{ borderColor: 'var(--cloth-rule)' }}
+                      >
+                        <img
+                          src={book.cover_image}
+                          alt={title}
+                          data-testid={`book-cover-img-${book.id}`}
+                          onError={() => setFailedCoverUrl(book.cover_image)}
+                          className="size-full object-cover"
+                        />
+                      </div>
+
+                      <div
+                        className="flex items-center justify-between gap-2 border-t pt-2 text-[10.5px]"
+                        style={{
+                          color: 'var(--cloth-muted)',
+                          borderColor: 'var(--cloth-rule)'
+                        }}
+                      >
+                        <span className="truncate">{category}</span>
+                        <span className="font-mono">
+                          {book.year && book.year !== '0' ? book.year : '2026'}
+                        </span>
+                      </div>
+                    </div>
+                  ) : (
+                    <div
+                      data-testid={`book-cover-fallback-${book.id}`}
+                      className="flex size-full flex-col justify-between p-6 ps-8 text-start"
+                    >
+                      <div
+                        className="flex items-center justify-between border-b pb-2.5 font-mono text-[10.5px] tracking-[0.16em]"
+                        style={{
+                          color: 'var(--cloth-muted)',
+                          borderColor: 'var(--cloth-rule)'
+                        }}
+                      >
+                        <span>IAR ARCHIVE</span>
+                        <span>{String(book.id).padStart(2, '0')}</span>
+                      </div>
+
+                      <div
+                        className="my-4 flex flex-1 items-center justify-center border bg-black/[0.06]"
+                        style={{
+                          borderColor: 'var(--cloth-rule)',
+                          color: 'var(--cloth-accent)'
+                        }}
+                      >
+                        <DisciplineOrnament
+                          discipline={discipline}
+                          className="size-28 opacity-90"
+                        />
+                      </div>
+
+                      <div>
+                        <span
+                          className="mb-1.5 block text-xs font-semibold"
+                          style={{ color: 'var(--cloth-accent)' }}
+                        >
+                          {category}
+                        </span>
+                        <h3 className="mb-3 line-clamp-3 font-serif text-xl font-bold leading-snug">
+                          {title}
+                        </h3>
+                      </div>
+
+                      <div
+                        className="flex items-center justify-between gap-2 border-t pt-2.5 text-[11px]"
+                        style={{
+                          color: 'var(--cloth-muted)',
+                          borderColor: 'var(--cloth-rule)'
+                        }}
+                      >
+                        <span className="truncate">{author || 'IAR ARCHIVE'}</span>
+                        <span className="font-mono">
+                          {book.year && book.year !== '0' ? book.year : '2026'}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
 
-              {/* Key Points (3-Minute Summary) */}
-              <div className="space-y-2.5">
-                <h2
-                  id="singleKeyPointsLabel"
-                  className="flex items-center gap-1.5 text-sm font-bold uppercase tracking-wider text-primary"
-                >
-                  <Sparkles className="size-4 shrink-0" aria-hidden="true" />
-                  <span>{t('singleKeyPointsLabel')}</span>
-                </h2>
-                <ul
-                  id="singleBookKeyPoints"
-                  data-testid="single-book-keypoints"
-                  className="space-y-2 rounded-xl border border-border/80 bg-background/60 p-4 text-sm text-foreground/90"
-                >
-                  {keyPoints.map((point, index) => (
-                    <li key={index} className="flex items-start gap-2.5 leading-relaxed">
-                      <span
-                        aria-hidden="true"
-                        className="mt-2 inline-block size-1.5 shrink-0 rounded-full bg-primary"
-                      />
-                      <span>{point}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              <div className="artifact-floor-shadow" aria-hidden="true" />
             </div>
 
-            <div className="lg:col-span-5 space-y-5">
-              {/* Target Audience */}
-              {targetAudience && (
-                <div className="rounded-xl border border-border bg-background/60 p-4 space-y-1.5">
-                  <h2
-                    id="singleAudienceLabel"
-                    className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-teal"
-                  >
-                    <Users className="size-3.5 shrink-0" aria-hidden="true" />
-                    <span>{t('singleAudienceLabel')}</span>
-                  </h2>
-                  <p
-                    id="singleBookAudience"
-                    className="text-xs sm:text-sm text-foreground/85 leading-relaxed"
-                  >
-                    {targetAudience}
-                  </p>
-                </div>
-              )}
-
-              {/* Academic Citation (APA) Box */}
-              <div className="rounded-xl border border-primary/30 bg-secondary/45 p-4 space-y-2.5">
-                <div className="flex items-center justify-between gap-2">
-                  <h2 className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-foreground">
-                    <Quote
-                      className="size-3.5 text-primary shrink-0"
-                      aria-hidden="true"
-                    />
-                    <span>{t('txtModalApaTitle')}</span>
-                  </h2>
-
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="xs"
-                    data-testid="single-copy-apa-box-btn"
-                    onClick={handleCopyApa}
-                    className="h-7 text-xs"
-                  >
-                    {copiedApa ? t('copiedToClipboard') : t('cite')}
-                  </Button>
-                </div>
-
-                <pre
-                  dir="auto"
-                  data-testid="single-book-apa"
-                  className="whitespace-pre-wrap break-words rounded-lg border border-border/80 bg-card p-3 font-mono text-xs text-foreground/90 leading-relaxed"
-                >
-                  {apaText}
-                </pre>
-              </div>
-            </div>
+            {onZoomCover && (
+              <button
+                type="button"
+                onClick={() => onZoomCover(book)}
+                data-testid="single-zoom-cover-btn"
+                className="mt-3 inline-flex items-center gap-1.5 font-mono text-xs text-muted-foreground transition-colors hover:text-primary cursor-pointer"
+              >
+                <ZoomIn className="size-3.5 shrink-0" aria-hidden="true" />
+                <span className="font-sans">
+                  {translate(
+                    'معاينة الغلاف بالحجم الكامل',
+                    'Inspect full-resolution cover'
+                  )}
+                </span>
+              </button>
+            )}
           </div>
         </div>
       </article>

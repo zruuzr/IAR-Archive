@@ -475,4 +475,45 @@ describe('Phase 2.3A & 2.3B — Library UI, Reference Experience & Interactive M
       expect(screen.getByTestId('book-card-2')).toBeTruthy();
     });
   });
+
+  it('unfolds cloth-bound volumes on the interactive bookshelf, updates the museum placard, filters disciplines, and opens the 3D monograph spread', () => {
+    render(
+      <App
+        initialLang="ar"
+        syncUrl={false}
+        catalogOptions={{
+          initialBooks: SAMPLE_BOOKS,
+          autoLoad: false,
+          autoLoadMetrics: false
+        }}
+      />
+    );
+
+    const bookshelf = screen.getByTestId('editorial-cloth-shelf');
+    expect(bookshelf).toBeTruthy();
+
+    // First click on a closed spine unfolds it face-out on the shelf and updates the museum placard
+    const book2Spine = screen.getByTestId('shelf-book-2');
+    fireEvent.click(book2Spine);
+
+    const placard = screen.getByTestId('shelf-placard');
+    expect(placard.textContent).toContain('التخطيط الاستراتيجي المؤسسي');
+
+    // Discipline tab filtering works without breaking the shelf
+    const adminTab = screen.getByTestId('shelf-filter-admin');
+    fireEvent.click(adminTab);
+    expect(adminTab.getAttribute('aria-pressed')).toBe('true');
+
+    // Unfold book 2 inside the filtered discipline shelf, then click again to open its 3D Monograph Spread
+    const filteredBook2 = screen.getByTestId('shelf-book-2');
+    if (filteredBook2.getAttribute('aria-selected') !== 'true') {
+      fireEvent.click(filteredBook2);
+    }
+    fireEvent.click(filteredBook2);
+
+    expect(screen.getByTestId('book-details-view')).toBeTruthy();
+    expect(screen.getByTestId('single-book-title').textContent).toBe(
+      'التخطيط الاستراتيجي المؤسسي'
+    );
+  });
 });

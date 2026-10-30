@@ -148,8 +148,44 @@ export function LibraryWorkspace({
   const [summaryBook, setSummaryBook] = useState<Book | null>(null);
   const [zoomCoverBook, setZoomCoverBook] = useState<Book | null>(null);
   const [spotlightOpen, setSpotlightOpen] = useState<boolean>(false);
+  const [soundEnabled, setSoundEnabled] = useState<boolean>(() => {
+    if (typeof window === 'undefined') return true;
+    try {
+      return window.localStorage.getItem('iar_sound') !== '0';
+    } catch {
+      return true;
+    }
+  });
   const [toasts, setToasts] = useState<ToastNotice[]>([]);
   const toastIdRef = useRef<number>(0);
+  const progressBarRef = useRef<HTMLDivElement | null>(null);
+
+  const handleToggleSound = useCallback(() => {
+    setSoundEnabled((prev) => {
+      const next = !prev;
+      try {
+        window.localStorage.setItem('iar_sound', next ? '1' : '0');
+      } catch {
+        // Ignore storage restrictions
+      }
+      return next;
+    });
+  }, []);
+
+  // Architectural hairline scroll progress indicator
+  useEffect(() => {
+    if (typeof window === 'undefined') return undefined;
+    const updateScrollProgress = () => {
+      if (!progressBarRef.current) return;
+      const docEl = document.documentElement;
+      const maxScroll = docEl.scrollHeight - window.innerHeight;
+      const pct = maxScroll > 4 ? Math.min(100, (window.scrollY / maxScroll) * 100) : 0;
+      progressBarRef.current.style.width = `${pct.toFixed(1)}%`;
+    };
+    window.addEventListener('scroll', updateScrollProgress, { passive: true });
+    updateScrollProgress();
+    return () => window.removeEventListener('scroll', updateScrollProgress);
+  }, []);
 
   const handleResetAllFilters = useCallback(() => {
     setSidebarIssuer('');
@@ -364,21 +400,47 @@ export function LibraryWorkspace({
     }
   }, [singleBook, isInvalidBookParam, backToList, resetFilters]);
 
+  const adjacentBooks = useMemo(() => {
+    if (!singleBook || books.length <= 1) {
+      return { prev: null, next: null };
+    }
+    const idx = books.findIndex((b) => b.id === singleBook.id);
+    if (idx === -1) {
+      return { prev: null, next: null };
+    }
+    return {
+      prev: books[(idx - 1 + books.length) % books.length] ?? null,
+      next: books[(idx + 1) % books.length] ?? null
+    };
+  }, [books, singleBook]);
+
   return (
     <div
       dir={dir}
       data-testid="iar-library-app"
       className="min-h-dvh flex flex-col bg-background text-foreground selection:bg-primary/20 selection:text-foreground"
     >
-      {/* Slim Institutional Top Bar */}
+      {/* Subtle Cotton-Rag Paper Grain & Architectural Scroll Hairline */}
+      <div className="paper-grain-overlay" aria-hidden="true" />
+      <div
+        ref={progressBarRef}
+        className="scroll-hairline-progress"
+        style={{ width: '0%' }}
+        aria-hidden="true"
+      />
+
+      {/* Slim Archival Colophon Bar */}
       <TopAnnouncement />
 
-      {/* Main Sticky Header */}
+      {/* Main Sticky Editorial Masthead */}
       <SiteHeader
         favoritesOnly={favoritesOnly}
         favoritesCount={favorites.count}
         booksCount={books.length}
         categoriesCount={categories.length}
+        loaded={loaded}
+        soundEnabled={soundEnabled}
+        onToggleSound={handleToggleSound}
         onToggleFavoritesOnly={() => {
           if (singleBook || isInvalidBookParam) {
             backToList();
@@ -390,12 +452,15 @@ export function LibraryWorkspace({
         pwa={pwa}
       />
 
-      {/* Balanced Editorial Hero & Real Data Counters */}
+      {/* Interactive Cloth & Linen Bookshelf Hero & Real Data Counters */}
       <HeroAcademic
+        books={books}
         booksCount={books.length}
         categoriesCount={categories.length}
         visitsCount={visitsCount}
         loaded={loaded}
+        compact={Boolean(singleBook || isInvalidBookParam)}
+        soundEnabled={soundEnabled}
         query={query}
         category={category}
         categories={categories}
@@ -419,6 +484,8 @@ export function LibraryWorkspace({
           setQuery(kw);
           document.getElementById('controlsRow')?.scrollIntoView({ behavior: 'smooth' });
         }}
+        onOpenBook={handleOpenDetails}
+        onReadBook={handleReadBook}
       />
 
       {/* Main Library Content Area */}
@@ -433,6 +500,16 @@ export function LibraryWorkspace({
             isInBundle={bundle.isInBundle(singleBook.id)}
             isDownloadBusy={downloadState.isBusy(singleBook.id)}
             onBackToList={backToList}
+            onPrevBook={
+              adjacentBooks.prev
+                ? () => handleOpenDetails(adjacentBooks.prev!)
+                : undefined
+            }
+            onNextBook={
+              adjacentBooks.next
+                ? () => handleOpenDetails(adjacentBooks.next!)
+                : undefined
+            }
             onRead={handleReadBook}
             onDownload={handleDownloadBook}
             onToggleFavorite={handleToggleFavorite}
@@ -671,10 +748,10 @@ export function LibraryWorkspace({
               role={item.isError ? 'alert' : 'status'}
               data-testid="toast-notice"
               className={cn(
-                'pointer-events-auto flex items-center justify-between gap-2.5 rounded-xl border px-3.5 py-2.5 text-xs sm:text-sm font-medium shadow-lg backdrop-blur-xs',
+                'pointer-events-auto flex items-center justify-between gap-2.5 rounded-[4px] border px-3.5 py-2.5 text-xs sm:text-sm font-medium doc-shadow backdrop-blur-xs',
                 item.isError
                   ? 'border-destructive/50 bg-destructive text-destructive-foreground'
-                  : 'border-primary/40 bg-card text-card-foreground'
+                  : 'hairline-border-strong bg-card text-card-foreground'
               )}
             >
               <div className="flex items-center gap-2 min-w-0">

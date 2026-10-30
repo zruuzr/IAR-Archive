@@ -36,16 +36,16 @@ export function PaginationNav({
     <nav
       aria-label={t('paginationAria')}
       data-testid="pagination-nav"
-      className="mt-10 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 bg-white dark:bg-card p-3 sm:p-4 rounded-2xl border border-slate-200 dark:border-border doc-shadow"
+      className="mt-10 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 bg-card p-3 sm:p-4 rounded-[4px] border hairline-border-strong doc-shadow"
     >
       {/* Left/Start: Page count indicator */}
-      <div className="text-xs text-slate-500 dark:text-slate-400 font-medium order-2 sm:order-1 text-center sm:text-start">
+      <div className="text-xs text-muted-foreground font-medium order-2 sm:order-1 text-center sm:text-start">
         <span>{translate('الصفحة', 'Page')} </span>
-        <span className="font-bold text-slate-900 dark:text-white font-mono">
+        <span className="font-semibold text-foreground font-mono tabular-nums">
           {formatNumber(currentPage)}
         </span>
         <span> {translate('من أصل', 'of')} </span>
-        <span className="font-bold text-slate-900 dark:text-white font-mono">
+        <span className="font-semibold text-foreground font-mono tabular-nums">
           {formatNumber(totalPages)}
         </span>
         <span className="hidden sm:inline">
@@ -72,10 +72,10 @@ export function PaginationNav({
               aria-label={t('previous')}
               title={t('previous')}
               className={cn(
-                'inline-flex h-8 sm:h-9 items-center justify-center gap-1 rounded-xl border px-2 sm:px-3 text-xs font-bold transition-all focus-visible:outline-2 focus-visible:outline-ring shrink-0',
+                'inline-flex h-8 sm:h-9 items-center justify-center gap-1 rounded-[3px] border px-2 sm:px-3 text-xs font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-ring shrink-0',
                 isFirstPage
-                  ? 'border-slate-200 dark:border-slate-800 text-slate-300 dark:text-slate-600 bg-slate-50 dark:bg-slate-900/40 cursor-not-allowed'
-                  : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-regal-900 hover:text-white hover:border-regal-900 dark:hover:bg-gold-500 dark:hover:text-regal-950 dark:hover:border-gold-500 cursor-pointer shadow-2xs'
+                  ? 'hairline-border text-muted-foreground/45 bg-secondary/40 cursor-not-allowed'
+                  : 'hairline-border-strong bg-background/80 text-foreground hover:bg-foreground hover:text-background hover:border-foreground cursor-pointer'
               )}
             >
               <PrevIcon className="size-3.5 shrink-0" aria-hidden="true" />
@@ -93,7 +93,7 @@ export function PaginationNav({
                 >
                   <span
                     aria-hidden="true"
-                    className="text-xs font-mono text-slate-400 dark:text-slate-600"
+                    className="text-xs font-mono text-muted-foreground"
                   >
                     …
                   </span>
@@ -111,10 +111,10 @@ export function PaginationNav({
                   aria-current={isCurrent ? 'page' : undefined}
                   onClick={() => onPageChange(token)}
                   className={cn(
-                    'inline-flex size-8 sm:size-9 items-center justify-center rounded-xl text-xs font-bold tabular-nums transition-all cursor-pointer focus-visible:outline-2 focus-visible:outline-ring',
+                    'inline-flex size-8 sm:size-9 items-center justify-center rounded-[3px] font-mono text-xs font-semibold tabular-nums transition-colors cursor-pointer focus-visible:outline-2 focus-visible:outline-ring',
                     isCurrent
-                      ? 'bg-gradient-to-r from-gold-500 to-amber-500 text-regal-950 font-black shadow-sm border border-amber-400 scale-105'
-                      : 'border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:border-gold-500/60 hover:bg-gold-50/50 dark:hover:bg-slate-700'
+                      ? 'bg-foreground text-background border border-foreground'
+                      : 'border hairline-border-strong bg-background/80 text-foreground hover:border-primary hover:text-primary'
                   )}
                 >
                   {formatNumber(token)}
@@ -135,10 +135,10 @@ export function PaginationNav({
               aria-label={t('next')}
               title={t('next')}
               className={cn(
-                'inline-flex h-8 sm:h-9 items-center justify-center gap-1 rounded-xl border px-2 sm:px-3 text-xs font-bold transition-all focus-visible:outline-2 focus-visible:outline-ring shrink-0',
+                'inline-flex h-8 sm:h-9 items-center justify-center gap-1 rounded-[3px] border px-2 sm:px-3 text-xs font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-ring shrink-0',
                 isLastPage
-                  ? 'border-slate-200 dark:border-slate-800 text-slate-300 dark:text-slate-600 bg-slate-50 dark:bg-slate-900/40 cursor-not-allowed'
-                  : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-regal-900 hover:text-white hover:border-regal-900 dark:hover:bg-gold-500 dark:hover:text-regal-950 dark:hover:border-gold-500 cursor-pointer shadow-2xs'
+                  ? 'hairline-border text-muted-foreground/45 bg-secondary/40 cursor-not-allowed'
+                  : 'hairline-border-strong bg-background/80 text-foreground hover:bg-foreground hover:text-background hover:border-foreground cursor-pointer'
               )}
             >
               <span className="hidden sm:inline">{t('next')}</span>
