@@ -24,7 +24,7 @@ export interface SiteHeaderProps {
 export function SiteHeader({
   favoritesOnly,
   favoritesCount,
-  booksCount = 179,
+  booksCount = 180,
   categoriesCount = 110,
   onToggleFavoritesOnly,
   onBrandClick,
