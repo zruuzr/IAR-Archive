@@ -10619,5 +10619,44 @@
     "source_sha256": "e42076d4c8d8af9b001ea987f1d3b07d7e2cb41e15f25a5a4a4f04243db5bc7f",
     "ai_status": "complete",
     "ai_attempts": 1
+  },
+  {
+    "id": 199,
+    "title": "obeikandl.com",
+    "title_en": "obeikandl.com",
+    "author": "",
+    "author_en": "",
+    "category": "General",
+    "category_en": "",
+    "description": "A document containing repetitive text referencing the domain obeikandl.com.",
+    "description_en": "",
+    "publisher": "",
+    "publisher_en": "",
+    "type": "Document",
+    "type_en": "",
+    "target_audience": "",
+    "target_audience_en": "",
+    "year": 0,
+    "pages": 524,
+    "file_size": "5.6 MB",
+    "isbn": "",
+    "keywords": [
+      "obeikandl.com"
+    ],
+    "keywords_en": [],
+    "key_points": [
+      "Repetitive watermark or domain text obeikandl.com"
+    ],
+    "key_points_en": [],
+    "featured": false,
+    "badge_text": "",
+    "badge_text_en": "",
+    "file_path": "pdf/نننوو.pdf",
+    "file_name": "نننوو.pdf",
+    "file_type": "PDF",
+    "cover_image": "covers/199.png",
+    "source_sha256": "1070993e2a80c988533d551e9d530f4b8807366553f602329c65a1d25bc096c2",
+    "ai_status": "complete",
+    "ai_attempts": 1
   }
 ]
