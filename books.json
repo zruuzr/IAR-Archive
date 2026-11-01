@@ -11009,31 +11009,42 @@
     "cover_image": "covers/206.png",
     "source_sha256": "d0cc97ea30dfcb02e8a03758a2ae5664eaf0da5306c3bfae46dd190bea3923a2",
     "ai_status": "partial",
-    "ai_attempts": 1
+    "ai_attempts": 2
   },
   {
     "id": 207,
-    "title": "التحفظ طباعة",
-    "title_en": "",
+    "title": "التحفظ المحاسبى",
+    "title_en": "Accounting Conservatism",
     "author": "obeikan",
     "author_en": "",
-    "category": "",
+    "category": "المحاسبة والمالية",
     "category_en": "",
-    "description": "",
+    "description": "دراسة علمية تتناول الإطار المفاهيمي للتحفظ المحاسبي (مبدأ الحيطة والحذر)، مبرراته ودوافعه التعاقدية والتنظيمية والقضائية، وتقسيماته المختلفة، إضافة إلى أثره على المعايير المحاسبية والسياسات المالية للمنشأة.",
     "description_en": "",
     "publisher": "",
     "publisher_en": "",
-    "type": "",
+    "type": "Book",
     "type_en": "",
-    "target_audience": "",
+    "target_audience": "المحاسبون، مراجعو الحسابات، الأكاديميون وطلبة الدراسات المالية والمحاسبية",
     "target_audience_en": "",
     "year": 0,
     "pages": 108,
     "file_size": "3.0 MB",
     "isbn": "",
-    "keywords": [],
+    "keywords": [
+      "التحفظ المحاسبي",
+      "الحيطة والحذر",
+      "المعايير المحاسبية",
+      "القوائم المالية",
+      "السياسات المحاسبية",
+      "القياس المحاسبي"
+    ],
     "keywords_en": [],
-    "key_points": [],
+    "key_points": [
+      "تعريف التحفظ المحاسبي باعتباره توخياً للحذر في التقديرات لعدم تضخيم الأصول والدخل أو تقليل الالتزامات والمصروفات.",
+      "بيان مبررات ودوافع تطبيق التحفظ المحاسبي مثل الدوافع التعاقدية والتقاضي والتنظيم وتخفيض الأعباء الضريبية.",
+      "استعراض تصنيفات التحفظ المحاسبي كالمشروط وغير المشروط، والمسبق واللاحق، والإلزامي والاختياري، والدائم والمؤقت."
+    ],
     "key_points_en": [],
     "featured": false,
     "badge_text": "",
@@ -11043,8 +11054,8 @@
     "file_type": "PDF",
     "cover_image": "covers/207.png",
     "source_sha256": "4ea57c82f9193f5a42c9d281c6d622b30e634b62329792bd9e3165109a97341b",
-    "ai_status": "partial",
-    "ai_attempts": 1
+    "ai_status": "complete",
+    "ai_attempts": 2
   },
   {
     "id": 208,
