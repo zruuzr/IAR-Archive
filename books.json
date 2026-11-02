@@ -11072,17 +11072,17 @@
   },
   {
     "id": 208,
-    "title": "كراسة التطبيقات الإحصائية الجزء الأول والثاني مصطفى حسين باه",
+    "title": "obeikandl.com",
     "title_en": "",
     "author": "",
     "author_en": "",
-    "category": "",
+    "category": "General",
     "category_en": "",
-    "description": "",
+    "description": "وثيقة تحتوي على تكرار لعبارة obeikandl.com دون محتوى نصي إضافي.",
     "description_en": "",
     "publisher": "",
     "publisher_en": "",
-    "type": "",
+    "type": "Document",
     "type_en": "",
     "target_audience": "",
     "target_audience_en": "",
@@ -11090,9 +11090,13 @@
     "pages": 173,
     "file_size": "4.1 MB",
     "isbn": "",
-    "keywords": [],
+    "keywords": [
+      "obeikandl.com"
+    ],
     "keywords_en": [],
-    "key_points": [],
+    "key_points": [
+      "تكرار اسم النطاق obeikandl.com في كامل الوثيقة"
+    ],
     "key_points_en": [],
     "featured": false,
     "badge_text": "",
@@ -11102,7 +11106,7 @@
     "file_type": "PDF",
     "cover_image": "covers/208.png",
     "source_sha256": "f60aa66398676928704f8ff09523b877939684b088e168318dae41b5a7f71cff",
-    "ai_status": "partial",
-    "ai_attempts": 2
+    "ai_status": "complete",
+    "ai_attempts": 3
   }
 ]
