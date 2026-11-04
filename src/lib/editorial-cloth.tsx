@@ -95,9 +95,9 @@ const FLAGSHIP_SHELF_SPECS: readonly CuratedShelfSpec[] = [
     width: 55
   },
   {
-    id: 1,
-    spineTitleAr: 'دليل القبول المركزي',
-    spineTitleEn: 'Central Admission Guide',
+    id: 36,
+    spineTitleAr: 'الموظف الإداري',
+    spineTitleEn: 'The Administrative Employee',
     cloth: 'terracotta',
     height: 348,
     width: 58
