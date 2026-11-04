@@ -4,10 +4,6 @@ on:
   push:
     paths:
       - 'pdf/**'
-  schedule:
-    # Completes records still marked ai_status="partial" and picks up any
-    # file a previous run could not finish. Runs on the default branch only.
-    - cron: '23 */3 * * *'
   workflow_dispatch:
 
 permissions:
@@ -181,6 +177,11 @@ jobs:
           if git diff --staged --quiet; then
             echo "No changes to commit."
             exit 0
+          fi
+
+          if grep -q '"ai_status": "partial"' books.json; then
+            echo "::error title=Incomplete Records::books.json contains records marked partial without full details. Aborting commit."
+            exit 1
           fi
 
           git commit -m "${COMMIT_MSG}"

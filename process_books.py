@@ -120,6 +120,9 @@ def _env_bool(name: str, default: str) -> bool:
     }
 
 
+ALLOW_PARTIAL_RECORDS = _env_bool("ALLOW_PARTIAL_RECORDS", "false")
+
+
 def _env_int(name: str, default: int) -> int:
     try:
         return int(os.getenv(name, "").strip() or default)
@@ -168,9 +171,9 @@ GROQ_MODEL_ALIASES = {
 
 def _build_gemini_models() -> list[str]:
     configured = _env_list("GEMINI_MODELS") or [
-        os.getenv("GEMINI_MODEL", "gemini-2.5-flash").strip()
+        os.getenv("GEMINI_MODEL", "gemini-1.5-flash").strip()
     ]
-    for fallback in ("gemini-2.5-flash", "gemini-2.0-flash", "gemini-3.8-flash"):
+    for fallback in ("gemini-1.5-flash", "gemini-1.5-pro", "gemini-2.0-flash-exp", "gemini-3.8-flash"):
         if fallback and fallback not in configured:
             configured.append(fallback)
     return [m for m in configured if m]
@@ -179,7 +182,7 @@ def _build_gemini_models() -> list[str]:
 def _build_groq_models() -> list[str]:
     raw = _env_list("GROQ_MODELS") or [
         os.getenv(
-            "GROQ_MODEL", "meta-llama/llama-4-scout-17b-16e-instruct"
+            "GROQ_MODEL", "llama-3.1-8b-instant"
         ).strip()
     ]
     normalized: list[str] = []
@@ -188,8 +191,9 @@ def _build_groq_models() -> list[str]:
         if mapped and mapped not in normalized:
             normalized.append(mapped)
     for fallback in (
-        "meta-llama/llama-4-scout-17b-16e-instruct",
+        "llama-3.1-8b-instant",
         "llama-3.3-70b-versatile",
+        "mixtral-8x7b-32768",
     ):
         if fallback not in normalized:
             normalized.append(fallback)
@@ -1888,8 +1892,14 @@ def validate_metadata(metadata: dict[str, Any], source: Path) -> None:
 
 
 def is_complete(meta: dict[str, Any]) -> bool:
-    """Complete = every field validate_books.py requires is present."""
-    return all(meta.get(key) for key in CORE_FIELDS)
+    """Complete = every field validate_books.py requires is present and non-empty."""
+    if not all(meta.get(key) for key in CORE_FIELDS):
+        return False
+    desc = str(meta.get("description") or "").strip()
+    title = str(meta.get("title") or "").strip()
+    if len(desc) < 25 or len(title) < 2 or title in {"غير معنون", "كتاب", "بدون عنوان", "مستند"}:
+        return False
+    return True
 
 
 def metadata_score(meta: dict[str, Any]) -> int:
@@ -2498,11 +2508,16 @@ def process_one_book(
     relative_path: str,
     pool: BackendPool,
     prior_attempts: int = 0,
+    *,
+    allow_partial: bool | None = None,
 ) -> Book | None:
     """
-    Always returns a Book for a readable file: complete when the AI
-    delivered, otherwise partial (local heuristics) and queued for retry.
+    Returns a complete Book when AI extraction delivers full details & summary.
+    If allow_partial is False (default), returns None to prevent un-enriched records.
     """
+    if allow_partial is None:
+        allow_partial = ALLOW_PARTIAL_RECORDS
+
     logger.info("Processing: %s", source)
 
     if not source.is_file():
@@ -2511,6 +2526,12 @@ def process_one_book(
     size_mb = source.stat().st_size / (1024 * 1024)
 
     if size_mb > MAX_DOCUMENT_SIZE_MB:
+        if not allow_partial:
+            logger.error(
+                "%s is %.1f MB (> %s MB): cannot extract details safely without AI budget. Skipped.",
+                source.name, size_mb, MAX_DOCUMENT_SIZE_MB,
+            )
+            return None
         logger.warning(
             "%s is %.1f MB (> %s MB): indexed from its filename only.",
             source.name, size_mb, MAX_DOCUMENT_SIZE_MB,
@@ -2554,7 +2575,7 @@ def process_one_book(
         if complete is not None:
             provider, ai_meta = complete
             status = "complete"
-        else:
+        elif allow_partial:
             best = ctx.best_partial()
             if best is not None:
                 provider, ai_meta = best
@@ -2562,6 +2583,13 @@ def process_one_book(
             else:
                 provider, ai_meta = "heuristic", None
             status = "partial"
+        else:
+            logger.error(
+                "AI extraction failed to deliver complete metadata for %s. "
+                "Per archive policy, books without full details and summary are NOT added to the catalog.",
+                source.name,
+            )
+            return None
 
         metadata = combine_metadata(ai_meta, heuristic)
         attempts = prior_attempts + (1 if ctx.calls_made else 0)
