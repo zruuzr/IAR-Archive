@@ -171,9 +171,9 @@ GROQ_MODEL_ALIASES = {
 
 def _build_gemini_models() -> list[str]:
     configured = _env_list("GEMINI_MODELS") or [
-        os.getenv("GEMINI_MODEL", "gemini-1.5-flash").strip()
+        os.getenv("GEMINI_MODEL", "gemini-3.8-flash").strip()
     ]
-    for fallback in ("gemini-1.5-flash", "gemini-1.5-pro", "gemini-2.0-flash-exp", "gemini-3.8-flash"):
+    for fallback in ("gemini-3.8-flash", "gemini-3.8-pro", "gemini-3.0-flash"):
         if fallback and fallback not in configured:
             configured.append(fallback)
     return [m for m in configured if m]
