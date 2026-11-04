@@ -66,6 +66,7 @@ import subprocess
 import sys
 import tempfile
 import time
+import unicodedata
 import urllib.error
 import urllib.request
 import zipfile
@@ -160,12 +161,43 @@ PROCESSED_ZIP_DIR_NAME = "_processed_zips"
 GEMINI_API_KEYS = _env_keys("GEMINI_API_KEYS", "GEMINI_API_KEY")
 GROQ_API_KEYS = _env_keys("GROQ_API_KEYS", "GROQ_API_KEY")
 
-GEMINI_MODELS = _env_list("GEMINI_MODELS") or [
-    os.getenv("GEMINI_MODEL", "gemini-3.8-flash").strip()
-]
-GROQ_MODELS = _env_list("GROQ_MODELS") or [
-    os.getenv("GROQ_MODEL", "llama-4-scout-17b-16e-instruct").strip()
-]
+GROQ_MODEL_ALIASES = {
+    "llama-4-scout-17b-16e-instruct": "meta-llama/llama-4-scout-17b-16e-instruct",
+}
+
+
+def _build_gemini_models() -> list[str]:
+    configured = _env_list("GEMINI_MODELS") or [
+        os.getenv("GEMINI_MODEL", "gemini-2.5-flash").strip()
+    ]
+    for fallback in ("gemini-2.5-flash", "gemini-2.0-flash", "gemini-3.8-flash"):
+        if fallback and fallback not in configured:
+            configured.append(fallback)
+    return [m for m in configured if m]
+
+
+def _build_groq_models() -> list[str]:
+    raw = _env_list("GROQ_MODELS") or [
+        os.getenv(
+            "GROQ_MODEL", "meta-llama/llama-4-scout-17b-16e-instruct"
+        ).strip()
+    ]
+    normalized: list[str] = []
+    for item in raw:
+        mapped = GROQ_MODEL_ALIASES.get(item, item)
+        if mapped and mapped not in normalized:
+            normalized.append(mapped)
+    for fallback in (
+        "meta-llama/llama-4-scout-17b-16e-instruct",
+        "llama-3.3-70b-versatile",
+    ):
+        if fallback not in normalized:
+            normalized.append(fallback)
+    return normalized
+
+
+GEMINI_MODELS = _build_gemini_models()
+GROQ_MODELS = _build_groq_models()
 
 # Any OpenAI-compatible endpoint (OpenRouter, Mistral, Cerebras, Ollama...)
 COMPAT_BASE_URL = os.getenv("OPENAI_COMPAT_BASE_URL", "").strip().rstrip("/")
@@ -1029,15 +1061,42 @@ def extract_pdf_with_pypdf(path: Path) -> tuple[str, int, dict[str, str]]:
         return "", 0, {}
 
 
+WATERMARK_LINE_RE = re.compile(
+    r"^(?:https?://\S+|www\.\S+|"
+    r"[a-z0-9\-]+\.(?:com|net|org|edu|gov|io|me)(?:/\S*)?|"
+    r"digitized by\b.*|scanned by\b.*|صفحة\s*\d+|\d+)$",
+    re.IGNORECASE,
+)
+
+
+def is_meaningful_extracted_text(text: str) -> bool:
+    """True only when text has >= MIN_MEANINGFUL_TEXT of non-watermark content."""
+    if len(text) < MIN_MEANINGFUL_TEXT:
+        return False
+    unique_lines: list[str] = []
+    seen: set[str] = set()
+    for raw in text.splitlines():
+        line = raw.strip()
+        if not line or WATERMARK_LINE_RE.match(line):
+            continue
+        key = line.casefold()
+        if key not in seen:
+            seen.add(key)
+            unique_lines.append(line)
+    return len("\n".join(unique_lines)) >= MIN_MEANINGFUL_TEXT
+
+
 def extract_document(path: Path) -> Extraction:
     if path.suffix.lower() == ".pdf":
         text, pages, meta = extract_pdf_with_pypdf(path)
 
         size_mb = path.stat().st_size / (1024 * 1024)
-        if len(text) < MIN_MEANINGFUL_TEXT and size_mb <= ANYDOC_PDF_MAX_MB:
+        if not is_meaningful_extracted_text(text) and size_mb <= ANYDOC_PDF_MAX_MB:
             alt = extract_with_anydoc(path)
-            if len(alt) > len(text):
+            if is_meaningful_extracted_text(alt) or len(alt) > len(text):
                 text = alt
+        if not is_meaningful_extracted_text(text):
+            text = ""
     else:
         text, pages, meta = extract_with_anydoc(path), 0, {}
 
@@ -1045,7 +1104,7 @@ def extract_document(path: Path) -> Extraction:
         text=text,
         pages=pages,
         meta=meta,
-        needs_file_analysis=len(text) < MIN_MEANINGFUL_TEXT,
+        needs_file_analysis=not is_meaningful_extracted_text(text),
     )
 
 
@@ -1714,9 +1773,71 @@ SCORED_FIELDS = (
 )
 
 
+PRESENTATION_FORMS_RE = re.compile(r"[\uFB50-\uFDFF\uFE70-\uFEFF]")
+ARABIC_DIACRITICS_TATWEEL_RE = re.compile(r"[\u0640\u064B-\u065F\u0670]")
+URL_OR_DOMAIN_TITLE_RE = re.compile(
+    r"^(?:https?://\S+|www\.\S+|"
+    r"[a-z0-9\-]+\.(?:com|net|org|edu|gov|io|me)(?:/\S*)?)$",
+    re.IGNORECASE,
+)
+RELIGIOUS_OR_BOILERPLATE_PHRASES = {
+    "بسم الله الرحمن الرحيم",
+    "بسم الله",
+    "صدق الله العظيم",
+    "الحمد لله رب العالمين",
+    "الحمد لله",
+    "السلام عليكم ورحمة الله وبركاته",
+    "السلام عليكم ورحمة الله",
+    "غير معنون",
+    "غير مصنف",
+}
+
+
+def _normalize_arabic_presentation(text: str) -> str:
+    if PRESENTATION_FORMS_RE.search(text):
+        text = unicodedata.normalize("NFKC", text)
+    return " ".join(text.split())
+
+
+def _is_scrambled_visual_arabic(raw: str, normalized: str) -> bool:
+    """Detect reversed or corrupted glyph-order strings from legacy PDFs."""
+    # Corrupted single-letter word with tanween/diacritic at start (e.g., "فً القيادة")
+    if re.match(r"^[\u0621-\u064A][\u064B-\u0652]\s", normalized):
+        return True
+    if not PRESENTATION_FORMS_RE.search(raw):
+        return False
+    for word in normalized.split():
+        bare = ARABIC_DIACRITICS_TATWEEL_RE.sub("", word)
+        if bare.startswith("ة") or (len(bare) >= 4 and bare.endswith("ال")):
+            return True
+    if re.search(
+        r"(?:^|\s)\u0640+[\u0621-\u064A]|[\u0621-\u064A]\u0640+(?:\s|$)",
+        normalized,
+    ):
+        return True
+    # Taa Marbuta followed directly by Arabic letters inside a word ("البشريةمحاضرات")
+    if re.search(r"ة[\u0621-\u064A]{2,}", normalized):
+        return True
+    return False
+
+
 def clean_title(value: Any) -> str:
-    title = normalize_string(value, MAX_TITLE_CHARS)
-    return "" if title.lower() in GENERIC_BANNED_TITLES_LOWER else title
+    raw = normalize_string(value, MAX_TITLE_CHARS)
+    if not raw:
+        return ""
+    title = _normalize_arabic_presentation(raw)
+    if _is_scrambled_visual_arabic(raw, title):
+        return ""
+    if URL_OR_DOMAIN_TITLE_RE.match(title):
+        return ""
+    bare = " ".join(ARABIC_DIACRITICS_TATWEEL_RE.sub("", title).split())
+    if (
+        title.lower() in GENERIC_BANNED_TITLES_LOWER
+        or bare.lower() in GENERIC_BANNED_TITLES_LOWER
+        or bare in RELIGIOUS_OR_BOILERPLATE_PHRASES
+    ):
+        return ""
+    return title
 
 
 def normalized_ai_data(data: dict[str, Any]) -> dict[str, Any]:
@@ -1781,8 +1902,10 @@ def metadata_score(meta: dict[str, Any]) -> int:
 
 
 BOILERPLATE_RE = re.compile(
-    r"^(?:copyright|all rights reserved|isbn|©|www\.|https?:|page\s*\d+|"
-    r"الصفحة|حقوق (?:الطبع|النشر)|جميع الحقوق|الطبعة|بسم الله)",
+    r"^(?:copyright|all rights reserved|isbn|©|www\.|https?:|"
+    r"[a-z0-9\-]+\.(?:com|net|org|edu|gov|io|me)\b|page\s*\d+|"
+    r"الصفحة|حقوق (?:الطبع|النشر)|جميع الحقوق|الطبعة|بسم الله|صدق الله|"
+    r"الحمد لله|الفهرس|المحتويات)",
     re.IGNORECASE,
 )
 YEAR_CONTEXT_RE = re.compile(
@@ -1794,7 +1917,9 @@ ISBN_RE = re.compile(
     r"ISBN(?:-1[03])?\s*[:：]?\s*((?:97[89][\s\-]?)?\d[\d\s\-]{7,15}[\dXx])",
     re.IGNORECASE,
 )
-PLACEHOLDER_AUTHORS = {"unknown", "admin", "administrator", "user", "author"}
+PLACEHOLDER_AUTHORS = {
+    "unknown", "admin", "administrator", "user", "author", "a", "none", "null"
+}
 
 
 def _letter_ratio(text: str) -> float:
@@ -1802,7 +1927,8 @@ def _letter_ratio(text: str) -> float:
 
 
 def clean_pdf_title(value: Any) -> str:
-    title = normalize_string(value, MAX_TITLE_CHARS)
+    raw = normalize_string(value, MAX_TITLE_CHARS)
+    title = _normalize_arabic_presentation(raw)
     title = re.sub(
         r"^microsoft (?:word|powerpoint|excel)\s*-\s*", "", title,
         flags=re.IGNORECASE,
@@ -1812,23 +1938,33 @@ def clean_pdf_title(value: Any) -> str:
         flags=re.IGNORECASE,
     ).strip()
 
+    cleaned = clean_title(title)
     if (
-        len(title) < 4
-        or title.lower() in GENERIC_BANNED_TITLES_LOWER
-        or re.fullmatch(r"[\W_\d]+", title)
+        len(cleaned) < 4
+        or re.fullmatch(r"[\W_\d]+", cleaned)
+        or _is_scrambled_visual_arabic(raw, cleaned)
     ):
         return ""
-    return title
+    return cleaned
 
 
 def guess_title_from_text(text: str) -> str:
     for raw in text.splitlines()[:80]:
-        line = " ".join(re.sub(r"[#*_`>|]+", " ", raw).split())
+        raw_clean = " ".join(re.sub(r"[#*_`>|]+", " ", raw).split())
+        line = _normalize_arabic_presentation(raw_clean)
         if not 4 <= len(line) <= 150:
             continue
-        if _letter_ratio(line) < 0.5 or BOILERPLATE_RE.match(line):
+        if _is_scrambled_visual_arabic(raw_clean, line):
             continue
-        return line
+        bare_line = ARABIC_DIACRITICS_TATWEEL_RE.sub("", line)
+        if (
+            _letter_ratio(line) < 0.5
+            or BOILERPLATE_RE.match(line)
+            or BOILERPLATE_RE.match(bare_line)
+            or not clean_title(line)
+        ):
+            continue
+        return clean_title(line)
     return ""
 
 
@@ -1842,6 +1978,14 @@ def find_isbn(text: str) -> str:
     sample = (text[:8000] + "\n" + text[-4000:]).translate(DIGIT_TABLE)
     match = ISBN_RE.search(sample)
     return normalize_isbn(match.group(1)) if match else ""
+
+
+def _is_curated_arabic_filename_title(title: str) -> bool:
+    """True when the PDF filename is already a clean multi-word Arabic title."""
+    words = [
+        w for w in title.split() if re.search(r"[\u0621-\u064A]", w)
+    ]
+    return len(words) >= 2 and len(title) >= 6
 
 
 def heuristic_metadata(
@@ -1858,15 +2002,17 @@ def heuristic_metadata(
     neutral labels for empty values, and validate_books.py allows them for
     records marked ai_status = "partial").
     """
-    filename_title = " ".join(
-        re.sub(r"_+", " ", source.stem).split()
-    ).strip(" -.")
-
-    title = (
-        clean_pdf_title(pdf_meta.get("title"))
-        or guess_title_from_text(text)
-        or filename_title
+    filename_title = clean_title(
+        " ".join(re.sub(r"_+", " ", source.stem).split()).strip(" -.")
     )
+    pdf_title = clean_pdf_title(pdf_meta.get("title"))
+    text_title = guess_title_from_text(text)
+
+    if _is_curated_arabic_filename_title(filename_title):
+        title = filename_title
+    else:
+        title = pdf_title or text_title or filename_title
+
     title = clean_title(title) or f"document-{source_hash[:8]}"
 
     author = normalize_string(pdf_meta.get("author"), MAX_AUTHOR_CHARS)
