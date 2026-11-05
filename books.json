@@ -12765,5 +12765,53 @@
     "source_sha256": "6952b76c8297d93469b1aa4228df7c5d3a29bf605fe11785814ce74f9d334917",
     "ai_status": "complete",
     "ai_attempts": 1
+  },
+  {
+    "id": 243,
+    "title": "دليل استخدام برنامج Minitab",
+    "title_en": "Minitab User Guide",
+    "author": "أسامة ربيع",
+    "author_en": "",
+    "category": "الإحصاء والبرمجيات",
+    "category_en": "",
+    "description": "دليل تعليمي شامل باللغة العربية يشرح كيفية استخدام برنامج Minitab للتحليل الإحصائي، بدءاً من واجهة البرنامج وإدخال البيانات وصولاً إلى الاختبارات الإحصائية المتقدمة والرسوم البيانية.",
+    "description_en": "",
+    "publisher": "غير محدد",
+    "publisher_en": "",
+    "type": "كتاب تعليمي",
+    "type_en": "",
+    "target_audience": "الطلاب والباحثون والمحللون المهتمون بالتحليل الإحصائي باستخدام برنامج Minitab",
+    "target_audience_en": "",
+    "year": 0,
+    "pages": 476,
+    "file_size": "13.3 MB",
+    "isbn": "0020109787442",
+    "keywords": [
+      "Minitab",
+      "إحصاء",
+      "تحليل بيانات",
+      "برمجيات إحصائية",
+      "اختبارات إحصائية"
+    ],
+    "keywords_en": [],
+    "key_points": [
+      "التعريف بواجهة برنامج Minitab",
+      "إدخال وإدارة البيانات في أوراق العمل",
+      "إنشاء الرسوم البيانية (Histogram, Bar Chart, Pie Chart)",
+      "إجراء الاختبارات الإحصائية (Z-test, T-test, ANOVA)",
+      "اختبارات جودة التوفيق (Goodness-of-Fit)",
+      "استخدام النماذج التنبؤية والسلاسل الزمنية"
+    ],
+    "key_points_en": [],
+    "featured": false,
+    "badge_text": "",
+    "badge_text_en": "",
+    "file_path": "pdf/دليل_الباحثين_في_التحليل_الإحصائي_للبيانات_باستخدام_برنامج.pdf",
+    "file_name": "دليل_الباحثين_في_التحليل_الإحصائي_للبيانات_باستخدام_برنامج.pdf",
+    "file_type": "PDF",
+    "cover_image": "covers/243.png",
+    "source_sha256": "a1df54e5ddb4d990b2feee918d1bbb2d8741b0dedcf6f896c8790808d298d8ea",
+    "ai_status": "complete",
+    "ai_attempts": 1
   }
 ]
