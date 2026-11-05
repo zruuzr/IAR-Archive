@@ -173,7 +173,12 @@ def _build_gemini_models() -> list[str]:
     configured = _env_list("GEMINI_MODELS") or [
         os.getenv("GEMINI_MODEL", "gemini-3.8-flash").strip()
     ]
-    for fallback in ("gemini-3.8-flash", "gemini-3.8-pro", "gemini-3.0-flash"):
+    for fallback in (
+        "gemini-3.8-flash",
+        "gemini-3.6-flash",
+        "gemini-3.1-flash-lite",
+        "gemini-3.1-pro-preview",
+    ):
         if fallback and fallback not in configured:
             configured.append(fallback)
     return [m for m in configured if m]
@@ -182,7 +187,7 @@ def _build_gemini_models() -> list[str]:
 def _build_groq_models() -> list[str]:
     raw = _env_list("GROQ_MODELS") or [
         os.getenv(
-            "GROQ_MODEL", "llama-3.1-8b-instant"
+            "GROQ_MODEL", "meta-llama/llama-4-scout-17b-16e-instruct"
         ).strip()
     ]
     normalized: list[str] = []
@@ -191,9 +196,8 @@ def _build_groq_models() -> list[str]:
         if mapped and mapped not in normalized:
             normalized.append(mapped)
     for fallback in (
-        "llama-3.1-8b-instant",
-        "llama-3.3-70b-versatile",
-        "mixtral-8x7b-32768",
+        "meta-llama/llama-4-scout-17b-16e-instruct",
+        "deepseek-r1-distill-llama-70b",
     ):
         if fallback not in normalized:
             normalized.append(fallback)
