@@ -8,13 +8,13 @@ import process_books as pb
 import validate_books
 
 GOOD = {
-    "title": "إدارة الموارد",
-    "description": "وصف",
+    "title": "إدارة الموارد البشرية والمالية",
+    "description": "دليل شامل ومفصل في إدارة الموارد والتنظيم الإداري وتطوير الأداء المؤسسي في المنظمات الحديثة",
     "category": "إدارة",
     "type": "كتاب",
     "year": 2019,
-    "author": "أ",
-    "keywords": ["a", "A", "b"],
+    "author": "د. أحمد المنصور",
+    "keywords": ["إدارة", "موارد", "تطوير"],
 }
 
 
