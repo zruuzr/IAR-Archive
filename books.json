@@ -12813,5 +12813,52 @@
     "source_sha256": "a1df54e5ddb4d990b2feee918d1bbb2d8741b0dedcf6f896c8790808d298d8ea",
     "ai_status": "complete",
     "ai_attempts": 1
+  },
+  {
+    "id": 244,
+    "title": "دراسات في الأنظمة المحاسبية المتخصصة",
+    "title_en": "Studies in Specialized Accounting Systems",
+    "author": "د. محمد البابلي، أ.د. الأميرة إبراهيم عثمان",
+    "author_en": "",
+    "category": "Accounting",
+    "category_en": "",
+    "description": "كتاب أكاديمي يتناول الأنظمة المحاسبية المتخصصة، مع التركيز على المحاسبة في الشركات متعددة الفروع والمحاسبة في البنوك التجارية، متضمناً أمثلة وتمارين عملية.",
+    "description_en": "",
+    "publisher": "كلية التجارة - جامعة الإسكندرية",
+    "publisher_en": "",
+    "type": "Academic Textbook",
+    "type_en": "",
+    "target_audience": "طلاب كلية التجارة",
+    "target_audience_en": "",
+    "year": 2019,
+    "pages": 318,
+    "file_size": "43.0 MB",
+    "isbn": "",
+    "keywords": [
+      "المحاسبة",
+      "الشركات متعددة الفروع",
+      "البنوك التجارية",
+      "المحاسبة المالية",
+      "الأنظمة المحاسبية"
+    ],
+    "keywords_en": [],
+    "key_points": [
+      "النظام المحاسبي في الشركات متعددة الفروع (الطريقة المركزية واللامركزية)",
+      "تسعير البضاعة المرسلة للفروع",
+      "النظام المحاسبي في البنوك التجارية",
+      "المعالجة المحاسبية للعمليات المصرفية (الحسابات الجارية، الودائع، الأوراق التجارية، الاعتمادات المستندية)",
+      "إعداد القوائم المالية المجمعة"
+    ],
+    "key_points_en": [],
+    "featured": false,
+    "badge_text": "",
+    "badge_text_en": "",
+    "file_path": "pdf/الأنظمة_المحاسبية_المتخصصة.pdf",
+    "file_name": "الأنظمة_المحاسبية_المتخصصة.pdf",
+    "file_type": "PDF",
+    "cover_image": "covers/244.png",
+    "source_sha256": "43fb0396cadc218d77c07e86994f7d0b839d06cd7b8bd47c058e5498d2214ede",
+    "ai_status": "complete",
+    "ai_attempts": 1
   }
 ]
