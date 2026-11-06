@@ -15,7 +15,7 @@
   --surface-recess: #e7e0d2;
   --ink: #181715;
   --ink-soft: #45413a;
-  --ink-muted: #777063;
+  --ink-muted: #5f584c;
   --hairline: rgba(24, 23, 21, 0.12);
   --hairline-strong: rgba(24, 23, 21, 0.25);
   --terracotta: #b03e23;
@@ -61,7 +61,7 @@
   --surface-recess: #0e1013;
   --ink: #ece6d9;
   --ink-soft: #bdb5a5;
-  --ink-muted: #857e71;
+  --ink-muted: #9c9486;
   --hairline: rgba(236, 230, 217, 0.11);
   --hairline-strong: rgba(236, 230, 217, 0.24);
   --terracotta: #d25d3f;
@@ -151,6 +151,11 @@
     @apply bg-background text-foreground font-sans antialiased;
     line-height: 1.7;
     overflow-x: clip;
+    font-feature-settings:
+      'liga' 0,
+      'calt' 0,
+      'dlig' 0;
+    font-variant-ligatures: no-common-ligatures no-contextual;
     transition:
       background-color 0.4s ease,
       color 0.4s ease;
@@ -190,18 +195,11 @@
 .scroll-hairline-progress {
   position: fixed;
   top: 0;
-  left: 0;
-  right: 0;
+  inset-inline-start: 0;
   height: 2px;
   z-index: 60;
-  background: transparent;
-  pointer-events: none;
-}
-
-.scroll-hairline-progress span {
-  display: block;
-  height: 100%;
   background: var(--terracotta);
+  pointer-events: none;
   transition: width 0.12s linear;
 }
 
@@ -224,6 +222,7 @@
   --cloth-muted: rgba(241, 235, 221, 0.66);
   --cloth-rule: rgba(208, 174, 114, 0.42);
   --cloth-accent: #d2af72;
+  --cloth-ribbon: #1f3449;
 }
 
 [data-cloth='linen'] {
@@ -233,6 +232,7 @@
   --cloth-muted: rgba(27, 25, 22, 0.62);
   --cloth-rule: rgba(27, 25, 22, 0.22);
   --cloth-accent: #a83b20;
+  --cloth-ribbon: #8b3826;
 }
 
 [data-cloth='terracotta'] {
@@ -242,6 +242,7 @@
   --cloth-muted: rgba(246, 239, 228, 0.72);
   --cloth-rule: rgba(246, 239, 228, 0.28);
   --cloth-accent: #e6c39a;
+  --cloth-ribbon: #8b3826;
 }
 
 [data-cloth='cypress'] {
@@ -251,6 +252,7 @@
   --cloth-muted: rgba(239, 233, 219, 0.66);
   --cloth-rule: rgba(201, 173, 121, 0.36);
   --cloth-accent: #c9ad79;
+  --cloth-ribbon: #31463a;
 }
 
 [data-cloth='oatmeal'] {
@@ -260,6 +262,7 @@
   --cloth-muted: rgba(30, 44, 58, 0.62);
   --cloth-rule: rgba(30, 44, 58, 0.22);
   --cloth-accent: #8b3826;
+  --cloth-ribbon: #1f3449;
 }
 
 [data-cloth='oxblood'] {
@@ -269,6 +272,7 @@
   --cloth-muted: rgba(242, 236, 224, 0.66);
   --cloth-rule: rgba(212, 178, 124, 0.36);
   --cloth-accent: #d4b27c;
+  --cloth-ribbon: #542328;
 }
 
 [data-cloth='petrol'] {
@@ -278,6 +282,7 @@
   --cloth-muted: rgba(237, 231, 218, 0.68);
   --cloth-rule: rgba(205, 176, 126, 0.34);
   --cloth-accent: #cdb07e;
+  --cloth-ribbon: #204447;
 }
 
 [data-cloth='ochre'] {
@@ -287,6 +292,7 @@
   --cloth-muted: rgba(244, 238, 227, 0.68);
   --cloth-rule: rgba(244, 238, 227, 0.26);
   --cloth-accent: #e2c38f;
+  --cloth-ribbon: #654d35;
 }
 
 [data-cloth='slate'] {
@@ -296,6 +302,7 @@
   --cloth-muted: rgba(239, 234, 224, 0.64);
   --cloth-rule: rgba(239, 234, 224, 0.22);
   --cloth-accent: #c95b3c;
+  --cloth-ribbon: #282b30;
 }
 
 /* Woven linen micro-texture reusable helper */
@@ -702,5 +709,7 @@
     overflow-x: auto;
     width: 100%;
     padding-bottom: 10px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--hairline-strong) transparent;
   }
 }

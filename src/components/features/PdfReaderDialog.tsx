@@ -142,9 +142,10 @@ export function PdfReaderDialog({
 
       <div
         ref={dialogContainerRef}
-        className="relative z-10 flex flex-col w-full max-w-6xl h-[92dvh] rounded-xl border border-border bg-card text-card-foreground shadow-2xl overflow-hidden"
+        className="relative z-10 flex flex-col w-full max-w-6xl h-[92dvh] rounded-[4px] border hairline-border-strong bg-card text-card-foreground shadow-2xl overflow-hidden"
       >
-        <header className="flex items-center justify-between gap-3 px-4 py-3 border-b border-border bg-card">
+        <div aria-hidden="true" className="h-[2px] w-full bg-primary shrink-0" />
+        <header className="flex items-center justify-between gap-3 px-4 py-3 border-b hairline-border bg-card">
           <div className="flex items-center gap-2.5 min-w-0">
             <FileText className="size-4 text-primary shrink-0" aria-hidden="true" />
             <h2
@@ -163,7 +164,7 @@ export function PdfReaderDialog({
                 target="_blank"
                 rel="noopener noreferrer"
                 data-testid="pdf-reader-direct-link"
-                className="inline-flex items-center gap-1.5 h-8 px-2.5 rounded-md border border-border bg-background text-xs font-medium hover:bg-accent transition-colors"
+                className="inline-flex items-center gap-1.5 h-8 px-2.5 rounded-[3px] border hairline-border-strong bg-background text-xs font-medium hover:bg-accent transition-colors"
               >
                 <span>{translate('فتح مباشر', 'Open direct')}</span>
                 <ExternalLink className="size-3.5" aria-hidden="true" />

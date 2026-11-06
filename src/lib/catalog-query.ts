@@ -273,7 +273,11 @@ export function extractCategories(
 ): CategoryOption[] {
   const map = new Map<string, string>();
   for (const book of books) {
-    map.set(getCategoryKey(book), getCategoryLabel(book, lang));
+    const key = getCategoryKey(book);
+    if (lang === 'en' && map.has(key) && !book.category_en.trim()) {
+      continue;
+    }
+    map.set(key, getCategoryLabel(book, lang));
   }
   return Array.from(map, ([key, label]) => ({ key, label }));
 }

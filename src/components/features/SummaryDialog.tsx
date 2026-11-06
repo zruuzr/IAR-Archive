@@ -177,14 +177,14 @@ export function SummaryDialog({
             <div className="flex flex-wrap items-center gap-1.5 text-xs">
               <span
                 id="summaryCategory"
-                className="rounded-md bg-teal/12 px-2.5 py-0.5 font-semibold text-teal"
+                className="rounded-[3px] bg-teal/12 px-2.5 py-0.5 font-semibold text-teal"
               >
                 {category}
               </span>
 
               <span
                 id="summaryType"
-                className="rounded-md border border-border bg-secondary/70 px-2.5 py-0.5 font-medium text-secondary-foreground"
+                className="rounded-[3px] border hairline-border bg-secondary/70 px-2.5 py-0.5 font-medium text-secondary-foreground"
               >
                 {bookType}
               </span>
@@ -192,7 +192,7 @@ export function SummaryDialog({
               {book.pages && (
                 <span
                   id="summaryPages"
-                  className="inline-flex items-center gap-1 rounded-md bg-secondary/60 px-2 py-0.5 text-muted-foreground tabular-nums"
+                  className="inline-flex items-center gap-1 rounded-[3px] bg-secondary/60 px-2 py-0.5 text-muted-foreground tabular-nums"
                 >
                   <FileText className="size-3 text-teal shrink-0" aria-hidden="true" />
                   <span>
@@ -204,7 +204,7 @@ export function SummaryDialog({
               {book.file_size && (
                 <span
                   id="summarySize"
-                  className="inline-flex items-center gap-1 rounded-md bg-secondary/60 px-2 py-0.5 font-mono text-muted-foreground tabular-nums"
+                  className="inline-flex items-center gap-1 rounded-[3px] bg-secondary/60 px-2 py-0.5 font-mono text-muted-foreground tabular-nums"
                 >
                   <HardDrive className="size-3 shrink-0" aria-hidden="true" />
                   <span>{book.file_size}</span>
@@ -237,7 +237,7 @@ export function SummaryDialog({
 
           {/* Reference Abstract / Description */}
           {description && (
-            <div className="rounded-xl border border-border/80 bg-background/60 p-4 space-y-1.5">
+            <div className="rounded-[4px] border hairline-border bg-background/60 p-4 space-y-1.5">
               <h3 className="text-xs font-bold uppercase tracking-wider text-primary">
                 {t('singleDescLabel')}
               </h3>
@@ -263,7 +263,7 @@ export function SummaryDialog({
             <ul
               id="summaryKeyPoints"
               data-testid="summary-dialog-keypoints"
-              className="space-y-2 rounded-xl border border-border/80 bg-background/60 p-4 text-xs sm:text-sm text-foreground/90"
+              className="space-y-2 rounded-[4px] border hairline-border bg-background/60 p-4 text-xs sm:text-sm text-foreground/90"
             >
               {keyPoints.map((point, idx) => (
                 <li key={idx} className="flex items-start gap-2.5 leading-relaxed">
@@ -279,7 +279,7 @@ export function SummaryDialog({
 
           {/* Target Audience (only when available in record) */}
           {targetAudience && (
-            <div className="rounded-xl border border-border/80 bg-background/60 p-3.5 space-y-1">
+            <div className="rounded-[4px] border hairline-border bg-background/60 p-3.5 space-y-1">
               <h3
                 id="txtModalAudienceTitle"
                 className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-teal"
@@ -298,7 +298,7 @@ export function SummaryDialog({
           )}
 
           {/* APA Academic Citation Box */}
-          <div className="rounded-xl border border-primary/30 bg-secondary/45 p-3.5 space-y-2">
+          <div className="rounded-[4px] border border-primary/30 bg-secondary/45 p-3.5 space-y-2">
             <div className="flex items-center justify-between gap-2">
               <h3
                 id="txtModalApaTitle"
@@ -329,7 +329,7 @@ export function SummaryDialog({
               id="summaryAPA"
               dir="auto"
               data-testid="summary-dialog-apa"
-              className="whitespace-pre-wrap break-words rounded-lg border border-border/80 bg-card p-3 font-mono text-xs text-foreground/90 leading-relaxed"
+              className="whitespace-pre-wrap break-words rounded-[3px] border hairline-border bg-card p-3 font-sans text-xs text-foreground/90 leading-relaxed"
             >
               {apaText}
             </pre>
@@ -337,7 +337,7 @@ export function SummaryDialog({
         </div>
 
         {/* Dialog Footer Actions */}
-        <footer className="flex flex-wrap items-center justify-between gap-2 px-5 py-3.5 border-t border-border bg-secondary/35 shrink-0">
+        <footer className="flex flex-wrap items-center justify-between gap-2 px-5 py-3.5 border-t hairline-border bg-secondary/35 shrink-0">
           <div className="flex flex-wrap items-center gap-2">
             <Button
               type="button"

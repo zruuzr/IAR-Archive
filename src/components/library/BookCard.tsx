@@ -98,7 +98,7 @@ export function BookCard({
         <div
           aria-hidden="true"
           className="absolute inset-y-0 start-0 w-[3px]"
-          style={{ background: 'var(--cloth-bg)' }}
+          style={{ background: 'var(--cloth-ribbon, var(--cloth-bg))' }}
         />
 
         {/* Cover thumbnail inside cotton-rag mat */}
@@ -329,7 +329,7 @@ export function BookCard({
       <div
         aria-hidden="true"
         className="absolute inset-x-0 top-0 h-[3px]"
-        style={{ background: 'var(--cloth-bg)' }}
+        style={{ background: 'var(--cloth-ribbon, var(--cloth-bg))' }}
       />
 
       {/* Unified Top Header Strip: Call Number + Category + Actions (Bundle + Favorite) on all devices */}

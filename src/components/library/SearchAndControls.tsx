@@ -12,6 +12,7 @@ export interface SearchAndControlsProps {
   sort: SortOrder;
   viewMode: ViewMode;
   favoritesOnly: boolean;
+  hasExternalFilters?: boolean;
   totalMatching: number;
   onQueryChange: (nextQuery: string) => void;
   onClearSearch: () => void;
@@ -43,6 +44,7 @@ export function SearchAndControls({
   sort,
   viewMode,
   favoritesOnly,
+  hasExternalFilters = false,
   totalMatching,
   onClearSearch,
   onSortChange,
@@ -53,7 +55,10 @@ export function SearchAndControls({
   const { t, translate, formatNumber } = useI18n();
 
   const hasActiveFilters =
-    Boolean(query) || category !== ALL_CATEGORIES_KEY || favoritesOnly;
+    Boolean(query) ||
+    category !== ALL_CATEGORIES_KEY ||
+    favoritesOnly ||
+    hasExternalFilters;
 
   return (
     <section

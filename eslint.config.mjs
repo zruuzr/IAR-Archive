@@ -193,7 +193,12 @@ export default [
             'useI18n',
             'readStoredLanguage',
             'applyDocumentLanguage',
-            'formatLocalizedNumber'
+            'formatLocalizedNumber',
+            'BOOK_CLOTHS',
+            'getBookCloth',
+            'classifyShelfDiscipline',
+            'buildCuratedShelfBooks',
+            'playPaperSound'
           ]
         }
       ]

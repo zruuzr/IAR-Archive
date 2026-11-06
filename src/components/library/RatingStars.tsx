@@ -89,7 +89,10 @@ export function RatingStars({ book, onRate, size = 'sm', className }: RatingStar
 
       <span
         data-testid={`rating-summary-${book.id}`}
-        className="font-mono text-[11px] font-medium text-muted-foreground"
+        className={cn(
+          'text-[11px] font-medium text-muted-foreground',
+          count > 0 ? 'font-mono tabular-nums' : 'font-sans'
+        )}
       >
         {summaryText}
       </span>

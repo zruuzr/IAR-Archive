@@ -5,9 +5,9 @@
        (/, /index.html, /books.json, /manifest.json)
        → Network First (always fresh when online, offline fallback)
      - Fingerprinted Vite bundles & static assets
-       (/bundles/**, /covers/**, /icons/**, /assets/**, /favicon.ico)
+       (/bundles/**, /icons/**, /assets/**, /favicon.ico)
        → Cache First (fast offline-ready delivery)
-     - External services (Firebase Auth/Firestore, GitHub Raw PDFs, Google Fonts)
+     - External services (Firebase Auth/Firestore, GitHub Raw PDFs/Covers, Google Fonts)
        → Network only (bypassed)
    Update flow:
      - Build step injects exact fingerprinted /bundles/* paths into PRECACHE_BUNDLES
@@ -15,7 +15,7 @@
        are purged on activate
    ============================================================ */
 
-const CACHE_VERSION = 'v35';
+const CACHE_VERSION = 'v36';
 const CACHE_NAME = `iar-archive-${CACHE_VERSION}`;
 
 const CORE_SHELL = [

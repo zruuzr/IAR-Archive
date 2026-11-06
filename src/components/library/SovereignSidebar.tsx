@@ -5,6 +5,8 @@ import { cn } from '@/lib/utils';
 import {
   DISCIPLINE_FACETS,
   ERA_FACETS,
+  matchesDisciplineFacet,
+  matchesEraFacet,
   TYPE_FACETS,
   type DisciplineFacet
 } from '@/lib/sovereign-facets';
@@ -46,18 +48,11 @@ export function SovereignSidebar({
 
   // Compute dynamic counts based on real books in books.json
   const getDisciplineCount = (facet: DisciplineFacet): number => {
-    return books.filter((b) => {
-      const text = `${b.title} ${b.author} ${b.category} ${b.description}`.toLowerCase();
-      return facet.keywords.some((k) => text.includes(k.toLowerCase()));
-    }).length;
+    return books.filter((b) => matchesDisciplineFacet(b, facet.id)).length;
   };
 
-  const getEraCount = (min: number, max: number): number => {
-    return books.filter((b) => {
-      const yr = parseInt(b.year, 10);
-      if (isNaN(yr)) return false;
-      return yr >= min && yr <= max;
-    }).length;
+  const getEraCount = (eraId: string): number => {
+    return books.filter((b) => matchesEraFacet(b, eraId)).length;
   };
 
   const hasAnyFilterActive =
@@ -133,13 +128,14 @@ export function SovereignSidebar({
           </label>
           <div className="space-y-1 text-xs text-foreground/85">
             {DISCIPLINE_FACETS.map((facet) => {
-              const isSelected = activeIssuer === facet.keyword;
+              const isSelected =
+                activeIssuer === facet.id || activeIssuer === facet.keyword;
               const count = getDisciplineCount(facet);
               return (
                 <button
                   key={facet.id}
                   type="button"
-                  onClick={() => onSelectIssuer(isSelected ? '' : facet.keyword)}
+                  onClick={() => onSelectIssuer(isSelected ? '' : facet.id)}
                   className={cn(
                     'w-full flex items-center justify-between px-2.5 py-1.5 rounded-[3px] text-start transition-colors cursor-pointer border',
                     isSelected
@@ -179,8 +175,7 @@ export function SovereignSidebar({
           <div className="space-y-1 text-xs text-foreground/85">
             {ERA_FACETS.map((era) => {
               const isSelected = activeEra === era.id;
-              const count =
-                era.id === 'era_all' ? books.length : getEraCount(era.min, era.max);
+              const count = era.id === 'era_all' ? books.length : getEraCount(era.id);
               return (
                 <button
                   key={era.id}

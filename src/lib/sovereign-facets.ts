@@ -5,6 +5,8 @@
    Finance, Economics, and Scientific Research Methodology.
    ============================================================ */
 
+import type { Book } from '@/types/book';
+
 export interface DisciplineFacet {
   readonly id: string;
   readonly name: string;
@@ -26,6 +28,7 @@ export interface TypeFacet {
   readonly label: string;
   readonly labelEn: string;
   readonly keyword: string;
+  readonly keywords: readonly string[];
 }
 
 /**
@@ -135,30 +138,69 @@ export const TYPE_FACETS: readonly TypeFacet[] = [
     id: 'type_all',
     label: 'جميع الأنواع المرجعية',
     labelEn: 'All Reference Types',
-    keyword: ''
+    keyword: '',
+    keywords: []
   },
   {
     id: 'type_textbooks',
     label: 'كتب ومؤلفات منهجية',
     labelEn: 'Textbooks & Treatises',
-    keyword: 'كتاب'
+    keyword: 'كتاب',
+    keywords: ['كتاب', 'مبادئ', 'أصول', 'أساسيات', 'مدخل', 'شامل']
   },
   {
     id: 'type_studies',
     label: 'دراسات وبحوث تطبيقية',
     labelEn: 'Applied Studies & Research',
-    keyword: 'دراسة'
+    keyword: 'دراسة',
+    keywords: ['دراسة', 'دراسات', 'بحث', 'بحوث', 'تحليل', 'تطبيق']
   },
   {
     id: 'type_guides',
     label: 'أدلة تدريبية وإرشادية',
     labelEn: 'Guides & Handbooks',
-    keyword: 'دليل'
+    keyword: 'دليل',
+    keywords: ['دليل', 'أدلة', 'مرجع', 'إرشاد', 'خطوات', 'كتابة', 'تنمية', 'مهارات']
   },
   {
     id: 'type_theories',
     label: 'نظريات والفكر الإداري',
     labelEn: 'Management Theory & Thought',
-    keyword: 'فكر'
+    keyword: 'فكر',
+    keywords: ['فكر', 'نظري', 'فلسفة', 'تطور', 'سلوك', 'قيادة', 'استراتيج']
   }
 ] as const;
+
+export function matchesDisciplineFacet(
+  book: Book,
+  disciplineIdOrKeyword: string
+): boolean {
+  if (!disciplineIdOrKeyword) return true;
+  const facet = DISCIPLINE_FACETS.find(
+    (f) => f.id === disciplineIdOrKeyword || f.keyword === disciplineIdOrKeyword
+  );
+  const text =
+    `${book.title} ${book.author} ${book.category} ${book.description}`.toLowerCase();
+  if (!facet) {
+    return text.includes(disciplineIdOrKeyword.toLowerCase());
+  }
+  return facet.keywords.some((k) => text.includes(k.toLowerCase()));
+}
+
+export function matchesEraFacet(book: Book, eraId: string): boolean {
+  if (!eraId || eraId === 'era_all') return true;
+  const eraObj = ERA_FACETS.find((e) => e.id === eraId);
+  if (!eraObj) return true;
+  const yr = parseInt(book.year, 10);
+  if (Number.isNaN(yr)) return false;
+  return yr >= eraObj.min && yr <= eraObj.max;
+}
+
+export function matchesTypeFacet(book: Book, typeId: string): boolean {
+  if (!typeId || typeId === 'type_all') return true;
+  const typeObj = TYPE_FACETS.find((t) => t.id === typeId);
+  if (!typeObj || typeObj.keywords.length === 0) return true;
+  const text =
+    `${book.title} ${book.category} ${book.description} ${book.type ?? ''}`.toLowerCase();
+  return typeObj.keywords.some((k) => text.includes(k.toLowerCase()));
+}

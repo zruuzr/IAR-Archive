@@ -95,9 +95,9 @@ const FLAGSHIP_SHELF_SPECS: readonly CuratedShelfSpec[] = [
     width: 55
   },
   {
-    id: 36,
-    spineTitleAr: 'الموظف الإداري',
-    spineTitleEn: 'The Administrative Employee',
+    id: 149,
+    spineTitleAr: 'كتابة الخطة الاستراتيجية',
+    spineTitleEn: 'Strategic Plan Authoring',
     cloth: 'terracotta',
     height: 348,
     width: 58
@@ -119,9 +119,9 @@ const FLAGSHIP_SHELF_SPECS: readonly CuratedShelfSpec[] = [
     width: 53
   },
   {
-    id: 149,
-    spineTitleAr: 'كتابة الخطة الاستراتيجية',
-    spineTitleEn: 'Strategic Plan Authoring',
+    id: 36,
+    spineTitleAr: 'الموظف الإداري',
+    spineTitleEn: 'The Administrative Employee',
     cloth: 'petrol',
     height: 342,
     width: 56

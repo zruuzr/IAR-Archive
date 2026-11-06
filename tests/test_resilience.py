@@ -277,7 +277,7 @@ def fake_extraction(monkeypatch, text="# عنوان الكتاب\n\n" + "نص " 
 
 
 class TestProcessOneBook:
-    def test_total_outage_still_returns_valid_partial_book(
+    def test_default_strict_policy_skips_incomplete_book(
         self, tmp_path, fake_calls, monkeypatch
     ):
         fake_extraction(monkeypatch)
@@ -286,6 +286,20 @@ class TestProcessOneBook:
         pool = pb.BackendPool([make_backend("groq", "q", lambda *a: Err("down", 503))])
 
         book = pb.process_one_book(src, 5, "a" * 64, "pdf/b.pdf", pool)
+
+        assert book is None
+
+    def test_total_outage_still_returns_valid_partial_book(
+        self, tmp_path, fake_calls, monkeypatch
+    ):
+        fake_extraction(monkeypatch)
+        src = tmp_path / "b.pdf"
+        src.write_bytes(b"%PDF-1.4\n")
+        pool = pb.BackendPool([make_backend("groq", "q", lambda *a: Err("down", 503))])
+
+        book = pb.process_one_book(
+            src, 5, "a" * 64, "pdf/b.pdf", pool, allow_partial=True
+        )
 
         assert book.ai_status == "partial" and book.title == "عنوان الكتاب"
         assert book.ai_attempts == 1 and book.pages == 7
@@ -300,7 +314,9 @@ class TestProcessOneBook:
         backend = make_backend("groq", "q", lambda *a: GOOD)
         backend.disabled = True
 
-        book = pb.process_one_book(src, 5, "a" * 64, "pdf/b.pdf", pb.BackendPool([backend]))
+        book = pb.process_one_book(
+            src, 5, "a" * 64, "pdf/b.pdf", pb.BackendPool([backend]), allow_partial=True
+        )
 
         assert book.ai_status == "partial" and book.ai_attempts == 0
 
@@ -326,7 +342,9 @@ class TestProcessOneBook:
         answer = {k: v for k, v in GOOD.items() if k != "type"}
         pool = pb.BackendPool([make_backend("groq", "q", lambda *a: answer)])
 
-        book = pb.process_one_book(src, 5, "a" * 64, "pdf/b.pdf", pool)
+        book = pb.process_one_book(
+            src, 5, "a" * 64, "pdf/b.pdf", pool, allow_partial=True
+        )
 
         assert book.ai_status == "partial"
         validate_books.validate_book(book.to_json_dict(), 1, set())
@@ -352,7 +370,9 @@ class TestProcessOneBook:
         src = tmp_path / "huge_book.pdf"
         src.write_bytes(b"%PDF-1.4\n" + b"0" * 2048)
 
-        book = pb.process_one_book(src, 3, "d" * 64, "pdf/huge_book.pdf", pb.BackendPool([]))
+        book = pb.process_one_book(
+            src, 3, "d" * 64, "pdf/huge_book.pdf", pb.BackendPool([]), allow_partial=True
+        )
 
         assert book.title == "huge book" and book.ai_status == "partial"
         assert book.ai_attempts == pb.MAX_ENRICH_ATTEMPTS

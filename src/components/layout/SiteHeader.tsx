@@ -28,7 +28,7 @@ export interface SiteHeaderProps {
 export function SiteHeader({
   favoritesOnly,
   favoritesCount,
-  booksCount = 180,
+  booksCount = 247,
   loaded = true,
   soundEnabled = true,
   onToggleSound,
@@ -68,7 +68,7 @@ export function SiteHeader({
               <span className="font-mono text-[11px] sm:text-xs font-medium tracking-[0.12em] sm:tracking-[0.14em] text-foreground">
                 IAR ARCHIVE
               </span>
-              <span className="text-[10.5px] sm:text-xs font-medium text-muted-foreground truncate sm:whitespace-nowrap">
+              <span className="text-[10.5px] sm:text-xs font-medium text-muted-foreground whitespace-nowrap leading-normal pe-0.5">
                 {translate('المرجع الإداري العراقي', 'Iraqi Administrative Reference')}
               </span>
               <span id="txtSubtitle" className="sr-only">

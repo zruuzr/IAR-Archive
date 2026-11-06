@@ -90,8 +90,9 @@ export function DownloadProgressDialog({ downloadState }: DownloadProgressDialog
     >
       <div
         ref={dialogContainerRef}
-        className="relative z-10 w-full max-w-sm rounded-2xl border border-border bg-card text-card-foreground p-6 shadow-2xl flex flex-col items-center text-center space-y-4"
+        className="relative z-10 w-full max-w-sm overflow-hidden rounded-[4px] border hairline-border-strong bg-card text-card-foreground p-6 doc-shadow shadow-2xl flex flex-col items-center text-center space-y-4"
       >
+        <div aria-hidden="true" className="absolute inset-x-0 top-0 h-[2px] bg-primary" />
         {/* Progress Ring / Status Visualization */}
         <div className="relative size-36 flex items-center justify-center">
           <svg

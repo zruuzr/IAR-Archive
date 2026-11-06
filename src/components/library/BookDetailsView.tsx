@@ -313,7 +313,7 @@ export function BookDetailsView({
               {secondaryTitle && (
                 <p
                   dir={lang === 'ar' ? 'ltr' : 'rtl'}
-                  className="font-mono text-xs text-muted-foreground text-start"
+                  className="font-sans text-xs text-muted-foreground text-start"
                 >
                   {secondaryTitle}
                 </p>
@@ -552,7 +552,7 @@ export function BookDetailsView({
               <pre
                 dir="auto"
                 data-testid="single-book-apa"
-                className="whitespace-pre-wrap break-words rounded-[3px] border hairline-border bg-card p-3 font-mono text-xs text-foreground/90 leading-relaxed"
+                className="whitespace-pre-wrap break-words rounded-[3px] border hairline-border bg-card p-3 font-sans text-xs text-foreground/90 leading-relaxed"
               >
                 {apaText}
               </pre>

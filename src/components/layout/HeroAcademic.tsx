@@ -81,6 +81,8 @@ export function HeroAcademic({
   const [cursorVisible, setCursorVisible] = useState<boolean>(false);
 
   const hoverTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const booksRowRef = useRef<HTMLDivElement | null>(null);
+  const didInitialCenterRef = useRef<boolean>(false);
   const cursorElRef = useRef<HTMLDivElement | null>(null);
   const cursorTargetRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const cursorCurrentRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
@@ -120,6 +122,40 @@ export function HeroAcademic({
     },
     [filteredShelf.length, soundEnabled]
   );
+
+  // Horizontally center the active open book inside .books-row on scrollable viewports (mobile/tablet)
+  useEffect(() => {
+    if (compact || typeof window === 'undefined') return undefined;
+    const rowEl = booksRowRef.current;
+    if (!rowEl) return undefined;
+
+    const centerOpenVolume = (instant: boolean) => {
+      if (rowEl.scrollWidth <= rowEl.clientWidth + 4) return;
+      const openEl = rowEl.querySelector<HTMLElement>('.shelf-book.is-open');
+      if (!openEl) return;
+      const rowRect = rowEl.getBoundingClientRect();
+      const openRect = openEl.getBoundingClientRect();
+      const delta = openRect.left - rowRect.left - (rowRect.width - openRect.width) / 2;
+      if (Math.abs(delta) > 4 && typeof rowEl.scrollBy === 'function') {
+        rowEl.scrollBy({
+          left: delta,
+          behavior: instant ? 'auto' : 'smooth'
+        });
+      }
+    };
+
+    const isInitial = !didInitialCenterRef.current && filteredShelf.length > 0;
+    if (isInitial) {
+      didInitialCenterRef.current = true;
+    }
+
+    const t1 = window.setTimeout(() => centerOpenVolume(isInitial), 20);
+    const t2 = window.setTimeout(() => centerOpenVolume(false), 420);
+    return () => {
+      window.clearTimeout(t1);
+      window.clearTimeout(t2);
+    };
+  }, [compact, resolvedIndex, activeDiscipline, filteredShelf.length, isRTL]);
 
   // Smooth Lerp magnetic cursor animation on desktop
   useEffect(() => {
@@ -287,6 +323,7 @@ export function HeroAcademic({
             {filteredShelf.length > 0 ? (
               <div className="flex w-full flex-col items-center">
                 <div
+                  ref={booksRowRef}
                   role="listbox"
                   aria-label={translate(
                     'رف المجلدات الإدارية المنتقاة',

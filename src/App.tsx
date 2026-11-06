@@ -17,7 +17,11 @@ import { FeaturedSpotlight } from '@/components/library/FeaturedSpotlight';
 import { PaginationNav } from '@/components/library/PaginationNav';
 import { SearchAndControls } from '@/components/library/SearchAndControls';
 import { SovereignSidebar } from '@/components/library/SovereignSidebar';
-import { ERA_FACETS, TYPE_FACETS } from '@/lib/sovereign-facets';
+import {
+  matchesDisciplineFacet,
+  matchesEraFacet,
+  matchesTypeFacet
+} from '@/lib/sovereign-facets';
 import { useBookDownload } from '@/hooks/useBookDownload';
 import { useCatalog, type UseCatalogOptions } from '@/hooks/useCatalog';
 import { useLibraryState } from '@/hooks/useLibraryState';
@@ -101,16 +105,18 @@ export function LibraryWorkspace({
   const [sidebarEra, setSidebarEra] = useState<string>('era_all');
   const [sidebarType, setSidebarType] = useState<string>('type_all');
 
+  const hasSidebarFilters =
+    sidebarIssuer !== '' || sidebarEra !== 'era_all' || sidebarType !== 'type_all';
+
   const activeBooks = useMemo(() => {
-    if (sidebarEra === 'era_all') return books;
-    const eraFacet = ERA_FACETS.find((e) => e.id === sidebarEra);
-    if (!eraFacet) return books;
-    return books.filter((b) => {
-      const yr = parseInt(b.year, 10);
-      if (isNaN(yr)) return false;
-      return yr >= eraFacet.min && yr <= eraFacet.max;
-    });
-  }, [books, sidebarEra]);
+    if (!hasSidebarFilters) return books;
+    return books.filter(
+      (b) =>
+        matchesDisciplineFacet(b, sidebarIssuer) &&
+        matchesEraFacet(b, sidebarEra) &&
+        matchesTypeFacet(b, sidebarType)
+    );
+  }, [books, hasSidebarFilters, sidebarIssuer, sidebarEra, sidebarType]);
 
   const {
     query,
@@ -396,9 +402,9 @@ export function LibraryWorkspace({
     if (singleBook || isInvalidBookParam) {
       backToList();
     } else {
-      resetFilters();
+      handleResetAllFilters();
     }
-  }, [singleBook, isInvalidBookParam, backToList, resetFilters]);
+  }, [singleBook, isInvalidBookParam, backToList, handleResetAllFilters]);
 
   const adjacentBooks = useMemo(() => {
     if (!singleBook || books.length <= 1) {
@@ -543,19 +549,15 @@ export function LibraryWorkspace({
                 onSelectCategory={setCategory}
                 onSelectIssuer={(issuer) => {
                   setSidebarIssuer(issuer);
-                  setQuery(issuer);
+                  setPage(1);
                 }}
                 onSelectEra={(era) => {
                   setSidebarEra(era);
+                  setPage(1);
                 }}
                 onSelectType={(type) => {
                   setSidebarType(type);
-                  const found = TYPE_FACETS.find((t) => t.id === type);
-                  if (found && found.keyword) {
-                    setQuery(found.keyword);
-                  } else if (type === 'type_all') {
-                    setQuery('');
-                  }
+                  setPage(1);
                 }}
                 onResetFilters={handleResetAllFilters}
               />
@@ -570,8 +572,8 @@ export function LibraryWorkspace({
                 onClearBundle={clearBundleAndReset}
               />
 
-              {/* Featured Spotlight Reference (only on default view Page 1) */}
-              {loaded && !error && catalogResult.spotlightBook && (
+              {/* Featured Spotlight Reference (only on default view Page 1 with no sidebar filter) */}
+              {loaded && !error && !hasSidebarFilters && catalogResult.spotlightBook && (
                 <FeaturedSpotlight
                   book={catalogResult.spotlightBook}
                   isFavorite={favorites.isFavorite(catalogResult.spotlightBook.id)}
@@ -613,6 +615,7 @@ export function LibraryWorkspace({
                 sort={sort}
                 viewMode={viewMode}
                 favoritesOnly={favoritesOnly}
+                hasExternalFilters={hasSidebarFilters}
                 totalMatching={catalogResult.totalFiltered}
                 onQueryChange={setQuery}
                 onClearSearch={clearSearch}
