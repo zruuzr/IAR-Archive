@@ -13017,5 +13017,46 @@
     "source_sha256": "ba4f8296622426cb4767264ba46bc2ec78b4dbf0ae264f8e8d6c26470c7647fd",
     "ai_status": "complete",
     "ai_attempts": 1
+  },
+  {
+    "id": 248,
+    "title": "غير محدد",
+    "title_en": "Not specified",
+    "author": "غير محدد",
+    "author_en": "",
+    "category": "غير محدد",
+    "category_en": "",
+    "description": "وثيقة غير محددة العنوان أو المؤلف، تم استخراجها من نظام EBSCO Publishing ضمن مجموعة الكتب الإلكترونية العربية.",
+    "description_en": "",
+    "publisher": "غير محدد",
+    "publisher_en": "",
+    "type": "وثيقة رقمية",
+    "type_en": "",
+    "target_audience": "الباحثون والمستفيدون من أرشيف EBSCO",
+    "target_audience_en": "",
+    "year": 2001,
+    "pages": 544,
+    "file_size": "6.5 MB",
+    "isbn": "",
+    "keywords": [
+      "أرشيف",
+      "وثيقة إلكترونية"
+    ],
+    "keywords_en": [],
+    "key_points": [
+      "وثيقة مؤرشفة ضمن نظام EBSCO",
+      "حقوق النشر تعود لعام 2001"
+    ],
+    "key_points_en": [],
+    "featured": false,
+    "badge_text": "",
+    "badge_text_en": "",
+    "file_path": "pdf/إدارة_التسويق_-_محمود_بازرعة.pdf",
+    "file_name": "إدارة_التسويق_-_محمود_بازرعة.pdf",
+    "file_type": "PDF",
+    "cover_image": "covers/248.png",
+    "source_sha256": "2f222ee3da7a105eaa0edbae1f1138e9ad2941e4af223a6b8ff6c33f0ab90115",
+    "ai_status": "complete",
+    "ai_attempts": 1
   }
 ]
