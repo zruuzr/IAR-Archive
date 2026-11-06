@@ -85,12 +85,12 @@ describe('catalog service — pure helpers (clean, finite, words)', () => {
 describe('catalog service — resolveAssetUrl()', () => {
   const BASE_HREF = 'http://localhost:8000/index.html';
 
-  it('resolves relative cover paths against baseHref / location.href', () => {
+  it('resolves relative cover paths against GitHub Raw main branch URL', () => {
     expect(resolveAssetUrl('covers/1.png', false, BASE_HREF)).toBe(
-      'http://localhost:8000/covers/1.png'
+      `${GITHUB_RAW_BASE_URL}covers/1.png`
     );
     expect(resolveAssetUrl('/covers/42.png', false, BASE_HREF)).toBe(
-      'http://localhost:8000/covers/42.png'
+      `${GITHUB_RAW_BASE_URL}covers/42.png`
     );
   });
 
@@ -208,7 +208,7 @@ describe('catalog service — normalizeBook()', () => {
       key_points: ['النقطة الأولى', 'النقطة الثانية'],
       key_points_en: ['First point', 'Second point'],
       featured: true,
-      cover_image: 'http://localhost:8000/covers/1.png',
+      cover_image: `${GITHUB_RAW_BASE_URL}covers/1.png`,
       file_path: `${GITHUB_RAW_BASE_URL}pdf/student_guide.pdf`,
       file_name: 'student_guide.pdf',
       downloadCount: 0,
@@ -478,7 +478,7 @@ describe('integration & parity with real books.json and legacy Vanilla JS module
       expect(book.id).toBeGreaterThanOrEqual(1);
       expect(book.title.length).toBeGreaterThan(0);
       expect(book.file_path.startsWith(`${GITHUB_RAW_BASE_URL}pdf/`)).toBe(true);
-      expect(book.cover_image.startsWith('http://localhost:8000/covers/')).toBe(true);
+      expect(book.cover_image.startsWith(`${GITHUB_RAW_BASE_URL}covers/`)).toBe(true);
     }
   });
 

@@ -90,7 +90,13 @@ export function resolveAssetUrl(value: unknown, pdf = false, baseHref?: string):
       typeof location !== 'undefined' && location?.href
         ? location.href
         : 'http://localhost/';
-    const base = pdf ? GITHUB_RAW_BASE_URL : (baseHref ?? fallbackBase);
+    const isRemoteRepoAsset =
+      pdf ||
+      raw.startsWith('covers/') ||
+      raw.startsWith('/covers/') ||
+      raw.startsWith('pdf/') ||
+      raw.startsWith('/pdf/');
+    const base = isRemoteRepoAsset ? GITHUB_RAW_BASE_URL : (baseHref ?? fallbackBase);
     const url = new URL(raw.replace(/^\/+/, ''), base);
     return ['http:', 'https:', 'file:'].includes(url.protocol) ? url.href : '';
   } catch {

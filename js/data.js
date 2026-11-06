@@ -21,7 +21,13 @@ export function asset(value, pdf = false) {
       }
       return url.href;
     }
-    const base = pdf
+    const isRemoteRepoAsset =
+      pdf ||
+      raw.startsWith('covers/') ||
+      raw.startsWith('/covers/') ||
+      raw.startsWith('pdf/') ||
+      raw.startsWith('/pdf/');
+    const base = isRemoteRepoAsset
       ? 'https://raw.githubusercontent.com/zruuzr/IAR-Archive/main/'
       : location.href;
     const url = new URL(raw.replace(/^\/+/, ''), base);

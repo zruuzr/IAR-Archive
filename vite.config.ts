@@ -19,8 +19,7 @@ const APPROVED_STATIC_ASSETS = [
   '404.html',
   'googlea493ed01f21d992e.html',
   'assets',
-  'icons',
-  'covers'
+  'icons'
 ] as const;
 
 function copyFileFastSync(src: string, dest: string): void {

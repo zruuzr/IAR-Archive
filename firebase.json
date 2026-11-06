@@ -32,6 +32,8 @@
       "_headers",
       "pdf",
       "pdf/**",
+      "covers",
+      "covers/**",
       "src",
       "src/**",
       "e2e",
@@ -102,15 +104,6 @@
           {
             "key": "Cache-Control",
             "value": "public, max-age=31536000, immutable"
-          }
-        ]
-      },
-      {
-        "source": "/covers/**",
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "public, max-age=604800, immutable"
           }
         ]
       },
