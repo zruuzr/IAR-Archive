@@ -34,6 +34,11 @@ jobs:
       - name: Build production bundle
         run: npm run build
 
+      - name: Prune old Firebase Hosting versions
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_IAR_ARCHIVE_328BC }}
+        run: node scripts/prune-firebase-versions.mjs
+
       - name: Deploy Preview Channel
         uses: FirebaseExtended/action-hosting-deploy@500ac625ca2dd40cbd15f7659af953801858032a # v0.11.0
         with:
