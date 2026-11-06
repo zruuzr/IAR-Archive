@@ -79,10 +79,13 @@ export function HeroAcademic({
   const [activeDiscipline, setActiveDiscipline] = useState<ShelfDiscipline>('all');
   const [activeShelfIdx, setActiveShelfIdx] = useState<number>(-1);
   const [cursorVisible, setCursorVisible] = useState<boolean>(false);
+  const [shelfHovered, setShelfHovered] = useState<boolean>(false);
+  const [failedCoverIds, setFailedCoverIds] = useState<Record<number, boolean>>({});
 
   const hoverTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const booksRowRef = useRef<HTMLDivElement | null>(null);
   const didInitialCenterRef = useRef<boolean>(false);
+  const lastSelectSourceRef = useRef<'init' | 'hover' | 'nav'>('init');
   const cursorElRef = useRef<HTMLDivElement | null>(null);
   const cursorTargetRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const cursorCurrentRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
@@ -111,8 +114,9 @@ export function HeroAcademic({
   const activeVolume = filteredShelf[resolvedIndex] ?? null;
 
   const selectShelfIndex = useCallback(
-    (nextIdx: number, withSound = true) => {
+    (nextIdx: number, withSound = true, source: 'hover' | 'nav' = 'nav') => {
       if (filteredShelf.length === 0) return;
+      lastSelectSourceRef.current = source;
       const wrapped =
         ((nextIdx % filteredShelf.length) + filteredShelf.length) % filteredShelf.length;
       setActiveShelfIdx(wrapped);
@@ -126,6 +130,7 @@ export function HeroAcademic({
   // Horizontally center the active open book inside .books-row on scrollable viewports (mobile/tablet)
   useEffect(() => {
     if (compact || typeof window === 'undefined') return undefined;
+    if (lastSelectSourceRef.current === 'hover') return undefined;
     const rowEl = booksRowRef.current;
     if (!rowEl) return undefined;
 
@@ -211,9 +216,9 @@ export function HeroAcademic({
       }
 
       if (e.key === 'ArrowLeft') {
-        selectShelfIndex(resolvedIndex + (isRTL ? 1 : -1));
+        selectShelfIndex(resolvedIndex + (isRTL ? 1 : -1), true, 'nav');
       } else if (e.key === 'ArrowRight') {
-        selectShelfIndex(resolvedIndex + (isRTL ? -1 : 1));
+        selectShelfIndex(resolvedIndex + (isRTL ? -1 : 1), true, 'nav');
       }
     };
 
@@ -280,7 +285,13 @@ export function HeroAcademic({
           <div className="flex w-full flex-col items-center">
             {/* Architectural Rubric & Segmented Discipline Filter Bar */}
             <div className="mb-6 text-center">
-              <p className="mb-2.5 text-xs tracking-wide text-muted-foreground">
+              <p
+                data-testid="hero-motto-banner"
+                className="mb-1 font-serif text-sm sm:text-base font-bold text-primary tracking-wide"
+              >
+                {t('txtAboutTitle')}
+              </p>
+              <p className="mb-3 text-xs tracking-wide text-muted-foreground">
                 {translate(
                   'خزانة المراجع المنتقاة — الإدارة، القانون، والمالية العامة',
                   'Curated Reference Vault — Administration, Law & Public Finance'
@@ -301,6 +312,7 @@ export function HeroAcademic({
                       data-testid={`shelf-filter-${tab.id}`}
                       aria-pressed={isActive}
                       onClick={() => {
+                        lastSelectSourceRef.current = 'nav';
                         setActiveDiscipline(tab.id);
                         setActiveShelfIdx(-1);
                         playPaperSound('rustle', soundEnabled);
@@ -330,6 +342,7 @@ export function HeroAcademic({
                     'Curated administrative volumes shelf'
                   )}
                   data-testid="editorial-cloth-shelf"
+                  onMouseEnter={() => setShelfHovered(true)}
                   className="books-row"
                 >
                   {filteredShelf.map((item, idx) => {
@@ -344,6 +357,11 @@ export function HeroAcademic({
                     const catLabel = getCategoryLabel(item.book, lang);
                     const yearStr =
                       item.book.year && item.book.year !== '0' ? item.book.year : '2025';
+                    const showShelfCover = Boolean(
+                      (isOpen || shelfHovered) &&
+                      item.book.cover_image &&
+                      !failedCoverIds[item.book.id]
+                    );
 
                     const volumeStyle = {
                       '--spine-w': `${item.width}px`,
@@ -366,8 +384,9 @@ export function HeroAcademic({
                           }
                           if (!isOpen) {
                             hoverTimerRef.current = setTimeout(() => {
-                              selectShelfIndex(idx, true);
-                            }, 65);
+                              selectShelfIndex(idx, true, 'hover');
+                              setCursorVisible(true);
+                            }, 35);
                           } else {
                             setCursorVisible(true);
                           }
@@ -383,7 +402,7 @@ export function HeroAcademic({
                         }}
                         onClick={() => {
                           if (!isOpen) {
-                            selectShelfIndex(idx, true);
+                            selectShelfIndex(idx, true, 'nav');
                           } else if (onOpenBook) {
                             setCursorVisible(false);
                             playPaperSound('open', soundEnabled);
@@ -394,7 +413,7 @@ export function HeroAcademic({
                           if (e.key === 'Enter' || e.key === ' ') {
                             e.preventDefault();
                             if (!isOpen) {
-                              selectShelfIndex(idx, true);
+                              selectShelfIndex(idx, true, 'nav');
                             } else if (onOpenBook) {
                               playPaperSound('open', soundEnabled);
                               onOpenBook(item.book);
@@ -434,10 +453,10 @@ export function HeroAcademic({
                           </div>
                         </div>
 
-                        {/* 2) Face-Out Unfolded Monograph Cover View */}
+                        {/* 2) Face-Out Unfolded Original Cover View */}
                         <div className="book-cover-view">
                           <div
-                            className="flex items-center justify-between border-b pb-2 font-mono text-[9.5px] tracking-[0.12em]"
+                            className="flex items-center justify-between border-b pb-1.5 font-mono text-[9px] tracking-[0.12em]"
                             style={{
                               color: 'var(--cloth-muted)',
                               borderColor: 'var(--cloth-rule)'
@@ -447,39 +466,65 @@ export function HeroAcademic({
                             <span>NO. {item.shelfNo}</span>
                           </div>
 
-                          <div
-                            className="my-2.5 flex flex-1 items-center justify-center border bg-black/[0.06]"
-                            style={{
-                              borderColor: 'var(--cloth-rule)',
-                              color: 'var(--cloth-accent)'
-                            }}
-                          >
-                            <DisciplineOrnament
-                              discipline={item.discipline}
-                              className="size-20 opacity-90"
-                            />
-                          </div>
-
-                          <div className="text-start">
-                            <span
-                              className="mb-1 block truncate text-[10.5px] font-semibold"
-                              style={{ color: 'var(--cloth-accent)' }}
+                          {showShelfCover ? (
+                            <div
+                              className="my-2 flex-1 overflow-hidden rounded-[2px] border bg-black/15 shadow-inner"
+                              style={{ borderColor: 'var(--cloth-rule)' }}
                             >
-                              {catLabel}
-                            </span>
-                            <h3 className="mb-2 line-clamp-2 font-serif text-[1.08rem] font-bold leading-snug">
-                              {spineTitle}
-                            </h3>
-                          </div>
+                              <img
+                                src={item.book.cover_image}
+                                alt={fullTitle}
+                                loading="lazy"
+                                decoding="async"
+                                data-testid={`shelf-cover-img-${item.book.id}`}
+                                onError={() =>
+                                  setFailedCoverIds((prev) => ({
+                                    ...prev,
+                                    [item.book.id]: true
+                                  }))
+                                }
+                                className="size-full object-cover"
+                              />
+                            </div>
+                          ) : (
+                            <>
+                              <div
+                                className="my-2.5 flex flex-1 items-center justify-center border bg-black/[0.06]"
+                                style={{
+                                  borderColor: 'var(--cloth-rule)',
+                                  color: 'var(--cloth-accent)'
+                                }}
+                              >
+                                <DisciplineOrnament
+                                  discipline={item.discipline}
+                                  className="size-20 opacity-90"
+                                />
+                              </div>
+
+                              <div className="text-start">
+                                <span
+                                  className="mb-1 block truncate text-[10.5px] font-semibold"
+                                  style={{ color: 'var(--cloth-accent)' }}
+                                >
+                                  {catLabel}
+                                </span>
+                                <h3 className="mb-2 line-clamp-2 font-serif text-[1.08rem] font-bold leading-snug">
+                                  {spineTitle}
+                                </h3>
+                              </div>
+                            </>
+                          )}
 
                           <div
-                            className="flex items-center justify-between gap-2 border-t pt-1.5 text-[10px]"
+                            className="flex items-center justify-between gap-2 border-t pt-1.5 text-[9.5px]"
                             style={{
                               color: 'var(--cloth-muted)',
                               borderColor: 'var(--cloth-rule)'
                             }}
                           >
-                            <span className="max-w-[145px] truncate">{author}</span>
+                            <span className="max-w-[145px] truncate">
+                              {showShelfCover ? catLabel : author}
+                            </span>
                             <span className="font-mono">{yearStr}</span>
                           </div>
                         </div>

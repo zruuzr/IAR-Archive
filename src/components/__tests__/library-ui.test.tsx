@@ -476,7 +476,7 @@ describe('Phase 2.3A & 2.3B — Library UI, Reference Experience & Interactive M
     });
   });
 
-  it('unfolds cloth-bound volumes on the interactive bookshelf, updates the museum placard, filters disciplines, and opens the 3D monograph spread', () => {
+  it('unfolds cloth-bound volumes with original covers on the interactive bookshelf, keeps the Sumer motto visible, and renders the attractive footer channels', () => {
     render(
       <App
         initialLang="ar"
@@ -489,8 +489,16 @@ describe('Phase 2.3A & 2.3B — Library UI, Reference Experience & Interactive M
       />
     );
 
+    const mottoBanner = screen.getByTestId('hero-motto-banner');
+    expect(mottoBanner.textContent).toContain('من ألواح سومر إلى أوراق الحاضر');
+
     const bookshelf = screen.getByTestId('editorial-cloth-shelf');
     expect(bookshelf).toBeTruthy();
+
+    // Hovering the shelf loads original book cover images directly on the shelf volumes
+    fireEvent.mouseEnter(bookshelf);
+    const book1CoverImg = screen.getByTestId('shelf-cover-img-1');
+    expect(book1CoverImg.getAttribute('src')).toContain('1.jpg');
 
     // First click on a closed spine unfolds it face-out on the shelf and updates the museum placard
     const book2Spine = screen.getByTestId('shelf-book-2');
@@ -498,6 +506,12 @@ describe('Phase 2.3A & 2.3B — Library UI, Reference Experience & Interactive M
 
     const placard = screen.getByTestId('shelf-placard');
     expect(placard.textContent).toContain('التخطيط الاستراتيجي المؤسسي');
+
+    // Footer renders both official Telegram and TikTok showcase cards
+    const telegramLink = screen.getByTestId('footer-telegram-link');
+    const tiktokLink = screen.getByTestId('footer-tiktok-link');
+    expect(telegramLink.textContent).toContain('@iarArchive');
+    expect(tiktokLink.textContent).toContain('@iar.archive');
 
     // Discipline tab filtering works without breaking the shelf
     const adminTab = screen.getByTestId('shelf-filter-admin');

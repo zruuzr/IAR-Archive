@@ -285,7 +285,9 @@ class TestProcessOneBook:
         src.write_bytes(b"%PDF-1.4\n")
         pool = pb.BackendPool([make_backend("groq", "q", lambda *a: Err("down", 503))])
 
-        book = pb.process_one_book(src, 5, "a" * 64, "pdf/b.pdf", pool)
+        book = pb.process_one_book(
+            src, 5, "a" * 64, "pdf/b.pdf", pool, allow_partial=False
+        )
 
         assert book is None
 

@@ -491,7 +491,7 @@
   position: absolute;
   inset: 0;
   width: 232px;
-  padding: 18px 20px 16px 16px;
+  padding: 12px 16px 12px 12px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -505,7 +505,7 @@
 }
 
 [dir='ltr'] .book-cover-view {
-  padding: 18px 16px 16px 20px;
+  padding: 12px 12px 12px 16px;
   transform: translateX(-12px);
 }
 

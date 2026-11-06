@@ -1,3 +1,4 @@
+import { resolveAssetUrl } from '@/services/catalog';
 import type { Book } from '@/types/book';
 
 export type ClothPigment =
@@ -29,6 +30,14 @@ export interface CuratedShelfSpec {
   readonly id: number;
   readonly spineTitleAr: string;
   readonly spineTitleEn: string;
+  readonly title: string;
+  readonly title_en: string;
+  readonly author: string;
+  readonly author_en: string;
+  readonly category: string;
+  readonly category_en: string;
+  readonly year: string;
+  readonly file_path: string;
   readonly cloth: ClothPigment;
   readonly height: number;
   readonly width: number;
@@ -50,6 +59,15 @@ const FLAGSHIP_SHELF_SPECS: readonly CuratedShelfSpec[] = [
     id: 146,
     spineTitleAr: 'إدارة المحفوظات والأرشيف',
     spineTitleEn: 'Archives & Records Management',
+    title: 'تنظيم وإدارة المحفوظات والأرشيف',
+    title_en: 'Organization and Management of Records and Archives',
+    author: 'خبراء المجموعة العربية للتدريب والنشر (إشراف علمي: محمود عبد الفتاح رضوان)',
+    author_en:
+      'Arab Group for Training & Publishing Experts (Scientific Supervision: Mahmoud Abdel Fattah Radwan)',
+    category: 'إدارة المحفوظات والوثائق',
+    category_en: 'Archives & Records Management',
+    year: '2012',
+    file_path: 'pdf/تنظيم_وادارة_المحفوظات_والارشيف.pdf',
     cloth: 'linen',
     height: 332,
     width: 54
@@ -58,6 +76,15 @@ const FLAGSHIP_SHELF_SPECS: readonly CuratedShelfSpec[] = [
     id: 63,
     spineTitleAr: 'القرار الإداري السلبي',
     spineTitleEn: 'Administrative Decisions',
+    title: 'النظرية العامة للقرار الإداري السلبي (دراسة مقارنة)',
+    title_en:
+      'The General Theory of the Negative Administrative Decision (A Comparative Study)',
+    author: 'صلاح جبير البصيصي',
+    author_en: 'Salah Jubeir Al-Basiyasi',
+    category: 'القانون الإداري',
+    category_en: 'Administrative Law',
+    year: '2017',
+    file_path: 'pdf/النظرية_العامة-للقرار_الاداري_السلبي.pdf',
     cloth: 'prussian',
     height: 344,
     width: 56
@@ -66,6 +93,14 @@ const FLAGSHIP_SHELF_SPECS: readonly CuratedShelfSpec[] = [
     id: 43,
     spineTitleAr: 'المحاسبة الحكومية',
     spineTitleEn: 'Governmental Accounting',
+    title: 'المحاسبة الحكومية',
+    title_en: 'Governmental Accounting',
+    author: 'فؤاد سليمان الفسفوس',
+    author_en: 'Fouad Sulaiman Al-Fasfous',
+    category: 'المحاسبة والمالية',
+    category_en: 'Accounting & Finance',
+    year: '2010',
+    file_path: 'pdf/المحاسبة_الحكومية.pdf',
     cloth: 'oatmeal',
     height: 328,
     width: 52
@@ -74,6 +109,14 @@ const FLAGSHIP_SHELF_SPECS: readonly CuratedShelfSpec[] = [
     id: 15,
     spineTitleAr: 'إدارة المكاتب والسكرتارية',
     spineTitleEn: 'Office Administration',
+    title: 'إدارة المكاتب والسكرتارية',
+    title_en: 'Office Management and Secretarial Work',
+    author: 'عامر عبد الكريم أبو شحادة',
+    author_en: 'Amer Abdul Karim',
+    category: 'إدارة الأعمال',
+    category_en: 'Business Administration',
+    year: '2019',
+    file_path: 'pdf/إدارة_المكاتب_والسكرتارية.pdf',
     cloth: 'cypress',
     height: 340,
     width: 56
@@ -82,6 +125,14 @@ const FLAGSHIP_SHELF_SPECS: readonly CuratedShelfSpec[] = [
     id: 28,
     spineTitleAr: 'نماذج العقود القانونية',
     spineTitleEn: 'Legal Contract Templates',
+    title: 'مجموعة نماذج دعاوى وعقود قانونية',
+    title_en: 'Collection of Legal Claim Templates and Contracts',
+    author: 'شبكة قانونيون',
+    author_en: 'Lawyers Network (iraq_law5)',
+    category: 'القانون',
+    category_en: 'Law',
+    year: '2020',
+    file_path: 'pdf/كتب_مخاطبات_ونماذج_دعاوى_رسمية.pdf',
     cloth: 'oxblood',
     height: 336,
     width: 58
@@ -90,6 +141,15 @@ const FLAGSHIP_SHELF_SPECS: readonly CuratedShelfSpec[] = [
     id: 44,
     spineTitleAr: 'معايير تدقيق الحسابات',
     spineTitleEn: 'Auditing Standards',
+    title: 'تدقيق الحسابات: مدخل معاصر وفقاً لمعايير التدقيق الدولية',
+    title_en:
+      'Auditing: A Contemporary Approach According to International Standards on Auditing',
+    author: 'د. غسان فلاح المطارنة',
+    author_en: 'Dr. Ghassan Falah Al-Matarna',
+    category: 'المحاسبة والتدقيق',
+    category_en: 'Accounting & Auditing',
+    year: '2009',
+    file_path: 'pdf/تدقيق_الحسابات_مدخل_معاصر_وفقاً_لمعايير_التدقيق_الدولية.pdf',
     cloth: 'linen',
     height: 346,
     width: 55
@@ -98,6 +158,14 @@ const FLAGSHIP_SHELF_SPECS: readonly CuratedShelfSpec[] = [
     id: 149,
     spineTitleAr: 'كتابة الخطة الاستراتيجية',
     spineTitleEn: 'Strategic Plan Authoring',
+    title: 'البرنامج العلمي لكتابة الخطة الاستراتيجية',
+    title_en: 'Scientific Program for Writing a Strategic Plan',
+    author: 'محمود عبد الفتاح رضوان',
+    author_en: 'Mahmoud Abdel Fattah Radwan',
+    category: 'إدارة الأعمال والتخطيط الاستراتيجي',
+    category_en: 'Business Administration & Strategic Planning',
+    year: '2012',
+    file_path: 'pdf/البرنامج_العلمي_لكتابة_الخطة_الاستراتيجية.pdf',
     cloth: 'terracotta',
     height: 348,
     width: 58
@@ -106,6 +174,14 @@ const FLAGSHIP_SHELF_SPECS: readonly CuratedShelfSpec[] = [
     id: 35,
     spineTitleAr: 'السلوك التنظيمي الإداري',
     spineTitleEn: 'Organizational Behavior',
+    title: 'السلوك التنظيمي للمنظمات الإدارية',
+    title_en: 'Organizational Behavior for Administrative Organizations',
+    author: 'محمود يوسف عبد الرحمن',
+    author_en: 'Mahmoud Youssef Abdul Rahman',
+    category: 'إدارة الأعمال',
+    category_en: 'Business Administration',
+    year: '2012',
+    file_path: 'pdf/السلوك_التنظيمي_للمنظمات_الادارية.pdf',
     cloth: 'prussian',
     height: 338,
     width: 55
@@ -114,6 +190,15 @@ const FLAGSHIP_SHELF_SPECS: readonly CuratedShelfSpec[] = [
     id: 47,
     spineTitleAr: 'معالجة الفساد الإداري',
     spineTitleEn: 'Anti-Corruption Governance',
+    title: 'الفساد الإداري والمالي كظاهرة وأساليب علاجها',
+    title_en:
+      'Administrative and Financial Corruption: Phenomenon and Methods of Treatment',
+    author: 'صبحي سلام',
+    author_en: 'Subhi Salam',
+    category: 'إدارة واقتصاد',
+    category_en: 'Business & Economics',
+    year: '2015',
+    file_path: 'pdf/الفساد_الاداري_والمالي_كظاهرة_واساليب_علاجها.pdf',
     cloth: 'oatmeal',
     height: 332,
     width: 53
@@ -122,6 +207,14 @@ const FLAGSHIP_SHELF_SPECS: readonly CuratedShelfSpec[] = [
     id: 36,
     spineTitleAr: 'الموظف الإداري',
     spineTitleEn: 'The Administrative Employee',
+    title: 'الموظف الإداري',
+    title_en: 'The Administrative Employee',
+    author: 'د. عاطف عبد الله المكاوي',
+    author_en: 'Dr. Atef Abdallah El-Makkawy',
+    category: 'إدارة الأعمال والقانون الإداري',
+    category_en: 'Business Administration & Administrative Law',
+    year: '2013',
+    file_path: 'pdf/الموظف_الاداري.pdf',
     cloth: 'petrol',
     height: 342,
     width: 56
@@ -130,6 +223,15 @@ const FLAGSHIP_SHELF_SPECS: readonly CuratedShelfSpec[] = [
     id: 104,
     spineTitleAr: 'المالية العامة والتشريع',
     spineTitleEn: 'Public Finance & Legislation',
+    title: 'علم المالية العامة والتشريع الضريبي بين النظرية والتطبيق العملي',
+    title_en:
+      'Public Finance Science and Tax Legislation: Between Theory and Practical Application',
+    author: 'جهاد سعيد الخصاونة',
+    author_en: 'Jehad Saeed Khasawneh',
+    category: 'القانون والاقتصاد',
+    category_en: 'Law and Economics',
+    year: '2010',
+    file_path: 'pdf/علم_المالية_التشريع_الضريبي.pdf',
     cloth: 'ochre',
     height: 336,
     width: 58
@@ -138,6 +240,14 @@ const FLAGSHIP_SHELF_SPECS: readonly CuratedShelfSpec[] = [
     id: 4,
     spineTitleAr: 'مناهج البحث العلمي',
     spineTitleEn: 'Scientific Research Methods',
+    title: 'مناهج البحث العلمي: تطبيقات إدارية واقتصادية',
+    title_en: 'Scientific Research Methodology: Administrative and Economic Applications',
+    author: 'أحمد حسين الرفاعي',
+    author_en: 'Ahmad Hussein Al-Rifai',
+    category: 'مناهج البحث العلمي والعلوم الإدارية',
+    category_en: 'Research Methodology & Administrative Sciences',
+    year: '1999',
+    file_path: 'pdf/مناهج البحث العلمي.pdf',
     cloth: 'linen',
     height: 344,
     width: 55
@@ -146,6 +256,15 @@ const FLAGSHIP_SHELF_SPECS: readonly CuratedShelfSpec[] = [
     id: 172,
     spineTitleAr: 'المراجعة والرقابة الداخلية',
     spineTitleEn: 'Internal Control & Audit',
+    title: 'أصول المراجعة والرقابة الداخلية: التأصيل العلمي والممارسة العملية',
+    title_en:
+      'Principles of Auditing and Internal Control: Scientific Foundation and Practical Implementation',
+    author: 'محمد نصر الهواري، محمد توفيق محمد',
+    author_en: 'Dr. Mohamed Nasr El-Hawary, Dr. Mohamed Tawfiq Mohamed',
+    category: 'المحاسبة والتدقيق',
+    category_en: 'Accounting & Auditing',
+    year: '1999',
+    file_path: 'pdf/اصول_المراجعة_والرقابة_الداخلية.pdf',
     cloth: 'slate',
     height: 334,
     width: 56
@@ -219,12 +338,65 @@ function shortenTitle(text: string, maxWords = 4): string {
   return words.slice(0, maxWords).join(' ');
 }
 
+function createSpecFallbackBook(spec: CuratedShelfSpec): Book {
+  return {
+    id: spec.id,
+    title: spec.title,
+    title_en: spec.title_en,
+    author: spec.author,
+    author_en: spec.author_en,
+    category: spec.category,
+    category_en: spec.category_en,
+    description: '',
+    description_en: '',
+    publisher: '',
+    publisher_en: '',
+    type: '',
+    type_en: '',
+    target_audience: '',
+    target_audience_en: '',
+    year: spec.year,
+    pages: '',
+    file_size: '',
+    keywords: [],
+    keywords_en: [],
+    key_points: [],
+    key_points_en: [],
+    featured: false,
+    badge_text: '',
+    badge_text_en: '',
+    file_path: resolveAssetUrl(spec.file_path, true),
+    file_name: spec.file_path.split('/').pop() ?? '',
+    cover_image: '',
+    downloadCount: 0,
+    publicRating: 0,
+    ratingSum: 0,
+    ratingCount: 0,
+    voters: []
+  };
+}
+
 /**
  * Builds the 13-volume curated shelf from live `books.json` records,
+ * pre-seeding with the 13 flagship specifications during initial load and
  * falling back cleanly to the first available books when testing with smaller fixtures.
  */
 export function buildCuratedShelfBooks(books: readonly Book[]): CuratedShelfVolume[] {
-  if (books.length === 0) return [];
+  if (books.length === 0) {
+    return FLAGSHIP_SHELF_SPECS.map((spec, idx) => {
+      const fallbackBook = createSpecFallbackBook(spec);
+      return {
+        book: fallbackBook,
+        shelfNo: String(idx + 1).padStart(2, '0'),
+        spineTitleAr: spec.spineTitleAr,
+        spineTitleEn: spec.spineTitleEn,
+        cloth: spec.cloth,
+        height: spec.height,
+        width: spec.width,
+        discipline: classifyShelfDiscipline(fallbackBook)
+      };
+    });
+  }
 
   const byId = new Map<number, Book>(books.map((b) => [b.id, b]));
   const matchedFlagships: CuratedShelfVolume[] = [];
