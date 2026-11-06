@@ -332,94 +332,81 @@ export function BookCard({
         style={{ background: 'var(--cloth-bg)' }}
       />
 
-      {/* Top Body Section: Horizontal row on mobile, Vertical column on tablet/desktop */}
-      <div className="flex flex-row sm:flex-col gap-3.5 sm:gap-0 items-start sm:items-stretch pt-1">
-        {/* Header Strip on Desktop: Category + Call Number + Bundle/Favorite */}
-        <div className="hidden sm:flex items-center justify-between gap-1 mb-3 pb-2 border-b hairline-border">
-          <div className="flex items-center gap-1.5 min-w-0">
-            <span className="text-[10px] text-muted-foreground font-mono tracking-wider shrink-0">
-              IAR-{book.id.toString().padStart(3, '0')}
-            </span>
-            <span className="opacity-35">·</span>
-            <span
-              title={category}
-              className="text-[11px] font-medium text-muted-foreground truncate max-w-[140px]"
-            >
-              {category}
-            </span>
-          </div>
-
-          <div className="flex items-center gap-1 shrink-0">
-            <button
-              type="button"
-              data-testid={`book-bundle-btn-${book.id}`}
-              aria-pressed={isInBundle}
-              aria-label={`${t('addToBundlePrefix')}${title}`}
-              title={
-                isInBundle
-                  ? translate('إزالة من الحزمة', 'Remove from bundle')
-                  : translate('إضافة إلى حزمة البحث', 'Add to research bundle')
-              }
-              onClick={() => onToggleBundle(book.id)}
-              className={cn(
-                'inline-flex items-center gap-1 rounded-[2px] border px-1.5 py-0.5 text-[10px] font-medium transition-colors cursor-pointer focus-visible:outline-2 focus-visible:outline-ring',
-                isInBundle
-                  ? 'border-primary bg-primary/10 text-primary font-semibold'
-                  : 'hairline-border bg-background/70 text-muted-foreground hover:border-foreground/35 hover:text-foreground'
-              )}
-            >
-              <Layers className="size-2.5 shrink-0" aria-hidden="true" />
-              <span className="hidden md:inline">{t('bundleCheckboxLabel')}</span>
-            </button>
-
-            <button
-              type="button"
-              data-testid={`book-favorite-btn-${book.id}`}
-              aria-pressed={isFavorite}
-              aria-label={isFavorite ? t('removeFavorite') : t('addFavorite')}
-              title={isFavorite ? t('removeFavorite') : t('addFavorite')}
-              onClick={() => onToggleFavorite(book.id)}
-              className={cn(
-                'p-1 rounded-[2px] text-muted-foreground hover:text-primary hover:bg-secondary/70 transition-colors cursor-pointer',
-                isFavorite && 'text-primary bg-primary/10'
-              )}
-            >
-              <Heart
-                className={cn('size-3.5', isFavorite && 'fill-current text-primary')}
-                aria-hidden="true"
-              />
-            </button>
-          </div>
+      {/* Unified Top Header Strip: Call Number + Category + Actions (Bundle + Favorite) on all devices */}
+      <div className="flex items-center justify-between gap-1.5 mb-2.5 sm:mb-3 pb-2 border-b hairline-border">
+        <div className="flex items-center gap-1.5 min-w-0">
+          <span className="text-[10px] text-muted-foreground font-mono tracking-wider shrink-0">
+            IAR-{book.id.toString().padStart(3, '0')}
+          </span>
+          <span className="opacity-35" aria-hidden="true">
+            ·
+          </span>
+          <span
+            title={category}
+            className="text-[11px] font-medium text-muted-foreground truncate max-w-[125px] sm:max-w-[140px]"
+          >
+            {category}
+          </span>
         </div>
 
+        <div className="flex items-center gap-1 shrink-0">
+          <button
+            type="button"
+            data-testid={`book-bundle-btn-${book.id}`}
+            aria-pressed={isInBundle}
+            aria-label={`${t('addToBundlePrefix')}${title}`}
+            title={
+              isInBundle
+                ? translate('إزالة من الحزمة', 'Remove from bundle')
+                : translate('إضافة إلى حزمة البحث', 'Add to research bundle')
+            }
+            onClick={() => onToggleBundle(book.id)}
+            className={cn(
+              'inline-flex items-center gap-1 rounded-[2px] border px-1.5 py-0.5 text-[10px] font-medium transition-colors cursor-pointer focus-visible:outline-2 focus-visible:outline-ring',
+              isInBundle
+                ? 'border-primary bg-primary/10 text-primary font-semibold'
+                : 'hairline-border bg-background/70 text-muted-foreground hover:border-foreground/35 hover:text-foreground'
+            )}
+          >
+            <Layers className="size-2.5 shrink-0" aria-hidden="true" />
+            <span className="hidden md:inline">{t('bundleCheckboxLabel')}</span>
+          </button>
+
+          <button
+            type="button"
+            data-testid={`book-favorite-btn-${book.id}`}
+            aria-pressed={isFavorite}
+            aria-label={isFavorite ? t('removeFavorite') : t('addFavorite')}
+            title={isFavorite ? t('removeFavorite') : t('addFavorite')}
+            onClick={() => onToggleFavorite(book.id)}
+            className={cn(
+              'p-1 rounded-[2px] text-muted-foreground hover:text-primary hover:bg-secondary/70 transition-colors cursor-pointer focus-visible:outline-2 focus-visible:outline-ring',
+              isFavorite && 'text-primary bg-primary/10'
+            )}
+          >
+            <Heart
+              className={cn('size-3.5', isFavorite && 'fill-current text-primary')}
+              aria-hidden="true"
+            />
+          </button>
+        </div>
+      </div>
+
+      {/* Top Body Section: Horizontal row on mobile, Vertical column on tablet/desktop */}
+      <div className="flex flex-row sm:flex-col gap-3.5 sm:gap-0 items-start sm:items-stretch">
         {/* Recessed Cotton-Rag Book Cover Pedestal */}
-        <div className="shrink-0 sm:mb-3.5 sm:rounded-[3px] sm:border sm:hairline-border sm:bg-secondary/45 sm:py-4 sm:flex sm:justify-center">
+        <div className="shrink-0 rounded-[3px] border hairline-border bg-secondary/35 p-1 sm:p-0 sm:mb-3.5 sm:rounded-[3px] sm:border sm:hairline-border sm:bg-secondary/45 sm:py-3.5 sm:flex sm:justify-center items-center">
           <BookCover
             book={book}
             onClick={() => (onZoomCover ?? onOpenDetails)(book)}
-            className="w-22 h-32 sm:w-28 sm:h-40 md:w-30 md:h-42 transition-transform duration-300 group-hover:-translate-y-0.5 cursor-pointer"
+            className="w-20 h-28 sm:w-28 sm:h-40 md:w-32 md:h-44 transition-transform duration-300 group-hover:-translate-y-0.5 cursor-pointer shadow-xs"
           />
         </div>
 
         {/* Book Metadata & Title Body */}
-        <div className="flex-1 min-w-0 space-y-1.5">
-          {/* Mobile-only Header Strip */}
-          <div className="flex sm:hidden items-center justify-between gap-1 mb-1">
-            <div className="flex items-center gap-1.5 min-w-0">
-              <span
-                title={category}
-                className="px-1.5 py-0.5 rounded-[2px] bg-secondary text-secondary-foreground text-[10px] font-medium border hairline-border truncate max-w-[125px]"
-              >
-                {category}
-              </span>
-              <span className="text-[10px] text-muted-foreground font-mono shrink-0">
-                IAR-{book.id.toString().padStart(3, '0')}
-              </span>
-            </div>
-          </div>
-
+        <div className="flex-1 min-w-0 space-y-1.5 sm:space-y-2">
           {/* Document Title (with .book-title for E2E & semantic clarity) */}
-          <h3 className="book-title font-serif text-base sm:text-[1.12rem] font-bold text-foreground group-hover:text-primary transition-colors line-clamp-2 leading-snug sm:min-h-[2.85rem]">
+          <h3 className="book-title font-serif text-[15px] sm:text-[1.12rem] font-bold text-foreground group-hover:text-primary transition-colors line-clamp-2 leading-[1.42] sm:min-h-[2.95rem]">
             <a
               href={buildBookUrl(book.id)}
               data-testid={`book-title-link-${book.id}`}
@@ -444,7 +431,7 @@ export function BookCard({
           )}
 
           {/* Meta Row (Year, Pages) */}
-          <div className="flex flex-wrap items-center gap-2 pt-0.5 text-[11px] text-muted-foreground font-mono tabular-nums">
+          <div className="flex flex-wrap items-center gap-2.5 pt-0.5 text-[11px] text-muted-foreground font-mono tabular-nums">
             {book.year && (
               <span className="inline-flex items-center gap-1">
                 <Calendar className="size-3 text-primary shrink-0" aria-hidden="true" />
@@ -517,53 +504,54 @@ export function BookCard({
 
         {/* Secondary Utility Row (APA citation, Summary, Share) */}
         <div className="flex items-center justify-between text-[11px] text-muted-foreground pt-0.5">
-          <button
-            type="button"
-            data-testid={`book-cite-btn-${book.id}`}
-            aria-label={t('cite')}
-            title={translate('نسخ التوثيق الأكاديمي APA', 'Copy APA Academic Citation')}
-            onClick={handleCiteClick}
-            className={cn(
-              'hover:text-foreground flex items-center gap-1 transition-colors cursor-pointer py-0.5',
-              citedRecently && 'text-primary font-semibold'
-            )}
-          >
-            {citedRecently ? (
-              <Check className="size-3 text-primary" aria-hidden="true" />
-            ) : (
-              <Quote className="size-3" aria-hidden="true" />
-            )}
-            <span>{translate('توثيق APA', 'APA')}</span>
-          </button>
+          <div className="flex items-center gap-2 sm:gap-2.5">
+            <button
+              type="button"
+              data-testid={`book-cite-btn-${book.id}`}
+              aria-label={t('cite')}
+              title={translate('نسخ التوثيق الأكاديمي APA', 'Copy APA Academic Citation')}
+              onClick={handleCiteClick}
+              className={cn(
+                'hover:text-foreground flex items-center gap-1 transition-colors cursor-pointer py-0.5',
+                citedRecently && 'text-primary font-semibold'
+              )}
+            >
+              {citedRecently ? (
+                <Check className="size-3 text-primary" aria-hidden="true" />
+              ) : (
+                <Quote className="size-3" aria-hidden="true" />
+              )}
+              <span>{translate('توثيق APA', 'APA')}</span>
+            </button>
 
-          <span className="opacity-35">·</span>
+            <span className="opacity-35" aria-hidden="true">
+              ·
+            </span>
 
-          <button
-            type="button"
-            data-testid={`book-summary-btn-${book.id}`}
-            aria-label={t('summary')}
-            title={translate('ملخص ذكي للمرجع', '3-min AI Summary')}
-            onClick={() => (onOpenSummary ?? onOpenDetails)(book)}
-            className="hover:text-foreground flex items-center gap-1 transition-colors cursor-pointer py-0.5"
-          >
-            <Sparkles className="size-3 text-primary" aria-hidden="true" />
-            <span>{translate('ملخص ذكي', 'Summary')}</span>
-          </button>
+            <button
+              type="button"
+              data-testid={`book-summary-btn-${book.id}`}
+              aria-label={t('summary')}
+              title={translate('ملخص ذكي للمرجع', '3-min AI Summary')}
+              onClick={() => (onOpenSummary ?? onOpenDetails)(book)}
+              className="hover:text-foreground flex items-center gap-1 transition-colors cursor-pointer py-0.5"
+            >
+              <Sparkles className="size-3 text-primary" aria-hidden="true" />
+              <span>{translate('ملخص ذكي', 'Summary')}</span>
+            </button>
+          </div>
 
           {onShare && (
-            <>
-              <span className="opacity-35">·</span>
-              <button
-                type="button"
-                data-testid={`book-share-btn-${book.id}`}
-                aria-label={t('share')}
-                title={t('share')}
-                onClick={() => onShare(book)}
-                className="hover:text-foreground flex items-center gap-1 transition-colors cursor-pointer py-0.5"
-              >
-                <Share2 className="size-3" aria-hidden="true" />
-              </button>
-            </>
+            <button
+              type="button"
+              data-testid={`book-share-btn-${book.id}`}
+              aria-label={t('share')}
+              title={t('share')}
+              onClick={() => onShare(book)}
+              className="hover:text-foreground flex items-center gap-1 transition-colors cursor-pointer py-0.5 px-0.5"
+            >
+              <Share2 className="size-3" aria-hidden="true" />
+            </button>
           )}
         </div>
       </div>

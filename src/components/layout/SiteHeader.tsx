@@ -58,17 +58,17 @@ export function SiteHeader({
             }}
             data-testid="brand-link"
             aria-label="IAR ARCHIVE — المرجع الإداري العراقي"
-            className="group inline-flex items-center gap-3 min-w-0 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring rounded-xs cursor-pointer"
+            className="group inline-flex items-center gap-2 sm:gap-3 min-w-0 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring rounded-xs cursor-pointer"
           >
-            <span className="inline-flex size-9 shrink-0 items-center justify-center rounded-[5px] border hairline-border-strong bg-card text-foreground transition-colors group-hover:border-primary group-hover:text-primary">
-              <IarMonogramIcon className="size-5" />
+            <span className="inline-flex size-8 sm:size-9 shrink-0 items-center justify-center rounded-[5px] border hairline-border-strong bg-card text-foreground transition-colors group-hover:border-primary group-hover:text-primary">
+              <IarMonogramIcon className="size-4.5 sm:size-5" />
             </span>
 
             <span className="flex flex-col leading-tight min-w-0">
-              <span className="font-mono text-xs font-medium tracking-[0.14em] text-foreground">
+              <span className="font-mono text-[11px] sm:text-xs font-medium tracking-[0.12em] sm:tracking-[0.14em] text-foreground">
                 IAR ARCHIVE
               </span>
-              <span className="truncate text-xs font-medium text-muted-foreground">
+              <span className="text-[10.5px] sm:text-xs font-medium text-muted-foreground truncate sm:whitespace-nowrap">
                 {translate('المرجع الإداري العراقي', 'Iraqi Administrative Reference')}
               </span>
               <span id="txtSubtitle" className="sr-only">
@@ -95,7 +95,7 @@ export function SiteHeader({
         </div>
 
         {/* End: Architectural Hairline Utility Controls */}
-        <div className="flex items-center justify-end gap-1.5 sm:gap-2">
+        <div className="flex items-center justify-end gap-1 sm:gap-2">
           <a
             href="#controlsRow"
             className="hidden xl:inline-flex h-8 items-center rounded-[4px] border hairline-border px-3 text-xs font-medium text-secondary-foreground transition-colors hover:border-foreground hover:bg-card hover:text-foreground"
@@ -111,7 +111,7 @@ export function SiteHeader({
               onClick={onOpenSpotlight}
               aria-label={t('spotlightSearch')}
               title={t('spotlightSearch')}
-              className="inline-flex h-8 items-center gap-1.5 rounded-[4px] border hairline-border bg-transparent px-2.5 text-xs font-medium text-secondary-foreground transition-colors hover:border-foreground hover:bg-card hover:text-foreground cursor-pointer"
+              className="inline-flex h-8 items-center gap-1.5 rounded-[4px] border hairline-border bg-transparent px-2 sm:px-2.5 text-xs font-medium text-secondary-foreground transition-colors hover:border-foreground hover:bg-card hover:text-foreground cursor-pointer"
             >
               <Search className="size-3.5 shrink-0" aria-hidden="true" />
               <span className="hidden sm:inline">{t('searchShortcut')}</span>
@@ -131,7 +131,7 @@ export function SiteHeader({
             title={t('txtFavoritesOnly')}
             onClick={onToggleFavoritesOnly}
             className={cn(
-              'inline-flex h-8 items-center gap-1.5 rounded-[4px] border px-2.5 text-xs font-medium transition-colors cursor-pointer',
+              'inline-flex h-8 items-center gap-1 sm:gap-1.5 rounded-[4px] border px-2 sm:px-2.5 text-xs font-medium transition-colors cursor-pointer',
               favoritesOnly
                 ? 'border-foreground bg-foreground text-background'
                 : 'hairline-border bg-transparent text-secondary-foreground hover:border-foreground hover:bg-card hover:text-foreground'
@@ -173,7 +173,7 @@ export function SiteHeader({
               }}
               aria-label={t('txtInstall')}
               title={t('txtInstall')}
-              className="inline-flex h-8 items-center gap-1.5 rounded-[4px] border hairline-border bg-transparent px-2.5 text-xs font-medium text-secondary-foreground transition-colors hover:border-foreground hover:bg-card hover:text-foreground cursor-pointer"
+              className="inline-flex h-8 items-center gap-1.5 rounded-[4px] border hairline-border bg-transparent px-2 sm:px-2.5 text-xs font-medium text-secondary-foreground transition-colors hover:border-foreground hover:bg-card hover:text-foreground cursor-pointer"
             >
               <Download className="size-3.5 shrink-0" aria-hidden="true" />
               <span id="txtInstall" className="hidden sm:inline">
@@ -209,7 +209,7 @@ export function SiteHeader({
             onClick={toggleLang}
             aria-label={t('langToggleAria')}
             title={t('langToggleAria')}
-            className="inline-flex h-8 items-center justify-center rounded-[4px] border hairline-border bg-transparent px-2.5 font-mono text-xs font-medium text-secondary-foreground transition-colors hover:border-foreground hover:bg-card hover:text-foreground cursor-pointer"
+            className="inline-flex h-8 items-center justify-center rounded-[4px] border hairline-border bg-transparent px-2 sm:px-2.5 font-mono text-xs font-medium text-secondary-foreground transition-colors hover:border-foreground hover:bg-card hover:text-foreground cursor-pointer"
           >
             <span id="langLabel">{lang === 'ar' ? 'EN' : 'عربي'}</span>
           </button>

@@ -254,9 +254,9 @@ export function HeroAcademic({
               <nav
                 aria-label={translate('تصنيفات الرف', 'Shelf disciplines')}
                 data-testid="shelf-discipline-filters"
-                className="inline-flex flex-wrap justify-center overflow-hidden rounded-[4px] border hairline-border-strong bg-card"
+                className="inline-flex flex-wrap items-center justify-center gap-1.5 p-1 max-w-full"
               >
-                {SHELF_DISCIPLINE_TABS.map((tab, idx) => {
+                {SHELF_DISCIPLINE_TABS.map((tab) => {
                   const isActive = activeDiscipline === tab.id;
                   return (
                     <button
@@ -270,11 +270,10 @@ export function HeroAcademic({
                         playPaperSound('rustle', soundEnabled);
                       }}
                       className={cn(
-                        'px-3.5 py-1.5 text-xs font-medium transition-colors cursor-pointer',
-                        idx > 0 && 'border-s hairline-border',
+                        'rounded-[3px] border px-3 py-1.5 text-xs font-medium transition-all cursor-pointer',
                         isActive
-                          ? 'bg-foreground text-background'
-                          : 'bg-transparent text-secondary-foreground hover:bg-secondary hover:text-foreground'
+                          ? 'border-foreground bg-foreground text-background font-semibold shadow-xs'
+                          : 'hairline-border bg-card text-secondary-foreground hover:border-foreground/35 hover:bg-secondary hover:text-foreground'
                       )}
                     >
                       {lang === 'ar' ? tab.ar : tab.en}
