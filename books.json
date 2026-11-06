@@ -13295,5 +13295,53 @@
     "source_sha256": "faa009e23f5cff715a028aca889381db3a74ce2426acdbdf6203c04f57240f83",
     "ai_status": "complete",
     "ai_attempts": 1
+  },
+  {
+    "id": 254,
+    "title": "المحاسبة في شركات الأشخاص",
+    "title_en": "Accounting for Partnerships",
+    "author": "ناصر نور الدين",
+    "author_en": "",
+    "category": "Accounting",
+    "category_en": "",
+    "description": "كتاب أكاديمي يتناول المعالجات المحاسبية المتعلقة بشركات الأشخاص، بدءاً من التكوين، مروراً بتوزيع الأرباح والخسائر، وصولاً إلى التعديلات في عقود الشركات، الانضمام، الانفصال، والتصفية والاندماج.",
+    "description_en": "",
+    "publisher": "كلية التجارة - جامعة الإسكندرية",
+    "publisher_en": "",
+    "type": "Textbook",
+    "type_en": "",
+    "target_audience": "طلاب كلية التجارة والمهتمون بالمحاسبة المالية",
+    "target_audience_en": "",
+    "year": 2019,
+    "pages": 370,
+    "file_size": "47.0 MB",
+    "isbn": "",
+    "keywords": [
+      "المحاسبة",
+      "شركات الأشخاص",
+      "تكوين الشركات",
+      "توزيع الأرباح",
+      "تصفية الشركات",
+      "اندماج الشركات"
+    ],
+    "keywords_en": [],
+    "key_points": [
+      "المعالجات المحاسبية لتكوين شركات الأشخاص",
+      "طرق توزيع الأرباح والخسائر في الشركات",
+      "المعالجة المحاسبية لانضمام وانفصال الشركاء",
+      "إجراءات تصفية شركات الأشخاص",
+      "المعالجة المحاسبية لاندماج الشركات"
+    ],
+    "key_points_en": [],
+    "featured": false,
+    "badge_text": "",
+    "badge_text_en": "",
+    "file_path": "pdf/محاسبة_شركات.pdf",
+    "file_name": "محاسبة_شركات.pdf",
+    "file_type": "PDF",
+    "cover_image": "covers/254.png",
+    "source_sha256": "79bbf712d1da869d4c97c3d79e42d6d6639204a8b34cf51e2335e89859bc4be3",
+    "ai_status": "complete",
+    "ai_attempts": 1
   }
 ]
