@@ -787,8 +787,8 @@
     "id": 19,
     "title": "المائة كلمة في الإدارة",
     "title_en": "The Top 100 Words in Management",
-    "author": "غير محدد",
-    "author_en": "Unknown",
+    "author": "",
+    "author_en": "",
     "category": "الإدارة والأعمال",
     "category_en": "Management & Business",
     "type": "دليل إداري",
@@ -12446,7 +12446,7 @@
   {
     "id": 236,
     "title": "مهارات المدير الفعال ومهارات التسويق",
-    "title_en": "",
+    "title_en": "Effective Manager Skills and Marketing Skills",
     "author": "عصام عبد اللطيف",
     "author_en": "Essam Abdel Latif",
     "category": "إدارة الأعمال والتسويق",
@@ -13219,7 +13219,7 @@
   {
     "id": 252,
     "title": "المهارات المتكاملة في السكرتارية وإدارة المكاتب",
-    "title_en": "",
+    "title_en": "Integrated Skills in Secretarial Work and Office Management",
     "author": "أماني فاروق شبل (إشراف علمي) / خبراء المجموعة العربية للتدريب والنشر",
     "author_en": "Amani Farouk Shebl (Scientific Supervision) / Arab Group for Training & Publishing Experts",
     "category": "إدارة الأعمال والسكرتارية",
@@ -13280,7 +13280,7 @@
     "publisher_en": "Dar Wael for Publishing and Distribution",
     "type": "كتاب أكاديمي",
     "type_en": "Academic Textbook",
-    "target_audience": "الطلاب والباحثون والمحتصون في مجالات الإدارة والمهندسون والمحاسبون ومتخذو القرارات في المنظمات.",
+    "target_audience": "الطلاب والباحثون والمختصون في مجالات الإدارة والمهندسون والمحاسبون ومتخذو القرارات في المنظمات.",
     "target_audience_en": "",
     "year": 2008,
     "pages": 517,
@@ -13297,7 +13297,7 @@
     "keywords_en": [],
     "key_points": [
       "تعريف القرار الإداري ومراحل عملية اتخاذ القرار من التعرف على المشكلة حتى تنفيذ الحل",
-      "تصنيف القرارات الإدارية إلى قرارات مبرمجة وشبه مبرمجة وغيرة مبرمجة",
+      "تصنيف القرارات الإدارية إلى قرارات مبرمجة وشبه مبرمجة وغير مبرمجة",
       "تقسيم القرارات بحسب المستويات الإدارية إلى تشغيلية وتكتيكية وإستراتيجية",
       "استخدام أدوات التحليل الكمي وبحوث العمليات للمفاضلة بين البدائل والوصول للحل الأمثل"
     ],

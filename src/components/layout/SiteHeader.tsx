@@ -28,7 +28,7 @@ export interface SiteHeaderProps {
 export function SiteHeader({
   favoritesOnly,
   favoritesCount,
-  booksCount = 247,
+  booksCount = 254,
   loaded = true,
   soundEnabled = true,
   onToggleSound,
@@ -191,7 +191,7 @@ export function SiteHeader({
               aria-pressed={soundEnabled}
               aria-label={translate('تبديل الصوت التفاعلي', 'Toggle paper acoustics')}
               title={translate('الصوت الورقي التفاعلي', 'Interactive paper acoustics')}
-              className="hidden sm:inline-flex size-8 items-center justify-center rounded-[4px] border hairline-border bg-transparent text-secondary-foreground transition-colors hover:border-foreground hover:bg-card hover:text-foreground cursor-pointer"
+              className="inline-flex size-8 items-center justify-center rounded-[4px] border hairline-border bg-transparent text-secondary-foreground transition-colors hover:border-foreground hover:bg-card hover:text-foreground cursor-pointer"
             >
               {soundEnabled ? (
                 <Volume2 className="size-3.5" aria-hidden="true" />

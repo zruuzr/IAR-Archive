@@ -385,7 +385,9 @@ export function formatCitation(
   const publisher =
     (lang === 'en' && book.publisher_en ? book.publisher_en : book.publisher) || unknown;
 
-  return `${author} (${book.year || noDate}).\n${title}.\n${publisher}.`;
+  const validYear = book.year && book.year !== '0' ? book.year : noDate;
+
+  return `${author} (${validYear}).\n${title}.\n${publisher}.`;
 }
 
 export const citation = formatCitation;

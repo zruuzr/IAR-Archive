@@ -189,7 +189,7 @@ export function SummaryDialog({
                 {bookType}
               </span>
 
-              {book.pages && (
+              {book.pages && book.pages !== '0' && (
                 <span
                   id="summaryPages"
                   className="inline-flex items-center gap-1 rounded-[3px] bg-secondary/60 px-2 py-0.5 text-muted-foreground tabular-nums"

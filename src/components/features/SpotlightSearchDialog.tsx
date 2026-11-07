@@ -127,7 +127,7 @@ export function SpotlightSearchDialog({
           id: `book-${b.id}`,
           book: b,
           title: bTitle,
-          subtitle: `${bAuthor} • ${bCat} (${b.year || ''})`
+          subtitle: `${bAuthor} • ${bCat}${b.year && b.year !== '0' ? ` (${b.year})` : ''}`
         });
       }
       if (results.length >= 25) break;

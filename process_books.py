@@ -306,7 +306,8 @@ GENERIC_BANNED_TITLES_LOWER = {
     item.lower()
     for item in (
         "", "unknown", "untitled", "book", "document",
-        "ملف", "كتاب", "مستند", "غير معروف", "بدون عنوان",
+        "not specified", "unspecified", "n/a", "none",
+        "ملف", "كتاب", "مستند", "غير معروف", "غير محدد", "غير متوفر", "بدون عنوان",
     )
 }
 
@@ -1072,7 +1073,9 @@ def extract_pdf_with_pypdf(path: Path) -> tuple[str, int, dict[str, str]]:
 WATERMARK_LINE_RE = re.compile(
     r"^(?:https?://\S+|www\.\S+|"
     r"[a-z0-9\-]+\.(?:com|net|org|edu|gov|io|me)(?:/\S*)?|"
-    r"digitized by\b.*|scanned by\b.*|صفحة\s*\d+|\d+)$",
+    r"digitized by\b.*|scanned by\b.*|"
+    r"copyright\s*©.*|ebsco publishing\b.*|an:\s*\d+\b.*|"
+    r"pdf created with\b.*|صفحة\s*\d+|\d+)$",
     re.IGNORECASE,
 )
 
@@ -1848,17 +1851,41 @@ def clean_title(value: Any) -> str:
     return title
 
 
+PLACEHOLDER_FIELD_VALUES_LOWER = {
+    "غير محدد",
+    "غير متوفر",
+    "غير معروف",
+    "غير معنون",
+    "غير مصنف",
+    "بدون عنوان",
+    "unknown",
+    "not specified",
+    "unspecified",
+    "n/a",
+    "none",
+    "null",
+    "untitled",
+}
+
+
+def _clean_non_placeholder(value: Any, max_chars: int) -> str:
+    text = normalize_string(value, max_chars)
+    if text.lower() in PLACEHOLDER_FIELD_VALUES_LOWER:
+        return ""
+    return text
+
+
 def normalized_ai_data(data: dict[str, Any]) -> dict[str, Any]:
     return {
         "title": clean_title(data.get("title")),
-        "title_en": normalize_string(data.get("title_en"), MAX_TITLE_CHARS),
-        "author": normalize_string(data.get("author"), MAX_AUTHOR_CHARS),
-        "category": normalize_string(data.get("category"), MAX_CATEGORY_CHARS),
-        "type": normalize_string(data.get("type"), MAX_TYPE_CHARS),
+        "title_en": _clean_non_placeholder(data.get("title_en"), MAX_TITLE_CHARS),
+        "author": _clean_non_placeholder(data.get("author"), MAX_AUTHOR_CHARS),
+        "category": _clean_non_placeholder(data.get("category"), MAX_CATEGORY_CHARS),
+        "type": _clean_non_placeholder(data.get("type"), MAX_TYPE_CHARS),
         "description": normalize_string(
             data.get("description"), MAX_DESCRIPTION_CHARS
         ),
-        "publisher": normalize_string(
+        "publisher": _clean_non_placeholder(
             data.get("publisher"), MAX_PUBLISHER_CHARS
         ),
         "year": normalize_year(data.get("year")),
@@ -1901,7 +1928,14 @@ def is_complete(meta: dict[str, Any]) -> bool:
         return False
     desc = str(meta.get("description") or "").strip()
     title = str(meta.get("title") or "").strip()
-    if len(desc) < 25 or len(title) < 2 or title in {"غير معنون", "كتاب", "بدون عنوان", "مستند"}:
+    category = str(meta.get("category") or "").strip()
+    if (
+        len(desc) < 25
+        or len(title) < 2
+        or title.lower() in GENERIC_BANNED_TITLES_LOWER
+        or category.lower() in GENERIC_BANNED_TITLES_LOWER
+        or title in {"غير معنون", "كتاب", "بدون عنوان", "مستند", "غير محدد"}
+    ):
         return False
     return True
 

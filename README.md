@@ -14,7 +14,7 @@
 [![Vite](https://img.shields.io/badge/Vite-8.3.4-646cff?style=flat&logo=vite)](https://vitejs.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-38b2ac?style=flat&logo=tailwindcss)](https://tailwindcss.com/)
 [![PWA](https://img.shields.io/badge/PWA-SW%20v36-blueviolet?style=flat&logo=pwa)](https://web.dev/progressive-web-apps/)
-[![References](https://img.shields.io/badge/References-247%20Indexed-gold?style=flat&logo=bookmeter)](books.json)
+[![References](https://img.shields.io/badge/References-254%20Indexed-gold?style=flat&logo=bookmeter)](books.json)
 [![Tests](https://img.shields.io/badge/Tests-531%20Passed-brightgreen?style=flat)](tests/)
 [![License](https://img.shields.io/badge/License-Proprietary-red.svg)](LICENSE)
 [![Auto Process](https://github.com/zruuzr/IAR-Archive/actions/workflows/auto_process.yml/badge.svg)](https://github.com/zruuzr/IAR-Archive/actions/workflows/auto_process.yml)
@@ -35,7 +35,7 @@ IAR Archive provides structured reference metadata, concise summaries, APA-style
 
 The project aims to make administrative references easier to discover, understand, cite, and use by researchers, university students, administrative professionals, and executive managers.
 
-The repository currently indexes **247 administrative and academic references** (covering 1968–2026) organized across **14 core thematic pathways** (the foundational administrative domains), navigated through **115+ specific granular categories**, a **Sovereign Archival Index sidebar** (filtering orthogonally by discipline, historical era, and reference type), and a **13-volume interactive cloth-bound bookshelf**, combining:
+The repository currently indexes **254 administrative and academic references** (covering 1968–2026) organized across **14 core thematic pathways** (the foundational administrative domains), navigated through **115+ specific granular categories**, a **Sovereign Archival Index sidebar** (filtering orthogonally by discipline, historical era, and reference type), and a **13-volume interactive cloth-bound bookshelf**, combining:
 
 * Structured bilingual bibliographic metadata (`books.json`).
 * Interactive 13-volume cloth bookshelf with instant hover cover preview and museum placard.
@@ -170,7 +170,7 @@ The application is structured around a modular, reactive architecture that decou
   │ • arabic-search.ts     │                                              │
   └─────┬──────────────────┘                                              ▼
         ▼                                                          GitHub Raw CDN
-   books.json (247 Indexed References) ──────────────────────► (PDFs & WebP Covers)
+   books.json (254 Indexed References) ──────────────────────► (PDFs & WebP Covers)
 ```
 
 ### Component Hierarchy & Clean Separation
@@ -307,9 +307,9 @@ The project uses GitHub as the source repository and external asset CDN, while F
 ```text
 GitHub Repository
 ├── Source Code (React 19 + TypeScript)
-├── books.json (247 Indexed Records)
-├── covers/ (247 WebP Covers)
-└── pdf/ (247 PDF Documents)
+├── books.json (254 Indexed Records)
+├── covers/ (254 WebP/PNG Covers)
+└── pdf/ (254 PDF Documents)
        │
        ▼
 GitHub Raw CDN (raw.githubusercontent.com)
@@ -339,9 +339,9 @@ IAR-Archive/
 │
 ├── assets/
 │   └── logo.svg                              # Official IAR Archive logo
-├── covers/                                   # Reference covers (1.webp – 247.webp, served via GitHub Raw)
+├── covers/                                   # Reference covers (1.webp – 254.png, served via GitHub Raw)
 ├── icons/                                    # PWA app icons and favicons
-├── pdf/                                      # 247 Reference PDF documents (served via GitHub Raw)
+├── pdf/                                      # 254 Reference PDF documents (served via GitHub Raw)
 │
 ├── src/                                      # React 19 + TypeScript Application
 │   ├── components/                           # Modular UI components
@@ -384,7 +384,7 @@ IAR-Archive/
 ├── index.html                                # Application entry point (Vite mounts src/main.tsx)
 ├── 404.html                                  # Bilingual archival 404 page
 ├── migration.html                            # Migration test entry point (preserved)
-├── books.json                                # Indexed reference catalog (247 records)
+├── books.json                                # Indexed reference catalog (254 records)
 ├── manifest.json                             # PWA web app manifest
 ├── sw.js                                     # Service Worker v36 (App shell & bundle caching)
 ├── _headers                                  # Security headers & cache control

@@ -22,13 +22,19 @@ function TikTokBrandIcon({ className = 'size-5' }: { className?: string }) {
   );
 }
 
+export interface SiteFooterProps {
+  booksCount?: number;
+  loaded?: boolean;
+}
+
 /**
  * Editorial Archival Footer for IAR ARCHIVE — المرجع الإداري العراقي.
  * Architectural hairline top rule, official monogram lockup, and engaging social channel showcase cards.
  */
-export function SiteFooter() {
+export function SiteFooter({ booksCount = 254, loaded = true }: SiteFooterProps = {}) {
   const { isRTL, t, translate } = useI18n();
   const ExternalArrowIcon = isRTL ? ArrowUpLeft : ArrowUpRight;
+  const displayCount = loaded && booksCount > 0 ? booksCount : 254;
 
   return (
     <footer
@@ -190,10 +196,10 @@ export function SiteFooter() {
               'All rights reserved'
             )}
           </span>
-          <span className="font-mono text-[10.5px]">
+          <span className="font-mono text-[10.5px] tabular-nums">
             {translate(
-              '247 مرجعاً مفهرساً · الفهرسة الأكاديمية الرقمية',
-              '247 Indexed Volumes · Digital Academic Cataloging'
+              `${displayCount} مرجعاً مفهرساً · الفهرسة الأكاديمية الرقمية`,
+              `${displayCount} Indexed Volumes · Digital Academic Cataloging`
             )}
           </span>
         </div>

@@ -154,7 +154,9 @@ export function CoverZoomDialog({ book, onClose, onOpenDetails }: CoverZoomDialo
                 }}
               >
                 <span className="truncate">{author}</span>
-                <span className="font-mono">{book.year || '2026'}</span>
+                <span className="font-mono">
+                  {book.year && book.year !== '0' ? book.year : '2026'}
+                </span>
               </div>
             </div>
           )}

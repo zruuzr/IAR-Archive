@@ -66,6 +66,8 @@
         r.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
         r.setAttribute('data-theme', theme);
         r.classList.toggle('dark', theme === 'dark');
+        var m = document.querySelector('meta[name="theme-color"]');
+        if (m) m.setAttribute('content', theme === 'dark' ? '#131519' : '#F2EDE2');
       })();
     </script>
 

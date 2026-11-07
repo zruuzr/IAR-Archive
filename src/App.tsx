@@ -164,7 +164,18 @@ export function LibraryWorkspace({
   });
   const [toasts, setToasts] = useState<ToastNotice[]>([]);
   const toastIdRef = useRef<number>(0);
+  const toastTimersRef = useRef<Set<ReturnType<typeof setTimeout>>>(new Set());
   const progressBarRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const timers = toastTimersRef.current;
+    return () => {
+      for (const timer of timers) {
+        clearTimeout(timer);
+      }
+      timers.clear();
+    };
+  }, []);
 
   const handleToggleSound = useCallback(() => {
     setSoundEnabled((prev) => {
@@ -215,9 +226,13 @@ export function LibraryWorkspace({
   const pushToast = useCallback((message: string, isError = false) => {
     const id = ++toastIdRef.current;
     setToasts((prev) => [...prev.slice(-2), { id, message, isError }]);
-    setTimeout(() => {
-      setToasts((prev) => prev.filter((item) => item.id !== id));
+    const timer = setTimeout(() => {
+      toastTimersRef.current.delete(timer);
+      if (typeof window !== 'undefined') {
+        setToasts((prev) => prev.filter((item) => item.id !== id));
+      }
     }, 4500);
+    toastTimersRef.current.add(timer);
   }, []);
 
   const dismissToast = useCallback((id: number) => {
@@ -434,6 +449,14 @@ export function LibraryWorkspace({
         style={{ width: '0%' }}
         aria-hidden="true"
       />
+
+      {/* Accessible Skip-to-Content Link for Keyboard Navigation */}
+      <a
+        href="#mainLibraryContent"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:start-2 focus:z-50 focus:rounded-[4px] focus:border focus:border-primary focus:bg-card focus:px-3.5 focus:py-2 focus:text-xs focus:font-bold focus:text-foreground focus:shadow-lg"
+      >
+        {lang === 'ar' ? 'تخطي إلى المحتوى الرئيسي' : 'Skip to main content'}
+      </a>
 
       {/* Slim Archival Colophon Bar */}
       <TopAnnouncement />
@@ -673,7 +696,7 @@ export function LibraryWorkspace({
       </main>
 
       {/* Official Editorial Footer */}
-      <SiteFooter />
+      <SiteFooter booksCount={books.length} loaded={loaded} />
 
       {/* 3-Minute Summary Modal */}
       <SummaryDialog

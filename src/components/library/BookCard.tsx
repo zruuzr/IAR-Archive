@@ -191,13 +191,13 @@ export function BookCard({
                 {author}
               </span>
             )}
-            {book.year && (
+            {book.year && book.year !== '0' && (
               <span className="inline-flex items-center gap-1 font-mono tabular-nums">
                 <Calendar className="size-3 text-primary shrink-0" aria-hidden="true" />
                 <span>{book.year}</span>
               </span>
             )}
-            {book.pages && (
+            {book.pages && book.pages !== '0' && (
               <span className="inline-flex items-center gap-1 font-mono tabular-nums">
                 <FileText className="size-3 text-teal shrink-0" aria-hidden="true" />
                 <span>
@@ -432,14 +432,14 @@ export function BookCard({
 
           {/* Meta Row (Year, Pages) */}
           <div className="flex flex-wrap items-center gap-2.5 pt-0.5 text-[11px] text-muted-foreground font-mono tabular-nums">
-            {book.year && (
+            {book.year && book.year !== '0' && (
               <span className="inline-flex items-center gap-1">
                 <Calendar className="size-3 text-primary shrink-0" aria-hidden="true" />
                 <span>{book.year}</span>
               </span>
             )}
 
-            {book.pages && (
+            {book.pages && book.pages !== '0' && (
               <span className="inline-flex items-center gap-1">
                 <FileText className="size-3 text-teal shrink-0" aria-hidden="true" />
                 <span>

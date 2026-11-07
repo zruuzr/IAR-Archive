@@ -146,7 +146,7 @@ export function FeaturedSpotlight({
 
               {/* Metadata Chips & Interactive Star Rating */}
               <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground pt-0.5">
-                {book.year && (
+                {book.year && book.year !== '0' && (
                   <span className="inline-flex items-center gap-1.5 rounded-[3px] border hairline-border bg-secondary/50 px-2.5 py-1 font-mono tabular-nums font-medium">
                     <Calendar
                       className="size-3.5 text-primary shrink-0"
@@ -156,7 +156,7 @@ export function FeaturedSpotlight({
                   </span>
                 )}
 
-                {book.pages && (
+                {book.pages && book.pages !== '0' && (
                   <span className="inline-flex items-center gap-1.5 rounded-[3px] border hairline-border bg-secondary/50 px-2.5 py-1 font-mono tabular-nums font-medium">
                     <FileText
                       className="size-3.5 text-teal shrink-0"

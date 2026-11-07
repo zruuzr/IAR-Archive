@@ -3,8 +3,8 @@ import { useCallback, useEffect, useState } from 'react';
 export type Theme = 'light' | 'dark';
 
 export const THEME_STORAGE_KEY = 'iar_theme';
-export const DARK_THEME_COLOR = '#0a0d14';
-export const LIGHT_THEME_COLOR = '#f4efe4';
+export const DARK_THEME_COLOR = '#131519';
+export const LIGHT_THEME_COLOR = '#F2EDE2';
 
 export function readStoredThemePreference(): Theme | null {
   try {
