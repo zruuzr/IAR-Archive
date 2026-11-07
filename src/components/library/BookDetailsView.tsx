@@ -12,6 +12,11 @@ import {
   ZoomIn
 } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import {
+  AbbasidVerificationStamp,
+  BaghdadiSquareKuficSeal,
+  HeritageDivider
+} from '@/components/layout/HeritageOrnaments';
 import { Button } from '@/components/ui/button';
 import { useI18n } from '@/i18n/I18nProvider';
 import {
@@ -320,6 +325,9 @@ export function BookDetailsView({
               )}
             </div>
 
+            {/* Sumerian Architectural Hairline Divider */}
+            <HeritageDivider variant="sumerian" className="my-1" />
+
             {/* Lead Abstract */}
             <div className="space-y-1.5">
               <h2 id="singleDescLabel" className="sr-only">
@@ -556,6 +564,32 @@ export function BookDetailsView({
               >
                 {apaText}
               </pre>
+            </div>
+
+            {/* Authentic Baghdadi Square Kufic & Abbasid Manuscript Verification Seals */}
+            <div
+              data-testid="heritage-verification-seals"
+              className="heritage-seals-panel flex flex-wrap items-center justify-between gap-4 p-4"
+            >
+              <div className="flex items-center gap-3.5 min-w-0 flex-1">
+                <BaghdadiSquareKuficSeal size={68} />
+                <div className="space-y-1 min-w-0">
+                  <div className="font-serif text-sm font-bold text-foreground">
+                    {translate('ختم التوثيق الكوفي المربع', 'Baghdadi Square Kufic Seal')}{' '}
+                    <span className="font-mono text-xs font-semibold text-primary">
+                      (IAR)
+                    </span>
+                  </div>
+                  <p className="text-xs text-muted-foreground leading-relaxed">
+                    {translate(
+                      'نسخة مرجعية مفهرسة ومودعة رقمياً وفق معايير الفهرسة الأكاديمية المعتمدة في خزانة المرجع الإداري العراقي.',
+                      'Digitally indexed and archived monograph verified under the academic cataloging standards of the Iraqi Administrative Reference.'
+                    )}
+                  </p>
+                </div>
+              </div>
+
+              <AbbasidVerificationStamp lang={lang} size={74} />
             </div>
           </div>
 

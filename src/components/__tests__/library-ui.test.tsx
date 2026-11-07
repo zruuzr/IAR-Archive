@@ -530,4 +530,38 @@ describe('Phase 2.3A & 2.3B — Library UI, Reference Experience & Interactive M
       'التخطيط الاستراتيجي المؤسسي'
     );
   });
+
+  it('renders balanced Mesopotamian and Islamic heritage ornaments across the library workspace and monograph spread', () => {
+    render(
+      <App
+        initialLang="ar"
+        syncUrl={false}
+        catalogOptions={{
+          initialBooks: SAMPLE_BOOKS,
+          autoLoad: false,
+          autoLoadMetrics: false
+        }}
+      />
+    );
+
+    // Sumerian cuneiform colophon strip, engraved shelf plinth, and workspace hairline divider
+    expect(screen.getByTestId('sumerian-cuneiform-strip')).toBeTruthy();
+    expect(screen.getByTestId('sumerian-shelf-plinth')).toBeTruthy();
+    expect(screen.getByTestId('hero-workspace-divider')).toBeTruthy();
+
+    // Babylonian Ishtar Gate glazed friezes (Featured Spotlight & Footer) and Abbasid divider
+    expect(screen.getByTestId('spotlight-ishtar-frieze')).toBeTruthy();
+    expect(screen.getByTestId('spotlight-catalog-divider')).toBeTruthy();
+    expect(screen.getByTestId('footer-ishtar-frieze')).toBeTruthy();
+
+    // Baghdadi Square Kufic miniature colophon in SovereignSidebar
+    expect(screen.getByTestId('sidebar-kufic-colophon')).toBeTruthy();
+
+    // Navigate to single monograph spread and verify Baghdadi Square Kufic + Abbasid Verification Seals
+    fireEvent.click(screen.getByTestId('book-title-link-2'));
+    const sealsPanel = screen.getByTestId('heritage-verification-seals');
+    expect(sealsPanel).toBeTruthy();
+    expect(sealsPanel.textContent).toContain('ختم التوثيق الكوفي المربع');
+    expect(sealsPanel.textContent).toContain('نسخة مرجعية');
+  });
 });

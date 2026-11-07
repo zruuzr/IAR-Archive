@@ -1,5 +1,9 @@
 import { ChevronDown, Filter, RotateCcw } from 'lucide-react';
 import { useState } from 'react';
+import {
+  AbbasidShamsaWatermark,
+  BaghdadiSquareKuficSeal
+} from '@/components/layout/HeritageOrnaments';
 import { useI18n } from '@/i18n/I18nProvider';
 import { cn } from '@/lib/utils';
 import {
@@ -94,12 +98,14 @@ export function SovereignSidebar({
       {/* Main Architectural Index Facet Panel */}
       <div
         className={cn(
-          'bg-card rounded-[4px] p-5 border hairline-border-strong doc-shadow transition-all',
+          'relative overflow-hidden bg-card rounded-[4px] p-5 border hairline-border-strong doc-shadow transition-all',
           !isMobileOpen && 'hidden lg:block'
         )}
       >
+        <AbbasidShamsaWatermark variant="sidebar" />
+
         {/* Header & Reset Button */}
-        <div className="flex items-center justify-between pb-3 border-b hairline-border mb-4">
+        <div className="relative flex items-center justify-between pb-3 border-b hairline-border mb-4">
           <div className="space-y-0.5">
             <span className="block font-mono text-[9.5px] uppercase tracking-[0.16em] text-muted-foreground">
               INDEX · FACETS
@@ -238,6 +244,25 @@ export function SovereignSidebar({
                 </button>
               );
             })}
+          </div>
+        </div>
+
+        {/* Miniature Baghdadi Square Kufic Archival Colophon Stamp */}
+        <div
+          data-testid="sidebar-kufic-colophon"
+          className="mt-5 flex items-center gap-3 border-t border-dashed hairline-border-strong pt-3.5"
+        >
+          <BaghdadiSquareKuficSeal size={44} surfaceFill="var(--canvas)" />
+          <div className="min-w-0">
+            <div className="truncate text-[11px] font-bold text-foreground">
+              {translate('الفهرس العراقي الموثق', 'Verified Iraqi Index')}
+            </div>
+            <div className="truncate text-[10px] text-muted-foreground">
+              {translate(
+                'ختم الضبط الببليوغرافي · بغداد',
+                'Bibliographic Control Seal · Baghdad'
+              )}
+            </div>
           </div>
         </div>
       </div>

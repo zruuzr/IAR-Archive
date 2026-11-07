@@ -68,9 +68,16 @@ export function CoverZoomDialog({ book, onClose, onOpenDetails }: CoverZoomDialo
         {/* Header */}
         <div className="flex items-start justify-between gap-3 border-b hairline-border bg-background/60 px-4 py-3.5 sm:px-5">
           <div className="min-w-0">
-            <p className="font-mono text-[11px] font-semibold tracking-wider text-primary uppercase">
-              IAR-{String(book.id).padStart(3, '0')} · {category}
-              {book.year && book.year !== '0' ? ` · ${book.year}` : ''}
+            <p className="text-[11px] font-semibold tracking-wider text-primary">
+              <span className="font-mono uppercase">
+                IAR-{String(book.id).padStart(3, '0')}
+              </span>{' '}
+              · <span>{category}</span>
+              {book.year && book.year !== '0' ? (
+                <span className="font-mono">{` · ${book.year}`}</span>
+              ) : (
+                ''
+              )}
             </p>
             <h2
               id={titleId}

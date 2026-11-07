@@ -9,6 +9,11 @@ import {
   Share2,
   Sparkles
 } from 'lucide-react';
+import {
+  BabylonianIshtarFrieze,
+  BabylonianIshtarRosetteIcon,
+  BabylonianSteppedArchWatermark
+} from '@/components/layout/HeritageOrnaments';
 import { Button } from '@/components/ui/button';
 import { buildBookUrl } from '@/hooks/useBundle';
 import { useI18n } from '@/i18n/I18nProvider';
@@ -56,7 +61,7 @@ export function FeaturedSpotlight({
   onShare,
   onRate
 }: FeaturedSpotlightProps) {
-  const { lang, t, getBookField, formatNumber } = useI18n();
+  const { lang, t, translate, getBookField, formatNumber } = useI18n();
 
   if (!book) {
     return null;
@@ -74,17 +79,36 @@ export function FeaturedSpotlight({
       id="featuredSection"
       aria-label={t('inTheSpotlight')}
       data-testid="featured-spotlight"
-      className="mb-8"
+      className="mb-4"
     >
       <article
         data-testid={`spotlight-card-${book.id}`}
         className="relative overflow-hidden rounded-[4px] border hairline-border-strong bg-card text-card-foreground doc-shadow"
       >
-        {/* Burnt-terracotta editorial monograph rule */}
-        <div aria-hidden="true" className="h-[2px] w-full bg-primary" />
+        {/* Babylonian Ishtar Gate Glazed Lapis & 12-Petal Rosette Frieze */}
+        <BabylonianIshtarFrieze testId="spotlight-ishtar-frieze" />
 
-        <div className="p-5 sm:p-7 lg:p-8">
-          <div className="flex flex-col gap-6 md:flex-row md:items-start lg:gap-8">
+        {/* Glazed Rosette Rubric Sub-Header */}
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b hairline-border bg-secondary/55 px-4 py-2 sm:px-6">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <BabylonianIshtarRosetteIcon className="size-5 shrink-0" />
+            <span className="truncate text-xs font-bold text-foreground">
+              {translate(
+                'مختارات الخزانة المرجعية — المرجع الإداري المميز',
+                'Curated Reference Vault — Featured Monograph'
+              )}
+            </span>
+          </div>
+          <span className="font-mono text-[11px] font-medium tracking-wider text-warning">
+            SPOTLIGHT · #{book.id}
+          </span>
+        </div>
+
+        <div className="relative p-5 sm:p-7 lg:p-8">
+          {/* Subtle Babylonian Stepped Arch Corner Watermark */}
+          <BabylonianSteppedArchWatermark />
+
+          <div className="relative z-10 flex flex-col gap-6 md:flex-row md:items-start lg:gap-8">
             {/* Featured Book Cover */}
             <div className="flex justify-center md:justify-start shrink-0">
               <div className="rounded-[4px] border hairline-border bg-secondary/45 p-3">
@@ -157,13 +181,14 @@ export function FeaturedSpotlight({
                 )}
 
                 {book.pages && book.pages !== '0' && (
-                  <span className="inline-flex items-center gap-1.5 rounded-[3px] border hairline-border bg-secondary/50 px-2.5 py-1 font-mono tabular-nums font-medium">
+                  <span className="inline-flex items-center gap-1.5 rounded-[3px] border hairline-border bg-secondary/50 px-2.5 py-1 font-medium">
                     <FileText
                       className="size-3.5 text-teal shrink-0"
                       aria-hidden="true"
                     />
                     <span>
-                      {book.pages} {t('pagesUnit')}
+                      <span className="font-mono tabular-nums">{book.pages}</span>{' '}
+                      {t('pagesUnit')}
                     </span>
                   </span>
                 )}

@@ -1,6 +1,7 @@
 import { ArrowUpLeft, ArrowUpRight } from 'lucide-react';
 import { useI18n } from '@/i18n/I18nProvider';
 import { IarMonogramIcon } from '@/lib/editorial-cloth';
+import { BabylonianIshtarFrieze } from './HeritageOrnaments';
 
 export const OFFICIAL_TELEGRAM_URL = 'https://t.me/iarArchive';
 export const OFFICIAL_TIKTOK_URL =
@@ -29,7 +30,8 @@ export interface SiteFooterProps {
 
 /**
  * Editorial Archival Footer for IAR ARCHIVE — المرجع الإداري العراقي.
- * Architectural hairline top rule, official monogram lockup, and engaging social channel showcase cards.
+ * Crowned with a Babylonian Ishtar Gate glazed frieze, official monogram lockup,
+ * and engaging social channel showcase cards.
  */
 export function SiteFooter({ booksCount = 254, loaded = true }: SiteFooterProps = {}) {
   const { isRTL, t, translate } = useI18n();
@@ -41,8 +43,8 @@ export function SiteFooter({ booksCount = 254, loaded = true }: SiteFooterProps 
       data-testid="site-footer"
       className="site-footer relative mt-16 border-t hairline-border-strong bg-card text-xs text-muted-foreground"
     >
-      {/* Editorial Top Accent Hairline */}
-      <div aria-hidden="true" className="h-[2px] w-full bg-primary/80" />
+      {/* Babylonian Ishtar Gate Glazed Top Frieze */}
+      <BabylonianIshtarFrieze testId="footer-ishtar-frieze" />
 
       <div className="mx-auto max-w-[1360px] px-4 py-10 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-8">
@@ -77,7 +79,7 @@ export function SiteFooter({ booksCount = 254, loaded = true }: SiteFooterProps 
           <div className="w-full lg:w-auto">
             <div className="mb-2.5 flex items-center justify-center lg:justify-start gap-2">
               <span className="size-1.5 rounded-full bg-primary" aria-hidden="true" />
-              <span className="font-mono text-[11px] font-semibold tracking-wide text-foreground">
+              <span className="text-[11px] font-semibold tracking-wide text-foreground">
                 {translate(
                   'المنصات الرسمية للأرشيف — تابع أحدث الإصدارات والمراجعات',
                   'Official Archive Channels — Follow Latest Releases & Briefs'
@@ -196,10 +198,13 @@ export function SiteFooter({ booksCount = 254, loaded = true }: SiteFooterProps 
               'All rights reserved'
             )}
           </span>
-          <span className="font-mono text-[10.5px] tabular-nums">
+          <span className="text-[11px]">
+            <strong className="font-mono font-semibold text-foreground/85 tabular-nums">
+              {displayCount}
+            </strong>{' '}
             {translate(
-              `${displayCount} مرجعاً مفهرساً · الفهرسة الأكاديمية الرقمية`,
-              `${displayCount} Indexed Volumes · Digital Academic Cataloging`
+              'مرجعاً مفهرساً · الفهرسة الأكاديمية الرقمية',
+              'Indexed Volumes · Digital Academic Cataloging'
             )}
           </span>
         </div>

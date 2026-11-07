@@ -5,6 +5,7 @@ import { DownloadProgressDialog } from '@/components/features/DownloadProgressDi
 import { PdfReaderDialog } from '@/components/features/PdfReaderDialog';
 import { SpotlightSearchDialog } from '@/components/features/SpotlightSearchDialog';
 import { SummaryDialog } from '@/components/features/SummaryDialog';
+import { HeritageDivider } from '@/components/layout/HeritageOrnaments';
 import { HeroAcademic } from '@/components/layout/HeroAcademic';
 import { SiteFooter } from '@/components/layout/SiteFooter';
 import { SiteHeader } from '@/components/layout/SiteHeader';
@@ -560,48 +561,131 @@ export function LibraryWorkspace({
             onBackToList={backToList}
           />
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
-            {/* Left Facets Sidebar (National Archive Filter Tree) */}
-            <div className="lg:col-span-1">
-              <SovereignSidebar
-                books={books as Book[]}
-                activeCategory={category}
-                activeIssuer={sidebarIssuer}
-                activeEra={sidebarEra}
-                activeType={sidebarType}
-                onSelectCategory={setCategory}
-                onSelectIssuer={(issuer) => {
-                  setSidebarIssuer(issuer);
-                  setPage(1);
-                }}
-                onSelectEra={(era) => {
-                  setSidebarEra(era);
-                  setPage(1);
-                }}
-                onSelectType={(type) => {
-                  setSidebarType(type);
-                  setPage(1);
-                }}
-                onResetFilters={handleResetAllFilters}
-              />
-            </div>
+          <>
+            {/* Sumerian Cuneiform & 8-Pointed Star Architectural Divider */}
+            <HeritageDivider
+              variant="sumerian"
+              testId="hero-workspace-divider"
+              className="mb-6"
+            />
 
-            {/* Main Document Catalog Feed */}
-            <div className="lg:col-span-3 space-y-6 min-w-0">
-              {/* Research Bundle Bar & Shared Bundle Notice */}
-              <BundleBar
-                bundle={bundle}
-                onCopyBundleUrl={handleCopyBundleUrl}
-                onClearBundle={clearBundleAndReset}
-              />
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
+              {/* Left Facets Sidebar (National Archive Filter Tree) */}
+              <div className="lg:col-span-1">
+                <SovereignSidebar
+                  books={books as Book[]}
+                  activeCategory={category}
+                  activeIssuer={sidebarIssuer}
+                  activeEra={sidebarEra}
+                  activeType={sidebarType}
+                  onSelectCategory={setCategory}
+                  onSelectIssuer={(issuer) => {
+                    setSidebarIssuer(issuer);
+                    setPage(1);
+                  }}
+                  onSelectEra={(era) => {
+                    setSidebarEra(era);
+                    setPage(1);
+                  }}
+                  onSelectType={(type) => {
+                    setSidebarType(type);
+                    setPage(1);
+                  }}
+                  onResetFilters={handleResetAllFilters}
+                />
+              </div>
 
-              {/* Featured Spotlight Reference (only on default view Page 1 with no sidebar filter) */}
-              {loaded && !error && !hasSidebarFilters && catalogResult.spotlightBook && (
-                <FeaturedSpotlight
-                  book={catalogResult.spotlightBook}
-                  isFavorite={favorites.isFavorite(catalogResult.spotlightBook.id)}
-                  isInBundle={bundle.isInBundle(catalogResult.spotlightBook.id)}
-                  isDownloadBusy={downloadState.isBusy(catalogResult.spotlightBook.id)}
+              {/* Main Document Catalog Feed */}
+              <div className="lg:col-span-3 space-y-6 min-w-0">
+                {/* Research Bundle Bar & Shared Bundle Notice */}
+                <BundleBar
+                  bundle={bundle}
+                  onCopyBundleUrl={handleCopyBundleUrl}
+                  onClearBundle={clearBundleAndReset}
+                />
+
+                {/* Featured Spotlight Reference (only on default view Page 1 with no sidebar filter) */}
+                {loaded &&
+                  !error &&
+                  !hasSidebarFilters &&
+                  catalogResult.spotlightBook && (
+                    <>
+                      <FeaturedSpotlight
+                        book={catalogResult.spotlightBook}
+                        isFavorite={favorites.isFavorite(catalogResult.spotlightBook.id)}
+                        isInBundle={bundle.isInBundle(catalogResult.spotlightBook.id)}
+                        isDownloadBusy={downloadState.isBusy(
+                          catalogResult.spotlightBook.id
+                        )}
+                        onRead={handleReadBook}
+                        onDownload={handleDownloadBook}
+                        onToggleFavorite={handleToggleFavorite}
+                        onToggleBundle={handleToggleBundle}
+                        onCopyCitation={(book) => {
+                          void handleCopyCitation(book);
+                        }}
+                        onOpenDetails={handleOpenDetails}
+                        onOpenSummary={handleOpenSummary}
+                        onZoomCover={handleZoomCover}
+                        onShare={(book) => {
+                          void handleShareBook(book);
+                        }}
+                        onRate={(bookId, stars) => {
+                          void handleRateBook(bookId, stars);
+                        }}
+                      />
+
+                      {/* Abbasid Geometric Khatam Architectural Divider */}
+                      <HeritageDivider
+                        variant="abbasid"
+                        testId="spotlight-catalog-divider"
+                        className="my-2"
+                      />
+                    </>
+                  )}
+
+                {/* 114-Category Pathways & Searchable Directory */}
+                {loaded && !error && (
+                  <CategoryPathways
+                    books={books}
+                    categories={categories}
+                    activeCategory={category}
+                    onSelectCategory={setCategory}
+                  />
+                )}
+
+                {/* Search, Sort & View Controls */}
+                <SearchAndControls
+                  query={query}
+                  category={category}
+                  sort={sort}
+                  viewMode={viewMode}
+                  favoritesOnly={favoritesOnly}
+                  hasExternalFilters={hasSidebarFilters}
+                  totalMatching={catalogResult.totalFiltered}
+                  onQueryChange={setQuery}
+                  onClearSearch={clearSearch}
+                  onSortChange={setSort}
+                  onViewModeChange={setViewMode}
+                  onToggleFavoritesOnly={toggleFavoritesOnly}
+                  onResetFilters={handleResetAllFilters}
+                />
+
+                {/* Main Reference Grid / List / Skeleton / Empty States */}
+                <BookGrid
+                  books={catalogResult.pageBooks}
+                  loading={loading}
+                  error={error}
+                  errorMessage={errorMessage}
+                  viewMode={viewMode}
+                  favoritesOnly={favoritesOnly}
+                  favoritesSet={favorites.favoritesSet}
+                  bundleSet={bundle.bundleSet}
+                  isDownloadBusy={downloadState.isBusy}
+                  onRetry={() => {
+                    void reload();
+                  }}
+                  onResetFilters={handleResetAllFilters}
                   onRead={handleReadBook}
                   onDownload={handleDownloadBook}
                   onToggleFavorite={handleToggleFavorite}
@@ -619,79 +703,19 @@ export function LibraryWorkspace({
                     void handleRateBook(bookId, stars);
                   }}
                 />
-              )}
 
-              {/* 114-Category Pathways & Searchable Directory */}
-              {loaded && !error && (
-                <CategoryPathways
-                  books={books}
-                  categories={categories}
-                  activeCategory={category}
-                  onSelectCategory={setCategory}
-                />
-              )}
-
-              {/* Search, Sort & View Controls */}
-              <SearchAndControls
-                query={query}
-                category={category}
-                sort={sort}
-                viewMode={viewMode}
-                favoritesOnly={favoritesOnly}
-                hasExternalFilters={hasSidebarFilters}
-                totalMatching={catalogResult.totalFiltered}
-                onQueryChange={setQuery}
-                onClearSearch={clearSearch}
-                onSortChange={setSort}
-                onViewModeChange={setViewMode}
-                onToggleFavoritesOnly={toggleFavoritesOnly}
-                onResetFilters={handleResetAllFilters}
-              />
-
-              {/* Main Reference Grid / List / Skeleton / Empty States */}
-              <BookGrid
-                books={catalogResult.pageBooks}
-                loading={loading}
-                error={error}
-                errorMessage={errorMessage}
-                viewMode={viewMode}
-                favoritesOnly={favoritesOnly}
-                favoritesSet={favorites.favoritesSet}
-                bundleSet={bundle.bundleSet}
-                isDownloadBusy={downloadState.isBusy}
-                onRetry={() => {
-                  void reload();
-                }}
-                onResetFilters={handleResetAllFilters}
-                onRead={handleReadBook}
-                onDownload={handleDownloadBook}
-                onToggleFavorite={handleToggleFavorite}
-                onToggleBundle={handleToggleBundle}
-                onCopyCitation={(book) => {
-                  void handleCopyCitation(book);
-                }}
-                onOpenDetails={handleOpenDetails}
-                onOpenSummary={handleOpenSummary}
-                onZoomCover={handleZoomCover}
-                onShare={(book) => {
-                  void handleShareBook(book);
-                }}
-                onRate={(bookId, stars) => {
-                  void handleRateBook(bookId, stars);
-                }}
-              />
-
-              {/* Accessible Pagination */}
-              {loaded && !error && (
-                <PaginationNav
-                  currentPage={catalogResult.currentPage}
-                  totalPages={catalogResult.totalPages}
-                  tokens={catalogResult.tokens}
-                  onPageChange={handlePageChange}
-                />
-              )}
+                {/* Accessible Pagination */}
+                {loaded && !error && (
+                  <PaginationNav
+                    currentPage={catalogResult.currentPage}
+                    totalPages={catalogResult.totalPages}
+                    tokens={catalogResult.tokens}
+                    onPageChange={handlePageChange}
+                  />
+                )}
+              </div>
             </div>
-          </div>
+          </>
         )}
       </main>
 

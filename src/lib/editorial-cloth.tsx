@@ -435,7 +435,8 @@ export function buildCuratedShelfBooks(books: readonly Book[]): CuratedShelfVolu
 }
 
 /**
- * Architectural 1px geometric SVG ornament for each discipline (zero emojis).
+ * Gilded 12-Fold Abbasid Shamsa Medallion for cloth-bound fallback covers (Concept 03B),
+ * with subtle discipline-specific inner geometry (zero emojis).
  */
 export function DisciplineOrnament({
   discipline,
@@ -444,74 +445,76 @@ export function DisciplineOrnament({
   discipline: Exclude<ShelfDiscipline, 'all'>;
   className?: string;
 }) {
-  switch (discipline) {
-    case 'law':
-      return (
-        <svg
-          viewBox="0 0 100 100"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1"
-          aria-hidden="true"
-          className={className}
-        >
-          <rect x="14" y="14" width="72" height="72" />
-          <path d="M26 86V44a24 24 0 0 1 48 0v42" />
-          <line x1="50" y1="14" x2="50" y2="86" />
-          <circle cx="50" cy="44" r="9" />
-          <line x1="26" y1="64" x2="74" y2="64" />
-        </svg>
-      );
-    case 'finance':
-      return (
-        <svg
-          viewBox="0 0 100 100"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1"
-          aria-hidden="true"
-          className={className}
-        >
-          <circle cx="50" cy="50" r="34" />
-          <circle cx="50" cy="50" r="22" />
-          <rect x="26" y="26" width="48" height="48" transform="rotate(45 50 50)" />
-          <line x1="16" y1="50" x2="84" y2="50" />
-          <line x1="50" y1="16" x2="50" y2="84" />
-        </svg>
-      );
-    case 'research':
-      return (
-        <svg
-          viewBox="0 0 100 100"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1"
-          aria-hidden="true"
-          className={className}
-        >
-          <ellipse cx="50" cy="50" rx="35" ry="18" transform="rotate(-30 50 50)" />
-          <ellipse cx="50" cy="50" rx="35" ry="18" transform="rotate(30 50 50)" />
-          <circle cx="50" cy="50" r="34" strokeDasharray="2 3" />
-          <circle cx="50" cy="50" r="7" />
-        </svg>
-      );
-    default:
-      return (
-        <svg
-          viewBox="0 0 100 100"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1"
-          aria-hidden="true"
-          className={className}
-        >
-          <rect x="18" y="18" width="64" height="64" />
-          <rect x="26" y="26" width="48" height="48" transform="rotate(45 50 50)" />
-          <circle cx="50" cy="50" r="12" />
-          <circle cx="50" cy="50" r="3" />
-        </svg>
-      );
-  }
+  return (
+    <svg
+      viewBox="0 0 100 100"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.4"
+      aria-hidden="true"
+      className={className}
+    >
+      {/* 12-Fold Abbasid Bayt al-Hikma Shamsa Outer Star */}
+      <g transform="translate(50, 50)">
+        <rect x="-31" y="-31" width="62" height="62" fill="rgba(0,0,0,0.1)" />
+        <rect x="-31" y="-31" width="62" height="62" transform="rotate(30)" />
+        <rect x="-31" y="-31" width="62" height="62" transform="rotate(60)" />
+        <circle cx="0" cy="0" r="19" fill="rgba(0,0,0,0.14)" strokeWidth="1.1" />
+
+        {discipline === 'law' && (
+          <>
+            <path d="M-9,11 V-2 a9,9 0 0 1 18,0 V11" strokeWidth="1.2" />
+            <line x1="0" y1="-11" x2="0" y2="11" strokeWidth="1" />
+            <circle cx="0" cy="-2" r="2.8" fill="currentColor" />
+          </>
+        )}
+
+        {discipline === 'finance' && (
+          <>
+            <rect x="-8.5" y="-8.5" width="17" height="17" strokeWidth="1.1" />
+            <rect
+              x="-8.5"
+              y="-8.5"
+              width="17"
+              height="17"
+              transform="rotate(45)"
+              strokeWidth="1.1"
+            />
+            <circle cx="0" cy="0" r="3.4" fill="currentColor" />
+          </>
+        )}
+
+        {discipline === 'research' && (
+          <>
+            <ellipse
+              cx="0"
+              cy="0"
+              rx="13"
+              ry="6.5"
+              transform="rotate(-30)"
+              strokeWidth="1.1"
+            />
+            <ellipse
+              cx="0"
+              cy="0"
+              rx="13"
+              ry="6.5"
+              transform="rotate(30)"
+              strokeWidth="1.1"
+            />
+            <circle cx="0" cy="0" r="3.2" fill="currentColor" />
+          </>
+        )}
+
+        {discipline === 'admin' && (
+          <>
+            <circle cx="0" cy="0" r="11.5" strokeDasharray="2.2 2" strokeWidth="1.1" />
+            <circle cx="0" cy="0" r="4.5" fill="currentColor" />
+          </>
+        )}
+      </g>
+    </svg>
+  );
 }
 
 /**

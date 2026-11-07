@@ -18,6 +18,11 @@ import {
 import { cn } from '@/lib/utils';
 import { getCategoryLabel } from '@/services/catalog';
 import type { Book, CategoryOption } from '@/types/book';
+import {
+  AbbasidShamsaWatermark,
+  SumerianShelfPlinth,
+  SumerianStarIcon
+} from './HeritageOrnaments';
 
 export interface HeroAcademicProps {
   books?: readonly Book[];
@@ -251,10 +256,24 @@ export function HeroAcademic({
       aria-labelledby="txtAboutTitle"
       data-testid="hero-academic"
       className={cn(
-        'relative border-b hairline-border-strong bg-background text-foreground transition-colors',
+        'relative overflow-hidden border-b hairline-border-strong bg-background text-foreground transition-colors',
         compact ? 'py-4 px-4 sm:px-6' : 'pt-7 pb-8 px-4 sm:px-6 lg:px-8'
       )}
     >
+      {/* Abbasid Bayt al-Hikma 12-Fold Shamsa Corner Watermarks */}
+      {!compact && (
+        <>
+          <AbbasidShamsaWatermark
+            variant="full"
+            className="shamsa-hero-watermark shamsa-hero-watermark--end"
+          />
+          <AbbasidShamsaWatermark
+            variant="compact"
+            className="shamsa-hero-watermark shamsa-hero-watermark--start"
+          />
+        </>
+      )}
+
       {/* Preserved Semantic A11y Metadata */}
       <div className="sr-only">
         <span id="txtKicker" data-testid="hero-kicker">
@@ -279,18 +298,21 @@ export function HeroAcademic({
         </div>
       )}
 
-      <div className="mx-auto flex w-full max-w-[1360px] flex-col items-center">
+      <div className="relative z-10 mx-auto flex w-full max-w-[1360px] flex-col items-center">
         {/* Interactive Cloth Bookshelf Stage (Shown on Main Catalog View) */}
         {!compact && (
           <div className="flex w-full flex-col items-center">
             {/* Architectural Rubric & Segmented Discipline Filter Bar */}
             <div className="mb-6 text-center">
-              <p
-                data-testid="hero-motto-banner"
-                className="mb-1 font-serif text-sm sm:text-base font-bold text-primary tracking-wide"
-              >
-                {t('txtAboutTitle')}
-              </p>
+              <div className="mb-1.5 flex justify-center">
+                <p data-testid="hero-motto-banner" className="motto-heritage-pill">
+                  <SumerianStarIcon className="size-3.5 shrink-0" />
+                  <span className="font-serif text-sm sm:text-base font-bold text-primary tracking-wide">
+                    {t('txtAboutTitle')}
+                  </span>
+                  <SumerianStarIcon className="size-3.5 shrink-0" />
+                </p>
+              </div>
               <p className="mb-3 text-xs tracking-wide text-muted-foreground">
                 {translate(
                   'خزانة المراجع المنتقاة — الإدارة، القانون، والمالية العامة',
@@ -474,7 +496,7 @@ export function HeroAcademic({
                               <img
                                 src={item.book.cover_image}
                                 alt={fullTitle}
-                                loading="lazy"
+                                loading={isOpen ? 'eager' : 'lazy'}
                                 decoding="async"
                                 data-testid={`shelf-cover-img-${item.book.id}`}
                                 onError={() =>
@@ -533,10 +555,10 @@ export function HeroAcademic({
                   })}
                 </div>
 
-                {/* Architectural Ledge & Realistic Contact Shadow */}
+                {/* Architectural Ledge, Contact Shadow & Sumerian Cuneiform Plinth */}
                 <div className="shelf-architectural-ledge" aria-hidden="true">
                   <div className="shelf-contact-shadow" />
-                  <div className="shelf-hairline" />
+                  <SumerianShelfPlinth />
                 </div>
               </div>
             ) : (

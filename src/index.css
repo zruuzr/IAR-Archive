@@ -21,6 +21,12 @@
   --terracotta: #b03e23;
   --terracotta-soft: rgba(176, 62, 35, 0.09);
   --brass: #926f34;
+  --brass-bright: #b88b3c;
+  --lapis: #1b354e;
+  --lapis-deep: #132639;
+  --shamsa-opacity: 0.085;
+  --cuneiform-opacity: 0.72;
+  --ishtar-height: 24px;
   --shadow-contact: rgba(28, 23, 16, 0.22);
   --shadow-ambient: rgba(28, 23, 16, 0.11);
 
@@ -67,6 +73,12 @@
   --terracotta: #d25d3f;
   --terracotta-soft: rgba(210, 93, 63, 0.13);
   --brass: #c5a059;
+  --brass-bright: #dfb667;
+  --lapis: #1e3b58;
+  --lapis-deep: #122436;
+  --shamsa-opacity: 0.105;
+  --cuneiform-opacity: 0.82;
+  --ishtar-height: 24px;
   --shadow-contact: rgba(0, 0, 0, 0.65);
   --shadow-ambient: rgba(0, 0, 0, 0.42);
 
@@ -352,7 +364,7 @@
 .shelf-architectural-ledge {
   width: min(1160px, 94vw);
   position: relative;
-  height: 22px;
+  min-height: 24px;
   pointer-events: none;
 }
 
@@ -712,4 +724,115 @@
     scrollbar-width: thin;
     scrollbar-color: var(--hairline-strong) transparent;
   }
+}
+
+/* ==========================================================================
+   Mesopotamian & Islamic Heritage Ornament System
+   1) Sumerian Cuneiform Plinth & Dingir Star
+   2) Babylonian Ishtar Gate Lapis & 12-Petal Rosette Frieze
+   3) Abbasid Bayt al-Hikma 12-Fold Geometric Shamsa Watermarks
+   4) Baghdadi Square Kufic Seals & Architectural Hairline Dividers
+   ========================================================================== */
+
+.cuneiform-strip {
+  opacity: var(--cuneiform-opacity);
+  color: var(--brass);
+  display: inline-flex;
+  align-items: center;
+}
+
+.motto-heritage-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 16px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface) 76%, transparent);
+  border: 1px solid color-mix(in srgb, var(--brass) 38%, transparent);
+}
+
+.shelf-cuneiform-plinth {
+  height: 22px;
+  margin-top: 2px;
+  border-top: 1.5px solid color-mix(in srgb, var(--brass) 65%, var(--hairline-strong));
+  border-bottom: 1px solid var(--hairline);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in srgb, var(--surface-recess) 88%, var(--brass) 12%) 12%,
+    color-mix(in srgb, var(--surface-recess) 88%, var(--brass) 12%) 88%,
+    transparent 100%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.shamsa-hero-watermark {
+  position: absolute;
+  width: 430px;
+  height: 430px;
+  pointer-events: none;
+  opacity: var(--shamsa-opacity);
+  color: var(--brass);
+  z-index: 0;
+  transition: opacity 0.35s ease;
+}
+
+.shamsa-hero-watermark--end {
+  top: -130px;
+  right: -130px;
+}
+
+.shamsa-hero-watermark--start {
+  bottom: -150px;
+  left: -130px;
+}
+
+.shamsa-sidebar-watermark {
+  position: absolute;
+  top: -38px;
+  inset-inline-end: -38px;
+  width: 128px;
+  height: 128px;
+  color: var(--brass);
+  opacity: calc(var(--shamsa-opacity) * 1.65);
+  pointer-events: none;
+}
+
+.ishtar-frieze-band {
+  height: var(--ishtar-height);
+  width: 100%;
+  background-color: var(--lapis-deep);
+  border-bottom: 1.5px solid var(--brass-bright);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.spotlight-arch-watermark {
+  position: absolute;
+  inset-inline-end: 18px;
+  bottom: 12px;
+  width: 88px;
+  height: 116px;
+  opacity: 0.09;
+  pointer-events: none;
+}
+
+.heritage-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-inline: auto;
+  max-width: 780px;
+  color: var(--brass);
+  opacity: 0.85;
+}
+
+.heritage-seals-panel {
+  border-radius: 4px;
+  border: 1px solid color-mix(in srgb, var(--brass) 40%, var(--hairline));
+  background: color-mix(in srgb, var(--surface-recess) 58%, transparent);
 }
