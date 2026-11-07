@@ -13422,5 +13422,48 @@
     "source_sha256": "e41c6f42ee7e7138ef41000c23b32d548cfd33a57c1c87fb9e70583f46f6ac5c",
     "ai_status": "complete",
     "ai_attempts": 1
+  },
+  {
+    "id": 256,
+    "title": "إمبراطورية العولمة",
+    "title_en": "",
+    "author": "طلال محمد نور عطار",
+    "author_en": "",
+    "category": "العلوم السياسية والعلاقات الدولية",
+    "category_en": "",
+    "description": "كتاب يتناول موضوع العولمة وأبعادها وتأثيراتها السياسية والاقتصادية في العالم المعاصر.",
+    "description_en": "",
+    "publisher": "Dar Osama for Publishing & Distribution",
+    "publisher_en": "",
+    "type": "Book",
+    "type_en": "",
+    "target_audience": "الباحثون والأكاديميون والمهتمون بالدراسات السياسية والاقتصادية وقضايا العولمة",
+    "target_audience_en": "",
+    "year": 0,
+    "pages": 164,
+    "file_size": "14.0 MB",
+    "isbn": "",
+    "keywords": [
+      "العولمة",
+      "العلاقات الدولية",
+      "السياسة العالمية",
+      "الاقتصاد السياسي"
+    ],
+    "keywords_en": [],
+    "key_points": [
+      "دراسة مفهوم العولمة وتداعياتها",
+      "تحليل الهيمنة والنفوذ في عصر العولمة"
+    ],
+    "key_points_en": [],
+    "featured": false,
+    "badge_text": "",
+    "badge_text_en": "",
+    "file_path": "pdf/إمبراطورية_العولمة_البعد_الإستراتيجي.pdf",
+    "file_name": "إمبراطورية_العولمة_البعد_الإستراتيجي.pdf",
+    "file_type": "PDF",
+    "cover_image": "covers/256.png",
+    "source_sha256": "2a25742ab62850ac195b5a95a197e4b8bdc8a5888fb26302c17f6e208a03a2d8",
+    "ai_status": "complete",
+    "ai_attempts": 1
   }
 ]
