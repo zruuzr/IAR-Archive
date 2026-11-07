@@ -49,7 +49,7 @@ The repository currently indexes **254 administrative and academic references** 
 * Automated AI document processing and metadata extraction with strict completeness validation.
 * Arabic (RTL) and English (LTR) interfaces with light parchment and dark obsidian themes.
 
-> **من ألواح سومر إلى أوراق الحاضر.**
+> **من ألواح سومر إلى أوراق الحاضر**
 
 ---
 
@@ -460,6 +460,6 @@ For the full terms — including the distinct treatment of source code, referenc
 
 ## 🏺 IAR Archive
 
-**من ألواح سومر إلى أوراق الحاضر.**
+**من ألواح سومر إلى أوراق الحاضر**
 
 An evolving digital reference repository for Iraqi administrative knowledge.

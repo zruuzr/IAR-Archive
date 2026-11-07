@@ -19,9 +19,10 @@ import { cn } from '@/lib/utils';
 import { getCategoryLabel } from '@/services/catalog';
 import type { Book, CategoryOption } from '@/types/book';
 import {
-  AbbasidShamsaWatermark,
-  SumerianShelfPlinth,
-  SumerianStarIcon
+  CartoucheFiligreeWing,
+  HeroIslamicPatternBackdrop,
+  KhatamMedallionIcon,
+  SumerianShelfPlinth
 } from './HeritageOrnaments';
 
 export interface HeroAcademicProps {
@@ -52,7 +53,7 @@ interface DisciplineTab {
 const SHELF_DISCIPLINE_TABS: readonly DisciplineTab[] = [
   { id: 'all', ar: 'جميع المختارات', en: 'All Selections' },
   { id: 'admin', ar: 'الإدارة والتنظيم', en: 'Administration' },
-  { id: 'finance', ar: 'المحاسبة والمالية', en: 'Accounting & Finance' },
+  { id: 'finance', ar: 'الاقتصاد والمحاسبة', en: 'Economics & Accounting' },
   { id: 'law', ar: 'القانون والعقود', en: 'Law & Contracts' },
   { id: 'research', ar: 'الأرشيف والبحث', en: 'Archive & Research' }
 ] as const;
@@ -260,19 +261,8 @@ export function HeroAcademic({
         compact ? 'py-4 px-4 sm:px-6' : 'pt-7 pb-8 px-4 sm:px-6 lg:px-8'
       )}
     >
-      {/* Abbasid Bayt al-Hikma 12-Fold Shamsa Corner Watermarks */}
-      {!compact && (
-        <>
-          <AbbasidShamsaWatermark
-            variant="full"
-            className="shamsa-hero-watermark shamsa-hero-watermark--end"
-          />
-          <AbbasidShamsaWatermark
-            variant="compact"
-            className="shamsa-hero-watermark shamsa-hero-watermark--start"
-          />
-        </>
-      )}
+      {/* Islamic Geometric Backdrop with Multi-Model Formation Engine (Adopted: Mustansiriya 12-Star Lattice) */}
+      {!compact && <HeroIslamicPatternBackdrop formation="mustansiriya_lattice" />}
 
       {/* Preserved Semantic A11y Metadata */}
       <div className="sr-only">
@@ -304,19 +294,34 @@ export function HeroAcademic({
           <div className="flex w-full flex-col items-center">
             {/* Architectural Rubric & Segmented Discipline Filter Bar */}
             <div className="mb-6 text-center">
-              <div className="mb-1.5 flex justify-center">
-                <p data-testid="hero-motto-banner" className="motto-heritage-pill">
-                  <SumerianStarIcon className="size-3.5 shrink-0" />
-                  <span className="font-serif text-sm sm:text-base font-bold text-primary tracking-wide">
-                    {t('txtAboutTitle')}
-                  </span>
-                  <SumerianStarIcon className="size-3.5 shrink-0" />
-                </p>
+              <div className="mb-2 flex justify-center">
+                <div className="motto-cartouche-assembly">
+                  <CartoucheFiligreeWing side="start" className="hidden sm:block" />
+                  <div
+                    data-testid="hero-motto-banner"
+                    className="motto-heritage-cartouche"
+                  >
+                    <span className="motto-cartouche-inner-frame" aria-hidden="true" />
+                    <span className="motto-corner motto-corner--tl" aria-hidden="true" />
+                    <span className="motto-corner motto-corner--tr" aria-hidden="true" />
+                    <span className="motto-corner motto-corner--bl" aria-hidden="true" />
+                    <span className="motto-corner motto-corner--br" aria-hidden="true" />
+                    <KhatamMedallionIcon className="size-4 shrink-0" />
+                    <span className="font-serif text-sm sm:text-base font-bold text-primary tracking-wide">
+                      {t('txtAboutTitle')}
+                    </span>
+                    <KhatamMedallionIcon className="size-4 shrink-0" />
+                  </div>
+                  <CartoucheFiligreeWing side="end" className="hidden sm:block" />
+                </div>
               </div>
-              <p className="mb-3 text-xs tracking-wide text-muted-foreground">
+              <p
+                data-testid="hero-vault-subtitle"
+                className="mb-3 text-xs tracking-wide text-muted-foreground"
+              >
                 {translate(
-                  'خزانة المراجع المنتقاة — الإدارة، القانون، والمالية العامة',
-                  'Curated Reference Vault — Administration, Law & Public Finance'
+                  'خزانة المراجع المنتقاة — الإدارة، القانون، والاقتصاد',
+                  'Curated Reference Vault — Administration, Law & Economics'
                 )}
               </p>
 

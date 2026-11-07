@@ -69,8 +69,8 @@ export function SiteFooter({ booksCount = 254, loaded = true }: SiteFooterProps 
 
             <p className="text-xs text-muted-foreground leading-relaxed">
               {translate(
-                'المكتبة المرجعية الرقمية المتخصصة في أرشفة وتوثيق مراجع الإدارة العامة، القانون، المحاسبة الحكومية، ومناهج البحث العلمي وفق معايير الفهرسة الأكاديمية.',
-                'The digital reference library dedicated to archiving and indexing public administration, law, governmental accounting, and scientific research monographs.'
+                'المكتبة المرجعية الرقمية المتخصصة في أرشفة وتوثيق مراجع الإدارة العامة، القانون، الاقتصاد، المحاسبة الحكومية، ومناهج البحث العلمي وفق معايير الفهرسة الأكاديمية.',
+                'The digital reference library dedicated to archiving and indexing public administration, law, economics, governmental accounting, and scientific research monographs.'
               )}
             </p>
           </div>

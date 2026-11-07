@@ -490,7 +490,16 @@ describe('Phase 2.3A & 2.3B — Library UI, Reference Experience & Interactive M
     );
 
     const mottoBanner = screen.getByTestId('hero-motto-banner');
-    expect(mottoBanner.textContent).toContain('من ألواح سومر إلى أوراق الحاضر');
+    expect(mottoBanner.textContent?.trim()).toBe('من ألواح سومر إلى أوراق الحاضر');
+    expect(mottoBanner.textContent?.trim()).not.toMatch(/\.$/);
+
+    const vaultSubtitle = screen.getByTestId('hero-vault-subtitle');
+    expect(vaultSubtitle.textContent).toBe(
+      'خزانة المراجع المنتقاة — الإدارة، القانون، والاقتصاد'
+    );
+    const backdrop = screen.getByTestId('hero-islamic-backdrop');
+    expect(backdrop).toBeTruthy();
+    expect(backdrop.getAttribute('data-formation')).toBe('mustansiriya_lattice');
 
     const bookshelf = screen.getByTestId('editorial-cloth-shelf');
     expect(bookshelf).toBeTruthy();
