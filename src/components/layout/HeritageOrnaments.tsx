@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import { cn } from '@/lib/utils';
 
 const ISHTAR_FRIEZE_UNITS = Array.from({ length: 22 }, (_, i) => i * 64 + 18);
@@ -14,11 +15,22 @@ export function SumerianStarIcon({
   fill?: string;
   centerFill?: string;
 }) {
+  const gradId = useId();
+  const useMetallicGold = fill === 'var(--brass)';
   return (
     <svg viewBox="0 0 32 32" aria-hidden="true" className={className}>
+      {useMetallicGold && (
+        <defs>
+          <linearGradient id={gradId} x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="var(--brass-bright)" />
+            <stop offset="50%" stopColor="var(--brass)" />
+            <stop offset="100%" stopColor="var(--brass-bright)" />
+          </linearGradient>
+        </defs>
+      )}
       <polygon
         points="16,1 19,11 29,6 22,14 31,16 22,18 29,26 19,21 16,31 13,21 3,26 10,18 1,16 10,14 3,6 13,11"
-        fill={fill}
+        fill={useMetallicGold ? `url(#${gradId})` : fill}
       />
       {centerFill && <circle cx="16" cy="16" r="3" fill={centerFill} />}
     </svg>
@@ -93,7 +105,10 @@ export function SumerianShelfPlinth({ className }: { className?: string }) {
               stroke="var(--brass)"
               strokeWidth="1"
             />
-            <polygon points="0,-6.5 2,-2 6.5,-4 3.5,0 6.5,4 2,2 0,6.5 -2,2 -6.5,4 -3.5,0 -6.5,-4 -2,-2" />
+            <polygon
+              points="0,-6.5 2,-2 6.5,-4 3.5,0 6.5,4 2,2 0,6.5 -2,2 -6.5,4 -3.5,0 -6.5,-4 -2,-2"
+              fill="var(--brass-bright)"
+            />
             <line x1="22" y1="0" x2="125" y2="0" stroke="var(--brass)" strokeWidth="1" />
           </g>
 
@@ -116,6 +131,8 @@ export function SumerianShelfPlinth({ className }: { className?: string }) {
 
 /**
  * 4) Babylonian Ishtar Gate Lapis & 12-Petal Glazed Rosette Frieze Band (Concept 02).
+ * Rendered with freshly fired Royal Glazed Lapis, Turquoise Faience, 24k Gold gradients,
+ * and a ceramic specular glaze sheen.
  */
 export function BabylonianIshtarFrieze({
   className,
@@ -124,6 +141,12 @@ export function BabylonianIshtarFrieze({
   className?: string;
   testId?: string;
 }) {
+  const uid = useId();
+  const lapisId = `${uid}-lapis`;
+  const goldId = `${uid}-gold`;
+  const turqId = `${uid}-turq`;
+  const sheenId = `${uid}-sheen`;
+
   return (
     <div
       aria-hidden="true"
@@ -136,42 +159,65 @@ export function BabylonianIshtarFrieze({
         viewBox="0 0 1400 28"
         preserveAspectRatio="xMidYMid slice"
       >
-        <rect x="0" y="0" width="1400" height="28" fill="#132639" />
-        <rect x="0" y="0" width="1400" height="2.2" fill="#DFB667" />
-        <rect x="0" y="2.2" width="1400" height="1.8" fill="#2A6F6B" />
+        <defs>
+          <linearGradient id={lapisId} x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#1b5699" />
+            <stop offset="48%" stopColor="#123f75" />
+            <stop offset="100%" stopColor="#0b284d" />
+          </linearGradient>
+          <linearGradient id={goldId} x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#ffe58f" />
+            <stop offset="45%" stopColor="#ebb338" />
+            <stop offset="100%" stopColor="#fbd772" />
+          </linearGradient>
+          <linearGradient id={turqId} x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#26b5ad" />
+            <stop offset="100%" stopColor="#117874" />
+          </linearGradient>
+          <linearGradient id={sheenId} x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#ffffff" stopOpacity="0.18" />
+            <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
+          </linearGradient>
+        </defs>
+
+        <rect x="0" y="0" width="1400" height="28" fill={`url(#${lapisId})`} />
+        <rect x="0" y="0" width="1400" height="2.3" fill={`url(#${goldId})`} />
+        <rect x="0" y="2.3" width="1400" height="1.8" fill={`url(#${turqId})`} />
         {ISHTAR_FRIEZE_UNITS.map((x) => (
           <g key={x} transform={`translate(${x}, 14)`}>
             <circle
               cx="0"
               cy="0"
-              r="8"
-              fill="#FAF7F0"
-              stroke="#DFB667"
-              strokeWidth="1.3"
+              r="8.2"
+              fill="#FFFDF8"
+              stroke={`url(#${goldId})`}
+              strokeWidth="1.5"
             />
             <circle
               cx="0"
               cy="0"
-              r="5.3"
+              r="5.4"
               fill="none"
-              stroke="#132639"
-              strokeWidth="0.9"
-              strokeDasharray="2.2 1.6"
+              stroke="#14437A"
+              strokeWidth="1"
+              strokeDasharray="2.2 1.5"
             />
-            <circle cx="0" cy="0" r="2.8" fill="#DFB667" />
+            <circle cx="0" cy="0" r="3" fill={`url(#${goldId})`} />
             <path
               d="M22,9 L22,2 L26,2 L26,-3 L30,-3 L30,-7 L36,-7 L36,-3 L40,-3 L40,2 L44,2 L44,9 Z"
-              fill="#DFB667"
-              opacity="0.88"
+              fill={`url(#${goldId})`}
+              opacity="0.96"
             />
             <path
               d="M26,9 L26,3 L30,3 L30,-2 L36,-2 L36,3 L40,3 L40,9 Z"
-              fill="#2A6F6B"
+              fill={`url(#${turqId})`}
             />
           </g>
         ))}
-        <rect x="0" y="24" width="1400" height="1.8" fill="#2A6F6B" />
-        <rect x="0" y="25.8" width="1400" height="2.2" fill="#DFB667" />
+        {/* Glossy Ceramic Glaze Highlight */}
+        <rect x="0" y="2.3" width="1400" height="11" fill={`url(#${sheenId})`} />
+        <rect x="0" y="23.9" width="1400" height="1.8" fill={`url(#${turqId})`} />
+        <rect x="0" y="25.7" width="1400" height="2.3" fill={`url(#${goldId})`} />
       </svg>
     </div>
   );
@@ -185,26 +231,38 @@ export function BabylonianIshtarRosetteIcon({
 }: {
   className?: string;
 }) {
+  const uid = useId();
   return (
     <svg viewBox="0 0 36 36" aria-hidden="true" className={className}>
+      <defs>
+        <radialGradient id={`${uid}-lapis`} cx="35%" cy="30%" r="70%">
+          <stop offset="0%" stopColor="#2161ab" />
+          <stop offset="100%" stopColor="#0d2f59" />
+        </radialGradient>
+        <linearGradient id={`${uid}-gold`} x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#ffe694" />
+          <stop offset="50%" stopColor="#e5ad32" />
+          <stop offset="100%" stopColor="#f9d670" />
+        </linearGradient>
+      </defs>
       <circle
         cx="18"
         cy="18"
         r="16"
-        fill="var(--lapis)"
-        stroke="var(--brass-bright)"
-        strokeWidth="1.8"
+        fill={`url(#${uid}-lapis)`}
+        stroke={`url(#${uid}-gold)`}
+        strokeWidth="2"
       />
       <circle
         cx="18"
         cy="18"
         r="11"
         fill="none"
-        stroke="#faf7f0"
-        strokeWidth="1.4"
+        stroke="#fffdf9"
+        strokeWidth="1.5"
         strokeDasharray="3 2"
       />
-      <circle cx="18" cy="18" r="5" fill="var(--brass-bright)" />
+      <circle cx="18" cy="18" r="5.2" fill={`url(#${uid}-gold)`} />
     </svg>
   );
 }

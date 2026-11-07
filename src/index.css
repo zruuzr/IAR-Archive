@@ -9,26 +9,27 @@
    ========================================================================== */
 
 :root {
-  --canvas: #f2ede2;
-  --canvas-rgb: 242, 237, 226;
-  --surface: #faf7f0;
-  --surface-recess: #e7e0d2;
-  --ink: #181715;
-  --ink-soft: #45413a;
-  --ink-muted: #5f584c;
-  --hairline: rgba(24, 23, 21, 0.12);
-  --hairline-strong: rgba(24, 23, 21, 0.25);
-  --terracotta: #b03e23;
-  --terracotta-soft: rgba(176, 62, 35, 0.09);
-  --brass: #926f34;
-  --brass-bright: #b88b3c;
-  --lapis: #1b354e;
-  --lapis-deep: #132639;
-  --shamsa-opacity: 0.085;
-  --cuneiform-opacity: 0.72;
+  --canvas: #f7f3eb;
+  --canvas-rgb: 247, 243, 235;
+  --surface: #fffdf9;
+  --surface-recess: #f0e8d8;
+  --ink: #121b28;
+  --ink-soft: #2e3846;
+  --ink-muted: #525965;
+  --hairline: rgba(18, 27, 40, 0.11);
+  --hairline-strong: rgba(168, 122, 34, 0.34);
+  --terracotta: #c83a1e;
+  --terracotta-soft: rgba(200, 58, 30, 0.1);
+  --brass: #b8841e;
+  --brass-bright: #eab83e;
+  --brass-shine: #fff0a6;
+  --lapis: #14437a;
+  --lapis-deep: #0c2b52;
+  --shamsa-opacity: 0.11;
+  --cuneiform-opacity: 0.88;
   --ishtar-height: 24px;
-  --shadow-contact: rgba(28, 23, 16, 0.22);
-  --shadow-ambient: rgba(28, 23, 16, 0.11);
+  --shadow-contact: rgba(15, 25, 42, 0.22);
+  --shadow-ambient: rgba(15, 25, 42, 0.1);
 
   /* Semantic Shadcn/Tailwind mappings */
   --background: var(--canvas);
@@ -38,22 +39,22 @@
   --popover: var(--surface);
   --popover-foreground: var(--ink);
   --primary: var(--terracotta);
-  --primary-foreground: #faf7f0;
+  --primary-foreground: #fffdf9;
   --secondary: var(--surface-recess);
   --secondary-foreground: var(--ink-soft);
   --muted: var(--surface-recess);
   --muted-foreground: var(--ink-muted);
   --accent: var(--surface-recess);
   --accent-foreground: var(--ink);
-  --destructive: #9f2b1c;
-  --destructive-foreground: #faf7f0;
-  --border: #d7cfc0;
-  --input: #d7cfc0;
+  --destructive: #b42318;
+  --destructive-foreground: #fffdf9;
+  --border: #dfd3bc;
+  --input: #dfd3bc;
   --ring: var(--terracotta);
-  --teal: #204447;
-  --teal-foreground: #faf7f0;
-  --warning: #926f34;
-  --success: #31463a;
+  --teal: #0e7475;
+  --teal-foreground: #fffdf9;
+  --warning: #b8841e;
+  --success: #166549;
   --radius: 0.25rem;
   --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);
   color-scheme: light;
@@ -61,26 +62,27 @@
 
 .dark,
 [data-theme='dark'] {
-  --canvas: #131519;
-  --canvas-rgb: 19, 21, 25;
-  --surface: #1a1d23;
-  --surface-recess: #0e1013;
-  --ink: #ece6d9;
-  --ink-soft: #bdb5a5;
-  --ink-muted: #9c9486;
-  --hairline: rgba(236, 230, 217, 0.11);
-  --hairline-strong: rgba(236, 230, 217, 0.24);
-  --terracotta: #d25d3f;
-  --terracotta-soft: rgba(210, 93, 63, 0.13);
-  --brass: #c5a059;
-  --brass-bright: #dfb667;
-  --lapis: #1e3b58;
-  --lapis-deep: #122436;
-  --shamsa-opacity: 0.105;
-  --cuneiform-opacity: 0.82;
+  --canvas: #0d1420;
+  --canvas-rgb: 13, 20, 32;
+  --surface: #141e2f;
+  --surface-recess: #090e17;
+  --ink: #f8f3e8;
+  --ink-soft: #cfd6e2;
+  --ink-muted: #9aa5b6;
+  --hairline: rgba(234, 184, 62, 0.14);
+  --hairline-strong: rgba(234, 184, 62, 0.3);
+  --terracotta: #ef5a36;
+  --terracotta-soft: rgba(239, 90, 54, 0.15);
+  --brass: #e4b448;
+  --brass-bright: #fad165;
+  --brass-shine: #fff4b8;
+  --lapis: #1b5494;
+  --lapis-deep: #0f325c;
+  --shamsa-opacity: 0.13;
+  --cuneiform-opacity: 0.9;
   --ishtar-height: 24px;
-  --shadow-contact: rgba(0, 0, 0, 0.65);
-  --shadow-ambient: rgba(0, 0, 0, 0.42);
+  --shadow-contact: rgba(0, 0, 0, 0.68);
+  --shadow-ambient: rgba(0, 0, 0, 0.44);
 
   --background: var(--canvas);
   --foreground: var(--ink);
@@ -89,22 +91,22 @@
   --popover: var(--surface);
   --popover-foreground: var(--ink);
   --primary: var(--terracotta);
-  --primary-foreground: #faf7f0;
+  --primary-foreground: #fffdf9;
   --secondary: var(--surface-recess);
   --secondary-foreground: var(--ink-soft);
   --muted: var(--surface-recess);
   --muted-foreground: var(--ink-muted);
-  --accent: #22262e;
+  --accent: #1c293f;
   --accent-foreground: var(--ink);
-  --destructive: #d25d3f;
-  --destructive-foreground: #faf7f0;
-  --border: #2a2e37;
-  --input: #2a2e37;
+  --destructive: #ef5a36;
+  --destructive-foreground: #fffdf9;
+  --border: #24334a;
+  --input: #24334a;
   --ring: var(--terracotta);
-  --teal: #5d9297;
-  --teal-foreground: #131519;
-  --warning: #c5a059;
-  --success: #5a826b;
+  --teal: #24b0ac;
+  --teal-foreground: #0d1420;
+  --warning: #e4b448;
+  --success: #2ea378;
   color-scheme: dark;
 }
 
@@ -194,10 +196,10 @@
   inset: 0;
   z-index: 40;
   pointer-events: none;
-  opacity: 0.72;
+  opacity: 0.32;
   background-image:
-    radial-gradient(rgba(120, 108, 88, 0.045) 1px, transparent 0),
-    radial-gradient(rgba(25, 23, 20, 0.028) 1px, transparent 0);
+    radial-gradient(rgba(184, 132, 30, 0.035) 1px, transparent 0),
+    radial-gradient(rgba(18, 27, 40, 0.022) 1px, transparent 0);
   background-size: 24px 24px;
   background-position:
     0 0,
@@ -208,9 +210,9 @@
   position: fixed;
   top: 0;
   inset-inline-start: 0;
-  height: 2px;
+  height: 2.5px;
   z-index: 60;
-  background: var(--terracotta);
+  background: linear-gradient(90deg, var(--terracotta) 0%, var(--brass-bright) 100%);
   pointer-events: none;
   transition: width 0.12s linear;
 }
@@ -224,102 +226,107 @@
 }
 
 /* ==========================================================================
-   Authentic Book-Cloth Pigments (9 Archival Binding Palettes)
+   Authentic Book-Cloth Pigments (9 Fresh Silk-Buckram & Gold-Foil Palettes)
    ========================================================================== */
 
 [data-cloth='prussian'] {
-  --cloth-bg: #1f3449;
-  --cloth-deep: #162636;
-  --cloth-ink: #f1ebdd;
-  --cloth-muted: rgba(241, 235, 221, 0.66);
-  --cloth-rule: rgba(208, 174, 114, 0.42);
-  --cloth-accent: #d2af72;
-  --cloth-ribbon: #1f3449;
+  --cloth-bg: #144274;
+  --cloth-deep: #0b2849;
+  --cloth-ink: #fbf6eb;
+  --cloth-muted: rgba(251, 246, 235, 0.75);
+  --cloth-rule: rgba(246, 206, 107, 0.48);
+  --cloth-accent: #f6ce6b;
+  --cloth-ribbon: #144274;
 }
 
 [data-cloth='linen'] {
-  --cloth-bg: #e5dec9;
-  --cloth-deep: #d6ceb6;
-  --cloth-ink: #1b1916;
-  --cloth-muted: rgba(27, 25, 22, 0.62);
-  --cloth-rule: rgba(27, 25, 22, 0.22);
-  --cloth-accent: #a83b20;
-  --cloth-ribbon: #8b3826;
+  --cloth-bg: #f7f1e3;
+  --cloth-deep: #e9dec6;
+  --cloth-ink: #142336;
+  --cloth-muted: rgba(20, 35, 54, 0.68);
+  --cloth-rule: rgba(184, 132, 30, 0.34);
+  --cloth-accent: #c83a1e;
+  --cloth-ribbon: #b6341c;
 }
 
 [data-cloth='terracotta'] {
-  --cloth-bg: #8b3826;
-  --cloth-deep: #6e2a1b;
-  --cloth-ink: #f6efe4;
-  --cloth-muted: rgba(246, 239, 228, 0.72);
-  --cloth-rule: rgba(246, 239, 228, 0.28);
-  --cloth-accent: #e6c39a;
-  --cloth-ribbon: #8b3826;
+  --cloth-bg: #b6341c;
+  --cloth-deep: #85210f;
+  --cloth-ink: #fff9f0;
+  --cloth-muted: rgba(255, 249, 240, 0.78);
+  --cloth-rule: rgba(248, 216, 134, 0.44);
+  --cloth-accent: #f8d886;
+  --cloth-ribbon: #b6341c;
 }
 
 [data-cloth='cypress'] {
-  --cloth-bg: #31463a;
-  --cloth-deep: #23332a;
-  --cloth-ink: #efe9db;
-  --cloth-muted: rgba(239, 233, 219, 0.66);
-  --cloth-rule: rgba(201, 173, 121, 0.36);
-  --cloth-accent: #c9ad79;
-  --cloth-ribbon: #31463a;
+  --cloth-bg: #145c43;
+  --cloth-deep: #0c3c2b;
+  --cloth-ink: #f7f3e8;
+  --cloth-muted: rgba(247, 243, 232, 0.74);
+  --cloth-rule: rgba(244, 213, 121, 0.44);
+  --cloth-accent: #f4d579;
+  --cloth-ribbon: #145c43;
 }
 
 [data-cloth='oatmeal'] {
-  --cloth-bg: #d9d1be;
-  --cloth-deep: #c8bfa9;
-  --cloth-ink: #1e2c3a;
-  --cloth-muted: rgba(30, 44, 58, 0.62);
-  --cloth-rule: rgba(30, 44, 58, 0.22);
-  --cloth-accent: #8b3826;
-  --cloth-ribbon: #1f3449;
+  --cloth-bg: #f2e8d2;
+  --cloth-deep: #e2d3b5;
+  --cloth-ink: #132d4c;
+  --cloth-muted: rgba(19, 45, 76, 0.68);
+  --cloth-rule: rgba(184, 132, 30, 0.34);
+  --cloth-accent: #be351b;
+  --cloth-ribbon: #144274;
 }
 
 [data-cloth='oxblood'] {
-  --cloth-bg: #542328;
-  --cloth-deep: #3e181c;
-  --cloth-ink: #f2ece0;
-  --cloth-muted: rgba(242, 236, 224, 0.66);
-  --cloth-rule: rgba(212, 178, 124, 0.36);
-  --cloth-accent: #d4b27c;
-  --cloth-ribbon: #542328;
+  --cloth-bg: #7d1928;
+  --cloth-deep: #530e19;
+  --cloth-ink: #fbf4ea;
+  --cloth-muted: rgba(251, 244, 234, 0.74);
+  --cloth-rule: rgba(246, 206, 113, 0.45);
+  --cloth-accent: #f6ce71;
+  --cloth-ribbon: #7d1928;
 }
 
 [data-cloth='petrol'] {
-  --cloth-bg: #204447;
-  --cloth-deep: #163133;
-  --cloth-ink: #ede7da;
-  --cloth-muted: rgba(237, 231, 218, 0.68);
-  --cloth-rule: rgba(205, 176, 126, 0.34);
-  --cloth-accent: #cdb07e;
-  --cloth-ribbon: #204447;
+  --cloth-bg: #0e5f66;
+  --cloth-deep: #083d42;
+  --cloth-ink: #f5f2e8;
+  --cloth-muted: rgba(245, 242, 232, 0.75);
+  --cloth-rule: rgba(245, 215, 127, 0.44);
+  --cloth-accent: #f5d77f;
+  --cloth-ribbon: #0e5f66;
 }
 
 [data-cloth='ochre'] {
-  --cloth-bg: #654d35;
-  --cloth-deep: #4d3a27;
-  --cloth-ink: #f4eee3;
-  --cloth-muted: rgba(244, 238, 227, 0.68);
-  --cloth-rule: rgba(244, 238, 227, 0.26);
-  --cloth-accent: #e2c38f;
-  --cloth-ribbon: #654d35;
+  --cloth-bg: #99621d;
+  --cloth-deep: #6c4210;
+  --cloth-ink: #fff9ef;
+  --cloth-muted: rgba(255, 249, 239, 0.76);
+  --cloth-rule: rgba(251, 224, 148, 0.44);
+  --cloth-accent: #fbe094;
+  --cloth-ribbon: #99621d;
 }
 
 [data-cloth='slate'] {
-  --cloth-bg: #282b30;
-  --cloth-deep: #1c1e22;
-  --cloth-ink: #efeae0;
-  --cloth-muted: rgba(239, 234, 224, 0.64);
-  --cloth-rule: rgba(239, 234, 224, 0.22);
-  --cloth-accent: #c95b3c;
-  --cloth-ribbon: #282b30;
+  --cloth-bg: #1f2b42;
+  --cloth-deep: #121a29;
+  --cloth-ink: #f6f2e8;
+  --cloth-muted: rgba(246, 242, 232, 0.72);
+  --cloth-rule: rgba(240, 184, 86, 0.36);
+  --cloth-accent: #f06a3e;
+  --cloth-ribbon: #1f2b42;
 }
 
-/* Woven linen micro-texture reusable helper */
+/* Woven silk-linen micro-texture & lustrous gradient */
 .cloth-weave {
-  background: linear-gradient(155deg, var(--cloth-bg) 0%, var(--cloth-deep) 100%);
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--cloth-bg) 88%, #ffffff 12%) 0%,
+    var(--cloth-bg) 42%,
+    var(--cloth-deep) 100%
+  );
   color: var(--cloth-ink);
   position: relative;
 }
@@ -403,7 +410,12 @@
   height: var(--book-h, 338px);
   flex-shrink: 0;
   border-radius: 3px 3px 2px 2px;
-  background-color: var(--cloth-bg);
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--cloth-bg) 85%, #ffffff 15%) 0%,
+    var(--cloth-bg) 46%,
+    var(--cloth-deep) 100%
+  );
   color: var(--cloth-ink);
   cursor: pointer;
   overflow: hidden;
@@ -413,9 +425,9 @@
     transform 0.45s var(--ease-editorial),
     box-shadow 0.45s var(--ease-editorial);
   box-shadow:
-    -3px 4px 10px var(--shadow-ambient),
-    inset 3px 0 5px rgba(255, 255, 255, 0.14),
-    inset -3px 0 6px rgba(0, 0, 0, 0.24);
+    -3px 5px 12px var(--shadow-ambient),
+    inset 3px 1px 6px rgba(255, 255, 255, 0.24),
+    inset -3px 0 6px rgba(0, 0, 0, 0.26);
 }
 
 .shelf-book::before {
@@ -424,19 +436,19 @@
   inset: 0;
   pointer-events: none;
   z-index: 3;
-  opacity: 0.22;
+  opacity: 0.16;
   background-image:
     repeating-linear-gradient(
       0deg,
-      rgba(255, 255, 255, 0.06) 0px,
-      rgba(255, 255, 255, 0.06) 1px,
+      rgba(255, 255, 255, 0.08) 0px,
+      rgba(255, 255, 255, 0.08) 1px,
       transparent 1px,
       transparent 3px
     ),
     repeating-linear-gradient(
       90deg,
-      rgba(0, 0, 0, 0.06) 0px,
-      rgba(0, 0, 0, 0.06) 1px,
+      rgba(0, 0, 0, 0.05) 0px,
+      rgba(0, 0, 0, 0.05) 1px,
       transparent 1px,
       transparent 3px
     );
@@ -445,8 +457,8 @@
 .shelf-book:not(.is-open):hover {
   transform: translateY(-9px);
   box-shadow:
-    -5px 12px 18px var(--shadow-contact),
-    inset 3px 0 5px rgba(255, 255, 255, 0.18),
+    -5px 14px 20px var(--shadow-contact),
+    inset 3px 1px 7px rgba(255, 255, 255, 0.3),
     inset -3px 0 6px rgba(0, 0, 0, 0.26);
 }
 
@@ -455,9 +467,9 @@
   height: 348px;
   border-radius: 3px 5px 4px 3px;
   box-shadow:
-    -12px 14px 28px var(--shadow-contact),
-    -2px 3px 8px var(--shadow-ambient),
-    inset 1px 0 2px rgba(255, 255, 255, 0.2);
+    -12px 16px 30px var(--shadow-contact),
+    -2px 4px 10px var(--shadow-ambient),
+    inset 1px 1px 3px rgba(255, 255, 255, 0.28);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -712,7 +724,16 @@
 }
 
 .doc-shadow {
-  box-shadow: 0 2px 10px -2px var(--shadow-ambient);
+  box-shadow:
+    0 3px 14px -3px var(--shadow-ambient),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+.dark .doc-shadow,
+[data-theme='dark'] .doc-shadow {
+  box-shadow:
+    0 4px 18px -3px var(--shadow-ambient),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 @media (max-width: 1024px) {
@@ -745,22 +766,38 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  padding: 4px 16px;
+  padding: 5px 18px;
   border-radius: 999px;
-  background: color-mix(in srgb, var(--surface) 76%, transparent);
-  border: 1px solid color-mix(in srgb, var(--brass) 38%, transparent);
+  background: linear-gradient(
+    180deg,
+    var(--surface) 0%,
+    color-mix(in srgb, var(--surface) 88%, var(--brass-bright) 12%) 100%
+  );
+  border: 1px solid color-mix(in srgb, var(--brass-bright) 58%, transparent);
+  box-shadow:
+    0 2px 10px rgba(184, 132, 30, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.65);
+}
+
+.dark .motto-heritage-pill,
+[data-theme='dark'] .motto-heritage-pill {
+  box-shadow:
+    0 2px 14px rgba(228, 180, 72, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .shelf-cuneiform-plinth {
-  height: 22px;
+  height: 23px;
   margin-top: 2px;
-  border-top: 1.5px solid color-mix(in srgb, var(--brass) 65%, var(--hairline-strong));
-  border-bottom: 1px solid var(--hairline);
+  border-top: 1.5px solid
+    color-mix(in srgb, var(--brass-bright) 82%, var(--hairline-strong));
+  border-bottom: 1px solid color-mix(in srgb, var(--brass) 35%, var(--hairline));
   background: linear-gradient(
     90deg,
     transparent 0%,
-    color-mix(in srgb, var(--surface-recess) 88%, var(--brass) 12%) 12%,
-    color-mix(in srgb, var(--surface-recess) 88%, var(--brass) 12%) 88%,
+    color-mix(in srgb, var(--surface-recess) 82%, var(--brass-bright) 18%) 14%,
+    color-mix(in srgb, var(--surface) 74%, var(--brass-bright) 26%) 50%,
+    color-mix(in srgb, var(--surface-recess) 82%, var(--brass-bright) 18%) 86%,
     transparent 100%
   );
   display: flex;
@@ -806,6 +843,7 @@
   width: 100%;
   background-color: var(--lapis-deep);
   border-bottom: 1.5px solid var(--brass-bright);
+  box-shadow: 0 2px 8px rgba(12, 43, 82, 0.16);
   display: flex;
   align-items: center;
   overflow: hidden;
@@ -817,7 +855,7 @@
   bottom: 12px;
   width: 88px;
   height: 116px;
-  opacity: 0.09;
+  opacity: 0.11;
   pointer-events: none;
 }
 
@@ -828,11 +866,16 @@
   margin-inline: auto;
   max-width: 780px;
   color: var(--brass);
-  opacity: 0.85;
+  opacity: 0.94;
 }
 
 .heritage-seals-panel {
   border-radius: 4px;
-  border: 1px solid color-mix(in srgb, var(--brass) 40%, var(--hairline));
-  background: color-mix(in srgb, var(--surface-recess) 58%, transparent);
+  border: 1px solid color-mix(in srgb, var(--brass-bright) 52%, var(--hairline));
+  background: linear-gradient(
+    135deg,
+    var(--surface) 0%,
+    color-mix(in srgb, var(--surface-recess) 65%, var(--brass-bright) 8%) 100%
+  );
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
 }
