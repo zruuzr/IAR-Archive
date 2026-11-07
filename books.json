@@ -13957,5 +13957,52 @@
     "source_sha256": "8fc87bccf787c7a92a971a7900b92a9ec3e8f8a8bb5701c5d02e8ffa2e69c251",
     "ai_status": "complete",
     "ai_attempts": 1
+  },
+  {
+    "id": 267,
+    "title": "Immunity of Offices, Diplomatic Missions and the Judiciary Competent to Hear Crimes Committed Therein",
+    "title_en": "Immunity of Offices, Diplomatic Missions and the Judiciary Competent to Hear Crimes Committed Therein",
+    "author": "hp",
+    "author_en": "",
+    "category": "Law",
+    "category_en": "",
+    "description": "A master's thesis examining the legal framework and immunity of diplomatic premises and missions, establishing the competent jurisdiction to prosecute crimes committed within diplomatic offices, and offering a comparative perspective between positive international law and Islamic Sharia.",
+    "description_en": "",
+    "publisher": "The Islamic University of Gaza",
+    "publisher_en": "",
+    "type": "Master's Thesis",
+    "type_en": "",
+    "target_audience": "Researchers and students of public international law, diplomatic personnel, legal scholars, and judicial practitioners",
+    "target_audience_en": "",
+    "year": 0,
+    "pages": 131,
+    "file_size": "11.1 MB",
+    "isbn": "",
+    "keywords": [
+      "Diplomatic Immunity",
+      "Diplomatic Missions",
+      "Jurisdiction",
+      "International Law",
+      "Islamic Law",
+      "Diplomatic Crimes"
+    ],
+    "keywords_en": [],
+    "key_points": [
+      "Examines the legal adaptation and foundation for granting immunities to diplomatic missions and premises",
+      "Determines the competent court and judicial authority to hear disputes and crimes occurring within diplomatic premises",
+      "Explores legal mechanisms to prosecute perpetrators of crimes within diplomatic missions without impunity",
+      "Compares international statutory law standards with principles of Islamic Sharia"
+    ],
+    "key_points_en": [],
+    "featured": false,
+    "badge_text": "",
+    "badge_text_en": "",
+    "file_path": "pdf/حصانة_المقرات_والبعثات_الدبلوماسية_والقضاء_المختص_بنظر.pdf",
+    "file_name": "حصانة_المقرات_والبعثات_الدبلوماسية_والقضاء_المختص_بنظر.pdf",
+    "file_type": "PDF",
+    "cover_image": "covers/267.png",
+    "source_sha256": "cbcaf80123f9d9ef317437925d14e31b55bc8d56d61457309bbdf01327243d33",
+    "ai_status": "complete",
+    "ai_attempts": 1
   }
 ]
