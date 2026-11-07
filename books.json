@@ -14153,5 +14153,48 @@
     "source_sha256": "3cccb52b8202df50de6cc4513a9bd24de0fbc9f309c23a9a696ab98ad134872b",
     "ai_status": "complete",
     "ai_attempts": 1
+  },
+  {
+    "id": 271,
+    "title": "الملكية الفكرية ومفهومها المعاصر",
+    "title_en": "",
+    "author": "براد شرمان و ليونيل بنتلي",
+    "author_en": "",
+    "category": "القانون",
+    "category_en": "",
+    "description": "كتاب مترجم يتناول الملكية الفكرية ومفهومها المعاصر ضمن سلسلة دراسات كمبردج في حقوق الملكية الأدبية، من تأليف براد شرمان وليونيل بنتلي وتعريب محمد فاروق القوتلي.",
+    "description_en": "",
+    "publisher": "مكتبة العبيكان",
+    "publisher_en": "",
+    "type": "كتاب",
+    "type_en": "",
+    "target_audience": "الباحثون ورجال القانون والمهتمون بقضايا وتشريعات الملكية الفكرية",
+    "target_audience_en": "",
+    "year": 0,
+    "pages": 322,
+    "file_size": "11.6 MB",
+    "isbn": "",
+    "keywords": [
+      "الملكية الفكرية",
+      "حقوق الملكية الأدبية",
+      "دراسات كمبردج",
+      "القانون"
+    ],
+    "keywords_en": [],
+    "key_points": [
+      "بحث الملكية الفكرية وتطور مفهومها المعاصر",
+      "دراسات مقارنة وأكاديمية في حقوق الملكية الأدبية"
+    ],
+    "key_points_en": [],
+    "featured": false,
+    "badge_text": "",
+    "badge_text_en": "",
+    "file_path": "pdf/الملكية_الفكرية_ومفهومها_المعاصر.pdf",
+    "file_name": "الملكية_الفكرية_ومفهومها_المعاصر.pdf",
+    "file_type": "PDF",
+    "cover_image": "covers/271.png",
+    "source_sha256": "085a961e46cee87eb19c06b4dc5fedd86399101e5bd84585d6b2876536f87445",
+    "ai_status": "complete",
+    "ai_attempts": 1
   }
 ]
