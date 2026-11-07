@@ -544,8 +544,8 @@ describe('Phase 2.3A & 2.3B — Library UI, Reference Experience & Interactive M
       />
     );
 
-    // Sumerian cuneiform colophon strip, engraved shelf plinth, and workspace hairline divider
-    expect(screen.getByTestId('sumerian-cuneiform-strip')).toBeTruthy();
+    // Top Babylonian Ishtar Gate frieze, Sumerian engraved shelf plinth, and workspace hairline divider
+    expect(screen.getByTestId('top-ishtar-frieze')).toBeTruthy();
     expect(screen.getByTestId('sumerian-shelf-plinth')).toBeTruthy();
     expect(screen.getByTestId('hero-workspace-divider')).toBeTruthy();
 
