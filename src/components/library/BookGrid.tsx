@@ -1,4 +1,5 @@
 import { AlertCircle, HeartOff, RotateCcw, SearchX } from 'lucide-react';
+import { HeritageGrid } from '@/components/heritage';
 import { Button } from '@/components/ui/button';
 import type { ViewMode } from '@/hooks/useLibraryState';
 import { useI18n } from '@/i18n/I18nProvider';
@@ -188,15 +189,11 @@ export function BookGrid({
 
   return (
     <div id="booksDisplayContainer" data-testid="books-display-container">
-      <div
-        data-testid="books-grid"
+      <HeritageGrid
+        testId="books-grid"
         data-view-mode={viewMode}
-        className={cn(
-          'grid gap-4 sm:gap-5 items-stretch',
-          viewMode === 'list'
-            ? 'grid-cols-1'
-            : 'grid-cols-1 sm:grid-cols-2 xl:grid-cols-3'
-        )}
+        list={viewMode === 'list'}
+        className="mb-8"
       >
         {books.map((book) => (
           <BookCard
@@ -218,7 +215,7 @@ export function BookGrid({
             onRate={onRate}
           />
         ))}
-      </div>
+      </HeritageGrid>
     </div>
   );
 }

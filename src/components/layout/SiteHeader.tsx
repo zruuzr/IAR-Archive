@@ -1,9 +1,9 @@
 import { Download, Heart, Moon, Search, Sun, Volume2, VolumeX, X } from 'lucide-react';
+import { HeritageFrieze, HeritageLogo } from '@/components/heritage';
 import { Button } from '@/components/ui/button';
 import type { UsePWAInstallReturn } from '@/hooks/usePWAInstall';
 import { useTheme } from '@/hooks/useTheme';
 import { useI18n } from '@/i18n/I18nProvider';
-import { IarMonogramIcon } from '@/lib/editorial-cloth';
 import { cn } from '@/lib/utils';
 
 export interface SiteHeaderProps {
@@ -21,9 +21,9 @@ export interface SiteHeaderProps {
 }
 
 /**
- * Editorial Archival Masthead for IAR ARCHIVE — المرجع الإداري العراقي.
- * Features translucent cotton-rag / obsidian backdrop, 1px architectural hairlines,
- * official IAR monogram, live catalog counter, and tactile utility controls.
+ * Heritage Masthead for IAR ARCHIVE — المرجع الإداري العراقي.
+ * Built with HeritageLogo, .hx-site-header, HeritageFrieze,
+ * preserving all navigation, PWA, sound, language, theme, and test hooks.
  */
 export function SiteHeader({
   favoritesOnly,
@@ -41,68 +41,50 @@ export function SiteHeader({
   const { isDark, toggleTheme } = useTheme();
 
   return (
-    <header
-      data-testid="site-header"
-      className="site-header sticky top-0 z-30 border-b hairline-border bg-background/88 backdrop-blur-md transition-colors"
-    >
-      <div className="mx-auto grid max-w-[1360px] grid-cols-[1fr_auto] lg:grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 py-3 sm:px-6 lg:px-8">
-        {/* Start: Official Brand Monogram & Bilingual Lockup */}
-        <div className="flex items-center min-w-0">
-          <a
-            href="#booksDisplayContainer"
-            onClick={(e) => {
-              if (onBrandClick) {
-                e.preventDefault();
-                onBrandClick();
-              }
-            }}
-            data-testid="brand-link"
-            aria-label="IAR ARCHIVE — المرجع الإداري العراقي"
-            className="group inline-flex items-center gap-2 sm:gap-3 min-w-0 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring rounded-xs cursor-pointer"
-          >
-            <span className="inline-flex size-8 sm:size-9 shrink-0 items-center justify-center rounded-[5px] border hairline-border-strong bg-card text-foreground transition-colors group-hover:border-primary group-hover:text-primary">
-              <IarMonogramIcon className="size-4.5 sm:size-5" />
+    <header data-testid="site-header" className="hx-site-header">
+      <div className="hx-wrap hx-bar">
+        {/* Brand link with Heritage octagram logo & typography */}
+        <a
+          href="#booksDisplayContainer"
+          onClick={(e) => {
+            if (onBrandClick) {
+              e.preventDefault();
+              onBrandClick();
+            }
+          }}
+          data-testid="brand-link"
+          aria-label="IAR ARCHIVE — المرجع الإداري العراقي"
+          className="hx-brand"
+        >
+          <HeritageLogo size={44} />
+          <span className="hx-brand-txt">
+            <b>{translate('الأرشيف الإداري العراقي', 'IAR Archive')}</b>
+            <small>IAR ARCHIVE</small>
+            <span id="txtSubtitle" className="sr-only">
+              {t('txtSubtitle')}
             </span>
-
-            <span className="flex flex-col leading-tight min-w-0">
-              <span className="font-mono text-[11px] sm:text-xs font-medium tracking-[0.12em] sm:tracking-[0.14em] text-foreground">
-                IAR ARCHIVE
-              </span>
-              <span className="text-[10.5px] sm:text-xs font-medium text-muted-foreground whitespace-nowrap leading-normal pe-0.5">
-                {translate('المرجع الإداري العراقي', 'Iraqi Administrative Reference')}
-              </span>
-              <span id="txtSubtitle" className="sr-only">
-                {t('txtSubtitle')}
-              </span>
-            </span>
-          </a>
-        </div>
-
-        {/* Center: Archival Edition & Live Verified Monograph Counter */}
-        <div className="hidden lg:flex items-center justify-center gap-2 text-xs text-muted-foreground">
-          <span>
-            {translate('المكتبة المرجعية الرقمية', 'Digital Reference Library')}
           </span>
-          <span aria-hidden="true" className="font-bold text-primary">
-            ·
-          </span>
-          <span className="font-medium text-foreground/90">
-            <span className="font-mono font-semibold tabular-nums">
+        </a>
+
+        {/* Center navigation links matching HeritageDemo */}
+        <nav
+          className="hx-nav hidden lg:flex"
+          aria-label={translate('التنقل الرئيسي', 'Main navigation')}
+        >
+          <a href="#shelves">{translate('رفوف المعرفة', 'Knowledge Shelves')}</a>
+          <a href="#paths">{translate('المسارات', 'Pathways')}</a>
+          <a href="#spotlight">{translate('في دائرة الضوء', 'In the Spotlight')}</a>
+          <a href="#journey">{translate('رحلة المعرفة', 'Journey of Knowledge')}</a>
+          <span className="hidden xl:inline-flex items-center text-xs text-[var(--hx-ink-soft)] px-2">
+            <span className="font-mono font-semibold tabular-nums text-[var(--hx-gold)]">
               {loaded ? formatNumber(booksCount) : '—'}
-            </span>{' '}
-            {translate('مصنفاً موثقاً', 'verified monographs')}
+            </span>
+            <span className="ms-1">{translate('مرجعاً', 'refs')}</span>
           </span>
-        </div>
+        </nav>
 
-        {/* End: Architectural Hairline Utility Controls */}
-        <div className="flex items-center justify-end gap-1 sm:gap-2">
-          <a
-            href="#controlsRow"
-            className="hidden xl:inline-flex h-8 items-center rounded-[4px] border hairline-border px-3 text-xs font-medium text-secondary-foreground transition-colors hover:border-foreground hover:bg-card hover:text-foreground"
-          >
-            {translate('الفهرس الكامل', 'Full Index')}
-          </a>
-
+        {/* Tools and Utility Controls */}
+        <div className="hx-tools">
           {/* Spotlight Search Trigger (Ctrl/Cmd + K) */}
           {onOpenSpotlight && (
             <button
@@ -111,13 +93,9 @@ export function SiteHeader({
               onClick={onOpenSpotlight}
               aria-label={t('spotlightSearch')}
               title={t('spotlightSearch')}
-              className="inline-flex h-8 items-center gap-1.5 rounded-[4px] border hairline-border bg-transparent px-2 sm:px-2.5 text-xs font-medium text-secondary-foreground transition-colors hover:border-foreground hover:bg-card hover:text-foreground cursor-pointer"
+              className="hx-icon-btn"
             >
-              <Search className="size-3.5 shrink-0" aria-hidden="true" />
-              <span className="hidden sm:inline">{t('searchShortcut')}</span>
-              <kbd className="hidden md:inline-flex items-center rounded-[3px] border hairline-border bg-card px-1 text-[10px] font-mono text-muted-foreground">
-                ⌘K
-              </kbd>
+              <Search className="size-4" aria-hidden="true" />
             </button>
           )}
 
@@ -131,31 +109,25 @@ export function SiteHeader({
             title={t('txtFavoritesOnly')}
             onClick={onToggleFavoritesOnly}
             className={cn(
-              'inline-flex h-8 items-center gap-1 sm:gap-1.5 rounded-[4px] border px-2 sm:px-2.5 text-xs font-medium transition-colors cursor-pointer',
-              favoritesOnly
-                ? 'border-foreground bg-foreground text-background'
-                : 'hairline-border bg-transparent text-secondary-foreground hover:border-foreground hover:bg-card hover:text-foreground'
+              'hx-icon-btn relative',
+              favoritesOnly &&
+                '!border-[var(--hx-gold-bright)] !bg-[var(--hx-surface-2)] text-[var(--hx-gold-bright)]'
             )}
           >
             <Heart
               className={cn(
-                'size-3.5 shrink-0',
-                favoritesOnly && 'fill-current text-primary'
+                'size-4',
+                favoritesOnly && 'fill-current text-[var(--hx-gold-bright)]'
               )}
               aria-hidden="true"
             />
-            <span id="txtFavoritesOnly" className="hidden md:inline">
+            <span id="txtFavoritesOnly" className="sr-only">
               {t('txtFavoritesOnly')}
             </span>
             {favoritesCount > 0 && (
               <span
                 data-testid="header-favorites-count"
-                className={cn(
-                  'inline-flex min-w-4 h-4 items-center justify-center rounded-xs px-1 font-mono text-[10px] font-semibold tabular-nums',
-                  favoritesOnly
-                    ? 'bg-background/20 text-background'
-                    : 'bg-primary/12 text-primary'
-                )}
+                className="absolute -top-1 -end-1 inline-flex min-w-4 h-4 items-center justify-center rounded-full bg-[var(--hx-gold)] text-[var(--hx-lapis-night)] px-1 font-mono text-[10px] font-bold tabular-nums"
               >
                 {formatNumber(favoritesCount)}
               </span>
@@ -173,10 +145,10 @@ export function SiteHeader({
               }}
               aria-label={t('txtInstall')}
               title={t('txtInstall')}
-              className="inline-flex h-8 items-center gap-1.5 rounded-[4px] border hairline-border bg-transparent px-2 sm:px-2.5 text-xs font-medium text-secondary-foreground transition-colors hover:border-foreground hover:bg-card hover:text-foreground cursor-pointer"
+              className="hx-icon-btn"
             >
-              <Download className="size-3.5 shrink-0" aria-hidden="true" />
-              <span id="txtInstall" className="hidden sm:inline">
+              <Download className="size-4" aria-hidden="true" />
+              <span id="txtInstall" className="sr-only">
                 {t('txtInstall')}
               </span>
             </button>
@@ -191,12 +163,15 @@ export function SiteHeader({
               aria-pressed={soundEnabled}
               aria-label={translate('تبديل الصوت التفاعلي', 'Toggle paper acoustics')}
               title={translate('الصوت الورقي التفاعلي', 'Interactive paper acoustics')}
-              className="inline-flex size-8 items-center justify-center rounded-[4px] border hairline-border bg-transparent text-secondary-foreground transition-colors hover:border-foreground hover:bg-card hover:text-foreground cursor-pointer"
+              className="hx-icon-btn"
             >
               {soundEnabled ? (
-                <Volume2 className="size-3.5" aria-hidden="true" />
+                <Volume2 className="size-4" aria-hidden="true" />
               ) : (
-                <VolumeX className="size-3.5 text-muted-foreground" aria-hidden="true" />
+                <VolumeX
+                  className="size-4 text-[var(--hx-ink-soft)]"
+                  aria-hidden="true"
+                />
               )}
             </button>
           )}
@@ -209,12 +184,12 @@ export function SiteHeader({
             onClick={toggleLang}
             aria-label={t('langToggleAria')}
             title={t('langToggleAria')}
-            className="inline-flex h-8 items-center justify-center rounded-[4px] border hairline-border bg-transparent px-2 sm:px-2.5 font-mono text-xs font-medium text-secondary-foreground transition-colors hover:border-foreground hover:bg-card hover:text-foreground cursor-pointer"
+            className="hx-icon-btn font-mono text-xs font-bold"
           >
             <span id="langLabel">{lang === 'ar' ? 'EN' : 'عربي'}</span>
           </button>
 
-          {/* Reading Room Theme Switcher (Cotton-Rag Parchment / Evening Obsidian) */}
+          {/* Theme Switcher */}
           <button
             type="button"
             id="themeToggleBtn"
@@ -222,25 +197,27 @@ export function SiteHeader({
             onClick={toggleTheme}
             aria-label={t('themeToggleAria')}
             title={t('themeToggleAria')}
-            className="inline-flex size-8 items-center justify-center rounded-[4px] border hairline-border bg-transparent text-secondary-foreground transition-colors hover:border-foreground hover:bg-card hover:text-foreground cursor-pointer"
+            className="hx-icon-btn"
           >
             {isDark ? (
-              <Sun className="size-3.5" aria-hidden="true" />
+              <Sun className="size-4" aria-hidden="true" />
             ) : (
-              <Moon className="size-3.5" aria-hidden="true" />
+              <Moon className="size-4" aria-hidden="true" />
             )}
           </button>
         </div>
       </div>
+
+      <HeritageFrieze />
 
       {/* Manual PWA Installation Banner */}
       {pwa.manualInstructionsShown && (
         <div
           role="status"
           data-testid="pwa-manual-banner"
-          className="border-t hairline-border bg-card px-4 py-2.5 text-xs text-secondary-foreground"
+          className="border-t border-[var(--hx-line)] bg-[var(--hx-surface)] px-4 py-2.5 text-xs text-[var(--hx-ink-soft)]"
         >
-          <div className="mx-auto flex max-w-[1360px] items-center justify-between gap-3">
+          <div className="hx-wrap flex items-center justify-between gap-3">
             <p className="whitespace-pre-line leading-relaxed">
               {pwa.manualInstructions}
             </p>

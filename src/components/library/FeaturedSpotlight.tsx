@@ -1,23 +1,12 @@
+import { BookOpen, Download, Layers, Quote, Share2, Sparkles } from 'lucide-react';
 import {
-  BookOpen,
-  Calendar,
-  Download,
-  FileText,
-  Heart,
-  Layers,
-  Quote,
-  Share2,
-  Sparkles
-} from 'lucide-react';
-import {
-  BabylonianIshtarFrieze,
-  BabylonianIshtarRosetteIcon,
-  BabylonianSteppedArchWatermark
-} from '@/components/layout/HeritageOrnaments';
-import { Button } from '@/components/ui/button';
+  HeritageButton,
+  HeritageFavButton,
+  SpotlightPlaque,
+  type SpotlightSpec
+} from '@/components/heritage';
 import { buildBookUrl } from '@/hooks/useBundle';
 import { useI18n } from '@/i18n/I18nProvider';
-import { cn } from '@/lib/utils';
 import { getCategoryLabel } from '@/services/catalog';
 import type { Book } from '@/types/book';
 import { BookCover } from './BookCover';
@@ -42,8 +31,7 @@ export interface FeaturedSpotlightProps {
 
 /**
  * Editorial "In the Spotlight" featured reference card.
- * Rendered only in the default unfiltered view on Page 1 (`catalogResult.spotlightBook`),
- * and automatically excluded from the main grid by `queryCatalog`.
+ * Built using the Iraqi Heritage presentation layer (`SpotlightPlaque` + `HeritageButton` / `HeritageFavButton`).
  */
 export function FeaturedSpotlight({
   book,
@@ -72,249 +60,196 @@ export function FeaturedSpotlight({
   const description = getBookField(book, 'description');
   const badgeText = getBookField(book, 'badge_text') || t('inTheSpotlight');
   const category = getCategoryLabel(book, lang);
+  const publisher = getBookField(book, 'publisher');
+  const targetAudience = getBookField(book, 'target_audience');
   const hasFile = Boolean(book.file_path);
 
-  return (
-    <section
-      id="featuredSection"
-      aria-label={t('inTheSpotlight')}
-      data-testid="featured-spotlight"
-      className="mb-4"
+  // Specs array
+  const rawSpecs: (SpotlightSpec | null)[] = [
+    publisher
+      ? {
+          label: translate('الناشر', 'Publisher'),
+          value: publisher
+        }
+      : null,
+    book.year && book.year !== '0'
+      ? {
+          label: translate('سنة النشر', 'Year'),
+          value: book.year
+        }
+      : null,
+    book.pages && book.pages !== '0'
+      ? {
+          label: translate('عدد الصفحات', 'Pages'),
+          value: `${formatNumber(Number(book.pages))} ${t('pagesUnit')}`
+        }
+      : null,
+    book.file_size
+      ? {
+          label: translate('حجم الملف', 'File Size'),
+          value: String(book.file_size),
+          ltr: true
+        }
+      : null,
+    {
+      label: translate('التقييم', 'Rating'),
+      value: <RatingStars book={book} onRate={onRate} size="sm" />
+    }
+  ];
+  const specs = rawSpecs.filter((s): s is SpotlightSpec => s !== null);
+
+  // Key points
+  const points =
+    lang === 'en' && book.key_points_en && book.key_points_en.length > 0
+      ? book.key_points_en
+      : book.key_points && book.key_points.length > 0
+        ? book.key_points
+        : undefined;
+
+  // Target audience
+  const audience = targetAudience
+    ? {
+        label: translate('الفئة المستهدفة:', 'Target Audience:'),
+        text: targetAudience
+      }
+    : undefined;
+
+  const titleNode = (
+    <a
+      href={buildBookUrl(book.id)}
+      data-testid={`spotlight-title-link-${book.id}`}
+      onClick={(e) => {
+        e.preventDefault();
+        onOpenDetails(book);
+      }}
+      className="hover:text-primary transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring rounded-xs"
     >
-      <article
-        data-testid={`spotlight-card-${book.id}`}
-        className="relative overflow-hidden rounded-[4px] border hairline-border-strong bg-card text-card-foreground doc-shadow"
+      {title}
+    </a>
+  );
+
+  const coverNode = (
+    <BookCover
+      book={book}
+      featured
+      onClick={() => (onZoomCover ?? onOpenDetails)(book)}
+    />
+  );
+
+  const actionsNode = (
+    <>
+      <HeritageButton
+        variant="gold"
+        size="sm"
+        disabled={!hasFile}
+        data-testid={`spotlight-read-${book.id}`}
+        onClick={() => onRead(book)}
       >
-        {/* Babylonian Ishtar Gate Glazed Lapis & 12-Petal Rosette Frieze */}
-        <BabylonianIshtarFrieze testId="spotlight-ishtar-frieze" />
+        <BookOpen className="size-4 shrink-0 inline-block me-1.5" aria-hidden="true" />
+        <span>{t('read')}</span>
+      </HeritageButton>
 
-        {/* Glazed Rosette Rubric Sub-Header */}
-        <div className="flex flex-wrap items-center justify-between gap-2 border-b hairline-border bg-secondary/55 px-4 py-2 sm:px-6">
-          <div className="flex items-center gap-2.5 min-w-0">
-            <BabylonianIshtarRosetteIcon className="size-5 shrink-0" />
-            <span className="truncate text-xs font-bold text-foreground">
-              {translate(
-                'مختارات الخزانة المرجعية — المرجع الإداري المميز',
-                'Curated Reference Vault — Featured Monograph'
-              )}
-            </span>
-          </div>
-          <span className="font-mono text-[11px] font-medium tracking-wider text-warning">
-            SPOTLIGHT · #{book.id}
+      <HeritageButton
+        variant="ghost"
+        size="sm"
+        disabled={!hasFile || isDownloadBusy}
+        data-testid={`spotlight-download-${book.id}`}
+        onClick={() => onDownload(book)}
+      >
+        <Download
+          className="size-4 shrink-0 inline-block me-1.5 text-warning"
+          aria-hidden="true"
+        />
+        <span>{t('download')}</span>
+        {book.downloadCount > 0 && (
+          <span
+            data-download-count={book.id}
+            className="ms-1 font-mono text-[11px] font-semibold tabular-nums opacity-90"
+          >
+            {formatNumber(book.downloadCount)}
           </span>
-        </div>
+        )}
+      </HeritageButton>
 
-        <div className="relative p-5 sm:p-7 lg:p-8">
-          {/* Subtle Babylonian Stepped Arch Corner Watermark */}
-          <BabylonianSteppedArchWatermark />
+      <HeritageButton
+        variant="ghost"
+        size="sm"
+        data-testid={`spotlight-summary-${book.id}`}
+        onClick={() => (onOpenSummary ?? onOpenDetails)(book)}
+      >
+        <Sparkles
+          className="size-3.5 shrink-0 inline-block me-1.5 text-warning"
+          aria-hidden="true"
+        />
+        <span>{t('summary')}</span>
+      </HeritageButton>
 
-          <div className="relative z-10 flex flex-col gap-6 md:flex-row md:items-start lg:gap-8">
-            {/* Featured Book Cover */}
-            <div className="flex justify-center md:justify-start shrink-0">
-              <div className="rounded-[4px] border hairline-border bg-secondary/45 p-3">
-                <BookCover
-                  book={book}
-                  featured
-                  onClick={() => (onZoomCover ?? onOpenDetails)(book)}
-                  className="w-36 sm:w-40 md:w-44"
-                />
-              </div>
-            </div>
+      <HeritageButton
+        variant="ghost"
+        size="sm"
+        data-testid={`spotlight-cite-${book.id}`}
+        onClick={() => onCopyCitation(book)}
+        aria-label={t('cite')}
+        title={t('cite')}
+      >
+        <Quote className="size-3.5 shrink-0 inline-block me-1.5" aria-hidden="true" />
+        <span className="hidden sm:inline">{t('cite')}</span>
+      </HeritageButton>
 
-            {/* Editorial Copy & Actions */}
-            <div className="flex-1 min-w-0 space-y-4">
-              {/* Top Meta Row */}
-              <div className="flex flex-wrap items-center justify-between gap-2 border-b hairline-border pb-2.5">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="inline-flex items-center gap-1.5 rounded-[3px] border border-primary/35 bg-primary/10 px-2.5 py-0.5 text-[11px] font-semibold text-primary">
-                    <span>{badgeText}</span>
-                  </span>
+      {onShare && (
+        <HeritageButton
+          variant="ghost"
+          size="sm"
+          data-testid={`spotlight-share-${book.id}`}
+          onClick={() => onShare(book)}
+          aria-label={t('share')}
+          title={t('share')}
+        >
+          <Share2 className="size-3.5 shrink-0 inline-block me-1.5" aria-hidden="true" />
+          <span className="hidden sm:inline">{t('share')}</span>
+        </HeritageButton>
+      )}
 
-                  <span className="inline-flex items-center rounded-[3px] border hairline-border bg-secondary/70 px-2.5 py-0.5 text-xs font-medium text-secondary-foreground">
-                    {category}
-                  </span>
-                </div>
+      <HeritageButton
+        variant="ghost"
+        size="sm"
+        data-testid={`spotlight-bundle-${book.id}`}
+        aria-pressed={isInBundle}
+        aria-label={`${t('addToBundlePrefix')}${title}`}
+        onClick={() => onToggleBundle(book.id)}
+        className={isInBundle ? 'hx-is-active' : undefined}
+      >
+        <Layers className="size-3.5 shrink-0 inline-block me-1.5" aria-hidden="true" />
+        <span>{t('bundleCheckboxLabel')}</span>
+      </HeritageButton>
 
-                <span className="text-[10.5px] font-mono tracking-[0.14em] text-muted-foreground uppercase">
-                  01 / IAR ARCHIVE SELECTION
-                </span>
-              </div>
+      <HeritageFavButton
+        pressed={isFavorite}
+        onToggle={() => onToggleFavorite(book.id)}
+        labelOn={t('removeFavorite')}
+        labelOff={t('addFavorite')}
+        data-testid={`spotlight-favorite-${book.id}`}
+      />
+    </>
+  );
 
-              {/* Title & Author */}
-              <div className="space-y-1.5">
-                <h2 className="font-serif text-2xl sm:text-[1.75rem] font-bold tracking-tight text-foreground leading-snug">
-                  <a
-                    href={buildBookUrl(book.id)}
-                    data-testid={`spotlight-title-link-${book.id}`}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      onOpenDetails(book);
-                    }}
-                    className="hover:text-primary transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring rounded-xs"
-                  >
-                    {title}
-                  </a>
-                </h2>
-
-                {author && (
-                  <p className="text-sm font-medium text-muted-foreground">{author}</p>
-                )}
-              </div>
-
-              {/* Description */}
-              {description && (
-                <p className="text-sm sm:text-[15px] text-foreground/85 leading-relaxed line-clamp-3 max-w-[70ch]">
-                  {description}
-                </p>
-              )}
-
-              {/* Metadata Chips & Interactive Star Rating */}
-              <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground pt-0.5">
-                {book.year && book.year !== '0' && (
-                  <span className="inline-flex items-center gap-1.5 rounded-[3px] border hairline-border bg-secondary/50 px-2.5 py-1 font-mono tabular-nums font-medium">
-                    <Calendar
-                      className="size-3.5 text-primary shrink-0"
-                      aria-hidden="true"
-                    />
-                    <span>{book.year}</span>
-                  </span>
-                )}
-
-                {book.pages && book.pages !== '0' && (
-                  <span className="inline-flex items-center gap-1.5 rounded-[3px] border hairline-border bg-secondary/50 px-2.5 py-1 font-medium">
-                    <FileText
-                      className="size-3.5 text-teal shrink-0"
-                      aria-hidden="true"
-                    />
-                    <span>
-                      <span className="font-mono tabular-nums">{book.pages}</span>{' '}
-                      {t('pagesUnit')}
-                    </span>
-                  </span>
-                )}
-
-                <RatingStars book={book} onRate={onRate} size="sm" />
-              </div>
-
-              {/* Action Bar */}
-              <div className="flex flex-wrap items-center gap-2 pt-3 border-t hairline-border">
-                <Button
-                  type="button"
-                  variant="default"
-                  size="sm"
-                  disabled={!hasFile}
-                  data-testid={`spotlight-read-${book.id}`}
-                  onClick={() => onRead(book)}
-                  className="gap-1.5 rounded-[3px] bg-foreground text-background hover:bg-primary hover:text-primary-foreground font-semibold"
-                >
-                  <BookOpen className="size-4 shrink-0" aria-hidden="true" />
-                  <span>{t('read')}</span>
-                </Button>
-
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  disabled={!hasFile || isDownloadBusy}
-                  data-testid={`spotlight-download-${book.id}`}
-                  onClick={() => onDownload(book)}
-                  className="gap-1.5 rounded-[3px] hairline-border-strong bg-background/60 hover:bg-secondary text-foreground font-semibold"
-                >
-                  <Download className="size-4 text-primary shrink-0" aria-hidden="true" />
-                  <span>{t('download')}</span>
-                  {book.downloadCount > 0 && (
-                    <span
-                      data-download-count={book.id}
-                      className="ms-0.5 rounded-[2px] bg-secondary px-1.5 py-0.2 font-mono text-[11px] font-semibold tabular-nums"
-                    >
-                      {formatNumber(book.downloadCount)}
-                    </span>
-                  )}
-                </Button>
-
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  data-testid={`spotlight-summary-${book.id}`}
-                  onClick={() => (onOpenSummary ?? onOpenDetails)(book)}
-                  className="gap-1.5 rounded-[3px] hairline-border-strong"
-                >
-                  <Sparkles
-                    className="size-3.5 text-primary shrink-0"
-                    aria-hidden="true"
-                  />
-                  <span>{t('summary')}</span>
-                </Button>
-
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  data-testid={`spotlight-cite-${book.id}`}
-                  onClick={() => onCopyCitation(book)}
-                  aria-label={t('cite')}
-                  title={t('cite')}
-                  className="gap-1.5 rounded-[3px]"
-                >
-                  <Quote className="size-3.5 shrink-0" aria-hidden="true" />
-                  <span className="hidden sm:inline">{t('cite')}</span>
-                </Button>
-
-                {onShare && (
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    data-testid={`spotlight-share-${book.id}`}
-                    onClick={() => onShare(book)}
-                    aria-label={t('share')}
-                    title={t('share')}
-                    className="gap-1.5 rounded-[3px]"
-                  >
-                    <Share2 className="size-3.5 shrink-0" aria-hidden="true" />
-                    <span className="hidden sm:inline">{t('share')}</span>
-                  </Button>
-                )}
-
-                <Button
-                  type="button"
-                  variant={isInBundle ? 'secondary' : 'ghost'}
-                  size="sm"
-                  data-testid={`spotlight-bundle-${book.id}`}
-                  aria-pressed={isInBundle}
-                  aria-label={`${t('addToBundlePrefix')}${title}`}
-                  onClick={() => onToggleBundle(book.id)}
-                  className={cn(
-                    'gap-1.5 rounded-[3px]',
-                    isInBundle && 'border border-primary/40 text-primary font-semibold'
-                  )}
-                >
-                  <Layers className="size-3.5 shrink-0" aria-hidden="true" />
-                  <span>{t('bundleCheckboxLabel')}</span>
-                </Button>
-
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon-sm"
-                  data-testid={`spotlight-favorite-${book.id}`}
-                  aria-pressed={isFavorite}
-                  aria-label={isFavorite ? t('removeFavorite') : t('addFavorite')}
-                  title={isFavorite ? t('removeFavorite') : t('addFavorite')}
-                  onClick={() => onToggleFavorite(book.id)}
-                  className={cn('rounded-[3px]', isFavorite && 'text-primary')}
-                >
-                  <Heart
-                    className={cn('size-4', isFavorite && 'fill-current')}
-                    aria-hidden="true"
-                  />
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </article>
-    </section>
+  return (
+    <SpotlightPlaque
+      id="featuredSection"
+      testId="featured-spotlight"
+      cardTestId={`spotlight-card-${book.id}`}
+      friezeTestId="spotlight-ishtar-frieze"
+      eyebrow={category}
+      badge={badgeText}
+      title={titleNode}
+      author={author}
+      description={description}
+      specs={specs}
+      points={points}
+      audience={audience}
+      actions={actionsNode}
+      cover={coverNode}
+      className="mb-8"
+    />
   );
 }

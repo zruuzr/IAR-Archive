@@ -1,5 +1,11 @@
 import { Check, ChevronDown, Compass, Filter, Search, X } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
+import {
+  HERITAGE_CLOTHS,
+  HeritageSectionHead,
+  PathwayGrid,
+  type HeritagePathway
+} from '@/components/heritage';
 import { Button } from '@/components/ui/button';
 import { useI18n } from '@/i18n/I18nProvider';
 import { normalizeSearchText } from '@/lib/arabic-search';
@@ -21,10 +27,11 @@ export interface CategoryWithCount extends CategoryOption {
 }
 
 /**
- * Solves the 114-category navigation problem without modifying `books.json`:
- * 1. Displays "All references" + the top highest-density categories as quick pathways with book counts.
- * 2. Always highlights the active category (even if outside the top quick pathways) with a 1-click clear button.
- * 3. Provides a searchable "All Categories" directory displaying all 114 categories with their exact book counts.
+ * Knowledge Pathways built with PathwayGrid and HeritageSectionHead.
+ * Features:
+ * 1. Heritage octagram count badges and star-tessellated gateway cards.
+ * 2. "All references" chip + active category indicator.
+ * 3. Searchable full directory of all categories with live counts.
  */
 export function CategoryPathways({
   books,
@@ -58,6 +65,15 @@ export function CategoryPathways({
       .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label, lang))
       .slice(0, quickPathwaysLimit);
   }, [categoriesWithCounts, lang, quickPathwaysLimit]);
+
+  const pathwayItems: readonly HeritagePathway[] = useMemo(() => {
+    return topCategories.map((cat, idx) => ({
+      key: cat.key,
+      label: cat.label,
+      count: cat.count,
+      color: HERITAGE_CLOTHS[idx % HERITAGE_CLOTHS.length]
+    }));
+  }, [topCategories]);
 
   const activeCategoryObj = useMemo<CategoryWithCount | null>(() => {
     if (activeCategory === ALL_CATEGORIES_KEY) return null;
@@ -108,12 +124,38 @@ export function CategoryPathways({
 
   return (
     <section
+      id="paths"
       aria-label={t('categoryChipsAria')}
       data-testid="category-pathways"
-      className="mb-6 space-y-2.5"
+      className="mb-10 space-y-4"
     >
-      {/* Quick Pathways Bar */}
-      <div id="categoryChips" className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+      <HeritageSectionHead
+        eyebrow={translate('مسارات معرفية', 'Knowledge Pathways')}
+        title={translate(
+          'بوابات إلى المعرفة الإدارية',
+          'Gateways to Administrative Knowledge'
+        )}
+        subtitle={translate(
+          'تُصنَّف المراجع في مسارات رئيسية، ولكل مسار تصنيفاته الدقيقة. اختر بوابتك وابدأ.',
+          'References are curated into key pathways, each with refined specializations. Choose your gateway to explore.'
+        )}
+      />
+
+      {/* Heritage Gateway Cards Grid */}
+      <PathwayGrid
+        items={pathwayItems}
+        activeKey={activeCategory}
+        onSelect={(key) => {
+          onSelectCategory(key === activeCategory ? ALL_CATEGORIES_KEY : key);
+        }}
+        formatCount={(count) => (typeof count === 'number' ? formatNumber(count) : count)}
+      />
+
+      {/* Auxiliary bar: All references, custom active category chip, and Full Directory button */}
+      <div
+        id="categoryChips"
+        className="flex flex-wrap items-center justify-center gap-2 pt-2"
+      >
         {/* "All References" Button */}
         <button
           type="button"
@@ -121,58 +163,13 @@ export function CategoryPathways({
           data-testid="category-chip-all"
           aria-pressed={activeCategory === ALL_CATEGORIES_KEY}
           onClick={() => onSelectCategory(ALL_CATEGORIES_KEY)}
-          className={cn(
-            'chip-item inline-flex items-center gap-1.5 rounded-[3px] border px-3 py-1.5 text-xs font-semibold transition-colors cursor-pointer focus-visible:outline-2 focus-visible:outline-ring',
-            activeCategory === ALL_CATEGORIES_KEY
-              ? 'active border-foreground bg-foreground text-background'
-              : 'hairline-border-strong bg-card text-foreground hover:bg-secondary/80'
-          )}
+          className={cn('hx-chip', activeCategory === ALL_CATEGORIES_KEY && 'hx-is-on')}
         >
           <span>{t('allReferences')}</span>
-          <span
-            className={cn(
-              'rounded-[2px] px-1.5 py-0.2 font-mono text-[10.5px] tabular-nums',
-              activeCategory === ALL_CATEGORIES_KEY
-                ? 'bg-background/20 text-background font-semibold'
-                : 'bg-secondary text-muted-foreground'
-            )}
-          >
+          <span className="ms-1.5 font-mono text-[11px] font-semibold opacity-85">
             {formatNumber(books.length)}
           </span>
         </button>
-
-        {/* Top High-Density Categories */}
-        {topCategories.map((cat) => {
-          const isActive = activeCategory === cat.key;
-          return (
-            <button
-              key={cat.key}
-              type="button"
-              data-category={cat.key}
-              data-testid={`category-chip-${cat.key}`}
-              aria-pressed={isActive}
-              onClick={() => onSelectCategory(isActive ? ALL_CATEGORIES_KEY : cat.key)}
-              className={cn(
-                'chip-item inline-flex items-center gap-1.5 rounded-[3px] border px-2.5 py-1.5 text-xs font-medium transition-colors cursor-pointer focus-visible:outline-2 focus-visible:outline-ring max-w-full',
-                isActive
-                  ? 'active border-foreground bg-foreground text-background font-semibold'
-                  : 'hairline-border bg-card text-foreground/90 hover:border-foreground/35 hover:bg-secondary/70'
-              )}
-            >
-              <span className="truncate max-w-[180px] sm:max-w-[220px]">{cat.label}</span>
-              <span
-                className={cn(
-                  'rounded-[2px] px-1.5 py-0.2 font-mono text-[10px] font-semibold tabular-nums shrink-0',
-                  isActive
-                    ? 'bg-background/20 text-background font-semibold'
-                    : 'bg-secondary text-muted-foreground'
-                )}
-              >
-                {formatNumber(cat.count)}
-              </span>
-            </button>
-          );
-        })}
 
         {/* If active category is outside top quick pathways, display it prominently */}
         {activeCategoryObj && !isActiveInTop && (
@@ -182,14 +179,14 @@ export function CategoryPathways({
             data-testid="category-chip-active-custom"
             aria-pressed={true}
             onClick={() => onSelectCategory(ALL_CATEGORIES_KEY)}
-            className="inline-flex items-center gap-1.5 rounded-[3px] border border-primary bg-primary px-2.5 py-1.5 text-xs font-semibold text-primary-foreground cursor-pointer"
+            className="hx-chip hx-is-on"
           >
             <Filter className="size-3 shrink-0" aria-hidden="true" />
             <span className="truncate max-w-[190px]">{activeCategoryObj.label}</span>
-            <span className="rounded-[2px] bg-primary-foreground/20 px-1.5 py-0.2 font-mono text-[10px] tabular-nums font-semibold">
+            <span className="ms-1 font-mono text-[11px] font-semibold">
               {formatNumber(activeCategoryObj.count)}
             </span>
-            <X className="size-3 shrink-0 opacity-85" aria-hidden="true" />
+            <X className="size-3 shrink-0 ms-1 opacity-85" aria-hidden="true" />
           </button>
         )}
 
@@ -203,9 +200,12 @@ export function CategoryPathways({
             aria-expanded={pickerOpen}
             aria-controls="allCategoriesDirectoryPanel"
             onClick={() => setPickerOpen((prev) => !prev)}
-            className="h-8 gap-1.5 rounded-[3px] px-2.5 text-xs font-semibold border-primary/40 text-primary hover:text-primary"
+            className="h-8 gap-1.5 rounded-full px-3 text-xs font-semibold border-[var(--hx-line)] text-[var(--hx-ink)] hover:border-[var(--hx-gold)] transition-colors"
           >
-            <Compass className="size-3.5 shrink-0" aria-hidden="true" />
+            <Compass
+              className="size-3.5 shrink-0 text-[var(--hx-gold)]"
+              aria-hidden="true"
+            />
             <span>
               {translate('جميع التصنيفات', 'All categories')} (
               {formatNumber(categoriesWithCounts.length)})
@@ -221,19 +221,19 @@ export function CategoryPathways({
         )}
       </div>
 
-      {/* Expandable Searchable Directory for All 114 Categories */}
+      {/* Expandable Searchable Directory for All Categories */}
       {pickerOpen && (
         <div
           id="allCategoriesDirectoryPanel"
           role="region"
           aria-label={translate('دليل جميع التصنيفات', 'All categories directory')}
           data-testid="all-categories-panel"
-          className="rounded-[4px] border hairline-border-strong bg-card p-4 doc-shadow space-y-3"
+          className="rounded-lg border border-[var(--hx-line)] bg-[var(--hx-surface)] p-4 shadow-lg space-y-3"
         >
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div className="relative flex-1 min-w-[200px]">
               <Search
-                className="pointer-events-none absolute top-1/2 -translate-y-1/2 start-3 size-3.5 text-muted-foreground"
+                className="pointer-events-none absolute top-1/2 -translate-y-1/2 start-3 size-3.5 text-[var(--hx-ink-soft)]"
                 aria-hidden="true"
               />
               <input
@@ -247,14 +247,14 @@ export function CategoryPathways({
                 )}
                 aria-label={translate('البحث في التصنيفات', 'Search categories')}
                 data-testid="category-search-input"
-                className="h-9 w-full rounded-[3px] border hairline-border-strong bg-background ps-8 pe-8 text-xs sm:text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-2 focus-visible:outline-ring"
+                className="h-9 w-full rounded-md border border-[var(--hx-line)] bg-[var(--hx-bg)] ps-8 pe-8 text-xs sm:text-sm text-[var(--hx-ink)] placeholder:text-[var(--hx-ink-soft)] focus:outline-none focus:ring-2 focus:ring-[var(--hx-gold)]"
               />
               {categoryQuery && (
                 <button
                   type="button"
                   onClick={() => setCategoryQuery('')}
                   aria-label={t('clearSearchAria')}
-                  className="absolute top-1/2 -translate-y-1/2 end-2 inline-flex size-5 items-center justify-center rounded-xs text-muted-foreground hover:text-foreground"
+                  className="absolute top-1/2 -translate-y-1/2 end-2 inline-flex size-5 items-center justify-center rounded-xs text-[var(--hx-ink-soft)] hover:text-[var(--hx-ink)]"
                 >
                   <X className="size-3" aria-hidden="true" />
                 </button>
@@ -262,7 +262,7 @@ export function CategoryPathways({
             </div>
 
             <div className="flex items-center gap-2">
-              <span className="font-mono text-xs text-muted-foreground tabular-nums">
+              <span className="font-mono text-xs text-[var(--hx-ink-soft)] tabular-nums">
                 {formatNumber(filteredCategories.length)} /{' '}
                 {formatNumber(categoriesWithCounts.length)}
               </span>
@@ -272,7 +272,7 @@ export function CategoryPathways({
                 size="xs"
                 data-testid="close-all-categories-btn"
                 onClick={() => setPickerOpen(false)}
-                className="rounded-[3px]"
+                className="rounded-md text-[var(--hx-ink-soft)] hover:text-[var(--hx-ink)]"
               >
                 <X className="size-3.5" aria-hidden="true" />
                 <span>{t('txtModalClose')}</span>
@@ -283,7 +283,7 @@ export function CategoryPathways({
           {filteredCategories.length === 0 ? (
             <p
               data-testid="category-search-empty"
-              className="py-4 text-center text-xs text-muted-foreground"
+              className="py-4 text-center text-xs text-[var(--hx-ink-soft)]"
             >
               {translate(
                 'لا توجد تصنيفات مطابقة لبحثك.',
@@ -308,22 +308,22 @@ export function CategoryPathways({
                       setPickerOpen(false);
                     }}
                     className={cn(
-                      'flex items-center justify-between gap-2 rounded-[3px] border px-2.5 py-2 text-start text-xs transition-colors cursor-pointer focus-visible:outline-2 focus-visible:outline-ring',
+                      'flex items-center justify-between gap-2 rounded-md border px-2.5 py-2 text-start text-xs transition-colors cursor-pointer',
                       isSelected
-                        ? 'border-primary bg-primary/10 text-primary font-semibold'
-                        : 'hairline-border bg-background/70 text-foreground hover:border-primary/40 hover:bg-secondary/60'
+                        ? 'border-[var(--hx-gold)] bg-[var(--hx-surface-2)] text-[var(--hx-gold-bright)] font-semibold'
+                        : 'border-[var(--hx-line)] bg-[var(--hx-surface)] text-[var(--hx-ink)] hover:border-[var(--hx-gold)]'
                     )}
                   >
                     <span className="flex items-center gap-1.5 min-w-0">
                       {isSelected && (
                         <Check
-                          className="size-3.5 shrink-0 text-primary"
+                          className="size-3.5 shrink-0 text-[var(--hx-gold)]"
                           aria-hidden="true"
                         />
                       )}
                       <span className="truncate">{cat.label}</span>
                     </span>
-                    <span className="rounded-[2px] bg-secondary px-1.5 py-0.5 text-[11px] font-mono tabular-nums text-muted-foreground shrink-0">
+                    <span className="rounded bg-[var(--hx-surface-2)] px-1.5 py-0.5 text-[11px] font-mono tabular-nums text-[var(--hx-ink-soft)] shrink-0">
                       {formatNumber(cat.count)}
                     </span>
                   </button>

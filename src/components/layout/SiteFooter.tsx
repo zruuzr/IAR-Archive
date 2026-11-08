@@ -1,7 +1,7 @@
 import { ArrowUpLeft, ArrowUpRight } from 'lucide-react';
+import { HeritageFrieze, HeritageLogo } from '@/components/heritage';
+import { AN_SIGN, SUMER_SIGNS } from '@/components/heritage/seal-signs';
 import { useI18n } from '@/i18n/I18nProvider';
-import { IarMonogramIcon } from '@/lib/editorial-cloth';
-import { BabylonianIshtarFrieze } from './HeritageOrnaments';
 
 export const OFFICIAL_TELEGRAM_URL = 'https://t.me/iarArchive';
 export const OFFICIAL_TIKTOK_URL =
@@ -34,40 +34,26 @@ export interface SiteFooterProps {
  * and engaging social channel showcase cards.
  */
 export function SiteFooter({ booksCount = 254, loaded = true }: SiteFooterProps = {}) {
-  const { isRTL, t, translate } = useI18n();
+  const { isRTL, translate, formatNumber } = useI18n();
   const ExternalArrowIcon = isRTL ? ArrowUpLeft : ArrowUpRight;
   const displayCount = loaded && booksCount > 0 ? booksCount : 254;
 
   return (
-    <footer
-      data-testid="site-footer"
-      className="site-footer relative mt-16 border-t hairline-border-strong bg-card text-xs text-muted-foreground"
-    >
-      {/* Babylonian Ishtar Gate Glazed Top Frieze */}
-      <BabylonianIshtarFrieze testId="footer-ishtar-frieze" />
+    <footer data-testid="site-footer" className="hx-footer site-footer relative mt-16">
+      <HeritageFrieze testId="footer-ishtar-frieze" />
 
-      <div className="mx-auto max-w-[1360px] px-4 py-10 sm:px-6 lg:px-8">
-        <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-8">
-          {/* Official Brand Identity */}
-          <div className="space-y-2.5 max-w-xl text-center lg:text-start mx-auto lg:mx-0">
-            <div className="inline-flex items-center gap-2.5 text-foreground">
-              <span className="inline-flex size-8 items-center justify-center rounded-[4px] border hairline-border-strong bg-secondary text-primary">
-                <IarMonogramIcon className="size-4.5 shrink-0" />
+      <div className="hx-wrap">
+        <div className="hx-foot">
+          {/* Brand Colophon */}
+          <div>
+            <div className="hx-brand">
+              <HeritageLogo size={42} />
+              <span className="hx-brand-txt">
+                <b>{translate('الأرشيف الإداري العراقي', 'IAR ARCHIVE')}</b>
+                <small>IAR ARCHIVE · BAGHDAD 2026</small>
               </span>
-              <div className="text-start">
-                <strong className="block font-serif text-base font-bold tracking-tight text-foreground">
-                  {translate(
-                    'IAR ARCHIVE — المرجع الإداري العراقي',
-                    'IAR ARCHIVE — Iraqi Administrative Reference'
-                  )}
-                </strong>
-                <span className="block font-serif text-[11.5px] font-semibold text-primary">
-                  {t('txtAboutTitle')}
-                </span>
-              </div>
             </div>
-
-            <p className="text-xs text-muted-foreground leading-relaxed">
+            <p className="hx-about">
               {translate(
                 'المكتبة المرجعية الرقمية المتخصصة في أرشفة وتوثيق مراجع الإدارة العامة، القانون، الاقتصاد، المحاسبة الحكومية، ومناهج البحث العلمي وفق معايير الفهرسة الأكاديمية.',
                 'The digital reference library dedicated to archiving and indexing public administration, law, economics, governmental accounting, and scientific research monographs.'
@@ -75,20 +61,31 @@ export function SiteFooter({ booksCount = 254, loaded = true }: SiteFooterProps 
             </p>
           </div>
 
-          {/* Official Community Channels Showcase */}
-          <div className="w-full lg:w-auto">
-            <div className="mb-2.5 flex items-center justify-center lg:justify-start gap-2">
-              <span className="size-1.5 rounded-full bg-primary" aria-hidden="true" />
-              <span className="text-[11px] font-semibold tracking-wide text-foreground">
-                {translate(
-                  'المنصات الرسمية للأرشيف — تابع أحدث الإصدارات والمراجعات',
-                  'Official Archive Channels — Follow Latest Releases & Briefs'
-                )}
-              </span>
-            </div>
+          {/* Quick Links */}
+          <div>
+            <h4>{translate('أقسام الأرشيف', 'Navigation')}</h4>
+            <a href="#shelves">{translate('رفوف المعرفة', 'Knowledge Shelves')}</a>
+            <a href="#categoryPathways">
+              {translate('المسارات المعرفية', 'Knowledge Pathways')}
+            </a>
+            <a href="#featuredSection">
+              {translate('في دائرة الضوء', 'In the Spotlight')}
+            </a>
+            <a
+              href="https://github.com/zruuzr/IAR-Archive"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1"
+            >
+              <span>GitHub Repository</span>
+              <ExternalArrowIcon className="size-3 opacity-70" aria-hidden="true" />
+            </a>
+          </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {/* Telegram Showcase Card */}
+          {/* Channels Showcase */}
+          <div>
+            <h4>{translate('المنصات الرسمية للأرشيف', 'Official Archive Channels')}</h4>
+            <div className="space-y-2.5">
               <a
                 href={OFFICIAL_TELEGRAM_URL}
                 target="_blank"
@@ -96,48 +93,22 @@ export function SiteFooter({ booksCount = 254, loaded = true }: SiteFooterProps 
                 aria-label="Telegram"
                 title="Telegram: iarArchive"
                 data-testid="footer-telegram-link"
-                className="group relative flex items-center gap-3.5 rounded-[4px] border hairline-border-strong bg-background/85 p-3.5 text-start transition-all duration-200 hover:-translate-y-0.5 hover:border-[#229ED9] hover:bg-background doc-shadow"
+                className="group flex items-center gap-3 rounded-[6px] border border-white/10 bg-white/5 p-2.5 text-start transition-all hover:border-[#229ED9] hover:bg-white/10"
               >
-                <span className="flex size-10 shrink-0 items-center justify-center rounded-[4px] border border-[#229ED9]/30 bg-[#229ED9]/12 text-[#229ED9] transition-colors duration-200 group-hover:bg-[#229ED9] group-hover:text-white">
-                  <TelegramBrandIcon className="size-5" />
+                <span className="flex size-8 shrink-0 items-center justify-center rounded-[4px] bg-[#229ED9]/20 text-[#229ED9] transition-colors group-hover:bg-[#229ED9] group-hover:text-white">
+                  <TelegramBrandIcon className="size-4" />
                 </span>
-
                 <div className="min-w-0 flex-1">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="text-xs font-bold text-foreground group-hover:text-[#229ED9] transition-colors">
-                      {translate('قناة التليغرام الرسمية', 'Official Telegram')}
-                    </span>
-                    <ExternalArrowIcon
-                      className="size-3.5 shrink-0 text-muted-foreground transition-transform duration-200 group-hover:text-[#229ED9] group-hover:-translate-y-0.5 group-hover:-translate-x-0.5 ltr:group-hover:translate-x-0.5"
-                      aria-hidden="true"
-                    />
+                  <div className="flex items-center justify-between text-xs font-bold text-white">
+                    <span>{translate('قناة التليغرام', 'Telegram Channel')}</span>
+                    <ExternalArrowIcon className="size-3 opacity-60 group-hover:opacity-100" />
                   </div>
-
-                  <p className="mt-0.5 truncate text-[11px] text-muted-foreground">
-                    {translate(
-                      'إشعارات فورية بالكتب والملخصات الجديدة',
-                      'Instant alerts for new books & briefs'
-                    )}
-                  </p>
-
-                  <div className="mt-1.5 inline-flex items-center gap-1.5 rounded-[3px] border hairline-border bg-secondary/60 px-2 py-0.5">
-                    <span className="text-[10px] font-medium text-secondary-foreground">
-                      Telegram
-                    </span>
-                    <span aria-hidden="true" className="text-border">
-                      ·
-                    </span>
-                    <code
-                      dir="ltr"
-                      className="font-mono text-[10.5px] font-semibold text-foreground"
-                    >
-                      @iarArchive
-                    </code>
-                  </div>
+                  <span className="font-mono text-[10.5px] text-[#e2b84e]">
+                    @iarArchive
+                  </span>
                 </div>
               </a>
 
-              {/* TikTok Showcase Card */}
               <a
                 href={OFFICIAL_TIKTOK_URL}
                 target="_blank"
@@ -145,52 +116,27 @@ export function SiteFooter({ booksCount = 254, loaded = true }: SiteFooterProps 
                 aria-label="TikTok"
                 title="TikTok: iar.archive"
                 data-testid="footer-tiktok-link"
-                className="group relative flex items-center gap-3.5 rounded-[4px] border hairline-border-strong bg-background/85 p-3.5 text-start transition-all duration-200 hover:-translate-y-0.5 hover:border-primary hover:bg-background doc-shadow"
+                className="group flex items-center gap-3 rounded-[6px] border border-white/10 bg-white/5 p-2.5 text-start transition-all hover:border-[#e2b84e] hover:bg-white/10"
               >
-                <span className="flex size-10 shrink-0 items-center justify-center rounded-[4px] border border-primary/30 bg-primary/12 text-primary transition-colors duration-200 group-hover:bg-primary group-hover:text-primary-foreground">
-                  <TikTokBrandIcon className="size-5" />
+                <span className="flex size-8 shrink-0 items-center justify-center rounded-[4px] bg-[#e2b84e]/20 text-[#e2b84e] transition-colors group-hover:bg-[#e2b84e] group-hover:text-[#1a1203]">
+                  <TikTokBrandIcon className="size-4" />
                 </span>
-
                 <div className="min-w-0 flex-1">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="text-xs font-bold text-foreground group-hover:text-primary transition-colors">
-                      {translate('منصة تيك توك المرئية', 'Official TikTok')}
-                    </span>
-                    <ExternalArrowIcon
-                      className="size-3.5 shrink-0 text-muted-foreground transition-transform duration-200 group-hover:text-primary group-hover:-translate-y-0.5 group-hover:-translate-x-0.5 ltr:group-hover:translate-x-0.5"
-                      aria-hidden="true"
-                    />
+                  <div className="flex items-center justify-between text-xs font-bold text-white">
+                    <span>{translate('منصة تيك توك المرئية', 'TikTok Channel')}</span>
+                    <ExternalArrowIcon className="size-3 opacity-60 group-hover:opacity-100" />
                   </div>
-
-                  <p className="mt-0.5 truncate text-[11px] text-muted-foreground">
-                    {translate(
-                      'مراجعات مرئية ومقتطفات إدارية مركّزة',
-                      'Visual book reviews & concise briefs'
-                    )}
-                  </p>
-
-                  <div className="mt-1.5 inline-flex items-center gap-1.5 rounded-[3px] border hairline-border bg-secondary/60 px-2 py-0.5">
-                    <span className="text-[10px] font-medium text-secondary-foreground">
-                      TikTok
-                    </span>
-                    <span aria-hidden="true" className="text-border">
-                      ·
-                    </span>
-                    <code
-                      dir="ltr"
-                      className="font-mono text-[10.5px] font-semibold text-foreground"
-                    >
-                      @iar.archive
-                    </code>
-                  </div>
+                  <span className="font-mono text-[10.5px] text-[#e2b84e]">
+                    @iar.archive
+                  </span>
                 </div>
               </a>
             </div>
           </div>
         </div>
 
-        {/* Colophon Bottom Bar */}
-        <div className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t hairline-border pt-4 text-[11px] text-muted-foreground">
+        {/* Legal Colophon */}
+        <div className="hx-legal">
           <span>
             &copy; 2026 IAR ARCHIVE —{' '}
             {translate(
@@ -198,9 +144,12 @@ export function SiteFooter({ booksCount = 254, loaded = true }: SiteFooterProps 
               'All rights reserved'
             )}
           </span>
-          <span className="text-[11px]">
-            <strong className="font-mono font-semibold text-foreground/85 tabular-nums">
-              {displayCount}
+          <span className="hx-cune" aria-hidden="true">
+            {`${AN_SIGN} ${SUMER_SIGNS} ${AN_SIGN}`}
+          </span>
+          <span>
+            <strong className="font-mono font-semibold tabular-nums text-foreground/90">
+              {formatNumber(displayCount)}
             </strong>{' '}
             {translate(
               'مرجعاً مفهرساً · الفهرسة الأكاديمية الرقمية',
