@@ -15378,5 +15378,53 @@
     "source_sha256": "ff7d84c8b1cac9da73408a29effd25d8ae21e949f910c6c5ccf809e3774ebff3",
     "ai_status": "complete",
     "ai_attempts": 1
+  },
+  {
+    "id": 296,
+    "title": "التأجير التمويلي ومداخله المالية، المحاسبية، التشريعية، التطبيقية",
+    "title_en": "Financial Lease: Financial, Accounting, Legislative, and Applied Approaches",
+    "author": "الأستاذ الدكتور سمير محمد عبد العزيز",
+    "author_en": "",
+    "category": "Finance and Law",
+    "category_en": "",
+    "description": "كتاب يتناول موضوع التأجير التمويلي من جوانب متعددة تشمل الجوانب المالية والمحاسبية والتشريعية والتطبيقية، مع التركيز على البيئة المصرية والقوانين المنظمة لهذا النشاط.",
+    "description_en": "",
+    "publisher": "الإشعاع",
+    "publisher_en": "",
+    "type": "Book",
+    "type_en": "",
+    "target_audience": "الباحثون في مجال التمويل، المحاسبون، القانونيون، والمستثمرون المهتمون بنشاط التأجير التمويلي.",
+    "target_audience_en": "",
+    "year": 0,
+    "pages": 313,
+    "file_size": "16.0 MB",
+    "isbn": "",
+    "keywords": [
+      "التأجير التمويلي",
+      "التمويل",
+      "المحاسبة",
+      "التشريع المصري",
+      "عقود الإيجار"
+    ],
+    "keywords_en": [],
+    "key_points": [
+      "مفهوم التأجير التمويلي وأهميته الاقتصادية",
+      "مزايا التأجير التمويلي للمستأجر والمؤجر",
+      "المعالجة المحاسبية لعقود التأجير التمويلي",
+      "القانون رقم 95 لسنة 1995 بشأن التأجير التمويلي في مصر",
+      "الجدوى الاقتصادية للتأجير التمويلي",
+      "تأسيس العلاقات التنظيمية في عقد التأجير التمويلي"
+    ],
+    "key_points_en": [],
+    "featured": false,
+    "badge_text": "",
+    "badge_text_en": "",
+    "file_path": "pdf/التأجير_التمويلي.pdf",
+    "file_name": "التأجير_التمويلي.pdf",
+    "file_type": "PDF",
+    "cover_image": "covers/296.png",
+    "source_sha256": "569724cff35bdfceb65385ecfa9a9dfb9edc1e035fb30f77c0988917296c2069",
+    "ai_status": "complete",
+    "ai_attempts": 1
   }
 ]
