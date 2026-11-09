@@ -153,7 +153,7 @@ export function BookCard({
           className="flex-1 justify-center min-w-0"
         >
           <Download
-            className="size-3.5 shrink-0 inline-block me-1 text-warning"
+            className="size-3.5 shrink-0 inline-block me-1 text-[var(--hx-gold)] dark:text-[var(--hx-gold-bright)]"
             aria-hidden="true"
           />
           <span>PDF</span>

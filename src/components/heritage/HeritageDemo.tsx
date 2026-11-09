@@ -341,9 +341,6 @@ export function HeritageDemo() {
               <a href="https://t.me/iarArchive" rel="noopener">
                 قناة تيليغرام — المرجع الإداري العراقي
               </a>
-              <a href="https://github.com/zruuzr/IAR-Archive" rel="noopener">
-                المستودع على GitHub
-              </a>
             </div>
           </div>
           <div className="hx-legal">

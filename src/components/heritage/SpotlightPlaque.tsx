@@ -135,8 +135,7 @@ export function SpotlightPlaque({
 
               {/* Author Attribution */}
               {author ? (
-                <p className="text-sm font-medium text-foreground/80 mb-3 flex items-center gap-1.5">
-                  <span className="text-[var(--hx-gold)]">✍</span>
+                <p className="text-sm font-medium text-foreground/85 mb-3">
                   <span>{author}</span>
                 </p>
               ) : null}

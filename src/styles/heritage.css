@@ -1395,20 +1395,45 @@
 .hx-plaque .hx-cta {
   margin-top: 22px;
 }
-.hx-plaque .hx-btn-ghost {
+.hx-spot .hx-btn-ghost,
+.hx-spot .hx-btn-line,
+.hx-plaque .hx-btn-ghost,
+.hx-plaque .hx-btn-line {
   color: var(--hx-ink);
   border-color: var(--hx-line);
   background: transparent;
 }
-.hx-plaque .hx-btn-ghost:hover {
+.hx-spot .hx-btn-ghost:hover,
+.hx-spot .hx-btn-line:hover,
+.hx-plaque .hx-btn-ghost:hover,
+.hx-plaque .hx-btn-line:hover {
+  border-color: var(--hx-gold);
+  background: rgba(226, 184, 78, 0.1);
+  color: var(--hx-ink);
+}
+:is(.dark, [data-theme='dark']) .hx-spot .hx-btn-ghost,
+:is(.dark, [data-theme='dark']) .hx-spot .hx-btn-line,
+:is(.dark, [data-theme='dark']) .hx-plaque .hx-btn-ghost,
+:is(.dark, [data-theme='dark']) .hx-plaque .hx-btn-line {
+  color: var(--hx-cream);
+  border-color: var(--hx-line);
+  background: rgba(255, 255, 255, 0.05);
+}
+:is(.dark, [data-theme='dark']) .hx-spot .hx-btn-ghost:hover,
+:is(.dark, [data-theme='dark']) .hx-spot .hx-btn-line:hover,
+:is(.dark, [data-theme='dark']) .hx-plaque .hx-btn-ghost:hover,
+:is(.dark, [data-theme='dark']) .hx-plaque .hx-btn-line:hover {
+  border-color: var(--hx-gold-bright);
+  background: rgba(226, 184, 78, 0.18);
+  color: var(--hx-gold-bright);
+}
+.hx-spot .hx-btn-gold,
+.hx-plaque .hx-btn-gold {
+  background: var(--hx-gold-bright);
+  color: #1a1203;
   border-color: var(--hx-gold);
 }
-.hx-plaque .hx-btn-gold {
-  background: var(--hx-lapis);
-  color: var(--hx-cream);
-  border-color: var(--hx-lapis);
-  box-shadow: none;
-}
+:is(.dark, [data-theme='dark']) .hx-spot .hx-btn-gold,
 :is(.dark, [data-theme='dark']) .hx-plaque .hx-btn-gold {
   background: var(--hx-gold-bright);
   color: #1a1203;

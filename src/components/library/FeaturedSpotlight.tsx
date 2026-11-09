@@ -146,29 +146,32 @@ export function FeaturedSpotlight({
         disabled={!hasFile}
         data-testid={`spotlight-read-${book.id}`}
         onClick={() => onRead(book)}
-        className="w-full justify-center shadow-xs"
+        className="w-full justify-center font-bold text-sm shadow-xs bg-[var(--hx-gold)] hover:bg-[var(--hx-gold-bright)] text-[#1a1203] border border-[var(--hx-gold-bright)] transition-all cursor-pointer"
       >
-        <BookOpen className="size-4 shrink-0 inline-block me-1.5" aria-hidden="true" />
+        <BookOpen
+          className="size-4 shrink-0 inline-block me-1.5 text-[#1a1203]"
+          aria-hidden="true"
+        />
         <span>{t('read')}</span>
       </HeritageButton>
 
       <HeritageButton
-        variant="ghost"
+        variant="line"
         size="sm"
         disabled={!hasFile || isDownloadBusy}
         data-testid={`spotlight-download-${book.id}`}
         onClick={() => onDownload(book)}
-        className="w-full justify-center border border-[var(--hx-line)]"
+        className="w-full justify-center font-bold text-sm border-2 border-[var(--hx-line)] hover:border-[var(--hx-gold)] text-[var(--hx-ink)] dark:text-[var(--hx-cream)] bg-[var(--hx-surface)] dark:bg-white/5 hover:bg-[var(--hx-gold)]/10 dark:hover:bg-[var(--hx-gold)]/20 transition-all shadow-2xs cursor-pointer"
       >
         <Download
-          className="size-4 shrink-0 inline-block me-1.5 text-warning"
+          className="size-4 shrink-0 inline-block me-1.5 text-[var(--hx-gold)] dark:text-[var(--hx-gold-bright)]"
           aria-hidden="true"
         />
         <span>{t('download')}</span>
         {book.downloadCount > 0 && (
           <span
             data-download-count={book.id}
-            className="ms-1 font-mono text-[11px] font-semibold tabular-nums opacity-90"
+            className="ms-1.5 font-mono text-xs font-semibold tabular-nums text-[var(--hx-ink-soft)] dark:text-foreground/75"
           >
             {formatNumber(book.downloadCount)}
           </span>
@@ -180,54 +183,69 @@ export function FeaturedSpotlight({
   const secondaryActionsNode = (
     <>
       <HeritageButton
-        variant="ghost"
+        variant="line"
         size="sm"
         data-testid={`spotlight-summary-${book.id}`}
         onClick={() => (onOpenSummary ?? onOpenDetails)(book)}
+        className="text-xs font-medium text-[var(--hx-ink)] dark:text-[var(--hx-cream)] border border-[var(--hx-line)] hover:border-[var(--hx-gold)] bg-[var(--hx-surface)]/80 dark:bg-white/5"
       >
         <Sparkles
-          className="size-3.5 shrink-0 inline-block me-1.5 text-warning"
+          className="size-3.5 shrink-0 inline-block me-1.5 text-[var(--hx-gold)] dark:text-[var(--hx-gold-bright)]"
           aria-hidden="true"
         />
         <span>{t('summary')}</span>
       </HeritageButton>
 
       <HeritageButton
-        variant="ghost"
+        variant="line"
         size="sm"
         data-testid={`spotlight-cite-${book.id}`}
         onClick={() => onCopyCitation(book)}
         aria-label={t('cite')}
         title={t('cite')}
+        className="text-xs font-medium text-[var(--hx-ink)] dark:text-[var(--hx-cream)] border border-[var(--hx-line)] hover:border-[var(--hx-gold)] bg-[var(--hx-surface)]/80 dark:bg-white/5"
       >
-        <Quote className="size-3.5 shrink-0 inline-block me-1.5" aria-hidden="true" />
+        <Quote
+          className="size-3.5 shrink-0 inline-block me-1.5 text-[var(--hx-gold)] dark:text-[var(--hx-gold-bright)]"
+          aria-hidden="true"
+        />
         <span className="hidden sm:inline">{t('cite')}</span>
       </HeritageButton>
 
       {onShare && (
         <HeritageButton
-          variant="ghost"
+          variant="line"
           size="sm"
           data-testid={`spotlight-share-${book.id}`}
           onClick={() => onShare(book)}
           aria-label={t('share')}
           title={t('share')}
+          className="text-xs font-medium text-[var(--hx-ink)] dark:text-[var(--hx-cream)] border border-[var(--hx-line)] hover:border-[var(--hx-gold)] bg-[var(--hx-surface)]/80 dark:bg-white/5"
         >
-          <Share2 className="size-3.5 shrink-0 inline-block me-1.5" aria-hidden="true" />
+          <Share2
+            className="size-3.5 shrink-0 inline-block me-1.5 text-[var(--hx-gold)] dark:text-[var(--hx-gold-bright)]"
+            aria-hidden="true"
+          />
           <span className="hidden sm:inline">{t('share')}</span>
         </HeritageButton>
       )}
 
       <HeritageButton
-        variant="ghost"
+        variant="line"
         size="sm"
         data-testid={`spotlight-bundle-${book.id}`}
         aria-pressed={isInBundle}
         aria-label={`${t('addToBundlePrefix')}${title}`}
         onClick={() => onToggleBundle(book.id)}
-        className={cn('sm:ms-auto', isInBundle && 'hx-is-active')}
+        className={cn(
+          'text-xs font-medium text-[var(--hx-ink)] dark:text-[var(--hx-cream)] border border-[var(--hx-line)] hover:border-[var(--hx-gold)] bg-[var(--hx-surface)]/80 dark:bg-white/5 sm:ms-auto',
+          isInBundle && 'hx-is-active'
+        )}
       >
-        <Layers className="size-3.5 shrink-0 inline-block me-1.5" aria-hidden="true" />
+        <Layers
+          className="size-3.5 shrink-0 inline-block me-1.5 text-[var(--hx-gold)] dark:text-[var(--hx-gold-bright)]"
+          aria-hidden="true"
+        />
         <span>{t('bundleCheckboxLabel')}</span>
       </HeritageButton>
 

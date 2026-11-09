@@ -71,15 +71,6 @@ export function SiteFooter({ booksCount = 254, loaded = true }: SiteFooterProps 
             <a href="#featuredSection">
               {translate('في دائرة الضوء', 'In the Spotlight')}
             </a>
-            <a
-              href="https://github.com/zruuzr/IAR-Archive"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1"
-            >
-              <span>GitHub Repository</span>
-              <ExternalArrowIcon className="size-3 opacity-70" aria-hidden="true" />
-            </a>
           </div>
 
           {/* Channels Showcase */}
