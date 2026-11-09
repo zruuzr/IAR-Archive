@@ -15426,5 +15426,51 @@
     "source_sha256": "569724cff35bdfceb65385ecfa9a9dfb9edc1e035fb30f77c0988917296c2069",
     "ai_status": "complete",
     "ai_attempts": 1
+  },
+  {
+    "id": 297,
+    "title": "تقرير ديوان الرقابة المالية الاتحادي عن نتائج تدقيق حسابات وزارة الصحة",
+    "title_en": "Federal Board of Supreme Audit Report on the Results of Auditing the Ministry of Health Accounts",
+    "author": "ديوان الرقابة المالية الاتحادي",
+    "author_en": "",
+    "category": "Administrative Audit",
+    "category_en": "",
+    "description": "تقرير رسمي صادر عن ديوان الرقابة المالية الاتحادي يتناول نتائج تدقيق الحسابات المالية والادارية لوزارة الصحة العراقية، متضمناً الملاحظات والتوصيات الرقابية.",
+    "description_en": "",
+    "publisher": "ديوان الرقابة المالية الاتحادي",
+    "publisher_en": "",
+    "type": "Audit Report",
+    "type_en": "",
+    "target_audience": "المسؤولون الحكوميون، الباحثون في الشؤون المالية والإدارية، الجهات الرقابية",
+    "target_audience_en": "",
+    "year": 0,
+    "pages": 261,
+    "file_size": "1.2 MB",
+    "isbn": "",
+    "keywords": [
+      "ديوان الرقابة المالية",
+      "وزارة الصحة",
+      "تدقيق مالي",
+      "رقابة إدارية",
+      "العراق"
+    ],
+    "keywords_en": [],
+    "key_points": [
+      "نتائج تدقيق الحسابات الختامية",
+      "ملاحظات حول الأداء المالي لوزارة الصحة",
+      "توصيات لتحسين الإدارة المالية",
+      "تقييم الالتزام بالتعليمات المالية"
+    ],
+    "key_points_en": [],
+    "featured": false,
+    "badge_text": "",
+    "badge_text_en": "",
+    "file_path": "pdf/الجرد_والتسويات_الجردية.pdf",
+    "file_name": "الجرد_والتسويات_الجردية.pdf",
+    "file_type": "PDF",
+    "cover_image": "covers/297.png",
+    "source_sha256": "125fa3f9981cb60642cdd310f0dc1a00591e037059beb535172e49bf48220d2d",
+    "ai_status": "complete",
+    "ai_attempts": 1
   }
 ]
