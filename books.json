@@ -16486,5 +16486,52 @@
     "source_sha256": "d1cfd5d33c7784cab3c2f7644c0a3e2b0d7bc430cb9ba1c477d2e208296b6828",
     "ai_status": "complete",
     "ai_attempts": 1
+  },
+  {
+    "id": 319,
+    "title": "محاسبة التكاليف التطبيقية",
+    "title_en": "Applied Cost Accounting",
+    "author": "محمد مصطفى الجبالي",
+    "author_en": "",
+    "category": "Accounting",
+    "category_en": "",
+    "description": "كتاب تعليمي يتناول مبادئ وتطبيقات محاسبة التكاليف، بما في ذلك تكاليف الأوامر الإنتاجية، تكاليف المراحل الإنتاجية، العقود طويلة الأجل، ومنشآت الإنتاج الفوري، والمنتجات المشتركة والفرعية.",
+    "description_en": "",
+    "publisher": "مركز التعليم المفتوح - جامعة بني سويف",
+    "publisher_en": "",
+    "type": "Textbook",
+    "type_en": "",
+    "target_audience": "طلاب برامج التعليم المفتوح في كليات التجارة",
+    "target_audience_en": "",
+    "year": 2008,
+    "pages": 235,
+    "file_size": "9.5 MB",
+    "isbn": "",
+    "keywords": [
+      "محاسبة التكاليف",
+      "تكاليف الأوامر",
+      "تكاليف المراحل",
+      "عقود المقاولات",
+      "الإنتاج الفوري"
+    ],
+    "keywords_en": [],
+    "key_points": [
+      "نظام تكاليف الأوامر الإنتاجية",
+      "نظام تكاليف المراحل الإنتاجية",
+      "المعالجة المحاسبية لعقود المقاولات طويلة الأجل",
+      "تخصيص التكاليف المشتركة",
+      "نظام الإنتاج الفوري (JIT)"
+    ],
+    "key_points_en": [],
+    "featured": false,
+    "badge_text": "",
+    "badge_text_en": "",
+    "file_path": "pdf/محاسبة_التكاليف_التطبيقية.pdf",
+    "file_name": "محاسبة_التكاليف_التطبيقية.pdf",
+    "file_type": "PDF",
+    "cover_image": "covers/319.png",
+    "source_sha256": "c684a7b93622f848580dcb4e9ecbdefc9fe4321c52ed6924d1e42d12dd60d6bf",
+    "ai_status": "complete",
+    "ai_attempts": 1
   }
 ]
