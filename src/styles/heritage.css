@@ -1550,11 +1550,15 @@
   border-top: 1px solid rgba(226, 184, 78, 0.25);
   padding-block: 16px 22px;
   font-size: 0.8rem;
-  color: #b6aa82;
+  color: #e8dfc8;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   flex-wrap: wrap;
   gap: 8px;
+}
+.hx-legal strong {
+  color: var(--hx-gold-bright);
 }
 .hx-legal .hx-cune {
   color: var(--hx-gold-bright);

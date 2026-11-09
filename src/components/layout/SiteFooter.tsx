@@ -147,14 +147,16 @@ export function SiteFooter({ booksCount = 254, loaded = true }: SiteFooterProps 
           <span className="hx-cune" aria-hidden="true">
             {`${AN_SIGN} ${SUMER_SIGNS} ${AN_SIGN}`}
           </span>
-          <span>
-            <strong className="font-mono font-semibold tabular-nums text-foreground/90">
+          <span className="inline-flex items-center gap-1.5 text-xs text-[#e8dfc8]">
+            <strong className="font-mono font-bold tabular-nums text-[#ffd666] text-sm px-2 py-0.5 rounded bg-[var(--hx-gold)]/20 border border-[var(--hx-gold)]/40 shadow-xs">
               {formatNumber(displayCount)}
             </strong>{' '}
-            {translate(
-              'مرجعاً مفهرساً · الفهرسة الأكاديمية الرقمية',
-              'Indexed Volumes · Digital Academic Cataloging'
-            )}
+            <span className="font-medium text-[#f5eedb] tracking-wide">
+              {translate(
+                'مرجعاً مفهرساً · الفهرسة الأكاديمية الرقمية',
+                'Indexed Volumes · Digital Academic Cataloging'
+              )}
+            </span>
           </span>
         </div>
       </div>

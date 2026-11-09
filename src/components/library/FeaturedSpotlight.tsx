@@ -134,116 +134,111 @@ export function FeaturedSpotlight({
       book={book}
       featured
       onClick={() => (onZoomCover ?? onOpenDetails)(book)}
-      className="w-40 sm:w-48 md:w-56 shadow-md"
+      className="w-44 sm:w-52 md:w-56 shadow-md hover:scale-[1.02] transition-transform duration-200"
     />
   );
 
-  const actionsNode = (
-    <div className="flex flex-col gap-2.5 w-full">
-      {/* Tier 1: Core reading and acquisition CTAs */}
-      <div className="flex flex-wrap items-center gap-2">
-        <HeritageButton
-          variant="gold"
-          size="sm"
-          disabled={!hasFile}
-          data-testid={`spotlight-read-${book.id}`}
-          onClick={() => onRead(book)}
-          className="flex-1 sm:flex-initial"
-        >
-          <BookOpen className="size-4 shrink-0 inline-block me-1.5" aria-hidden="true" />
-          <span>{t('read')}</span>
-        </HeritageButton>
+  const primaryActionsNode = (
+    <>
+      <HeritageButton
+        variant="gold"
+        size="sm"
+        disabled={!hasFile}
+        data-testid={`spotlight-read-${book.id}`}
+        onClick={() => onRead(book)}
+        className="w-full justify-center shadow-xs"
+      >
+        <BookOpen className="size-4 shrink-0 inline-block me-1.5" aria-hidden="true" />
+        <span>{t('read')}</span>
+      </HeritageButton>
 
-        <HeritageButton
-          variant="ghost"
-          size="sm"
-          disabled={!hasFile || isDownloadBusy}
-          data-testid={`spotlight-download-${book.id}`}
-          onClick={() => onDownload(book)}
-          className="flex-1 sm:flex-initial"
-        >
-          <Download
-            className="size-4 shrink-0 inline-block me-1.5 text-warning"
-            aria-hidden="true"
-          />
-          <span>{t('download')}</span>
-          {book.downloadCount > 0 && (
-            <span
-              data-download-count={book.id}
-              className="ms-1 font-mono text-[11px] font-semibold tabular-nums opacity-90"
-            >
-              {formatNumber(book.downloadCount)}
-            </span>
-          )}
-        </HeritageButton>
-
-        <HeritageButton
-          variant="ghost"
-          size="sm"
-          data-testid={`spotlight-summary-${book.id}`}
-          onClick={() => (onOpenSummary ?? onOpenDetails)(book)}
-        >
-          <Sparkles
-            className="size-3.5 shrink-0 inline-block me-1.5 text-warning"
-            aria-hidden="true"
-          />
-          <span>{t('summary')}</span>
-        </HeritageButton>
-      </div>
-
-      {/* Tier 2: Research citation, bundle and sharing tools */}
-      <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-[var(--hx-line)]/50">
-        <HeritageButton
-          variant="ghost"
-          size="sm"
-          data-testid={`spotlight-cite-${book.id}`}
-          onClick={() => onCopyCitation(book)}
-          aria-label={t('cite')}
-          title={t('cite')}
-        >
-          <Quote className="size-3.5 shrink-0 inline-block me-1.5" aria-hidden="true" />
-          <span className="hidden sm:inline">{t('cite')}</span>
-        </HeritageButton>
-
-        {onShare && (
-          <HeritageButton
-            variant="ghost"
-            size="sm"
-            data-testid={`spotlight-share-${book.id}`}
-            onClick={() => onShare(book)}
-            aria-label={t('share')}
-            title={t('share')}
-          >
-            <Share2
-              className="size-3.5 shrink-0 inline-block me-1.5"
-              aria-hidden="true"
-            />
-            <span className="hidden sm:inline">{t('share')}</span>
-          </HeritageButton>
-        )}
-
-        <HeritageButton
-          variant="ghost"
-          size="sm"
-          data-testid={`spotlight-bundle-${book.id}`}
-          aria-pressed={isInBundle}
-          aria-label={`${t('addToBundlePrefix')}${title}`}
-          onClick={() => onToggleBundle(book.id)}
-          className={cn('sm:ms-auto', isInBundle && 'hx-is-active')}
-        >
-          <Layers className="size-3.5 shrink-0 inline-block me-1.5" aria-hidden="true" />
-          <span>{t('bundleCheckboxLabel')}</span>
-        </HeritageButton>
-
-        <HeritageFavButton
-          pressed={isFavorite}
-          onToggle={() => onToggleFavorite(book.id)}
-          labelOn={t('removeFavorite')}
-          labelOff={t('addFavorite')}
-          data-testid={`spotlight-favorite-${book.id}`}
+      <HeritageButton
+        variant="ghost"
+        size="sm"
+        disabled={!hasFile || isDownloadBusy}
+        data-testid={`spotlight-download-${book.id}`}
+        onClick={() => onDownload(book)}
+        className="w-full justify-center border border-[var(--hx-line)]"
+      >
+        <Download
+          className="size-4 shrink-0 inline-block me-1.5 text-warning"
+          aria-hidden="true"
         />
-      </div>
-    </div>
+        <span>{t('download')}</span>
+        {book.downloadCount > 0 && (
+          <span
+            data-download-count={book.id}
+            className="ms-1 font-mono text-[11px] font-semibold tabular-nums opacity-90"
+          >
+            {formatNumber(book.downloadCount)}
+          </span>
+        )}
+      </HeritageButton>
+    </>
+  );
+
+  const secondaryActionsNode = (
+    <>
+      <HeritageButton
+        variant="ghost"
+        size="sm"
+        data-testid={`spotlight-summary-${book.id}`}
+        onClick={() => (onOpenSummary ?? onOpenDetails)(book)}
+      >
+        <Sparkles
+          className="size-3.5 shrink-0 inline-block me-1.5 text-warning"
+          aria-hidden="true"
+        />
+        <span>{t('summary')}</span>
+      </HeritageButton>
+
+      <HeritageButton
+        variant="ghost"
+        size="sm"
+        data-testid={`spotlight-cite-${book.id}`}
+        onClick={() => onCopyCitation(book)}
+        aria-label={t('cite')}
+        title={t('cite')}
+      >
+        <Quote className="size-3.5 shrink-0 inline-block me-1.5" aria-hidden="true" />
+        <span className="hidden sm:inline">{t('cite')}</span>
+      </HeritageButton>
+
+      {onShare && (
+        <HeritageButton
+          variant="ghost"
+          size="sm"
+          data-testid={`spotlight-share-${book.id}`}
+          onClick={() => onShare(book)}
+          aria-label={t('share')}
+          title={t('share')}
+        >
+          <Share2 className="size-3.5 shrink-0 inline-block me-1.5" aria-hidden="true" />
+          <span className="hidden sm:inline">{t('share')}</span>
+        </HeritageButton>
+      )}
+
+      <HeritageButton
+        variant="ghost"
+        size="sm"
+        data-testid={`spotlight-bundle-${book.id}`}
+        aria-pressed={isInBundle}
+        aria-label={`${t('addToBundlePrefix')}${title}`}
+        onClick={() => onToggleBundle(book.id)}
+        className={cn('sm:ms-auto', isInBundle && 'hx-is-active')}
+      >
+        <Layers className="size-3.5 shrink-0 inline-block me-1.5" aria-hidden="true" />
+        <span>{t('bundleCheckboxLabel')}</span>
+      </HeritageButton>
+
+      <HeritageFavButton
+        pressed={isFavorite}
+        onToggle={() => onToggleFavorite(book.id)}
+        labelOn={t('removeFavorite')}
+        labelOff={t('addFavorite')}
+        data-testid={`spotlight-favorite-${book.id}`}
+      />
+    </>
   );
 
   return (
@@ -260,7 +255,8 @@ export function FeaturedSpotlight({
       specs={specs}
       points={points}
       audience={audience}
-      actions={actionsNode}
+      primaryActions={primaryActionsNode}
+      actions={secondaryActionsNode}
       cover={coverNode}
       className="mb-8"
     />

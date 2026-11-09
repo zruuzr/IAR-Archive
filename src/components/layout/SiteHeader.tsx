@@ -77,11 +77,11 @@ export function SiteHeader({
           <a href="#paths">{translate('المسارات', 'Pathways')}</a>
           <a href="#spotlight">{translate('في دائرة الضوء', 'In the Spotlight')}</a>
           <a href="#journey">{translate('رحلة المعرفة', 'Journey of Knowledge')}</a>
-          <span className="hidden xl:inline-flex items-center text-xs text-[var(--hx-ink-soft)] px-2">
-            <span className="font-mono font-semibold tabular-nums text-[var(--hx-gold)]">
+          <span className="hidden xl:inline-flex items-center text-xs px-2.5 py-1 rounded-full bg-[var(--hx-surface-2)]/80 border border-[var(--hx-line)] text-[var(--hx-ink)]">
+            <span className="font-mono font-bold tabular-nums text-[var(--hx-gold-bright)]">
               {loaded ? formatNumber(booksCount) : '—'}
             </span>
-            <span className="ms-1">{translate('مرجعاً', 'refs')}</span>
+            <span className="ms-1.5 font-medium">{translate('مرجعاً', 'refs')}</span>
           </span>
         </nav>
 
