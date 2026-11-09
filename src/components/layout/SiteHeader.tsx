@@ -58,7 +58,9 @@ export function SiteHeader({
         >
           <HeritageLogo size={44} />
           <span className="hx-brand-txt">
-            <b>{translate('الأرشيف الإداري العراقي', 'IAR Archive')}</b>
+            <b className="whitespace-nowrap">
+              {translate('الأرشيف الإداري العراقي', 'IAR Archive')}
+            </b>
             <small>IAR ARCHIVE</small>
             <span id="txtSubtitle" className="sr-only">
               {t('txtSubtitle')}
@@ -134,7 +136,7 @@ export function SiteHeader({
             )}
           </button>
 
-          {/* PWA Install Trigger */}
+          {/* PWA Install Trigger (hidden on mobile phones where browser banner handles it) */}
           {!pwa.isInstalled && (
             <button
               type="button"
@@ -145,7 +147,7 @@ export function SiteHeader({
               }}
               aria-label={t('txtInstall')}
               title={t('txtInstall')}
-              className="hx-icon-btn"
+              className="hx-icon-btn hidden sm:grid"
             >
               <Download className="size-4" aria-hidden="true" />
               <span id="txtInstall" className="sr-only">
@@ -154,7 +156,7 @@ export function SiteHeader({
             </button>
           )}
 
-          {/* Tactile Paper Acoustic Toggle */}
+          {/* Tactile Paper Acoustic Toggle (desktop/tablet) */}
           {onToggleSound && (
             <button
               type="button"
@@ -163,7 +165,7 @@ export function SiteHeader({
               aria-pressed={soundEnabled}
               aria-label={translate('تبديل الصوت التفاعلي', 'Toggle paper acoustics')}
               title={translate('الصوت الورقي التفاعلي', 'Interactive paper acoustics')}
-              className="hx-icon-btn"
+              className="hx-icon-btn hidden sm:grid"
             >
               {soundEnabled ? (
                 <Volume2 className="size-4" aria-hidden="true" />

@@ -13,6 +13,7 @@ import {
   playPaperSound,
   type ShelfDiscipline
 } from '@/lib/editorial-cloth';
+import { HeroIslamicPatternBackdrop } from '@/components/layout/HeritageOrnaments';
 import { cn } from '@/lib/utils';
 import type { Book, CategoryOption } from '@/types/book';
 
@@ -221,6 +222,9 @@ export function HeroAcademic({
         spines={heritageSpines}
         onSpineSelect={handleSpineSelect}
       >
+        {/* Genuine Mustansiriya Architectural 12-Ray Islamic Lattice Backdrop */}
+        <HeroIslamicPatternBackdrop formation="mustansiriya_lattice" />
+
         {/* Hidden / Preserved semantic elements for tests and accessibility */}
         <div className="sr-only">
           <span id="txtKicker" data-testid="hero-kicker">
@@ -236,10 +240,6 @@ export function HeroAcademic({
           <p data-testid="hero-vault-subtitle">
             خزانة المراجع المنتقاة — الإدارة، القانون، والاقتصاد
           </p>
-          <div
-            data-testid="hero-islamic-backdrop"
-            data-formation="mustansiriya_lattice"
-          />
           <div data-testid="sumerian-shelf-plinth" />
         </div>
 

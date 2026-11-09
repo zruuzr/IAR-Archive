@@ -19,7 +19,7 @@ export const en: TranslationDictionary = {
   txtKicker: '𒆠𒂗𒂠 · The Iraqi Digital Library · 2026',
   txtAboutTitle: "From Sumer's tablets to today's pages",
   txtAboutDesc:
-    'A curated collection of administrative references — indexed with care, accompanied by focused summaries and direct academic citation — so it becomes your first stop for research and reading.',
+    'A curated vault of administrative, legal, and economic references, carefully indexed with focused summaries and direct academic citation — so it becomes your first stop for research and reading.',
   txtTagSummary: '3-minute summaries',
   txtTagCite: 'Direct APA citations',
   txtTagBundle: 'Curated research bundles',

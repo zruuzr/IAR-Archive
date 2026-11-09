@@ -58,13 +58,16 @@ export function SpotlightPlaque({
 }: SpotlightPlaqueProps) {
   return (
     <section
-      className={cn('hx-section', 'hx-spot', className)}
+      className={cn(
+        'hx-spot rounded-xl border border-[var(--hx-line)] overflow-hidden shadow-sm',
+        className
+      )}
       id={id}
       data-testid={dataTestId || testId}
       aria-labelledby={headingId}
     >
       {friezeTestId && <HeritageFrieze testId={friezeTestId} />}
-      <div className="hx-wrap">
+      <div className="p-4 sm:p-6 lg:p-7 relative z-10">
         <div className="hx-spot-grid">
           <div className="hx-tome">{cover}</div>
           <article className="hx-plaque" data-testid={cardTestId}>
@@ -103,7 +106,7 @@ export function SpotlightPlaque({
                 <b>{audience.label}</b> {audience.text}
               </p>
             ) : null}
-            {actions ? <div className="hx-cta">{actions}</div> : null}
+            {actions ? <div className="hx-cta mt-4">{actions}</div> : null}
           </article>
         </div>
       </div>

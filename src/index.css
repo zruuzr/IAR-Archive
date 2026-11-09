@@ -9,27 +9,27 @@
    ========================================================================== */
 
 :root {
-  --canvas: #f4f7fa;
-  --canvas-rgb: 244, 247, 250;
+  --canvas: #f9f6ef;
+  --canvas-rgb: 249, 246, 239;
   --surface: #ffffff;
-  --surface-recess: #e7eef5;
-  --ink: #0c1928;
-  --ink-soft: #23374d;
-  --ink-muted: #50667d;
-  --hairline: rgba(12, 25, 40, 0.09);
-  --hairline-strong: rgba(191, 160, 101, 0.38);
-  --terracotta: #0369a1;
-  --terracotta-soft: rgba(3, 105, 161, 0.1);
-  --brass: #b09052;
-  --brass-bright: #d8be88;
-  --brass-shine: #fbf4e4;
-  --lapis: #0a4566;
-  --lapis-deep: #062b42;
+  --surface-recess: #f4ede0;
+  --ink: #1a150e;
+  --ink-soft: #3c3327;
+  --ink-muted: #5c4f3e;
+  --hairline: rgba(181, 138, 42, 0.16);
+  --hairline-strong: rgba(181, 138, 42, 0.35);
+  --terracotta: #1c3f94;
+  --terracotta-soft: rgba(28, 63, 148, 0.08);
+  --brass: #b58a2a;
+  --brass-bright: #e2b84e;
+  --brass-shine: #fbf7ee;
+  --lapis: #0f2a6a;
+  --lapis-deep: #091a40;
   --shamsa-opacity: 0.11;
   --cuneiform-opacity: 0.88;
   --ishtar-height: 24px;
-  --shadow-contact: rgba(12, 25, 40, 0.2);
-  --shadow-ambient: rgba(12, 25, 40, 0.09);
+  --shadow-contact: rgba(26, 21, 14, 0.14);
+  --shadow-ambient: rgba(26, 21, 14, 0.06);
 
   /* Semantic Shadcn/Tailwind mappings */
   --background: var(--canvas);
@@ -38,7 +38,7 @@
   --card-foreground: var(--ink);
   --popover: var(--surface);
   --popover-foreground: var(--ink);
-  --primary: var(--terracotta);
+  --primary: #1c3f94;
   --primary-foreground: #ffffff;
   --secondary: var(--surface-recess);
   --secondary-foreground: var(--ink-soft);
@@ -48,12 +48,12 @@
   --accent-foreground: var(--ink);
   --destructive: #b42318;
   --destructive-foreground: #ffffff;
-  --border: #d5e1ec;
-  --input: #d5e1ec;
-  --ring: var(--terracotta);
-  --teal: #0e7490;
+  --border: #e3d9c3;
+  --input: #e3d9c3;
+  --ring: #1c3f94;
+  --teal: #1d8a86;
   --teal-foreground: #ffffff;
-  --warning: #b09052;
+  --warning: #b58a2a;
   --success: #0f766e;
   --radius: 0.25rem;
   --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);
@@ -62,22 +62,22 @@
 
 .dark,
 [data-theme='dark'] {
-  --canvas: #07111c;
-  --canvas-rgb: 7, 17, 28;
-  --surface: #0e1e30;
-  --surface-recess: #040b12;
-  --ink: #f0f6fa;
-  --ink-soft: #c6d6e6;
-  --ink-muted: #869eb5;
-  --hairline: rgba(216, 190, 136, 0.15);
-  --hairline-strong: rgba(216, 190, 136, 0.3);
-  --terracotta: #38bdf8;
-  --terracotta-soft: rgba(56, 189, 248, 0.15);
+  --canvas: #071026;
+  --canvas-rgb: 7, 16, 38;
+  --surface: #0d1b3e;
+  --surface-recess: #132554;
+  --ink: #f3ecd8;
+  --ink-soft: #dcd2be;
+  --ink-muted: #b8af96;
+  --hairline: rgba(226, 184, 78, 0.18);
+  --hairline-strong: rgba(226, 184, 78, 0.35);
+  --terracotta: #e2b84e;
+  --terracotta-soft: rgba(226, 184, 78, 0.15);
   --brass: #ceb075;
-  --brass-bright: #e6ce9e;
-  --brass-shine: #fcf6e8;
-  --lapis: #0e557d;
-  --lapis-deep: #07314a;
+  --brass-bright: #e2b84e;
+  --brass-shine: #fbf7ee;
+  --lapis: #0f2a6a;
+  --lapis-deep: #071026;
   --shamsa-opacity: 0.13;
   --cuneiform-opacity: 0.9;
   --ishtar-height: 24px;
