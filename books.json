@@ -16533,5 +16533,50 @@
     "source_sha256": "c684a7b93622f848580dcb4e9ecbdefc9fe4321c52ed6924d1e42d12dd60d6bf",
     "ai_status": "complete",
     "ai_attempts": 1
+  },
+  {
+    "id": 320,
+    "title": "معجم مصطلحات الصناعة والأعمال",
+    "title_en": "DICTIONARY OF INDUSTRY & BUSINESS TERMS",
+    "author": "حسين بن عبدالله الوطبان",
+    "author_en": "",
+    "category": "Business and Industry",
+    "category_en": "",
+    "description": "معجم ثنائي اللغة (عربي - إنجليزي) يضم مصطلحات متخصصة في مجالات الإدارة، الصناعة، والأعمال، مع توضيح للمفاهيم والمصطلحات الفنية.",
+    "description_en": "",
+    "publisher": "مكتبة العبيكان",
+    "publisher_en": "",
+    "type": "Dictionary",
+    "type_en": "",
+    "target_audience": "العاملون في قطاعي الصناعة والأعمال، الإداريون، الفنيون، وطلاب التخصصات ذات الصلة.",
+    "target_audience_en": "",
+    "year": 2001,
+    "pages": 494,
+    "file_size": "12.2 MB",
+    "isbn": "9-470-35-9960",
+    "keywords": [
+      "مصطلحات صناعية",
+      "مصطلحات تجارية",
+      "إدارة أعمال",
+      "قاموس عربي إنجليزي"
+    ],
+    "keywords_en": [],
+    "key_points": [
+      "تعريف المصطلحات الأساسية في قطاعي الصناعة والأعمال",
+      "توضيح المفاهيم الإدارية والمالية",
+      "استخدام الرسوم التوضيحية لتبسيط العمليات الصناعية",
+      "توفير مسرد للمصطلحات باللغتين العربية والإنجليزية"
+    ],
+    "key_points_en": [],
+    "featured": false,
+    "badge_text": "",
+    "badge_text_en": "",
+    "file_path": "pdf/معجم_مصطلحات_الصناعة_والأعمال_عربي_إنجليزي_حسين_بن_عبد_الله.pdf",
+    "file_name": "معجم_مصطلحات_الصناعة_والأعمال_عربي_إنجليزي_حسين_بن_عبد_الله.pdf",
+    "file_type": "PDF",
+    "cover_image": "covers/320.png",
+    "source_sha256": "4adee2645f0b1e95cfba190450738afa69eec027eb80d487e1752f6965353fda",
+    "ai_status": "complete",
+    "ai_attempts": 1
   }
 ]
