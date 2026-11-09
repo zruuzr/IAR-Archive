@@ -15030,5 +15030,52 @@
     "source_sha256": "980191ce0e913f42502995464a0f8d35f5be51bbd774a08d94984e7ca284b890",
     "ai_status": "complete",
     "ai_attempts": 1
+  },
+  {
+    "id": 289,
+    "title": "قانون الشركات",
+    "title_en": "Companies Law",
+    "author": "وزارة العدل العراقية",
+    "author_en": "",
+    "category": "القانون التجاري",
+    "category_en": "",
+    "description": "قانون ينظم تأسيس الشركات في العراق، ويحدد أنواعها، وإدارتها، وحقوق ومسؤوليات الشركاء، وإجراءات التصفية والحل.",
+    "description_en": "",
+    "publisher": "الوقائع العراقية",
+    "publisher_en": "",
+    "type": "تشريع",
+    "type_en": "",
+    "target_audience": "المحامون، رجال الأعمال، المستثمرون، وطلاب القانون",
+    "target_audience_en": "",
+    "year": 0,
+    "pages": 339,
+    "file_size": "3.2 MB",
+    "isbn": "",
+    "keywords": [
+      "الشركات",
+      "القانون التجاري",
+      "تأسيس الشركات",
+      "العراق",
+      "التشريعات"
+    ],
+    "keywords_en": [],
+    "key_points": [
+      "تعريف أنواع الشركات",
+      "إجراءات التأسيس والتسجيل",
+      "إدارة الشركات والجمعيات العمومية",
+      "توزيع الأرباح والخسائر",
+      "حل وتصفية الشركات"
+    ],
+    "key_points_en": [],
+    "featured": false,
+    "badge_text": "",
+    "badge_text_en": "",
+    "file_path": "pdf/اساسيات_الادارة_المالية.pdf",
+    "file_name": "اساسيات_الادارة_المالية.pdf",
+    "file_type": "PDF",
+    "cover_image": "covers/289.png",
+    "source_sha256": "c14cd3937e46a9791cc6bfb7cce5e72085ac2fd00716fb868bf34f3590874467",
+    "ai_status": "complete",
+    "ai_attempts": 1
   }
 ]
