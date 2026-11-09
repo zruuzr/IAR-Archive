@@ -16779,5 +16779,51 @@
     "source_sha256": "9c8cd03986cff6d4bde63cc71a1c89348bd9b5fabdfc60b87f9469be3b24cfb6",
     "ai_status": "complete",
     "ai_attempts": 1
+  },
+  {
+    "id": 325,
+    "title": "البرمجة الرياضية: النماذج اللاحطية",
+    "title_en": "Mathematical Programming: Non-linear Models",
+    "author": "لطفي لويز سيفين",
+    "author_en": "",
+    "category": "الرياضيات التطبيقية",
+    "category_en": "",
+    "description": "كتاب تعليمي يتناول البرمجة الرياضية والنماذج اللاحطية، مع التركيز على طرق الحل والبرمجيات المستخدمة في هذا المجال.",
+    "description_en": "",
+    "publisher": "دار الجامعات المصرية",
+    "publisher_en": "",
+    "type": "كتاب",
+    "type_en": "",
+    "target_audience": "طلاب وأكاديميون في مجالات الرياضيات التطبيقية وبحوث العمليات والهندسة",
+    "target_audience_en": "",
+    "year": 0,
+    "pages": 400,
+    "file_size": "3.9 MB",
+    "isbn": "",
+    "keywords": [
+      "البرمجة الرياضية",
+      "النماذج اللاحطية",
+      "بحوث العمليات",
+      "البرمجة غير الخطية"
+    ],
+    "keywords_en": [],
+    "key_points": [
+      "البرمجة غير الخطية والعديدة الأهداف",
+      "طرق الحل والأساليب المستخدمة",
+      "تطبيقات البرمجة اللاحطية في الصناعة والاقتصاد",
+      "نظريات البرمجة اللاحطية",
+      "البرمجة التربيعية والهندسية والكسرية"
+    ],
+    "key_points_en": [],
+    "featured": false,
+    "badge_text": "",
+    "badge_text_en": "",
+    "file_path": "pdf/هههه.pdf",
+    "file_name": "هههه.pdf",
+    "file_type": "PDF",
+    "cover_image": "covers/325.png",
+    "source_sha256": "605933f6390b9236704ca9ec37ee89f69ade939f1938b76a54b0eaea05888c41",
+    "ai_status": "complete",
+    "ai_attempts": 1
   }
 ]
