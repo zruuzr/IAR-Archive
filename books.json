@@ -15567,5 +15567,53 @@
     "source_sha256": "b12a770f7c7615542641eca05a1ab9c0fafef4ba46225c173f692805319d4b65",
     "ai_status": "complete",
     "ai_attempts": 1
+  },
+  {
+    "id": 300,
+    "title": "الرياضيات المالية والاكتوارية",
+    "title_en": "Financial and Actuarial Mathematics",
+    "author": "جون بار فلار",
+    "author_en": "",
+    "category": "الرياضيات المالية",
+    "category_en": "",
+    "description": "كتاب تعليمي يستهدف طلاب إدارة الأعمال في تخصص التأمين والاكتوارية، يغطي الرياضيات المالية، الرياضيات الاكتوارية، أساسيات البرمجة باستخدام إكسل، والأدوات الرياضية المستخدمة في التأمين.",
+    "description_en": "",
+    "publisher": "",
+    "publisher_en": "",
+    "type": "كتاب تعليمي",
+    "type_en": "",
+    "target_audience": "طلاب إدارة الأعمال في تخصص التأمين والاكتوارية",
+    "target_audience_en": "",
+    "year": 0,
+    "pages": 335,
+    "file_size": "26.1 MB",
+    "isbn": "",
+    "keywords": [
+      "الرياضيات المالية",
+      "الرياضيات الاكتوارية",
+      "التأمين",
+      "البرمجة",
+      "إكسل"
+    ],
+    "keywords_en": [],
+    "key_points": [
+      "العمليات الحسابية على التواريخ والفترات",
+      "العمليات الحسابية على الفائدة البسيطة والمركبة",
+      "الخصم التجاري",
+      "الاستهلاك",
+      "الرياضيات الاكتوارية",
+      "استخدام البرمجة في الحسابات المالية"
+    ],
+    "key_points_en": [],
+    "featured": false,
+    "badge_text": "",
+    "badge_text_en": "",
+    "file_path": "pdf/الرياضيات_المالية_والأكتوارية.pdf",
+    "file_name": "الرياضيات_المالية_والأكتوارية.pdf",
+    "file_type": "PDF",
+    "cover_image": "covers/300.png",
+    "source_sha256": "97e8e6edea063b54125181b0aa9d487f0ae4178d4f5e1a654c4ec34affb213ef",
+    "ai_status": "complete",
+    "ai_attempts": 1
   }
 ]
