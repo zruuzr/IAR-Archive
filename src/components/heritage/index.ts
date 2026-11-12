@@ -3,8 +3,30 @@ export { GateArt, type GateArtProps } from './GateArt';
 export {
   HeritageBookCard,
   HeritageGrid,
-  type HeritageBookCardProps
+  HeritageRating,
+  HeritageStat,
+  type HeritageBookCardProps,
+  type HeritageGridProps,
+  type HeritageRatingProps,
+  type HeritageStatProps
 } from './HeritageBookCard';
+export {
+  HeritageBookDetails,
+  type HeritageBookDetailsLabels,
+  type HeritageBookDetailsProps,
+  type HeritageBookFact,
+  type HeritageBookNeighbor
+} from './HeritageBookDetails';
+export {
+  HeritageIconButton,
+  HeritageMenuItem,
+  HeritageMoreMenu,
+  type HeritageIconButtonProps,
+  type HeritageMenuItemProps,
+  type HeritageMoreMenuProps
+} from './controls';
+export { HeritageIcon, type HeritageIconName, type HeritageIconProps } from './icons';
+export { NicheArt, type NicheArtProps } from './NicheArt';
 export { HeritageBookCover, type HeritageBookCoverProps } from './HeritageBookCover';
 export {
   HeritageHero,

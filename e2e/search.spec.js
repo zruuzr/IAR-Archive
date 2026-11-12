@@ -62,7 +62,8 @@ test.describe('Search and filtering', () => {
   test('3-minute summary modal, cover zoom modal, and interactive rating work', async ({
     page
   }) => {
-    // فتح نافذة ملخص 3 دقائق
+    // فتح قائمة المزيد ثم نافذة ملخص 3 دقائق
+    await page.locator('.book-card .hx-more > summary').first().click();
     await page.locator('[data-testid^="book-summary-btn-"]').first().click();
     await expect(page.locator('[data-testid="summary-dialog"]')).toBeVisible();
     await page.keyboard.press('Escape');

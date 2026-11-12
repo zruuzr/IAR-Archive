@@ -1,18 +1,19 @@
-import { BookOpen, Check, Download, Layers, Quote, Share2, Sparkles } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   HeritageBookCard,
   HeritageButton,
-  HeritageFavButton
+  HeritageFavButton,
+  HeritageIcon,
+  HeritageMenuItem,
+  HeritageMoreMenu,
+  HeritageStat,
+  pickCloth
 } from '@/components/heritage';
 import { buildBookUrl } from '@/hooks/useBundle';
 import type { ViewMode } from '@/hooks/useLibraryState';
 import { useI18n } from '@/i18n/I18nProvider';
-import { getBookCloth } from '@/lib/editorial-cloth';
-import { cn } from '@/lib/utils';
 import { getCategoryLabel } from '@/services/catalog';
 import type { Book } from '@/types/book';
-import { BookCover } from './BookCover';
 import { RatingStars } from './RatingStars';
 
 export interface BookCardProps {
@@ -35,12 +36,12 @@ export interface BookCardProps {
 
 /**
  * Editorial Archival Monograph Card for IAR ARCHIVE — المرجع الإداري العراقي.
- * Built using the Heritage presentation layer (`HeritageBookCard`),
- * preserving all archival call numbers, interactive rating stars, and researcher actions.
+ * Built on v2 `HeritageBookCard` with a single stretched title link, 5:7 cloth/image cover,
+ * one primary Read button, favorite toggle, and `HeritageMoreMenu` for secondary researcher tools.
  */
 export function BookCard({
   book,
-  viewMode,
+  viewMode: _viewMode,
   isFavorite,
   isInBundle,
   isDownloadBusy = false,
@@ -55,8 +56,17 @@ export function BookCard({
   onShare,
   onRate
 }: BookCardProps) {
-  const { lang, t, translate, getBookField, formatNumber } = useI18n();
+  const { lang, t, getBookField, formatNumber } = useI18n();
   const [citedRecently, setCitedRecently] = useState<boolean>(false);
+  const citeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (citeTimerRef.current) {
+        clearTimeout(citeTimerRef.current);
+      }
+    };
+  }, []);
 
   const title = getBookField(book, 'title');
   const author = getBookField(book, 'author');
@@ -64,172 +74,87 @@ export function BookCard({
   const bookType = getBookField(book, 'type') || t('defaultBookType');
   const category = getCategoryLabel(book, lang);
   const hasFile = Boolean(book.file_path);
-  const cloth = getBookCloth(book.id);
 
   const handleCiteClick = () => {
     onCopyCitation(book);
     setCitedRecently(true);
-    setTimeout(() => {
+    if (citeTimerRef.current) {
+      clearTimeout(citeTimerRef.current);
+    }
+    citeTimerRef.current = setTimeout(() => {
       setCitedRecently(false);
     }, 1800);
   };
 
-  const cover = (
-    <div
-      className={cn(
-        'flex justify-center shrink-0',
-        viewMode === 'grid' ? 'mb-3.5' : 'mb-0'
-      )}
-    >
-      <BookCover
-        book={book}
-        onClick={() => (onZoomCover ?? onOpenDetails)(book)}
-        className="cursor-pointer shadow-sm hover:scale-[1.02] transition-transform duration-200"
-      />
-    </div>
-  );
-
-  const titleNode = (
-    <a
-      href={buildBookUrl(book.id)}
-      data-testid={`book-title-link-${book.id}`}
-      onClick={(e) => {
-        e.preventDefault();
-        onOpenDetails(book);
-      }}
-      className="hover:underline focus-visible:outline-2 focus-visible:outline-ring rounded-xs"
-    >
-      {title}
-    </a>
-  );
-
-  const authorNode = author ? (
-    <span data-testid={`book-author-${book.id}`}>{author}</span>
-  ) : null;
-
   const meta = [
-    category,
     book.year && book.year !== '0' ? book.year : null,
     book.pages && book.pages !== '0'
       ? `${formatNumber(Number(book.pages))} ${t('pagesUnit')}`
       : null,
-    bookType ? bookType : null
+    bookType || null
   ].filter(Boolean);
 
-  const ratingNode = <RatingStars book={book} onRate={onRate} size="sm" />;
+  const downloadLabel = book.file_size
+    ? `${t('download')} (${book.file_size})`
+    : t('download');
 
-  const actions = (
-    <div className="flex flex-col gap-2 w-full pt-1">
-      {/* Tier 1: Primary Read & Download */}
-      <div className="flex items-center gap-2 w-full">
-        <HeritageButton
-          variant="solid"
-          size="sm"
-          disabled={!hasFile}
-          data-testid={`book-read-btn-${book.id}`}
-          aria-label={t('read')}
-          onClick={() => onRead(book)}
-          className="flex-1 justify-center min-w-0"
-        >
-          <BookOpen
-            className="size-3.5 shrink-0 inline-block me-1.5"
-            aria-hidden="true"
-          />
-          <span>{translate('مطالعة', 'Read')}</span>
-        </HeritageButton>
-
-        <HeritageButton
-          variant="line"
-          size="sm"
-          disabled={!hasFile || isDownloadBusy}
-          data-testid={`book-download-btn-${book.id}`}
-          aria-label={t('download')}
-          title={
-            book.file_size
-              ? `${translate('تحميل', 'Download')} (${book.file_size})`
-              : t('download')
-          }
-          onClick={() => onDownload(book)}
-          className="flex-1 justify-center min-w-0"
-        >
-          <Download
-            className="size-3.5 shrink-0 inline-block me-1 text-[var(--hx-gold)] dark:text-[var(--hx-gold-bright)]"
-            aria-hidden="true"
-          />
-          <span>PDF</span>
-          {book.downloadCount > 0 && (
-            <span
-              data-download-count={book.id}
-              className="ms-1 font-mono text-[10px] tabular-nums"
-            >
-              {formatNumber(book.downloadCount)}
-            </span>
-          )}
-        </HeritageButton>
-      </div>
-
-      {/* Tier 2: Research Bundle & Utility Actions */}
-      <div className="flex items-center justify-between gap-1 w-full pt-1 border-t border-[var(--hx-line)]/50">
-        <HeritageButton
-          variant="line"
-          size="sm"
-          data-testid={`book-bundle-btn-${book.id}`}
-          aria-pressed={isInBundle}
-          aria-label={`${t('addToBundlePrefix')}${title}`}
-          title={
-            isInBundle
-              ? translate('إزالة من الحزمة', 'Remove from bundle')
-              : translate('إضافة إلى حزمة البحث', 'Add to research bundle')
-          }
-          onClick={() => onToggleBundle(book.id)}
-          className={cn('text-xs px-2 py-1 h-7 min-h-0', isInBundle && 'hx-is-active')}
-        >
-          <Layers className="size-3 shrink-0 inline-block me-1" aria-hidden="true" />
-          <span className="text-[11px]">{t('bundleCheckboxLabel')}</span>
-        </HeritageButton>
-
-        <div className="flex items-center gap-0.5">
-          <button
-            type="button"
-            data-testid={`book-cite-btn-${book.id}`}
-            aria-label={t('cite')}
-            title={translate('نسخ التوثيق الأكاديمي APA', 'Copy APA Academic Citation')}
-            onClick={handleCiteClick}
-            className={cn(
-              'p-1.5 rounded-[4px] text-muted-foreground hover:text-foreground transition-colors cursor-pointer',
-              citedRecently && 'text-primary font-semibold'
-            )}
+  return (
+    <HeritageBookCard
+      testId={`book-card-${book.id}`}
+      title={title}
+      href={buildBookUrl(book.id)}
+      onOpen={() => onOpenDetails(book)}
+      titleTestId={`book-title-link-${book.id}`}
+      cover={{
+        title,
+        category: category ?? undefined,
+        year: book.year && book.year !== '0' ? book.year : '2026',
+        cloth: pickCloth(book.id),
+        image: book.cover_image || undefined,
+        loading: 'lazy',
+        testIds: {
+          image: `book-cover-img-${book.id}`,
+          fallback: `book-cover-fallback-${book.id}`
+        }
+      }}
+      kicker={category}
+      author={
+        author ? <span data-testid={`book-author-${book.id}`}>{author}</span> : null
+      }
+      meta={meta}
+      excerpt={description}
+      onZoomCover={onZoomCover ? () => onZoomCover(book) : undefined}
+      zoomLabel={`${t('zoomCover')}: ${title}`}
+      zoomTestId={`book-cover-btn-${book.id}`}
+      stats={
+        <>
+          <RatingStars book={book} onRate={onRate} size="sm" />
+          {book.downloadCount > 0 ? (
+            <HeritageStat
+              icon="download-count"
+              value={
+                <span data-download-count={book.id}>
+                  {formatNumber(book.downloadCount)}
+                </span>
+              }
+              label={`${formatNumber(book.downloadCount)} ${t('downloadsUnit')}`}
+            />
+          ) : null}
+        </>
+      }
+      actions={
+        <>
+          <HeritageButton
+            variant="solid"
+            size="sm"
+            disabled={!hasFile}
+            data-testid={`book-read-btn-${book.id}`}
+            aria-label={t('read')}
+            onClick={() => onRead(book)}
           >
-            {citedRecently ? (
-              <Check className="size-3.5 text-primary" aria-hidden="true" />
-            ) : (
-              <Quote className="size-3.5" aria-hidden="true" />
-            )}
-          </button>
-
-          <button
-            type="button"
-            data-testid={`book-summary-btn-${book.id}`}
-            aria-label={t('summary')}
-            title={translate('ملخص ذكي للمرجع', '3-min AI Summary')}
-            onClick={() => (onOpenSummary ?? onOpenDetails)(book)}
-            className="p-1.5 rounded-[4px] text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
-          >
-            <Sparkles className="size-3.5 text-warning" aria-hidden="true" />
-          </button>
-
-          {onShare && (
-            <button
-              type="button"
-              data-testid={`book-share-btn-${book.id}`}
-              aria-label={t('share')}
-              title={t('share')}
-              onClick={() => onShare(book)}
-              className="p-1.5 rounded-[4px] text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
-            >
-              <Share2 className="size-3.5" aria-hidden="true" />
-            </button>
-          )}
+            <HeritageIcon name="read" size={16} />
+            <span>{t('read')}</span>
+          </HeritageButton>
 
           <HeritageFavButton
             pressed={isFavorite}
@@ -238,23 +163,56 @@ export function BookCard({
             labelOff={t('addFavorite')}
             data-testid={`book-favorite-btn-${book.id}`}
           />
-        </div>
-      </div>
-    </div>
-  );
 
-  return (
-    <HeritageBookCard
-      testId={`book-card-${book.id}`}
-      data-book-id={book.id}
-      data-cloth={cloth}
-      cover={cover}
-      title={titleNode}
-      author={authorNode}
-      meta={meta}
-      rating={ratingNode}
-      description={description}
-      actions={actions}
+          <HeritageMoreMenu label={t('moreActions')}>
+            <HeritageMenuItem
+              icon={<HeritageIcon name="download" size={16} />}
+              disabled={!hasFile || isDownloadBusy}
+              data-testid={`book-download-btn-${book.id}`}
+              aria-label={downloadLabel}
+              onClick={() => onDownload(book)}
+            >
+              {downloadLabel}
+            </HeritageMenuItem>
+
+            <HeritageMenuItem
+              icon={<HeritageIcon name="bundle" size={16} />}
+              pressed={isInBundle}
+              data-testid={`book-bundle-btn-${book.id}`}
+              aria-label={`${t('addToBundlePrefix')}${title}`}
+              onClick={() => onToggleBundle(book.id)}
+            >
+              {isInBundle ? t('removeFromBundle') : t('bundleCheckboxLabel')}
+            </HeritageMenuItem>
+
+            <HeritageMenuItem
+              icon={<HeritageIcon name={citedRecently ? 'check' : 'quote'} size={16} />}
+              data-testid={`book-cite-btn-${book.id}`}
+              onClick={handleCiteClick}
+            >
+              {citedRecently ? t('singleCopiedBtn') : t('cite')}
+            </HeritageMenuItem>
+
+            <HeritageMenuItem
+              icon={<HeritageIcon name="summary" size={16} />}
+              data-testid={`book-summary-btn-${book.id}`}
+              onClick={() => (onOpenSummary ?? onOpenDetails)(book)}
+            >
+              {t('summary')}
+            </HeritageMenuItem>
+
+            {onShare ? (
+              <HeritageMenuItem
+                icon={<HeritageIcon name="share" size={16} />}
+                data-testid={`book-share-btn-${book.id}`}
+                onClick={() => onShare(book)}
+              >
+                {t('share')}
+              </HeritageMenuItem>
+            ) : null}
+          </HeritageMoreMenu>
+        </>
+      }
     />
   );
 }

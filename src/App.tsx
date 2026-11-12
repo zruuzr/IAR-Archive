@@ -30,7 +30,7 @@ import { usePWAInstall } from '@/hooks/usePWAInstall';
 import { I18nProvider, useI18n } from '@/i18n/I18nProvider';
 import { copyTextToClipboard, shareBookLink } from '@/lib/clipboard';
 import { cn } from '@/lib/utils';
-import { findBookById, formatCitation } from '@/services/catalog';
+import { findBookById, formatCitation, getCategoryKey } from '@/services/catalog';
 import type { DownloadBookDeps } from '@/services/download';
 import {
   computeNextRatingAggregate,
@@ -450,6 +450,14 @@ export function LibraryWorkspace({
     };
   }, [books, singleBook]);
 
+  const relatedBooks = useMemo(() => {
+    if (!singleBook) return [];
+    const targetCategory = getCategoryKey(singleBook);
+    return books
+      .filter((b) => b.id !== singleBook.id && getCategoryKey(b) === targetCategory)
+      .slice(0, 4);
+  }, [books, singleBook]);
+
   return (
     <div
       dir={dir}
@@ -497,45 +505,53 @@ export function LibraryWorkspace({
       />
 
       {/* Interactive Cloth & Linen Bookshelf Hero & Real Data Counters */}
-      <HeroAcademic
-        books={books}
-        booksCount={books.length}
-        categoriesCount={categories.length}
-        visitsCount={visitsCount}
-        loaded={loaded}
-        compact={Boolean(singleBook || isInvalidBookParam)}
-        soundEnabled={soundEnabled}
-        query={query}
-        category={category}
-        categories={categories}
-        onQueryChange={(q) => {
-          if (singleBook || isInvalidBookParam) {
-            backToList();
-          }
-          setQuery(q);
-        }}
-        onCategoryChange={(cat) => {
-          if (singleBook || isInvalidBookParam) {
-            backToList();
-          }
-          setCategory(cat);
-        }}
-        onOpenSpotlight={() => setSpotlightOpen(true)}
-        onSelectKeyword={(kw) => {
-          if (singleBook || isInvalidBookParam) {
-            backToList();
-          }
-          setQuery(kw);
-          document.getElementById('controlsRow')?.scrollIntoView({ behavior: 'smooth' });
-        }}
-        onOpenBook={handleOpenDetails}
-        onReadBook={handleReadBook}
-      />
+      {!singleBook && (
+        <HeroAcademic
+          books={books}
+          booksCount={books.length}
+          categoriesCount={categories.length}
+          visitsCount={visitsCount}
+          loaded={loaded}
+          compact={isInvalidBookParam}
+          soundEnabled={soundEnabled}
+          query={query}
+          category={category}
+          categories={categories}
+          onQueryChange={(q) => {
+            if (isInvalidBookParam) {
+              backToList();
+            }
+            setQuery(q);
+          }}
+          onCategoryChange={(cat) => {
+            if (isInvalidBookParam) {
+              backToList();
+            }
+            setCategory(cat);
+          }}
+          onOpenSpotlight={() => setSpotlightOpen(true)}
+          onSelectKeyword={(kw) => {
+            if (isInvalidBookParam) {
+              backToList();
+            }
+            setQuery(kw);
+            document
+              .getElementById('controlsRow')
+              ?.scrollIntoView({ behavior: 'smooth' });
+          }}
+          onOpenBook={handleOpenDetails}
+          onReadBook={handleReadBook}
+        />
+      )}
 
       {/* Main Library Content Area */}
       <main
         id="mainLibraryContent"
-        className="mx-auto w-full max-w-[1360px] flex-1 px-4 py-7 sm:px-6 sm:py-9 lg:px-8"
+        className={
+          singleBook
+            ? 'w-full flex-1'
+            : 'mx-auto w-full max-w-[1360px] flex-1 px-4 py-7 sm:px-6 sm:py-9 lg:px-8'
+        }
       >
         {singleBook ? (
           <BookDetailsView
@@ -543,6 +559,12 @@ export function LibraryWorkspace({
             isFavorite={favorites.isFavorite(singleBook.id)}
             isInBundle={bundle.isInBundle(singleBook.id)}
             isDownloadBusy={downloadState.isBusy(singleBook.id)}
+            prevBook={adjacentBooks.prev}
+            nextBook={adjacentBooks.next}
+            relatedBooks={relatedBooks}
+            isFavoriteBook={favorites.isFavorite}
+            isBundleBook={bundle.isInBundle}
+            isBusyBook={downloadState.isBusy}
             onBackToList={backToList}
             onPrevBook={
               adjacentBooks.prev
@@ -554,6 +576,11 @@ export function LibraryWorkspace({
                 ? () => handleOpenDetails(adjacentBooks.next!)
                 : undefined
             }
+            onOpenBook={handleOpenDetails}
+            onSearchKeyword={(kw) => {
+              backToList();
+              setQuery(kw);
+            }}
             onRead={handleReadBook}
             onDownload={handleDownloadBook}
             onToggleFavorite={handleToggleFavorite}
