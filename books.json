@@ -16915,5 +16915,53 @@
     "source_sha256": "2db91f02dba450368d56f88be18bc417fe201693da42f3444c4d07e442c417c8",
     "ai_status": "complete",
     "ai_attempts": 1
+  },
+  {
+    "id": 328,
+    "title": "الأساليب الإحصائية والجغرافية",
+    "title_en": "Statistical and Geographical Methods",
+    "author": "د. عيسى علي إبراهيم",
+    "author_en": "",
+    "category": "Geography",
+    "category_en": "",
+    "description": "كتاب أكاديمي يتناول الأساليب الإحصائية والكمية وتطبيقاتها في الدراسات الجغرافية، مع التركيز على جمع البيانات، التصنيف، والتحليل المكاني.",
+    "description_en": "",
+    "publisher": "دار المعرفة الجامعية",
+    "publisher_en": "",
+    "type": "Textbook",
+    "type_en": "",
+    "target_audience": "طلاب وأساتذة أقسام الجغرافيا في الجامعات",
+    "target_audience_en": "",
+    "year": 1999,
+    "pages": 400,
+    "file_size": "9.2 MB",
+    "isbn": "",
+    "keywords": [
+      "جغرافيا",
+      "إحصاء",
+      "تحليل كمي",
+      "جغرافيا كمية",
+      "طرق البحث الجغرافي"
+    ],
+    "keywords_en": [],
+    "key_points": [
+      "العلاقة بين الأساليب الكمية والإحصاء في الجغرافيا",
+      "أنماط وأهداف الأساليب الكمية",
+      "طرق جمع البيانات الجغرافية",
+      "القياس والترتيب والتصنيف في الجغرافيا",
+      "تحليل السلاسل الزمنية والاتجاهات",
+      "استخدام النماذج والنظم في الدراسات الجغرافية"
+    ],
+    "key_points_en": [],
+    "featured": false,
+    "badge_text": "",
+    "badge_text_en": "",
+    "file_path": "pdf/الأساليب_الإحصائية_والجغرافيا.pdf",
+    "file_name": "الأساليب_الإحصائية_والجغرافيا.pdf",
+    "file_type": "PDF",
+    "cover_image": "covers/328.png",
+    "source_sha256": "88f61584e7daca8b5d9d61ba7ab5aec04d2091dd4b7ec7518e240385c7e9b26d",
+    "ai_status": "complete",
+    "ai_attempts": 1
   }
 ]
