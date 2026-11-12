@@ -17899,5 +17899,51 @@
     "source_sha256": "b88823eb5584e0b52a0ef5eb10338a2fbe46dd2f3faeedb810282e8bd70c17a3",
     "ai_status": "complete",
     "ai_attempts": 1
+  },
+  {
+    "id": 348,
+    "title": "قوائم التدفق النقدي",
+    "title_en": "",
+    "author": "",
+    "author_en": "",
+    "category": "محاسبة ومالية",
+    "category_en": "",
+    "description": "دراسة محاسبية متخصصة تناول مفهوم وأهداف وأهمية قائمة التدفقات النقدية، وكيفية إعدادها وعرضها وتحليلها في المؤسسات الاقتصادية والمالية.",
+    "description_en": "",
+    "publisher": "",
+    "publisher_en": "",
+    "type": "كتاب",
+    "type_en": "",
+    "target_audience": "المحاسبون، المحللون الماليون، والباحثون والطلاب في العلوم المالية والمحاسبية",
+    "target_audience_en": "",
+    "year": 0,
+    "pages": 201,
+    "file_size": "11.4 MB",
+    "isbn": "",
+    "keywords": [
+      "التدفقات النقدية",
+      "قائمة التدفقات النقدية",
+      "المؤسسات الاقتصادية",
+      "المؤسسات المالية",
+      "التحليل المالي",
+      "المحاسبة المالية"
+    ],
+    "keywords_en": [],
+    "key_points": [
+      "مفهوم وأهداف وأهمية قائمة التدفقات النقدية",
+      "إعداد وعرض وتحليل قائمة التدفقات النقدية في المؤسسات الاقتصادية",
+      "قوائم التدفق النقدي في المؤسسات المالية"
+    ],
+    "key_points_en": [],
+    "featured": false,
+    "badge_text": "",
+    "badge_text_en": "",
+    "file_path": "pdf/المحاسبة_عن_التدفقات_النقدية.pdf",
+    "file_name": "المحاسبة_عن_التدفقات_النقدية.pdf",
+    "file_type": "PDF",
+    "cover_image": "covers/348.png",
+    "source_sha256": "8dcb9bba5a98cb862efcb19bb93ce0a41e3835ca5c896bb8ecc18182a2c5789e",
+    "ai_status": "complete",
+    "ai_attempts": 1
   }
 ]
