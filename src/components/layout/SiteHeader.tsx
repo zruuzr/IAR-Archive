@@ -68,17 +68,18 @@ export function SiteHeader({
           </span>
         </a>
 
-        {/* Center navigation links matching HeritageDemo */}
+        {/* Center navigation links */}
         <nav
           className="hx-nav hidden lg:flex"
           aria-label={translate('التنقل الرئيسي', 'Main navigation')}
         >
-          <a href="#shelves">{translate('رفوف المعرفة', 'Knowledge Shelves')}</a>
+          <a href="#booksDisplayContainer">
+            {translate('رفوف المعرفة', 'Knowledge Shelves')}
+          </a>
           <a href="#paths">{translate('المسارات', 'Pathways')}</a>
-          <a href="#spotlight">{translate('في دائرة الضوء', 'In the Spotlight')}</a>
-          <a href="#journey">{translate('رحلة المعرفة', 'Journey of Knowledge')}</a>
-          <span className="hidden xl:inline-flex items-center text-xs px-2.5 py-1 rounded-full bg-[var(--hx-surface-2)]/80 border border-[var(--hx-line)] text-[var(--hx-ink)]">
-            <span className="font-mono font-bold tabular-nums text-[var(--hx-gold-bright)]">
+          <a href="#featuredSection">{translate('في دائرة الضوء', 'In the Spotlight')}</a>
+          <span className="hidden xl:inline-flex items-center text-xs px-2.5 py-1 rounded-full bg-[var(--hx-surface-2)] border border-[var(--hx-gold)]/40 text-[var(--hx-ink)]">
+            <span className="font-mono font-bold tabular-nums text-[var(--hx-gold-deep)] dark:text-[var(--hx-gold-bright)]">
               {loaded ? formatNumber(booksCount) : '—'}
             </span>
             <span className="ms-1.5 font-medium">{translate('مرجعاً', 'refs')}</span>
@@ -113,13 +114,14 @@ export function SiteHeader({
             className={cn(
               'hx-icon-btn relative',
               favoritesOnly &&
-                '!border-[var(--hx-gold-bright)] !bg-[var(--hx-surface-2)] text-[var(--hx-gold-bright)]'
+                '!border-[var(--hx-gold)] !bg-[var(--hx-surface-2)] text-[var(--hx-gold-deep)] dark:text-[var(--hx-gold-bright)]'
             )}
           >
             <Heart
               className={cn(
                 'size-4',
-                favoritesOnly && 'fill-current text-[var(--hx-gold-bright)]'
+                favoritesOnly &&
+                  'fill-current text-[var(--hx-gold-deep)] dark:text-[var(--hx-gold-bright)]'
               )}
               aria-hidden="true"
             />
@@ -186,7 +188,10 @@ export function SiteHeader({
             onClick={toggleLang}
             aria-label={t('langToggleAria')}
             title={t('langToggleAria')}
-            className="hx-icon-btn font-mono text-xs font-bold"
+            className={cn(
+              'hx-icon-btn text-xs font-bold',
+              lang === 'ar' ? 'font-mono' : 'font-sans min-w-[42px] w-auto px-2'
+            )}
           >
             <span id="langLabel">{lang === 'ar' ? 'EN' : 'عربي'}</span>
           </button>

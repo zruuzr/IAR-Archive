@@ -20,6 +20,7 @@ export interface SpotlightPlaqueProps {
   author?: ReactNode;
   description?: ReactNode;
   specs?: readonly SpotlightSpec[];
+  pointsHeading?: ReactNode;
   points?: readonly ReactNode[];
   audience?: { label: ReactNode; text: ReactNode };
   /** Primary reading and download CTAs placed under the book vitrine. */
@@ -48,6 +49,7 @@ export function SpotlightPlaque({
   author,
   description,
   specs,
+  pointsHeading = 'أبرز محاور وأركان المرجع:',
   points,
   audience,
   primaryActions,
@@ -82,19 +84,21 @@ export function SpotlightPlaque({
             {specs && specs.length > 0 ? (
               <div className="flex flex-wrap items-center justify-center gap-1.5 mb-3 w-full">
                 {specs.map((spec, index) => (
-                  <span
+                  <div
                     key={index}
                     className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium bg-[var(--hx-surface)] border border-[var(--hx-line)] text-foreground/80"
                   >
-                    <span className="text-[var(--hx-gold)] text-[10px]">•</span>
+                    <span className="text-[var(--hx-gold-deep)] dark:text-[var(--hx-gold-bright)] text-[10px]">
+                      •
+                    </span>
                     <span className="opacity-75">{spec.label}:</span>
-                    <strong
-                      className="font-semibold text-foreground"
+                    <span
+                      className="font-semibold text-foreground inline-flex items-center"
                       {...(spec.ltr ? { dir: 'ltr' } : {})}
                     >
                       {spec.value}
-                    </strong>
-                  </span>
+                    </span>
+                  </div>
                 ))}
               </div>
             ) : null}
@@ -150,9 +154,9 @@ export function SpotlightPlaque({
               {/* Thematic Highlights / Key Pillars (2-column grid) */}
               {points && points.length > 0 ? (
                 <div className="my-3.5">
-                  <p className="text-xs font-bold text-[var(--hx-gold)] mb-2 flex items-center gap-1.5">
+                  <p className="text-xs font-bold text-[var(--hx-gold-deep)] dark:text-[var(--hx-gold-bright)] mb-2 flex items-center gap-1.5">
                     <span>✦</span>
-                    <span>أبرز محاور وأركان المرجع:</span>
+                    <span>{pointsHeading}</span>
                   </p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     {points.map((point, index) => (
@@ -160,7 +164,7 @@ export function SpotlightPlaque({
                         key={index}
                         className="flex items-start gap-2 p-2 rounded-md bg-[var(--hx-surface-2)]/60 border border-[var(--hx-line)]/70 text-xs text-foreground/90 leading-relaxed"
                       >
-                        <span className="text-[var(--hx-gold)] shrink-0 font-bold mt-0.5">
+                        <span className="text-[var(--hx-gold-deep)] dark:text-[var(--hx-gold-bright)] shrink-0 font-bold mt-0.5">
                           ✓
                         </span>
                         <span>{point}</span>

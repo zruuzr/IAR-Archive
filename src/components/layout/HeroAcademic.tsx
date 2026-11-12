@@ -143,7 +143,7 @@ export function HeroAcademic({
     return (
       <section
         data-testid="hero-academic"
-        className="hx-hero border-b border-[var(--hx-line)] py-5 text-[var(--hx-ink)]"
+        className="hx-hero border-b border-[var(--hx-line)] py-5 text-[var(--hx-cream)]"
         aria-labelledby="txtAboutTitle"
       >
         <div className="hx-wrap flex flex-col items-center text-center">
@@ -151,7 +151,13 @@ export function HeroAcademic({
             <span className="hx-cune" aria-hidden="true">
               {SUMER_SIGNS}
             </span>
-            <span>{t('txtKicker')}</span>
+            <span>
+              {t('txtKicker').replace(/^[\u{12000}-\u{1247F}\s·]+/u, '') ||
+                translate(
+                  'المكتبة الرقمية العراقية · 2026',
+                  'The Iraqi Digital Library · 2026'
+                )}
+            </span>
           </p>
           <h2
             id="txtAboutTitle"
@@ -184,7 +190,7 @@ export function HeroAcademic({
       {/* Heritage Hero Component with Ishtar Gate & Muqarnas Niche */}
       <HeritageHero
         kicker={
-          t('txtKicker').replace(/^[\u12000-\u1247F\s·]+/, '') ||
+          t('txtKicker').replace(/^[\u{12000}-\u{1247F}\s·]+/u, '') ||
           translate('المكتبة الرقمية العراقية · 2026', 'The Iraqi Digital Library · 2026')
         }
         kickerSigns={SUMER_SIGNS}
@@ -194,7 +200,7 @@ export function HeroAcademic({
         tags={[t('txtTagSummary'), t('txtTagCite'), t('txtTagBundle')]}
         primaryAction={{
           label: translate('تصفّح رفوف المعرفة', 'Browse Knowledge Shelves'),
-          href: '#shelves'
+          href: '#booksDisplayContainer'
         }}
         secondaryAction={{
           label: t('searchShortcut'),
@@ -225,17 +231,8 @@ export function HeroAcademic({
         {/* Genuine Mustansiriya Architectural 12-Ray Islamic Lattice Backdrop */}
         <HeroIslamicPatternBackdrop formation="mustansiriya_lattice" />
 
-        {/* Hidden / Preserved semantic elements for tests and accessibility */}
-        <div className="sr-only">
-          <span id="txtKicker" data-testid="hero-kicker">
-            {t('txtKicker')}
-          </span>
-          <h2 id="txtAboutTitle" data-testid="hero-title">
-            {t('txtAboutTitle')}
-          </h2>
-          <p id="txtAboutDesc" data-testid="hero-description">
-            {t('txtAboutDesc')}
-          </p>
+        {/* Preserved test hooks without duplicating visible hero headings */}
+        <div className="sr-only" aria-hidden="true">
           <div data-testid="hero-motto-banner">من ألواح سومر إلى أوراق الحاضر</div>
           <p data-testid="hero-vault-subtitle">
             خزانة المراجع المنتقاة — الإدارة، القانون، والاقتصاد
@@ -258,7 +255,7 @@ export function HeroAcademic({
                   type="button"
                   data-testid={`shelf-filter-${tab.id}`}
                   aria-pressed={isActive}
-                  className={cn('hx-chip', isActive && 'hx-is-on')}
+                  className={cn('hx-chip', isActive && 'is-on')}
                   onClick={() => {
                     setActiveDiscipline(tab.id);
                     playPaperSound('rustle', soundEnabled);
@@ -292,29 +289,31 @@ export function HeroAcademic({
                 'Search catalog by title, author, discipline, keyword...'
               )}
               aria-label={translate('بحث في الأرشيف', 'Search Archive')}
-              className="w-full h-11 px-4 pe-24 rounded-full border border-[var(--hx-line)] bg-[var(--hx-surface)] text-sm text-[var(--hx-ink)] placeholder-[var(--hx-ink-soft)] focus:outline-none focus:ring-2 focus:ring-[var(--hx-gold)] transition-colors shadow-sm"
+              className="w-full h-11 ps-4 pe-28 sm:pe-32 rounded-full border border-[var(--hx-line)] bg-[var(--hx-surface)] text-sm text-[var(--hx-ink)] placeholder-[var(--hx-ink-soft)] focus:outline-none focus:ring-2 focus:ring-[var(--hx-gold)] transition-colors shadow-sm [&::-webkit-search-cancel-button]:hidden"
             />
-            {inputValue && (
+            <div className="absolute inset-y-0 end-1.5 flex items-center gap-1">
+              {inputValue && (
+                <button
+                  type="button"
+                  data-testid="clear-search-btn"
+                  onClick={() => {
+                    setLocalInput('');
+                    if (onQueryChange) onQueryChange('');
+                  }}
+                  className="p-1.5 text-[var(--hx-ink-soft)] hover:text-[var(--hx-ink)] cursor-pointer"
+                  aria-label={translate('مسح البحث', 'Clear search')}
+                >
+                  <X className="size-4" aria-hidden="true" />
+                </button>
+              )}
               <button
-                type="button"
-                data-testid="clear-search-btn"
-                onClick={() => {
-                  setLocalInput('');
-                  if (onQueryChange) onQueryChange('');
-                }}
-                className="absolute end-14 p-1.5 text-[var(--hx-ink-soft)] hover:text-[var(--hx-ink)]"
-                aria-label={translate('مسح البحث', 'Clear search')}
+                type="submit"
+                className="h-8 px-3 rounded-full bg-[var(--hx-gold)] text-[var(--hx-lapis-night)] text-xs font-bold flex items-center gap-1 hover:brightness-110 transition-all cursor-pointer"
               >
-                <X className="size-4" aria-hidden="true" />
+                <Search className="size-3.5" aria-hidden="true" />
+                <span className="hidden sm:inline">{translate('بحث', 'Search')}</span>
               </button>
-            )}
-            <button
-              type="submit"
-              className="absolute end-1.5 h-8 px-3 rounded-full bg-[var(--hx-gold)] text-[var(--hx-lapis-night)] text-xs font-bold flex items-center gap-1 hover:brightness-110 transition-all cursor-pointer"
-            >
-              <Search className="size-3.5" aria-hidden="true" />
-              <span className="hidden sm:inline">{translate('بحث', 'Search')}</span>
-            </button>
+            </div>
           </form>
         </div>
       </HeritageHero>

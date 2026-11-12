@@ -249,15 +249,29 @@ export function LibraryWorkspace({
     }
   });
 
-  // Sync document title with active book or main library view
+  // Sync document title and meta description with active book & language
   useEffect(() => {
     if (typeof document === 'undefined') return;
+    const metaDesc = document.querySelector('meta[name="description"]');
     if (singleBook) {
-      document.title = `${getBookField(singleBook, 'title')} | IAR Archive`;
+      const bookTitle = getBookField(singleBook, 'title');
+      document.title = `${bookTitle} | IAR Archive`;
+      if (metaDesc) {
+        metaDesc.setAttribute(
+          'content',
+          getBookField(singleBook, 'description') || t('defaultMetaDescription')
+        );
+      }
     } else {
-      document.title = 'IAR Archive | Iraqi Administrative Reference';
+      document.title =
+        lang === 'ar'
+          ? 'الأرشيف الإداري العراقي | IAR Archive'
+          : 'IAR Archive | Iraqi Administrative Reference';
+      if (metaDesc) {
+        metaDesc.setAttribute('content', t('defaultMetaDescription'));
+      }
     }
-  }, [singleBook, getBookField]);
+  }, [singleBook, lang, getBookField, t]);
 
   const handleReadBook = useCallback(
     (book: Book) => {

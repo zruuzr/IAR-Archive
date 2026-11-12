@@ -255,7 +255,6 @@ export function BookCard({
       rating={ratingNode}
       description={description}
       actions={actions}
-      className={viewMode === 'list' ? 'hx-card-list' : undefined}
     />
   );
 }

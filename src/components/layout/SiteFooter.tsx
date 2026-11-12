@@ -36,7 +36,7 @@ export interface SiteFooterProps {
 export function SiteFooter({ booksCount = 254, loaded = true }: SiteFooterProps = {}) {
   const { isRTL, translate, formatNumber } = useI18n();
   const ExternalArrowIcon = isRTL ? ArrowUpLeft : ArrowUpRight;
-  const displayCount = loaded && booksCount > 0 ? booksCount : 254;
+  const displayCount = loaded && booksCount > 0 ? formatNumber(booksCount) : '—';
 
   return (
     <footer data-testid="site-footer" className="hx-footer site-footer relative mt-16">
@@ -64,10 +64,10 @@ export function SiteFooter({ booksCount = 254, loaded = true }: SiteFooterProps 
           {/* Quick Links */}
           <div>
             <h4>{translate('أقسام الأرشيف', 'Navigation')}</h4>
-            <a href="#shelves">{translate('رفوف المعرفة', 'Knowledge Shelves')}</a>
-            <a href="#categoryPathways">
-              {translate('المسارات المعرفية', 'Knowledge Pathways')}
+            <a href="#booksDisplayContainer">
+              {translate('رفوف المعرفة', 'Knowledge Shelves')}
             </a>
+            <a href="#paths">{translate('المسارات المعرفية', 'Knowledge Pathways')}</a>
             <a href="#featuredSection">
               {translate('في دائرة الضوء', 'In the Spotlight')}
             </a>
@@ -94,7 +94,10 @@ export function SiteFooter({ booksCount = 254, loaded = true }: SiteFooterProps 
                     <span>{translate('قناة التليغرام', 'Telegram Channel')}</span>
                     <ExternalArrowIcon className="size-3 opacity-60 group-hover:opacity-100" />
                   </div>
-                  <span className="font-mono text-[10.5px] text-[#e2b84e]">
+                  <span
+                    dir="ltr"
+                    className="inline-block font-mono text-[10.5px] text-[#e2b84e]"
+                  >
                     @iarArchive
                   </span>
                 </div>
@@ -117,7 +120,10 @@ export function SiteFooter({ booksCount = 254, loaded = true }: SiteFooterProps 
                     <span>{translate('منصة تيك توك المرئية', 'TikTok Channel')}</span>
                     <ExternalArrowIcon className="size-3 opacity-60 group-hover:opacity-100" />
                   </div>
-                  <span className="font-mono text-[10.5px] text-[#e2b84e]">
+                  <span
+                    dir="ltr"
+                    className="inline-block font-mono text-[10.5px] text-[#e2b84e]"
+                  >
                     @iar.archive
                   </span>
                 </div>
@@ -140,7 +146,7 @@ export function SiteFooter({ booksCount = 254, loaded = true }: SiteFooterProps 
           </span>
           <span className="inline-flex items-center gap-1.5 text-xs text-[#e8dfc8]">
             <strong className="font-mono font-bold tabular-nums text-[#ffd666] text-sm px-2 py-0.5 rounded bg-[var(--hx-gold)]/20 border border-[var(--hx-gold)]/40 shadow-xs">
-              {formatNumber(displayCount)}
+              {displayCount}
             </strong>{' '}
             <span className="font-medium text-[#f5eedb] tracking-wide">
               {translate(

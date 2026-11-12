@@ -84,10 +84,14 @@ export function HeritageHero({
   headingId = 'hx-hero-title',
   children
 }: HeritageHeroProps & { children?: ReactNode }) {
-  const [active, setActive] = useState<HeritageSpine | null>(spines[0] ?? null);
+  const [selectedId, setSelectedId] = useState<string | number | null>(
+    spines[0]?.id ?? null
+  );
+
+  const active = spines.find((s) => s.id === selectedId) ?? spines[0] ?? null;
 
   const select = (spine: HeritageSpine) => {
-    setActive(spine);
+    setSelectedId(spine.id);
     onSpineSelect?.(spine);
   };
 
@@ -174,19 +178,21 @@ export function HeritageHero({
               <div
                 className="hx-shelf"
                 data-testid="editorial-cloth-shelf"
-                role="group"
+                role="listbox"
+                aria-orientation="horizontal"
                 aria-label={spinesLabel}
               >
                 {spines.map((spine) => (
                   <button
                     key={spine.id}
                     type="button"
+                    role="option"
                     data-testid={`shelf-book-${spine.id}`}
                     aria-selected={active?.id === spine.id}
                     className={[
                       'hx-spine',
                       spine.light ? 'hx-spine-light' : '',
-                      active?.id === spine.id ? 'hx-is-on' : ''
+                      active?.id === spine.id ? 'is-on' : ''
                     ]
                       .filter(Boolean)
                       .join(' ')}
@@ -197,12 +203,9 @@ export function HeritageHero({
                       } as CSSProperties
                     }
                     aria-label={spine.title}
-                    onMouseEnter={() => select(spine)}
-                    onFocus={() => select(spine)}
-                    onClick={() => {
-                      select(spine);
-                      onSpineSelect?.(spine);
-                    }}
+                    onMouseEnter={() => setSelectedId(spine.id)}
+                    onFocus={() => setSelectedId(spine.id)}
+                    onClick={() => select(spine)}
                   >
                     <span>{spine.short}</span>
                     <img

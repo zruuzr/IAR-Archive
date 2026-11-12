@@ -163,7 +163,7 @@ export function CategoryPathways({
           data-testid="category-chip-all"
           aria-pressed={activeCategory === ALL_CATEGORIES_KEY}
           onClick={() => onSelectCategory(ALL_CATEGORIES_KEY)}
-          className={cn('hx-chip', activeCategory === ALL_CATEGORIES_KEY && 'hx-is-on')}
+          className={cn('hx-chip', activeCategory === ALL_CATEGORIES_KEY && 'is-on')}
         >
           <span>{t('allReferences')}</span>
           <span className="ms-1.5 font-mono text-[11px] font-semibold opacity-85">
@@ -179,7 +179,7 @@ export function CategoryPathways({
             data-testid="category-chip-active-custom"
             aria-pressed={true}
             onClick={() => onSelectCategory(ALL_CATEGORIES_KEY)}
-            className="hx-chip hx-is-on"
+            className="hx-chip is-on"
           >
             <Filter className="size-3 shrink-0" aria-hidden="true" />
             <span className="truncate max-w-[190px]">{activeCategoryObj.label}</span>

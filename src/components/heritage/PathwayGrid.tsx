@@ -52,7 +52,10 @@ export function PathwayGrid({
           <span className="hx-path-n">{formatCount(item.count)}</span>
           <span className="hx-path-t">{item.label}</span>
           {item.blurb ? <span className="hx-path-d">{item.blurb}</span> : null}
-          <span className="hx-path-arrow" aria-hidden="true">
+          <span
+            className="hx-path-arrow rtl:inline-block ltr:scale-x-[-1]"
+            aria-hidden="true"
+          >
             ←
           </span>
         </button>

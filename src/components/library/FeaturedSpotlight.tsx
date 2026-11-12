@@ -271,6 +271,7 @@ export function FeaturedSpotlight({
       author={author}
       description={description}
       specs={specs}
+      pointsHeading={translate('أبرز محاور وأركان المرجع:', 'Key Pillars & Highlights:')}
       points={points}
       audience={audience}
       primaryActions={primaryActionsNode}

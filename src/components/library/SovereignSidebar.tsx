@@ -72,6 +72,8 @@ export function SovereignSidebar({
         <button
           type="button"
           onClick={() => setIsMobileOpen((prev) => !prev)}
+          aria-expanded={isMobileOpen}
+          aria-controls="sovereignFacetsPanel"
           className="w-full flex items-center justify-between p-3.5 bg-card rounded-[4px] border hairline-border-strong doc-shadow font-semibold text-xs text-foreground cursor-pointer transition-colors"
         >
           <div className="flex items-center gap-2">
@@ -97,6 +99,7 @@ export function SovereignSidebar({
 
       {/* Main Architectural Index Facet Panel */}
       <div
+        id="sovereignFacetsPanel"
         className={cn(
           'relative overflow-hidden bg-card rounded-[4px] p-5 border hairline-border-strong doc-shadow transition-all',
           !isMobileOpen && 'hidden lg:block'
@@ -129,9 +132,9 @@ export function SovereignSidebar({
 
         {/* Facet 1: Administrative Sciences Discipline */}
         <div className="space-y-2.5 mb-5">
-          <label className="text-[11px] font-semibold text-muted-foreground uppercase tracking-[0.12em] block">
+          <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-[0.12em] block">
             {translate('الحقل الإداري والمعرفي', 'Management Discipline')}
-          </label>
+          </p>
           <div className="space-y-1 text-xs text-foreground/85">
             {DISCIPLINE_FACETS.map((facet) => {
               const isSelected =
@@ -141,6 +144,7 @@ export function SovereignSidebar({
                 <button
                   key={facet.id}
                   type="button"
+                  aria-pressed={isSelected}
                   onClick={() => onSelectIssuer(isSelected ? '' : facet.id)}
                   className={cn(
                     'w-full flex items-center justify-between px-2.5 py-1.5 rounded-[3px] text-start transition-colors cursor-pointer border',
@@ -175,9 +179,9 @@ export function SovereignSidebar({
 
         {/* Facet 2: Publication Era & Decades */}
         <div className="space-y-2.5 mb-5 pt-4 border-t hairline-border">
-          <label className="text-[11px] font-semibold text-muted-foreground uppercase tracking-[0.12em] block">
+          <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-[0.12em] block">
             {translate('الحقبة وتاريخ النشر', 'Publication Era')}
-          </label>
+          </p>
           <div className="space-y-1 text-xs text-foreground/85">
             {ERA_FACETS.map((era) => {
               const isSelected = activeEra === era.id;
@@ -186,6 +190,7 @@ export function SovereignSidebar({
                 <button
                   key={era.id}
                   type="button"
+                  aria-pressed={isSelected}
                   onClick={() => onSelectEra(era.id)}
                   className={cn(
                     'w-full flex items-center justify-between px-2.5 py-1.5 rounded-[3px] text-start transition-colors cursor-pointer border',
@@ -222,9 +227,9 @@ export function SovereignSidebar({
 
         {/* Facet 3: Content / Reference Type */}
         <div className="space-y-2.5 pt-4 border-t hairline-border">
-          <label className="text-[11px] font-semibold text-muted-foreground uppercase tracking-[0.12em] block">
+          <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-[0.12em] block">
             {translate('طبيعة المرجع والمحتوى', 'Reference Nature')}
-          </label>
+          </p>
           <div className="flex flex-wrap gap-1.5 text-xs">
             {TYPE_FACETS.map((type) => {
               const isSelected = activeType === type.id;
@@ -232,6 +237,7 @@ export function SovereignSidebar({
                 <button
                   key={type.id}
                   type="button"
+                  aria-pressed={isSelected}
                   onClick={() => onSelectType(type.id)}
                   className={cn(
                     'px-2.5 py-1 rounded-[3px] border text-xs font-medium transition-colors cursor-pointer',
