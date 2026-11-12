@@ -17013,5 +17013,53 @@
     "source_sha256": "9203511339ad77ebf75effca85d76f2a78fb1013b457d1f4a6d839130aa6c250",
     "ai_status": "complete",
     "ai_attempts": 1
+  },
+  {
+    "id": 330,
+    "title": "الإحصاء التطبيقي",
+    "title_en": "Applied Statistics",
+    "author": "سهير فهمي حجازي ومحمود الدريني",
+    "author_en": "",
+    "category": "الإحصاء",
+    "category_en": "",
+    "description": "كتاب تعليمي يتناول أساسيات الإحصاء التطبيقي والاستدلالي، مع التركيز على تطبيقات عملية في مجالات التجارة والإدارة، وربط المفاهيم الإحصائية ببرمجية Minitab.",
+    "description_en": "",
+    "publisher": "الشركة المصرية لإعادة التأمين",
+    "publisher_en": "",
+    "type": "كتاب تعليمي",
+    "type_en": "",
+    "target_audience": "طلاب كليات التجارة والباحثون في المجالات الإدارية والتجارية",
+    "target_audience_en": "",
+    "year": 2003,
+    "pages": 357,
+    "file_size": "7.2 MB",
+    "isbn": "",
+    "keywords": [
+      "الإحصاء التطبيقي",
+      "الاستدلال الإحصائي",
+      "Minitab",
+      "اختبارات الفروض",
+      "تحليل التباين",
+      "الانحدار الخطي"
+    ],
+    "keywords_en": [],
+    "key_points": [
+      "مفاهيم التقدير الإحصائي",
+      "اختبارات الفروض لمجتمع واحد ومجتمعين",
+      "تحليل التباين (ANOVA)",
+      "الانحدار الخطي البسيط والمتعدد",
+      "استخدام برنامج Minitab في التحليل الإحصائي"
+    ],
+    "key_points_en": [],
+    "featured": false,
+    "badge_text": "",
+    "badge_text_en": "",
+    "file_path": "pdf/الإحصاء_التطبيقي_-_حجازي_والدريني.pdf",
+    "file_name": "الإحصاء_التطبيقي_-_حجازي_والدريني.pdf",
+    "file_type": "PDF",
+    "cover_image": "covers/330.png",
+    "source_sha256": "23c5fc0d80c2954cc2dc7f4a5250ccf898b91a6a3c8c821197b448202bad6ae9",
+    "ai_status": "complete",
+    "ai_attempts": 1
   }
 ]
