@@ -16825,5 +16825,48 @@
     "source_sha256": "605933f6390b9236704ca9ec37ee89f69ade939f1938b76a54b0eaea05888c41",
     "ai_status": "complete",
     "ai_attempts": 1
+  },
+  {
+    "id": 326,
+    "title": "أصول المحاسبة المالية فى شركات الأشخاص",
+    "title_en": "Principles of Financial Accounting in Partnerships",
+    "author": "منصور حامد، أحمد الصباغ، هالة الخولي، أحمد أبو طالب، ثناء عطية، جمال صابر، شاهنده حافظ، سيف الدين الإسلام الأبرق",
+    "author_en": "",
+    "category": "المحاسبة المالية",
+    "category_en": "",
+    "description": "كتاب أصول المحاسبة المالية في شركات الأشخاص من إعداد مجموعة من أساتذة الكلية يغطي المفاهيم والتطبيقات المحاسبية الخاصة بشركات الأشخاص.",
+    "description_en": "",
+    "publisher": "",
+    "publisher_en": "",
+    "type": "كتاب دراسي",
+    "type_en": "",
+    "target_audience": "طلاب كليات التجارة وإدارة الأعمال والمهتمون بالمحاسبة المالية",
+    "target_audience_en": "",
+    "year": 0,
+    "pages": 294,
+    "file_size": "26.4 MB",
+    "isbn": "",
+    "keywords": [
+      "المحاسبة المالية",
+      "شركات الأشخاص",
+      "أصول المحاسبة",
+      "المحاسبة"
+    ],
+    "keywords_en": [],
+    "key_points": [
+      "دراسة أصول المحاسبة المالية",
+      "التطبيق المحاسبي لشركات الأشخاص"
+    ],
+    "key_points_en": [],
+    "featured": false,
+    "badge_text": "",
+    "badge_text_en": "",
+    "file_path": "pdf/أصول_المحاسبة_المالية_فى_شركات_لأشخاص.pdf",
+    "file_name": "أصول_المحاسبة_المالية_فى_شركات_لأشخاص.pdf",
+    "file_type": "PDF",
+    "cover_image": "covers/326.png",
+    "source_sha256": "54f06a0d691355bdbe39a81cfc59396013fedd9722f218ad83ff4e21054cb8b5",
+    "ai_status": "complete",
+    "ai_attempts": 1
   }
 ]
