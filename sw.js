@@ -15,7 +15,7 @@
        are purged on activate
    ============================================================ */
 
-const CACHE_VERSION = 'v37';
+const CACHE_VERSION = 'v38';
 const CACHE_NAME = `iar-archive-${CACHE_VERSION}`;
 
 const CORE_SHELL = [
@@ -47,7 +47,6 @@ const BYPASS_HOSTS = [
   'fonts.googleapis.com',
   'fonts.gstatic.com',
   'cdn.jsdelivr.net',
-  'mozilla.github.io',
   'huggingface.co',
   'xethub.hf.co',
   'hf.co'

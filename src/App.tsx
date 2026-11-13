@@ -3,13 +3,13 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { CoverZoomDialog } from '@/components/features/CoverZoomDialog';
 import { DownloadProgressDialog } from '@/components/features/DownloadProgressDialog';
 import { PdfReaderDialog } from '@/components/features/PdfReaderDialog';
+import { HeritageFrieze } from '@/components/heritage';
 import { SpotlightSearchDialog } from '@/components/features/SpotlightSearchDialog';
 import { SummaryDialog } from '@/components/features/SummaryDialog';
 import { HeritageDivider } from '@/components/layout/HeritageOrnaments';
 import { HeroAcademic } from '@/components/layout/HeroAcademic';
 import { SiteFooter } from '@/components/layout/SiteFooter';
 import { SiteHeader } from '@/components/layout/SiteHeader';
-import { TopAnnouncement } from '@/components/layout/TopAnnouncement';
 import { BookDetailsView, BookNotFoundView } from '@/components/library/BookDetailsView';
 import { BookGrid } from '@/components/library/BookGrid';
 import { BundleBar } from '@/components/library/BundleBar';
@@ -481,8 +481,8 @@ export function LibraryWorkspace({
         {lang === 'ar' ? 'تخطي إلى المحتوى الرئيسي' : 'Skip to main content'}
       </a>
 
-      {/* Slim Archival Colophon Bar */}
-      <TopAnnouncement />
+      {/* Thin Babylonian Ishtar Gate Top Frieze (without announcement strip) */}
+      <HeritageFrieze data-testid="top-ishtar-frieze" />
 
       {/* Main Sticky Editorial Masthead */}
       <SiteHeader
@@ -798,13 +798,14 @@ export function LibraryWorkspace({
         }
       />
 
-      {/* PDF.js Reader Modal */}
+      {/* Custom Self-Hosted Heritage PDF Reader Modal */}
       <PdfReaderDialog
         book={readerBook}
         open={readerBook !== null}
         onOpenChange={(open) => {
           if (!open) setReaderBook(null);
         }}
+        onDownload={handleDownloadBook}
       />
 
       {/* Streaming Download Progress Overlay */}

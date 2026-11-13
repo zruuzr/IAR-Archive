@@ -52,7 +52,7 @@ export function SiteFooter({
               <HeritageLogo size={42} />
               <span className="hx-brand-txt">
                 <b>{translate('الأرشيف الإداري العراقي', 'IAR ARCHIVE')}</b>
-                <small>IAR ARCHIVE · BAGHDAD 2026</small>
+                <small>IAR ARCHIVE</small>
               </span>
             </div>
             <p className="hx-about">

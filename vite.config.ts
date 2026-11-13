@@ -109,9 +109,55 @@ function writeServiceWorkerWithBundles(outDir: string, bundleUrls: string[]): vo
   fs.writeFileSync(path.join(outDir, 'sw.js'), injectedSw, 'utf8');
 }
 
+const PDFJS_DIST_DIR = path.resolve(__dirname, 'node_modules/pdfjs-dist');
+
+function serveStaticFile(
+  res: {
+    statusCode: number;
+    setHeader: (k: string, v: string) => void;
+    end: (b?: string) => void;
+  },
+  filePath: string,
+  contentType: string
+): void {
+  res.statusCode = 200;
+  res.setHeader('Content-Type', contentType);
+  fs.createReadStream(filePath).pipe(res as unknown as NodeJS.WritableStream);
+}
+
 function iarRootAssetsPlugin(): Plugin {
   return {
     name: 'iar-root-assets',
+    configureServer(server) {
+      server.middlewares.use('/pdfjs', (req, res, next) => {
+        const cleanPath = (req.url || '').split('?')[0];
+        if (cleanPath === '/pdf.worker.min.js') {
+          const workerFile = path.join(PDFJS_DIST_DIR, 'build/pdf.worker.min.mjs');
+          if (fs.existsSync(workerFile)) {
+            serveStaticFile(res, workerFile, 'application/javascript; charset=utf-8');
+            return;
+          }
+        }
+        if (cleanPath.startsWith('/cmaps/') || cleanPath.startsWith('/standard_fonts/')) {
+          const relPath = cleanPath.replace(/^\/+/, '');
+          const candidate = path.resolve(PDFJS_DIST_DIR, relPath);
+          if (
+            candidate.startsWith(PDFJS_DIST_DIR + path.sep) &&
+            fs.existsSync(candidate) &&
+            fs.statSync(candidate).isFile()
+          ) {
+            const ct = candidate.endsWith('.ttf')
+              ? 'font/ttf'
+              : candidate.endsWith('.pfb') || candidate.endsWith('.bcmap')
+                ? 'application/octet-stream'
+                : 'application/octet-stream';
+            serveStaticFile(res, candidate, ct);
+            return;
+          }
+        }
+        next();
+      });
+    },
     writeBundle(options) {
       const outDir = options.dir
         ? path.resolve(__dirname, options.dir)
@@ -124,6 +170,17 @@ function iarRootAssetsPlugin(): Plugin {
         if (!fs.existsSync(srcPath)) continue;
         const destPath = path.resolve(outDir, item);
         copyRecursiveSync(srcPath, destPath);
+      }
+
+      const workerSrc = path.join(PDFJS_DIST_DIR, 'build/pdf.worker.min.mjs');
+      if (fs.existsSync(workerSrc)) {
+        copyFileFastSync(workerSrc, path.join(outDir, 'pdfjs/pdf.worker.min.js'));
+      }
+      for (const assetDir of ['cmaps', 'standard_fonts'] as const) {
+        const srcAssetDir = path.join(PDFJS_DIST_DIR, assetDir);
+        if (fs.existsSync(srcAssetDir)) {
+          copyRecursiveSync(srcAssetDir, path.join(outDir, 'pdfjs', assetDir));
+        }
       }
 
       const bundleUrls = collectBuiltBundleUrls(outDir, 'bundles');
@@ -156,6 +213,9 @@ export default defineConfig({
       },
       output: {
         manualChunks(id) {
+          if (id.includes('node_modules/pdfjs-dist')) {
+            return 'pdfjs-vendor';
+          }
           if (
             id.includes('node_modules/@firebase/firestore') ||
             id.includes('node_modules/firebase/firestore')

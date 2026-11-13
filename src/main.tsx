@@ -4,6 +4,7 @@ import './index.css';
 import './styles/heritage.css';
 import './styles/heritage-books.css';
 import './styles/heritage-ui.css';
+import './styles/heritage-pdf.css';
 import { App } from './App';
 
 const rootElement = document.getElementById('root');

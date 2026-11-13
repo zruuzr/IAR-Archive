@@ -1,96 +1,219 @@
 // @vitest-environment jsdom
-import { act, fireEvent, render, renderHook, screen } from '@testing-library/react';
+import {
+  act,
+  fireEvent,
+  render,
+  renderHook,
+  screen,
+  waitFor
+} from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { DownloadProgressDialog } from '@/components/features/DownloadProgressDialog';
-import {
-  buildPdfViewerUrl,
-  DEFAULT_PDFJS_VIEWER_URL,
-  PdfReaderDialog,
-  resolveSafePdfUrl
-} from '@/components/features/PdfReaderDialog';
+import { PdfReaderDialog } from '@/components/features/PdfReaderDialog';
+import * as pdfEngine from '@/components/features/pdf-reader/pdf-engine';
+import { resolveSafePdfUrl } from '@/components/features/pdf-reader/pdf-engine';
 import type { UseBookDownloadReturn } from '@/hooks/useBookDownload';
 import { usePWAInstall, type BeforeInstallPromptEvent } from '@/hooks/usePWAInstall';
 import { I18nProvider } from '@/i18n/I18nProvider';
 import { GITHUB_RAW_BASE_URL } from '@/services/catalog';
+import type { Book } from '@/types/book';
 
-describe('PdfReaderDialog & PDF.js URL safety helpers', () => {
+function makeTestBook(overrides: Partial<Book> = {}): Book {
+  return {
+    id: 5,
+    title: 'مرجع الإدارة المالية',
+    title_en: 'Financial Administration Reference',
+    author: 'د. سعاد الرافدين',
+    author_en: 'Dr. Suad Al-Rafidain',
+    category: 'الإدارة العامة',
+    category_en: 'Public Administration',
+    description: 'وصف المرجع الإداري.',
+    description_en: 'Reference description.',
+    publisher: 'دار بغداد',
+    publisher_en: 'Baghdad House',
+    type: 'كتاب',
+    type_en: 'Book',
+    target_audience: 'الباحثون',
+    target_audience_en: 'Researchers',
+    badge_text: '',
+    badge_text_en: '',
+    year: '2024',
+    pages: '3',
+    file_size: '2.4 MB',
+    keywords: ['إدارة'],
+    keywords_en: ['management'],
+    key_points: [],
+    key_points_en: [],
+    featured: false,
+    cover_image: '',
+    file_path: 'pdf/5.pdf',
+    file_name: 'reference-5.pdf',
+    downloadCount: 0,
+    publicRating: 0,
+    ratingSum: 0,
+    ratingCount: 0,
+    voters: [],
+    ...overrides
+  };
+}
+
+function createMockPdfDoc() {
+  const destroy = vi.fn().mockResolvedValue(undefined);
+  const pageTexts: Record<number, string> = {
+    1: 'الإدارةُ العامّةُ في العراق الحديث',
+    2: 'الحوكمة الرشيدة والتخطيط الاستراتيجي',
+    3: 'خاتمة البحث والمصادر الإدارية'
+  };
+  const getPage = vi.fn(async (pageNumber: number) => ({
+    pageNumber,
+    getViewport: ({ scale }: { scale: number; rotation?: number }) => ({
+      width: 600 * scale,
+      height: 800 * scale,
+      scale
+    }),
+    render: () => ({ promise: Promise.resolve(), cancel: vi.fn() }),
+    getTextContent: async () => ({
+      items: [{ str: pageTexts[pageNumber] ?? '' }]
+    }),
+    cleanup: vi.fn()
+  }));
+
+  return {
+    numPages: 3,
+    getPage,
+    getOutline: async () => [{ title: 'الفصل الأول', dest: null, items: [] }],
+    getDestination: async () => null,
+    getPageIndex: async () => 0,
+    destroy
+  };
+}
+
+describe('PdfReaderDialog & self-hosted PDF engine helpers', () => {
   beforeEach(() => {
     document.body.style.overflow = '';
+    vi.restoreAllMocks();
   });
 
-  it('resolves valid relative and GitHub blob paths to GitHub Raw and wraps them in PDF.js viewer URL', () => {
-    const safeUrl = resolveSafePdfUrl('pdf/1.pdf');
-    expect(safeUrl).toBe(`${GITHUB_RAW_BASE_URL}pdf/1.pdf`);
+  it('resolves valid relative and GitHub blob paths and rejects unsafe URLs', () => {
+    expect(resolveSafePdfUrl('pdf/1.pdf')).toBe(`${GITHUB_RAW_BASE_URL}pdf/1.pdf`);
+    expect(
+      resolveSafePdfUrl('https://github.com/zruuzr/IAR-Archive/blob/main/pdf/10.pdf')
+    ).toBe('https://raw.githubusercontent.com/zruuzr/IAR-Archive/main/pdf/10.pdf');
 
-    const viewerUrl = buildPdfViewerUrl('pdf/1.pdf');
-    expect(viewerUrl).toBe(
-      `${DEFAULT_PDFJS_VIEWER_URL}?file=${encodeURIComponent(`${GITHUB_RAW_BASE_URL}pdf/1.pdf`)}`
-    );
-
-    const blobViewerUrl = buildPdfViewerUrl(
-      'https://github.com/zruuzr/IAR-Archive/blob/main/pdf/10.pdf'
-    );
-    expect(blobViewerUrl).toBe(
-      `${DEFAULT_PDFJS_VIEWER_URL}?file=${encodeURIComponent('https://raw.githubusercontent.com/zruuzr/IAR-Archive/main/pdf/10.pdf')}`
-    );
-  });
-
-  it('rejects unsafe schemes (javascript:, data:, file:) and URLs with credentials', () => {
     expect(resolveSafePdfUrl('javascript:alert(1)')).toBeNull();
     expect(resolveSafePdfUrl('data:application/pdf;base64,AAA')).toBeNull();
     expect(resolveSafePdfUrl('file:///etc/passwd')).toBeNull();
     expect(resolveSafePdfUrl('https://user:secret@example.com/doc.pdf')).toBeNull();
     expect(resolveSafePdfUrl('')).toBeNull();
-    expect(buildPdfViewerUrl('javascript:alert(1)')).toBeNull();
   });
 
-  it('opens the correct reference in PdfReaderDialog, handles invalid file paths, and cleans up on close/Escape', () => {
+  it('computes accurate fit scales, zoom steps, codex spreads, and normalized Arabic matches', () => {
+    const widthScale = pdfEngine.computePageScale({
+      zoom: 'fit-width',
+      baseWidth: 600,
+      baseHeight: 800,
+      stageWidth: 948,
+      stageHeight: 700,
+      layoutMode: 'continuous'
+    });
+    expect(widthScale).toBeCloseTo(880 / 600, 2);
+
+    const spreadScale = pdfEngine.computePageScale({
+      zoom: 'fit-page',
+      baseWidth: 600,
+      baseHeight: 800,
+      stageWidth: 1000,
+      stageHeight: 680,
+      layoutMode: 'book',
+      isSpreadPair: true
+    });
+    expect(spreadScale).toBeGreaterThan(0.5);
+    expect(pdfEngine.stepZoom(1, 'in')).toBe(1.15);
+    expect(pdfEngine.stepZoom(1, 'out')).toBe(0.9);
+    expect(pdfEngine.buildBookSpreads(5)).toEqual([[1], [2, 3], [4, 5]]);
+    expect(pdfEngine.getSpreadForPage(5, 3)).toEqual([2, 3]);
+    expect(
+      pdfEngine.countNormalizedTextMatches(
+        'الإدارةُ العامّةُ والموارد البشرية',
+        'الادارة العامة',
+        'ar'
+      )
+    ).toBe(1);
+  });
+
+  it('renders custom self-hosted Heritage PDF viewer, switches paper/layout modes, searches, handles errors, and restores overflow', async () => {
+    const mockDoc = createMockPdfDoc();
+    vi.spyOn(pdfEngine, 'loadPdfJs').mockResolvedValue({
+      getDocument: vi.fn(() => ({
+        promise: Promise.resolve(mockDoc),
+        destroy: vi.fn(),
+        onProgress: null
+      })),
+      GlobalWorkerOptions: { workerSrc: '' }
+    } as unknown as Awaited<ReturnType<typeof pdfEngine.loadPdfJs>>);
+
     const onOpenChange = vi.fn();
+    const book = makeTestBook();
 
     const { rerender, unmount } = render(
       <I18nProvider initialLang="ar">
-        <PdfReaderDialog
-          open={true}
-          onOpenChange={onOpenChange}
-          book={{
-            id: 5,
-            title: 'مرجع الإدارة المالية',
-            title_en: 'Financial Administration Reference',
-            file_path: 'pdf/5.pdf'
-          }}
-        />
+        <PdfReaderDialog open={true} onOpenChange={onOpenChange} book={book} />
       </I18nProvider>
     );
 
     expect(screen.getByTestId('pdf-reader-title').textContent).toBe(
       'مرجع الإدارة المالية'
     );
-    const iframe = screen.getByTestId('pdf-reader-iframe') as HTMLIFrameElement;
-    expect(iframe.src).toContain(encodeURIComponent(`${GITHUB_RAW_BASE_URL}pdf/5.pdf`));
+    // Must not embed an external Mozilla iframe
+    expect(document.querySelector('iframe')).toBeNull();
+    expect((screen.getByTestId('pdf-reader-direct-link') as HTMLAnchorElement).href).toBe(
+      `${GITHUB_RAW_BASE_URL}pdf/5.pdf`
+    );
     expect(document.body.style.overflow).toBe('hidden');
+
+    await waitFor(() => {
+      expect(
+        screen.getByTestId('pdf-reader-stage').querySelector('[data-page-number="1"]')
+      ).not.toBeNull();
+    });
+
+    // Switch paper mode to parchment and confirm attribute propagates
+    fireEvent.click(screen.getByRole('button', { name: 'رقّ' }));
+    expect(
+      screen
+        .getByTestId('pdf-reader-stage')
+        .querySelector('[data-page-number="1"]')
+        ?.getAttribute('data-paper-mode')
+    ).toBe('parchment');
+
+    // Toggle Arabic search bar and execute search across pages
+    fireEvent.click(screen.getByTestId('pdf-reader-search-toggle'));
+    const searchInput = screen.getByTestId('pdf-reader-search-input');
+    fireEvent.change(searchInput, { target: { value: 'الحوكمة' } });
+    await waitFor(() => {
+      expect(screen.getByText('1 / 1')).toBeTruthy();
+    });
 
     // Pressing Escape calls onOpenChange(false)
     fireEvent.keyDown(document, { key: 'Escape' });
     expect(onOpenChange).toHaveBeenCalledWith(false);
 
-    // Rerender with invalid/empty file_path shows error state instead of iframe
+    // Rerender with invalid/empty file_path shows localized Heritage error state
     rerender(
       <I18nProvider initialLang="ar">
         <PdfReaderDialog
           open={true}
           onOpenChange={onOpenChange}
-          book={{
-            id: 5,
+          book={makeTestBook({
             title: 'مرجع بدون ملف',
             title_en: 'Missing File Reference',
             file_path: ''
-          }}
+          })}
         />
       </I18nProvider>
     );
 
     expect(screen.getByTestId('pdf-reader-error')).toBeTruthy();
-    expect(screen.queryByTestId('pdf-reader-iframe')).toBeNull();
 
     // Closing dialog restores body overflow
     rerender(
