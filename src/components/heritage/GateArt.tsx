@@ -2,13 +2,15 @@ import { useId, type ReactNode } from 'react';
 
 import { OCTAGRAM_RATIO, starPoints } from './heritage-data';
 
-const BODY_PATH = 'M20,620V150H52V118H92V86H168V54H312V86H388V118H428V150H460V620Z';
-const ARCH_PATH = 'M120,570V360C120,285 170,240 240,208C310,240 360,285 360,360V570Z';
+/** Stepped Ishtar Mihrab upper monument ending in a flat structural sill at y = 356. */
+const BODY_PATH = 'M20,356V118H52V88H92V58H168V28H312V58H388V88H428V118H460V356Z';
+/** Wide pointed Baghdadi Mihrab sanctuary arch above the shelf lintel. */
+const ARCH_PATH = 'M102,336V258C102,208 164,180 240,164C316,180 378,208 378,258V336Z';
 
 const BAND_ROSETTES = Array.from({ length: 11 }, (_, i) => 60 + 36 * i);
-const PLINTH_ROSETTES = Array.from({ length: 11 }, (_, i) => 40 + 40 * i);
+const PLINTH_ROSETTES = Array.from({ length: 11 }, (_, i) => 20 + 40 * i);
 
-/** Muqarnas (stalactite) cells filling the hood of the niche, row by row. */
+/** Muqarnas (stalactite) cells filling the upper pointed Mihrab vault, row by row. */
 const MUQARNAS_CELLS = (() => {
   const palette = ['#143f8f', '#0f7377'];
   const cells: {
@@ -18,15 +20,15 @@ const MUQARNAS_CELLS = (() => {
     opacity: number;
     strokeOpacity: number;
   }[] = [];
-  for (let row = 0; row < 7; row += 1) {
-    const y = 214 + row * 21;
+  for (let row = 0; row < 5; row += 1) {
+    const y = 166 + row * 19;
     const offset = 15 * (row % 2);
-    const opacity = Math.max(0.32, 0.96 - row * 0.1);
-    for (let col = -1; col < 10; col += 1) {
-      const x = 106 + col * 30 + offset;
+    const opacity = Math.max(0.32, 0.96 - row * 0.13);
+    for (let col = -1; col < 11; col += 1) {
+      const x = 90 + col * 30 + offset;
       cells.push({
         key: `${row}-${col}`,
-        d: `M${x},${y + 27}L${x},${y + 12}Q${x},${y + 4} ${x + 15},${y}Q${x + 30},${y + 4} ${x + 30},${y + 12}L${x + 30},${y + 27}Z`,
+        d: `M${x},${y + 24}L${x},${y + 11}Q${x},${y + 3} ${x + 15},${y}Q${x + 30},${y + 3} ${x + 30},${y + 11}L${x + 30},${y + 24}Z`,
         fill: palette[(col + row + 2) % 2],
         opacity: Number(opacity.toFixed(2)),
         strokeOpacity: Number((opacity * 0.75).toFixed(2))
@@ -37,7 +39,7 @@ const MUQARNAS_CELLS = (() => {
 })();
 
 export interface GateArtProps {
-  /** Overlay placed inside the niche (the book shelf). Positioned by `.hx-shelf`. */
+  /** Bookshelf placed in the dedicated wide cabinet directly beneath the Mihrab. */
   children?: ReactNode;
   /** Accessible description of the artwork. */
   label?: string;
@@ -45,13 +47,14 @@ export interface GateArtProps {
 }
 
 /**
- * Ishtar-gate x mihrab artwork: glazed lapis brick, stepped crown, gold rosette
- * band, star-pattern piers and a pointed niche with a muqarnas hood.
- * Intrinsic ratio is 480:620; children are absolutely positioned over the niche.
+ * Two-tier Iraqi archival monument:
+ * 1) Upper Tier: Ishtar ziggurat crown, rosette band, muqarnas Mihrab arch, and suspended Khatim sanctuary lamp.
+ * 2) Lower Tier (flush below): Wide lapis-and-gold bookshelf cabinet with cedar ledge and rosette plinth
+ *    giving book spines maximum clarity and readable scale.
  */
 export function GateArt({
   children,
-  label = 'بوابة بابلية بقوس محراب، يعلوها شريط وردات ذهبية',
+  label = 'محراب بوابة عشتار المضيء يرتكز تحته مباشرة رف كتب واسع بأشرطة وردات ذهبية',
   className
 }: GateArtProps) {
   const uid = useId().replace(/[^a-zA-Z0-9_-]/g, '');
@@ -61,8 +64,10 @@ export function GateArt({
 
   return (
     <div className={['hx-gate-art', className].filter(Boolean).join(' ')}>
+      {/* Upper Tier: Dedicated Mihrab Sanctuary */}
       <svg
-        viewBox="0 0 480 620"
+        className="hx-gate-mihrab"
+        viewBox="0 0 480 356"
         xmlns="http://www.w3.org/2000/svg"
         role="img"
         aria-label={label}
@@ -93,95 +98,95 @@ export function GateArt({
               <path d="M0 1H54M0 19H54" />
             </g>
           </pattern>
-          <pattern id={id('stp')} width="40" height="40" patternUnits="userSpaceOnUse">
-            <g fill="none" stroke="#e2b84e" strokeWidth="1.1" opacity=".55">
-              <polygon points={star(20, 20, 20)} />
-              <polygon points={star(20, 20, 8, 22.5)} />
+          <pattern id={id('stp')} width="36" height="36" patternUnits="userSpaceOnUse">
+            <g fill="none" stroke="#e2b84e" strokeWidth="1.05" opacity=".52">
+              <polygon points={star(18, 18, 18)} />
+              <polygon points={star(18, 18, 7.2, 22.5)} />
             </g>
           </pattern>
           <linearGradient id={id('gloss')} x1="0" y1="0" x2="0" y2="1">
             <stop offset="0" stopColor="#fff" stopOpacity=".16" />
-            <stop offset=".5" stopColor="#fff" stopOpacity="0" />
+            <stop offset=".55" stopColor="#fff" stopOpacity="0" />
           </linearGradient>
-          <radialGradient id={id('glow')} cx="50%" cy="92%" r="75%">
-            <stop offset="0" stopColor="#f0c75a" stopOpacity=".55" />
-            <stop offset=".45" stopColor="#b8892b" stopOpacity=".18" />
+          <radialGradient id={id('glow')} cx="50%" cy="62%" r="65%">
+            <stop offset="0" stopColor="#fff1bf" stopOpacity=".58" />
+            <stop offset=".38" stopColor="#e2b84e" stopOpacity=".24" />
             <stop offset="1" stopColor="#050d26" stopOpacity="0" />
           </radialGradient>
           <linearGradient id={id('niche')} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stopColor="#07153a" />
-            <stop offset="1" stopColor="#0a1d4a" />
+            <stop offset="0" stopColor="#050f2e" />
+            <stop offset="1" stopColor="#0b1f50" />
           </linearGradient>
           <clipPath id={id('clip')}>
             <path d={ARCH_PATH} />
           </clipPath>
         </defs>
 
-        {/* body */}
+        {/* Body */}
         <path d={BODY_PATH} fill="#17399a" />
         <path d={BODY_PATH} fill={`url(#${id('brk')})`} />
         <path d={BODY_PATH} fill={`url(#${id('gloss')})`} />
         <path d={BODY_PATH} fill="none" stroke="#e2b84e" strokeWidth="3" />
 
-        {/* crown medallion */}
-        <g transform="translate(240 102)">
+        {/* Crown medallion */}
+        <g transform="translate(240 68)">
           <polygon
-            points={star(0, 0, 33)}
+            points={star(0, 0, 31)}
             fill="#0d2257"
             stroke="#e2b84e"
             strokeWidth="2.2"
           />
           <polygon
-            points={star(0, 0, 21, 22.5)}
+            points={star(0, 0, 19.5, 22.5)}
             fill="#1d8a86"
             stroke="#f1d27a"
             strokeWidth="1.4"
           />
-          <circle r="7" fill="#f1d27a" />
-          <circle r="3" fill="#0d2257" />
+          <circle r="6.5" fill="#f1d27a" />
+          <circle r="2.8" fill="#0d2257" />
         </g>
         <g fill="#e2b84e">
-          <polygon points={star(130, 112, 8)} />
-          <polygon points={star(350, 112, 8)} />
-          <polygon points={star(72, 140, 6)} />
-          <polygon points={star(408, 140, 6)} />
+          <polygon points={star(130, 80, 7.5)} />
+          <polygon points={star(350, 80, 7.5)} />
+          <polygon points={star(72, 102, 5.5)} />
+          <polygon points={star(408, 102, 5.5)} />
         </g>
 
-        {/* rosette band */}
-        <rect x="20" y="146" width="440" height="44" fill="#0d2257" fillOpacity=".55" />
-        <path d="M20 148H460M20 188H460" stroke="#e2b84e" strokeWidth="2.4" />
-        <path d="M20 153H460M20 183H460" stroke="#e2b84e" strokeWidth=".8" opacity=".7" />
+        {/* Rosette frieze band */}
+        <rect x="20" y="112" width="440" height="42" fill="#0d2257" fillOpacity=".62" />
+        <path d="M20 114H460M20 152H460" stroke="#e2b84e" strokeWidth="2.4" />
+        <path d="M20 119H460M20 147H460" stroke="#e2b84e" strokeWidth=".8" opacity=".7" />
         {BAND_ROSETTES.map((x) => (
           <use
             key={x}
             href={`#${id('ros')}`}
-            transform={`translate(${x} 168) scale(.78)`}
+            transform={`translate(${x} 133) scale(.76)`}
           />
         ))}
 
-        {/* piers */}
+        {/* Slim flanking inlaid piers */}
         <rect
-          x="32"
-          y="204"
-          width="76"
-          height="352"
+          x="30"
+          y="164"
+          width="54"
+          height="164"
           fill={`url(#${id('stp')})`}
           stroke="#e2b84e"
-          strokeWidth="1.6"
+          strokeWidth="1.4"
           strokeOpacity=".8"
         />
         <rect
-          x="372"
-          y="204"
-          width="76"
-          height="352"
+          x="396"
+          y="164"
+          width="54"
+          height="164"
           fill={`url(#${id('stp')})`}
           stroke="#e2b84e"
-          strokeWidth="1.6"
+          strokeWidth="1.4"
           strokeOpacity=".8"
         />
 
-        {/* niche */}
+        {/* Mihrab sanctuary interior with muqarnas & hanging khatim lamp */}
         <path d={ARCH_PATH} fill={`url(#${id('niche')})`} />
         <g clipPath={`url(#${id('clip')})`}>
           {MUQARNAS_CELLS.map((c) => (
@@ -192,45 +197,99 @@ export function GateArt({
               fillOpacity={c.opacity}
               stroke="#e2b84e"
               strokeOpacity={c.strokeOpacity}
-              strokeWidth=".9"
+              strokeWidth=".85"
             />
           ))}
           <rect
-            x="100"
-            y="360"
-            width="280"
-            height="215"
+            x="92"
+            y="246"
+            width="296"
+            height="92"
             fill={`url(#${id('niche')})`}
-            opacity=".55"
+            opacity=".65"
           />
-          <rect x="100" y="200" width="280" height="380" fill={`url(#${id('glow')})`} />
-        </g>
-        <g transform="translate(240 352)">
-          <polygon points={star(0, 0, 17)} fill="#e2b84e" />
-          <circle r="7" fill="#1d8a86" stroke="#0d2257" strokeWidth="1.2" />
+          <ellipse cx="240" cy="260" rx="130" ry="86" fill={`url(#${id('glow')})`} />
+
+          {/* Hanging sanctuary medallion & brass chain */}
+          <line x1="240" y1="168" x2="240" y2="232" stroke="#e2b84e" strokeWidth="1.8" />
+          <circle cx="240" cy="190" r="2.2" fill="#f1d27a" />
+          <circle cx="240" cy="206" r="2.2" fill="#f1d27a" />
+          <circle cx="240" cy="222" r="2.2" fill="#f1d27a" />
+          <g transform="translate(240 264)">
+            <circle r="38" fill="#f1d27a" fillOpacity=".14" />
+            <polygon
+              points={star(0, 0, 30)}
+              fill="#0d2257"
+              stroke="#e2b84e"
+              strokeWidth="2.1"
+            />
+            <polygon
+              points={star(0, 0, 19, 22.5)}
+              fill="#1d8a86"
+              stroke="#f1d27a"
+              strokeWidth="1.3"
+            />
+            <circle r="7.5" fill="#f7e29a" />
+            <circle r="3" fill="#091a40" />
+            <path d="M0 30V42" stroke="#e2b84e" strokeWidth="1.6" />
+            <circle cx="0" cy="44" r="3" fill="#e2b84e" />
+          </g>
+
+          {/* Subtle lattice horizon strip */}
+          <path d="M108 326H372" stroke="#e2b84e" strokeWidth="1" strokeOpacity=".42" />
         </g>
 
-        {/* arch frame */}
-        <path d={ARCH_PATH} fill="none" stroke="#06143a" strokeWidth="30" />
-        <path d={ARCH_PATH} fill="none" stroke="#e2b84e" strokeWidth="22" />
-        <path d={ARCH_PATH} fill="none" stroke="#17399a" strokeWidth="16" />
-        <path d={ARCH_PATH} fill="none" stroke="#1d8a86" strokeWidth="9" />
-        <path d={ARCH_PATH} fill="none" stroke="#f1d27a" strokeWidth="2.2" />
+        {/* Ornate 5-layer Mihrab arch molding */}
+        <path d={ARCH_PATH} fill="none" stroke="#06143a" strokeWidth="24" />
+        <path d={ARCH_PATH} fill="none" stroke="#e2b84e" strokeWidth="17" />
+        <path d={ARCH_PATH} fill="none" stroke="#17399a" strokeWidth="11.5" />
+        <path d={ARCH_PATH} fill="none" stroke="#1d8a86" strokeWidth="6" />
+        <path d={ARCH_PATH} fill="none" stroke="#f1d27a" strokeWidth="1.8" />
 
-        {/* plinth */}
-        <rect x="20" y="570" width="440" height="50" fill="#0d2257" />
-        <path d="M20 572H460" stroke="#e2b84e" strokeWidth="3" />
-        {PLINTH_ROSETTES.map((x) => (
-          <use
-            key={x}
-            href={`#${id('ros')}`}
-            transform={`translate(${x} 598) scale(.55)`}
-          />
-        ))}
-        <rect x="120" y="562" width="240" height="9" fill="#2a1a0c" />
-        <path d="M120 562H360" stroke="#e2b84e" strokeWidth="1.4" opacity=".8" />
+        {/* Carved Mihrab Sill & Transition Cornice separating/joining the shelf below */}
+        <rect x="20" y="334" width="440" height="22" fill="#0d2257" />
+        <rect x="102" y="330" width="276" height="6" fill="#2b190b" />
+        <path d="M20 336H460" stroke="#e2b84e" strokeWidth="2.4" />
+        <path d="M20 345H460" stroke="#e2b84e" strokeWidth=".9" opacity=".65" />
+        <path d="M20 355H460" stroke="#e2b84e" strokeWidth="2.4" />
       </svg>
-      {children}
+
+      {/* Lower Tier: Wide Bookshelf Cabinet Joined Flush Directly Below the Mihrab */}
+      <div className="hx-shelf-cabinet">
+        <div className="hx-shelf-stage">
+          {children}
+          <div className="hx-shelf-ledge" aria-hidden="true" />
+        </div>
+        <div className="hx-shelf-plinth" aria-hidden="true">
+          <svg viewBox="0 0 440 36" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <g id={id('plinth-ros')}>
+                <g fill="#e2b84e" stroke="#8d6618" strokeWidth=".6">
+                  {Array.from({ length: 12 }, (_, i) => (
+                    <ellipse
+                      key={i}
+                      cx="0"
+                      cy="-8.6"
+                      rx="3.5"
+                      ry="7.4"
+                      transform={`rotate(${30 * i})`}
+                    />
+                  ))}
+                </g>
+                <circle r="5.6" fill="#1d8a86" stroke="#0d2257" strokeWidth="1" />
+                <circle r="2.2" fill="#f1d27a" />
+              </g>
+            </defs>
+            {PLINTH_ROSETTES.map((x) => (
+              <use
+                key={x}
+                href={`#${id('plinth-ros')}`}
+                transform={`translate(${x} 18) scale(.56)`}
+              />
+            ))}
+          </svg>
+        </div>
+      </div>
     </div>
   );
 }

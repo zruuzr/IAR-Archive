@@ -342,10 +342,13 @@
   }
   .hx-hero-grid {
     display: grid;
-    grid-template-columns: 1.08fr 0.92fr;
+    grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
     gap: clamp(24px, 5vw, 64px);
     align-items: center;
     padding-bottom: clamp(36px, 5vw, 64px);
+  }
+  .hx-hero-grid > * {
+    min-width: 0;
   }
   .hx-kicker {
     font-family: var(--hx-f-kufi);
@@ -509,68 +512,131 @@
     margin: 0;
   }
 
-  /* gate */
+  /* gate + flush lower bookshelf cabinet */
   .hx-gate {
     margin: 0;
     justify-self: center;
-    width: min(100%, 400px);
+    width: min(100%, 440px);
   }
   .hx-gate-art {
     position: relative;
-    aspect-ratio: 480 / 620;
+    display: flex;
+    flex-direction: column;
     filter: drop-shadow(0 24px 40px rgba(0, 0, 0, 0.45));
   }
-  .hx-gate-art > svg {
+  .hx-gate-mihrab {
+    position: relative;
+    width: 100%;
+    height: auto;
+    display: block;
+    z-index: 2;
+  }
+  .hx-shelf-cabinet {
+    position: relative;
+    width: 91.6667%;
+    margin-inline: auto;
+    margin-top: -1px;
+    background: #0d2257;
+    border-inline: 2.75px solid #e2b84e;
+    border-bottom: 2.75px solid #e2b84e;
+    border-radius: 0 0 6px 6px;
+    overflow: hidden;
+    box-shadow: 0 18px 30px -16px rgba(3, 8, 24, 0.72);
+  }
+  .hx-shelf-stage {
+    position: relative;
+    padding: 22px 12px 0;
+    background:
+      radial-gradient(
+        ellipse 82% 96% at 50% 90%,
+        rgba(240, 199, 90, 0.22),
+        transparent 68%
+      ),
+      linear-gradient(180deg, #040d28 0%, #07163c 55%, #0c2254 100%);
+    box-shadow:
+      inset 0 14px 20px -10px rgba(3, 8, 24, 0.85),
+      inset 7px 0 12px -6px rgba(3, 8, 24, 0.72),
+      inset -7px 0 12px -6px rgba(3, 8, 24, 0.72);
+  }
+  .hx-shelf-stage::before {
+    content: '';
     position: absolute;
-    inset: 0;
+    inset-inline: 6px;
+    inset-block-start: 6px;
+    bottom: 12px;
+    border-inline: 1px solid rgba(226, 184, 78, 0.26);
+    pointer-events: none;
+  }
+  .hx-shelf {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    height: 196px;
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+    direction: rtl;
+    z-index: 2;
+  }
+  .hx-shelf-ledge {
+    position: relative;
+    z-index: 3;
+    height: 12px;
+    margin-inline: -12px;
+    background: linear-gradient(180deg, #563216 0%, #311a09 62%, #1d0e04 100%);
+    border-top: 2px solid #e2b84e;
+    border-bottom: 1px solid rgba(226, 184, 78, 0.52);
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.48);
+  }
+  .hx-shelf-plinth {
+    height: 36px;
+    background: #0d2257;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .hx-shelf-plinth svg {
     width: 100%;
     height: 100%;
     display: block;
-  }
-  .hx-shelf {
-    position: absolute;
-    inset-inline: 26.2%;
-    bottom: 8.6%;
-    height: 27%;
-    display: flex;
-    align-items: flex-end;
-    gap: 2px;
-    direction: rtl;
-    z-index: 2;
   }
   .hx-spine {
     flex: 1 1 0;
     min-width: 0;
     height: var(--hx-h);
     border: 0;
-    border-radius: 2px 2px 0 0;
-    padding: 4px 0;
+    border-radius: 3px 3px 0 0;
+    padding: 5px 0;
     background:
       linear-gradient(
         90deg,
-        rgba(0, 0, 0, 0.28),
-        rgba(255, 255, 255, 0.1) 30%,
-        rgba(0, 0, 0, 0.08) 60%,
-        rgba(0, 0, 0, 0.3)
+        rgba(0, 0, 0, 0.3),
+        rgba(255, 255, 255, 0.14) 30%,
+        rgba(0, 0, 0, 0.08) 62%,
+        rgba(0, 0, 0, 0.34)
       ),
       var(--hx-c);
-    color: #f6e7b8;
+    color: #f9ebc3;
     writing-mode: vertical-rl;
     text-orientation: mixed;
     font-family: var(--hx-f-display);
     font-weight: 700;
-    font-size: clamp(0.58rem, 1.9vw, 0.76rem);
-    line-height: 1;
+    font-size: clamp(0.74rem, 1.15vw, 0.92rem);
+    line-height: 1.05;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     box-shadow:
-      inset 0 3px 0 rgba(226, 184, 78, 0.55),
-      inset 0 -3px 0 rgba(226, 184, 78, 0.4);
+      inset 0 4px 0 rgba(226, 184, 78, 0.72),
+      inset 0 -4px 0 rgba(226, 184, 78, 0.56),
+      inset 0 11px 0 -9px rgba(226, 184, 78, 0.45),
+      inset 0 -11px 0 -9px rgba(226, 184, 78, 0.35),
+      0 2px 6px rgba(0, 0, 0, 0.35);
     transition:
       transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
-      filter 0.25s;
+      filter 0.25s,
+      box-shadow 0.25s;
   }
   .hx-spine span {
     display: block;
@@ -578,7 +644,7 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     max-block-size: 100%;
-    padding-block: 8px 10px;
+    padding-block: 11px 12px;
   }
   .hx-spine-light {
     color: #1a1203;
@@ -587,12 +653,17 @@
   .hx-spine:focus-visible,
   .hx-spine.is-on,
   .hx-spine.hx-is-on {
-    transform: translateY(-9px);
-    filter: brightness(1.18);
+    transform: translateY(-10px);
+    filter: brightness(1.16);
+    box-shadow:
+      inset 0 4px 0 rgba(241, 210, 122, 0.9),
+      inset 0 -4px 0 rgba(226, 184, 78, 0.7),
+      0 8px 16px rgba(0, 0, 0, 0.45);
   }
   .hx-placard {
-    margin: 16px auto 0;
-    max-width: 360px;
+    margin: 14px auto 0;
+    width: 91.6667%;
+    max-width: 404px;
     text-align: center;
     padding: 10px 16px 11px;
     border: 1px solid rgba(226, 184, 78, 0.55);
@@ -1592,11 +1663,11 @@
 
   @media (max-width: 980px) {
     .hx-hero-grid {
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr);
       gap: 32px;
     }
     .hx-gate {
-      width: min(100%, 340px);
+      width: min(100%, 390px);
     }
     .hx-spot-grid {
       grid-template-columns: 1fr;
@@ -1758,10 +1829,31 @@
       font-size: 0.76rem;
     }
     .hx-gate {
-      width: min(100%, 280px);
+      width: min(100%, 340px);
       margin: 16px auto 0;
     }
+    .hx-shelf-stage {
+      padding: 16px 8px 0;
+    }
+    .hx-shelf {
+      height: 156px;
+      gap: 2.5px;
+    }
+    .hx-shelf-ledge {
+      margin-inline: -8px;
+      height: 10px;
+    }
+    .hx-shelf-plinth {
+      height: 28px;
+    }
+    .hx-spine {
+      font-size: 0.7rem;
+    }
+    .hx-spine span {
+      padding-block: 8px 9px;
+    }
     .hx-placard {
+      width: 91.6667%;
       margin-top: 10px;
       padding: 8px 12px;
       min-height: 60px;

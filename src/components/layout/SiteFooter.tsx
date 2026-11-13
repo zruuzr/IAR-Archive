@@ -33,10 +33,12 @@ export interface SiteFooterProps {
  * Crowned with a Babylonian Ishtar Gate glazed frieze, official monogram lockup,
  * and engaging social channel showcase cards.
  */
-export function SiteFooter({ booksCount = 254, loaded = true }: SiteFooterProps = {}) {
-  const { isRTL, translate, formatNumber } = useI18n();
+export function SiteFooter({
+  booksCount: _booksCount = 254,
+  loaded: _loaded = true
+}: SiteFooterProps = {}) {
+  const { isRTL, translate } = useI18n();
   const ExternalArrowIcon = isRTL ? ArrowUpLeft : ArrowUpRight;
-  const displayCount = loaded && booksCount > 0 ? formatNumber(booksCount) : '—';
 
   return (
     <footer data-testid="site-footer" className="hx-footer site-footer relative mt-16">
@@ -144,16 +146,8 @@ export function SiteFooter({ booksCount = 254, loaded = true }: SiteFooterProps 
           <span className="hx-cune" aria-hidden="true">
             {`${AN_SIGN} ${SUMER_SIGNS} ${AN_SIGN}`}
           </span>
-          <span className="inline-flex items-center gap-1.5 text-xs text-[#e8dfc8]">
-            <strong className="font-mono font-bold tabular-nums text-[#ffd666] text-sm px-2 py-0.5 rounded-[8px] bg-[var(--hx-gold)]/20 border border-[var(--hx-gold)]/40 shadow-xs">
-              {displayCount}
-            </strong>{' '}
-            <span className="font-medium text-[#f5eedb] tracking-wide">
-              {translate(
-                'مرجعاً مفهرساً · الفهرسة الأكاديمية الرقمية',
-                'Indexed Volumes · Digital Academic Cataloging'
-              )}
-            </span>
+          <span className="text-xs font-medium text-[#f5eedb] tracking-wide">
+            {translate('الفهرسة الأكاديمية الرقمية', 'Digital Academic Cataloging')}
           </span>
         </div>
       </div>

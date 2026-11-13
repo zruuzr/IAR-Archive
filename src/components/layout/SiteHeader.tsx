@@ -38,8 +38,8 @@ export interface SiteHeaderProps {
 export function SiteHeader({
   favoritesOnly,
   favoritesCount,
-  booksCount = 254,
-  loaded = true,
+  booksCount: _booksCount = 254,
+  loaded: _loaded = true,
   soundEnabled = true,
   onToggleSound,
   onToggleFavoritesOnly,
@@ -99,12 +99,6 @@ export function SiteHeader({
           </a>
           <a href="#paths">{translate('المسارات', 'Pathways')}</a>
           <a href="#featuredSection">{translate('في دائرة الضوء', 'In the Spotlight')}</a>
-          <span className="hidden xl:inline-flex items-center text-xs px-2.5 py-1 rounded-full bg-[var(--hx-surface-2)] border border-[var(--hx-gold)]/45 text-[var(--hx-ink)]">
-            <span className="font-mono font-bold tabular-nums text-[var(--hx-gold-ink)] dark:text-[var(--hx-gold-bright)]">
-              {loaded ? formatNumber(booksCount) : '—'}
-            </span>
-            <span className="ms-1.5 font-medium">{translate('مرجعاً', 'refs')}</span>
-          </span>
         </nav>
 
         {/* Tools and Utility Controls */}
@@ -277,12 +271,6 @@ export function SiteHeader({
                   className="text-[var(--hx-gold-ink)] dark:text-[var(--hx-gold-bright)]"
                 />
                 {translate('الأقسام الرئيسية', 'Archive Sections')}
-              </span>
-              <span className="inline-flex items-center gap-1 rounded-full bg-[var(--hx-surface-2)] border border-[var(--hx-line)] px-2.5 py-0.5 font-mono text-[11px] font-bold text-[var(--hx-gold-ink)] dark:text-[var(--hx-gold-bright)]">
-                {loaded ? formatNumber(booksCount) : '—'}{' '}
-                <span className="font-sans font-medium text-[var(--hx-ink-soft)]">
-                  {translate('مرجعاً', 'refs')}
-                </span>
               </span>
             </div>
 

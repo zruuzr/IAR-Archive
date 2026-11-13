@@ -39,8 +39,15 @@ export interface NicheArtProps {
 }
 
 /**
+ * Normalized arch path inside box `(x: 40..280, y: 104..376)` mapped to `objectBoundingBox` [0..1],
+ * so the cover inside `.hx-niche-cover` follows the exact pointed Mihrab arch contour.
+ */
+const ARCH_CLIP_BBOX =
+  'M0,1 V0.5 C0,0.2647 0.2417,0.1103 0.5,0 C0.7583,0.1103 1,0.2647 1,0.5 V1 Z';
+
+/**
  * Mihrab niche that frames one book on the details page. Intrinsic ratio 320:420.
- * Decorative: the book itself is the content, so the SVG is `aria-hidden`.
+ * Decorative: the book itself is the content, so the SVG layers are `aria-hidden`.
  */
 export function NicheArt({ children, overlay, className }: NicheArtProps) {
   const uid = useId().replace(/[^a-zA-Z0-9_-]/g, '');
@@ -50,24 +57,14 @@ export function NicheArt({ children, overlay, className }: NicheArtProps) {
 
   return (
     <div className={cn('hx-niche', className)}>
-      <svg viewBox="0 0 320 420" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      {/* Layer 1: Architectural lapis facade, crown, recessed sanctuary, and arched cover clipPath */}
+      <svg
+        className="hx-niche-bg"
+        viewBox="0 0 320 420"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+      >
         <defs>
-          <g id={id('ros')}>
-            <g fill="#e2b84e" stroke="#8d6618" strokeWidth=".6">
-              {Array.from({ length: 12 }, (_, i) => (
-                <ellipse
-                  key={i}
-                  cx="0"
-                  cy="-8.6"
-                  rx="3.5"
-                  ry="7.4"
-                  transform={`rotate(${30 * i})`}
-                />
-              ))}
-            </g>
-            <circle r="5.6" fill="#1d8a86" stroke="#0d2257" strokeWidth="1" />
-            <circle r="2.2" fill="#f1d27a" />
-          </g>
           <pattern id={id('brk')} width="54" height="36" patternUnits="userSpaceOnUse">
             <g fill="none" stroke="#040d29" strokeWidth="1.3" opacity=".6">
               <path d="M0 0H54M0 18H54M0 36H54" />
@@ -98,6 +95,9 @@ export function NicheArt({ children, overlay, className }: NicheArtProps) {
           </linearGradient>
           <clipPath id={id('clip')}>
             <path d={ARCH_PATH} />
+          </clipPath>
+          <clipPath id={id('cover-clip')} clipPathUnits="objectBoundingBox">
+            <path d={ARCH_CLIP_BBOX} />
           </clipPath>
         </defs>
 
@@ -132,7 +132,7 @@ export function NicheArt({ children, overlay, className }: NicheArtProps) {
           <polygon points={star(272, 90, 4.5)} />
         </g>
 
-        {/* niche */}
+        {/* niche backdrop (visible while image loads or behind subtle transparency) */}
         <path d={ARCH_PATH} fill={`url(#${id('niche')})`} />
         <g clipPath={`url(#${id('clip')})`}>
           {MUQARNAS_CELLS.map((c) => (
@@ -156,6 +156,38 @@ export function NicheArt({ children, overlay, className }: NicheArtProps) {
           />
           <rect x="30" y="100" width="260" height="290" fill={`url(#${id('glow')})`} />
         </g>
+      </svg>
+
+      {/* Layer 2: Book cover clipped precisely to the Mihrab pointed arch silhouette */}
+      <div className="hx-niche-cover" style={{ clipPath: `url(#${id('cover-clip')})` }}>
+        {children}
+      </div>
+
+      {/* Layer 3: Ornate concentric arch moldings, wooden sill shelf, and rosette plinth over the cover edge */}
+      <svg
+        className="hx-niche-frame"
+        viewBox="0 0 320 420"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+      >
+        <defs>
+          <g id={id('ros')}>
+            <g fill="#e2b84e" stroke="#8d6618" strokeWidth=".6">
+              {Array.from({ length: 12 }, (_, i) => (
+                <ellipse
+                  key={i}
+                  cx="0"
+                  cy="-8.6"
+                  rx="3.5"
+                  ry="7.4"
+                  transform={`rotate(${30 * i})`}
+                />
+              ))}
+            </g>
+            <circle r="5.6" fill="#1d8a86" stroke="#0d2257" strokeWidth="1" />
+            <circle r="2.2" fill="#f1d27a" />
+          </g>
+        </defs>
 
         {/* arch frame */}
         <path d={ARCH_PATH} fill="none" stroke="#06143a" strokeWidth="20" />
@@ -177,7 +209,7 @@ export function NicheArt({ children, overlay, className }: NicheArtProps) {
           />
         ))}
       </svg>
-      <div className="hx-niche-cover">{children}</div>
+
       {overlay}
     </div>
   );
