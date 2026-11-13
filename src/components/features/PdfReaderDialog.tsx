@@ -95,14 +95,38 @@ function PdfReaderSession({ book, safeUrl, onClose, onDownload }: PdfReaderSessi
   }>({ query: '', hits: [] });
   const [currentHitIndex, setCurrentHitIndex] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [theaterMode, setTheaterMode] = useState(false);
+
+  const nativeFullscreenSupported = useMemo(() => {
+    if (typeof document === 'undefined' || typeof HTMLElement === 'undefined') {
+      return false;
+    }
+    const doc = document as Document & { webkitFullscreenEnabled?: boolean };
+    const enabled = Boolean(document.fullscreenEnabled ?? doc.webkitFullscreenEnabled);
+    const proto = HTMLElement.prototype as HTMLElement & {
+      webkitRequestFullscreen?: () => Promise<void> | void;
+    };
+    return Boolean(enabled && (proto.requestFullscreen || proto.webkitRequestFullscreen));
+  }, []);
+
+  const expandedView = isFullscreen || theaterMode;
+
   const [stageSize, setStageSize] = useState<{ width: number; height: number }>({
     width: 860,
     height: 640
   });
 
+  const handleDialogEscape = useCallback(() => {
+    if (theaterMode) {
+      setTheaterMode(false);
+      return;
+    }
+    onClose();
+  }, [onClose, theaterMode]);
+
   const dialogRef = useAccessibleDialog<HTMLDivElement>({
     open: true,
-    onEscape: onClose,
+    onEscape: handleDialogEscape,
     initialFocusRef: closeBtnRef
   });
 
@@ -123,16 +147,21 @@ function PdfReaderSession({ book, safeUrl, onClose, onDownload }: PdfReaderSessi
     const observer = new ResizeObserver(updateSize);
     observer.observe(stageEl);
     return () => observer.disconnect();
-  }, [sidebarOpen, searchOpen]);
+  }, [sidebarOpen, searchOpen, expandedView]);
 
-  // Sync fullscreen status
+  // Sync native fullscreen status (standard + WebKit prefixed)
   useEffect(() => {
     if (typeof document === 'undefined') return;
+    const doc = document as Document & { webkitFullscreenElement?: Element | null };
     const onFullscreenChange = () => {
-      setIsFullscreen(Boolean(document.fullscreenElement));
+      setIsFullscreen(Boolean(document.fullscreenElement || doc.webkitFullscreenElement));
     };
     document.addEventListener('fullscreenchange', onFullscreenChange);
-    return () => document.removeEventListener('fullscreenchange', onFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', onFullscreenChange);
+    return () => {
+      document.removeEventListener('fullscreenchange', onFullscreenChange);
+      document.removeEventListener('webkitfullscreenchange', onFullscreenChange);
+    };
   }, []);
 
   // Load PDF document on mount or manual retry
@@ -453,14 +482,51 @@ function PdfReaderSession({ book, safeUrl, onClose, onDownload }: PdfReaderSessi
   }, []);
 
   const handleToggleFullscreen = useCallback(() => {
-    const target = dialogRef.current;
+    const target = dialogRef.current as
+      (HTMLDivElement & { webkitRequestFullscreen?: () => Promise<void> | void }) | null;
     if (!target || typeof document === 'undefined') return;
-    if (document.fullscreenElement) {
-      void document.exitFullscreen?.().catch(() => {});
+    const doc = document as Document & {
+      webkitFullscreenElement?: Element | null;
+      webkitExitFullscreen?: () => Promise<void> | void;
+    };
+
+    const currentFs = document.fullscreenElement || doc.webkitFullscreenElement;
+    if (currentFs) {
+      const exitFn = document.exitFullscreen ?? doc.webkitExitFullscreen;
+      if (typeof exitFn === 'function') {
+        void Promise.resolve(exitFn.call(document)).catch(() => {});
+      }
+      setTheaterMode(false);
       return;
     }
-    void target.requestFullscreen?.().catch(() => {});
-  }, [dialogRef]);
+
+    if (theaterMode) {
+      setTheaterMode(false);
+      return;
+    }
+
+    if (!nativeFullscreenSupported) {
+      setTheaterMode(true);
+      return;
+    }
+
+    const requestFn = target.requestFullscreen ?? target.webkitRequestFullscreen;
+    if (typeof requestFn !== 'function') {
+      setTheaterMode(true);
+      return;
+    }
+
+    try {
+      const result = requestFn.call(target);
+      if (result && typeof (result as Promise<void>).catch === 'function') {
+        void (result as Promise<void>).catch(() => {
+          setTheaterMode(true);
+        });
+      }
+    } catch {
+      setTheaterMode(true);
+    }
+  }, [dialogRef, nativeFullscreenSupported, theaterMode]);
 
   // Reader keyboard shortcuts
   useEffect(() => {
@@ -548,7 +614,7 @@ function PdfReaderSession({ book, safeUrl, onClose, onDownload }: PdfReaderSessi
     >
       <div
         ref={dialogRef}
-        className={`hx-panel hx-dialog-panel hx-pdf-panel${isFullscreen ? ' hx-pdf-panel--fullscreen' : ''}`}
+        className={`hx-panel hx-dialog-panel hx-pdf-panel${expandedView ? ' hx-pdf-panel--fullscreen' : ''}`}
         tabIndex={-1}
       >
         <HeritageFrieze />
@@ -566,7 +632,9 @@ function PdfReaderSession({ book, safeUrl, onClose, onDownload }: PdfReaderSessi
           paperMode={paperMode}
           sidebarOpen={sidebarOpen}
           searchOpen={searchOpen}
-          isFullscreen={isFullscreen}
+          isFullscreen={expandedView}
+          fullscreenSupported={nativeFullscreenSupported}
+          rotation={rotation}
           searchQuery={searchQuery}
           isSearching={isSearching}
           totalMatches={totalMatchCount > 0 ? searchHits.length : 0}
@@ -670,7 +738,7 @@ function PdfReaderSession({ book, safeUrl, onClose, onDownload }: PdfReaderSessi
               <div className="hx-pdf-state-overlay">
                 <div
                   data-testid="pdf-reader-error"
-                  className="hx-state-card hx-state-card--error max-w-md w-full bg-[var(--hx-surface-1,#fbf7ee)]"
+                  className="hx-state-card hx-state-card--error hx-pdf-error-card max-w-md w-full"
                   role="alert"
                 >
                   <span className="hx-state-seal" aria-hidden="true">
@@ -693,7 +761,7 @@ function PdfReaderSession({ book, safeUrl, onClose, onDownload }: PdfReaderSessi
                       <button
                         data-testid="pdf-reader-retry"
                         type="button"
-                        className="hx-pdf-tool-btn is-active !h-9 !px-4"
+                        className="hx-pdf-tool-btn is-active hx-pdf-action-btn"
                         onClick={() => {
                           setStatus('loading');
                           setLoadProgress(null);
@@ -708,7 +776,7 @@ function PdfReaderSession({ book, safeUrl, onClose, onDownload }: PdfReaderSessi
                         href={safeUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="hx-pdf-tool-btn !h-9 !px-4 !no-underline"
+                        className="hx-pdf-tool-btn hx-pdf-action-btn"
                       >
                         {translate('فتح مباشر', 'Open original')}
                       </a>

@@ -255,6 +255,33 @@ export function PdfReaderSidebar({
       });
   };
 
+  const handleTabKeyDown = (
+    e: React.KeyboardEvent<HTMLButtonElement>,
+    currentIndex: number
+  ) => {
+    const tabIds: PdfSidebarTab[] = ['thumbnails', 'outline', 'info'];
+    const isRtl =
+      document.documentElement.dir === 'rtl' ||
+      e.currentTarget.closest('[dir]')?.getAttribute('dir') === 'rtl';
+    const nextKey = isRtl ? 'ArrowLeft' : 'ArrowRight';
+    const prevKey = isRtl ? 'ArrowRight' : 'ArrowLeft';
+
+    let nextIndex = -1;
+    if (e.key === nextKey) nextIndex = (currentIndex + 1) % tabIds.length;
+    else if (e.key === prevKey)
+      nextIndex = (currentIndex - 1 + tabIds.length) % tabIds.length;
+    else if (e.key === 'Home') nextIndex = 0;
+    else if (e.key === 'End') nextIndex = tabIds.length - 1;
+
+    if (nextIndex < 0) return;
+    e.preventDefault();
+    const nextTab = tabIds[nextIndex];
+    onTabChange(nextTab);
+    const siblings =
+      e.currentTarget.parentElement?.querySelectorAll<HTMLButtonElement>('[role="tab"]');
+    siblings?.[nextIndex]?.focus();
+  };
+
   return (
     <>
       <div
@@ -263,41 +290,50 @@ export function PdfReaderSidebar({
         onClick={onCloseMobile}
       />
       <aside
+        id="pdf-reader-sidebar"
         className="hx-pdf-sidebar"
         aria-label={translate('لوحة تنقّل المستند', 'Document navigation drawer')}
         data-testid="pdf-reader-sidebar"
       >
-        <div className="hx-pdf-sidebar-tabs" role="tablist">
-          <button
-            type="button"
-            role="tab"
-            aria-selected={activeTab === 'thumbnails'}
-            className={`hx-pdf-sidebar-tab${activeTab === 'thumbnails' ? ' is-active' : ''}`}
-            onClick={() => onTabChange('thumbnails')}
-          >
-            {translate('الصفحات', 'Pages')}
-          </button>
-          <button
-            type="button"
-            role="tab"
-            aria-selected={activeTab === 'outline'}
-            className={`hx-pdf-sidebar-tab${activeTab === 'outline' ? ' is-active' : ''}`}
-            onClick={() => onTabChange('outline')}
-          >
-            {translate('الفهرس', 'Outline')}
-          </button>
-          <button
-            type="button"
-            role="tab"
-            aria-selected={activeTab === 'info'}
-            className={`hx-pdf-sidebar-tab${activeTab === 'info' ? ' is-active' : ''}`}
-            onClick={() => onTabChange('info')}
-          >
-            {translate('البطاقة', 'Info')}
-          </button>
+        <div
+          className="hx-pdf-sidebar-tabs"
+          role="tablist"
+          aria-label={translate('أقسام فهرسة المستند', 'Document navigation sections')}
+        >
+          {(
+            [
+              { id: 'thumbnails', label: translate('الصفحات', 'Pages') },
+              { id: 'outline', label: translate('الفهرس', 'Outline') },
+              { id: 'info', label: translate('البطاقة', 'Info') }
+            ] as const
+          ).map((tab, idx) => {
+            const isSelected = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                id={`pdf-sidebar-tab-${tab.id}`}
+                type="button"
+                role="tab"
+                aria-selected={isSelected}
+                aria-controls="pdf-sidebar-tabpanel"
+                tabIndex={isSelected ? 0 : -1}
+                className={`hx-pdf-sidebar-tab${isSelected ? ' is-active' : ''}`}
+                onClick={() => onTabChange(tab.id)}
+                onKeyDown={(e) => handleTabKeyDown(e, idx)}
+              >
+                {tab.label}
+              </button>
+            );
+          })}
         </div>
 
-        <div ref={setScrollRoot} className="hx-pdf-sidebar-body">
+        <div
+          id="pdf-sidebar-tabpanel"
+          role="tabpanel"
+          aria-labelledby={`pdf-sidebar-tab-${activeTab}`}
+          ref={setScrollRoot}
+          className="hx-pdf-sidebar-body"
+        >
           {activeTab === 'thumbnails' && (
             <>
               {pdfDoc && pageNumbers.length > 0 ? (
@@ -396,10 +432,19 @@ export function PdfReaderSidebar({
                     </strong>
                     <button
                       type="button"
-                      className="hx-pdf-tool-btn !h-7 !px-2 !text-[11px]"
+                      className="hx-pdf-tool-btn hx-pdf-copy-btn"
+                      aria-label={
+                        copiedCitation
+                          ? translate('تم نسخ التوثيق', 'Citation copied')
+                          : translate('نسخ التوثيق الأكاديمي', 'Copy academic citation')
+                      }
                       onClick={handleCopyCitation}
                     >
-                      <HeritageIcon name={copiedCitation ? 'check' : 'copy'} size={13} />
+                      <HeritageIcon
+                        name={copiedCitation ? 'check' : 'copy'}
+                        size={16}
+                        className="hx-pdf-icon hx-pdf-icon--sm"
+                      />
                       <span>
                         {copiedCitation
                           ? translate('نُسخ', 'Copied')

@@ -98,9 +98,27 @@ export function useAccessibleDialog<T extends HTMLElement = HTMLDivElement>({
       const container = containerRef.current;
       if (!container) return;
 
+      const isVisibleToTab = (el: HTMLElement): boolean => {
+        let node: HTMLElement | null = el;
+        while (node && node !== container.parentElement) {
+          const style = window.getComputedStyle(node);
+          if (style.display === 'none' || style.visibility === 'hidden') {
+            return false;
+          }
+          node = node.parentElement;
+        }
+        return true;
+      };
+
       const focusableNodes = Array.from(
         container.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)
-      ).filter((el) => !el.hasAttribute('disabled') && el.tabIndex !== -1);
+      ).filter(
+        (el) =>
+          !el.hasAttribute('disabled') &&
+          el.getAttribute('aria-disabled') !== 'true' &&
+          el.tabIndex !== -1 &&
+          isVisibleToTab(el)
+      );
 
       if (focusableNodes.length === 0) {
         event.preventDefault();

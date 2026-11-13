@@ -224,6 +224,124 @@ describe('PdfReaderDialog & self-hosted PDF engine helpers', () => {
     expect(document.body.style.overflow).toBe('');
     unmount();
   });
+
+  it('enforces accessible toolbar ARIA contracts, overflow menu Escape layering, theater-mode fallback, zoom bounds, and rotation state', async () => {
+    const mockDoc = createMockPdfDoc();
+    vi.spyOn(pdfEngine, 'loadPdfJs').mockResolvedValue({
+      getDocument: vi.fn(() => ({
+        promise: Promise.resolve(mockDoc),
+        destroy: vi.fn(),
+        onProgress: null
+      })),
+      GlobalWorkerOptions: { workerSrc: '' }
+    } as unknown as Awaited<ReturnType<typeof pdfEngine.loadPdfJs>>);
+
+    const prevFsDescriptor = Object.getOwnPropertyDescriptor(
+      document,
+      'fullscreenEnabled'
+    );
+    Object.defineProperty(document, 'fullscreenEnabled', {
+      value: false,
+      configurable: true
+    });
+
+    const onOpenChange = vi.fn();
+    try {
+      const { unmount } = render(
+        <I18nProvider initialLang="ar">
+          <PdfReaderDialog
+            open={true}
+            onOpenChange={onOpenChange}
+            book={makeTestBook()}
+          />
+        </I18nProvider>
+      );
+
+      await waitFor(() => {
+        expect(
+          screen.getByTestId('pdf-reader-stage').querySelector('[data-page-number="1"]')
+        ).not.toBeNull();
+      });
+
+      const sidebarToggle = screen.getByTestId('pdf-reader-sidebar-toggle');
+      expect(sidebarToggle.getAttribute('aria-controls')).toBe('pdf-reader-sidebar');
+      expect(sidebarToggle.getAttribute('aria-expanded')).toBe('true');
+      expect(document.getElementById('pdf-reader-sidebar')).not.toBeNull();
+      fireEvent.click(sidebarToggle);
+      expect(sidebarToggle.getAttribute('aria-expanded')).toBe('false');
+      expect(document.getElementById('pdf-reader-sidebar')).toBeNull();
+
+      const searchToggle = screen.getByTestId('pdf-reader-search-toggle');
+      expect(searchToggle.getAttribute('aria-controls')).toBe('pdf-reader-searchbar');
+      expect(searchToggle.getAttribute('aria-expanded')).toBe('false');
+      fireEvent.click(searchToggle);
+      expect(searchToggle.getAttribute('aria-expanded')).toBe('true');
+      expect(document.getElementById('pdf-reader-searchbar')).not.toBeNull();
+
+      // Zoom bounds disable Zoom Out when reaching minimum preset step (0.4)
+      const zoomSelect = screen.getAllByLabelText(
+        'مستوى التكبير'
+      )[0] as HTMLSelectElement;
+      fireEvent.change(zoomSelect, { target: { value: '0.5' } });
+      const zoomOutBtn = screen.getAllByRole('button', {
+        name: 'تصغير'
+      })[0] as HTMLButtonElement;
+      expect(zoomOutBtn.disabled).toBe(false);
+      fireEvent.click(zoomOutBtn);
+      await waitFor(() => {
+        expect(
+          (screen.getAllByRole('button', { name: 'تصغير' })[0] as HTMLButtonElement)
+            .disabled
+        ).toBe(true);
+      });
+
+      // Rotate toggles pressed state cleanly
+      const rotateBtn = screen.getAllByRole('button', {
+        name: 'تدوير الصفحات 90 درجة'
+      })[0];
+      expect(rotateBtn.getAttribute('aria-pressed')).toBe('false');
+      fireEvent.click(rotateBtn);
+      expect(rotateBtn.getAttribute('aria-pressed')).toBe('true');
+
+      // Overflow menu Escape layering: closes menu without dismissing modal
+      const moreBtn = screen.getByTestId('pdf-reader-more');
+      expect(moreBtn.getAttribute('aria-haspopup')).toBe('menu');
+      expect(moreBtn.getAttribute('aria-expanded')).toBe('false');
+      fireEvent.click(moreBtn);
+      expect(moreBtn.getAttribute('aria-expanded')).toBe('true');
+      expect(screen.getByTestId('pdf-reader-overflow-menu')).toBeTruthy();
+
+      fireEvent.keyDown(document, { key: 'Escape' });
+      expect(screen.queryByTestId('pdf-reader-overflow-menu')).toBeNull();
+      expect(moreBtn.getAttribute('aria-expanded')).toBe('false');
+      expect(onOpenChange).not.toHaveBeenCalledWith(false);
+
+      // Theater-mode fallback when fullscreenEnabled is false
+      const expandBtn = screen.getByRole('button', { name: 'توسيع القارئ' });
+      expect(expandBtn.getAttribute('aria-pressed')).toBe('false');
+      fireEvent.click(expandBtn);
+      const collapseBtn = screen.getByRole('button', { name: 'تصغير القارئ' });
+      expect(collapseBtn.getAttribute('aria-pressed')).toBe('true');
+      expect(document.querySelector('.hx-pdf-panel--fullscreen')).not.toBeNull();
+
+      // First Escape exits theater mode without closing the modal
+      fireEvent.keyDown(document, { key: 'Escape' });
+      expect(document.querySelector('.hx-pdf-panel--fullscreen')).toBeNull();
+      expect(onOpenChange).not.toHaveBeenCalledWith(false);
+
+      // Next Escape closes the modal
+      fireEvent.keyDown(document, { key: 'Escape' });
+      expect(onOpenChange).toHaveBeenCalledWith(false);
+
+      unmount();
+    } finally {
+      if (prevFsDescriptor) {
+        Object.defineProperty(document, 'fullscreenEnabled', prevFsDescriptor);
+      } else {
+        delete (document as { fullscreenEnabled?: boolean }).fullscreenEnabled;
+      }
+    }
+  });
 });
 
 describe('DownloadProgressDialog component', () => {
