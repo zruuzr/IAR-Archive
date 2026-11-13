@@ -43,7 +43,7 @@
     ],
     "target_audience": "الطلبة الخريجون من المرحلة الاعدادية وأولياء أمورهم.",
     "target_audience_en": "High school graduates and their parents.",
-    "cover_image": "covers/1.png",
+    "cover_image": "covers/1.webp",
     "file_path": "pdf/دليل_الطالب_للقبول _المركزي_في_الجامعات_العراقية.pdf",
     "source_sha256": "9c09b180eaf9ba27ea84045e73633aa0a6230132a2748de78e26a85de0e69d0a"
   },
@@ -93,7 +93,7 @@
     ],
     "target_audience": "المتحدثون الرسميون، المدراء التنفيذيون، الخطباء، وكل من يرغب في تطوير مهارات التواصل.",
     "target_audience_en": "Official spokespersons, executive managers, speakers, and communicators.",
-    "cover_image": "covers/2.png",
+    "cover_image": "covers/2.webp",
     "file_path": "pdf/فن_الخطابة.pdf",
     "source_sha256": "bf4707cbc7aa93a729b4c592d55f944caf1930d1b0bcdd99ded5aa8f42483308"
   },
@@ -139,7 +139,7 @@
     ],
     "target_audience": "المدراء التنفيذيون والقادة الإداريون.",
     "target_audience_en": "Executive managers and administrative leaders.",
-    "cover_image": "covers/3.png",
+    "cover_image": "covers/3.webp",
     "file_path": "pdf/ثقافة إدارية.pdf",
     "source_sha256": "a0425c765d8c941f659a2c1c6bd629ca86e3922cfd6c27e4f35add9fec884ea8"
   },
@@ -183,7 +183,7 @@
     ],
     "target_audience": "طلاب الدراسات الأولية والعليا والباحثون.",
     "target_audience_en": "Undergraduate and postgraduate students and researchers.",
-    "cover_image": "covers/4.png",
+    "cover_image": "covers/4.webp",
     "file_path": "pdf/مناهج البحث العلمي.pdf",
     "source_sha256": "b56b2dac22658ad11e0189590284d0464cc737786dbd52b3909e528a870239d5"
   },
@@ -227,7 +227,7 @@
     ],
     "target_audience": "المدراء والأكاديميون وطلاب إدارة الأعمال.",
     "target_audience_en": "Managers, academics, and business students.",
-    "cover_image": "covers/5.png",
+    "cover_image": "covers/5.webp",
     "file_path": "pdf/Peter Drucker and Management.pdf",
     "source_sha256": "1503785b0d172caedcba38c3f426d9b38d9511ed93494b45f83b098e8a22d226"
   },
@@ -271,7 +271,7 @@
     ],
     "target_audience": "المدراء التنفيذيون والقادة الإداريون.",
     "target_audience_en": "Executive managers and organizational leaders.",
-    "cover_image": "covers/6.png",
+    "cover_image": "covers/6.webp",
     "file_path": "pdf/People and performance.pdf",
     "source_sha256": "6edd14dcca7936bf9f986e094c3458e0afc0cf2a3328e476cdc513c48fa1bf20"
   },
@@ -313,7 +313,7 @@
     ],
     "target_audience": "طلاب المحاسبة والمدراء الماليون.",
     "target_audience_en": "Accounting students and financial managers.",
-    "cover_image": "covers/7.png",
+    "cover_image": "covers/7.webp",
     "file_path": "pdf/كتاب التحليل المالي وجهة نظر ادارية محاسبية.pdf",
     "source_sha256": "e3e8de791acd1554a21386ff43049ec79fd92db1f5df2c3ff16ad3ee7116ddd3"
   },
@@ -355,7 +355,7 @@
     ],
     "target_audience": "الأكاديميون وطلاب الدراسات العليا.",
     "target_audience_en": "Academics and postgraduate business students.",
-    "cover_image": "covers/8.png",
+    "cover_image": "covers/8.webp",
     "file_path": "pdf/بحوث ودراسات فى قضايا ادارية معاصرة.pdf",
     "source_sha256": "6ca77ecdbf49a4a25a9be5acfff7340e4e01b0ed74dbcc2e3a067413b6df00d3"
   },
@@ -397,7 +397,7 @@
     ],
     "target_audience": "المدراء التنفيذيون ومسؤولو تقنية المعلومات.",
     "target_audience_en": "Executive managers and IT professionals.",
-    "cover_image": "covers/9.png",
+    "cover_image": "covers/9.webp",
     "file_path": "pdf/الادارة و التقنية.pdf",
     "source_sha256": "62ceab20a0e6fe137813513cddd8f99fd24e93dfacd03f56338def190311835c"
   },
@@ -441,7 +441,7 @@
     ],
     "target_audience": "الطلاب والباحثون في الإدارة.",
     "target_audience_en": "Students and researchers in management.",
-    "cover_image": "covers/10.png",
+    "cover_image": "covers/10.webp",
     "file_path": "pdf/كتاب الادارة والتنظيم.pdf",
     "source_sha256": "d2660f7c83adb373c8e42a6be0f8f7a7bb5c3367e86a87560ba12bdcf7b9ee08"
   },
@@ -485,7 +485,7 @@
     ],
     "target_audience": "الباحثون الأكاديميون ومدراء الشركات.",
     "target_audience_en": "Academic researchers and managers.",
-    "cover_image": "covers/11.png",
+    "cover_image": "covers/11.webp",
     "file_path": "pdf/قضايا إدارية وتنموية معاصرة تأصيل علمي وتطبيق عملي.pdf",
     "source_sha256": "95d892ea59f1075852e147008f2db1bdb8f4dbf27f06df8220b069f6c387b5a1"
   },
@@ -527,7 +527,7 @@
     ],
     "target_audience": "طلاب الهندسة الصناعية وإدارة الأعمال.",
     "target_audience_en": "Industrial engineering and management students.",
-    "cover_image": "covers/12.png",
+    "cover_image": "covers/12.webp",
     "file_path": "pdf/Operations Research.pdf",
     "source_sha256": "86b8898031ec5e723f55a6ef739f71204b79acc09d1e5da77812888ed99e8876"
   },
@@ -569,7 +569,7 @@
     ],
     "target_audience": "مديرو المشاريع والمهنيون.",
     "target_audience_en": "Project managers and business professionals.",
-    "cover_image": "covers/13.png",
+    "cover_image": "covers/13.webp",
     "file_path": "pdf/Modern Project Management.pdf",
     "source_sha256": "7dbb6c0a5a50994deab5fe9dda88f7be8d0e69c21221a20a1a953dbf2e054ac5"
   },
@@ -611,7 +611,7 @@
     ],
     "target_audience": "طلبة العلوم الاقتصادية وعلوم التسيير.",
     "target_audience_en": "Economics and management science students.",
-    "cover_image": "covers/14.png",
+    "cover_image": "covers/14.webp",
     "file_path": "pdf/التقنيات الكمية في ادارة الاعمال.pdf",
     "source_sha256": "5e201aad42f605eec03802662184e4ad2ae8ecdf0a89a3acbb79acb1be6e5e06"
   },
@@ -653,7 +653,7 @@
     ],
     "target_audience": "مديرو المكاتب وموظفو السكرتارية.",
     "target_audience_en": "Office managers and secretarial staff.",
-    "cover_image": "covers/15.png",
+    "cover_image": "covers/15.webp",
     "file_path": "pdf/إدارة_المكاتب_والسكرتارية.pdf",
     "source_sha256": "0f8338b81ec02a719570f2c31abb265de3c7baa0c5b4081c335e2b6d973d28f4"
   },
@@ -695,7 +695,7 @@
     ],
     "target_audience": "طلاب إدارة الأعمال والالمديرون.",
     "target_audience_en": "Business students and managers.",
-    "cover_image": "covers/16.png",
+    "cover_image": "covers/16.webp",
     "file_path": "pdf/مبـادئ إدارة الأعمـال.pdf",
     "source_sha256": "ae815cdde268c4bbcbd228243ce85d646f09a9a05e9a1e9130af80f436f3bab5"
   },
@@ -737,7 +737,7 @@
     ],
     "target_audience": "الموظفون والمدراء وطلاب إدارة الأعمال.",
     "target_audience_en": "Employees, managers, and students.",
-    "cover_image": "covers/17.png",
+    "cover_image": "covers/17.webp",
     "file_path": "pdf/كيف تجعل من نفسك عامل فعال في منظمتك.pdf",
     "source_sha256": "92c72cdb5089413c0bdfe8cb5a056f0ef4ce4080733a597b1d17d689d084d7c2"
   },
@@ -779,7 +779,7 @@
     ],
     "target_audience": "طلبة إدارة الأعمال والباحثون.",
     "target_audience_en": "Business students and researchers.",
-    "cover_image": "covers/18.png",
+    "cover_image": "covers/18.webp",
     "file_path": "pdf/دراسات ميدانية في إدارة الأعمال.pdf",
     "source_sha256": "d1264fda0d2a076230167cf0b49540dd46a1ba6e850f767ca9967d49d558c472"
   },
@@ -821,7 +821,7 @@
     ],
     "target_audience": "المدراء والطلاب والباحثون.",
     "target_audience_en": "Managers, students, and researchers.",
-    "cover_image": "covers/19.png",
+    "cover_image": "covers/19.webp",
     "file_path": "pdf/المائة كلمة في الإدارة.pdf",
     "source_sha256": "4fbad3bbad15d32ec8de80e8e8d6ccc58151a62e830a7de11f5c7027b133ed48"
   },
@@ -863,7 +863,7 @@
     ],
     "target_audience": "طلاب إدارة الأعمال والباحثون.",
     "target_audience_en": "Business students and academic researchers.",
-    "cover_image": "covers/20.png",
+    "cover_image": "covers/20.webp",
     "file_path": "pdf/المرجع المتكامل في إدارة الأعمال.pdf",
     "source_sha256": "2d107c65862392283956c76040f3bd123ac0accb92c49f68ca779d02396d5d17"
   },
@@ -907,7 +907,7 @@
     ],
     "target_audience": "طلاب وباحثو التسويق والإعلام.",
     "target_audience_en": "Students and researchers in marketing and media.",
-    "cover_image": "covers/21.png",
+    "cover_image": "covers/21.webp",
     "file_path": "pdf/استراتيجيات_الإعلان.pdf",
     "source_sha256": "76e19a3a0ec5d1241722b6d30dbaab33baf32574e2467cd811a0f04fe34663d2"
   },
@@ -949,7 +949,7 @@
     ],
     "target_audience": "طلاب الاقتصاد والتخطيط العمراني.",
     "target_audience_en": "Economics and urban planning students.",
-    "cover_image": "covers/22.png",
+    "cover_image": "covers/22.webp",
     "file_path": "pdf/النظرية_المكانية_في_اختيار_المكان_المناسب_للنشاط_الاقتصادي.pdf",
     "source_sha256": "bc8536dde9f48d5916b62d2a0fc0ee08564bc50cf5886394da746712b06a571b"
   },
@@ -991,7 +991,7 @@
     ],
     "target_audience": "المدراء الماليون والمحاسبون.",
     "target_audience_en": "Financial managers and accountants.",
-    "cover_image": "covers/23.png",
+    "cover_image": "covers/23.webp",
     "file_path": "pdf/الموازنات_التقديرية.pdf",
     "source_sha256": "e34a0aed2e413e13132cb8052f7efded3fe550194f1b411f69528213ace24458"
   },
@@ -1033,7 +1033,7 @@
     ],
     "target_audience": "مديرو المبيعات ومندوبو التوزيع.",
     "target_audience_en": "Sales managers and sales representatives.",
-    "cover_image": "covers/24.png",
+    "cover_image": "covers/24.webp",
     "file_path": "pdf/إدارة_المبيعات.pdf",
     "source_sha256": "34759cb7bee3b6558719d6f93aafd9445defa043fea0e343b816e3d1ce937954"
   },
@@ -1075,7 +1075,7 @@
     ],
     "target_audience": "الباحثون وطلاب التسويق والتجارة الإلكترونية.",
     "target_audience_en": "Researchers and marketing students.",
-    "cover_image": "covers/25.png",
+    "cover_image": "covers/25.webp",
     "file_path": "pdf/التسويق_الإلكتروني_في_العالم_العربي.pdf",
     "source_sha256": "6effcd8ed474283ec183acce2440d7532d4a93eb42c23ba09768f51b740ef525"
   },
@@ -1133,7 +1133,7 @@
     "file_size": "35.97 MB",
     "file_type": "PDF",
     "file_path": "pdf/مدخل_لدراسة_نظم_التكاليف.pdf",
-    "cover_image": "covers/26.png",
+    "cover_image": "covers/26.webp",
     "source_sha256": "279bd2f08aa621cb2a3c79761af5bdc4d7039e77bf454a89f2781c2ef6189e07"
   },
   {
@@ -1188,7 +1188,7 @@
     "file_size": "16.40 MB",
     "file_type": "PDF",
     "file_path": "pdf/النظم_الاقتصادية_في_القرن_العشرين.pdf",
-    "cover_image": "covers/27.png",
+    "cover_image": "covers/27.webp",
     "source_sha256": "6dc618ada962a9024efe70b6872a139503fbce9390173714d31289f711249a9a"
   },
   {
@@ -1245,7 +1245,7 @@
     "file_size": "2.59 MB",
     "file_type": "PDF",
     "file_path": "pdf/كتب_مخاطبات_ونماذج_دعاوى_رسمية.pdf",
-    "cover_image": "covers/28.png",
+    "cover_image": "covers/28.webp",
     "source_sha256": "dcee25b41c861eab333b885ed8f7ca679a598a7706a88824070df4859b175289"
   },
   {
@@ -1294,7 +1294,7 @@
     "file_size": "6.89 MB",
     "file_type": "PDF",
     "file_path": "pdf/النقود_الرقمية_والثورات_الشعبية.pdf",
-    "cover_image": "covers/29.png",
+    "cover_image": "covers/29.webp",
     "source_sha256": "6f755d2af88c18346453117094342180155dbcc39726c30fe8ab3d235d0c88e7"
   },
   {
@@ -1351,7 +1351,7 @@
     "file_size": "14.70 MB",
     "file_type": "PDF",
     "file_path": "pdf/نظرية_محاسبية.pdf",
-    "cover_image": "covers/30.png",
+    "cover_image": "covers/30.webp",
     "source_sha256": "c03fa474e8e5826abbc4ab3ea6fee7677ac9be5a03573d8c8608aaf348cf164e"
   },
   {
@@ -1406,7 +1406,7 @@
     "file_size": "3.22 MB",
     "file_type": "PDF",
     "file_path": "pdf/المحاسبة_الادارية:مفاهيم_اساسية_وتطبيقات_عملية.pdf",
-    "cover_image": "covers/31.png",
+    "cover_image": "covers/31.webp",
     "source_sha256": "28be65ab0a77070582e0534c87b939530dc43a04d53f998adfd31b16a832ec46"
   },
   {
@@ -1461,7 +1461,7 @@
     "file_size": "9.50 MB",
     "file_type": "PDF",
     "file_path": "pdf/المسؤولية_الاجتماعية_لمنظمات_الاعمال.pdf",
-    "cover_image": "covers/32.png",
+    "cover_image": "covers/32.webp",
     "source_sha256": "38795376af9f8fc0f4e28e5504b4888f1d106ef1c345e8c79279c67ce701c51e"
   },
   {
@@ -1510,7 +1510,7 @@
     "file_size": "33.62 MB",
     "file_type": "PDF",
     "file_path": "pdf/تدريب_المدربين:النماذج_والاشكال.pdf",
-    "cover_image": "covers/33.png",
+    "cover_image": "covers/33.webp",
     "source_sha256": "d318db714b77231b2a28eaec3a200e1842aa076959aa25b018d3b498bd970e37"
   },
   {
@@ -1569,7 +1569,7 @@
     "file_size": "9.59 MB",
     "file_type": "PDF",
     "file_path": "pdf/الاحصاء_والاحتمال.pdf",
-    "cover_image": "covers/34.png",
+    "cover_image": "covers/34.webp",
     "source_sha256": "86ebc8534c40df047f40b27843033f315c26636cbfa009fa946779e6ece0c609"
   },
   {
@@ -1618,7 +1618,7 @@
     "file_size": "17.12 MB",
     "file_type": "PDF",
     "file_path": "pdf/السلوك_التنظيمي_للمنظمات_الادارية.pdf",
-    "cover_image": "covers/35.png",
+    "cover_image": "covers/35.webp",
     "source_sha256": "85a459faccb5298e8ec27857caf392c6d65ea907cb3ff295d9488139ee239fa1"
   },
   {
@@ -1673,7 +1673,7 @@
     "file_size": "14.84 MB",
     "file_type": "PDF",
     "file_path": "pdf/الموظف_الاداري.pdf",
-    "cover_image": "covers/36.png",
+    "cover_image": "covers/36.webp",
     "source_sha256": "142b1d3d86940ebb9fa08d023e13fef4cb2052568475349d1da01071fbceb4b4",
     "featured": true,
     "badge_text": "مرجع إداري وتنظيمي معتمد",
@@ -1725,7 +1725,7 @@
     "file_size": "23.97 MB",
     "file_type": "PDF",
     "file_path": "pdf/استراتيجيات_التسويق_مدخل_كمي_وتحليلي.pdf",
-    "cover_image": "covers/37.png",
+    "cover_image": "covers/37.webp",
     "source_sha256": "ce76ef023819e6f1977d925b5c5e40724d411d79204cb1057dc08d40d8ff3800"
   },
   {
@@ -1784,7 +1784,7 @@
     "file_size": "12.37 MB",
     "file_type": "PDF",
     "file_path": "pdf/تحديد_الاهداف_كتاب_الجيب_من_هارفارد.pdf",
-    "cover_image": "covers/38.png",
+    "cover_image": "covers/38.webp",
     "source_sha256": "ab7d734b24d7a7c2994d5d2c228cadbd77f7b19b2e2b603726b6fc61b34556c4"
   },
   {
@@ -1837,7 +1837,7 @@
     "file_size": "14.04 MB",
     "file_type": "PDF",
     "file_path": "pdf/دراسة_الجدوى_الاقتصادية_للمشاريع.pdf",
-    "cover_image": "covers/39.png",
+    "cover_image": "covers/39.webp",
     "source_sha256": "92aa8c0f52ed88a20a6725ecdcd06803ee4e7b587dafc16778366e14285d6a6e"
   },
   {
@@ -1888,7 +1888,7 @@
     "file_size": "24.45 MB",
     "file_type": "PDF",
     "file_path": "pdf/نظام_ادارة_الجودةISO_لتحسين_اداء_الجامعات.pdf",
-    "cover_image": "covers/40.png",
+    "cover_image": "covers/40.webp",
     "source_sha256": "661d3e573b3574e70ee95c6e6252a64e0784993184b4bc5b027c9ae610fa84c5"
   },
   {
@@ -1947,7 +1947,7 @@
     "file_size": "16.64 MB",
     "file_type": "PDF",
     "file_path": "pdf/مبادئ_علم_الاقتصاد.pdf",
-    "cover_image": "covers/41.png",
+    "cover_image": "covers/41.webp",
     "source_sha256": "18214917502df49a2630e816c9bfa2c21db5f693ee5b629f501240456c04922f"
   },
   {
@@ -2000,7 +2000,7 @@
     "file_size": "5.66 MB",
     "file_type": "PDF",
     "file_path": "pdf/التحليل_الاحصائي_للبيانات_باستخدام_برنامجspss.pdf",
-    "cover_image": "covers/42.png",
+    "cover_image": "covers/42.webp",
     "source_sha256": "6a3cb379499cf0d7895245c121701a69e9820629a5cb1e7e42ee2762c3fd0920"
   },
   {
@@ -2049,7 +2049,7 @@
     "file_size": "14.56 MB",
     "file_type": "PDF",
     "file_path": "pdf/المحاسبة_الحكومية.pdf",
-    "cover_image": "covers/43.png",
+    "cover_image": "covers/43.webp",
     "source_sha256": "5aab659d14da806323ec0da63462cb701ae2e0c567e6dd617315999a010d7d93"
   },
   {
@@ -2102,7 +2102,7 @@
     "file_size": "90.10 MB",
     "file_type": "PDF",
     "file_path": "pdf/تدقيق_الحسابات_مدخل_معاصر_وفقاً_لمعايير_التدقيق_الدولية.pdf",
-    "cover_image": "covers/44.png",
+    "cover_image": "covers/44.webp",
     "source_sha256": "368dcb3d977e5824e7e939011b31f5a7aca1b695ea914c96ce9ff1a3379ef1e0"
   },
   {
@@ -2161,7 +2161,7 @@
     "file_size": "24.17 MB",
     "file_type": "PDF",
     "file_path": "pdf/دليل_محاسبة_شركات.pdf",
-    "cover_image": "covers/45.png",
+    "cover_image": "covers/45.webp",
     "source_sha256": "39f1f24a36b373b8049bfd500688a2e4115a2614d56ac6baca973e458a6b8d3f"
   },
   {
@@ -2214,7 +2214,7 @@
     "file_size": "14.33 MB",
     "file_type": "PDF",
     "file_path": "pdf/الجداول_الاحصائية.pdf",
-    "cover_image": "covers/46.png",
+    "cover_image": "covers/46.webp",
     "source_sha256": "080ad05ae6c98fcc75eb7dd8b2b1edadaca3c6c814f8134381fd3d2fb94600e3"
   },
   {
@@ -2269,7 +2269,7 @@
     "file_size": "15.97 MB",
     "file_type": "PDF",
     "file_path": "pdf/الفساد_الاداري_والمالي_كظاهرة_واساليب_علاجها.pdf",
-    "cover_image": "covers/47.png",
+    "cover_image": "covers/47.webp",
     "source_sha256": "8f92d44b1dbd5d270f3b6f4fc80a7be6f11901d8826c6e125e6cb28215a60cf2"
   },
   {
@@ -2320,7 +2320,7 @@
     "file_size": "16.30 MB",
     "file_type": "PDF",
     "file_path": "pdf/تسويق_الخدمات_الصحية.pdf",
-    "cover_image": "covers/48.png",
+    "cover_image": "covers/48.webp",
     "source_sha256": "1579875001a8576ecb45d17bafdaaa6f3ee630d2611374530d0d467b99717ddc"
   },
   {
@@ -2371,7 +2371,7 @@
     "file_size": "18.59 MB",
     "file_type": "PDF",
     "file_path": "pdf/الادارة_السياحية.pdf",
-    "cover_image": "covers/49.png",
+    "cover_image": "covers/49.webp",
     "source_sha256": "7cec15b5ec3ee37ea94616f1b847dc3aef1b0c242f6f007058c851126499cfc5"
   },
   {
@@ -2422,7 +2422,7 @@
     "file_size": "11.49 MB",
     "file_type": "PDF",
     "file_path": "pdf/استراتيجية_التدريب_واثرها_على_اداء_العاملين.pdf",
-    "cover_image": "covers/50.png",
+    "cover_image": "covers/50.webp",
     "source_sha256": "1933d652a70179480b3db8a93b09a5cd800d6b6b88237df90a1148a90db52c61"
   },
   {
@@ -2485,7 +2485,7 @@
     "file_size": "34.49 MB",
     "file_type": "PDF",
     "file_path": "pdf/تطبيقات_محاسبية_في_العمليات_المصرفية.pdf",
-    "cover_image": "covers/51.png",
+    "cover_image": "covers/51.webp",
     "source_sha256": "3e4750e8264edadb8512b2cd8cb7057da3ce1d06993890d1cfaebe42eb63378d"
   },
   {
@@ -2540,7 +2540,7 @@
     "file_size": "4.71 MB",
     "file_type": "PDF",
     "file_path": "pdf/الادارة.pdf",
-    "cover_image": "covers/52.png",
+    "cover_image": "covers/52.webp",
     "source_sha256": "e4a2212ea6fdf98bf66ade4e69439a1986ae739a49c123b57ef969fd966cee9a"
   },
   {
@@ -2595,7 +2595,7 @@
     "file_size": "16.00 MB",
     "file_type": "PDF",
     "file_path": "pdf/المحاسبة_عن_الاسهم_والسندات_المتداولة_في_بورصة_الاوراق.pdf",
-    "cover_image": "covers/53.png",
+    "cover_image": "covers/53.webp",
     "source_sha256": "4ff50050fe0a08cb0d7bacac361edeec5520a7c433a7dfee24e9aa4ae4d30fb2"
   },
   {
@@ -2658,7 +2658,7 @@
     "file_size": "2.96 MB",
     "file_type": "PDF",
     "file_path": "pdf/محاسبة_ادارية.pdf",
-    "cover_image": "covers/54.png",
+    "cover_image": "covers/54.webp",
     "source_sha256": "6366349038be129406174df99ea35f7e598f254c66c230cafd3dd209360f67c0"
   },
   {
@@ -2715,7 +2715,7 @@
     "file_size": "58.30 MB",
     "file_type": "PDF",
     "file_path": "pdf/الاحصاء_التطبيقي.pdf",
-    "cover_image": "covers/55.png",
+    "cover_image": "covers/55.webp",
     "source_sha256": "41d70dd763b2a03c4fe5f5fd92a889c12b2e536ffed421a379f20e9afa5eed5b"
   },
   {
@@ -2773,7 +2773,7 @@
     "file_size": "31.46 MB",
     "file_type": "PDF",
     "file_path": "pdf/تحفيز_الموظفين_سلسلة_القيادي_الناجح_من_جامعة_هارفارد.pdf",
-    "cover_image": "covers/56.png",
+    "cover_image": "covers/56.webp",
     "source_sha256": "d5f155b63f5905467fb3d92498e6ccbe20d9632cc97244325c77fb37cd926f2a"
   },
   {
@@ -2828,7 +2828,7 @@
     "file_size": "5.12 MB",
     "file_type": "PDF",
     "file_path": "pdf/تجارب_الجامعات_العالمية_مع_التعليم_الالكتروني.pdf",
-    "cover_image": "covers/57.png",
+    "cover_image": "covers/57.webp",
     "source_sha256": "fa9744c9c4cd5c9cf32fecd9a3c21774dd94c6eee9f002758a9076a4e6f58e28"
   },
   {
@@ -2877,7 +2877,7 @@
     "file_size": "22.10 MB",
     "file_type": "PDF",
     "file_path": "pdf/الرياضيات_المالية_في_تطبيقات_الحاسوب.pdf",
-    "cover_image": "covers/58.png",
+    "cover_image": "covers/58.webp",
     "source_sha256": "5931043af337f917a96b767e80db7d59a75416cc7394667401bf15cb7af24ccc"
   },
   {
@@ -2926,7 +2926,7 @@
     "file_size": "1.77 MB",
     "file_type": "PDF",
     "file_path": "pdf/محاسبة_تكاليف_العقود_والمقاولات.pdf",
-    "cover_image": "covers/59.png",
+    "cover_image": "covers/59.webp",
     "source_sha256": "0cd7f958c0d01a54b0bf501d75bb0f51ef21b7cd3869a275d5f0af0a82af6d88"
   },
   {
@@ -2983,7 +2983,7 @@
     "file_size": "2.73 MB",
     "file_type": "PDF",
     "file_path": "pdf/دراسة_الجدوى_الاقتصادية_وتقييم_المشروعات.pdf",
-    "cover_image": "covers/60.png",
+    "cover_image": "covers/60.webp",
     "source_sha256": "e22d8a660bd7d59dd6e47d3a31a1eeb7bd15063fbebef21623a0556410685dcf"
   },
   {
@@ -3036,7 +3036,7 @@
     "file_size": "91.24 MB",
     "file_type": "PDF",
     "file_path": "pdf/الاحصاء_للتجاريين_مدخل_حديث.pdf",
-    "cover_image": "covers/61.png",
+    "cover_image": "covers/61.webp",
     "source_sha256": "02c95f5483c7cd023812f1e015ba24c2d1469932b4a636d878b69f2f35d478dc"
   },
   {
@@ -3093,7 +3093,7 @@
     "file_size": "6.83 MB",
     "file_type": "PDF",
     "file_path": "pdf/الرياضيات_التطبيقية_للتجاريين.pdf",
-    "cover_image": "covers/62.png",
+    "cover_image": "covers/62.webp",
     "source_sha256": "1e01d9deb342e690b26c866d7ad09502fe7ce26d0004d4ec842715146f7e131f"
   },
   {
@@ -3146,7 +3146,7 @@
     "file_size": "32.82 MB",
     "file_type": "PDF",
     "file_path": "pdf/النظرية_العامة-للقرار_الاداري_السلبي.pdf",
-    "cover_image": "covers/63.png",
+    "cover_image": "covers/63.webp",
     "source_sha256": "5fb59219b3c1182061e25c412e5bf6a2efbc19ce7d6b1bf1222ab109560b2dd8"
   },
   {
@@ -3205,7 +3205,7 @@
     "file_size": "11.85 MB",
     "file_type": "PDF",
     "file_path": "pdf/ادارة_المبيعات_والاعلان.pdf",
-    "cover_image": "covers/64.png",
+    "cover_image": "covers/64.webp",
     "source_sha256": "9080fb93a72f1220c2a5b84da8a409f4b6cbda264ca450be5f4447e748ffe096"
   },
   {
@@ -3266,7 +3266,7 @@
     "file_size": "3.20 MB",
     "file_type": "PDF",
     "file_path": "pdf/الاحصاء_والاحتمالات_في_التطبيقات_الهندسية.pdf",
-    "cover_image": "covers/65.png",
+    "cover_image": "covers/65.webp",
     "source_sha256": "58ccb72b9a7bdfe050767a260dd3159c9a032158b94f202953637595d3bfb6b1"
   },
   {
@@ -3319,7 +3319,7 @@
     "file_size": "32.16 MB",
     "file_type": "PDF",
     "file_path": "pdf/مفاهيم_ادارية_معاصرة.pdf",
-    "cover_image": "covers/66.png",
+    "cover_image": "covers/66.webp",
     "source_sha256": "b738d96a47d3d7319dbc4c99ce442d15f8b09c0144a4f216c6a7ec6f6a51c6f6"
   },
   {
@@ -3370,7 +3370,7 @@
     "file_size": "16.54 MB",
     "file_type": "PDF",
     "file_path": "pdf/النظام_القانوني_للتحول_الى_القطاع_الخاص.pdf",
-    "cover_image": "covers/67.png",
+    "cover_image": "covers/67.webp",
     "source_sha256": "a9d86a9898a23e272c07799323a64e4e740d202bb62712cd32960a280692af60"
   },
   {
@@ -3424,7 +3424,7 @@
     "file_size": "1.98 MB",
     "file_type": "PDF",
     "file_path": "pdf/مختصر_المعايير_الدولية_المحاسبية.pdf",
-    "cover_image": "covers/68.png",
+    "cover_image": "covers/68.webp",
     "source_sha256": "21262ef6f251dfca045fac9ac68845e1b686abecd082df3a91989784cacb564f"
   },
   {
@@ -3473,7 +3473,7 @@
     "file_size": "16.75 MB",
     "file_type": "PDF",
     "file_path": "pdf/مقدمة_تحليلية_في_مشاكل_الانحدار.pdf",
-    "cover_image": "covers/69.png",
+    "cover_image": "covers/69.webp",
     "source_sha256": "37e63156db4798b47227bf7a758905764a06707338a41e8186d821195db53bad"
   },
   {
@@ -3526,7 +3526,7 @@
     "file_size": "4.92 MB",
     "file_type": "PDF",
     "file_path": "pdf/مهارات_تدريب_الموظفين_واعداد_الجيل_الثاني_من_القيادات.pdf",
-    "cover_image": "covers/70.png",
+    "cover_image": "covers/70.webp",
     "source_sha256": "784c7281ca87bc35182706fea0f47f16b07acd0c345494ee6283fc9a07b77928"
   },
   {
@@ -3579,7 +3579,7 @@
     "file_size": "15.96 MB",
     "file_type": "PDF",
     "file_path": "pdf/الطاقة_المتجددة.pdf",
-    "cover_image": "covers/71.png",
+    "cover_image": "covers/71.webp",
     "source_sha256": "3557a3a480c44487612b9a05ffc2bd8860d6263334120276358e3b528e29ee58"
   },
   {
@@ -3640,7 +3640,7 @@
     "file_size": "47.32 MB",
     "file_type": "PDF",
     "file_path": "pdf/مقدمة_في_الخطر_والتأمين.pdf",
-    "cover_image": "covers/72.png",
+    "cover_image": "covers/72.webp",
     "source_sha256": "849db92e6ffd04387383b528db8e85dd01f43883ec056d6b1dd8249416c6b4d5"
   },
   {
@@ -3689,7 +3689,7 @@
     "file_size": "20.20 MB",
     "file_type": "PDF",
     "file_path": "pdf/مبادئ_العلاقات_العامة.pdf",
-    "cover_image": "covers/73.png",
+    "cover_image": "covers/73.webp",
     "source_sha256": "f49c9c3ca3e349c9d46acc0ac060428ad2ed629962879a53a5489c9d6391af39"
   },
   {
@@ -3746,7 +3746,7 @@
     "file_size": "5.35 MB",
     "file_type": "PDF",
     "file_path": "pdf/رياضيات_الاعمال.pdf",
-    "cover_image": "covers/74.png",
+    "cover_image": "covers/74.webp",
     "source_sha256": "89ef623f392508bb6c3504d057a3074336f5049683802d2f0e2b7c82814f8692"
   },
   {
@@ -3798,7 +3798,7 @@
     "file_size": "14.92 MB",
     "file_type": "PDF",
     "file_path": "pdf/تطبيق_مبادئ_المحاسبة_والتمويل_والضرائب_في_التقييم_العقاري.pdf",
-    "cover_image": "covers/75.png",
+    "cover_image": "covers/75.webp",
     "source_sha256": "72d37758486630ffc5cb340577b740d9db0320f489c98a81bffe150e08a5e69a"
   },
   {
@@ -3847,7 +3847,7 @@
     "file_size": "8.24 MB",
     "file_type": "PDF",
     "file_path": "pdf/مناهج_واساليب_البحث_العلمي.pdf",
-    "cover_image": "covers/76.png",
+    "cover_image": "covers/76.webp",
     "source_sha256": "bd2070c3300e29708bb0d4f7ffa8580776b2fe409aab939fca0df43bfd4240ed"
   },
   {
@@ -3896,7 +3896,7 @@
     "file_size": "2.68 MB",
     "file_type": "PDF",
     "file_path": "pdf/الاحصاء_والتخطيط_الاستراتيجي.pdf",
-    "cover_image": "covers/77.png",
+    "cover_image": "covers/77.webp",
     "source_sha256": "8a58fd94baea9c3fe8767ff3ceaeb332215ca2fbd98ec1c881af1bfbe946b1e3"
   },
   {
@@ -3947,7 +3947,7 @@
     "file_size": "10.55 MB",
     "file_type": "PDF",
     "file_path": "pdf/هيكلة_الوظائف_القيادية.pdf",
-    "cover_image": "covers/78.png",
+    "cover_image": "covers/78.webp",
     "source_sha256": "692bd538afdd854bee2f9354b2fa5bef021915269c8a33eeb8e7f5d2f5bf4e17"
   },
   {
@@ -3996,7 +3996,7 @@
     "file_size": "37.08 MB",
     "file_type": "PDF",
     "file_path": "pdf/دراسات_الجدوى_الاقتصادية.pdf",
-    "cover_image": "covers/79.png",
+    "cover_image": "covers/79.webp",
     "source_sha256": "d6ce87e47ca878ee2c839238fdde41ecd6915c18df7b31df158a8ae10d86100c"
   },
   {
@@ -4049,7 +4049,7 @@
     "file_size": "26.92 MB",
     "file_type": "PDF",
     "file_path": "pdf/معجم_الالفاظ_الاقتصادية_في_لسان_العرب.pdf",
-    "cover_image": "covers/80.png",
+    "cover_image": "covers/80.webp",
     "source_sha256": "6df12bfd79bdc3adff225c9d8ac33d385b6a12e1c63773f3cb375f65ec03fe59"
   },
   {
@@ -4100,7 +4100,7 @@
     "file_size": "21.04 MB",
     "file_type": "PDF",
     "file_path": "pdf/منظمات_الاعمال_المعاصرة.pdf",
-    "cover_image": "covers/81.png",
+    "cover_image": "covers/81.webp",
     "source_sha256": "4352f284639f4dfe71d92d2ee9fbe675141e20999489d3822995b3f3830240a3"
   },
   {
@@ -4151,7 +4151,7 @@
     "file_size": "15.30 MB",
     "file_type": "PDF",
     "file_path": "pdf/التنمية_الادارية.pdf",
-    "cover_image": "covers/82.png",
+    "cover_image": "covers/82.webp",
     "source_sha256": "34a698bf291adce84ed54180757c0ac747efdea44c30e0b2d20778709b8110c7"
   },
   {
@@ -4204,7 +4204,7 @@
     "file_size": "10.02 MB",
     "file_type": "PDF",
     "file_path": "pdf/معوقات_الضمانات_المصرفية.pdf",
-    "cover_image": "covers/83.png",
+    "cover_image": "covers/83.webp",
     "source_sha256": "53d4ae2f761121044ed2f315339b0461bbe796cda4eab77b2a08bd39a6527f76"
   },
   {
@@ -4259,7 +4259,7 @@
     "file_size": "4.51 MB",
     "file_type": "PDF",
     "file_path": "pdf/نظم_المعلومات_المحاسبية.pdf",
-    "cover_image": "covers/84.png",
+    "cover_image": "covers/84.webp",
     "source_sha256": "1f8de22e08b7adab63bf25d616e7dfb8a6744aaf90fc81e7f540589fbef33731"
   },
   {
@@ -4311,7 +4311,7 @@
     "file_size": "15.59 MB",
     "file_type": "PDF",
     "file_path": "pdf/دليل_اسخدام_معايير_التدقيق_الدولية_للتدقيق_على_المنشآت.pdf",
-    "cover_image": "covers/85.png",
+    "cover_image": "covers/85.webp",
     "source_sha256": "9be3af1e0ab5054b4a5068fa9511d28f388702834afc6b76c90dc4cc670159a6"
   },
   {
@@ -4368,7 +4368,7 @@
     "file_size": "24.94 MB",
     "file_type": "PDF",
     "file_path": "pdf/مدخل_الى_التدقيق.pdf",
-    "cover_image": "covers/86.png",
+    "cover_image": "covers/86.webp",
     "source_sha256": "1d75a4ebb7eebc2a3555cccc7e988343f40d5c1b3a4060bfffd27ac12a957dfd"
   },
   {
@@ -4423,7 +4423,7 @@
     "file_size": "19.38 MB",
     "file_type": "PDF",
     "file_path": "pdf/التنمية_الاقتصادية_نظريات_وسياسات_وموضوعات.pdf",
-    "cover_image": "covers/87.png",
+    "cover_image": "covers/87.webp",
     "source_sha256": "6376ba195b0104f6ec9133d7c839e244f3fa6312e901ec260161c9b678cb546d"
   },
   {
@@ -4478,7 +4478,7 @@
     "file_size": "3.13 MB",
     "file_type": "PDF",
     "file_path": "pdf/نظم_محاسبة_التكاليف.pdf",
-    "cover_image": "covers/88.png",
+    "cover_image": "covers/88.webp",
     "source_sha256": "17ba8de6ce8ae0cf5cf2c9103155e51d78f04ec0a7e7f258fca8ff42dff30ba4"
   },
   {
@@ -4535,7 +4535,7 @@
     "file_size": "51.35 MB",
     "file_type": "PDF",
     "file_path": "pdf/انظمة_قياس_التكاليف.pdf",
-    "cover_image": "covers/89.png",
+    "cover_image": "covers/89.webp",
     "source_sha256": "e90039d6798c0227cc4fb1890065424cf768dac343be2a4d5b59e8f950e0d209"
   },
   {
@@ -4586,7 +4586,7 @@
     "file_size": "28.36 MB",
     "file_type": "PDF",
     "file_path": "pdf/المدخل_الى_نظم_المعلومات_الادارية.pdf",
-    "cover_image": "covers/90.png",
+    "cover_image": "covers/90.webp",
     "source_sha256": "f03b866a569af333c8e405d72d5a4712a0b0f17d07de1e002fc5857cb6ccfc45"
   },
   {
@@ -4649,7 +4649,7 @@
     "file_size": "45.23 MB",
     "file_type": "PDF",
     "file_path": "pdf/اساسيات_وتطبيقات_الترويج_الالكتروني_والتقليدي.pdf",
-    "cover_image": "covers/91.png",
+    "cover_image": "covers/91.webp",
     "source_sha256": "e48c277871e9416bc2b3ec417f2b99be558dc83311fb41f7fc077c6a723bb71c"
   },
   {
@@ -4704,7 +4704,7 @@
     "file_size": "23.49 MB",
     "file_type": "PDF",
     "file_path": "pdf/السياسات_النقدية_والسياسات_المالية.pdf",
-    "cover_image": "covers/92.png",
+    "cover_image": "covers/92.webp",
     "source_sha256": "35bbb669cacd58441a04dd3e2ed6df25129d47b1dd56d957839e1f9ee210543f"
   },
   {
@@ -4763,7 +4763,7 @@
     "file_size": "20.15 MB",
     "file_type": "PDF",
     "file_path": "pdf/الانظمة_المحاسبية_المتخصصة.pdf",
-    "cover_image": "covers/93.png",
+    "cover_image": "covers/93.webp",
     "source_sha256": "4963cfdee3ecdf5947578708d01203d65c2ef521c154b7ed57d485282d03deea"
   },
   {
@@ -4822,7 +4822,7 @@
     "file_size": "12.30 MB",
     "file_type": "PDF",
     "file_path": "pdf/مبادئ_المحاسبة_المالية_الجزء_الثاني.pdf",
-    "cover_image": "covers/94.png",
+    "cover_image": "covers/94.webp",
     "source_sha256": "9c4b6bddb366ca28017efc5e4482b0760730614393b5bdbb4f925d29e9089e65"
   },
   {
@@ -4883,7 +4883,7 @@
     "file_size": "18.72 MB",
     "file_type": "PDF",
     "file_path": "pdf/موسوعة_معايير_المحاسبة_الجزء2.pdf",
-    "cover_image": "covers/95.png",
+    "cover_image": "covers/95.webp",
     "source_sha256": "350868ec6202a1b71d6ddc0d232e3943cdfc41bfc7ccd52c1da40fec4c37e479"
   },
   {
@@ -4942,7 +4942,7 @@
     "file_size": "12.96 MB",
     "file_type": "PDF",
     "file_path": "pdf/تشجيع_الابداع_كتاب_الجيب_من_هارفارد.pdf",
-    "cover_image": "covers/96.png",
+    "cover_image": "covers/96.webp",
     "source_sha256": "03ecb2b7a0d251f360899cd3ef4eae0a2e8789770900db90ba7e52327732a98c"
   },
   {
@@ -4993,7 +4993,7 @@
     "file_size": "13.41 MB",
     "file_type": "PDF",
     "file_path": "pdf/دليل_الطالب_في_المحاسبة.pdf",
-    "cover_image": "covers/97.png",
+    "cover_image": "covers/97.webp",
     "source_sha256": "d30e3f8bcfe756e4204a86457ecc478d04a1e6db54e1ffb53a9f45831f19562f"
   },
   {
@@ -5042,7 +5042,7 @@
     "file_size": "17.99 MB",
     "file_type": "PDF",
     "file_path": "pdf/العملات_الرقمية.pdf",
-    "cover_image": "covers/98.png",
+    "cover_image": "covers/98.webp",
     "source_sha256": "411c4bf694b529396a07ac9d8e6737885b8efb315638b8d619cde4412adfdecb"
   },
   {
@@ -5091,7 +5091,7 @@
     "file_size": "16.79 MB",
     "file_type": "PDF",
     "file_path": "pdf/فعالية_الاداء_المؤسسي_للمدارس_الثانوية.pdf",
-    "cover_image": "covers/99.png",
+    "cover_image": "covers/99.webp",
     "source_sha256": "0b76ab13b32c6b56dbaa0f3694c5d532f2a4703d161ac8d307428f17c3c86289"
   },
   {
@@ -5140,7 +5140,7 @@
     "file_size": "22.31 MB",
     "file_type": "PDF",
     "file_path": "pdf/الرقابة_الادارية.pdf",
-    "cover_image": "covers/100.png",
+    "cover_image": "covers/100.webp",
     "source_sha256": "3f6be596b2f46ce68b2e3a2cbd03802e86c4d9e76f860b9d04890920640c23fc"
   },
   {
@@ -5195,7 +5195,7 @@
     "file_size": "16.59 MB",
     "file_type": "PDF",
     "file_path": "pdf/العلاقات_العامة_واستراتيجيات_الاتصال.pdf",
-    "cover_image": "covers/101.png",
+    "cover_image": "covers/101.webp",
     "source_sha256": "1a0f46cc0af615ee6c6f12c9521795b314f416fe538c8eff77251d86dd8ba8d1"
   },
   {
@@ -5246,7 +5246,7 @@
     "file_size": "17.55 MB",
     "file_type": "PDF",
     "file_path": "pdf/التسويق_والمكانة_الذهنية.pdf",
-    "cover_image": "covers/102.png",
+    "cover_image": "covers/102.webp",
     "source_sha256": "8edc8c853e4de355406591dea6eb7e4723816a66151806c7755097e0b387ff72"
   },
   {
@@ -5301,7 +5301,7 @@
     "file_size": "12.17 MB",
     "file_type": "PDF",
     "file_path": "pdf/تطبيقات_في_المحاسبة_الحكومية_والقومية.pdf",
-    "cover_image": "covers/103.png",
+    "cover_image": "covers/103.webp",
     "source_sha256": "5fbf4ae6af88b6523780268a548df1981466caeacd5e51c3a222b6a0ac450244"
   },
   {
@@ -5352,7 +5352,7 @@
     "file_size": "33.84 MB",
     "file_type": "PDF",
     "file_path": "pdf/علم_المالية_التشريع_الضريبي.pdf",
-    "cover_image": "covers/104.png",
+    "cover_image": "covers/104.webp",
     "source_sha256": "488f406fcee3d4b0732c0b1430f0a9e806d539c49496c3a18a204190fd7b4ac5"
   },
   {
@@ -5407,7 +5407,7 @@
     "file_size": "20.39 MB",
     "file_type": "PDF",
     "file_path": "pdf/انواع_المديرين.pdf",
-    "cover_image": "covers/105.png",
+    "cover_image": "covers/105.webp",
     "source_sha256": "414378196fe901fba1718a20cbb5a35e09d0c08498809eb5caec7d34379ceefb"
   },
   {
@@ -5458,7 +5458,7 @@
     "file_size": "23.72 MB",
     "file_type": "PDF",
     "file_path": "pdf/ثقافة_العلاقات_الاستراتيجية_في_ادارة_الشركات.pdf",
-    "cover_image": "covers/106.png",
+    "cover_image": "covers/106.webp",
     "source_sha256": "90717350ff5abba4dba84c7cbdf697a70d9247e11db50ac317c1677884ca62ec"
   },
   {
@@ -5517,7 +5517,7 @@
     "file_size": "22.05 MB",
     "file_type": "PDF",
     "file_path": "pdf/المحاسبة_في_شركات_الاشخاص.pdf",
-    "cover_image": "covers/107.png",
+    "cover_image": "covers/107.webp",
     "source_sha256": "2f828e59374a3658f249a87d19a56e13d85e8ffe481cdd8038c28cad23fd65b8"
   },
   {
@@ -5566,7 +5566,7 @@
     "file_size": "49.63 MB",
     "file_type": "PDF",
     "file_path": "pdf/قضايا_وتطبيقات_تسويقية_معاصرة.pdf",
-    "cover_image": "covers/108.png",
+    "cover_image": "covers/108.webp",
     "source_sha256": "fd656f132620969546c703a61471421ec19753949aaa78abd827cc5a116e6f9a"
   },
   {
@@ -5617,7 +5617,7 @@
     "file_size": "1.64 MB",
     "file_type": "PDF",
     "file_path": "pdf/تحديث_النمو.pdf",
-    "cover_image": "covers/109.png",
+    "cover_image": "covers/109.webp",
     "source_sha256": "a8d9f8d573f5df805bbc7c3df8066f950a0b9011b7a506c0b484444f1669c3f8"
   },
   {
@@ -5670,7 +5670,7 @@
     "file_size": "26.05 MB",
     "file_type": "PDF",
     "file_path": "pdf/تحليل_وتقييم_المشروعات_الاقتصادية.pdf",
-    "cover_image": "covers/110.png",
+    "cover_image": "covers/110.webp",
     "source_sha256": "c81f81a03dd0ec9ee3472a5898eccbcd3088c5fbdd23d904b9db5e44ae47b52f"
   },
   {
@@ -5721,7 +5721,7 @@
     "file_size": "26.13 MB",
     "file_type": "PDF",
     "file_path": "pdf/تطوير_المنتجات_الجديدة.pdf",
-    "cover_image": "covers/111.png",
+    "cover_image": "covers/111.webp",
     "source_sha256": "da9ee5886e62036b9a04f0077de915018bfc1ba839ceb0af624df493f1df253d"
   },
   {
@@ -5782,7 +5782,7 @@
     "file_size": "35.57 MB",
     "file_type": "PDF",
     "file_path": "pdf/كتاب_الادارة_المهام_المسؤوليات_التطبيقات.pdf",
-    "cover_image": "covers/112.png",
+    "cover_image": "covers/112.webp",
     "source_sha256": "9e7785dc53045d15b1024fe5bd72e5eaf13ca11f66cb616cffad84ca7a058a49"
   },
   {
@@ -5835,7 +5835,7 @@
     "file_size": "26.73 MB",
     "file_type": "PDF",
     "file_path": "pdf/الهندسة_الاجتماعية.pdf",
-    "cover_image": "covers/113.png",
+    "cover_image": "covers/113.webp",
     "source_sha256": "bc5a48ce0ba7533ae790c7e665dc8de59b7c6c06f3c8a669c8de095986ae04a5"
   },
   {
@@ -5892,7 +5892,7 @@
     "file_size": "8.20 MB",
     "file_type": "PDF",
     "file_path": "pdf/الاحصاء_والبحث_التاريخي.pdf",
-    "cover_image": "covers/114.png",
+    "cover_image": "covers/114.webp",
     "source_sha256": "3dccd95ab2731cac0fe5ce6ab2c9bfe777e0ba31460e5da52215724d7b607259"
   },
   {
@@ -5949,7 +5949,7 @@
     "file_size": "4.77 MB",
     "file_type": "PDF",
     "file_path": "pdf/المحاسبة_في_المشروع_التجاري_الفردي.pdf",
-    "cover_image": "covers/115.png",
+    "cover_image": "covers/115.webp",
     "source_sha256": "c66e74da6ea83bc08d7d30e4cd25f8d633b82f4c584fe62ac3dd9f6d1340d725"
   },
   {
@@ -6006,7 +6006,7 @@
     "file_size": "40.47 MB",
     "file_type": "PDF",
     "file_path": "pdf/النظم_الضريبية.pdf",
-    "cover_image": "covers/116.png",
+    "cover_image": "covers/116.webp",
     "source_sha256": "f2cd7811d37a5f677e919013eec0b3f6b3a3d1f8ec23f409bbf1a051eda76c4c"
   },
   {
@@ -6059,7 +6059,7 @@
     "file_size": "14.00 MB",
     "file_type": "PDF",
     "file_path": "pdf/القيادة_الابتكارية.pdf",
-    "cover_image": "covers/117.png",
+    "cover_image": "covers/117.webp",
     "source_sha256": "2b26c1b9734e5f974578a57fc3fba86584632da1a90ee3851d415407fd6d90b7"
   },
   {
@@ -6110,7 +6110,7 @@
     "file_size": "7.00 MB",
     "file_type": "PDF",
     "file_path": "pdf/جدوى_نظم_المعلومات_في_اتخاذ_القرارات.pdf",
-    "cover_image": "covers/118.png",
+    "cover_image": "covers/118.webp",
     "source_sha256": "dcbf0ec377952f5c2ce5c4169af1a10f9cd984d4611effd2f4a533b531c12985"
   },
   {
@@ -6169,7 +6169,7 @@
     "file_size": "2.01 MB",
     "file_type": "PDF",
     "file_path": "pdf/تعلم_الاحصاء_من_البداية_وحتى_التمكن.pdf",
-    "cover_image": "covers/119.png",
+    "cover_image": "covers/119.webp",
     "source_sha256": "2fa796ea3a172c5541bbe303f371b87f948951d0a4c577aa96e2425df93b206c"
   },
   {
@@ -6222,7 +6222,7 @@
     "file_size": "1.89 MB",
     "file_type": "PDF",
     "file_path": "pdf/القيادة_التحولية_وضغوط_العمل_في_المجال_الرياضي.pdf",
-    "cover_image": "covers/120.png",
+    "cover_image": "covers/120.webp",
     "source_sha256": "f72f5bb3ee38376a0ff1941d0ea5a7b1194c7fd658cf32bfb50d8c2d63fe4ce9"
   },
   {
@@ -6277,7 +6277,7 @@
     "file_size": "22.69 MB",
     "file_type": "PDF",
     "file_path": "pdf/2الاحصاء_التطبيقي.pdf",
-    "cover_image": "covers/121.png",
+    "cover_image": "covers/121.webp",
     "source_sha256": "0ce8246e2da005b79d97aa63a1f735fb338d19fa9897d50ddf1dbd19aeb2dd0b"
   },
   {
@@ -6332,7 +6332,7 @@
     "file_size": "21.38 MB",
     "file_type": "PDF",
     "file_path": "pdf/منظمات_الاعمال_المفاهيم_والوظائف.pdf",
-    "cover_image": "covers/122.png",
+    "cover_image": "covers/122.webp",
     "source_sha256": "4a9024b72de7f64fdb5a6e5500d2223ed82c378e68350e97d61d3ed2224e2758"
   },
   {
@@ -6381,7 +6381,7 @@
     "file_size": "15.20 MB",
     "file_type": "PDF",
     "file_path": "pdf/سياسات_وبرامج_الزبون_واثرها.pdf",
-    "cover_image": "covers/123.png",
+    "cover_image": "covers/123.webp",
     "source_sha256": "62899f07e799a5f851a22aea5c146b58ee168009d1a53f123c5c18be9eaea02a"
   },
   {
@@ -6438,7 +6438,7 @@
     "file_size": "9.86 MB",
     "file_type": "PDF",
     "file_path": "pdf/ادارة_النشاط_التسويقي.pdf",
-    "cover_image": "covers/124.png",
+    "cover_image": "covers/124.webp",
     "source_sha256": "3dece1bf29b4d2fae87102dde55a6a7614880601a314f9e270ee33cd5d14e608"
   },
   {
@@ -6495,7 +6495,7 @@
     "file_size": "9.42 MB",
     "file_type": "PDF",
     "file_path": "pdf/الاحصاء_التطبيقي2.pdf",
-    "cover_image": "covers/125.png",
+    "cover_image": "covers/125.webp",
     "source_sha256": "03424f72ea88b6429d17774561405cbc93c512db860a9e399390fbc9e41cac56"
   },
   {
@@ -6548,7 +6548,7 @@
     "file_size": "13.32 MB",
     "file_type": "PDF",
     "file_path": "pdf/المعرفة_والتفكير_المعاصر.pdf",
-    "cover_image": "covers/126.png",
+    "cover_image": "covers/126.webp",
     "source_sha256": "923d549507e8f654c0eeb7cb56de518dc021752ca083f96370ff2044c8b28f17"
   },
   {
@@ -6603,7 +6603,7 @@
     "file_size": "32.48 MB",
     "file_type": "PDF",
     "file_path": "pdf/المحاسبة_الحكومية2.pdf",
-    "cover_image": "covers/127.png",
+    "cover_image": "covers/127.webp",
     "source_sha256": "7869264fd8460a16bef33a68f6ad2e1df08e864506ffa0cf37a53f60ab8c3a6f"
   },
   {
@@ -6652,7 +6652,7 @@
     "file_size": "21.73 MB",
     "file_type": "PDF",
     "file_path": "pdf/بناء_وتصميم_الاختبارات_والمقاييس_النفسية_والتربوية.pdf",
-    "cover_image": "covers/128.png",
+    "cover_image": "covers/128.webp",
     "source_sha256": "8cdda207466162be12d2b4c9a5dd7c9325c1b6609556dbd32e0d0f0c8481042e"
   },
   {
@@ -6701,7 +6701,7 @@
     "file_size": "3.74 MB",
     "file_type": "PDF",
     "file_path": "pdf/تحليل_اسس_الادارة_العامة.pdf",
-    "cover_image": "covers/129.png",
+    "cover_image": "covers/129.webp",
     "source_sha256": "89528ac5c1dfc850663dc2b4536954c7294708abb0b2620948e33439449d57ee"
   },
   {
@@ -6752,7 +6752,7 @@
     "file_size": "8.42 MB",
     "file_type": "PDF",
     "file_path": "pdf/سلسلة_الجرائم_المالية.pdf",
-    "cover_image": "covers/130.png",
+    "cover_image": "covers/130.webp",
     "source_sha256": "ea6dc2c352d21d16bda73f2814ea1e9cac1607047b746d88a88476e449c2f01a"
   },
   {
@@ -6809,7 +6809,7 @@
     "file_size": "5.13 MB",
     "file_type": "PDF",
     "file_path": "pdf/الاحصاء_للمكتبيين.pdf",
-    "cover_image": "covers/131.png",
+    "cover_image": "covers/131.webp",
     "source_sha256": "4fa97cd2c2b55e3bdbcaf28ae1672fef0fcc50771ef521833be0efa126b74f32"
   },
   {
@@ -6861,7 +6861,7 @@
     "file_size": "5.32 MB",
     "file_type": "PDF",
     "file_path": "pdf/كيف_يمكنك_اتخاذ_القرارات_الادارية؟.pdf",
-    "cover_image": "covers/132.png",
+    "cover_image": "covers/132.webp",
     "source_sha256": "cbe1abd1b9b61372ef65202b45c25d849f092146336ad8c871515b077d493a92"
   },
   {
@@ -6910,7 +6910,7 @@
     "file_size": "7.28 MB",
     "file_type": "PDF",
     "file_path": "pdf/العلاقات_العامة.pdf",
-    "cover_image": "covers/133.png",
+    "cover_image": "covers/133.webp",
     "source_sha256": "dc7a2be11897a3579567a5879c28d912a2d84b7cb19b08b7d277c1761cd92a7f"
   },
   {
@@ -6969,7 +6969,7 @@
     "file_size": "34.71 MB",
     "file_type": "PDF",
     "file_path": "pdf/النظام_الضريبي_واهداف_المجتمع.pdf",
-    "cover_image": "covers/134.png",
+    "cover_image": "covers/134.webp",
     "source_sha256": "564e0889bf314a604ef1b1004e7e5e099f1a6f0a678e99395a1f15c8f3488ddd"
   },
   {
@@ -7030,7 +7030,7 @@
     "file_size": "41.18 MB",
     "file_type": "PDF",
     "file_path": "pdf/دراسات_في_النظام_المالي_الاسلامي.pdf",
-    "cover_image": "covers/135.png",
+    "cover_image": "covers/135.webp",
     "source_sha256": "ba8ea6e0f3853dab7de8107f50aea128266150336a816d88c75d7ad19625d4dc"
   },
   {
@@ -7087,7 +7087,7 @@
     "file_size": "36.64 MB",
     "file_type": "PDF",
     "file_path": "pdf/النقود_والتضخم.pdf",
-    "cover_image": "covers/136.png",
+    "cover_image": "covers/136.webp",
     "source_sha256": "e9a93656abf19979fc83d81b1b7797e17d52cf1ac1a87d002ec6d6e166d497e3"
   },
   {
@@ -7146,7 +7146,7 @@
     "file_size": "22.25 MB",
     "file_type": "PDF",
     "file_path": "pdf/حماية_المستهلك_في_الفقه_الاقتصادي_الاسلامي.pdf",
-    "cover_image": "covers/137.png",
+    "cover_image": "covers/137.webp",
     "source_sha256": "bf4c1f5977200ab1cfe4ad88d5043a5da4f376e0134940bf55b2697b71b6bc17"
   },
   {
@@ -7203,7 +7203,7 @@
     "file_size": "19.49 MB",
     "file_type": "PDF",
     "file_path": "pdf/نظرية_المحاسبة.pdf",
-    "cover_image": "covers/138.png",
+    "cover_image": "covers/138.webp",
     "source_sha256": "6aa7fc9d8d3851f75ba5821f1d529cc41b35cd9af3a226856f0978a02b845efb"
   },
   {
@@ -7260,7 +7260,7 @@
     "file_size": "23.79 MB",
     "file_type": "PDF",
     "file_path": "pdf/مبادئ_محاسبة_التكاليف.pdf",
-    "cover_image": "covers/139.png",
+    "cover_image": "covers/139.webp",
     "source_sha256": "bfcfb7557d8a197b2727723850226af660c7f38b011c8826d0788d5458865658"
   },
   {
@@ -7318,7 +7318,7 @@
     "badge_text_en": "",
     "file_path": "pdf/سياسات_صندوق_النقد_الدولي_واثرها_على_الدول_النامية.pdf",
     "file_name": "سياسات_صندوق_النقد_الدولي_واثرها_على_الدول_النامية.pdf",
-    "cover_image": "covers/140.png",
+    "cover_image": "covers/140.webp",
     "source_sha256": "3f0ac8f7b7f5eb0b3ddee5c993f95bf67e057bc147663b21ef0d9503127efa33"
   },
   {
@@ -7377,7 +7377,7 @@
     "badge_text_en": "",
     "file_path": "pdf/مراجعة_الحسابات_والتدقيق.pdf",
     "file_name": "مراجعة_الحسابات_والتدقيق.pdf",
-    "cover_image": "covers/141.png",
+    "cover_image": "covers/141.webp",
     "source_sha256": "b8e69f9c00f88b84958a8879a11d437edd02ed4ba39811e8421a78bf1b31e373"
   },
   {
@@ -7432,7 +7432,7 @@
     "badge_text_en": "",
     "file_path": "pdf/فن_حل_المسألة_الرياضية.pdf",
     "file_name": "فن_حل_المسألة_الرياضية.pdf",
-    "cover_image": "covers/142.png",
+    "cover_image": "covers/142.webp",
     "source_sha256": "e4a41facf0639f51f929de1cfe364eeeccfb21e5696d69b9db88296753d2b7ad"
   },
   {
@@ -7492,7 +7492,7 @@
     "badge_text_en": "",
     "file_path": "pdf/سيكلوجية_الادارة.pdf",
     "file_name": "سيكلوجية_الادارة.pdf",
-    "cover_image": "covers/143.png",
+    "cover_image": "covers/143.webp",
     "source_sha256": "04551c2cc13dc5385eb551c39cd9fb1385c902c1abf4792942bdaab161af71a0"
   },
   {
@@ -7550,7 +7550,7 @@
     "badge_text_en": "",
     "file_path": "pdf/القيادة_والادارة_العسكرية.pdf",
     "file_name": "القيادة_والادارة_العسكرية.pdf",
-    "cover_image": "covers/144.png",
+    "cover_image": "covers/144.webp",
     "source_sha256": "cbee4d49714f99b918179069327ae32e0090963d05859c000e3d929cddfcdf02"
   },
   {
@@ -7607,7 +7607,7 @@
     "badge_text_en": "",
     "file_path": "pdf/الادارة_الالكترونية_وتطبيقاتها_الوظيفية.pdf",
     "file_name": "الادارة_الالكترونية_وتطبيقاتها_الوظيفية.pdf",
-    "cover_image": "covers/145.png",
+    "cover_image": "covers/145.webp",
     "source_sha256": "84805c2646fde0e9311fd80d4821b5e0735b4f84f1da83e3a517bca13ce1605b"
   },
   {
@@ -7666,7 +7666,7 @@
     "badge_text_en": "",
     "file_path": "pdf/تنظيم_وادارة_المحفوظات_والارشيف.pdf",
     "file_name": "تنظيم_وادارة_المحفوظات_والارشيف.pdf",
-    "cover_image": "covers/146.png",
+    "cover_image": "covers/146.webp",
     "source_sha256": "774ead9d99da0fb1b604438f81aaf892d7ed1ebd5725fc1e6c1809a43874884e"
   },
   {
@@ -7726,7 +7726,7 @@
     "badge_text_en": "",
     "file_path": "pdf/المدير_المتميز_وتطوير_الاداء_الاداري.pdf",
     "file_name": "المدير_المتميز_وتطوير_الاداء_الاداري.pdf",
-    "cover_image": "covers/147.png",
+    "cover_image": "covers/147.webp",
     "source_sha256": "6c30a6579ed723c23c1fc6426ae681b4ffa333cd43b933b1d1fbc68f08647362"
   },
   {
@@ -7783,7 +7783,7 @@
     "badge_text_en": "",
     "file_path": "pdf/التدريب_المؤثر_في_العمل.pdf",
     "file_name": "التدريب_المؤثر_في_العمل.pdf",
-    "cover_image": "covers/148.png",
+    "cover_image": "covers/148.webp",
     "source_sha256": "6aee37b6216ff3d82c05595fc018900d5a7e9d2676d1974e3495775dba3aca5b"
   },
   {
@@ -7840,7 +7840,7 @@
     "badge_text_en": "",
     "file_path": "pdf/البرنامج_العلمي_لكتابة_الخطة_الاستراتيجية.pdf",
     "file_name": "البرنامج_العلمي_لكتابة_الخطة_الاستراتيجية.pdf",
-    "cover_image": "covers/149.png",
+    "cover_image": "covers/149.webp",
     "source_sha256": "8a012ef237f970132f3e00b48672f9b156473838213fe676e98645e732656a1d"
   },
   {
@@ -7899,7 +7899,7 @@
     "badge_text_en": "",
     "file_path": "pdf/الكفاءة_الادارية.pdf",
     "file_name": "الكفاءة_الادارية.pdf",
-    "cover_image": "covers/150.png",
+    "cover_image": "covers/150.webp",
     "source_sha256": "8a9df89ce7237786d1882f0e7e738293b2e1cad52e31e709d63a8faeb5f0acf5"
   },
   {
@@ -7955,7 +7955,7 @@
     "badge_text_en": "",
     "file_path": "pdf/المستشار_الموثوق.pdf",
     "file_name": "المستشار_الموثوق.pdf",
-    "cover_image": "covers/151.png",
+    "cover_image": "covers/151.webp",
     "source_sha256": "74a6358fb403556bbff7ad93e68e5ab1fbe4e00bc3c12304634a924bf19ada75"
   },
   {
@@ -8011,7 +8011,7 @@
     "badge_text_en": "",
     "file_path": "pdf/شيء_واحد_يجب_ان_تعرفه.pdf",
     "file_name": "شيء_واحد_يجب_ان_تعرفه.pdf",
-    "cover_image": "covers/152.png",
+    "cover_image": "covers/152.webp",
     "source_sha256": "2c7d6d84c99e39aa4ea87f4d9db9aacea11c6a3fcd86028a2492d837c9ccc6c4"
   },
   {
@@ -8073,7 +8073,7 @@
     "badge_text_en": "",
     "file_path": "pdf/مبتدئ_التسويق_الحديث.pdf",
     "file_name": "مبتدئ_التسويق_الحديث.pdf",
-    "cover_image": "covers/153.png",
+    "cover_image": "covers/153.webp",
     "source_sha256": "858461297978947d82e95e57baf767ce1bb3d5793d600d8d75ed691f4d4b3e1b"
   },
   {
@@ -8135,7 +8135,7 @@
     "badge_text_en": "",
     "file_path": "pdf/السلوك_التنظيمي_في_ادارة_المؤسسات_التعليمية.pdf",
     "file_name": "السلوك_التنظيمي_في_ادارة_المؤسسات_التعليمية.pdf",
-    "cover_image": "covers/154.png",
+    "cover_image": "covers/154.webp",
     "source_sha256": "d520837d35196a6d01ccb12a5d1c933abdbbdae20cea243ec4224101bfeaa191"
   },
   {
@@ -8197,7 +8197,7 @@
     "badge_text_en": "",
     "file_path": "pdf/ادارة_المبيعات_محمود_جاسم_وردينة_عثمان.pdf",
     "file_name": "ادارة_المبيعات_محمود_جاسم_وردينة_عثمان.pdf",
-    "cover_image": "covers/155.png",
+    "cover_image": "covers/155.webp",
     "source_sha256": "98f8e5ea4cb5bbf7e0e698455aaabbcc6572e7e8b4c13c007fdd37146f0c2514"
   },
   {
@@ -8256,7 +8256,7 @@
     "badge_text_en": "",
     "file_path": "pdf/اخلاقيات_الادارة.pdf",
     "file_name": "اخلاقيات_الادارة.pdf",
-    "cover_image": "covers/156.png",
+    "cover_image": "covers/156.webp",
     "source_sha256": "702959121bb2cd171f3dc475db4bc94c6145058dfcdda53a11d3970054b92044"
   },
   {
@@ -8312,7 +8312,7 @@
     "badge_text_en": "",
     "file_path": "pdf/دعاوى_العمل_والدعاوى_المستعجلة.pdf",
     "file_name": "دعاوى_العمل_والدعاوى_المستعجلة.pdf",
-    "cover_image": "covers/157.png",
+    "cover_image": "covers/157.webp",
     "source_sha256": "dd85fbafa6a45c7a3d728c7efc2af873cb7cb3a84a35bebd494fb305702cb7fe"
   },
   {
@@ -8371,7 +8371,7 @@
     "badge_text_en": "",
     "file_path": "pdf/مقدمة_في_اساليب_الاستدلال_الاحصائي.pdf",
     "file_name": "مقدمة_في_اساليب_الاستدلال_الاحصائي.pdf",
-    "cover_image": "covers/158.png",
+    "cover_image": "covers/158.webp",
     "source_sha256": "cbd11df35a102d80faab81478e145ff75bc90e552ed887540319f80896f185e9"
   },
   {
@@ -8426,7 +8426,7 @@
     "badge_text_en": "",
     "file_path": "pdf/معجم_المصطلحات_المحاسبية_والمالية_والادارية.pdf",
     "file_name": "معجم_المصطلحات_المحاسبية_والمالية_والادارية.pdf",
-    "cover_image": "covers/159.png",
+    "cover_image": "covers/159.webp",
     "source_sha256": "3e01d871e00f63fd0cb27d2ef76d264ac6f02679450ef689ffd6cbde5b753a93"
   },
   {
@@ -8486,7 +8486,7 @@
     "badge_text_en": "",
     "file_path": "pdf/السلوك_التنظيمي3.pdf",
     "file_name": "السلوك_التنظيمي3.pdf",
-    "cover_image": "covers/160.png",
+    "cover_image": "covers/160.webp",
     "source_sha256": "9f2e460ae28ff92a0bb8bf639108b5d7047975916fea20e746f552f2406a799e"
   },
   {
@@ -8543,7 +8543,7 @@
     "badge_text_en": "",
     "file_path": "pdf/دليل_البائع_الناجح.pdf",
     "file_name": "دليل_البائع_الناجح.pdf",
-    "cover_image": "covers/161.png",
+    "cover_image": "covers/161.webp",
     "source_sha256": "f7b5a4daab8da57fe4ac44f19093c57506bc373d7352c1f8971917986d2136d7"
   },
   {
@@ -8606,7 +8606,7 @@
     "badge_text_en": "",
     "file_path": "pdf/الرياضيات_للعلوم_الادارية_والمالية.pdf",
     "file_name": "الرياضيات_للعلوم_الادارية_والمالية.pdf",
-    "cover_image": "covers/162.png",
+    "cover_image": "covers/162.webp",
     "source_sha256": "45372710161400bc96c38a663ca1986178d9a29db0ce9890073a434e9895b928"
   },
   {
@@ -8665,7 +8665,7 @@
     "badge_text_en": "",
     "file_path": "pdf/تكنولوجيا_العمل_في_المنظمة_بين_النظرية_والتطبيق.pdf",
     "file_name": "تكنولوجيا_العمل_في_المنظمة_بين_النظرية_والتطبيق.pdf",
-    "cover_image": "covers/163.png",
+    "cover_image": "covers/163.webp",
     "source_sha256": "b3df3cb673ce3825d1351e9790853f92b1ea7de34522cf8405254da5cee1b5be"
   },
   {
@@ -8725,7 +8725,7 @@
     "badge_text_en": "",
     "file_path": "pdf/العلاقات_الاقتصادية_الدولية.pdf",
     "file_name": "العلاقات_الاقتصادية_الدولية.pdf",
-    "cover_image": "covers/164.png",
+    "cover_image": "covers/164.webp",
     "source_sha256": "dc992a4e22a2401ccb5468e2b94b4cd68bbb38ac1d86fa673c68972d8d1cac29"
   },
   {
@@ -8785,7 +8785,7 @@
     "badge_text_en": "",
     "file_path": "pdf/اسس_التسويق_الحديث.pdf",
     "file_name": "اسس_التسويق_الحديث.pdf",
-    "cover_image": "covers/165.png",
+    "cover_image": "covers/165.webp",
     "source_sha256": "a57a49481a1b009b204e2cf389f0934131f46088ff1744b4eba55da79b8f1419"
   },
   {
@@ -8842,7 +8842,7 @@
     "badge_text_en": "",
     "file_path": "pdf/الهويةالاجتماعية.pdf",
     "file_name": "الهويةالاجتماعية.pdf",
-    "cover_image": "covers/166.png",
+    "cover_image": "covers/166.webp",
     "source_sha256": "1873265bdc8bd79a4f142fe95fa607bcb157e9576c4c13f75934880c76c3cd6d"
   },
   {
@@ -8897,7 +8897,7 @@
     "badge_text_en": "",
     "file_path": "pdf/محاسبة_المؤسسة.pdf",
     "file_name": "محاسبة_المؤسسة.pdf",
-    "cover_image": "covers/167.png",
+    "cover_image": "covers/167.webp",
     "source_sha256": "60d0405bf509ce40349b561c525670df7a4e2a430ebf0c7c49b9dd85c9207d63"
   },
   {
@@ -8956,7 +8956,7 @@
     "badge_text_en": "",
     "file_path": "pdf/الطرق_الرياضية_للادارة_والاقتصاد.pdf",
     "file_name": "الطرق_الرياضية_للادارة_والاقتصاد.pdf",
-    "cover_image": "covers/168.png",
+    "cover_image": "covers/168.webp",
     "source_sha256": "994bd869242ff1f4a22e7f89d37b4b3e310544c523b22f7629c479a56977f6e2"
   },
   {
@@ -9013,7 +9013,7 @@
     "badge_text_en": "",
     "file_path": "pdf/ادارة المشاريع_وحاضنات_الاعمال.pdf",
     "file_name": "ادارة المشاريع_وحاضنات_الاعمال.pdf",
-    "cover_image": "covers/169.png",
+    "cover_image": "covers/169.webp",
     "source_sha256": "844250110454c1d81c8b34e671a4fefebec2db4bcfd19b4b053069efe71b4519"
   },
   {
@@ -9073,7 +9073,7 @@
     "badge_text_en": "",
     "file_path": "pdf/الاقتصاد_الاداري.pdf",
     "file_name": "الاقتصاد_الاداري.pdf",
-    "cover_image": "covers/170.png",
+    "cover_image": "covers/170.webp",
     "source_sha256": "81eeced1f9bdbe01c0f0ecd3e698b52b98a9e16af40e2dbf0f7d1800a15528ba"
   },
   {
@@ -9134,7 +9134,7 @@
     "file_path": "pdf/تطبيقات_رياضيات_الاستثمار_والتمويل.pdf",
     "file_name": "تطبيقات_رياضيات_الاستثمار_والتمويل.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/171.png",
+    "cover_image": "covers/171.webp",
     "source_sha256": "86132e510d87278297da7a4890cefa3080aad15526457279eb841608d6ff971d",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -9197,7 +9197,7 @@
     "file_path": "pdf/اصول_المراجعة_والرقابة_الداخلية.pdf",
     "file_name": "اصول_المراجعة_والرقابة_الداخلية.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/172.png",
+    "cover_image": "covers/172.webp",
     "source_sha256": "18299c04351ba86d83f221e6f557a1f7e1e867fc7b1f25a4cbdc8d200f24a223",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -9255,7 +9255,7 @@
     "file_path": "pdf/تحليل_المتغيرات_المساندة_للمدخل_الاستراتيجي.pdf",
     "file_name": "تحليل_المتغيرات_المساندة_للمدخل_الاستراتيجي.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/173.png",
+    "cover_image": "covers/173.webp",
     "source_sha256": "6a511a98805ef9b365eb20820d8f8b484ccf3dcaa3a7d2a4dcd3e2358ce1b91d",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -9317,7 +9317,7 @@
     "file_path": "pdf/المسؤولية_الاجتماعية_واخلاقيات_الاعمال.pdf",
     "file_name": "المسؤولية_الاجتماعية_واخلاقيات_الاعمال.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/174.png",
+    "cover_image": "covers/174.webp",
     "source_sha256": "afef42892edef157d69030799f28fb7de8c573f7fc9a872b36942b8f18e38897",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -9386,7 +9386,7 @@
     "file_path": "pdf/المحاسبة_المالية_المتقدمة.pdf",
     "file_name": "المحاسبة_المالية_المتقدمة.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/175.png",
+    "cover_image": "covers/175.webp",
     "source_sha256": "b19153104f91068a69211b1108e64927a306123a7f17b2f9e0b5fefcc8eb9a3f",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -9451,7 +9451,7 @@
     "file_path": "pdf/نظم_المعلومات_الادارية_المتقدمة.pdf",
     "file_name": "نظم_المعلومات_الادارية_المتقدمة.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/176.png",
+    "cover_image": "covers/176.webp",
     "source_sha256": "521c881f0a973fd7f2669c6f5f3d77c444b3804b65a6afe7ae56c09275a809a9",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -9521,7 +9521,7 @@
     "file_path": "pdf/مبادئ_الاحصاء.pdf",
     "file_name": "مبادئ_الاحصاء.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/177.png",
+    "cover_image": "covers/177.webp",
     "source_sha256": "6aaf943b35367dd394e14db95229601df1ef69fc99cff859d089593bde58f7d0",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -9586,7 +9586,7 @@
     "file_path": "pdf/اليات_العولمة_واثارها_المستقبلية_في_الاقتصاد.pdf",
     "file_name": "اليات_العولمة_واثارها_المستقبلية_في_الاقتصاد.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/178.png",
+    "cover_image": "covers/178.webp",
     "source_sha256": "d8e7ba7e456f088d83442fd056a06155a1b0e56a4278f385c6609911c72a19f3",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -9647,7 +9647,7 @@
     "file_path": "pdf/الاقتصاد_المعرفي.pdf",
     "file_name": "الاقتصاد_المعرفي.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/179.png",
+    "cover_image": "covers/179.webp",
     "source_sha256": "f06caf9c2a38d6d3bd424ef127b5173f6bc09266c3f601418a24e2fb78faa4bc",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -9709,7 +9709,7 @@
     "file_path": "pdf/تحليل_المتغيرات_الاقتصادية_والانتاجية_والكفاءات.pdf",
     "file_name": "تحليل_المتغيرات_الاقتصادية_والانتاجية_والكفاءات.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/180.png",
+    "cover_image": "covers/180.webp",
     "source_sha256": "bb194e07d0793c3e87f461569418b8edbfb494af438363893c1220b166a44162",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -9759,7 +9759,7 @@
     "file_path": "pdf/تنمية_المشروعات_الاجتماعية.pdf",
     "file_name": "تنمية_المشروعات_الاجتماعية.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/181.png",
+    "cover_image": "covers/181.webp",
     "source_sha256": "e01de0b085ad5aaab4f87e60329ad64c2975021f1fad922388e8ecb3b42fc694",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -9809,7 +9809,7 @@
     "file_path": "pdf/حوكمة_الشركات.pdf",
     "file_name": "حوكمة_الشركات.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/182.png",
+    "cover_image": "covers/182.webp",
     "source_sha256": "c55d1750c208b63c17f92de6403d2afd0da937fa143fd5da8b1bbc2a4050900f",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -9858,7 +9858,7 @@
     "file_path": "pdf/مبادئ_الاقتصاد_الكلي_من_منظور_النظريات_والسياسات_النقدية.pdf",
     "file_name": "مبادئ_الاقتصاد_الكلي_من_منظور_النظريات_والسياسات_النقدية.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/183.png",
+    "cover_image": "covers/183.webp",
     "source_sha256": "79343bb52977c0db7751669e99622a6d0f6f9569c5606e9a56ce26d396bad215",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -9911,7 +9911,7 @@
     "file_path": "pdf/حلول_كتاب_مقدمة_في_الإحصاء_الوصفي.pdf",
     "file_name": "حلول_كتاب_مقدمة_في_الإحصاء_الوصفي.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/184.png",
+    "cover_image": "covers/184.webp",
     "source_sha256": "9ac2a434a4b131871838032b9f0e0f6d84ba4b8e618db48aabcd589bde989a65",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -9970,7 +9970,7 @@
     "file_path": "pdf/موسوعة_معايير_المحاسبة_الجزء_3.pdf",
     "file_name": "موسوعة_معايير_المحاسبة_الجزء_3.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/185.png",
+    "cover_image": "covers/185.webp",
     "source_sha256": "f163208a70254985bff1364ca0ab2931f5f3b26c5eca14969a7694238e2dcdd9",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -10018,7 +10018,7 @@
     "file_path": "pdf/إدارة_الأرباح.pdf",
     "file_name": "إدارة_الأرباح.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/186.png",
+    "cover_image": "covers/186.webp",
     "source_sha256": "0342944c5e25eb131c52bf302dc077b477f7c20f13d1064e9788b163390459f1",
     "ai_status": "complete",
     "ai_attempts": 1,
@@ -10067,7 +10067,7 @@
     "file_path": "pdf/الارشادات_العملية_لصياغة_العقود_التجارية.pdf",
     "file_name": "الارشادات_العملية_لصياغة_العقود_التجارية.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/187.png",
+    "cover_image": "covers/187.webp",
     "source_sha256": "9322adcf9d1b8f90db156d66d3d5fa987f7e91208b03effd8e6cfd4910ebf514",
     "ai_status": "complete",
     "ai_attempts": 1,
@@ -10117,7 +10117,7 @@
     "file_path": "pdf/المفاهيم_الإدارية_الأساسية_النظرية_والتطبيق.pdf",
     "file_name": "المفاهيم_الإدارية_الأساسية_النظرية_والتطبيق.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/188.png",
+    "cover_image": "covers/188.webp",
     "source_sha256": "7732fbf246c764de3d75dfad16fece4b05c091428586995ab4b24270177e768d",
     "ai_status": "complete",
     "ai_attempts": 1,
@@ -10167,7 +10167,7 @@
     "file_path": "pdf/المحكمة_الافتراضية.pdf",
     "file_name": "المحكمة_الافتراضية.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/189.png",
+    "cover_image": "covers/189.webp",
     "source_sha256": "dcb607a96a5028510d4039beed8ff7d67c2113bfd78201fda7aa0f655e29870c",
     "ai_status": "complete",
     "ai_attempts": 1,
@@ -10217,7 +10217,7 @@
     "file_path": "pdf/مبادئ_الاقتصاد_التحليل_الجزئي.pdf",
     "file_name": "مبادئ_الاقتصاد_التحليل_الجزئي.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/190.png",
+    "cover_image": "covers/190.webp",
     "source_sha256": "b7a6701ae8ad2b4b19cef143470a74ea852b0299363b6c50dac634d0e7d2a8ab",
     "ai_status": "complete",
     "ai_attempts": 1,
@@ -10268,7 +10268,7 @@
     "file_path": "pdf/الصناديق_والحسابات_الخاصة.pdf",
     "file_name": "الصناديق_والحسابات_الخاصة.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/191.png",
+    "cover_image": "covers/191.webp",
     "source_sha256": "9a87d0b0c2ac072bf1b031dcddf6a209bb717bb5d3f5c8b474fba1abeb90c053",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -10317,7 +10317,7 @@
     "file_path": "pdf/الأساس_القانوني_لمكافحة_الفساد_في_التشريعات_العراقية.pdf",
     "file_name": "الأساس_القانوني_لمكافحة_الفساد_في_التشريعات_العراقية.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/192.png",
+    "cover_image": "covers/192.webp",
     "source_sha256": "ab403374d51c3dceed19676b0ea1b3841fdf5c0105b8853f2403f910b4062ada",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -10365,7 +10365,7 @@
     "file_path": "pdf/الاستشارات_الإدارية.pdf",
     "file_name": "الاستشارات_الإدارية.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/193.png",
+    "cover_image": "covers/193.webp",
     "source_sha256": "bc0a223d3e042d407e599bced8f844bef1d3c4ce41acf651bc903acdb5b8da6f",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -10419,7 +10419,7 @@
     "file_path": "pdf/فنون_المحاماة_والترافع_أمام_المحاكم_الشرعية.pdf",
     "file_name": "فنون_المحاماة_والترافع_أمام_المحاكم_الشرعية.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/194.png",
+    "cover_image": "covers/194.webp",
     "source_sha256": "b861f1dff76ae7303f49fa07cc7df581208b7f6d2eddebbbbec7f1ce13317b50",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -10467,7 +10467,7 @@
     "file_path": "pdf/التفريق_للعلل_في_الفقه_الإسلامي.pdf",
     "file_name": "التفريق_للعلل_في_الفقه_الإسلامي.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/195.png",
+    "cover_image": "covers/195.webp",
     "source_sha256": "a104e49ce71173a115a41403783d1f78441c074e7412907c7da8e4b3bdf3aa22",
     "ai_status": "complete",
     "ai_attempts": 2
@@ -10516,7 +10516,7 @@
     "file_path": "pdf/جريمة_استهداف_إثارة_الحرب_الأهلية_عبر_الإعلام.pdf",
     "file_name": "جريمة_استهداف_إثارة_الحرب_الأهلية_عبر_الإعلام.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/196.png",
+    "cover_image": "covers/196.webp",
     "source_sha256": "d0659b98c25eb794864f8f9f29029a929d2ef8d9eece7dae15937ec86a3cd07d",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -10570,7 +10570,7 @@
     "file_path": "pdf/مبادئ_الاحصاء_والاحصاء_الحيوي.pdf",
     "file_name": "مبادئ_الاحصاء_والاحصاء_الحيوي.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/197.png",
+    "cover_image": "covers/197.webp",
     "source_sha256": "1941878823e885a91f3b05bd28ce9b31831d20b59991432533f4d140879df773",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -10618,7 +10618,7 @@
     "file_path": "pdf/محفظة_تعادل_المخاطرة.pdf",
     "file_name": "محفظة_تعادل_المخاطرة.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/198.png",
+    "cover_image": "covers/198.webp",
     "source_sha256": "e42076d4c8d8af9b001ea987f1d3b07d7e2cb41e15f25a5a4a4f04243db5bc7f",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -10668,7 +10668,7 @@
     "file_path": "pdf/موسوعة_بحوث_العمليات_البرمجة_الرياضية.pdf",
     "file_name": "موسوعة_بحوث_العمليات_البرمجة_الرياضية.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/199.png",
+    "cover_image": "covers/199.webp",
     "source_sha256": "1070993e2a80c988533d551e9d530f4b8807366553f602329c65a1d25bc096c2",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -10717,7 +10717,7 @@
     "file_path": "pdf/الأساليب_الكمية_في_الإدارة.pdf",
     "file_name": "الأساليب_الكمية_في_الإدارة.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/200.png",
+    "cover_image": "covers/200.webp",
     "source_sha256": "5672d6747447443064c024c7859bdebc490c20eb89335c939dcc140e06928f56",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -10771,7 +10771,7 @@
     "file_path": "pdf/السلوك_التنظيمي_في_منظمات_الأعمال.pdf",
     "file_name": "السلوك_التنظيمي_في_منظمات_الأعمال.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/201.png",
+    "cover_image": "covers/201.webp",
     "source_sha256": "37d712ab33bdb025aba122ddec34e774a7864d9f77fc1b61ddf6fbc039484006",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -10823,7 +10823,7 @@
     "file_path": "pdf/المحاسبة_في_شركات_الأموال.pdf",
     "file_name": "المحاسبة_في_شركات_الأموال.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/202.png",
+    "cover_image": "covers/202.webp",
     "source_sha256": "75703128569b833067a5376f5f801f08c14882475f9ae091093226981bf9276d",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -10873,7 +10873,7 @@
     "file_path": "pdf/النظام_القانوني_لتخفيض_رأس_مال_شركات_الأموال_الخاصة.pdf",
     "file_name": "النظام_القانوني_لتخفيض_رأس_مال_شركات_الأموال_الخاصة.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/203.png",
+    "cover_image": "covers/203.webp",
     "source_sha256": "f5e0bfce6eb7825ac6445e1fb83673a9038d1234dc4fcf653567f732e4dc8a2a",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -10928,7 +10928,7 @@
     "file_path": "pdf/بحوث_العمليات.pdf",
     "file_name": "بحوث_العمليات.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/204.png",
+    "cover_image": "covers/204.webp",
     "source_sha256": "c7c350b6ec8c3541e9b2a1cbd6a46a3e6ea362ea1ad1b844f4b35806095be06d",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -10985,7 +10985,7 @@
     "file_path": "pdf/علم_الإحصاء.pdf",
     "file_name": "علم_الإحصاء.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/205.png",
+    "cover_image": "covers/205.webp",
     "source_sha256": "e3e9d1b72da5e3c0d7dbe1c6b8fb010542b5a4b14ee64d8ab06ccee431a47a0e",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -11033,7 +11033,7 @@
     "file_path": "pdf/في_الاقتصاد_الإسلامي_البعد_المعرفي_والقيمي.pdf",
     "file_name": "في_الاقتصاد_الإسلامي_البعد_المعرفي_والقيمي.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/206.png",
+    "cover_image": "covers/206.webp",
     "source_sha256": "d0cc97ea30dfcb02e8a03758a2ae5664eaf0da5306c3bfae46dd190bea3923a2",
     "ai_status": "complete",
     "ai_attempts": 3
@@ -11080,7 +11080,7 @@
     "file_path": "pdf/التحفظ_المحاسبي.pdf",
     "file_name": "التحفظ_المحاسبي.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/207.png",
+    "cover_image": "covers/207.webp",
     "source_sha256": "4ea57c82f9193f5a42c9d281c6d622b30e634b62329792bd9e3165109a97341b",
     "ai_status": "complete",
     "ai_attempts": 2
@@ -11129,7 +11129,7 @@
     "file_path": "pdf/كراسة_التطبيقات_الإحصائية.pdf",
     "file_name": "كراسة_التطبيقات_الإحصائية.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/208.png",
+    "cover_image": "covers/208.webp",
     "source_sha256": "f60aa66398676928704f8ff09523b877939684b088e168318dae41b5a7f71cff",
     "ai_status": "complete",
     "ai_attempts": 3
@@ -11176,7 +11176,7 @@
     "file_path": "pdf/المدير_الفاشل_رؤية_للنجاح.pdf",
     "file_name": "المدير_الفاشل_رؤية_للنجاح.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/209.png",
+    "cover_image": "covers/209.webp",
     "source_sha256": "5fae572f65cf2e759f2d50392113fdf873ca7fd07f067d48a5eb608a4e363f27",
     "ai_status": "complete",
     "ai_attempts": 2
@@ -11224,7 +11224,7 @@
     "file_path": "pdf/النظرية_العامة_للتشغيل_والفائدة_والنقود.pdf",
     "file_name": "النظرية_العامة_للتشغيل_والفائدة_والنقود.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/210.png",
+    "cover_image": "covers/210.webp",
     "source_sha256": "f3c090b9de4e24af0df5b68c6ed369a11fc5fb39dada770838942c50843300d1",
     "ai_status": "complete",
     "ai_attempts": 2
@@ -11271,7 +11271,7 @@
     "file_path": "pdf/الوسائل_الإحصائية_في_البحوث_التربوية_والنفسية.pdf",
     "file_name": "الوسائل_الإحصائية_في_البحوث_التربوية_والنفسية.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/211.png",
+    "cover_image": "covers/211.webp",
     "source_sha256": "44ea82433204a6cc0a9953faa36a33ff9ca68f50df56352897799bfa95c334a4",
     "ai_status": "complete",
     "ai_attempts": 3
@@ -11318,7 +11318,7 @@
     "file_path": "pdf/الفجر_الكاذب_أوهام_الرأسمالية_العالمية.pdf",
     "file_name": "الفجر_الكاذب_أوهام_الرأسمالية_العالمية.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/212.png",
+    "cover_image": "covers/212.webp",
     "source_sha256": "7bf7c48ea8dd7eba0569de22799bc1484dd3bd759bea8c8b49969ec6403f1f7f",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -11364,7 +11364,7 @@
     "file_path": "pdf/تطور_الفكر_الاقتصادي.pdf",
     "file_name": "تطور_الفكر_الاقتصادي.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/213.png",
+    "cover_image": "covers/213.webp",
     "source_sha256": "2d96b1fd3d16d34fb905411f75a96045d8828d489f4a61d80d77d5d40eed3251",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -11410,7 +11410,7 @@
     "file_path": "pdf/رأس_المال_الفكري_وأثره_في_تحقيق_الميزة_التنافسية_المستدامة.pdf",
     "file_name": "رأس_المال_الفكري_وأثره_في_تحقيق_الميزة_التنافسية_المستدامة.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/214.png",
+    "cover_image": "covers/214.webp",
     "source_sha256": "eb51e3d41659d98a4fdb5afbc16e5a4154c289e97df2d7123b82c0da205f3d5b",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -11457,7 +11457,7 @@
     "file_path": "pdf/فن_القيادة_ومهارات_المدير_في_عالم_متغير.pdf",
     "file_name": "فن_القيادة_ومهارات_المدير_في_عالم_متغير.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/215.png",
+    "cover_image": "covers/215.webp",
     "source_sha256": "9cf1ea599c73319a996ff1ba780252e0916adfed0d38d1d43fcafbc3ec66d279",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -11503,7 +11503,7 @@
     "file_path": "pdf/قائمة_الطعام_تخطيط_تصميم_تسويق_رقابة_واتخاذ_قرارات.pdf",
     "file_name": "قائمة_الطعام_تخطيط_تصميم_تسويق_رقابة_واتخاذ_قرارات.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/216.png",
+    "cover_image": "covers/216.webp",
     "source_sha256": "256ffd8dbaba2c4cf139f76f462a3b5ce7c5681eb24239a269eb882da5b65151",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -11550,7 +11550,7 @@
     "file_path": "pdf/الادارة_المهام_المسؤوليات_التطبيقات_ج2.pdf",
     "file_name": "الادارة_المهام_المسؤوليات_التطبيقات_ج2.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/217.png",
+    "cover_image": "covers/217.webp",
     "source_sha256": "4a1d35e7af517932077338d4e8679899c83cdcb7c037bac7f33a1859618deb01",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -11597,7 +11597,7 @@
     "file_path": "pdf/محاضرات_في_التنمية_البشرية.pdf",
     "file_name": "محاضرات_في_التنمية_البشرية.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/218.png",
+    "cover_image": "covers/218.webp",
     "source_sha256": "1226b8b64ae90f242d44242643933945d32c148479e8fcfcb0b08eac25f08c84",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -11645,7 +11645,7 @@
     "file_path": "pdf/إدارة_الجودة_الشاملة_والأداء_الوظيفي_حسين_محمد_الحراحشة.pdf",
     "file_name": "إدارة_الجودة_الشاملة_والأداء_الوظيفي_حسين_محمد_الحراحشة.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/219.png",
+    "cover_image": "covers/219.webp",
     "source_sha256": "71791e03f6ed725a5946827723af506b23b669848233daad49bd88030e6d04f8",
     "ai_status": "complete",
     "ai_attempts": 2
@@ -11707,7 +11707,7 @@
     "file_path": "pdf/الإحصاء_التطبيقي_بنظام_SPSS.pdf",
     "file_name": "الإحصاء_التطبيقي_بنظام_SPSS.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/220.png",
+    "cover_image": "covers/220.webp",
     "source_sha256": "0db882a8fe6aeb527429c64bb01ac1aac44f63aa0a602c4564758352c2b5ece7",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -11769,7 +11769,7 @@
     "file_path": "pdf/الإحصاء_اللامعلمي_خطوة_بخطو_جريجوري_كوردر_ديل_فورمان.pdf",
     "file_name": "الإحصاء_اللامعلمي_خطوة_بخطو_جريجوري_كوردر_ديل_فورمان.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/221.png",
+    "cover_image": "covers/221.webp",
     "source_sha256": "adad023da7a6630ce44f8a715813fe82bd0efdc8c01ef183add22fe4fd65c08e",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -11831,7 +11831,7 @@
     "file_path": "pdf/التجارة_الإلكترونية_باسم_أحمد_المبيضين.pdf",
     "file_name": "التجارة_الإلكترونية_باسم_أحمد_المبيضين.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/222.png",
+    "cover_image": "covers/222.webp",
     "source_sha256": "90579bd2080b271e3488ae1ec9234e90ec8ee7e98d6fc1d57fb40284ba594a81",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -11893,7 +11893,7 @@
     "file_path": "pdf/التحليل_العاملى_النظرية_-_التطبيق_تأليف_محمود_عبد_الفتاح.pdf",
     "file_name": "التحليل_العاملى_النظرية_-_التطبيق_تأليف_محمود_عبد_الفتاح.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/223.png",
+    "cover_image": "covers/223.webp",
     "source_sha256": "5c39718cc532e4dcd81ba75bfd69ccdb1bfc35f55a3d440ee436527500272e96",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -11955,7 +11955,7 @@
     "file_path": "pdf/التعلم_التنظيمي_وأثره_في_تحسين_الأداء_الوظيفي_فايز_ع.pdf",
     "file_name": "التعلم_التنظيمي_وأثره_في_تحسين_الأداء_الوظيفي_فايز_ع.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/224.png",
+    "cover_image": "covers/224.webp",
     "source_sha256": "5de8590cced1e662b55378ccdccb26c8e654f74c99219b8393102e80c2ca5bf0",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -12017,7 +12017,7 @@
     "file_path": "pdf/العولمة_والتنمية_الاقتصادية_طارق_عثمان_الحسون.pdf",
     "file_name": "العولمة_والتنمية_الاقتصادية_طارق_عثمان_الحسون.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/225.png",
+    "cover_image": "covers/225.webp",
     "source_sha256": "8f70dcedc6440f9d5edf9248a2b1a7130536e4e9409b94f3ee805cfc59f187d9",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -12054,7 +12054,7 @@
     "file_path": "pdf/المحاسبة_المحوسبة_-_حسام_عواد.pdf",
     "file_name": "المحاسبة_المحوسبة_-_حسام_عواد.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/226.png",
+    "cover_image": "covers/226.webp",
     "source_sha256": "1fd58ef07b908b561d901fd45ee6ed83c1516ae643f564f34fc72212bd117497",
     "ai_status": "complete",
     "ai_attempts": 1,
@@ -12094,7 +12094,7 @@
     "file_path": "pdf/النموذج_الياباني_في_الإدارة_نظرية_Z_وليم_ج_أوشي.pdf",
     "file_name": "النموذج_الياباني_في_الإدارة_نظرية_Z_وليم_ج_أوشي.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/227.png",
+    "cover_image": "covers/227.webp",
     "source_sha256": "7377273a05d23c1065ba2de795b21b52ca993247a1fe0e823285627a3aad5c1c",
     "ai_status": "complete",
     "ai_attempts": 1,
@@ -12134,7 +12134,7 @@
     "file_path": "pdf/جودة_المعلومات_والذكاء_الاستراتيجي_في_بناء_المنظمات_المعاصرة.pdf",
     "file_name": "جودة_المعلومات_والذكاء_الاستراتيجي_في_بناء_المنظمات_المعاصرة.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/228.png",
+    "cover_image": "covers/228.webp",
     "source_sha256": "1e474c93c1c5a543ba58342899c703ce897ff540e1b65b083b73eee882910d1f",
     "ai_status": "complete",
     "ai_attempts": 1,
@@ -12174,7 +12174,7 @@
     "file_path": "pdf/معايير_المراجعة_الدولية_مترجمة_2020.pdf",
     "file_name": "معايير_المراجعة_الدولية_مترجمة_2020.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/229.png",
+    "cover_image": "covers/229.webp",
     "source_sha256": "657f86f7a686e744062186053d9b22593954826df9c82ebba55cfb9f28ea910c",
     "ai_status": "complete",
     "ai_attempts": 1,
@@ -12213,7 +12213,7 @@
     "file_path": "pdf/مفهوم_الإدارة_العامة_والمالية_بالهدف_عصام_عبد_اللطيف.pdf",
     "file_name": "مفهوم_الإدارة_العامة_والمالية_بالهدف_عصام_عبد_اللطيف.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/230.png",
+    "cover_image": "covers/230.webp",
     "source_sha256": "11a6c4f97b8c5522d6ad41c81e5a4fa5eebae96f085de52aec408717ff0925ee",
     "ai_status": "complete",
     "ai_attempts": 1,
@@ -12252,7 +12252,7 @@
     "file_path": "pdf/قاموس_الإحصاء_-_مصطفى_زايد.pdf",
     "file_name": "قاموس_الإحصاء_-_مصطفى_زايد.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/231.png",
+    "cover_image": "covers/231.webp",
     "source_sha256": "2bf5dbd77f39335dc5e5c51c03c6453287b34a9fe2cdcf5bd61c51041a0dc1c3",
     "ai_status": "complete",
     "ai_attempts": 1,
@@ -12291,7 +12291,7 @@
     "file_path": "pdf/نظم_محاسبة_التكاليف_-_محمد_عبده_نعمان.pdf",
     "file_name": "نظم_محاسبة_التكاليف_-_محمد_عبده_نعمان.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/232.png",
+    "cover_image": "covers/232.webp",
     "source_sha256": "7e8fde811da306d4cbf18ba21ac44951ba4ca2e0ba0b722d513ba697d8068aed",
     "ai_status": "complete",
     "ai_attempts": 1,
@@ -12341,7 +12341,7 @@
     "file_path": "pdf/كتاب-المحاسبة-الدولية.pdf",
     "file_name": "كتاب-المحاسبة-الدولية.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/233.png",
+    "cover_image": "covers/233.webp",
     "source_sha256": "f758f4d6c74e935c019834d727073d64fcbcb35759902de2cc5084630a8fe09a",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -12390,7 +12390,7 @@
     "file_path": "pdf/مبادئ_الاقتصاد.pdf",
     "file_name": "مبادئ_الاقتصاد.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/234.png",
+    "cover_image": "covers/234.webp",
     "source_sha256": "46a8669212971772cf2f3650fa113794010a78a21dd26db295ca66fd424ef65f",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -12438,7 +12438,7 @@
     "file_path": "pdf/محاسبة_المؤسسة_الجزء_الثاني.pdf",
     "file_name": "محاسبة_المؤسسة_الجزء_الثاني.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/235.png",
+    "cover_image": "covers/235.webp",
     "source_sha256": "010ed1d3f0f74afe0bc8ac099c64c5b13c5bcce10cdbf8556ecfe31a20ee16e2",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -12485,7 +12485,7 @@
     "file_path": "pdf/مهارات_المدير_الفعال_ومهارات_التسويق.pdf",
     "file_name": "مهارات_المدير_الفعال_ومهارات_التسويق.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/236.png",
+    "cover_image": "covers/236.webp",
     "source_sha256": "7a8ab384d92a12f79ceb49d926de7b5814c71d6842cbf9fb8f331b76d0753e8a",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -12533,7 +12533,7 @@
     "file_path": "pdf/الفكر_الاقتصادي_عند_الإمام_الغزالي.pdf",
     "file_name": "الفكر_الاقتصادي_عند_الإمام_الغزالي.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/237.png",
+    "cover_image": "covers/237.webp",
     "source_sha256": "a8e9b4618759891f77baf9a510d143c7d69cfbf6a9f2d3f939aa2aefbc6843fe",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -12581,7 +12581,7 @@
     "file_path": "pdf/المحاسبة_الإدارية_في_مجالات_الرقابة_واتخاذ_القرار.pdf",
     "file_name": "المحاسبة_الإدارية_في_مجالات_الرقابة_واتخاذ_القرار.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/238.png",
+    "cover_image": "covers/238.webp",
     "source_sha256": "d49834f722ee3e98b4575e66d40447377e0279edc7d85a0a71920518f9dc9c42",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -12629,7 +12629,7 @@
     "file_path": "pdf/المحاسبة_الإدارية.pdf",
     "file_name": "المحاسبة_الإدارية.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/239.png",
+    "cover_image": "covers/239.webp",
     "source_sha256": "b79961ad6b85ebc481dd4089d08e7b497f41c6f5af77c5fdbf9f7605f38c27d7",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -12677,7 +12677,7 @@
     "file_path": "pdf/المعيار_الدولي_للتقرير_المالي_للمنشآت_الصغيرة_والمتوسطة.pdf",
     "file_name": "المعيار_الدولي_للتقرير_المالي_للمنشآت_الصغيرة_والمتوسطة.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/240.png",
+    "cover_image": "covers/240.webp",
     "source_sha256": "2c2dc0c9fa705508710f40f5d9a2bf24ff816543ecbeccfcdbb96047c00cf50c",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -12724,7 +12724,7 @@
     "file_path": "pdf/تقديم_التغذية_الراجعة_للمرؤوسين.pdf",
     "file_name": "تقديم_التغذية_الراجعة_للمرؤوسين.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/241.png",
+    "cover_image": "covers/241.webp",
     "source_sha256": "3782f6a2b2d01a1aabfade73b9d94b56c44e8bbe23591f10843b23296f1368a7",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -12772,7 +12772,7 @@
     "file_path": "pdf/دراسات_في_التسويق_الزراعي.pdf",
     "file_name": "دراسات_في_التسويق_الزراعي.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/242.png",
+    "cover_image": "covers/242.webp",
     "source_sha256": "6952b76c8297d93469b1aa4228df7c5d3a29bf605fe11785814ce74f9d334917",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -12820,7 +12820,7 @@
     "file_path": "pdf/دليل_استخدام_برنامج_Minitab.pdf",
     "file_name": "دليل_استخدام_برنامج_Minitab.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/243.png",
+    "cover_image": "covers/243.webp",
     "source_sha256": "a1df54e5ddb4d990b2feee918d1bbb2d8741b0dedcf6f896c8790808d298d8ea",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -12867,7 +12867,7 @@
     "file_path": "pdf/الأنظمة_المحاسبية_المتخصصة.pdf",
     "file_name": "الأنظمة_المحاسبية_المتخصصة.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/244.png",
+    "cover_image": "covers/244.webp",
     "source_sha256": "43fb0396cadc218d77c07e86994f7d0b839d06cd7b8bd47c058e5498d2214ede",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -12916,7 +12916,7 @@
     "file_path": "pdf/الإحصاء.pdf",
     "file_name": "الإحصاء.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/245.png",
+    "cover_image": "covers/245.webp",
     "source_sha256": "e22829265e9a99a5613f35b03539ef88354b6e4e7a3a836f9e2b4da6641d9869",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -12965,7 +12965,7 @@
     "file_path": "pdf/التسويق_الإلكتروني_في_القرن_الحادي_والعشرين.pdf",
     "file_name": "التسويق_الإلكتروني_في_القرن_الحادي_والعشرين.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/246.png",
+    "cover_image": "covers/246.webp",
     "source_sha256": "ba221e3b41d17ab44dd531b0072c05daa18c7412ce32c27178b6e11e47f23751",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -13013,7 +13013,7 @@
     "file_path": "pdf/العلامة_التجارية.pdf",
     "file_name": "العلامة_التجارية.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/247.png",
+    "cover_image": "covers/247.webp",
     "source_sha256": "ba4f8296622426cb4767264ba46bc2ec78b4dbf0ae264f8e8d6c26470c7647fd",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -13071,7 +13071,7 @@
     "file_path": "pdf/إدارة_التسويق_-_محمود_بازرعة.pdf",
     "file_name": "إدارة_التسويق_-_محمود_بازرعة.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/248.png",
+    "cover_image": "covers/248.webp",
     "source_sha256": "2f222ee3da7a105eaa0edbae1f1138e9ad2941e4af223a6b8ff6c33f0ab90115",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -13118,7 +13118,7 @@
     "file_path": "pdf/ادارة_تكاليف_التسويق.pdf",
     "file_name": "ادارة_تكاليف_التسويق.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/249.png",
+    "cover_image": "covers/249.webp",
     "source_sha256": "cf7c01f5d284051804038ce21fcca1a13fe8b8dc992498b680320c9dbfab71e4",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -13164,7 +13164,7 @@
     "file_path": "pdf/استراتيجية_التخطيط_والتطوير_الإداري.pdf",
     "file_name": "استراتيجية_التخطيط_والتطوير_الإداري.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/250.png",
+    "cover_image": "covers/250.webp",
     "source_sha256": "82e9f464906afbb16d058ca21c100792781994f358627fafd742729ee0afe74a",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -13211,7 +13211,7 @@
     "file_path": "pdf/التكامل_الاقتصادي_المغاربي_والتكتلات_الإقليمية_الراهنة.pdf",
     "file_name": "التكامل_الاقتصادي_المغاربي_والتكتلات_الإقليمية_الراهنة.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/251.png",
+    "cover_image": "covers/251.webp",
     "source_sha256": "f1c903c181e9c8eaf32de6bb8117a5333adf60922efa0c0cb8348ae68c7b626b",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -13261,7 +13261,7 @@
     "file_path": "pdf/المهارات_المتكاملة_في_السكرتارية_وادارة_المكاتب.pdf",
     "file_name": "المهارات_المتكاملة_في_السكرتارية_وادارة_المكاتب.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/252.png",
+    "cover_image": "covers/252.webp",
     "source_sha256": "641606eb5e718c5938c6de96c6ac3b43a0f654c3767657b1b71fe5fe9cbce125",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -13308,7 +13308,7 @@
     "file_path": "pdf/بحوث_العمليات_مدخل_علمي_لاتخاذ_القرارات_منعم_زمزير_الموسوي.pdf",
     "file_name": "بحوث_العمليات_مدخل_علمي_لاتخاذ_القرارات_منعم_زمزير_الموسوي.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/253.png",
+    "cover_image": "covers/253.webp",
     "source_sha256": "faa009e23f5cff715a028aca889381db3a74ce2426acdbdf6203c04f57240f83",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -13369,7 +13369,7 @@
     "file_path": "pdf/محاسبة_شركات.pdf",
     "file_name": "محاسبة_شركات.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/254.png",
+    "cover_image": "covers/254.webp",
     "source_sha256": "79bbf712d1da869d4c97c3d79e42d6d6639204a8b34cf51e2335e89859bc4be3",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -13418,7 +13418,7 @@
     "file_path": "pdf/أثر_التمكين_على_فاعلية_المنظمة.pdf",
     "file_name": "أثر_التمكين_على_فاعلية_المنظمة.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/255.png",
+    "cover_image": "covers/255.webp",
     "source_sha256": "e41c6f42ee7e7138ef41000c23b32d548cfd33a57c1c87fb9e70583f46f6ac5c",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -13461,7 +13461,7 @@
     "file_path": "pdf/إمبراطورية_العولمة_البعد_الإستراتيجي.pdf",
     "file_name": "إمبراطورية_العولمة_البعد_الإستراتيجي.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/256.png",
+    "cover_image": "covers/256.webp",
     "source_sha256": "2a25742ab62850ac195b5a95a197e4b8bdc8a5888fb26302c17f6e208a03a2d8",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -13509,7 +13509,7 @@
     "file_path": "pdf/اتجاهات_التجارة_الدولية_وأثرها_على_التجارة_الخارجية_للدول_العربية.pdf",
     "file_name": "اتجاهات_التجارة_الدولية_وأثرها_على_التجارة_الخارجية_للدول_العربية.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/257.png",
+    "cover_image": "covers/257.webp",
     "source_sha256": "f926a46f206e413520ce8211974dda96d37acac3937c2d013583abbb379d4266",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -13559,7 +13559,7 @@
     "file_path": "pdf/الإدارة_الدولية.pdf",
     "file_name": "الإدارة_الدولية.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/258.png",
+    "cover_image": "covers/258.webp",
     "source_sha256": "a0b1186bc30c7a90cecf98ba5756d9875840a851ef767c8371f52d88f8a39890",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -13607,7 +13607,7 @@
     "file_path": "pdf/التقارير_المالية_في_المنشآت_الصغيرة.pdf",
     "file_name": "التقارير_المالية_في_المنشآت_الصغيرة.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/259.png",
+    "cover_image": "covers/259.webp",
     "source_sha256": "5507954e1ec96590a6f19791e2a3c5f011c5b06d90c29ea88279f7c6ce27301b",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -13660,7 +13660,7 @@
     "file_path": "pdf/التنبؤ_الإحصائي_الجزء_الأول.pdf",
     "file_name": "التنبؤ_الإحصائي_الجزء_الأول.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/260.png",
+    "cover_image": "covers/260.webp",
     "source_sha256": "b39bc3fa8d072d6bf52174a62edc5f479b97e820d32b09532dec6253d92ffa8f",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -13708,7 +13708,7 @@
     "file_path": "pdf/التنمية_البشرية_الحديثة.pdf",
     "file_name": "التنمية_البشرية_الحديثة.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/261.png",
+    "cover_image": "covers/261.webp",
     "source_sha256": "f61d9e88e2652016f166af3bdf2940197272d8e087fdc9e081b3705ac6118b14",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -13755,7 +13755,7 @@
     "file_path": "pdf/تعريف_الحق_ومعيار_تصنيف_الحقوق.pdf",
     "file_name": "تعريف_الحق_ومعيار_تصنيف_الحقوق.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/262.png",
+    "cover_image": "covers/262.webp",
     "source_sha256": "b747c51d5691cc6377791e70f2f343b899fcbf9a7df977610b33553435552ed6",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -13802,7 +13802,7 @@
     "file_path": "pdf/المبادئ_الأساسية_الإحصائية_في_الطرق_التطبيقية_اللامعلمية.pdf",
     "file_name": "المبادئ_الأساسية_الإحصائية_في_الطرق_التطبيقية_اللامعلمية.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/263.png",
+    "cover_image": "covers/263.webp",
     "source_sha256": "aa2b36bd164bf44e2d3dea51795473665f742606e313702615836635f179c8aa",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -13852,7 +13852,7 @@
     "file_path": "pdf/المحاسبة_المالية_المتقدمة_الدليل.pdf",
     "file_name": "المحاسبة_المالية_المتقدمة_الدليل.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/264.png",
+    "cover_image": "covers/264.webp",
     "source_sha256": "8f46ee78dc39ecbe4140c26bf5de710e10fe66ca97032735fcb09e490cdd4de2",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -13903,7 +13903,7 @@
     "file_path": "pdf/المحاسبة_المالية_ج_1.pdf",
     "file_name": "المحاسبة_المالية_ج_1.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/265.png",
+    "cover_image": "covers/265.webp",
     "source_sha256": "685faf2bd50fa172eb8e38e8682308ea748ab33b4f0e03d8a6b3c9555f1bd978",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -13953,7 +13953,7 @@
     "file_path": "pdf/المحاسبة_المالية_ج2.pdf",
     "file_name": "المحاسبة_المالية_ج2.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/266.png",
+    "cover_image": "covers/266.webp",
     "source_sha256": "8fc87bccf787c7a92a971a7900b92a9ec3e8f8a8bb5701c5d02e8ffa2e69c251",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -14000,7 +14000,7 @@
     "file_path": "pdf/Immunity_of_Offices_Diplomatic_Missions_and_the_Judiciary_Competent_to_Hear_Crimes.pdf",
     "file_name": "Immunity_of_Offices_Diplomatic_Missions_and_the_Judiciary_Competent_to_Hear_Crimes.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/267.png",
+    "cover_image": "covers/267.webp",
     "source_sha256": "cbcaf80123f9d9ef317437925d14e31b55bc8d56d61457309bbdf01327243d33",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -14049,7 +14049,7 @@
     "file_path": "pdf/حظر_النشر_في_القضايا_الجزائية_دراسة_تحليلية_مقارنة_في_التشريع_الفلسطيني_والشريعة.pdf",
     "file_name": "حظر_النشر_في_القضايا_الجزائية_دراسة_تحليلية_مقارنة_في_التشريع_الفلسطيني_والشريعة.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/268.png",
+    "cover_image": "covers/268.webp",
     "source_sha256": "c6c13b85fbd41edffc04b36a0a82623e0c6e4061de48f31c31916245046fc46d",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -14096,7 +14096,7 @@
     "file_path": "pdf/سلوكيات_في_العملية_الإدارية.pdf",
     "file_name": "سلوكيات_في_العملية_الإدارية.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/269.png",
+    "cover_image": "covers/269.webp",
     "source_sha256": "e430ceeabe77e633d808c2aa54e84bb7cd02bd3123fe0723aea5062d2a7290f6",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -14149,7 +14149,7 @@
     "file_path": "pdf/طرق_الإحصاء.pdf",
     "file_name": "طرق_الإحصاء.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/270.png",
+    "cover_image": "covers/270.webp",
     "source_sha256": "3cccb52b8202df50de6cc4513a9bd24de0fbc9f309c23a9a696ab98ad134872b",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -14192,7 +14192,7 @@
     "file_path": "pdf/الملكية_الفكرية_ومفهومها_المعاصر.pdf",
     "file_name": "الملكية_الفكرية_ومفهومها_المعاصر.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/271.png",
+    "cover_image": "covers/271.webp",
     "source_sha256": "085a961e46cee87eb19c06b4dc5fedd86399101e5bd84585d6b2876536f87445",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -14244,7 +14244,7 @@
     "file_path": "pdf/لنظم_الضريبية_-_الدليل.pdf",
     "file_name": "لنظم_الضريبية_-_الدليل.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/272.png",
+    "cover_image": "covers/272.webp",
     "source_sha256": "ce180008cc76e308522605bc9fdd7544803a979e367bd0998460e8bfbf5bb4ef",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -14295,7 +14295,7 @@
     "file_path": "pdf/مبادئ_التسويق_الالكتروني.pdf",
     "file_name": "مبادئ_التسويق_الالكتروني.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/273.png",
+    "cover_image": "covers/273.webp",
     "source_sha256": "44b93a8e41d77bbebb0b5fc43494a80d591dab734e71a55f9723c5b63df711b8",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -14345,7 +14345,7 @@
     "file_path": "pdf/مبادئ_التسويق.pdf",
     "file_name": "مبادئ_التسويق.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/274.png",
+    "cover_image": "covers/274.webp",
     "source_sha256": "f4a485d671c0156dadd9f2931a4ea7546fc287b2f24d8920a2c6a069e86fcada",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -14394,7 +14394,7 @@
     "file_path": "pdf/المحاسبة_التحليلية_تقنيات_مراقبة_التسيير_بالاعتماد_على_SCF.pdf",
     "file_name": "المحاسبة_التحليلية_تقنيات_مراقبة_التسيير_بالاعتماد_على_SCF.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/275.png",
+    "cover_image": "covers/275.webp",
     "source_sha256": "c8a452b8baa48dcf259e6054acaa6c5caf8490b61d6f8127af45871d1a2d8425",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -14444,7 +14444,7 @@
     "file_path": "pdf/محاسبة_شركات_أشخاص.pdf",
     "file_name": "محاسبة_شركات_أشخاص.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/276.png",
+    "cover_image": "covers/276.webp",
     "source_sha256": "9abb06c3b6e258371cb707c6ba5b05e5ce322b0f5a91b8e6c73652ee10a29c04",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -14495,7 +14495,7 @@
     "file_path": "pdf/محاسبة_شركات_أموال.pdf",
     "file_name": "محاسبة_شركات_أموال.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/277.png",
+    "cover_image": "covers/277.webp",
     "source_sha256": "20413deb3c58cebe8ef979ffd0bc7edfb4b3da332519763394dc97fbbf5559a7",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -14544,7 +14544,7 @@
     "file_path": "pdf/مدخل_حديث_للإحصاء_والاحتمالات_ثروت_محمد_عبد_المنعم.pdf",
     "file_name": "مدخل_حديث_للإحصاء_والاحتمالات_ثروت_محمد_عبد_المنعم.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/278.png",
+    "cover_image": "covers/278.webp",
     "source_sha256": "060c5307e7ac0eaa17f7658041ae42dc37d80727cc5a377071fdabea69507882",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -14591,7 +14591,7 @@
     "file_path": "pdf/مفاهيم_حديثة_في_التسويق_البنكي.pdf",
     "file_name": "مفاهيم_حديثة_في_التسويق_البنكي.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/279.png",
+    "cover_image": "covers/279.webp",
     "source_sha256": "def558bc5f44c4a347bbf5d8b7acfc3f3b5caef9d2ca388e14b4ef1c4188cb9a",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -14640,7 +14640,7 @@
     "file_path": "pdf/مقدمة_فى_أساليب_الإستدلال_الإحصائى_و_التنبؤ.pdf",
     "file_name": "مقدمة_فى_أساليب_الإستدلال_الإحصائى_و_التنبؤ.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/280.png",
+    "cover_image": "covers/280.webp",
     "source_sha256": "804a32a67b51cb7f1ad6b027db64473bed5e1f1745b3abc9d6eae8ad93f41341",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -14692,7 +14692,7 @@
     "file_path": "pdf/مقدمة_في_الإحصاء_الاجتماعي.pdf",
     "file_name": "مقدمة_في_الإحصاء_الاجتماعي.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/281.png",
+    "cover_image": "covers/281.webp",
     "source_sha256": "b864507798617afe0e523dab50d112d72fde629eb4acfa998de2b153a67f45e3",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -14741,7 +14741,7 @@
     "file_path": "pdf/منهجية_البحث_العلمي_في_العلوم_السلوكية.pdf",
     "file_name": "منهجية_البحث_العلمي_في_العلوم_السلوكية.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/282.png",
+    "cover_image": "covers/282.webp",
     "source_sha256": "fee3847f5c10e4fe3d77f92446a0a603088c833c510d24a73560198516350fe5",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -14789,7 +14789,7 @@
     "file_path": "pdf/مهارات_التفكير_بين_النظرية_والتطبيق_التفكير_التاريخي_أنموذجا.pdf",
     "file_name": "مهارات_التفكير_بين_النظرية_والتطبيق_التفكير_التاريخي_أنموذجا.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/283.png",
+    "cover_image": "covers/283.webp",
     "source_sha256": "1229a50d0c5f3ba14ce8034f06ae46190234d3303741c3132bdd2afeb24383a1",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -14838,7 +14838,7 @@
     "file_path": "pdf/موسوعة_معايير_المحاسبة_الجزء_4.pdf",
     "file_name": "موسوعة_معايير_المحاسبة_الجزء_4.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/284.png",
+    "cover_image": "covers/284.webp",
     "source_sha256": "1aaa33ec25de40baf44494cd1d173d518fed6417f15a4eddbdf3998825e0da71",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -14885,7 +14885,7 @@
     "file_path": "pdf/نساء_الإدارة.pdf",
     "file_name": "نساء_الإدارة.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/285.png",
+    "cover_image": "covers/285.webp",
     "source_sha256": "37364355533b0b722e31a950b5ccd40808c2ba19d896b054e0c6b148021ccd84",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -14931,7 +14931,7 @@
     "file_path": "pdf/نظم_المعلومات_المحاسبية_المحوسبة.pdf",
     "file_name": "نظم_المعلومات_المحاسبية_المحوسبة.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/286.png",
+    "cover_image": "covers/286.webp",
     "source_sha256": "c190fd34b57cbb7c2d05bef41713b9211d4a1d67a32ff3debdc486ab7a533036",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -14980,7 +14980,7 @@
     "file_path": "pdf/نظم_المعلومات_الادارية_منظور_تكنولوجي.pdf",
     "file_name": "نظم_المعلومات_الادارية_منظور_تكنولوجي.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/287.png",
+    "cover_image": "covers/287.webp",
     "source_sha256": "e8683befd049fdd01945b1c54afc6c135ef5094158c876f89620f29154eafb51",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -15026,7 +15026,7 @@
     "file_path": "pdf/نماذج_دعاوى_محكمة_البداءة.pdf",
     "file_name": "نماذج_دعاوى_محكمة_البداءة.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/288.png",
+    "cover_image": "covers/288.webp",
     "source_sha256": "980191ce0e913f42502995464a0f8d35f5be51bbd774a08d94984e7ca284b890",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -15073,7 +15073,7 @@
     "file_path": "pdf/اساسيات_الادارة_المالية.pdf",
     "file_name": "اساسيات_الادارة_المالية.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/289.png",
+    "cover_image": "covers/289.webp",
     "source_sha256": "c14cd3937e46a9791cc6bfb7cce5e72085ac2fd00716fb868bf34f3590874467",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -15121,7 +15121,7 @@
     "file_path": "pdf/الأسس_العلمية_والعملية_في_المحاسبة_الحكومية.pdf",
     "file_name": "الأسس_العلمية_والعملية_في_المحاسبة_الحكومية.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/290.png",
+    "cover_image": "covers/290.webp",
     "source_sha256": "dfeea9c9df3bb23146f2d42105fd18da023e5f8433a4567f96815157132b0e6d",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -15169,7 +15169,7 @@
     "file_path": "pdf/الأنظمة_و_الآليات.pdf",
     "file_name": "الأنظمة_و_الآليات.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/291.png",
+    "cover_image": "covers/291.webp",
     "source_sha256": "9bd11a105a7d7e8c929b39cb2acaace0b9f87207480bc72e02ff9c3914378009",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -15220,7 +15220,7 @@
     "file_path": "pdf/الإحصاء_الحيوي.pdf",
     "file_name": "الإحصاء_الحيوي.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/292.png",
+    "cover_image": "covers/292.webp",
     "source_sha256": "10e9e336df6c176dfc3bcf33d320942817593211074503a5a0952b33d1c52a69",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -15273,7 +15273,7 @@
     "file_path": "pdf/الإحصاء_العام.pdf",
     "file_name": "الإحصاء_العام.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/293.png",
+    "cover_image": "covers/293.webp",
     "source_sha256": "67a5814ab191ade5b54dba7686db88ac3d47c2b56fb0c92e3f4c984cfb6568a6",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -15327,7 +15327,7 @@
     "file_path": "pdf/الإحصاء_ووصف_البيانات.pdf",
     "file_name": "الإحصاء_ووصف_البيانات.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/294.png",
+    "cover_image": "covers/294.webp",
     "source_sha256": "929190d8dc731982396cd9471a82f550bf85b22efc8933b12e8abf58aa35716b",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -15374,7 +15374,7 @@
     "file_path": "pdf/البناء_الذاتي.pdf",
     "file_name": "البناء_الذاتي.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/295.png",
+    "cover_image": "covers/295.webp",
     "source_sha256": "ff7d84c8b1cac9da73408a29effd25d8ae21e949f910c6c5ccf809e3774ebff3",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -15422,7 +15422,7 @@
     "file_path": "pdf/التأجير_التمويلي_ومداخله_المالية،_المحاسبية،_التشريعية،_التطبيقية.pdf",
     "file_name": "التأجير_التمويلي_ومداخله_المالية،_المحاسبية،_التشريعية،_التطبيقية.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/296.png",
+    "cover_image": "covers/296.webp",
     "source_sha256": "569724cff35bdfceb65385ecfa9a9dfb9edc1e035fb30f77c0988917296c2069",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -15468,7 +15468,7 @@
     "file_path": "pdf/الجرد_والتسويات_الجردية.pdf",
     "file_name": "الجرد_والتسويات_الجردية.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/297.png",
+    "cover_image": "covers/297.webp",
     "source_sha256": "125fa3f9981cb60642cdd310f0dc1a00591e037059beb535172e49bf48220d2d",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -15516,7 +15516,7 @@
     "file_path": "pdf/الدفوع_الشكلية_-_صديق_المحامي.pdf",
     "file_name": "الدفوع_الشكلية_-_صديق_المحامي.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/298.png",
+    "cover_image": "covers/298.webp",
     "source_sha256": "f7d918318f93b2f6ffa6ef37136a762e47b7ade27ab7fd28e52755257236a2d5",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -15563,7 +15563,7 @@
     "file_path": "pdf/الرضا_الوظيفي_ومهارة_إدارة_ضغوط_العمل.pdf",
     "file_name": "الرضا_الوظيفي_ومهارة_إدارة_ضغوط_العمل.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/299.png",
+    "cover_image": "covers/299.webp",
     "source_sha256": "b12a770f7c7615542641eca05a1ab9c0fafef4ba46225c173f692805319d4b65",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -15611,7 +15611,7 @@
     "file_path": "pdf/الرياضيات_المالية_والأكتوارية.pdf",
     "file_name": "الرياضيات_المالية_والأكتوارية.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/300.png",
+    "cover_image": "covers/300.webp",
     "source_sha256": "97e8e6edea063b54125181b0aa9d487f0ae4178d4f5e1a654c4ec34affb213ef",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -15661,7 +15661,7 @@
     "file_path": "pdf/الصيرفة_الإلكترونية.pdf",
     "file_name": "الصيرفة_الإلكترونية.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/301.png",
+    "cover_image": "covers/301.webp",
     "source_sha256": "51a08b0f2293355c03cb29a8f34ccefa8888915f02b65918e7de2a795e3e4996",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -15708,7 +15708,7 @@
     "file_path": "pdf/العلاقات_العامة_في_المؤسسات_السياحية.pdf",
     "file_name": "العلاقات_العامة_في_المؤسسات_السياحية.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/302.png",
+    "cover_image": "covers/302.webp",
     "source_sha256": "f347c5770a02b3698667afbb3a52fd0fdc5f5ebcfa89744469b645fe72fb1637",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -15759,7 +15759,7 @@
     "file_path": "pdf/القيادة_كيف_نكسب_قادة_المستقبل؟.pdf",
     "file_name": "القيادة_كيف_نكسب_قادة_المستقبل؟.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/303.png",
+    "cover_image": "covers/303.webp",
     "source_sha256": "fef15f3a32f2a2fa1db06e859fcc6b040cf334ea53777d5852a291945bd7c0c1",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -15809,7 +15809,7 @@
     "file_path": "pdf/المحاسبة_الإدارية_أحمد_حسن_ظاهر.pdf",
     "file_name": "المحاسبة_الإدارية_أحمد_حسن_ظاهر.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/304.png",
+    "cover_image": "covers/304.webp",
     "source_sha256": "f86deb610cf9919ffb19b24a5e67741fa17c612ed1d9789c65ab12217c7d9b9a",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -15859,7 +15859,7 @@
     "file_path": "pdf/المحاسبة_الادارية_ترجمة_دكتور_احمد.pdf",
     "file_name": "المحاسبة_الادارية_ترجمة_دكتور_احمد.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/305.png",
+    "cover_image": "covers/305.webp",
     "source_sha256": "52319e7ecfb2df750b05b67975eb4c21b37b3dc3ace3604f441839083e7acd6c",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -15907,7 +15907,7 @@
     "file_path": "pdf/أصول_المحاسبة_المالية_في_شركات_الأموال_-_الجزء_الأول.pdf",
     "file_name": "أصول_المحاسبة_المالية_في_شركات_الأموال_-_الجزء_الأول.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/306.png",
+    "cover_image": "covers/306.webp",
     "source_sha256": "d7278945c20dff14c161ec2ba07660f961ced2600d14189fe25eb54e563cfa46",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -15954,7 +15954,7 @@
     "file_path": "pdf/المسلم_في_عالم_الاقتصاد.pdf",
     "file_name": "المسلم_في_عالم_الاقتصاد.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/307.png",
+    "cover_image": "covers/307.webp",
     "source_sha256": "a5e5de5eaf0e43618b53e0919da6e3b4210ecf1e5e025e7e7b1f9da27a23fd54",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -16003,7 +16003,7 @@
     "file_path": "pdf/المعايير_المحاسبية_الدولية_IASC_ومعايير_الإبلاغ_المالي_IFRS.pdf",
     "file_name": "المعايير_المحاسبية_الدولية_IASC_ومعايير_الإبلاغ_المالي_IFRS.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/308.png",
+    "cover_image": "covers/308.webp",
     "source_sha256": "aa69b8e27aa2921b62ae855e933fc6bf47398a4f0c28c5cc331273a192c44d91",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -16050,7 +16050,7 @@
     "file_path": "pdf/المعلونات_المحاسبية.pdf",
     "file_name": "المعلونات_المحاسبية.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/309.png",
+    "cover_image": "covers/309.webp",
     "source_sha256": "d080f3aa7741e7b28396498f643b321f973bfa62660a141dd92abbad88c3f737",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -16097,7 +16097,7 @@
     "file_path": "pdf/تحديات_العولمة_الإقتصادية_والسياسية_للدول_العربية_وسبل_معالجتها.pdf",
     "file_name": "تحديات_العولمة_الإقتصادية_والسياسية_للدول_العربية_وسبل_معالجتها.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/310.png",
+    "cover_image": "covers/310.webp",
     "source_sha256": "61646d47e6e4e08a475890fc855809f520f1755ca5894ee7880914f5f1d6a13f",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -16146,7 +16146,7 @@
     "file_path": "pdf/تسويق_الخدمات_المالية.pdf",
     "file_name": "تسويق_الخدمات_المالية.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/311.png",
+    "cover_image": "covers/311.webp",
     "source_sha256": "ba4a37089f24e4c3eb0d6d18bec85e03ba6925ea53219dba94bfaccad882c48c",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -16193,7 +16193,7 @@
     "file_path": "pdf/تسويق_خدمات_التأمين.pdf",
     "file_name": "تسويق_خدمات_التأمين.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/312.png",
+    "cover_image": "covers/312.webp",
     "source_sha256": "4b9fbb5d6f8c0c320f0e50da319db0197bd60a22aa0edcf62af812edc23632f7",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -16242,7 +16242,7 @@
     "file_path": "pdf/تقنيات_الإنتاج_الصناعي.pdf",
     "file_name": "تقنيات_الإنتاج_الصناعي.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/313.png",
+    "cover_image": "covers/313.webp",
     "source_sha256": "4668ce763b91c05275cc0765209f5eb318b73a175d1cbbb725b687d95c875e03",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -16290,7 +16290,7 @@
     "file_path": "pdf/خرافة_التنمية_والتنمية_البشرية_المستدامة.pdf",
     "file_name": "خرافة_التنمية_والتنمية_البشرية_المستدامة.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/314.png",
+    "cover_image": "covers/314.webp",
     "source_sha256": "76dbf7ffdb44b5b4047b2adb51d704ddc2b83e4ed77dca5f102b9aea93c27841",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -16339,7 +16339,7 @@
     "file_path": "pdf/طرق_التحليل_الإحصائي_متعدد_المتغيرات.pdf",
     "file_name": "طرق_التحليل_الإحصائي_متعدد_المتغيرات.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/315.png",
+    "cover_image": "covers/315.webp",
     "source_sha256": "b24e63ad36c75ec6545f49eb711093cb077056df08b95433ff06edecb6944c36",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -16388,7 +16388,7 @@
     "file_path": "pdf/علم_الاجتماع_الاقتصادي.pdf",
     "file_name": "علم_الاجتماع_الاقتصادي.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/316.png",
+    "cover_image": "covers/316.webp",
     "source_sha256": "a20989c968b9e3db642ecac558b0f8161ae90732c591422f9c6fcab2165d20d2",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -16435,7 +16435,7 @@
     "file_path": "pdf/كيف_تضع_خطة_لتطوير_مؤسستك؟.pdf",
     "file_name": "كيف_تضع_خطة_لتطوير_مؤسستك؟.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/317.png",
+    "cover_image": "covers/317.webp",
     "source_sha256": "a84323dbaf6286907bbf29126c02862b1a678de479e4352ee8197363b9504dc0",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -16482,7 +16482,7 @@
     "file_path": "pdf/مؤشرات_الأداء_الرئيسية_مجيد_الكرخي.pdf",
     "file_name": "مؤشرات_الأداء_الرئيسية_مجيد_الكرخي.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/318.png",
+    "cover_image": "covers/318.webp",
     "source_sha256": "d1cfd5d33c7784cab3c2f7644c0a3e2b0d7bc430cb9ba1c477d2e208296b6828",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -16529,7 +16529,7 @@
     "file_path": "pdf/محاسبة_التكاليف_التطبيقية.pdf",
     "file_name": "محاسبة_التكاليف_التطبيقية.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/319.png",
+    "cover_image": "covers/319.webp",
     "source_sha256": "c684a7b93622f848580dcb4e9ecbdefc9fe4321c52ed6924d1e42d12dd60d6bf",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -16574,7 +16574,7 @@
     "file_path": "pdf/معجم_مصطلحات_الصناعة_والأعمال.pdf",
     "file_name": "معجم_مصطلحات_الصناعة_والأعمال.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/320.png",
+    "cover_image": "covers/320.webp",
     "source_sha256": "4adee2645f0b1e95cfba190450738afa69eec027eb80d487e1752f6965353fda",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -16625,7 +16625,7 @@
     "file_path": "pdf/مقدمة_في_الإحصاء_التطبيقي.pdf",
     "file_name": "مقدمة_في_الإحصاء_التطبيقي.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/321.png",
+    "cover_image": "covers/321.webp",
     "source_sha256": "781f9ebbe831c16c17431415b7d19c3fc1390b41f1654742a19b04b0263c4503",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -16674,7 +16674,7 @@
     "file_path": "pdf/مقدمة_في_الاحصاء_وتطبيقات_spss_-_عايد_كريم_الكناني.pdf",
     "file_name": "مقدمة_في_الاحصاء_وتطبيقات_spss_-_عايد_كريم_الكناني.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/322.png",
+    "cover_image": "covers/322.webp",
     "source_sha256": "424787a237a046ae550d1e6a36822dc8e08a3e1494dee567e9bc6496e47ea73e",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -16724,7 +16724,7 @@
     "file_path": "pdf/مقدمة_في_الرياضيات_المالية.pdf",
     "file_name": "مقدمة_في_الرياضيات_المالية.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/323.png",
+    "cover_image": "covers/323.webp",
     "source_sha256": "d950ed30e42eb404270efdcc4c4ae9d26a4afc2bb8ab333f967778036c486e9e",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -16775,7 +16775,7 @@
     "file_path": "pdf/مقدمة_في_بحوث_العمليات.pdf",
     "file_name": "مقدمة_في_بحوث_العمليات.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/324.png",
+    "cover_image": "covers/324.webp",
     "source_sha256": "9c8cd03986cff6d4bde63cc71a1c89348bd9b5fabdfc60b87f9469be3b24cfb6",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -16821,7 +16821,7 @@
     "file_path": "pdf/هههه.pdf",
     "file_name": "هههه.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/325.png",
+    "cover_image": "covers/325.webp",
     "source_sha256": "605933f6390b9236704ca9ec37ee89f69ade939f1938b76a54b0eaea05888c41",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -16864,7 +16864,7 @@
     "file_path": "pdf/أصول_المحاسبة_المالية_فى_شركات_لأشخاص.pdf",
     "file_name": "أصول_المحاسبة_المالية_فى_شركات_لأشخاص.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/326.png",
+    "cover_image": "covers/326.webp",
     "source_sha256": "54f06a0d691355bdbe39a81cfc59396013fedd9722f218ad83ff4e21054cb8b5",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -16911,7 +16911,7 @@
     "file_path": "pdf/أيديولوجيا_العولمة.pdf",
     "file_name": "أيديولوجيا_العولمة.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/327.png",
+    "cover_image": "covers/327.webp",
     "source_sha256": "2db91f02dba450368d56f88be18bc417fe201693da42f3444c4d07e442c417c8",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -16959,7 +16959,7 @@
     "file_path": "pdf/الأساليب_الإحصائية_والجغرافيا.pdf",
     "file_name": "الأساليب_الإحصائية_والجغرافيا.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/328.png",
+    "cover_image": "covers/328.webp",
     "source_sha256": "88f61584e7daca8b5d9d61ba7ab5aec04d2091dd4b7ec7518e240385c7e9b26d",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -17009,7 +17009,7 @@
     "file_path": "pdf/الإحصاء_التطبيقي_-_إبراهيم_مهدي.pdf",
     "file_name": "الإحصاء_التطبيقي_-_إبراهيم_مهدي.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/329.png",
+    "cover_image": "covers/329.webp",
     "source_sha256": "9203511339ad77ebf75effca85d76f2a78fb1013b457d1f4a6d839130aa6c250",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -17057,7 +17057,7 @@
     "file_path": "pdf/الإحصاء_التطبيقي.pdf",
     "file_name": "الإحصاء_التطبيقي.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/330.png",
+    "cover_image": "covers/330.webp",
     "source_sha256": "23c5fc0d80c2954cc2dc7f4a5250ccf898b91a6a3c8c821197b448202bad6ae9",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -17103,7 +17103,7 @@
     "file_path": "pdf/الإحصاء_التطبيقي_في_العلوم_الاجتماعية.pdf",
     "file_name": "الإحصاء_التطبيقي_في_العلوم_الاجتماعية.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/331.png",
+    "cover_image": "covers/331.webp",
     "source_sha256": "9d288e28195449f8b33d0f325264bf57d257d6d796548b3a092c309ec0d7dd96",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -17156,7 +17156,7 @@
     "file_path": "pdf/الإحصاء_الوصفي_والتطبيقي_والحيوي.pdf",
     "file_name": "الإحصاء_الوصفي_والتطبيقي_والحيوي.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/332.png",
+    "cover_image": "covers/332.webp",
     "source_sha256": "708f3477a7bd68d841072ba0e3b8906499b1ffc93e7fddb5dc96283b841b105c",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -17205,7 +17205,7 @@
     "file_path": "pdf/الإحصاء_بلا_معاناة_الجزء_الثاني.pdf",
     "file_name": "الإحصاء_بلا_معاناة_الجزء_الثاني.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/333.png",
+    "cover_image": "covers/333.webp",
     "source_sha256": "aa3190bc19f1e7b6ac59278e64e32ad5ddbc20fd47399982a845a76ba9a1b953",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -17255,7 +17255,7 @@
     "file_path": "pdf/الإحصاء_في_مجال_الأعمال.pdf",
     "file_name": "الإحصاء_في_مجال_الأعمال.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/334.png",
+    "cover_image": "covers/334.webp",
     "source_sha256": "7158f97dec4e6317876d8f649018a8b6ff8d4d7f8da0a40164dfefa3d2bbd14d",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -17306,7 +17306,7 @@
     "file_path": "pdf/الإحصاء_في_مجال_السياحة_والفنادق_-_الجزء_الأول.pdf",
     "file_name": "الإحصاء_في_مجال_السياحة_والفنادق_-_الجزء_الأول.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/335.png",
+    "cover_image": "covers/335.webp",
     "source_sha256": "5b18b316f5b3476b4f1c51a9120b3331fb4a7ac3713cc72608a3df7d6565e1a2",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -17357,7 +17357,7 @@
     "file_path": "pdf/الإحصاء_واختبارات_التشخيص_الطبية.pdf",
     "file_name": "الإحصاء_واختبارات_التشخيص_الطبية.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/336.png",
+    "cover_image": "covers/336.webp",
     "source_sha256": "e790e4311e3157ee0e256adbc79ab0fef8d59a84ffe2176ea8dc9438d66cd29e",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -17407,7 +17407,7 @@
     "file_path": "pdf/الإحصاء_الوصفي.pdf",
     "file_name": "الإحصاء_الوصفي.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/337.png",
+    "cover_image": "covers/337.webp",
     "source_sha256": "9e8edf560a150287961acbba491aff5165125f96a01576066092047ac84d1a0b",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -17452,7 +17452,7 @@
     "file_path": "pdf/التفكير_في_صناديق_جديدة.pdf",
     "file_name": "التفكير_في_صناديق_جديدة.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/338.png",
+    "cover_image": "covers/338.webp",
     "source_sha256": "3bd346f76f1bfb46a8b0a18e51b892817bb53bfc1d3d31b2e5c50c21a87932b6",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -17499,7 +17499,7 @@
     "file_path": "pdf/الدليل_الإحصائي_في_الحكم_القضائي.pdf",
     "file_name": "الدليل_الإحصائي_في_الحكم_القضائي.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/339.png",
+    "cover_image": "covers/339.webp",
     "source_sha256": "4fecdd80e1e84a6cc476f4d4202edaea2457dc2a76b06fa70cd8f02e00cca5a4",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -17548,7 +17548,7 @@
     "file_path": "pdf/الرياضيات_وتطبيقاتها_في_العلوم_الإدارية_والاقتصادية.pdf",
     "file_name": "الرياضيات_وتطبيقاتها_في_العلوم_الإدارية_والاقتصادية.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/340.png",
+    "cover_image": "covers/340.webp",
     "source_sha256": "f2ad18e4e287daad4f6cb0d6c759ed4c4d39b7c3f03a4da4fae4ea8a0b82109d",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -17596,7 +17596,7 @@
     "file_path": "pdf/السلوك_التنظيمي_والعلاقات_الإنسانية_في_العمل.pdf",
     "file_name": "السلوك_التنظيمي_والعلاقات_الإنسانية_في_العمل.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/341.png",
+    "cover_image": "covers/341.webp",
     "source_sha256": "23d134f064a2851b9e64879e23c6d1d963e0bf63c1ffc06c63911e31a2ec4fba",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -17649,7 +17649,7 @@
     "file_path": "pdf/العلوم_السياسية_والعلاقات_الدولية.pdf",
     "file_name": "العلوم_السياسية_والعلاقات_الدولية.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/342.png",
+    "cover_image": "covers/342.webp",
     "source_sha256": "7ef62204f26b3040b3e6815e34c0cdbd3b6f9f3079ebfc9b2c11659e8d4cc6bb",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -17699,7 +17699,7 @@
     "file_path": "pdf/المحاسبة_الإبداعية.pdf",
     "file_name": "المحاسبة_الإبداعية.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/343.png",
+    "cover_image": "covers/343.webp",
     "source_sha256": "f415c79e9a3f322ad26a860f36fd104405970c86b450d19e71c678187139204f",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -17747,7 +17747,7 @@
     "file_path": "pdf/المحاسبة_الحكومية_النظرية_والتطبيق_-_صفحة_جروب_معرفة.pdf",
     "file_name": "المحاسبة_الحكومية_النظرية_والتطبيق_-_صفحة_جروب_معرفة.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/344.png",
+    "cover_image": "covers/344.webp",
     "source_sha256": "e5f9b41c611feb00664bc139bfda0f27b2ad0ad81cc5d21dc00fb6441d51078a",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -17796,7 +17796,7 @@
     "file_path": "pdf/المحاسبة_الضريبية.pdf",
     "file_name": "المحاسبة_الضريبية.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/345.png",
+    "cover_image": "covers/345.webp",
     "source_sha256": "d8b2000ce9e24d80fdd353bd548932fe9fc17c65f44a8e90c20eea954f7992ca",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -17846,7 +17846,7 @@
     "file_path": "pdf/المحاسبة_المتوسطة.pdf",
     "file_name": "المحاسبة_المتوسطة.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/346.png",
+    "cover_image": "covers/346.webp",
     "source_sha256": "bcbe228e2b5a4638052a90b1beaa0f1fa6ffb52177ea5ad469d9bd57a863dec8",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -17895,7 +17895,7 @@
     "file_path": "pdf/المحاسبة_المتوسطة_ل_كلية_التجارة_جامعة_القاهرة.pdf",
     "file_name": "المحاسبة_المتوسطة_ل_كلية_التجارة_جامعة_القاهرة.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/347.png",
+    "cover_image": "covers/347.webp",
     "source_sha256": "b88823eb5584e0b52a0ef5eb10338a2fbe46dd2f3faeedb810282e8bd70c17a3",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -17941,7 +17941,7 @@
     "file_path": "pdf/المحاسبة_عن_التدفقات_النقدية.pdf",
     "file_name": "المحاسبة_عن_التدفقات_النقدية.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/348.png",
+    "cover_image": "covers/348.webp",
     "source_sha256": "8dcb9bba5a98cb862efcb19bb93ce0a41e3835ca5c896bb8ecc18182a2c5789e",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -17989,7 +17989,7 @@
     "file_path": "pdf/المحاسبة_والعمليات_المصرفية.pdf",
     "file_name": "المحاسبة_والعمليات_المصرفية.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/349.png",
+    "cover_image": "covers/349.webp",
     "source_sha256": "697df30655350529206ae8804b9555b8526ce79605ccc82e5e024fea461d4779",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -18038,7 +18038,7 @@
     "file_path": "pdf/النظرية_المحاسبية_علي_شاهين.pdf",
     "file_name": "النظرية_المحاسبية_علي_شاهين.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/350.png",
+    "cover_image": "covers/350.webp",
     "source_sha256": "9c274a547349140dd4cd895d73d4cd562cb298d93e49f4743ef4bf83143caf18",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -18085,7 +18085,7 @@
     "file_path": "pdf/تصميم_النظم_المحاسبية.pdf",
     "file_name": "تصميم_النظم_المحاسبية.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/351.png",
+    "cover_image": "covers/351.webp",
     "source_sha256": "9c6cbf32dda759e2d4c474a0a9ea159d601386d07323404b49b4b105ecd7aaab",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -18134,7 +18134,7 @@
     "file_path": "pdf/حجية_الاعتراف_وأثر_بطلانه_في_إثبات_جرائم_المخدرات.pdf",
     "file_name": "حجية_الاعتراف_وأثر_بطلانه_في_إثبات_جرائم_المخدرات.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/352.png",
+    "cover_image": "covers/352.webp",
     "source_sha256": "8455a19d264c47c9d25585f09b85b0a7d51b63ca6b894c7f515f750f16dcb92d",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -18182,7 +18182,7 @@
     "file_path": "pdf/ززز.pdf",
     "file_name": "ززز.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/353.png",
+    "cover_image": "covers/353.webp",
     "source_sha256": "e2d4fe2c84c1a42578648848048878b951e07db72539b1b30f3198a1f4302d93",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -18232,7 +18232,7 @@
     "file_path": "pdf/علم_الإحصاء_وتطبيقاته_العملية.pdf",
     "file_name": "علم_الإحصاء_وتطبيقاته_العملية.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/354.png",
+    "cover_image": "covers/354.webp",
     "source_sha256": "064a0bb61f8fc41033455c6f3abf80dd45d86d87a3631074223964df273b8fc2",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -18281,7 +18281,7 @@
     "file_path": "pdf/بحوث_العمليات_وتطبيقاتها_الاقتصادية_ج2.pdf",
     "file_name": "بحوث_العمليات_وتطبيقاتها_الاقتصادية_ج2.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/355.png",
+    "cover_image": "covers/355.webp",
     "source_sha256": "158b62914c4b54708d04a8ca8ce47d6e9ed8da6b8fb8ede062ce6d22477ac1cc",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -18330,7 +18330,7 @@
     "file_path": "pdf/في_المحاسبة_المتقدمة.pdf",
     "file_name": "في_المحاسبة_المتقدمة.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/356.png",
+    "cover_image": "covers/356.webp",
     "source_sha256": "59c68f594e4c1964ae134facedccbc858b20b6fa7a789ee6da1f26b85b0cc550",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -18376,7 +18376,7 @@
     "file_path": "pdf/كلوج_في_التسويق.pdf",
     "file_name": "كلوج_في_التسويق.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/357.png",
+    "cover_image": "covers/357.webp",
     "source_sha256": "5c59c60d29ed8a389f7a887e875943f3c14d0bd5eedb23f8b280cb167656a304",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -18422,7 +18422,7 @@
     "file_path": "pdf/كيف_تتفوق_على_الحيتان_الشركات_العملاقة_بذكائك.pdf",
     "file_name": "كيف_تتفوق_على_الحيتان_الشركات_العملاقة_بذكائك.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/358.png",
+    "cover_image": "covers/358.webp",
     "source_sha256": "16f55b4ccef9276f4573b9e9772b587be33a103a7fa7d5e3ecd782f8ee713faa",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -18470,7 +18470,7 @@
     "file_path": "pdf/مبادئ_الاقتصاد_الرياضي.pdf",
     "file_name": "مبادئ_الاقتصاد_الرياضي.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/359.png",
+    "cover_image": "covers/359.webp",
     "source_sha256": "bcb238cfed0a56ccd786fb4d75ca93c25e5f94a896214e3070100e20a4f4826e",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -18521,7 +18521,7 @@
     "file_path": "pdf/مبادئ_علم_الاحصاء_لتطبيقي_مع_تحيات_د_سلام_الهلالي.pdf",
     "file_name": "مبادئ_علم_الاحصاء_لتطبيقي_مع_تحيات_د_سلام_الهلالي.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/360.png",
+    "cover_image": "covers/360.webp",
     "source_sha256": "ea88ee70035f0824375dd043b9c6c575bc2ff8e71b130abad94a9ee743127988",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -18573,7 +18573,7 @@
     "file_path": "pdf/مبادئ_وممارسات_المحاسبة_المتقدمة.pdf",
     "file_name": "مبادئ_وممارسات_المحاسبة_المتقدمة.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/361.png",
+    "cover_image": "covers/361.webp",
     "source_sha256": "0aa2d051bfdbbbf560e5cf006558eb76c8780292121859e715e598a43f370007",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -18622,7 +18622,7 @@
     "file_path": "pdf/محاسبة_التكاليف.pdf",
     "file_name": "محاسبة_التكاليف.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/362.png",
+    "cover_image": "covers/362.webp",
     "source_sha256": "3accc6ed6f0239626fcbb962ab2516abe6a41a31136555879bb8c1157e5799e8",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -18670,7 +18670,7 @@
     "file_path": "pdf/محاسبة_التكاليف_كأداة_رقابية.pdf",
     "file_name": "محاسبة_التكاليف_كأداة_رقابية.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/363.png",
+    "cover_image": "covers/363.webp",
     "source_sha256": "600f34cca2f5f1668baa069cea01f459f916e2cfd0f8cac12eb8809638a9ee83",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -18717,7 +18717,7 @@
     "file_path": "pdf/محاسبة_المنشآت_المتخصصة.pdf",
     "file_name": "محاسبة_المنشآت_المتخصصة.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/364.png",
+    "cover_image": "covers/364.webp",
     "source_sha256": "cee9fb3dac1e0d8a895090b8a9ac7c7dda1b207194e8f880fc288c6ba8a4a5be",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -18764,7 +18764,7 @@
     "file_path": "pdf/محاسبة_النفط.pdf",
     "file_name": "محاسبة_النفط.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/365.png",
+    "cover_image": "covers/365.webp",
     "source_sha256": "fe9c919c66ef78af4f2a67af5a4ef75c4cb644251d0ce3b72ff6ebe872d300d0",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -18813,7 +18813,7 @@
     "file_path": "pdf/مدخل_إلى_المنهجية_المتكاملة_لإدارة_الجودة_الشاملة_وجهة_نظر.pdf",
     "file_name": "مدخل_إلى_المنهجية_المتكاملة_لإدارة_الجودة_الشاملة_وجهة_نظر.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/366.png",
+    "cover_image": "covers/366.webp",
     "source_sha256": "85971cc12c0dd8e5b190478a8feabadcf58c5d4e39660073fb5a38887b08215e",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -18864,7 +18864,7 @@
     "file_path": "pdf/مدخل_معاصر_في_علم_المالية_العامة.pdf",
     "file_name": "مدخل_معاصر_في_علم_المالية_العامة.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/367.png",
+    "cover_image": "covers/367.webp",
     "source_sha256": "52d56ea1409375c4be6b3f158b50478fcb34a470fdc3efea606eb61998d0206b",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -18911,7 +18911,7 @@
     "file_path": "pdf/موسوعة_الإحصاء.pdf",
     "file_name": "موسوعة_الإحصاء.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/368.png",
+    "cover_image": "covers/368.webp",
     "source_sha256": "92ad71ea859bcccf605eb56157234426dc77dc6607b521d83eac7a33bdf08062",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -18959,7 +18959,7 @@
     "file_path": "pdf/نظرية_التعسف_في_إدارة_الشركات_التجارية.pdf",
     "file_name": "نظرية_التعسف_في_إدارة_الشركات_التجارية.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/369.png",
+    "cover_image": "covers/369.webp",
     "source_sha256": "274d4a228c840e6e06b86a5ce41808fdd3fe8816f8bb3dd2c4ea6e7c6b240432",
     "ai_status": "complete",
     "ai_attempts": 1
@@ -19010,7 +19010,7 @@
     "file_path": "pdf/نظرية_التقدير.pdf",
     "file_name": "نظرية_التقدير.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/370.png",
+    "cover_image": "covers/370.webp",
     "source_sha256": "b3ca5f58bee38a24a3db451b18e7843b516f16cbfb6181da84417e53cad37ede",
     "ai_status": "complete",
     "ai_attempts": 1

@@ -1,4 +1,3 @@
-import { buildBookUrl } from '@/hooks/useBundle';
 import { getBookField } from '@/services/catalog';
 import type { Book, Language } from '@/types/book';
 
@@ -60,7 +59,7 @@ export async function shareBookLink(
   book: Pick<Book, 'id' | 'title' | 'title_en' | 'author' | 'author_en'>,
   lang: Language = 'ar'
 ): Promise<ShareBookOutcome> {
-  const url = buildBookUrl(book.id);
+  const url = new URL(`/b/${book.id}/`, window.location.origin).toString();
   const title = lang === 'en' && book.title_en ? book.title_en : book.title;
   const author = lang === 'en' && book.author_en ? book.author_en : book.author;
 

@@ -37,7 +37,7 @@
     fill: currentColor;
   }
   .hx-stat--rating {
-    color: var(--hx-gold-deep);
+    color: var(--hx-gold-ink);
   }
   :is(.dark, [data-theme='dark']) .hx-stat--rating {
     color: var(--hx-gold-bright);
@@ -47,7 +47,7 @@
     font-weight: 700;
   }
   .hx-stat-n {
-    opacity: 0.85;
+    font-weight: 500;
   }
   .hx-grid {
     display: grid;
@@ -239,7 +239,7 @@
   .hx-icon-btn[aria-pressed='true'] {
     border-color: var(--hx-gold);
     background: rgba(226, 184, 78, 0.2);
-    color: var(--hx-gold-deep);
+    color: var(--hx-gold-ink);
   }
   :is(.dark, [data-theme='dark']) .hx-icon-btn[aria-pressed='true'] {
     color: var(--hx-gold-bright);
@@ -489,9 +489,10 @@
     align-items: center;
     gap: 8px 12px;
     margin: 0;
-    font-family: var(--hx-f-kufi);
+    font-family: var(--hx-f-body);
     font-size: 0.92rem;
     color: var(--hx-gold-pale);
+    font-weight: 600;
   }
   .hx-bd-badge {
     padding: 0 12px;
@@ -546,11 +547,20 @@
   }
   .hx-bd-facts dd {
     margin: 2px 0 0;
-    font-family: var(--hx-f-kufi);
+    font-family: var(--hx-f-body);
     font-weight: 700;
     font-size: 1.12rem;
     line-height: 1.5;
     color: var(--hx-gold-bright);
+  }
+  /* numbers and sizes keep the Kufi look; words around them use the body font */
+  .hx-bd-facts dd bdi {
+    font-family: var(--hx-f-kufi);
+  }
+  .hx-bd-unit {
+    font-size: 0.82em;
+    font-weight: 500;
+    color: var(--hx-gold-pale);
   }
   .hx-bd-actions {
     display: flex;
@@ -800,9 +810,10 @@
   }
   .hx-bd-stamp b {
     display: block;
-    font-family: var(--hx-f-kufi);
+    font-family: var(--hx-f-body);
     font-size: 0.88rem;
     color: var(--hx-ink);
+    font-weight: 600;
   }
   .hx-bd-rating {
     display: flex;
@@ -1024,4 +1035,74 @@
     margin: 0 auto 14px;
     border-radius: 4px;
   }
+
+  /* ---------- calm motion ----------
+     Entrances only (no loops): a soft rise when a page/card appears, a fade for menus
+     and the lightbox, and a cover that travels from the card into the niche
+     (View Transitions, where supported). `prefers-reduced-motion` removes all of it
+     (see heritage.css). */
+  .hx-bd-hero .hx-niche {
+    animation: hx-rise var(--hx-t-slow) var(--hx-ease) 0.05s backwards;
+  }
+  .hx-bd-info {
+    animation: hx-rise var(--hx-t-slow) var(--hx-ease) 0.12s backwards;
+  }
+  .hx-bd-body {
+    animation: hx-fade var(--hx-t-slow) var(--hx-ease) 0.2s backwards;
+  }
+  .hx-grid > .hx-card {
+    animation: hx-rise var(--hx-t-slow) var(--hx-ease) backwards;
+  }
+  .hx-grid > .hx-card:nth-child(2) {
+    animation-delay: 0.04s;
+  }
+  .hx-grid > .hx-card:nth-child(3) {
+    animation-delay: 0.08s;
+  }
+  .hx-grid > .hx-card:nth-child(4) {
+    animation-delay: 0.12s;
+  }
+  .hx-grid > .hx-card:nth-child(n + 5) {
+    animation-delay: 0.16s;
+  }
+  .hx-more[open] .hx-more-pop {
+    animation: hx-fade var(--hx-t-fast) var(--hx-ease);
+  }
+  .hx-zoom[open] {
+    animation: hx-pop var(--hx-t-mid) var(--hx-ease);
+  }
+  .hx-zoom[open]::backdrop {
+    animation: hx-fade var(--hx-t-mid) var(--hx-ease);
+  }
+  .hx-niche .hx-cover {
+    view-transition-name: hx-cover;
+  }
+}
+
+@keyframes hx-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+@keyframes hx-fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes hx-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.97) translateY(6px);
+  }
+}
+
+/* cover: card -> niche */
+::view-transition-group(hx-cover) {
+  animation-duration: 0.5s;
+  animation-timing-function: var(--hx-ease);
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.22s;
 }

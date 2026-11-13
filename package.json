@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "postbuild": "node scripts/generate-og-pages.mjs",
     "preview": "vite preview",
     "typecheck": "tsc -b --noEmit",
     "test:unit": "vitest run --dir src --no-file-parallelism",

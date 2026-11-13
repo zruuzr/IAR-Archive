@@ -9,6 +9,8 @@ export interface HeritageBookFact {
   value: ReactNode;
   /** Numbers / file sizes: force left-to-right so "9.63 MB" does not flip in RTL. */
   ltr?: boolean;
+  /** Unit word after a number ("صفحة" / "pages"): set in the body font, the number in Kufi. */
+  unit?: string;
 }
 
 export interface HeritageBookNeighbor {
@@ -222,7 +224,16 @@ export function HeritageBookDetails({
                   {facts.map((fact) => (
                     <div key={fact.label}>
                       <dt>{fact.label}</dt>
-                      <dd>{fact.ltr ? <bdi dir="ltr">{fact.value}</bdi> : fact.value}</dd>
+                      <dd>
+                        {fact.ltr || fact.unit ? (
+                          <bdi dir="ltr">{fact.value}</bdi>
+                        ) : (
+                          fact.value
+                        )}
+                        {fact.unit ? (
+                          <span className="hx-bd-unit"> {fact.unit}</span>
+                        ) : null}
+                      </dd>
                     </div>
                   ))}
                 </dl>

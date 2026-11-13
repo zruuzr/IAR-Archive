@@ -60,3 +60,10 @@ export {
   type JourneyItem
 } from './heritage-data';
 export { AN_SIGN, SEAL_SIGNS_A, SEAL_SIGNS_B, SUMER_SIGNS } from './seal-signs';
+export { openWithCover, prefersReducedMotion } from './motion';
+export {
+  getHeritageLabels,
+  type HeritageLabels,
+  type HeritageLanguage
+} from './heritage-labels';
+export { useHeritageLabels } from './useHeritageLabels';

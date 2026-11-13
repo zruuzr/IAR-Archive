@@ -273,9 +273,8 @@ export function BookDetailsView({
         {
           label: translate('عدد الصفحات', 'Pagination'),
           value:
-            book.pages && book.pages !== '0'
-              ? `${formatNumber(Number(book.pages))} ${t('pagesUnit')}`
-              : '—'
+            book.pages && book.pages !== '0' ? formatNumber(Number(book.pages)) : '—',
+          unit: book.pages && book.pages !== '0' ? t('pagesUnit') : undefined
         },
         {
           label: translate('الوعاء والحجم', 'Format & Size'),
@@ -299,6 +298,7 @@ export function BookDetailsView({
           cloth={pickCloth(book.id)}
           image={book.cover_image || undefined}
           loading="eager"
+          fetchPriority="high"
           titleAs="span"
           decorative
           testIds={{

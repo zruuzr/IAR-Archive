@@ -17,6 +17,8 @@ export interface HeritageBookCoverProps {
   badge?: ReactNode;
   /** `lazy` for grids (default), `eager` for the above-the-fold cover of the details page. */
   loading?: 'lazy' | 'eager';
+  /** `high` for the details-page cover (it is the largest paint of that page). */
+  fetchPriority?: 'high' | 'low' | 'auto';
   /** Renders an <a>. */
   href?: string;
   /** Renders a <button> (when no `href`). */
@@ -52,6 +54,7 @@ export function HeritageBookCover({
   image,
   badge,
   loading = 'lazy',
+  fetchPriority,
   href,
   onClick,
   label,
@@ -77,6 +80,7 @@ export function HeritageBookCover({
         src={image}
         alt={decorative ? '' : title}
         loading={loading}
+        fetchPriority={fetchPriority}
         decoding="async"
         data-testid={testIds?.image}
         onError={() => setFailedSrc(image ?? null)}

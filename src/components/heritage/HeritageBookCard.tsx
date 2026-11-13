@@ -3,12 +3,18 @@ import { cn } from '@/lib/utils';
 import { HeritageBookCover, type HeritageBookCoverProps } from './HeritageBookCover';
 import { HeritageIconButton } from './controls';
 import { HeritageIcon } from './icons';
+import { openWithCover } from './motion';
 
 export interface HeritageBookCardProps {
   /** Book title: it is the card's single real link/button (stretched over the whole card). */
   title: string;
   /** Opens the details page: pass `href` (real link) or `onOpen` (button). */
   href?: string;
+  /**
+   * Must change the screen synchronously (set state / navigate). Where the browser
+   * supports View Transitions the cover travels into the niche of the details page;
+   * with reduced motion, or without support, it is a plain call.
+   */
   onOpen?: () => void;
   /** Accessible name when the visible title is not enough (rare). */
   titleLabel?: string;
@@ -114,7 +120,7 @@ export function HeritageBookCard({
                         !event.shiftKey
                       ) {
                         event.preventDefault();
-                        onOpen();
+                        openWithCover(event.currentTarget.closest('.hx-card'), onOpen);
                       }
                     }
                   : undefined
@@ -128,7 +134,12 @@ export function HeritageBookCard({
               className="hx-card-link"
               aria-label={titleLabel}
               data-testid={titleTestId}
-              onClick={onOpen}
+              onClick={
+                onOpen
+                  ? (event) =>
+                      openWithCover(event.currentTarget.closest('.hx-card'), onOpen)
+                  : undefined
+              }
             >
               {title}
             </button>

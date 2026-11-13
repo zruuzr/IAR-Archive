@@ -25,7 +25,8 @@
   --hx-gold: #c9992e;
   --hx-gold-bright: #e2b84e;
   --hx-gold-pale: #f1d27a;
-  --hx-gold-deep: #8d6618;
+  --hx-gold-deep: #8d6618; /* ornament only: borders, fills, icons */
+  --hx-gold-ink: #6f4e0c; /* gilt as TEXT on parchment (contrast >= 5.7:1) */
   --hx-terra: #a14a28;
   --hx-oxblood: #6b1f2c;
   --hx-cream: #fbf7ee;
@@ -49,6 +50,12 @@
   --hx-f-kufi: 'Reem Kufi', 'Amiri', sans-serif;
   --hx-f-cune: 'Noto Sans Cuneiform', 'Segoe UI Historic', 'Noto Sans', sans-serif;
 
+  /* calm motion: one easing, three durations */
+  --hx-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --hx-t-fast: 0.18s;
+  --hx-t-mid: 0.3s;
+  --hx-t-slow: 0.55s;
+
   --hx-m-tile: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPSc2MCcgaGVpZ2h0PSc2MCcgdmlld0JveD0nMCAwIDYwIDYwJz48ZyBmaWxsPSdub25lJyBzdHJva2U9JyMwMDAnIHN0cm9rZS13aWR0aD0nMS41JyBzdHJva2UtbGluZWpvaW49J21pdGVyJz48cG9seWdvbiBwb2ludHM9JzMwLjAwLDAuMDAgMzguNzgsOC44MCA1MS4yMSw4Ljc5IDUxLjIwLDIxLjIyIDYwLjAwLDMwLjAwIDUxLjIwLDM4Ljc4IDUxLjIxLDUxLjIxIDM4Ljc4LDUxLjIwIDMwLjAwLDYwLjAwIDIxLjIyLDUxLjIwIDguNzksNTEuMjEgOC44MCwzOC43OCAwLjAwLDMwLjAwIDguODAsMjEuMjIgOC43OSw4Ljc5IDIxLjIyLDguODAnLz48cG9seWdvbiBwb2ludHM9JzM0Ljk3LDE3Ljk5IDM3LjAzLDIyLjk3IDQyLjAxLDI1LjAzIDM5Ljk1LDMwLjAwIDQyLjAxLDM0Ljk3IDM3LjAzLDM3LjAzIDM0Ljk3LDQyLjAxIDMwLjAwLDM5Ljk1IDI1LjAzLDQyLjAxIDIyLjk3LDM3LjAzIDE3Ljk5LDM0Ljk3IDIwLjA1LDMwLjAwIDE3Ljk5LDI1LjAzIDIyLjk3LDIyLjk3IDI1LjAzLDE3Ljk5IDMwLjAwLDIwLjA1Jy8+PGNpcmNsZSBjeD0nMzAnIGN5PSczMCcgcj0nMycvPjxwYXRoIGQ9J00wLC04TDgsMEwwLDhMLTgsMFonLz48cGF0aCBkPSdNNjAsLThMNjgsMEw2MCw4TDUyLDBaJy8+PHBhdGggZD0nTTAsNTJMOCw2MEwwLDY4TC04LDYwWicvPjxwYXRoIGQ9J002MCw1Mkw2OCw2MEw2MCw2OEw1Miw2MFonLz48L2c+PC9zdmc+');
   --hx-m-star: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMDAgMTAwJz48cG9seWdvbiBwb2ludHM9JzUwLjAwLDIuMDAgNjQuMDUsMTYuMDggODMuOTQsMTYuMDYgODMuOTIsMzUuOTUgOTguMDAsNTAuMDAgODMuOTIsNjQuMDUgODMuOTQsODMuOTQgNjQuMDUsODMuOTIgNTAuMDAsOTguMDAgMzUuOTUsODMuOTIgMTYuMDYsODMuOTQgMTYuMDgsNjQuMDUgMi4wMCw1MC4wMCAxNi4wOCwzNS45NSAxNi4wNiwxNi4wNiAzNS45NSwxNi4wOCcgZmlsbD0nIzAwMCcvPjwvc3ZnPg==');
   --hx-m-medal: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMDAgMTAwJz48ZyBmaWxsPSdub25lJyBzdHJva2U9JyMwMDAnIHN0cm9rZS13aWR0aD0nMi40Jz48cG9seWdvbiBwb2ludHM9JzUwLjAwLDMuMDAgNjMuNzYsMTYuNzggODMuMjMsMTYuNzcgODMuMjIsMzYuMjQgOTcuMDAsNTAuMDAgODMuMjIsNjMuNzYgODMuMjMsODMuMjMgNjMuNzYsODMuMjIgNTAuMDAsOTcuMDAgMzYuMjQsODMuMjIgMTYuNzcsODMuMjMgMTYuNzgsNjMuNzYgMy4wMCw1MC4wMCAxNi43OCwzNi4yNCAxNi43NywxNi43NyAzNi4yNCwxNi43OCcvPjxwb2x5Z29uIHBvaW50cz0nNjIuNjMsMTkuNTEgNjcuODUsMzIuMTUgODAuNDksMzcuMzcgNzUuMjUsNTAuMDAgODAuNDksNjIuNjMgNjcuODUsNjcuODUgNjIuNjMsODAuNDkgNTAuMDAsNzUuMjUgMzcuMzcsODAuNDkgMzIuMTUsNjcuODUgMTkuNTEsNjIuNjMgMjQuNzUsNTAuMDAgMTkuNTEsMzcuMzcgMzIuMTUsMzIuMTUgMzcuMzcsMTkuNTEgNTAuMDAsMjQuNzUnLz48Y2lyY2xlIGN4PSc1MCcgY3k9JzUwJyByPScxNScvPjxjaXJjbGUgY3g9JzUwJyBjeT0nNTAnIHI9JzUnIGZpbGw9JyMwMDAnLz48L2c+PC9zdmc+');
@@ -71,6 +78,7 @@
   --hx-chip-on-bg: #e2b84e;
   --hx-chip-on-ink: #071026;
   --hx-ornament: #e2b84e;
+  --hx-gold-ink: #e2b84e;
   --hx-shadow:
     0 1px 0 rgba(255, 255, 255, 0.05) inset, 0 14px 30px -14px rgba(0, 0, 0, 0.7);
 }
@@ -142,7 +150,7 @@
     background: var(--hx-lapis-night);
     color: var(--hx-gold-pale);
     text-align: center;
-    font-family: var(--hx-f-kufi);
+    font-family: var(--hx-f-body);
     font-size: 0.78rem;
     padding: 6px 12px;
     letter-spacing: 0.04em;
@@ -150,6 +158,7 @@
     gap: 14px;
     justify-content: center;
     align-items: center;
+    font-weight: 600;
   }
   .hx-announce .hx-cune {
     font-size: 1rem;
@@ -192,12 +201,13 @@
     color: var(--hx-ink);
   }
   .hx-brand-txt small {
-    font-family: var(--hx-f-kufi);
+    font-family: var(--hx-f-body);
     font-size: 0.66rem;
     letter-spacing: 0.22em;
     color: var(--hx-accent-text);
     direction: ltr;
     text-align: start;
+    font-weight: 600;
   }
   .hx-nav {
     display: flex;
@@ -207,7 +217,7 @@
   .hx-nav a {
     font-family: var(--hx-f-kufi);
     font-weight: 500;
-    font-size: 0.92rem;
+    font-size: 0.95rem;
     padding: 6px 14px;
     border-radius: 999px;
     color: var(--hx-ink-soft);
@@ -272,12 +282,13 @@
     stroke-linecap: round;
   }
   .hx-search-btn kbd {
-    font-family: var(--hx-f-kufi);
+    font-family: var(--hx-f-body);
     font-size: 0.72rem;
     border: 1px solid var(--hx-line);
     border-radius: 6px;
     padding: 0 6px;
     direction: ltr;
+    font-weight: 600;
   }
   .hx-menu-btn {
     display: none;
@@ -462,12 +473,13 @@
     background: rgba(226, 184, 78, 0.1);
   }
   .hx-btn-ghost kbd {
-    font-family: var(--hx-f-kufi);
+    font-family: var(--hx-f-body);
     font-size: 0.72rem;
     border: 1px solid rgba(246, 236, 208, 0.35);
     border-radius: 6px;
     padding: 0 6px;
     direction: ltr;
+    font-weight: 600;
   }
   .hx-stats {
     margin-top: 34px;
@@ -684,7 +696,7 @@
     margin-bottom: clamp(30px, 5vw, 52px);
   }
   .hx-eyebrow {
-    font-family: var(--hx-f-kufi);
+    font-family: var(--hx-f-body);
     font-weight: 500;
     font-size: 0.86rem;
     color: var(--hx-accent-text);
@@ -943,7 +955,7 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    font-family: var(--hx-f-kufi);
+    font-family: var(--hx-f-body);
     font-weight: 500;
     font-size: 0.88rem;
     padding: 6px 16px;
@@ -1054,13 +1066,14 @@
     z-index: 2;
   }
   .hx-cov-cat {
-    font-family: var(--hx-f-kufi);
+    font-family: var(--hx-f-body);
     font-size: 0.72rem;
     color: var(--hx-gold-pale);
     line-height: 1.5;
     padding-inline: 18px;
     margin-top: 4px;
     opacity: 0.95;
+    font-weight: 600;
   }
   .hx-cov-medal {
     width: 34%;
@@ -1086,11 +1099,12 @@
     text-wrap: balance;
   }
   .hx-cov-year {
-    font-family: var(--hx-f-kufi);
+    font-family: var(--hx-f-body);
     font-size: 0.74rem;
     color: var(--hx-gold-pale);
     margin-top: 6px;
     letter-spacing: 0.08em;
+    font-weight: 600;
   }
   /* real cover image inside the same cloth frame (hinge, gilt edge) */
   .hx-cover--image {
@@ -1120,7 +1134,8 @@
     z-index: 2;
     inset-block-end: 12px;
     inset-inline-start: 24px;
-    font-family: var(--hx-f-kufi);
+    font-family: var(--hx-f-body);
+    font-weight: 700;
     font-size: 0.68rem;
     line-height: 1.7;
     padding: 0 10px;
@@ -1186,11 +1201,11 @@
   }
   .hx-fav:hover {
     border-color: var(--hx-gold);
-    color: var(--hx-gold-deep);
+    color: var(--hx-gold-ink);
   }
   .hx-fav[aria-pressed='true'] {
     border-color: var(--hx-gold);
-    color: var(--hx-gold-deep);
+    color: var(--hx-gold-ink);
     background: rgba(226, 184, 78, 0.18);
   }
   :is(.dark, [data-theme='dark']) .hx-fav:hover,
@@ -1285,13 +1300,14 @@
   }
   .hx-plaque .hx-badge {
     display: inline-block;
-    font-family: var(--hx-f-kufi);
+    font-family: var(--hx-f-body);
     font-size: 0.74rem;
     padding: 2px 12px;
     border-radius: 999px;
     background: var(--hx-lapis-deep);
     color: var(--hx-gold-pale);
     border: 1px solid var(--hx-gold);
+    font-weight: 600;
   }
   :is(.dark, [data-theme='dark']) .hx-plaque .hx-badge {
     background: var(--hx-gold-bright);
@@ -1479,9 +1495,10 @@
     stroke-linejoin: round;
   }
   .hx-tl-era {
-    font-family: var(--hx-f-kufi);
+    font-family: var(--hx-f-body);
     font-size: 0.88rem;
     color: var(--hx-accent-text);
+    font-weight: 600;
   }
   .hx-tl h3 {
     font-family: var(--hx-f-display);
@@ -1520,7 +1537,7 @@
   .hx-foot h4 {
     font-family: var(--hx-f-kufi);
     font-weight: 500;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     color: var(--hx-gold-bright);
     margin-bottom: 10px;
   }
@@ -1790,14 +1807,23 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .hx-track {
-      animation: none;
-    }
-    *,
-    *::before,
-    *::after {
+    [class*='hx-'],
+    [class*='hx-']::before,
+    [class*='hx-']::after {
+      animation: none !important;
       transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
     }
+    ::view-transition-group(*),
+    ::view-transition-old(*),
+    ::view-transition-new(*) {
+      animation: none !important;
+    }
+  }
+  /* the cuneiform bands never run while hovered or focused (WCAG 2.2.2: pause) */
+  .hx-seal-band:hover .hx-track,
+  .hx-seal-band:focus-within .hx-track {
+    animation-play-state: paused;
   }
 
   /* ---- additions for React usage (buttons/links rendered by the components) ---- */

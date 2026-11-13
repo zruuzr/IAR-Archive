@@ -15,7 +15,7 @@
        are purged on activate
    ============================================================ */
 
-const CACHE_VERSION = 'v36';
+const CACHE_VERSION = 'v37';
 const CACHE_NAME = `iar-archive-${CACHE_VERSION}`;
 
 const CORE_SHELL = [
@@ -167,6 +167,11 @@ async function networkFirst(request) {
 
     return response;
   } catch (_err) {
+    const share = new URL(request.url).pathname.match(/^\/b\/(\d+)\/?$/);
+    if (request.mode === 'navigate' && share) {
+      return Response.redirect(`/?book=${share[1]}`, 302);
+    }
+
     const cached = await caches.match(request);
     if (cached) return cached;
 

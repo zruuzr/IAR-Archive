@@ -153,6 +153,9 @@ jobs:
 
           exit "$code"
 
+      - name: Optimise covers (WebP + share cards)
+        run: python scripts/optimize_covers.py --update-json
+
       - name: Validate Final Book Catalog
         run: |
           python validate_books.py

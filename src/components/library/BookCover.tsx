@@ -40,6 +40,7 @@ export function BookCover({
       cloth={pickCloth(book.id)}
       image={book.cover_image || undefined}
       loading={featured ? 'eager' : 'lazy'}
+      fetchPriority={featured ? 'high' : undefined}
       badge={badge}
       decorative={decorative}
       titleAs="span"
