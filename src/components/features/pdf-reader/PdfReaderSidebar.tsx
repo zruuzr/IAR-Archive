@@ -130,7 +130,7 @@ function ThumbnailTile({
       aria-current={isActive ? 'page' : undefined}
     >
       <div className="hx-pdf-thumb-frame">
-        <canvas ref={canvasRef} className="hx-pdf-thumb-canvas" />
+        <canvas ref={canvasRef} className="hx-pdf-thumb-canvas" dir="ltr" />
         {!rendered && (
           <span className="hx-pdf-thumb-placeholder" aria-hidden="true">
             {AN_SIGN}

@@ -840,6 +840,26 @@
   box-shadow: 0 18px 42px rgba(15, 22, 34, 0.18);
 }
 
+/*
+ * PDF coordinate space is always LTR. The 2D canvas context inherits `direction`
+ * from its <canvas> element, so inside the RTL dialog every glyph run would be
+ * drawn mirrored (disjointed/overlapping Arabic). The site body also disables
+ * `liga`/`calt`, which breaks Arabic joining. Reset both, as Mozilla's viewer
+ * does with `.pdfViewer .page { direction: ltr; }`.
+ */
+.hx-pdf-sheet,
+.hx-pdf-canvas,
+.hx-pdf-textlayer,
+.hx-pdf-thumb-frame,
+.hx-pdf-thumb-canvas {
+  direction: ltr;
+  unicode-bidi: isolate;
+  font-feature-settings: normal;
+  font-variant-ligatures: normal;
+  letter-spacing: normal;
+  word-spacing: normal;
+}
+
 /* Archival Paper Sheet */
 .hx-pdf-sheet {
   position: relative;

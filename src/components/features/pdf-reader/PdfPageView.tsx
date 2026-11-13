@@ -245,8 +245,8 @@ export function PdfPageView({
       style={{ width: `${sheetWidth}px`, height: `${sheetHeight}px` }}
       onClick={() => onActivate?.(pageNumber)}
     >
-      <canvas ref={canvasRef} className="hx-pdf-canvas" />
-      <div ref={textLayerRef} className="hx-pdf-textlayer" />
+      <canvas ref={canvasRef} className="hx-pdf-canvas" dir="ltr" />
+      <div ref={textLayerRef} className="hx-pdf-textlayer" dir="ltr" />
       <span className="hx-pdf-sheet-badge" aria-hidden="true">
         {pageNumber}
       </span>
