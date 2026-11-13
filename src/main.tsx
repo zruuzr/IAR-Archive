@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import './index.css';
 import './styles/heritage.css';
 import './styles/heritage-books.css';
+import './styles/heritage-ui.css';
 import { App } from './App';
 
 const rootElement = document.getElementById('root');

@@ -1,19 +1,6 @@
-import {
-  ArrowUpLeft,
-  ArrowUpRight,
-  BookOpen,
-  Check,
-  Copy,
-  FileText,
-  HardDrive,
-  Quote,
-  Share2,
-  Sparkles,
-  Users,
-  X
-} from 'lucide-react';
+import { ArrowUpLeft, ArrowUpRight, FileText, HardDrive, X } from 'lucide-react';
 import { useRef, useState } from 'react';
-import { Button } from '@/components/ui/button';
+import { HeritageFrieze, HeritageIcon } from '@/components/heritage';
 import { useAccessibleDialog } from '@/hooks/useAccessibleDialog';
 import { useI18n } from '@/i18n/I18nProvider';
 import { formatCitation, getBookKeyPoints, getCategoryLabel } from '@/services/catalog';
@@ -113,7 +100,7 @@ export function SummaryDialog({
       aria-labelledby="summaryBookTitle"
       dir={dir}
       data-testid="summary-dialog"
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/70 backdrop-blur-xs"
+      className="hx-dialog-backdrop fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4"
     >
       {/* Backdrop click target */}
       <div
@@ -125,23 +112,22 @@ export function SummaryDialog({
 
       <div
         ref={dialogContainerRef}
-        className="relative z-10 flex flex-col w-full max-w-2xl max-h-[90dvh] rounded-[4px] border hairline-border-strong bg-card text-card-foreground shadow-2xl overflow-hidden"
+        className="hx-dialog-panel relative z-10 flex flex-col w-full max-w-2xl max-h-[90dvh] overflow-hidden"
       >
-        {/* Top Burnt-Terracotta Editorial Rule */}
-        <div aria-hidden="true" className="h-[2px] w-full bg-primary shrink-0" />
+        <HeritageFrieze />
 
-        {/* Dialog Header */}
-        <header className="flex items-start justify-between gap-3 px-5 py-4 border-b hairline-border bg-card shrink-0">
+        {/* Dialog Header Band */}
+        <header className="hx-dialog-band flex items-start justify-between gap-3 px-5 py-4 shrink-0">
           <div className="space-y-1 min-w-0">
-            <div className="inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.12em] font-semibold text-primary">
-              <Sparkles className="size-3.5 shrink-0" aria-hidden="true" />
+            <div className="inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.12em] font-semibold text-[var(--hx-gold-bright)]">
+              <HeritageIcon name="summary" size={14} />
               <span>{t('summaryModalTitle')}</span>
             </div>
 
             <h2
               id="summaryBookTitle"
               data-testid="summary-dialog-title"
-              className="font-serif text-lg sm:text-xl font-bold text-foreground leading-snug"
+              className="font-serif text-xl sm:text-2xl font-bold text-[#f7eed6] leading-snug"
             >
               {title}
             </h2>
@@ -149,25 +135,23 @@ export function SummaryDialog({
             {author && (
               <p
                 id="summaryBookAuthor"
-                className="text-xs sm:text-sm font-medium text-muted-foreground"
+                className="text-xs sm:text-sm font-medium text-[#e9dfc5]/80"
               >
                 {author}
               </p>
             )}
           </div>
 
-          <Button
+          <button
             ref={closeButtonRef}
             type="button"
-            variant="ghost"
-            size="icon-sm"
             data-testid="summary-close-btn"
             aria-label={t('txtModalClose')}
             onClick={() => onOpenChange(false)}
-            className="shrink-0"
+            className="hx-band-icon-btn shrink-0"
           >
             <X className="size-4" aria-hidden="true" />
-          </Button>
+          </button>
         </header>
 
         {/* Scrollable Summary Content */}
@@ -177,14 +161,14 @@ export function SummaryDialog({
             <div className="flex flex-wrap items-center gap-1.5 text-xs">
               <span
                 id="summaryCategory"
-                className="rounded-[3px] bg-teal/12 px-2.5 py-0.5 font-semibold text-teal"
+                className="rounded-full border border-[rgba(201,153,46,0.45)] bg-[var(--hx-gold-soft)] px-3 py-0.5 font-semibold text-[var(--hx-gold-ink)] dark:text-[var(--hx-gold-bright)]"
               >
                 {category}
               </span>
 
               <span
                 id="summaryType"
-                className="rounded-[3px] border hairline-border bg-secondary/70 px-2.5 py-0.5 font-medium text-secondary-foreground"
+                className="rounded-full border border-[var(--hx-line)] bg-[var(--hx-surface-2)] px-3 py-0.5 font-medium text-[var(--hx-ink-2)]"
               >
                 {bookType}
               </span>
@@ -192,9 +176,12 @@ export function SummaryDialog({
               {book.pages && book.pages !== '0' && (
                 <span
                   id="summaryPages"
-                  className="inline-flex items-center gap-1 rounded-[3px] bg-secondary/60 px-2 py-0.5 text-muted-foreground tabular-nums"
+                  className="inline-flex items-center gap-1 rounded-full border border-[var(--hx-line)] bg-[var(--hx-surface-2)] px-2.5 py-0.5 text-[var(--hx-muted)] tabular-nums"
                 >
-                  <FileText className="size-3 text-teal shrink-0" aria-hidden="true" />
+                  <FileText
+                    className="size-3 text-[var(--hx-gold-ink)] dark:text-[var(--hx-gold-bright)] shrink-0"
+                    aria-hidden="true"
+                  />
                   <span>
                     {book.pages} {t('pagesUnit')}
                   </span>
@@ -204,195 +191,182 @@ export function SummaryDialog({
               {book.file_size && (
                 <span
                   id="summarySize"
-                  className="inline-flex items-center gap-1 rounded-[3px] bg-secondary/60 px-2 py-0.5 font-mono text-muted-foreground tabular-nums"
+                  className="inline-flex items-center gap-1 rounded-full border border-[var(--hx-line)] bg-[var(--hx-surface-2)] px-2.5 py-0.5 font-mono text-[var(--hx-muted)] tabular-nums"
                 >
-                  <HardDrive className="size-3 shrink-0" aria-hidden="true" />
+                  <HardDrive
+                    className="size-3 text-[var(--hx-gold-ink)] dark:text-[var(--hx-gold-bright)] shrink-0"
+                    aria-hidden="true"
+                  />
                   <span>{book.file_size}</span>
                 </span>
               )}
             </div>
 
             {(description || hasRealKeyPoints) && (
-              <Button
+              <button
                 type="button"
-                variant="outline"
-                size="xs"
                 data-testid="summary-copy-summary-btn"
                 onClick={handleCopySummaryClick}
-                className="gap-1.5 shrink-0"
+                className="hx-btn hx-btn-line !min-h-8 !px-3 !py-1 !text-xs gap-1.5 shrink-0"
               >
-                {copiedSummary ? (
-                  <Check className="size-3.5 text-primary" aria-hidden="true" />
-                ) : (
-                  <Copy className="size-3.5" aria-hidden="true" />
-                )}
+                <HeritageIcon name={copiedSummary ? 'check' : 'copy'} size={13} />
                 <span>
                   {copiedSummary
                     ? t('copiedToClipboard')
                     : translate('نسخ الملخص', 'Copy summary')}
                 </span>
-              </Button>
+              </button>
             )}
           </div>
 
           {/* Reference Abstract / Description */}
           {description && (
-            <div className="rounded-[4px] border hairline-border bg-background/60 p-4 space-y-1.5">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-primary">
-                {t('singleDescLabel')}
+            <section className="hx-dialog-section p-4 space-y-1.5">
+              <h3 className="flex items-center gap-1.5 font-serif text-sm font-bold text-[var(--hx-gold-ink)] dark:text-[var(--hx-gold-bright)]">
+                <HeritageIcon name="octagram" size={12} />
+                <span>{t('singleDescLabel')}</span>
               </h3>
               <p
                 data-testid="summary-dialog-description"
-                className="text-xs sm:text-sm text-foreground/90 leading-relaxed"
+                className="text-xs sm:text-sm text-[var(--hx-ink-2)] leading-relaxed"
               >
                 {description}
               </p>
-            </div>
+            </section>
           )}
 
           {/* Key Ideas / Points */}
-          <div className="space-y-2">
+          <section className="space-y-2">
             <h3
               id="txtModalIdeasTitle"
-              className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-primary"
+              className="flex items-center gap-1.5 font-serif text-sm font-bold text-[var(--hx-gold-ink)] dark:text-[var(--hx-gold-bright)]"
             >
-              <Sparkles className="size-3.5 shrink-0" aria-hidden="true" />
+              <HeritageIcon name="summary" size={14} />
               <span>{t('txtModalIdeasTitle')}</span>
             </h3>
 
             <ul
               id="summaryKeyPoints"
               data-testid="summary-dialog-keypoints"
-              className="space-y-2 rounded-[4px] border hairline-border bg-background/60 p-4 text-xs sm:text-sm text-foreground/90"
+              className="hx-dialog-section space-y-2.5 p-4 text-xs sm:text-sm text-[var(--hx-ink-2)]"
             >
               {keyPoints.map((point, idx) => (
                 <li key={idx} className="flex items-start gap-2.5 leading-relaxed">
                   <span
                     aria-hidden="true"
-                    className="mt-2 inline-block size-1.5 shrink-0 rounded-full bg-primary"
-                  />
+                    className="mt-1.5 shrink-0 text-[var(--hx-gold-ink)] dark:text-[var(--hx-gold-bright)]"
+                  >
+                    <HeritageIcon name="octagram" size={11} />
+                  </span>
                   <span>{point}</span>
                 </li>
               ))}
             </ul>
-          </div>
+          </section>
 
           {/* Target Audience (only when available in record) */}
           {targetAudience && (
-            <div className="rounded-[4px] border hairline-border bg-background/60 p-3.5 space-y-1">
+            <section className="hx-dialog-section p-4 space-y-1.5">
               <h3
                 id="txtModalAudienceTitle"
-                className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-teal"
+                className="flex items-center gap-1.5 font-serif text-sm font-bold text-[var(--hx-gold-ink)] dark:text-[var(--hx-gold-bright)]"
               >
-                <Users className="size-3.5 shrink-0" aria-hidden="true" />
+                <HeritageIcon name="users" size={14} />
                 <span>{t('txtModalAudienceTitle')}</span>
               </h3>
               <p
                 id="summaryAudience"
                 data-testid="summary-dialog-audience"
-                className="text-xs sm:text-sm text-foreground/85 leading-relaxed"
+                className="text-xs sm:text-sm text-[var(--hx-ink-2)] leading-relaxed"
               >
                 {targetAudience}
               </p>
-            </div>
+            </section>
           )}
 
           {/* APA Academic Citation Box */}
-          <div className="rounded-[4px] border border-primary/30 bg-secondary/45 p-3.5 space-y-2">
+          <section className="rounded-[12px] border border-[rgba(201,153,46,0.42)] bg-[var(--hx-surface-2)] p-4 space-y-2.5">
             <div className="flex items-center justify-between gap-2">
               <h3
                 id="txtModalApaTitle"
-                className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-foreground"
+                className="flex items-center gap-1.5 font-serif text-sm font-bold text-[var(--hx-gold-ink)] dark:text-[var(--hx-gold-bright)]"
               >
-                <Quote className="size-3.5 text-primary shrink-0" aria-hidden="true" />
+                <HeritageIcon name="quote" size={14} />
                 <span>{t('txtModalApaTitle')}</span>
               </h3>
 
-              <Button
+              <button
                 type="button"
-                variant="ghost"
-                size="xs"
                 data-testid="summary-copy-apa-btn"
                 onClick={handleCopyApaClick}
-                className="h-7 text-xs gap-1"
+                className="hx-btn hx-btn-line !min-h-8 !px-3 !py-1 !text-xs gap-1.5"
               >
-                {copiedApa ? (
-                  <Check className="size-3.5 text-primary" aria-hidden="true" />
-                ) : (
-                  <Copy className="size-3.5" aria-hidden="true" />
-                )}
+                <HeritageIcon name={copiedApa ? 'check' : 'copy'} size={13} />
                 <span>{copiedApa ? t('copiedToClipboard') : t('cite')}</span>
-              </Button>
+              </button>
             </div>
 
             <pre
               id="summaryAPA"
               dir="auto"
               data-testid="summary-dialog-apa"
-              className="whitespace-pre-wrap break-words rounded-[3px] border hairline-border bg-card p-3 font-sans text-xs text-foreground/90 leading-relaxed"
+              className="whitespace-pre-wrap break-words rounded-[10px] border border-[var(--hx-line)] bg-[var(--hx-surface)] p-3 font-sans text-xs text-[var(--hx-ink)] leading-relaxed"
             >
               {apaText}
             </pre>
-          </div>
+          </section>
         </div>
 
         {/* Dialog Footer Actions */}
-        <footer className="flex flex-wrap items-center justify-between gap-2 px-5 py-3.5 border-t hairline-border bg-secondary/35 shrink-0">
+        <footer className="hx-dialog-footer flex flex-wrap items-center justify-between gap-2 px-5 py-3.5 shrink-0">
           <div className="flex flex-wrap items-center gap-2">
-            <Button
+            <button
               type="button"
-              variant="default"
-              size="sm"
               data-testid="summary-open-details-btn"
               onClick={() => {
                 onOpenChange(false);
                 onOpenFullDetails(book);
               }}
-              className="gap-1.5"
+              className="hx-btn hx-btn-solid hx-btn-sm gap-1.5"
             >
               <span>{translate('صفحة المرجع الكاملة', 'Full reference page')}</span>
               <DetailsArrowIcon className="size-3.5 shrink-0" aria-hidden="true" />
-            </Button>
+            </button>
 
             {hasFile && (
-              <Button
+              <button
                 type="button"
-                variant="outline"
-                size="sm"
                 data-testid="summary-read-btn"
                 onClick={() => {
                   onOpenChange(false);
                   onRead(book);
                 }}
-                className="gap-1.5"
+                className="hx-btn hx-btn-line hx-btn-sm gap-1.5"
               >
-                <BookOpen className="size-3.5 shrink-0" aria-hidden="true" />
+                <HeritageIcon name="read" size={14} />
                 <span>{t('read')}</span>
-              </Button>
+              </button>
             )}
 
-            <Button
+            <button
               type="button"
               id="modalShareBtn"
-              variant="ghost"
-              size="sm"
               data-testid="summary-share-btn"
               onClick={() => onShare(book)}
-              className="gap-1.5"
+              className="hx-btn hx-btn-line hx-btn-sm gap-1.5"
             >
-              <Share2 className="size-3.5 shrink-0" aria-hidden="true" />
+              <HeritageIcon name="share" size={14} />
               <span id="txtShareModalBtn">{t('txtShareModalBtn')}</span>
-            </Button>
+            </button>
           </div>
 
-          <Button
+          <button
             type="button"
-            variant="outline"
-            size="sm"
             onClick={() => onOpenChange(false)}
+            className="hx-btn hx-btn-line hx-btn-sm"
           >
             <span id="txtModalClose">{t('txtModalClose')}</span>
-          </Button>
+          </button>
         </footer>
       </div>
     </div>

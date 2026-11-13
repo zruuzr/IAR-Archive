@@ -1,5 +1,4 @@
 import { ArrowUpDown, Heart, LayoutGrid, List, RotateCcw, X } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import type { ViewMode } from '@/hooks/useLibraryState';
 import { useI18n } from '@/i18n/I18nProvider';
 import { ALL_CATEGORIES_KEY } from '@/lib/catalog-query';
@@ -33,10 +32,9 @@ const VALID_SORT_ORDERS: readonly SortOrder[] = [
 ] as const;
 
 /**
- * Sovereign Catalog Controls Dock (Single unified bar).
+ * Heritage Catalog Controls Dock (Single unified bar).
  * Displays archival catalog metrics, active search indicator,
  * sorting options, favorites toggle, and grid/list view switcher.
- * (Redundant middle search input removed per sovereign aesthetic guidelines).
  */
 export function SearchAndControls({
   query,
@@ -65,23 +63,23 @@ export function SearchAndControls({
       id="controlsRow"
       aria-label={t('searchLabel')}
       data-testid="search-and-controls"
-      className="mb-5 bg-card p-3 sm:p-4 rounded-[4px] border hairline-border-strong doc-shadow flex flex-col sm:flex-row items-center justify-between gap-3"
+      className="hx-panel mb-5 p-3.5 sm:p-4 flex flex-col sm:flex-row items-center justify-between gap-3"
     >
       {/* Right side (RTL) / Start: Library status, results count & active search badge */}
-      <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground w-full sm:w-auto justify-between sm:justify-start">
+      <div className="flex flex-wrap items-center gap-2 text-xs text-[var(--hx-muted)] w-full sm:w-auto justify-between sm:justify-start">
         <div className="flex items-center gap-2">
           <span
-            className="font-serif font-bold text-base text-foreground"
+            className="font-serif font-bold text-lg text-[var(--hx-ink)]"
             id="txtLibraryTitle"
           >
             {t('txtLibraryTitle')}
           </span>
-          <span className="opacity-50">/</span>
+          <span className="text-[var(--hx-line-2)]">/</span>
           <span>
             {translate('يتم عرض', 'Displaying')}{' '}
             <strong
               data-testid="results-counter"
-              className="text-foreground font-mono font-semibold tabular-nums"
+              className="text-[var(--hx-ink)] font-mono font-semibold tabular-nums"
             >
               {formatNumber(totalMatching)}
             </strong>{' '}
@@ -91,12 +89,12 @@ export function SearchAndControls({
 
         {/* Active Search Filter Pill */}
         {query && (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-[3px] bg-primary/10 text-primary border border-primary/35 text-[11px] font-medium">
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[var(--hx-chip-on-bg)] text-[var(--hx-chip-on-ink)] text-[11px] font-semibold">
             <span>&ldquo;{query}&rdquo;</span>
             <button
               type="button"
               onClick={onClearSearch}
-              className="hover:text-destructive cursor-pointer ms-0.5"
+              className="hover:opacity-75 cursor-pointer ms-0.5"
               aria-label={t('clearSearchAria')}
               title={t('clearSearchAria')}
             >
@@ -106,26 +104,24 @@ export function SearchAndControls({
         )}
 
         {hasActiveFilters && (
-          <Button
+          <button
             type="button"
-            variant="ghost"
-            size="xs"
             data-testid="controls-reset-filters"
             onClick={onResetFilters}
-            className="text-xs text-primary hover:text-primary/80 font-semibold h-6 px-2 rounded-[3px]"
+            className="inline-flex items-center gap-1 text-xs text-[var(--hx-gold-ink)] dark:text-[var(--hx-gold-bright)] hover:underline font-semibold h-7 px-2 rounded-full cursor-pointer"
           >
             <RotateCcw className="size-3 shrink-0" aria-hidden="true" />
             <span>{t('resetFilters')}</span>
-          </Button>
+          </button>
         )}
       </div>
 
       {/* Left side (RTL) / End: Controls (Sort + Favorites + View Mode Switcher) */}
       <div className="flex items-center justify-end gap-2 w-full sm:w-auto">
         {/* Sort Selector Dropdown */}
-        <div className="relative flex-1 sm:flex-initial min-w-[135px] sm:w-[185px]">
+        <div className="relative flex-1 sm:flex-initial min-w-[140px] sm:w-[190px]">
           <ArrowUpDown
-            className="pointer-events-none absolute top-1/2 -translate-y-1/2 start-2.5 size-3.5 text-muted-foreground"
+            className="pointer-events-none absolute top-1/2 -translate-y-1/2 start-3 size-3.5 text-[var(--hx-gold-ink)] dark:text-[var(--hx-gold-bright)]"
             aria-hidden="true"
           />
           <select
@@ -139,7 +135,7 @@ export function SearchAndControls({
             }}
             aria-label={t('sortOrderAria')}
             data-testid="sort-select"
-            className="h-9 w-full rounded-[3px] border hairline-border-strong bg-background/80 ps-8 pe-3 text-xs font-semibold text-foreground focus-visible:outline-2 focus-visible:outline-ring cursor-pointer"
+            className="hx-select-field h-9.5 w-full ps-8 pe-3 text-xs font-semibold cursor-pointer"
           >
             <option id="optSortDefault" value="default">
               {t('optSortDefault')}
@@ -166,34 +162,32 @@ export function SearchAndControls({
         </div>
 
         {/* Favorites Quick Filter Button */}
-        <Button
+        <button
           type="button"
-          variant={favoritesOnly ? 'default' : 'outline'}
-          size="sm"
           data-testid="controls-favorites-btn"
           aria-pressed={favoritesOnly}
           aria-label={translate('تصفية المفضلة فقط', 'Filter favorites only')}
           title={t('txtFavoritesOnly')}
           onClick={onToggleFavoritesOnly}
-          className={cn(
-            'h-9 px-2.5 rounded-[3px] border shrink-0 transition-colors cursor-pointer',
-            favoritesOnly
-              ? 'bg-primary text-primary-foreground font-semibold border-primary'
-              : 'hairline-border-strong bg-background/80 text-foreground hover:bg-secondary'
-          )}
+          className="hx-pill-toggle !min-h-9.5 !px-3 shrink-0 cursor-pointer"
         >
           <Heart
-            className={cn('size-3.5', favoritesOnly && 'fill-current')}
+            className={cn(
+              'size-3.5',
+              favoritesOnly
+                ? 'fill-current'
+                : 'text-[var(--hx-gold-ink)] dark:text-[var(--hx-gold-bright)]'
+            )}
             aria-hidden="true"
           />
           <span className="hidden sm:inline text-xs">{t('txtFavoritesOnly')}</span>
-        </Button>
+        </button>
 
         {/* View Mode Segmented Control */}
         <div
           role="group"
           aria-label={translate('نمط العرض', 'View mode')}
-          className="inline-flex items-center rounded-[3px] border hairline-border-strong bg-background/80 p-0.5 shrink-0 h-9"
+          className="hx-segmented shrink-0"
         >
           <button
             type="button"
@@ -203,12 +197,7 @@ export function SearchAndControls({
             aria-pressed={viewMode === 'grid'}
             title={t('viewGridAria')}
             onClick={() => onViewModeChange('grid')}
-            className={cn(
-              'inline-flex size-7.5 items-center justify-center rounded-[2px] text-xs transition-colors cursor-pointer',
-              viewMode === 'grid'
-                ? 'bg-foreground text-background font-semibold'
-                : 'text-muted-foreground hover:text-foreground'
-            )}
+            className="hx-segmented-btn text-xs cursor-pointer"
           >
             <LayoutGrid className="size-3.5" aria-hidden="true" />
           </button>
@@ -221,12 +210,7 @@ export function SearchAndControls({
             aria-pressed={viewMode === 'list'}
             title={t('viewListAria')}
             onClick={() => onViewModeChange('list')}
-            className={cn(
-              'inline-flex size-7.5 items-center justify-center rounded-[2px] text-xs transition-colors cursor-pointer',
-              viewMode === 'list'
-                ? 'bg-foreground text-background font-semibold'
-                : 'text-muted-foreground hover:text-foreground'
-            )}
+            className="hx-segmented-btn text-xs cursor-pointer"
           >
             <List className="size-3.5" aria-hidden="true" />
           </button>

@@ -1,6 +1,6 @@
-import { AlertCircle, ExternalLink, FileText, X } from 'lucide-react';
+import { AlertCircle, ExternalLink, X } from 'lucide-react';
 import { useRef, useState } from 'react';
-import { Button } from '@/components/ui/button';
+import { HeritageFrieze, HeritageIcon } from '@/components/heritage';
 import { useAccessibleDialog } from '@/hooks/useAccessibleDialog';
 import { useI18n } from '@/i18n/I18nProvider';
 import { resolveAssetUrl } from '@/services/catalog';
@@ -130,7 +130,7 @@ export function PdfReaderDialog({
       aria-labelledby="modalBookTitle"
       dir={dir}
       data-testid="pdf-reader-dialog"
-      className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/75 backdrop-blur-xs"
+      className="hx-dialog-backdrop fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4"
     >
       {/* Backdrop click target */}
       <div
@@ -142,16 +142,21 @@ export function PdfReaderDialog({
 
       <div
         ref={dialogContainerRef}
-        className="relative z-10 flex flex-col w-full max-w-6xl h-[92dvh] rounded-[4px] border hairline-border-strong bg-card text-card-foreground shadow-2xl overflow-hidden"
+        className="hx-dialog-panel relative z-10 flex flex-col w-full max-w-6xl h-[92dvh] overflow-hidden"
       >
-        <div aria-hidden="true" className="h-[2px] w-full bg-primary shrink-0" />
-        <header className="flex items-center justify-between gap-3 px-4 py-3 border-b hairline-border bg-card">
+        <HeritageFrieze />
+        <header className="hx-dialog-band flex items-center justify-between gap-3 px-4 py-3 shrink-0">
           <div className="flex items-center gap-2.5 min-w-0">
-            <FileText className="size-4 text-primary shrink-0" aria-hidden="true" />
+            <span
+              className="inline-flex size-8 shrink-0 items-center justify-center rounded-[9px] border border-[rgba(226,184,78,0.35)] bg-white/8 text-[var(--hx-gold-bright)]"
+              aria-hidden="true"
+            >
+              <HeritageIcon name="read" size={16} />
+            </span>
             <h2
               id="modalBookTitle"
               data-testid="pdf-reader-title"
-              className="font-semibold text-sm sm:text-base truncate"
+              className="font-serif font-bold text-base sm:text-lg text-[#f7eed6] truncate"
             >
               {bookTitle || translate('قارئ الملفات', 'PDF Reader')}
             </h2>
@@ -164,60 +169,64 @@ export function PdfReaderDialog({
                 target="_blank"
                 rel="noopener noreferrer"
                 data-testid="pdf-reader-direct-link"
-                className="inline-flex items-center gap-1.5 h-8 px-2.5 rounded-[3px] border hairline-border-strong bg-background text-xs font-medium hover:bg-accent transition-colors"
+                className="hx-btn hx-btn-ghost !min-h-8 !px-3 !py-1 !text-xs"
               >
                 <span>{translate('فتح مباشر', 'Open direct')}</span>
                 <ExternalLink className="size-3.5" aria-hidden="true" />
               </a>
             )}
 
-            <Button
+            <button
               ref={closeButtonRef}
               type="button"
               id="pdfDismissBtn"
-              variant="ghost"
-              size="icon"
               data-testid="pdf-reader-close"
               aria-label={t('txtModalClose')}
               onClick={() => onOpenChange(false)}
+              className="hx-band-icon-btn shrink-0"
             >
               <X className="size-4" aria-hidden="true" />
-            </Button>
+            </button>
           </div>
         </header>
 
-        <div className="relative flex-1 bg-muted/40 flex flex-col">
+        <div className="relative flex-1 bg-[var(--hx-surface-2)] flex flex-col">
           {!viewerUrl || hasFrameError ? (
             <div
               role="alert"
               data-testid="pdf-reader-error"
-              className="m-auto max-w-md p-6 text-center space-y-3"
+              className="hx-state-card m-auto max-w-md p-6 sm:p-7 text-center space-y-3"
             >
-              <div className="mx-auto size-12 rounded-full bg-destructive/15 text-destructive flex items-center justify-center">
-                <AlertCircle className="size-6" aria-hidden="true" />
+              <div className="hx-state-seal" aria-hidden="true">
+                <AlertCircle className="size-6 text-destructive" />
               </div>
-              <h3 className="font-semibold text-base">{t('fileUnavailable')}</h3>
-              <p className="text-xs text-muted-foreground">
+              <h3 className="font-serif font-bold text-lg text-[var(--hx-ink)]">
+                {t('fileUnavailable')}
+              </h3>
+              <p className="text-xs sm:text-sm text-[var(--hx-ink-2)] leading-relaxed">
                 {translate(
                   'تعذّر فتح عارض PDF لهذا المرجع. تأكد من صحة رابط الملف أو افتحه مباشرة.',
                   'Could not open the PDF viewer for this reference. Verify the file link or open it directly.'
                 )}
               </p>
-              <div className="flex items-center justify-center gap-2 pt-2">
+              <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
                 {hasFrameError && viewerUrl && (
-                  <Button
+                  <button
                     type="button"
-                    size="sm"
-                    variant="outline"
                     data-testid="pdf-reader-retry"
                     onClick={() => setFailedViewerUrl(null)}
+                    className="hx-btn hx-btn-line hx-btn-sm"
                   >
                     {t('retry')}
-                  </Button>
+                  </button>
                 )}
-                <Button type="button" size="sm" onClick={() => onOpenChange(false)}>
+                <button
+                  type="button"
+                  onClick={() => onOpenChange(false)}
+                  className="hx-btn hx-btn-solid hx-btn-sm"
+                >
                   {t('txtModalClose')}
-                </Button>
+                </button>
               </div>
             </div>
           ) : (

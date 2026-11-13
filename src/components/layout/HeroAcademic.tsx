@@ -1,6 +1,7 @@
 import { Search, X } from 'lucide-react';
 import { useCallback, useMemo, useState } from 'react';
 import {
+  HeritageFrieze,
   HeritageHero,
   SUMER_SIGNS,
   pickCloth,
@@ -143,10 +144,11 @@ export function HeroAcademic({
     return (
       <section
         data-testid="hero-academic"
-        className="hx-hero border-b border-[var(--hx-line)] py-5 text-[var(--hx-cream)]"
+        className="hx-hero relative overflow-hidden border-b border-[var(--hx-line)] text-[var(--hx-cream)]"
         aria-labelledby="txtAboutTitle"
       >
-        <div className="hx-wrap flex flex-col items-center text-center">
+        <HeroIslamicPatternBackdrop formation="mustansiriya_lattice" />
+        <div className="hx-wrap relative z-10 flex flex-col items-center py-7 sm:py-9 text-center">
           <p className="hx-kicker" data-testid="hero-kicker">
             <span className="hx-cune" aria-hidden="true">
               {SUMER_SIGNS}
@@ -162,7 +164,7 @@ export function HeroAcademic({
           <h2
             id="txtAboutTitle"
             data-testid="hero-title"
-            className="text-xl font-bold font-serif"
+            className="text-2xl sm:text-3xl font-bold font-serif text-[#f7eed6]"
           >
             {t('txtAboutTitle')}
           </h2>
@@ -175,12 +177,8 @@ export function HeroAcademic({
           <p data-testid="hero-vault-subtitle" className="sr-only">
             خزانة المراجع المنتقاة — الإدارة، القانون، والاقتصاد
           </p>
-          <div
-            data-testid="hero-islamic-backdrop"
-            data-formation="mustansiriya_lattice"
-            className="sr-only"
-          />
         </div>
+        <HeritageFrieze />
       </section>
     );
   }

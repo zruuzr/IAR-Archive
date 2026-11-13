@@ -1,27 +1,74 @@
 <!doctype html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" data-theme="light">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#f9f6ef" />
     <title>404 — الصفحة غير موجودة | IAR Archive</title>
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=Reem+Kufi:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      (function () {
+        var l, t;
+        try {
+          l = localStorage.getItem('iar_lang');
+          t = localStorage.getItem('iar_theme');
+        } catch (_) {}
+        var lang = l === 'en' ? 'en' : 'ar';
+        var theme =
+          t === 'dark' || t === 'light'
+            ? t
+            : typeof matchMedia === 'function' &&
+                matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+        var r = document.documentElement;
+        r.setAttribute('lang', lang);
+        r.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+        r.setAttribute('data-theme', theme);
+        r.classList.toggle('dark', theme === 'dark');
+        var m = document.querySelector('meta[name="theme-color"]');
+        if (m) m.setAttribute('content', theme === 'dark' ? '#071026' : '#f9f6ef');
+      })();
+    </script>
     <style>
       :root {
-        --canvas: #f2ede2;
-        --surface: #faf7f0;
-        --ink: #181715;
-        --ink-muted: #5f584c;
-        --terracotta: #b03e23;
-        --hairline: rgba(24, 23, 21, 0.22);
+        --hx-bg: #f9f6ef;
+        --hx-surface: #ffffff;
+        --hx-surface-2: #f4ede0;
+        --hx-ink: #0f1f3d;
+        --hx-ink-2: #3a4661;
+        --hx-muted: #56637c;
+        --hx-line: #e3d9c3;
+        --hx-lapis: #0b1a45;
+        --hx-gold: #c9992e;
+        --hx-gold-bright: #e2b84e;
+        --hx-gold-ink: #6f4e0c;
+        --hx-shadow:
+          0 1px 2px rgba(15, 31, 61, 0.05), 0 18px 40px -22px rgba(15, 31, 61, 0.2);
       }
-      @media (prefers-color-scheme: dark) {
-        :root {
-          --canvas: #131519;
-          --surface: #1a1d23;
-          --ink: #ece6d9;
-          --ink-muted: #9c9486;
-          --terracotta: #d25d3f;
-          --hairline: rgba(236, 230, 217, 0.22);
-        }
+      html[data-theme='dark'],
+      html.dark {
+        --hx-bg: #071026;
+        --hx-surface: #0d1b3e;
+        --hx-surface-2: #132554;
+        --hx-ink: #f1e6c8;
+        --hx-ink-2: #d7cba3;
+        --hx-muted: #98a9cc;
+        --hx-line: #1c3266;
+        --hx-lapis: #0b1a45;
+        --hx-gold: #c9992e;
+        --hx-gold-bright: #e2b84e;
+        --hx-gold-ink: #e2b84e;
+        --hx-shadow: 0 2px 4px rgba(0, 0, 0, 0.35), 0 24px 48px -20px rgba(0, 0, 0, 0.65);
       }
       * {
         box-sizing: border-box;
@@ -29,78 +76,261 @@
       body {
         margin: 0;
         min-height: 100dvh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 24px;
-        background: var(--canvas);
-        color: var(--ink);
+        display: grid;
+        place-items: center;
+        padding: 24px 16px;
+        background: var(--hx-bg);
+        color: var(--hx-ink);
         font-family:
           'IBM Plex Sans Arabic',
           'IBM Plex Sans',
           system-ui,
           -apple-system,
           sans-serif;
+        line-height: 1.75;
       }
-      .card {
+      .hx-404-wrap {
         width: 100%;
-        max-width: 480px;
-        background: var(--surface);
-        border: 1px solid var(--hairline);
-        border-top: 3px solid var(--terracotta);
-        border-radius: 4px;
-        padding: 36px 28px;
-        text-align: center;
-        box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
+        max-width: 540px;
       }
-      .code {
-        font-family: ui-monospace, monospace;
+      .hx-404-card {
+        position: relative;
+        overflow: hidden;
+        background: var(--hx-surface);
+        border: 1px solid var(--hx-line);
+        border-radius: 16px;
+        box-shadow: var(--hx-shadow);
+      }
+      .hx-404-band {
+        background: var(--hx-lapis);
+        color: #f7eed6;
+        padding: 18px 24px 20px;
+        text-align: center;
+        border-bottom: 1px solid rgba(201, 153, 46, 0.35);
+      }
+      .hx-404-frieze {
+        display: block;
+        width: 100%;
+        height: 18px;
+        color: var(--hx-gold-bright);
+      }
+      .hx-404-kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 10px;
+        padding: 4px 14px;
+        border-radius: 999px;
+        border: 1px solid rgba(226, 184, 78, 0.42);
+        background: rgba(255, 255, 255, 0.05);
+        font-family: 'IBM Plex Mono', ui-monospace, monospace;
         font-size: 12px;
-        letter-spacing: 0.16em;
-        color: var(--terracotta);
         font-weight: 600;
+        letter-spacing: 0.14em;
+        color: var(--hx-gold-bright);
         text-transform: uppercase;
-        margin-bottom: 12px;
+      }
+      .hx-404-body {
+        position: relative;
+        padding: 30px 28px 34px;
+        text-align: center;
+      }
+      .hx-404-body::before {
+        content: '';
+        position: absolute;
+        inset: 10px;
+        border: 1px solid rgba(201, 153, 46, 0.25);
+        border-radius: 10px;
+        pointer-events: none;
+      }
+      .hx-404-seal {
+        width: 56px;
+        height: 56px;
+        margin: 0 auto 14px;
+        display: grid;
+        place-items: center;
+        border-radius: 999px;
+        background: var(--hx-surface-2);
+        border: 1px solid rgba(201, 153, 46, 0.45);
+        color: var(--hx-gold-ink);
+      }
+      .hx-404-numeral {
+        font-family: 'Amiri', Georgia, serif;
+        font-size: 46px;
+        line-height: 1;
+        font-weight: 700;
+        color: var(--hx-gold-ink);
+        margin: 0 0 8px;
       }
       h1 {
-        font-size: 24px;
-        margin: 0 0 8px;
+        font-family: 'Amiri', Georgia, serif;
+        font-size: clamp(1.5rem, 3vw, 1.9rem);
+        line-height: 1.35;
+        margin: 0 0 10px;
         font-weight: 700;
+        color: var(--hx-ink);
       }
       p {
-        margin: 0 0 24px;
-        font-size: 14px;
-        line-height: 1.7;
-        color: var(--ink-muted);
+        margin: 0 auto 24px;
+        max-width: 44ch;
+        font-size: 15px;
+        line-height: 1.75;
+        color: var(--hx-ink-2);
       }
-      a {
+      .hx-404-actions {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+      }
+      .hx-404-btn {
         display: inline-flex;
         align-items: center;
         justify-content: center;
+        gap: 8px;
+        min-height: 44px;
         padding: 10px 22px;
-        border-radius: 3px;
-        background: var(--ink);
-        color: var(--surface);
+        border-radius: 10px;
+        background: var(--hx-lapis);
+        color: #f7eed6;
+        border: 1px solid rgba(226, 184, 78, 0.45);
         text-decoration: none;
-        font-size: 13px;
+        font-size: 14px;
         font-weight: 600;
-        transition: background 0.2s ease;
+        transition:
+          transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+          background 0.22s ease;
       }
-      a:hover {
-        background: var(--terracotta);
-        color: #faf7f0;
+      html[data-theme='dark'] .hx-404-btn,
+      html.dark .hx-404-btn {
+        background: var(--hx-gold-bright);
+        color: #071026;
+        border-color: var(--hx-gold-bright);
+      }
+      .hx-404-btn:hover {
+        transform: translateY(-1px);
+        background: #142a6b;
+      }
+      html[data-theme='dark'] .hx-404-btn:hover,
+      html.dark .hx-404-btn:hover {
+        background: #f0ca68;
+      }
+      .hx-404-btn:focus-visible {
+        outline: 2px solid var(--hx-gold-bright);
+        outline-offset: 2px;
+      }
+      .hx-404-meta {
+        margin-top: 20px;
+        padding-top: 14px;
+        border-top: 1px solid var(--hx-line);
+        font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', system-ui, sans-serif;
+        font-size: 12.5px;
+        font-weight: 500;
+        color: var(--hx-muted);
+      }
+      html[lang='en'] .hx-404-meta {
+        font-family: 'IBM Plex Mono', ui-monospace, monospace;
+        font-size: 12px;
+      }
+      [data-lang-only='en'] {
+        display: none;
+      }
+      html[lang='en'] [data-lang-only='ar'] {
+        display: none;
+      }
+      html[lang='en'] [data-lang-only='en'] {
+        display: inline;
+      }
+      html[lang='en'] p[data-lang-only='en'],
+      html[lang='en'] h1[data-lang-only='en'] {
+        display: block;
       }
     </style>
   </head>
   <body>
-    <main class="card">
-      <div class="code">IAR ARCHIVE · ERROR 404</div>
-      <h1>الصفحة المطلوبة غير موجودة</h1>
-      <p>
-        لم نتمكن من العثور على المسار المطلوب في الأرشيف الإداري العراقي. يمكنك العودة إلى
-        الفهرس الرئيسي للبحث في المراجع والمصنفات.
-      </p>
-      <a href="/">العودة إلى المكتبة المرجعية · Return to Archive</a>
+    <main class="hx-404-wrap">
+      <div class="hx-404-card">
+        <div class="hx-404-band">
+          <svg
+            class="hx-404-frieze"
+            viewBox="0 0 420 18"
+            preserveAspectRatio="xMidYMid slice"
+            aria-hidden="true"
+          >
+            <pattern id="rosette" width="28" height="18" patternUnits="userSpaceOnUse">
+              <circle
+                cx="14"
+                cy="9"
+                r="3"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.2"
+              />
+              <circle
+                cx="14"
+                cy="9"
+                r="6.8"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="0.9"
+                stroke-dasharray="2.2 2.2"
+              />
+              <path
+                d="M0 9h5M23 9h5"
+                stroke="currentColor"
+                stroke-width="1"
+                opacity="0.65"
+              />
+            </pattern>
+            <rect width="420" height="18" fill="url(#rosette)" />
+          </svg>
+          <div class="hx-404-kicker">IAR ARCHIVE · 404</div>
+        </div>
+
+        <div class="hx-404-body">
+          <div class="hx-404-seal" aria-hidden="true">
+            <svg
+              width="26"
+              height="26"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+            >
+              <polygon
+                points="12,1.5 14.9,7.1 21,5 16.9,10.1 22.5,12 16.9,13.9 21,19 14.9,16.9 12,22.5 9.1,16.9 3,19 7.1,13.9 1.5,12 7.1,10.1 3,5 9.1,7.1"
+              />
+            </svg>
+          </div>
+          <div class="hx-404-numeral" dir="ltr">404</div>
+          <h1 data-lang-only="ar">الصفحة المطلوبة غير موجودة</h1>
+          <h1 data-lang-only="en">Requested page not found</h1>
+          <p data-lang-only="ar">
+            لم نتمكن من العثور على المسار المطلوب في الأرشيف الإداري العراقي. يمكنك العودة
+            إلى الفهرس الرئيسي للبحث في المراجع والمصنفات الموثّقة.
+          </p>
+          <p data-lang-only="en">
+            We could not locate the requested path in the Iraqi Administrative Reference
+            archive. Return to the main index to browse and search verified references.
+          </p>
+          <div class="hx-404-actions">
+            <a href="/" class="hx-404-btn">
+              <span data-lang-only="ar">العودة إلى المكتبة المرجعية</span>
+              <span data-lang-only="en">Return to Archive Library</span>
+            </a>
+          </div>
+          <div class="hx-404-meta">
+            <span data-lang-only="ar"
+              >الأرشيف الإداري العراقي · نظام الفهرسة الرقمية</span
+            >
+            <span data-lang-only="en"
+              >Iraqi Administrative Reference · Digital Archive</span
+            >
+          </div>
+        </div>
+      </div>
     </main>
   </body>
 </html>

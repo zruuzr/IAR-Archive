@@ -1,6 +1,5 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useI18n } from '@/i18n/I18nProvider';
-import { cn } from '@/lib/utils';
 import type { PaginationToken } from '@/types/book';
 
 export interface PaginationNavProps {
@@ -11,8 +10,8 @@ export interface PaginationNavProps {
 }
 
 /**
- * Sovereign Archival Pagination Bar.
- * Styled as an institutional dock with golden active page markers,
+ * Heritage Archival Pagination Bar.
+ * Styled as a rounded Heritage dock with crisp active markers,
  * clear RTL/LTR directional controls, and responsive page status information.
  */
 export function PaginationNav({
@@ -36,16 +35,16 @@ export function PaginationNav({
     <nav
       aria-label={t('paginationAria')}
       data-testid="pagination-nav"
-      className="mt-10 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 bg-card p-3 sm:p-4 rounded-[4px] border hairline-border-strong doc-shadow"
+      className="hx-panel mt-10 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 p-3.5 sm:p-4"
     >
       {/* Left/Start: Page count indicator */}
-      <div className="text-xs text-muted-foreground font-medium order-2 sm:order-1 text-center sm:text-start">
+      <div className="text-xs text-[var(--hx-muted)] font-medium order-2 sm:order-1 text-center sm:text-start">
         <span>{translate('الصفحة', 'Page')} </span>
-        <span className="font-semibold text-foreground font-mono tabular-nums">
+        <span className="font-semibold text-[var(--hx-ink)] font-mono tabular-nums">
           {formatNumber(currentPage)}
         </span>
         <span> {translate('من أصل', 'of')} </span>
-        <span className="font-semibold text-foreground font-mono tabular-nums">
+        <span className="font-semibold text-[var(--hx-ink)] font-mono tabular-nums">
           {formatNumber(totalPages)}
         </span>
         <span className="hidden sm:inline">
@@ -58,7 +57,7 @@ export function PaginationNav({
       <div className="w-full sm:w-auto overflow-x-auto no-scrollbar py-0.5 order-1 sm:order-2 flex justify-center">
         <ul
           id="paginationContainer"
-          className="flex items-center justify-center gap-1 sm:gap-1.5 shrink-0 px-1"
+          className="flex items-center justify-center gap-1.5 shrink-0 px-1"
         >
           {/* Previous Page Button */}
           <li>
@@ -71,12 +70,7 @@ export function PaginationNav({
               onClick={() => onPageChange(currentPage - 1)}
               aria-label={t('previous')}
               title={t('previous')}
-              className={cn(
-                'inline-flex h-8 sm:h-9 items-center justify-center gap-1 rounded-[3px] border px-2 sm:px-3 text-xs font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-ring shrink-0',
-                isFirstPage
-                  ? 'hairline-border text-muted-foreground/45 bg-secondary/40 cursor-not-allowed'
-                  : 'hairline-border-strong bg-background/80 text-foreground hover:bg-foreground hover:text-background hover:border-foreground cursor-pointer'
-              )}
+              className="hx-page-btn gap-1 sm:px-3 font-sans"
             >
               <PrevIcon className="size-3.5 shrink-0" aria-hidden="true" />
               <span className="hidden sm:inline">{t('previous')}</span>
@@ -93,7 +87,7 @@ export function PaginationNav({
                 >
                   <span
                     aria-hidden="true"
-                    className="text-xs font-mono text-muted-foreground"
+                    className="text-xs font-mono text-[var(--hx-muted)]"
                   >
                     …
                   </span>
@@ -110,12 +104,7 @@ export function PaginationNav({
                   data-testid={`pagination-page-${token}`}
                   aria-current={isCurrent ? 'page' : undefined}
                   onClick={() => onPageChange(token)}
-                  className={cn(
-                    'inline-flex size-8 sm:size-9 items-center justify-center rounded-[3px] font-mono text-xs font-semibold tabular-nums transition-colors cursor-pointer focus-visible:outline-2 focus-visible:outline-ring',
-                    isCurrent
-                      ? 'bg-foreground text-background border border-foreground'
-                      : 'border hairline-border-strong bg-background/80 text-foreground hover:border-primary hover:text-primary'
-                  )}
+                  className="hx-page-btn tabular-nums cursor-pointer"
                 >
                   {formatNumber(token)}
                 </button>
@@ -134,12 +123,7 @@ export function PaginationNav({
               onClick={() => onPageChange(currentPage + 1)}
               aria-label={t('next')}
               title={t('next')}
-              className={cn(
-                'inline-flex h-8 sm:h-9 items-center justify-center gap-1 rounded-[3px] border px-2 sm:px-3 text-xs font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-ring shrink-0',
-                isLastPage
-                  ? 'hairline-border text-muted-foreground/45 bg-secondary/40 cursor-not-allowed'
-                  : 'hairline-border-strong bg-background/80 text-foreground hover:bg-foreground hover:text-background hover:border-foreground cursor-pointer'
-              )}
+              className="hx-page-btn gap-1 sm:px-3 font-sans"
             >
               <span className="hidden sm:inline">{t('next')}</span>
               <NextIcon className="size-3.5 shrink-0" aria-hidden="true" />

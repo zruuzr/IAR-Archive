@@ -375,13 +375,13 @@
     white-space: nowrap;
     display: inline-block;
     line-height: 1.25;
-    padding-bottom: 0.12em;
+    padding-bottom: 0.24em;
   }
   .hx-hero h1 em::after {
     content: '';
     position: absolute;
     inset-inline: 0;
-    bottom: 0;
+    bottom: 0.02em;
     height: 6px;
     background: var(--hx-gold-bright);
     opacity: 0.85;
@@ -1670,29 +1670,39 @@
   }
 
   @media (max-width: 640px) {
+    .hx-wrap {
+      width: min(1180px, 100% - 24px);
+    }
+    .hx-brand {
+      gap: 8px;
+      min-width: 0;
+    }
+    .hx-brand-txt {
+      min-width: 0;
+    }
     .hx-brand-txt b {
-      font-size: 1rem;
+      font-size: 0.94rem;
       white-space: nowrap;
     }
     .hx-brand-txt small {
-      font-size: 0.58rem;
-      letter-spacing: 0.12em;
+      font-size: 0.54rem;
+      letter-spacing: 0.08em;
     }
     .hx-brand svg {
-      width: 34px;
-      height: 34px;
+      width: 30px;
+      height: 30px;
     }
     .hx-bar {
-      gap: 8px;
+      gap: 6px;
       min-height: 56px;
     }
     .hx-tools {
       gap: 4px;
     }
     .hx-icon-btn {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
     }
     .hx-icon-btn svg {
       width: 16px;
@@ -1803,6 +1813,23 @@
       font-size: 0.72rem;
       gap: 8px;
       padding: 5px 8px;
+    }
+  }
+
+  @media (max-width: 380px) {
+    .hx-brand {
+      gap: 6px;
+    }
+    .hx-brand svg {
+      width: 28px;
+      height: 28px;
+    }
+    .hx-brand-txt b {
+      font-size: 0.86rem;
+    }
+    .hx-icon-btn {
+      width: 32px;
+      height: 32px;
     }
   }
 

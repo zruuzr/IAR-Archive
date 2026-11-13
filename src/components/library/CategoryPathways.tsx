@@ -6,7 +6,6 @@ import {
   PathwayGrid,
   type HeritagePathway
 } from '@/components/heritage';
-import { Button } from '@/components/ui/button';
 import { useI18n } from '@/i18n/I18nProvider';
 import { normalizeSearchText } from '@/lib/arabic-search';
 import { ALL_CATEGORIES_KEY } from '@/lib/catalog-query';
@@ -192,18 +191,21 @@ export function CategoryPathways({
 
         {/* Searchable "All Categories (114)" Directory Trigger */}
         {categoriesWithCounts.length > 0 && (
-          <Button
+          <button
             type="button"
-            variant={pickerOpen ? 'secondary' : 'outline'}
-            size="xs"
             data-testid="open-all-categories-btn"
             aria-expanded={pickerOpen}
             aria-controls="allCategoriesDirectoryPanel"
             onClick={() => setPickerOpen((prev) => !prev)}
-            className="h-8 gap-1.5 rounded-full px-3 text-xs font-semibold border-[var(--hx-line)] text-[var(--hx-ink)] hover:border-[var(--hx-gold)] transition-colors"
+            className={cn('hx-chip gap-1.5', pickerOpen && 'is-on')}
           >
             <Compass
-              className="size-3.5 shrink-0 text-[var(--hx-gold)]"
+              className={cn(
+                'size-3.5 shrink-0',
+                pickerOpen
+                  ? 'text-current'
+                  : 'text-[var(--hx-gold-ink)] dark:text-[var(--hx-gold-bright)]'
+              )}
               aria-hidden="true"
             />
             <span>
@@ -217,7 +219,7 @@ export function CategoryPathways({
               )}
               aria-hidden="true"
             />
-          </Button>
+          </button>
         )}
       </div>
 
@@ -228,12 +230,12 @@ export function CategoryPathways({
           role="region"
           aria-label={translate('دليل جميع التصنيفات', 'All categories directory')}
           data-testid="all-categories-panel"
-          className="rounded-lg border border-[var(--hx-line)] bg-[var(--hx-surface)] p-4 shadow-lg space-y-3"
+          className="hx-panel p-4 sm:p-5 space-y-3.5 hx-fade"
         >
-          <div className="flex flex-wrap items-center justify-between gap-2">
+          <div className="flex flex-wrap items-center justify-between gap-2.5">
             <div className="relative flex-1 min-w-[200px]">
               <Search
-                className="pointer-events-none absolute top-1/2 -translate-y-1/2 start-3 size-3.5 text-[var(--hx-ink-soft)]"
+                className="pointer-events-none absolute top-1/2 -translate-y-1/2 start-3 size-3.5 text-[var(--hx-muted)]"
                 aria-hidden="true"
               />
               <input
@@ -247,14 +249,14 @@ export function CategoryPathways({
                 )}
                 aria-label={translate('البحث في التصنيفات', 'Search categories')}
                 data-testid="category-search-input"
-                className="h-9 w-full rounded-md border border-[var(--hx-line)] bg-[var(--hx-bg)] ps-8 pe-8 text-xs sm:text-sm text-[var(--hx-ink)] placeholder:text-[var(--hx-ink-soft)] focus:outline-none focus:ring-2 focus:ring-[var(--hx-gold)]"
+                className="h-9.5 w-full rounded-[10px] border border-[var(--hx-line)] bg-[var(--hx-surface-2)] ps-8 pe-8 text-xs sm:text-sm text-[var(--hx-ink)] placeholder:text-[var(--hx-muted)] outline-none focus:outline-none focus-visible:outline-none focus:border-[var(--hx-gold)] focus:ring-2 focus:ring-[var(--hx-gold-soft)] [&::-webkit-search-cancel-button]:hidden"
               />
               {categoryQuery && (
                 <button
                   type="button"
                   onClick={() => setCategoryQuery('')}
                   aria-label={t('clearSearchAria')}
-                  className="absolute top-1/2 -translate-y-1/2 end-2 inline-flex size-5 items-center justify-center rounded-xs text-[var(--hx-ink-soft)] hover:text-[var(--hx-ink)]"
+                  className="absolute top-1/2 -translate-y-1/2 end-2 inline-flex size-5 items-center justify-center rounded-md text-[var(--hx-muted)] hover:text-[var(--hx-ink)] cursor-pointer"
                 >
                   <X className="size-3" aria-hidden="true" />
                 </button>
@@ -262,28 +264,26 @@ export function CategoryPathways({
             </div>
 
             <div className="flex items-center gap-2">
-              <span className="font-mono text-xs text-[var(--hx-ink-soft)] tabular-nums">
+              <span className="font-mono text-xs text-[var(--hx-muted)] tabular-nums">
                 {formatNumber(filteredCategories.length)} /{' '}
                 {formatNumber(categoriesWithCounts.length)}
               </span>
-              <Button
+              <button
                 type="button"
-                variant="ghost"
-                size="xs"
                 data-testid="close-all-categories-btn"
                 onClick={() => setPickerOpen(false)}
-                className="rounded-md text-[var(--hx-ink-soft)] hover:text-[var(--hx-ink)]"
+                className="hx-btn hx-btn-line !min-h-8 !px-3 !py-1 !text-xs"
               >
                 <X className="size-3.5" aria-hidden="true" />
                 <span>{t('txtModalClose')}</span>
-              </Button>
+              </button>
             </div>
           </div>
 
           {filteredCategories.length === 0 ? (
             <p
               data-testid="category-search-empty"
-              className="py-4 text-center text-xs text-[var(--hx-ink-soft)]"
+              className="py-5 text-center text-xs text-[var(--hx-muted)]"
             >
               {translate(
                 'لا توجد تصنيفات مطابقة لبحثك.',
@@ -293,7 +293,7 @@ export function CategoryPathways({
           ) : (
             <div
               data-testid="all-categories-list"
-              className="grid grid-cols-1 gap-1.5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 max-h-72 overflow-y-auto pe-1"
+              className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 max-h-72 overflow-y-auto pe-1"
             >
               {filteredCategories.map((cat) => {
                 const isSelected = activeCategory === cat.key;
@@ -308,22 +308,29 @@ export function CategoryPathways({
                       setPickerOpen(false);
                     }}
                     className={cn(
-                      'flex items-center justify-between gap-2 rounded-md border px-2.5 py-2 text-start text-xs transition-colors cursor-pointer',
+                      'flex items-center justify-between gap-2 rounded-[10px] border px-3 py-2 text-start text-xs transition-all cursor-pointer',
                       isSelected
-                        ? 'border-[var(--hx-gold)] bg-[var(--hx-surface-2)] text-[var(--hx-gold-bright)] font-semibold'
-                        : 'border-[var(--hx-line)] bg-[var(--hx-surface)] text-[var(--hx-ink)] hover:border-[var(--hx-gold)]'
+                        ? 'border-transparent bg-[var(--hx-chip-on-bg)] text-[var(--hx-chip-on-ink)] font-semibold shadow-2xs'
+                        : 'border-[var(--hx-line)] bg-[var(--hx-surface-2)]/65 text-[var(--hx-ink)] hover:border-[var(--hx-gold)] hover:bg-[var(--hx-surface-2)]'
                     )}
                   >
                     <span className="flex items-center gap-1.5 min-w-0">
                       {isSelected && (
                         <Check
-                          className="size-3.5 shrink-0 text-[var(--hx-gold)]"
+                          className="size-3.5 shrink-0 text-[var(--hx-gold-bright)] dark:text-current"
                           aria-hidden="true"
                         />
                       )}
                       <span className="truncate">{cat.label}</span>
                     </span>
-                    <span className="rounded bg-[var(--hx-surface-2)] px-1.5 py-0.5 text-[11px] font-mono tabular-nums text-[var(--hx-ink-soft)] shrink-0">
+                    <span
+                      className={cn(
+                        'rounded-full px-2 py-0.5 text-[11px] font-mono tabular-nums shrink-0',
+                        isSelected
+                          ? 'bg-white/15 dark:bg-black/15 text-current'
+                          : 'bg-[var(--hx-surface)] border border-[var(--hx-line)] text-[var(--hx-muted)]'
+                      )}
+                    >
                       {formatNumber(cat.count)}
                     </span>
                   </button>

@@ -1,6 +1,5 @@
 import { AlertCircle, HeartOff, RotateCcw, SearchX } from 'lucide-react';
-import { HeritageGrid } from '@/components/heritage';
-import { Button } from '@/components/ui/button';
+import { HeritageButton, HeritageFrieze, HeritageGrid } from '@/components/heritage';
 import type { ViewMode } from '@/hooks/useLibraryState';
 import { useI18n } from '@/i18n/I18nProvider';
 import { cn } from '@/lib/utils';
@@ -81,19 +80,28 @@ export function BookGrid({
           {Array.from({ length: 6 }, (_, index) => (
             <div
               key={index}
-              className="flex flex-col justify-between rounded-[4px] border hairline-border-strong bg-card p-5 doc-shadow animate-pulse space-y-4 min-h-[380px]"
+              className={cn(
+                'hx-panel p-5 animate-pulse min-h-[380px]',
+                viewMode === 'list'
+                  ? 'flex flex-col sm:flex-row gap-5 min-h-[200px]'
+                  : 'flex flex-col justify-between space-y-4'
+              )}
             >
-              <div className="flex items-center justify-between">
-                <div className="h-4 w-24 rounded-[2px] bg-secondary" />
-                <div className="h-4 w-14 rounded-[2px] bg-secondary" />
+              <div
+                className={cn(
+                  'mx-auto w-28 aspect-[5/7] rounded-[10px] bg-[var(--hx-surface-2)] shrink-0',
+                  viewMode === 'list' && 'sm:mx-0 w-24'
+                )}
+              />
+              <div className="flex-1 flex flex-col justify-between space-y-4">
+                <div className="space-y-2.5">
+                  <div className="h-3.5 w-24 rounded-full bg-[var(--hx-surface-2)]" />
+                  <div className="h-5 w-4/5 rounded-[8px] bg-[var(--hx-surface-2)]" />
+                  <div className="h-3.5 w-1/2 rounded-[6px] bg-[var(--hx-surface-2)]" />
+                  <div className="h-3 w-1/3 rounded-[6px] bg-[var(--hx-surface-2)]" />
+                </div>
+                <div className="h-9 w-full rounded-[10px] bg-[var(--hx-surface-2)]" />
               </div>
-              <div className="mx-auto h-40 w-28 rounded-[3px] bg-secondary" />
-              <div className="space-y-2">
-                <div className="h-5 w-3/4 rounded-[2px] bg-secondary" />
-                <div className="h-3.5 w-1/2 rounded-[2px] bg-secondary" />
-                <div className="h-3 w-1/3 rounded-[2px] bg-secondary" />
-              </div>
-              <div className="h-8 w-full rounded-[3px] bg-secondary" />
             </div>
           ))}
         </div>
@@ -107,30 +115,33 @@ export function BookGrid({
         id="booksDisplayContainer"
         role="alert"
         data-testid="catalog-error-state"
-        className="rounded-[4px] border border-destructive/40 bg-card p-8 text-center doc-shadow max-w-xl mx-auto my-6 space-y-4"
+        className="hx-state-card max-w-xl mx-auto my-6 text-center hx-fade"
       >
-        <div className="mx-auto flex size-12 items-center justify-center rounded-[4px] border border-destructive/30 bg-destructive/10 text-destructive">
-          <AlertCircle className="size-6" aria-hidden="true" />
+        <HeritageFrieze />
+        <div className="relative z-10 p-7 sm:p-9 space-y-4">
+          <div className="mx-auto flex size-13 items-center justify-center rounded-full border border-destructive/35 bg-destructive/10 text-destructive">
+            <AlertCircle className="size-6" aria-hidden="true" />
+          </div>
+          <div className="space-y-1.5">
+            <h3 className="font-serif text-xl sm:text-2xl font-bold text-[var(--hx-ink)]">
+              {t('errorLoadTitle')}
+            </h3>
+            <p className="text-xs sm:text-sm text-[var(--hx-ink-2)] leading-relaxed">
+              {errorMessage || t('errorLoadBody')}
+            </p>
+          </div>
+          <div className="pt-1 flex justify-center">
+            <HeritageButton
+              variant="solid"
+              size="sm"
+              data-testid="catalog-retry-btn"
+              onClick={onRetry}
+            >
+              <RotateCcw className="size-3.5 shrink-0" aria-hidden="true" />
+              <span>{t('retry')}</span>
+            </HeritageButton>
+          </div>
         </div>
-        <div className="space-y-1.5">
-          <h3 className="font-serif text-lg sm:text-xl font-bold text-foreground">
-            {t('errorLoadTitle')}
-          </h3>
-          <p className="text-xs sm:text-sm text-muted-foreground">
-            {errorMessage || t('errorLoadBody')}
-          </p>
-        </div>
-        <Button
-          type="button"
-          variant="default"
-          size="sm"
-          data-testid="catalog-retry-btn"
-          onClick={onRetry}
-          className="gap-1.5 rounded-[3px]"
-        >
-          <RotateCcw className="size-3.5" aria-hidden="true" />
-          <span>{t('retry')}</span>
-        </Button>
       </div>
     );
   }
@@ -143,46 +154,49 @@ export function BookGrid({
         id="booksDisplayContainer"
         role="status"
         data-testid="catalog-empty-state"
-        className="empty-state rounded-[4px] border hairline-border-strong bg-card p-8 sm:p-10 text-center doc-shadow max-w-xl mx-auto my-6 space-y-4"
+        className="empty-state hx-state-card text-center max-w-xl mx-auto my-6 hx-fade"
       >
-        <div className="mx-auto flex size-12 items-center justify-center rounded-[4px] border hairline-border bg-secondary text-primary">
-          {isNoFavoritesYet ? (
-            <HeartOff className="size-6" aria-hidden="true" />
-          ) : (
-            <SearchX className="size-6" aria-hidden="true" />
-          )}
-        </div>
+        <HeritageFrieze />
+        <div className="relative z-10 p-7 sm:p-10 space-y-4">
+          <div className="hx-state-seal">
+            {isNoFavoritesYet ? (
+              <HeartOff className="size-6" aria-hidden="true" />
+            ) : (
+              <SearchX className="size-6" aria-hidden="true" />
+            )}
+          </div>
 
-        <div className="space-y-1.5">
-          <h3 className="font-serif text-lg sm:text-xl font-bold text-foreground">
-            {isNoFavoritesYet
-              ? translate(
-                  'قائمة المفضلة فارغة حاليًا',
-                  'Your favorites list is currently empty'
-                )
-              : t('noMatchingReferencesTitle')}
-          </h3>
-          <p className="text-xs sm:text-sm text-muted-foreground">
-            {isNoFavoritesYet
-              ? translate(
-                  'أضف أي مرجع إلى المفضلة بالضغط على أيقونة القلب للوصول السريع إليه لاحقًا.',
-                  'Save any reference to your favorites using the heart icon for quick access later.'
-                )
-              : t('noMatchingReferencesBody')}
-          </p>
-        </div>
+          <div className="space-y-1.5">
+            <h3 className="font-serif text-xl sm:text-2xl font-bold text-[var(--hx-ink)]">
+              {isNoFavoritesYet
+                ? translate(
+                    'قائمة المفضلة فارغة حاليًا',
+                    'Your favorites list is currently empty'
+                  )
+                : t('noMatchingReferencesTitle')}
+            </h3>
+            <p className="text-xs sm:text-sm text-[var(--hx-ink-2)] leading-relaxed">
+              {isNoFavoritesYet
+                ? translate(
+                    'أضف أي مرجع إلى المفضلة بالضغط على أيقونة القلب للوصول السريع إليه لاحقًا.',
+                    'Save any reference to your favorites using the heart icon for quick access later.'
+                  )
+                : t('noMatchingReferencesBody')}
+            </p>
+          </div>
 
-        <Button
-          type="button"
-          variant="default"
-          size="sm"
-          data-testid="empty-reset-btn"
-          onClick={onResetFilters}
-          className="gap-1.5 rounded-[3px] bg-foreground text-background hover:bg-primary hover:text-primary-foreground"
-        >
-          <RotateCcw className="size-3.5" aria-hidden="true" />
-          <span>{t('resetFilters')}</span>
-        </Button>
+          <div className="pt-1 flex justify-center">
+            <HeritageButton
+              variant="solid"
+              size="sm"
+              data-testid="empty-reset-btn"
+              onClick={onResetFilters}
+            >
+              <RotateCcw className="size-3.5 shrink-0" aria-hidden="true" />
+              <span>{t('resetFilters')}</span>
+            </HeritageButton>
+          </div>
+        </div>
       </div>
     );
   }

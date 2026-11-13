@@ -1,16 +1,16 @@
-import { AlertCircle, ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import {
   HeritageBookCover,
   HeritageBookDetails,
   HeritageButton,
+  HeritageFrieze,
   HeritageGrid,
   HeritageIcon,
   HeritageIconButton,
   pickCloth
 } from '@/components/heritage';
 import { BaghdadiSquareKuficSeal } from '@/components/layout/HeritageOrnaments';
-import { Button } from '@/components/ui/button';
 import { buildBookUrl } from '@/hooks/useBundle';
 import { useI18n } from '@/i18n/I18nProvider';
 import {
@@ -70,41 +70,49 @@ export function BookNotFoundView({
       role="region"
       aria-labelledby="bookNotFoundTitle"
       data-testid="book-not-found-view"
-      className="mx-auto my-8 max-w-xl rounded-[4px] border hairline-border-strong bg-card p-6 sm:p-8 text-center text-card-foreground doc-shadow space-y-5"
+      className="hx-state-card mx-auto my-8 sm:my-12 max-w-xl text-center hx-fade"
     >
-      <div className="mx-auto flex size-12 items-center justify-center rounded-full border hairline-border-strong bg-secondary text-primary">
-        <AlertCircle className="size-5" aria-hidden="true" />
-      </div>
+      <HeritageFrieze />
 
-      <div className="space-y-2">
-        <h1
-          id="bookNotFoundTitle"
-          data-testid="book-not-found-title"
-          className="font-serif text-xl sm:text-2xl font-bold text-foreground"
-        >
-          {translate('المرجع غير موجود', 'Reference not found')}
-        </h1>
-        <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-          {translate(
-            'لم نتمكن من العثور على المرجع المطلوب في الأرشيف. ربما تغيّر الرابط أو أُزيل المعرّف.',
-            'We could not find the requested reference in the archive. The link may be outdated or invalid.'
+      <div className="relative z-10 p-6 sm:p-9 space-y-5">
+        <div className="hx-state-seal" aria-hidden="true">
+          <HeritageIcon name="octagram" size={24} />
+        </div>
+
+        <div className="space-y-2.5">
+          {requestedParam && (
+            <div className="flex justify-center">
+              <span className="hx-kbd" dir="ltr">
+                ?book={requestedParam}
+              </span>
+            </div>
           )}
-          {requestedParam ? ` (${requestedParam})` : ''}
-        </p>
-      </div>
+          <h1
+            id="bookNotFoundTitle"
+            data-testid="book-not-found-title"
+            className="font-serif text-2xl sm:text-3xl font-bold text-[var(--hx-ink)]"
+          >
+            {translate('المرجع غير موجود', 'Reference not found')}
+          </h1>
+          <p className="mx-auto max-w-md text-xs sm:text-sm text-[var(--hx-ink-2)] leading-relaxed">
+            {translate(
+              'لم نتمكن من العثور على المرجع المطلوب في الأرشيف. ربما تغيّر الرابط أو أُزيل المعرّف.',
+              'We could not find the requested reference in the archive. The link may be outdated or invalid.'
+            )}
+          </p>
+        </div>
 
-      <div>
-        <Button
-          type="button"
-          variant="default"
-          size="sm"
-          onClick={onBackToList}
-          data-testid="not-found-back-btn"
-          className="gap-2 rounded-[4px] bg-foreground text-background hover:bg-primary hover:text-primary-foreground"
-        >
-          <BackIcon className="size-4 shrink-0" aria-hidden="true" />
-          <span>{t('txtBackToList')}</span>
-        </Button>
+        <div className="pt-1 flex justify-center">
+          <HeritageButton
+            variant="solid"
+            size="md"
+            onClick={onBackToList}
+            data-testid="not-found-back-btn"
+          >
+            <BackIcon className="size-4 shrink-0" aria-hidden="true" />
+            <span>{t('txtBackToList')}</span>
+          </HeritageButton>
+        </div>
       </div>
     </section>
   );

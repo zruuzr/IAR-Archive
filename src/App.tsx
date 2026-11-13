@@ -476,7 +476,7 @@ export function LibraryWorkspace({
       {/* Accessible Skip-to-Content Link for Keyboard Navigation */}
       <a
         href="#mainLibraryContent"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:start-2 focus:z-50 focus:rounded-[4px] focus:border focus:border-primary focus:bg-card focus:px-3.5 focus:py-2 focus:text-xs focus:font-bold focus:text-foreground focus:shadow-lg"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:start-2 focus:z-50 focus:rounded-[10px] focus:border focus:border-[var(--hx-gold)] focus:bg-[var(--hx-surface)] focus:px-4 focus:py-2 focus:text-xs focus:font-bold focus:text-[var(--hx-ink)] focus:shadow-lg"
       >
         {lang === 'ar' ? 'تخطي إلى المحتوى الرئيسي' : 'Skip to main content'}
       </a>
@@ -839,18 +839,16 @@ export function LibraryWorkspace({
               role={item.isError ? 'alert' : 'status'}
               data-testid="toast-notice"
               className={cn(
-                'pointer-events-auto flex items-center justify-between gap-2.5 rounded-[4px] border px-3.5 py-2.5 text-xs sm:text-sm font-medium doc-shadow backdrop-blur-xs',
-                item.isError
-                  ? 'border-destructive/50 bg-destructive text-destructive-foreground'
-                  : 'hairline-border-strong bg-card text-card-foreground'
+                'pointer-events-auto hx-toast text-xs sm:text-sm font-medium backdrop-blur-xs',
+                item.isError && 'hx-toast--error'
               )}
             >
-              <div className="flex items-center gap-2 min-w-0">
+              <div className="flex items-center gap-2.5 min-w-0">
                 {item.isError ? (
                   <AlertCircle className="size-4 shrink-0" aria-hidden="true" />
                 ) : (
                   <CheckCircle2
-                    className="size-4 text-primary shrink-0"
+                    className="size-4 text-[var(--hx-gold-ink)] dark:text-[var(--hx-gold-bright)] shrink-0"
                     aria-hidden="true"
                   />
                 )}
@@ -860,7 +858,7 @@ export function LibraryWorkspace({
                 type="button"
                 aria-label={t('txtModalClose')}
                 onClick={() => dismissToast(item.id)}
-                className="inline-flex size-5 items-center justify-center rounded-sm opacity-75 hover:opacity-100 shrink-0"
+                className="inline-flex size-6 items-center justify-center rounded-md opacity-75 hover:opacity-100 hover:bg-[var(--hx-surface-2)] shrink-0 cursor-pointer transition-colors"
               >
                 <X className="size-3.5" aria-hidden="true" />
               </button>

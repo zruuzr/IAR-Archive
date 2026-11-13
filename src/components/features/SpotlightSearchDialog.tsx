@@ -1,5 +1,6 @@
 import { BookOpen, Compass, CornerDownLeft, Search, X } from 'lucide-react';
 import { useEffect, useId, useMemo, useRef, useState } from 'react';
+import { HeritageFrieze, HeritageIcon } from '@/components/heritage';
 import { useAccessibleDialog } from '@/hooks/useAccessibleDialog';
 import { useI18n } from '@/i18n/I18nProvider';
 import { normalizeSearchText } from '@/lib/arabic-search';
@@ -183,7 +184,7 @@ export function SpotlightSearchDialog({
     <div
       role="presentation"
       data-testid="spotlight-search-dialog"
-      className="fixed inset-0 z-50 flex items-start justify-center p-3 sm:p-6 md:pt-20 bg-background/80 backdrop-blur-md animate-in fade-in duration-200"
+      className="hx-dialog-backdrop fixed inset-0 z-50 flex items-start justify-center p-3 sm:p-6 md:pt-20"
       onClick={() => onOpenChange(false)}
     >
       <div
@@ -194,8 +195,9 @@ export function SpotlightSearchDialog({
         aria-describedby={descId}
         onClick={(e) => e.stopPropagation()}
         onKeyDown={handleKeyDown}
-        className="w-full max-w-2xl overflow-hidden rounded-[4px] border hairline-border-strong bg-card text-card-foreground shadow-2xl animate-in zoom-in-95 duration-200"
+        className="hx-dialog-panel w-full max-w-2xl overflow-hidden"
       >
+        <HeritageFrieze />
         <span id={titleId} className="sr-only">
           {t('spotlightSearch')}
         </span>
@@ -204,8 +206,11 @@ export function SpotlightSearchDialog({
         </span>
 
         {/* Search Input Bar */}
-        <div className="relative flex items-center border-b hairline-border px-4 py-3.5 bg-secondary/40">
-          <Search className="size-4.5 shrink-0 text-primary" aria-hidden="true" />
+        <div className="relative flex items-center border-b border-[var(--hx-line)] px-4 py-3.5 bg-[var(--hx-surface-2)]">
+          <Search
+            className="size-4.5 shrink-0 text-[var(--hx-gold-ink)] dark:text-[var(--hx-gold-bright)]"
+            aria-hidden="true"
+          />
           <input
             ref={inputRef}
             type="search"
@@ -215,33 +220,33 @@ export function SpotlightSearchDialog({
             autoComplete="off"
             spellCheck="false"
             data-testid="spotlight-input"
-            className="flex-1 bg-transparent px-3 text-base text-foreground placeholder:text-muted-foreground outline-hidden"
+            className="flex-1 bg-transparent px-3 text-base text-[var(--hx-ink)] placeholder:text-[var(--hx-muted)] outline-hidden [&::-webkit-search-cancel-button]:hidden"
           />
           {query.length > 0 && (
             <button
               type="button"
               onClick={() => setQuery('')}
-              className="rounded-[2px] p-1 text-muted-foreground hover:bg-secondary hover:text-foreground"
+              className="rounded-lg p-1.5 text-[var(--hx-muted)] hover:bg-[var(--hx-surface)] hover:text-[var(--hx-ink)] transition-colors"
               aria-label={t('clearSearchAria')}
             >
               <X className="size-4" />
             </button>
           )}
-          <kbd className="hidden sm:inline-flex items-center gap-1 rounded-[2px] border hairline-border-strong bg-background px-2 py-0.5 text-[10.5px] font-mono text-muted-foreground">
-            ESC
-          </kbd>
+          <kbd className="hx-kbd hidden sm:inline-flex">ESC</kbd>
         </div>
 
         {/* Results List */}
         <div
           ref={listRef}
           role="listbox"
-          className="max-h-[60vh] overflow-y-auto p-2 divide-y divide-border/30 scroll-smooth"
+          className="max-h-[60vh] overflow-y-auto p-2 space-y-1 scroll-smooth"
         >
           {items.length === 0 ? (
-            <div className="p-8 text-center text-sm text-muted-foreground">
-              <Search className="mx-auto mb-2 size-8 opacity-40 text-muted-foreground" />
-              {t('spotlightNoResults')}
+            <div className="p-8 text-center space-y-2">
+              <div className="hx-state-seal" aria-hidden="true">
+                <Search className="size-5" />
+              </div>
+              <p className="text-sm text-[var(--hx-muted)]">{t('spotlightNoResults')}</p>
             </div>
           ) : (
             items.map((item, idx) => {
@@ -254,19 +259,19 @@ export function SpotlightSearchDialog({
                   onClick={() => handleSelect(item)}
                   onMouseEnter={() => setSelectedIndex(idx)}
                   className={cn(
-                    'group flex items-center justify-between gap-3 rounded-[3px] px-3.5 py-2.5 cursor-pointer transition-colors',
+                    'group flex items-center justify-between gap-3 rounded-[10px] border px-3.5 py-2.5 cursor-pointer transition-colors',
                     isSelected
-                      ? 'bg-primary/10 text-foreground border border-primary/35'
-                      : 'text-foreground border border-transparent hover:bg-secondary/60'
+                      ? 'bg-[var(--hx-surface-2)] border-[var(--hx-gold)] text-[var(--hx-ink)]'
+                      : 'text-[var(--hx-ink)] border-transparent hover:bg-[var(--hx-surface-2)]/70'
                   )}
                 >
                   <div className="flex items-center gap-3 min-w-0 flex-1">
                     <span
                       className={cn(
-                        'flex size-8 shrink-0 items-center justify-center rounded-[3px] border text-xs transition-colors',
+                        'flex size-8 shrink-0 items-center justify-center rounded-[9px] border text-xs transition-colors',
                         item.type === 'category'
-                          ? 'border-teal/40 bg-teal/10 text-teal'
-                          : 'border-primary/40 bg-primary/10 text-primary'
+                          ? 'border-[rgba(201,153,46,0.45)] bg-[var(--hx-gold-soft)] text-[var(--hx-gold-ink)] dark:text-[var(--hx-gold-bright)]'
+                          : 'border-[var(--hx-line)] bg-[var(--hx-surface)] text-[var(--hx-lapis)] dark:text-[var(--hx-gold-bright)]'
                       )}
                     >
                       {item.type === 'category' ? (
@@ -276,11 +281,11 @@ export function SpotlightSearchDialog({
                       )}
                     </span>
                     <div className="flex flex-col min-w-0">
-                      <span className="font-serif font-bold text-base truncate leading-snug">
+                      <span className="font-serif font-bold text-base text-[var(--hx-ink)] truncate leading-snug">
                         {item.title}
                       </span>
                       {item.subtitle && (
-                        <span className="text-xs text-muted-foreground truncate leading-snug">
+                        <span className="text-xs text-[var(--hx-muted)] truncate leading-snug">
                           {item.subtitle}
                         </span>
                       )}
@@ -289,8 +294,10 @@ export function SpotlightSearchDialog({
 
                   <span
                     className={cn(
-                      'shrink-0 text-xs font-medium text-muted-foreground group-hover:text-primary flex items-center gap-1 transition-opacity',
-                      isSelected ? 'opacity-100 text-primary' : 'opacity-0 sm:opacity-50'
+                      'shrink-0 text-xs font-medium flex items-center gap-1 transition-opacity',
+                      isSelected
+                        ? 'opacity-100 text-[var(--hx-gold-ink)] dark:text-[var(--hx-gold-bright)]'
+                        : 'opacity-0 sm:opacity-50 text-[var(--hx-muted)] group-hover:text-[var(--hx-ink)]'
                     )}
                   >
                     <CornerDownLeft className="size-3.5" />
@@ -302,10 +309,11 @@ export function SpotlightSearchDialog({
         </div>
 
         {/* Footer Shortcut Guide */}
-        <div className="flex items-center justify-between border-t hairline-border bg-secondary/40 px-4 py-2.5 text-[11px] text-muted-foreground">
+        <div className="hx-dialog-footer flex items-center justify-between gap-3 px-4 py-2.5 text-[11px] text-[var(--hx-muted)]">
           <span className="hidden sm:inline">{t('spotlightHint')}</span>
-          <span className="font-mono text-[10.5px] uppercase tracking-[0.12em] text-primary font-semibold ms-auto">
-            IAR ARCHIVE — المرجع الإداري العراقي
+          <span className="inline-flex items-center gap-1.5 font-mono text-[10.5px] uppercase tracking-[0.12em] text-[var(--hx-gold-ink)] dark:text-[var(--hx-gold-bright)] font-semibold ms-auto">
+            <HeritageIcon name="octagram" size={11} />
+            <span>IAR ARCHIVE — المرجع الإداري العراقي</span>
           </span>
         </div>
       </div>

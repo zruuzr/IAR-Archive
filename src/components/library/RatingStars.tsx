@@ -52,10 +52,12 @@ export function RatingStars({ book, onRate, size = 'sm', className }: RatingStar
                 aria-hidden="true"
                 className={cn(
                   'inline-flex items-center justify-center p-0.5',
-                  isActive ? 'text-primary' : 'text-muted-foreground/35'
+                  isActive
+                    ? 'text-[var(--hx-gold-ink)] dark:text-[var(--hx-gold-bright)]'
+                    : 'text-[var(--hx-muted)]/35'
                 )}
               >
-                <Star className={cn(starIconClass, isActive && 'fill-primary')} />
+                <Star className={cn(starIconClass, isActive && 'fill-current')} />
               </span>
             );
           }
@@ -72,14 +74,14 @@ export function RatingStars({ book, onRate, size = 'sm', className }: RatingStar
               title={starLabel}
               data-testid={`rate-star-${book.id}-${value}`}
               className={cn(
-                'inline-flex items-center justify-center rounded-xs p-0.5 transition-transform hover:scale-110 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ring cursor-pointer',
+                'inline-flex items-center justify-center rounded-md p-0.5 transition-transform hover:scale-110 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--hx-gold)] cursor-pointer',
                 isActive
-                  ? 'text-primary'
-                  : 'text-muted-foreground/35 hover:text-primary/80'
+                  ? 'text-[var(--hx-gold-ink)] dark:text-[var(--hx-gold-bright)]'
+                  : 'text-[var(--hx-muted)]/35 hover:text-[var(--hx-gold-ink)] dark:hover:text-[var(--hx-gold-bright)]'
               )}
             >
               <Star
-                className={cn(starIconClass, isActive && 'fill-primary')}
+                className={cn(starIconClass, isActive && 'fill-current')}
                 aria-hidden="true"
               />
             </button>
@@ -90,7 +92,7 @@ export function RatingStars({ book, onRate, size = 'sm', className }: RatingStar
       <span
         data-testid={`rating-summary-${book.id}`}
         className={cn(
-          'text-[11px] font-medium text-muted-foreground',
+          'text-[11px] font-medium text-[var(--hx-muted)]',
           count > 0 ? 'font-mono tabular-nums' : 'font-sans'
         )}
       >

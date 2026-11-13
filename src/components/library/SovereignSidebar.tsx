@@ -1,5 +1,6 @@
 import { ChevronDown, Filter, RotateCcw } from 'lucide-react';
 import { useState } from 'react';
+import { HeritageIcon } from '@/components/heritage';
 import {
   AbbasidShamsaWatermark,
   BaghdadiSquareKuficSeal
@@ -30,10 +31,10 @@ export interface SovereignSidebarProps {
 }
 
 /**
- * Sovereign Archival Sidebar for Administrative Sciences.
+ * Heritage Archival Sidebar for Administrative Sciences.
  * Multi-dimensional faceted taxonomy for Discipline, Publication Era, and Reference Type.
  * Responsive: Collapsible accordion on mobile/tablet to conserve vertical rhythm,
- * and persistent sovereign panel on desktop.
+ * and persistent Heritage panel on desktop.
  */
 export function SovereignSidebar({
   books,
@@ -74,22 +75,25 @@ export function SovereignSidebar({
           onClick={() => setIsMobileOpen((prev) => !prev)}
           aria-expanded={isMobileOpen}
           aria-controls="sovereignFacetsPanel"
-          className="w-full flex items-center justify-between p-3.5 bg-card rounded-[4px] border hairline-border-strong doc-shadow font-semibold text-xs text-foreground cursor-pointer transition-colors"
+          className="hx-panel w-full flex items-center justify-between p-3.5 font-semibold text-xs text-[var(--hx-ink)] cursor-pointer transition-colors hover:border-[var(--hx-gold)]"
         >
           <div className="flex items-center gap-2">
-            <Filter className="size-3.5 text-primary shrink-0" aria-hidden="true" />
+            <Filter
+              className="size-3.5 text-[var(--hx-gold-ink)] dark:text-[var(--hx-gold-bright)] shrink-0"
+              aria-hidden="true"
+            />
             <span>
               {translate('تصفية وفهرسة المراجع الإدارية', 'Filter Management References')}
             </span>
             {hasAnyFilterActive && (
-              <span className="bg-primary text-primary-foreground px-2 py-0.5 rounded-[2px] text-[10px] font-mono font-semibold">
+              <span className="rounded-full bg-[var(--hx-chip-on-bg)] text-[var(--hx-chip-on-ink)] px-2 py-0.5 text-[10px] font-bold">
                 {translate('نشط', 'ACTIVE')}
               </span>
             )}
           </div>
           <ChevronDown
             className={cn(
-              'size-4 transition-transform duration-200 text-muted-foreground',
+              'size-4 transition-transform duration-200 text-[var(--hx-muted)]',
               isMobileOpen && 'rotate-180'
             )}
             aria-hidden="true"
@@ -101,19 +105,20 @@ export function SovereignSidebar({
       <div
         id="sovereignFacetsPanel"
         className={cn(
-          'relative overflow-hidden bg-card rounded-[4px] p-5 border hairline-border-strong doc-shadow transition-all',
+          'hx-panel relative overflow-hidden p-5 transition-all',
           !isMobileOpen && 'hidden lg:block'
         )}
       >
         <AbbasidShamsaWatermark variant="sidebar" />
 
         {/* Header & Reset Button */}
-        <div className="relative flex items-center justify-between pb-3 border-b hairline-border mb-4">
-          <div className="space-y-0.5">
-            <span className="block font-mono text-[9.5px] uppercase tracking-[0.16em] text-muted-foreground">
-              INDEX · FACETS
+        <div className="relative flex items-center justify-between gap-2 pb-3.5 border-b border-[var(--hx-line)] mb-4">
+          <div className="space-y-0.5 min-w-0">
+            <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold tracking-wider text-[var(--hx-gold-ink)] dark:text-[var(--hx-gold-bright)]">
+              <HeritageIcon name="octagram" size={11} />
+              <span>{translate('الفهرس · التصنيف الدقيق', 'INDEX · FACETS')}</span>
             </span>
-            <h3 className="font-serif font-bold text-base text-foreground flex items-center gap-2">
+            <h3 className="font-serif font-bold text-lg text-[var(--hx-ink)] flex items-center gap-2">
               <span>{translate('تصفية المراجع الإدارية', 'Management Facets')}</span>
             </h3>
           </div>
@@ -122,20 +127,25 @@ export function SovereignSidebar({
             <button
               type="button"
               onClick={onResetFilters}
-              className="text-xs text-primary hover:underline flex items-center gap-1 cursor-pointer transition-colors font-medium"
+              className="text-xs text-[var(--hx-gold-ink)] dark:text-[var(--hx-gold-bright)] hover:underline flex items-center gap-1 cursor-pointer transition-colors font-semibold shrink-0"
             >
-              <RotateCcw className="size-3" />
+              <RotateCcw className="size-3" aria-hidden="true" />
               <span>{translate('إعادة تعيين', 'Reset')}</span>
             </button>
           )}
         </div>
 
         {/* Facet 1: Administrative Sciences Discipline */}
-        <div className="space-y-2.5 mb-5">
-          <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-[0.12em] block">
-            {translate('الحقل الإداري والمعرفي', 'Management Discipline')}
+        <div className="relative space-y-2 mb-5">
+          <p className="text-xs font-semibold text-[var(--hx-muted)] flex items-center gap-1.5">
+            <HeritageIcon
+              name="octagram"
+              size={10}
+              className="text-[var(--hx-gold-ink)] dark:text-[var(--hx-gold-bright)]"
+            />
+            <span>{translate('الحقل الإداري والمعرفي', 'Management Discipline')}</span>
           </p>
-          <div className="space-y-1 text-xs text-foreground/85">
+          <div className="space-y-1">
             {DISCIPLINE_FACETS.map((facet) => {
               const isSelected =
                 activeIssuer === facet.id || activeIssuer === facet.keyword;
@@ -145,30 +155,31 @@ export function SovereignSidebar({
                   key={facet.id}
                   type="button"
                   aria-pressed={isSelected}
+                  data-active={isSelected}
                   onClick={() => onSelectIssuer(isSelected ? '' : facet.id)}
-                  className={cn(
-                    'w-full flex items-center justify-between px-2.5 py-1.5 rounded-[3px] text-start transition-colors cursor-pointer border',
-                    isSelected
-                      ? 'border-primary/40 bg-primary/10 text-foreground font-semibold'
-                      : 'border-transparent hover:bg-secondary/70'
-                  )}
+                  className="hx-facet-btn cursor-pointer"
                 >
                   <span className="flex items-center gap-2 min-w-0">
                     <span
                       className={cn(
-                        'size-3.5 rounded-[2px] border flex items-center justify-center shrink-0 transition-colors',
+                        'size-4 rounded-[5px] border flex items-center justify-center shrink-0 transition-colors',
                         isSelected
-                          ? 'border-primary bg-primary text-primary-foreground'
-                          : 'hairline-border-strong bg-background'
+                          ? 'border-[var(--hx-gold-bright)] dark:border-current bg-white/15 dark:bg-black/15 text-current'
+                          : 'border-[var(--hx-line-2)] bg-[var(--hx-surface)]'
                       )}
                     >
-                      {isSelected && <span className="text-[9px] leading-none">✓</span>}
+                      {isSelected && <HeritageIcon name="check" size={11} />}
                     </span>
                     <span className="truncate">
                       {lang === 'ar' ? facet.name : facet.nameEn}
                     </span>
                   </span>
-                  <span className="text-muted-foreground font-mono text-[11px] tabular-nums shrink-0 ms-2">
+                  <span
+                    className={cn(
+                      'font-mono text-[11px] tabular-nums shrink-0 ms-2',
+                      isSelected ? 'opacity-90' : 'text-[var(--hx-muted)]'
+                    )}
+                  >
                     {formatNumber(count)}
                   </span>
                 </button>
@@ -178,11 +189,16 @@ export function SovereignSidebar({
         </div>
 
         {/* Facet 2: Publication Era & Decades */}
-        <div className="space-y-2.5 mb-5 pt-4 border-t hairline-border">
-          <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-[0.12em] block">
-            {translate('الحقبة وتاريخ النشر', 'Publication Era')}
+        <div className="relative space-y-2 mb-5 pt-4 border-t border-[var(--hx-line)]">
+          <p className="text-xs font-semibold text-[var(--hx-muted)] flex items-center gap-1.5">
+            <HeritageIcon
+              name="octagram"
+              size={10}
+              className="text-[var(--hx-gold-ink)] dark:text-[var(--hx-gold-bright)]"
+            />
+            <span>{translate('الحقبة وتاريخ النشر', 'Publication Era')}</span>
           </p>
-          <div className="space-y-1 text-xs text-foreground/85">
+          <div className="space-y-1">
             {ERA_FACETS.map((era) => {
               const isSelected = activeEra === era.id;
               const count = era.id === 'era_all' ? books.length : getEraCount(era.id);
@@ -191,32 +207,33 @@ export function SovereignSidebar({
                   key={era.id}
                   type="button"
                   aria-pressed={isSelected}
+                  data-active={isSelected}
                   onClick={() => onSelectEra(era.id)}
-                  className={cn(
-                    'w-full flex items-center justify-between px-2.5 py-1.5 rounded-[3px] text-start transition-colors cursor-pointer border',
-                    isSelected
-                      ? 'border-primary/40 bg-primary/10 text-foreground font-semibold'
-                      : 'border-transparent hover:bg-secondary/70'
-                  )}
+                  className="hx-facet-btn cursor-pointer"
                 >
                   <span className="flex items-center gap-2 min-w-0">
                     <span
                       className={cn(
-                        'size-3.5 rounded-full border flex items-center justify-center shrink-0 transition-colors',
+                        'size-4 rounded-full border flex items-center justify-center shrink-0 transition-colors',
                         isSelected
-                          ? 'border-primary bg-primary'
-                          : 'hairline-border-strong bg-background'
+                          ? 'border-[var(--hx-gold-bright)] dark:border-current'
+                          : 'border-[var(--hx-line-2)] bg-[var(--hx-surface)]'
                       )}
                     >
                       {isSelected && (
-                        <span className="size-1.5 rounded-full bg-primary-foreground" />
+                        <span className="size-2 rounded-full bg-[var(--hx-gold-bright)] dark:bg-current" />
                       )}
                     </span>
                     <span className="truncate">
                       {lang === 'ar' ? era.label : era.labelEn}
                     </span>
                   </span>
-                  <span className="text-muted-foreground font-mono text-[11px] tabular-nums shrink-0 ms-2">
+                  <span
+                    className={cn(
+                      'font-mono text-[11px] tabular-nums shrink-0 ms-2',
+                      isSelected ? 'opacity-90' : 'text-[var(--hx-muted)]'
+                    )}
+                  >
                     {formatNumber(count)}
                   </span>
                 </button>
@@ -226,11 +243,16 @@ export function SovereignSidebar({
         </div>
 
         {/* Facet 3: Content / Reference Type */}
-        <div className="space-y-2.5 pt-4 border-t hairline-border">
-          <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-[0.12em] block">
-            {translate('طبيعة المرجع والمحتوى', 'Reference Nature')}
+        <div className="relative space-y-2.5 pt-4 border-t border-[var(--hx-line)]">
+          <p className="text-xs font-semibold text-[var(--hx-muted)] flex items-center gap-1.5">
+            <HeritageIcon
+              name="octagram"
+              size={10}
+              className="text-[var(--hx-gold-ink)] dark:text-[var(--hx-gold-bright)]"
+            />
+            <span>{translate('طبيعة المرجع والمحتوى', 'Reference Nature')}</span>
           </p>
-          <div className="flex flex-wrap gap-1.5 text-xs">
+          <div className="flex flex-wrap gap-1.5">
             {TYPE_FACETS.map((type) => {
               const isSelected = activeType === type.id;
               return (
@@ -238,13 +260,9 @@ export function SovereignSidebar({
                   key={type.id}
                   type="button"
                   aria-pressed={isSelected}
+                  data-active={isSelected}
                   onClick={() => onSelectType(type.id)}
-                  className={cn(
-                    'px-2.5 py-1 rounded-[3px] border text-xs font-medium transition-colors cursor-pointer',
-                    isSelected
-                      ? 'bg-foreground text-background border-foreground font-semibold'
-                      : 'bg-background/70 text-foreground/85 hairline-border hover:bg-secondary'
-                  )}
+                  className="hx-facet-pill cursor-pointer"
                 >
                   {lang === 'ar' ? type.label : type.labelEn}
                 </button>
@@ -256,14 +274,14 @@ export function SovereignSidebar({
         {/* Miniature Baghdadi Square Kufic Archival Colophon Stamp */}
         <div
           data-testid="sidebar-kufic-colophon"
-          className="mt-5 flex items-center gap-3 border-t border-dashed hairline-border-strong pt-3.5"
+          className="relative mt-5 flex items-center gap-3 border-t border-dashed border-[var(--hx-line-2)] pt-3.5"
         >
-          <BaghdadiSquareKuficSeal size={44} surfaceFill="var(--canvas)" />
+          <BaghdadiSquareKuficSeal size={44} surfaceFill="var(--hx-surface)" />
           <div className="min-w-0">
-            <div className="truncate text-[11px] font-bold text-foreground">
+            <div className="truncate text-xs font-bold text-[var(--hx-ink)]">
               {translate('الفهرس العراقي الموثق', 'Verified Iraqi Index')}
             </div>
-            <div className="truncate text-[10px] text-muted-foreground">
+            <div className="truncate text-[11px] text-[var(--hx-muted)]">
               {translate(
                 'ختم الضبط الببليوغرافي · بغداد',
                 'Bibliographic Control Seal · Baghdad'

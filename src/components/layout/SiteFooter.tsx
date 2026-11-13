@@ -84,9 +84,9 @@ export function SiteFooter({ booksCount = 254, loaded = true }: SiteFooterProps 
                 aria-label="Telegram"
                 title="Telegram: iarArchive"
                 data-testid="footer-telegram-link"
-                className="group flex items-center gap-3 rounded-[6px] border border-white/10 bg-white/5 p-2.5 text-start transition-all hover:border-[#229ED9] hover:bg-white/10"
+                className="group flex items-center gap-3 rounded-[10px] border border-white/10 bg-white/5 p-2.5 text-start transition-all hover:border-[#229ED9] hover:bg-white/10"
               >
-                <span className="flex size-8 shrink-0 items-center justify-center rounded-[4px] bg-[#229ED9]/20 text-[#229ED9] transition-colors group-hover:bg-[#229ED9] group-hover:text-white">
+                <span className="flex size-8 shrink-0 items-center justify-center rounded-[8px] bg-[#229ED9]/20 text-[#229ED9] transition-colors group-hover:bg-[#229ED9] group-hover:text-white">
                   <TelegramBrandIcon className="size-4" />
                 </span>
                 <div className="min-w-0 flex-1">
@@ -110,9 +110,9 @@ export function SiteFooter({ booksCount = 254, loaded = true }: SiteFooterProps 
                 aria-label="TikTok"
                 title="TikTok: iar.archive"
                 data-testid="footer-tiktok-link"
-                className="group flex items-center gap-3 rounded-[6px] border border-white/10 bg-white/5 p-2.5 text-start transition-all hover:border-[#e2b84e] hover:bg-white/10"
+                className="group flex items-center gap-3 rounded-[10px] border border-white/10 bg-white/5 p-2.5 text-start transition-all hover:border-[#e2b84e] hover:bg-white/10"
               >
-                <span className="flex size-8 shrink-0 items-center justify-center rounded-[4px] bg-[#e2b84e]/20 text-[#e2b84e] transition-colors group-hover:bg-[#e2b84e] group-hover:text-[#1a1203]">
+                <span className="flex size-8 shrink-0 items-center justify-center rounded-[8px] bg-[#e2b84e]/20 text-[#e2b84e] transition-colors group-hover:bg-[#e2b84e] group-hover:text-[#1a1203]">
                   <TikTokBrandIcon className="size-4" />
                 </span>
                 <div className="min-w-0 flex-1">
@@ -145,7 +145,7 @@ export function SiteFooter({ booksCount = 254, loaded = true }: SiteFooterProps 
             {`${AN_SIGN} ${SUMER_SIGNS} ${AN_SIGN}`}
           </span>
           <span className="inline-flex items-center gap-1.5 text-xs text-[#e8dfc8]">
-            <strong className="font-mono font-bold tabular-nums text-[#ffd666] text-sm px-2 py-0.5 rounded bg-[var(--hx-gold)]/20 border border-[var(--hx-gold)]/40 shadow-xs">
+            <strong className="font-mono font-bold tabular-nums text-[#ffd666] text-sm px-2 py-0.5 rounded-[8px] bg-[var(--hx-gold)]/20 border border-[var(--hx-gold)]/40 shadow-xs">
               {displayCount}
             </strong>{' '}
             <span className="font-medium text-[#f5eedb] tracking-wide">
