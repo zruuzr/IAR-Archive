@@ -28,8 +28,8 @@ export interface SiteHeaderProps {
 export function SiteHeader({
   favoritesOnly,
   favoritesCount,
-  booksCount = 254,
-  loaded = true,
+  booksCount: _booksCount = 254,
+  loaded: _loaded = true,
   soundEnabled = true,
   onToggleSound,
   onToggleFavoritesOnly,
@@ -78,12 +78,6 @@ export function SiteHeader({
           </a>
           <a href="#paths">{translate('المسارات', 'Pathways')}</a>
           <a href="#featuredSection">{translate('في دائرة الضوء', 'In the Spotlight')}</a>
-          <span className="hidden xl:inline-flex items-center text-xs px-2.5 py-1 rounded-full bg-[var(--hx-surface-2)] border border-[var(--hx-gold)]/40 text-[var(--hx-ink)]">
-            <span className="font-mono font-bold tabular-nums text-[var(--hx-gold-ink)]">
-              {loaded ? formatNumber(booksCount) : '—'}
-            </span>
-            <span className="ms-1.5 font-medium">{translate('مرجعاً', 'refs')}</span>
-          </span>
         </nav>
 
         {/* Tools and Utility Controls */}

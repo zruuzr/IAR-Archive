@@ -516,13 +516,13 @@
   .hx-gate {
     margin: 0;
     justify-self: center;
-    width: min(100%, 440px);
+    width: min(100%, 448px);
   }
   .hx-gate-art {
     position: relative;
     display: flex;
     flex-direction: column;
-    filter: drop-shadow(0 24px 40px rgba(0, 0, 0, 0.45));
+    filter: drop-shadow(0 26px 44px rgba(2, 7, 22, 0.52));
   }
   .hx-gate-mihrab {
     position: relative;
@@ -535,62 +535,82 @@
     position: relative;
     width: 91.6667%;
     margin-inline: auto;
-    margin-top: -1px;
-    background: #0d2257;
-    border-inline: 2.75px solid #e2b84e;
-    border-bottom: 2.75px solid #e2b84e;
-    border-radius: 0 0 6px 6px;
+    margin-top: -1.5px;
+    background: #0b1e4d;
+    border-inline: 2.5px solid #e2b84e;
+    border-bottom: 2.5px solid #e2b84e;
+    border-radius: 0 0 8px 8px;
     overflow: hidden;
-    box-shadow: 0 18px 30px -16px rgba(3, 8, 24, 0.72);
+    box-shadow:
+      inset 0 0 0 1px rgba(247, 226, 154, 0.22),
+      0 20px 34px -14px rgba(3, 8, 24, 0.78);
   }
   .hx-shelf-stage {
     position: relative;
-    padding: 22px 12px 0;
+    padding: 20px 16px 0;
     background:
       radial-gradient(
-        ellipse 82% 96% at 50% 90%,
-        rgba(240, 199, 90, 0.22),
-        transparent 68%
+        ellipse 78% 88% at 50% 12%,
+        rgba(247, 226, 154, 0.2),
+        rgba(29, 138, 134, 0.08) 48%,
+        transparent 74%
       ),
-      linear-gradient(180deg, #040d28 0%, #07163c 55%, #0c2254 100%);
+      linear-gradient(180deg, #040c24 0%, #07163b 52%, #0b2050 100%);
     box-shadow:
-      inset 0 14px 20px -10px rgba(3, 8, 24, 0.85),
-      inset 7px 0 12px -6px rgba(3, 8, 24, 0.72),
-      inset -7px 0 12px -6px rgba(3, 8, 24, 0.72);
+      inset 0 14px 22px -10px rgba(2, 6, 20, 0.9),
+      inset 10px 0 16px -8px rgba(2, 6, 20, 0.78),
+      inset -10px 0 16px -8px rgba(2, 6, 20, 0.78);
   }
+  /* Inner gilt colonnette pilasters framing the bookshelf stage */
   .hx-shelf-stage::before {
     content: '';
     position: absolute;
-    inset-inline: 6px;
-    inset-block-start: 6px;
-    bottom: 12px;
-    border-inline: 1px solid rgba(226, 184, 78, 0.26);
+    inset-inline: 5px;
+    inset-block-start: 4px;
+    bottom: 14px;
+    border-inline: 1.5px solid rgba(226, 184, 78, 0.42);
+    border-top: 1px solid rgba(241, 210, 122, 0.28);
+    box-shadow:
+      inset 4px 0 0 rgba(13, 34, 87, 0.85),
+      inset -4px 0 0 rgba(13, 34, 87, 0.85),
+      inset 5px 0 0 rgba(226, 184, 78, 0.25),
+      inset -5px 0 0 rgba(226, 184, 78, 0.25);
     pointer-events: none;
+    z-index: 1;
   }
   .hx-shelf {
     position: relative;
     width: 100%;
     min-width: 0;
-    height: 196px;
+    height: 198px;
     display: flex;
     align-items: flex-end;
-    gap: 4px;
+    gap: 4.5px;
     direction: rtl;
     z-index: 2;
   }
   .hx-shelf-ledge {
     position: relative;
     z-index: 3;
-    height: 12px;
-    margin-inline: -12px;
-    background: linear-gradient(180deg, #563216 0%, #311a09 62%, #1d0e04 100%);
-    border-top: 2px solid #e2b84e;
-    border-bottom: 1px solid rgba(226, 184, 78, 0.52);
-    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.48);
+    height: 14px;
+    margin-inline: -24px;
+    background: linear-gradient(
+      180deg,
+      #6b3f1d 0%,
+      #4a2810 42%,
+      #2d1607 78%,
+      #1a0b03 100%
+    );
+    border-top: 2.2px solid #e2b84e;
+    border-bottom: 1.5px solid #b58322;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 241, 191, 0.45),
+      0 5px 12px rgba(0, 0, 0, 0.55);
   }
   .hx-shelf-plinth {
     height: 36px;
-    background: #0d2257;
+    background: linear-gradient(180deg, #0a1b46 0%, #0d2257 50%, #08173c 100%);
+    border-top: 1px solid rgba(241, 210, 122, 0.35);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -601,42 +621,48 @@
     display: block;
   }
   .hx-spine {
+    position: relative;
     flex: 1 1 0;
     min-width: 0;
     height: var(--hx-h);
-    border: 0;
-    border-radius: 3px 3px 0 0;
-    padding: 5px 0;
+    border: 1px solid rgba(241, 210, 122, 0.28);
+    border-bottom: 0;
+    border-radius: 4px 4px 0 0;
+    padding: 6px 0;
     background:
       linear-gradient(
         90deg,
-        rgba(0, 0, 0, 0.3),
-        rgba(255, 255, 255, 0.14) 30%,
-        rgba(0, 0, 0, 0.08) 62%,
-        rgba(0, 0, 0, 0.34)
+        rgba(0, 0, 0, 0.34) 0%,
+        rgba(255, 255, 255, 0.18) 26%,
+        rgba(255, 255, 255, 0.05) 48%,
+        rgba(0, 0, 0, 0.12) 72%,
+        rgba(0, 0, 0, 0.38) 100%
       ),
       var(--hx-c);
-    color: #f9ebc3;
+    color: #fbf0d0;
     writing-mode: vertical-rl;
     text-orientation: mixed;
     font-family: var(--hx-f-display);
     font-weight: 700;
-    font-size: clamp(0.74rem, 1.15vw, 0.92rem);
+    font-size: clamp(0.75rem, 1.15vw, 0.91rem);
     line-height: 1.05;
     overflow: hidden;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
+    transform-origin: bottom center;
     box-shadow:
-      inset 0 4px 0 rgba(226, 184, 78, 0.72),
-      inset 0 -4px 0 rgba(226, 184, 78, 0.56),
-      inset 0 11px 0 -9px rgba(226, 184, 78, 0.45),
-      inset 0 -11px 0 -9px rgba(226, 184, 78, 0.35),
-      0 2px 6px rgba(0, 0, 0, 0.35);
+      inset 0 4px 0 rgba(226, 184, 78, 0.82),
+      inset 0 -4px 0 rgba(226, 184, 78, 0.68),
+      inset 0 11px 0 -9px rgba(247, 226, 154, 0.55),
+      inset 0 -11px 0 -9px rgba(247, 226, 154, 0.45),
+      0 2px 6px rgba(0, 0, 0, 0.42);
     transition:
-      transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
-      filter 0.25s,
-      box-shadow 0.25s;
+      transform 0.26s cubic-bezier(0.22, 0.61, 0.36, 1),
+      filter 0.24s ease,
+      border-color 0.24s ease,
+      box-shadow 0.24s ease;
+    cursor: pointer;
   }
   .hx-spine span {
     display: block;
@@ -644,46 +670,87 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     max-block-size: 100%;
-    padding-block: 11px 12px;
+    padding-block: 12px 13px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
   }
   .hx-spine-light {
-    color: #1a1203;
+    color: #1c1304;
+  }
+  .hx-spine-light span {
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
   }
   .hx-spine:hover,
   .hx-spine:focus-visible,
   .hx-spine.is-on,
   .hx-spine.hx-is-on {
-    transform: translateY(-10px);
-    filter: brightness(1.16);
+    transform: scaleY(1.06);
+    filter: brightness(1.15);
+    border-color: #f7e29a;
+    z-index: 4;
     box-shadow:
-      inset 0 4px 0 rgba(241, 210, 122, 0.9),
-      inset 0 -4px 0 rgba(226, 184, 78, 0.7),
-      0 8px 16px rgba(0, 0, 0, 0.45);
+      inset 0 5px 0 #f7e29a,
+      inset 0 -5px 0 #e2b84e,
+      inset 0 13px 0 -10px rgba(255, 246, 209, 0.8),
+      inset 0 -13px 0 -10px rgba(255, 246, 209, 0.7),
+      0 -4px 16px rgba(241, 210, 122, 0.32),
+      0 6px 14px rgba(0, 0, 0, 0.55);
   }
   .hx-placard {
-    margin: 14px auto 0;
+    position: relative;
+    margin: 12px auto 0;
     width: 91.6667%;
-    max-width: 404px;
+    max-width: 412px;
     text-align: center;
-    padding: 10px 16px 11px;
-    border: 1px solid rgba(226, 184, 78, 0.55);
-    outline: 1px solid rgba(226, 184, 78, 0.22);
+    padding: 11px 18px 12px;
+    border: 1.5px solid rgba(226, 184, 78, 0.72);
+    outline: 1px solid rgba(226, 184, 78, 0.26);
     outline-offset: 3px;
-    background: rgba(5, 13, 38, 0.55);
-    border-radius: 3px;
+    background:
+      radial-gradient(
+        ellipse 80% 100% at 50% 0%,
+        rgba(226, 184, 78, 0.12),
+        transparent 70%
+      ),
+      linear-gradient(180deg, rgba(8, 22, 58, 0.88) 0%, rgba(5, 13, 38, 0.92) 100%);
+    border-radius: 6px;
+    box-shadow:
+      inset 0 1px 0 rgba(247, 226, 154, 0.28),
+      0 10px 24px -10px rgba(2, 6, 18, 0.65);
     min-height: 76px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+  }
+  .hx-placard::before {
+    content: '✦';
+    position: absolute;
+    top: -9px;
+    inset-inline-start: 50%;
+    transform: translateX(-50%);
+    background: #091a42;
+    color: #f1d27a;
+    font-size: 0.7rem;
+    line-height: 1;
+    padding: 2px 7px;
+    border: 1px solid rgba(226, 184, 78, 0.65);
+    border-radius: 999px;
+  }
+  [dir='rtl'] .hx-placard::before {
+    transform: translateX(50%);
   }
   .hx-placard b {
     display: block;
     font-family: var(--hx-f-display);
-    font-size: 1.05rem;
+    font-size: 1.06rem;
     color: var(--hx-gold-pale);
-    line-height: 1.5;
+    line-height: 1.45;
   }
   .hx-placard span {
     display: block;
     font-size: 0.8rem;
-    color: #cdbf95;
+    color: #d8caa3;
   }
 
   /* cylinder-seal marquee (decorative cuneiform) */
