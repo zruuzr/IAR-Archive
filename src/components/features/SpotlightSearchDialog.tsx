@@ -1,6 +1,5 @@
 import { BookOpen, Compass, CornerDownLeft, Search, X } from 'lucide-react';
 import { useEffect, useId, useMemo, useRef, useState } from 'react';
-import { HeritageFrieze, HeritageIcon } from '@/components/heritage';
 import { useAccessibleDialog } from '@/hooks/useAccessibleDialog';
 import { useI18n } from '@/i18n/I18nProvider';
 import { normalizeSearchText } from '@/lib/arabic-search';
@@ -34,7 +33,7 @@ export function SpotlightSearchDialog({
   onSelectBook,
   onSelectCategory
 }: SpotlightSearchDialogProps) {
-  const { lang, t, getBookField } = useI18n();
+  const { lang, t, translate, getBookField } = useI18n();
   const titleId = useId();
   const descId = useId();
   const [query, setQuery] = useState<string>('');
@@ -184,7 +183,7 @@ export function SpotlightSearchDialog({
     <div
       role="presentation"
       data-testid="spotlight-search-dialog"
-      className="hx-dialog-backdrop fixed inset-0 z-50 flex items-start justify-center p-3 sm:p-6 md:pt-20"
+      className="hx-modal hx-modal--top"
       onClick={() => onOpenChange(false)}
     >
       <div
@@ -195,9 +194,8 @@ export function SpotlightSearchDialog({
         aria-describedby={descId}
         onClick={(e) => e.stopPropagation()}
         onKeyDown={handleKeyDown}
-        className="hx-dialog-panel w-full max-w-2xl overflow-hidden"
+        className="hx-modal-card max-w-2xl"
       >
-        <HeritageFrieze />
         <span id={titleId} className="sr-only">
           {t('spotlightSearch')}
         </span>
@@ -206,11 +204,8 @@ export function SpotlightSearchDialog({
         </span>
 
         {/* Search Input Bar */}
-        <div className="relative flex items-center border-b border-[var(--hx-line)] px-4 py-3.5 bg-[var(--hx-surface-2)]">
-          <Search
-            className="size-4.5 shrink-0 text-[var(--hx-gold-ink)] dark:text-[var(--hx-gold-bright)]"
-            aria-hidden="true"
-          />
+        <div className="hx-spotdlg-bar">
+          <Search aria-hidden="true" />
           <input
             ref={inputRef}
             type="search"
@@ -220,33 +215,27 @@ export function SpotlightSearchDialog({
             autoComplete="off"
             spellCheck="false"
             data-testid="spotlight-input"
-            className="flex-1 bg-transparent px-3 text-base text-[var(--hx-ink)] placeholder:text-[var(--hx-muted)] outline-hidden [&::-webkit-search-cancel-button]:hidden"
           />
           {query.length > 0 && (
             <button
               type="button"
               onClick={() => setQuery('')}
-              className="rounded-lg p-1.5 text-[var(--hx-muted)] hover:bg-[var(--hx-surface)] hover:text-[var(--hx-ink)] transition-colors"
+              className="hx-modal-x"
+              style={{ width: 30, height: 30 }}
               aria-label={t('clearSearchAria')}
             >
-              <X className="size-4" />
+              <X className="size-3.5" aria-hidden="true" />
             </button>
           )}
           <kbd className="hx-kbd hidden sm:inline-flex">ESC</kbd>
         </div>
 
         {/* Results List */}
-        <div
-          ref={listRef}
-          role="listbox"
-          className="max-h-[60vh] overflow-y-auto p-2 space-y-1 scroll-smooth"
-        >
+        <div ref={listRef} role="listbox" className="hx-spotdlg-list">
           {items.length === 0 ? (
-            <div className="p-8 text-center space-y-2">
-              <div className="hx-state-seal" aria-hidden="true">
-                <Search className="size-5" />
-              </div>
-              <p className="text-sm text-[var(--hx-muted)]">{t('spotlightNoResults')}</p>
+            <div className="p-8 text-center text-sm text-[var(--hx-ink-soft)]">
+              <Search className="mx-auto mb-2 size-8 opacity-40" aria-hidden="true" />
+              {t('spotlightNoResults')}
             </div>
           ) : (
             items.map((item, idx) => {
@@ -258,49 +247,36 @@ export function SpotlightSearchDialog({
                   aria-selected={isSelected}
                   onClick={() => handleSelect(item)}
                   onMouseEnter={() => setSelectedIndex(idx)}
-                  className={cn(
-                    'group flex items-center justify-between gap-3 rounded-[10px] border px-3.5 py-2.5 cursor-pointer transition-colors',
-                    isSelected
-                      ? 'bg-[var(--hx-surface-2)] border-[var(--hx-gold)] text-[var(--hx-ink)]'
-                      : 'text-[var(--hx-ink)] border-transparent hover:bg-[var(--hx-surface-2)]/70'
-                  )}
+                  className="hx-spotdlg-row"
                 >
                   <div className="flex items-center gap-3 min-w-0 flex-1">
                     <span
                       className={cn(
-                        'flex size-8 shrink-0 items-center justify-center rounded-[9px] border text-xs transition-colors',
-                        item.type === 'category'
-                          ? 'border-[rgba(201,153,46,0.45)] bg-[var(--hx-gold-soft)] text-[var(--hx-gold-ink)] dark:text-[var(--hx-gold-bright)]'
-                          : 'border-[var(--hx-line)] bg-[var(--hx-surface)] text-[var(--hx-lapis)] dark:text-[var(--hx-gold-bright)]'
+                        'hx-tile',
+                        item.type === 'category' ? 'hx-tile--cat' : 'hx-tile--book'
                       )}
                     >
                       {item.type === 'category' ? (
-                        <Compass className="size-4" />
+                        <Compass aria-hidden="true" />
                       ) : (
-                        <BookOpen className="size-4" />
+                        <BookOpen aria-hidden="true" />
                       )}
                     </span>
                     <div className="flex flex-col min-w-0">
-                      <span className="font-serif font-bold text-base text-[var(--hx-ink)] truncate leading-snug">
-                        {item.title}
-                      </span>
+                      <span className="hx-spotdlg-title truncate">{item.title}</span>
                       {item.subtitle && (
-                        <span className="text-xs text-[var(--hx-muted)] truncate leading-snug">
-                          {item.subtitle}
-                        </span>
+                        <span className="hx-spotdlg-sub truncate">{item.subtitle}</span>
                       )}
                     </div>
                   </div>
 
                   <span
                     className={cn(
-                      'shrink-0 text-xs font-medium flex items-center gap-1 transition-opacity',
-                      isSelected
-                        ? 'opacity-100 text-[var(--hx-gold-ink)] dark:text-[var(--hx-gold-bright)]'
-                        : 'opacity-0 sm:opacity-50 text-[var(--hx-muted)] group-hover:text-[var(--hx-ink)]'
+                      'shrink-0 flex items-center text-[var(--hx-link)] transition-opacity',
+                      isSelected ? 'opacity-100' : 'opacity-0 sm:opacity-40'
                     )}
                   >
-                    <CornerDownLeft className="size-3.5" />
+                    <CornerDownLeft className="size-3.5" aria-hidden="true" />
                   </span>
                 </div>
               );
@@ -309,11 +285,13 @@ export function SpotlightSearchDialog({
         </div>
 
         {/* Footer Shortcut Guide */}
-        <div className="hx-dialog-footer flex items-center justify-between gap-3 px-4 py-2.5 text-[11px] text-[var(--hx-muted)]">
+        <div className="hx-spotdlg-foot">
           <span className="hidden sm:inline">{t('spotlightHint')}</span>
-          <span className="inline-flex items-center gap-1.5 font-mono text-[10.5px] uppercase tracking-[0.12em] text-[var(--hx-gold-ink)] dark:text-[var(--hx-gold-bright)] font-semibold ms-auto">
-            <HeritageIcon name="octagram" size={11} />
-            <span>IAR ARCHIVE — المرجع الإداري العراقي</span>
+          <span className="ms-auto flex items-center gap-2">
+            <b dir="ltr">IAR ARCHIVE</b>
+            <span>
+              {translate('المرجع الإداري العراقي', 'Iraqi Administrative Reference')}
+            </span>
           </span>
         </div>
       </div>

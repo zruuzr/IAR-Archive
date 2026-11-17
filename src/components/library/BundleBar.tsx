@@ -1,8 +1,8 @@
 import { Check, Copy, Eye, Layers, Trash2 } from 'lucide-react';
 import { useState } from 'react';
+import { Button } from '@/components/ui/button';
 import type { UseBundleReturn } from '@/hooks/useBundle';
 import { useI18n } from '@/i18n/I18nProvider';
-import { cn } from '@/lib/utils';
 
 export interface BundleBarProps {
   bundle: UseBundleReturn;
@@ -40,11 +40,11 @@ export function BundleBar({ bundle, onCopyBundleUrl, onClearBundle }: BundleBarP
           id="bundleModeAlertContainer"
           role="status"
           data-testid="bundle-mode-alert"
-          className="bundle-mode-notice hx-panel-recess border-[var(--hx-gold)]/50 px-4 py-3 text-xs sm:text-sm text-[var(--hx-ink)] flex flex-wrap items-center justify-between gap-3 hx-fade"
+          className="bundle-mode-notice hx-panel hx-panel--dock hx-panel--teal flex flex-wrap items-center justify-between gap-3 text-sm"
         >
-          <div className="flex items-center gap-2 font-semibold">
+          <div className="flex items-center gap-2 font-bold">
             <Layers
-              className="size-4 text-[var(--hx-gold-ink)] dark:text-[var(--hx-gold-bright)] shrink-0"
+              className="size-4 text-[var(--hx-teal-text)] shrink-0"
               aria-hidden="true"
             />
             <span>
@@ -53,23 +53,25 @@ export function BundleBar({ bundle, onCopyBundleUrl, onClearBundle }: BundleBarP
           </div>
 
           <div className="flex items-center gap-2">
-            <button
+            <Button
               type="button"
+              variant="outline"
+              size="xs"
               data-testid="exit-bundle-mode-btn"
               onClick={() => bundle.setBundleMode(false)}
-              className="hx-btn hx-btn-line !min-h-8 !px-3 !py-1 !text-xs"
             >
               {translate('عرض كل المكتبة', 'Show full library')}
-            </button>
+            </Button>
 
-            <button
+            <Button
               type="button"
+              variant="ghost"
+              size="xs"
               data-testid="bundle-notice-clear-btn"
               onClick={onClearBundle}
-              className="hx-btn hx-btn-line !min-h-8 !px-3 !py-1 !text-xs"
             >
               {t('backToLibraryShort')}
-            </button>
+            </Button>
           </div>
         </div>
       )}
@@ -81,10 +83,10 @@ export function BundleBar({ bundle, onCopyBundleUrl, onClearBundle }: BundleBarP
           role="region"
           aria-label={t('bundleCheckboxLabel')}
           data-testid="bundle-bar"
-          className="hx-panel flex flex-wrap items-center justify-between gap-3 px-4 py-3.5 hx-fade"
+          className="hx-panel hx-panel--dock flex flex-wrap items-center justify-between gap-3 animate-in slide-in-from-bottom-2 duration-300"
         >
-          <div className="flex items-center gap-2.5 text-xs sm:text-sm font-medium text-[var(--hx-ink)]">
-            <span className="inline-flex size-7 items-center justify-center rounded-[8px] bg-[var(--hx-chip-on-bg)] text-[var(--hx-chip-on-ink)] font-mono font-bold tabular-nums">
+          <div className="flex items-center gap-2.5 text-sm font-semibold text-foreground">
+            <span className="hx-num inline-flex size-8 items-center justify-center rounded-[9px] bg-primary text-primary-foreground font-bold shadow-[inset_0_-2px_0_rgba(0,0,0,0.18)]">
               <span id="bundleCount" data-testid="bundle-count">
                 {formatNumber(bundle.bundleCount)}
               </span>
@@ -96,15 +98,13 @@ export function BundleBar({ bundle, onCopyBundleUrl, onClearBundle }: BundleBarP
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
-            <button
+            <Button
               type="button"
+              variant={bundle.bundleMode ? 'secondary' : 'outline'}
+              size="xs"
               data-testid="bundle-toggle-mode-btn"
               aria-pressed={bundle.bundleMode}
               onClick={() => bundle.setBundleMode(!bundle.bundleMode)}
-              className={cn(
-                'hx-btn hx-btn-line !min-h-8 !px-3 !py-1 !text-xs',
-                bundle.bundleMode && 'hx-is-active'
-              )}
             >
               <Eye className="size-3.5 shrink-0" aria-hidden="true" />
               <span>
@@ -112,16 +112,17 @@ export function BundleBar({ bundle, onCopyBundleUrl, onClearBundle }: BundleBarP
                   ? translate('العودة للكل', 'Show all')
                   : translate('استعراض الحزمة', 'Review bundle')}
               </span>
-            </button>
+            </Button>
 
-            <button
+            <Button
               type="button"
               id="copyBundleBtn"
+              variant="default"
+              size="xs"
               data-testid="bundle-copy-link-btn"
               onClick={() => {
                 void handleCopy();
               }}
-              className="hx-btn hx-btn-solid !min-h-8 !px-3.5 !py-1 !text-xs"
             >
               {copiedRecently ? (
                 <Check className="size-3.5 shrink-0" aria-hidden="true" />
@@ -131,18 +132,20 @@ export function BundleBar({ bundle, onCopyBundleUrl, onClearBundle }: BundleBarP
               <span id="txtBundleBtn">
                 {copiedRecently ? t('copiedToClipboard') : t('txtBundleBtn')}
               </span>
-            </button>
+            </Button>
 
-            <button
+            <Button
               type="button"
               id="clearBundleBtn"
+              variant="ghost"
+              size="xs"
               data-testid="bundle-clear-btn"
               onClick={onClearBundle}
-              className="hx-btn hx-btn-line !min-h-8 !px-3 !py-1 !text-xs text-[var(--hx-muted)] hover:text-destructive hover:border-destructive/50"
+              className="text-muted-foreground hover:text-destructive"
             >
               <Trash2 className="size-3.5 shrink-0" aria-hidden="true" />
               <span id="txtClearBundle">{t('txtClearBundle')}</span>
-            </button>
+            </Button>
           </div>
         </div>
       )}

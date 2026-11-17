@@ -4,7 +4,7 @@ export type Theme = 'light' | 'dark';
 
 export const THEME_STORAGE_KEY = 'iar_theme';
 export const DARK_THEME_COLOR = '#071026';
-export const LIGHT_THEME_COLOR = '#f9f6ef';
+export const LIGHT_THEME_COLOR = '#F9F6EF';
 
 export function readStoredThemePreference(): Theme | null {
   try {

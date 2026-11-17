@@ -832,26 +832,20 @@ export function LibraryWorkspace({
         <div
           id="notificationHost"
           data-testid="toast-host"
-          className="fixed bottom-4 end-4 z-50 flex flex-col gap-2 max-w-xs sm:max-w-sm w-full px-4 sm:px-0 pointer-events-none"
+          className="fixed bottom-4 end-4 z-[70] flex flex-col gap-2 max-w-xs sm:max-w-sm w-full px-4 sm:px-0 pointer-events-none"
         >
           {toasts.map((item) => (
             <div
               key={item.id}
               role={item.isError ? 'alert' : 'status'}
               data-testid="toast-notice"
-              className={cn(
-                'pointer-events-auto hx-toast text-xs sm:text-sm font-medium backdrop-blur-xs',
-                item.isError && 'hx-toast--error'
-              )}
+              className={cn('hx-toast', item.isError && 'hx-toast--error')}
             >
-              <div className="flex items-center gap-2.5 min-w-0">
+              <div className="flex items-center gap-2 min-w-0">
                 {item.isError ? (
-                  <AlertCircle className="size-4 shrink-0" aria-hidden="true" />
+                  <AlertCircle aria-hidden="true" />
                 ) : (
-                  <CheckCircle2
-                    className="size-4 text-[var(--hx-gold-ink)] dark:text-[var(--hx-gold-bright)] shrink-0"
-                    aria-hidden="true"
-                  />
+                  <CheckCircle2 aria-hidden="true" />
                 )}
                 <span className="truncate">{item.message}</span>
               </div>
@@ -859,7 +853,6 @@ export function LibraryWorkspace({
                 type="button"
                 aria-label={t('txtModalClose')}
                 onClick={() => dismissToast(item.id)}
-                className="inline-flex size-6 items-center justify-center rounded-md opacity-75 hover:opacity-100 hover:bg-[var(--hx-surface-2)] shrink-0 cursor-pointer transition-colors"
               >
                 <X className="size-3.5" aria-hidden="true" />
               </button>

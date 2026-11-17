@@ -49,7 +49,7 @@ export function CoverZoomDialog({
       aria-modal="true"
       aria-labelledby={titleId}
       data-testid="cover-zoom-dialog"
-      className="hx-dialog-backdrop fixed inset-0 z-50 flex items-center justify-center p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-[#040a1c]/80 p-4 backdrop-blur-xs"
       onClick={(event) => {
         if (event.target === event.currentTarget) {
           onClose();

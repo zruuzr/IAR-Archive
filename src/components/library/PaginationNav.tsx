@@ -10,8 +10,8 @@ export interface PaginationNavProps {
 }
 
 /**
- * Heritage Archival Pagination Bar.
- * Styled as a rounded Heritage dock with crisp active markers,
+ * Sovereign Archival Pagination Bar.
+ * Styled as an institutional dock with golden active page markers,
  * clear RTL/LTR directional controls, and responsive page status information.
  */
 export function PaginationNav({
@@ -35,18 +35,14 @@ export function PaginationNav({
     <nav
       aria-label={t('paginationAria')}
       data-testid="pagination-nav"
-      className="hx-panel mt-10 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 p-3.5 sm:p-4"
+      className="hx-panel hx-panel--dock mt-10 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4"
     >
       {/* Left/Start: Page count indicator */}
-      <div className="text-xs text-[var(--hx-muted)] font-medium order-2 sm:order-1 text-center sm:text-start">
+      <div className="hx-lib-meta order-2 sm:order-1 text-center sm:text-start">
         <span>{translate('الصفحة', 'Page')} </span>
-        <span className="font-semibold text-[var(--hx-ink)] font-mono tabular-nums">
-          {formatNumber(currentPage)}
-        </span>
+        <strong className="hx-num">{formatNumber(currentPage)}</strong>
         <span> {translate('من أصل', 'of')} </span>
-        <span className="font-semibold text-[var(--hx-ink)] font-mono tabular-nums">
-          {formatNumber(totalPages)}
-        </span>
+        <strong className="hx-num">{formatNumber(totalPages)}</strong>
         <span className="hidden sm:inline">
           {' '}
           {translate('صفحة مفهرسة في الأرشيف', 'indexed pages')}
@@ -57,7 +53,7 @@ export function PaginationNav({
       <div className="w-full sm:w-auto overflow-x-auto no-scrollbar py-0.5 order-1 sm:order-2 flex justify-center">
         <ul
           id="paginationContainer"
-          className="flex items-center justify-center gap-1.5 shrink-0 px-1"
+          className="flex items-center justify-center gap-1 sm:gap-1.5 shrink-0 px-1"
         >
           {/* Previous Page Button */}
           <li>
@@ -70,7 +66,7 @@ export function PaginationNav({
               onClick={() => onPageChange(currentPage - 1)}
               aria-label={t('previous')}
               title={t('previous')}
-              className="hx-page-btn gap-1 sm:px-3 font-sans"
+              className="hx-pg hx-pg--nav shrink-0"
             >
               <PrevIcon className="size-3.5 shrink-0" aria-hidden="true" />
               <span className="hidden sm:inline">{t('previous')}</span>
@@ -85,10 +81,7 @@ export function PaginationNav({
                   key={`ellipsis-${idx}`}
                   className="px-0.5 sm:px-1 select-none shrink-0"
                 >
-                  <span
-                    aria-hidden="true"
-                    className="text-xs font-mono text-[var(--hx-muted)]"
-                  >
+                  <span aria-hidden="true" className="hx-pg-dots">
                     …
                   </span>
                 </li>
@@ -104,7 +97,7 @@ export function PaginationNav({
                   data-testid={`pagination-page-${token}`}
                   aria-current={isCurrent ? 'page' : undefined}
                   onClick={() => onPageChange(token)}
-                  className="hx-page-btn tabular-nums cursor-pointer"
+                  className="hx-pg"
                 >
                   {formatNumber(token)}
                 </button>
@@ -123,7 +116,7 @@ export function PaginationNav({
               onClick={() => onPageChange(currentPage + 1)}
               aria-label={t('next')}
               title={t('next')}
-              className="hx-page-btn gap-1 sm:px-3 font-sans"
+              className="hx-pg hx-pg--nav shrink-0"
             >
               <span className="hidden sm:inline">{t('next')}</span>
               <NextIcon className="size-3.5 shrink-0" aria-hidden="true" />

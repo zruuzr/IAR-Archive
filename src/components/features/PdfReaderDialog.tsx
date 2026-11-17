@@ -603,7 +603,7 @@ function PdfReaderSession({ book, safeUrl, onClose, onDownload }: PdfReaderSessi
   return (
     <div
       data-testid="pdf-reader-dialog"
-      className="hx-dialog-backdrop hx-pdf-backdrop"
+      className="hx-pdf-backdrop"
       role="dialog"
       aria-modal="true"
       aria-labelledby="pdf-reader-title"
@@ -614,7 +614,7 @@ function PdfReaderSession({ book, safeUrl, onClose, onDownload }: PdfReaderSessi
     >
       <div
         ref={dialogRef}
-        className={`hx-panel hx-dialog-panel hx-pdf-panel${expandedView ? ' hx-pdf-panel--fullscreen' : ''}`}
+        className={`hx-panel hx-pdf-panel${expandedView ? ' hx-pdf-panel--fullscreen' : ''}`}
         tabIndex={-1}
       >
         <HeritageFrieze />
@@ -738,10 +738,10 @@ function PdfReaderSession({ book, safeUrl, onClose, onDownload }: PdfReaderSessi
               <div className="hx-pdf-state-overlay">
                 <div
                   data-testid="pdf-reader-error"
-                  className="hx-state-card hx-state-card--error hx-pdf-error-card max-w-md w-full"
+                  className="hx-panel hx-state hx-state--danger hx-pdf-error-card max-w-md w-full"
                   role="alert"
                 >
-                  <span className="hx-state-seal" aria-hidden="true">
+                  <span className="hx-state-medal" aria-hidden="true">
                     {AN_SIGN}
                   </span>
                   <h3 className="font-bold text-base mb-1">

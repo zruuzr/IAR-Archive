@@ -1,6 +1,19 @@
-import { ArrowUpLeft, ArrowUpRight, FileText, HardDrive, X } from 'lucide-react';
+import {
+  ArrowUpLeft,
+  ArrowUpRight,
+  BookOpen,
+  Check,
+  Copy,
+  FileText,
+  HardDrive,
+  Quote,
+  Share2,
+  Sparkles,
+  Users,
+  X
+} from 'lucide-react';
 import { useRef, useState } from 'react';
-import { HeritageFrieze, HeritageIcon } from '@/components/heritage';
+import { Button } from '@/components/ui/button';
 import { useAccessibleDialog } from '@/hooks/useAccessibleDialog';
 import { useI18n } from '@/i18n/I18nProvider';
 import { formatCitation, getBookKeyPoints, getCategoryLabel } from '@/services/catalog';
@@ -100,7 +113,7 @@ export function SummaryDialog({
       aria-labelledby="summaryBookTitle"
       dir={dir}
       data-testid="summary-dialog"
-      className="hx-dialog-backdrop fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4"
+      className="hx-modal"
     >
       {/* Backdrop click target */}
       <div
@@ -110,33 +123,25 @@ export function SummaryDialog({
         className="fixed inset-0"
       />
 
-      <div
-        ref={dialogContainerRef}
-        className="hx-dialog-panel relative z-10 flex flex-col w-full max-w-2xl max-h-[90dvh] overflow-hidden"
-      >
-        <HeritageFrieze />
-
-        {/* Dialog Header Band */}
-        <header className="hx-dialog-band flex items-start justify-between gap-3 px-5 py-4 shrink-0">
-          <div className="space-y-1 min-w-0">
-            <div className="inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.12em] font-semibold text-[var(--hx-gold-bright)]">
-              <HeritageIcon name="summary" size={14} />
+      <div ref={dialogContainerRef} className="hx-modal-card max-w-2xl">
+        {/* Dialog Header */}
+        <header className="hx-modal-head">
+          <div className="min-w-0">
+            <div className="hx-eyebrow-ar">
+              <Sparkles className="size-3.5 shrink-0" aria-hidden="true" />
               <span>{t('summaryModalTitle')}</span>
             </div>
 
             <h2
               id="summaryBookTitle"
               data-testid="summary-dialog-title"
-              className="font-serif text-xl sm:text-2xl font-bold text-[#f7eed6] leading-snug"
+              className="hx-modal-title"
             >
               {title}
             </h2>
 
             {author && (
-              <p
-                id="summaryBookAuthor"
-                className="text-xs sm:text-sm font-medium text-[#e9dfc5]/80"
-              >
+              <p id="summaryBookAuthor" className="hx-modal-sub">
                 {author}
               </p>
             )}
@@ -148,40 +153,28 @@ export function SummaryDialog({
             data-testid="summary-close-btn"
             aria-label={t('txtModalClose')}
             onClick={() => onOpenChange(false)}
-            className="hx-band-icon-btn shrink-0"
+            className="hx-modal-x"
           >
             <X className="size-4" aria-hidden="true" />
           </button>
         </header>
 
         {/* Scrollable Summary Content */}
-        <div className="flex-1 overflow-y-auto p-5 space-y-5">
+        <div className="hx-modal-body">
           {/* Metadata Chips & Copy Summary Trigger */}
           <div className="flex flex-wrap items-center justify-between gap-2">
-            <div className="flex flex-wrap items-center gap-1.5 text-xs">
-              <span
-                id="summaryCategory"
-                className="rounded-full border border-[rgba(201,153,46,0.45)] bg-[var(--hx-gold-soft)] px-3 py-0.5 font-semibold text-[var(--hx-gold-ink)] dark:text-[var(--hx-gold-bright)]"
-              >
+            <div className="hx-pills">
+              <span id="summaryCategory" className="hx-pill hx-pill--teal">
                 {category}
               </span>
 
-              <span
-                id="summaryType"
-                className="rounded-full border border-[var(--hx-line)] bg-[var(--hx-surface-2)] px-3 py-0.5 font-medium text-[var(--hx-ink-2)]"
-              >
+              <span id="summaryType" className="hx-pill">
                 {bookType}
               </span>
 
               {book.pages && book.pages !== '0' && (
-                <span
-                  id="summaryPages"
-                  className="inline-flex items-center gap-1 rounded-full border border-[var(--hx-line)] bg-[var(--hx-surface-2)] px-2.5 py-0.5 text-[var(--hx-muted)] tabular-nums"
-                >
-                  <FileText
-                    className="size-3 text-[var(--hx-gold-ink)] dark:text-[var(--hx-gold-bright)] shrink-0"
-                    aria-hidden="true"
-                  />
+                <span id="summaryPages" className="hx-pill">
+                  <FileText aria-hidden="true" />
                   <span>
                     {book.pages} {t('pagesUnit')}
                   </span>
@@ -189,184 +182,176 @@ export function SummaryDialog({
               )}
 
               {book.file_size && (
-                <span
-                  id="summarySize"
-                  className="inline-flex items-center gap-1 rounded-full border border-[var(--hx-line)] bg-[var(--hx-surface-2)] px-2.5 py-0.5 font-mono text-[var(--hx-muted)] tabular-nums"
-                >
-                  <HardDrive
-                    className="size-3 text-[var(--hx-gold-ink)] dark:text-[var(--hx-gold-bright)] shrink-0"
-                    aria-hidden="true"
-                  />
+                <span id="summarySize" className="hx-pill hx-pill--latin">
+                  <HardDrive aria-hidden="true" />
                   <span>{book.file_size}</span>
                 </span>
               )}
             </div>
 
             {(description || hasRealKeyPoints) && (
-              <button
+              <Button
                 type="button"
+                variant="outline"
+                size="xs"
                 data-testid="summary-copy-summary-btn"
                 onClick={handleCopySummaryClick}
-                className="hx-btn hx-btn-line !min-h-8 !px-3 !py-1 !text-xs gap-1.5 shrink-0"
+                className="gap-1.5 shrink-0"
               >
-                <HeritageIcon name={copiedSummary ? 'check' : 'copy'} size={13} />
+                {copiedSummary ? (
+                  <Check
+                    className="size-3.5 text-[var(--hx-teal-text)]"
+                    aria-hidden="true"
+                  />
+                ) : (
+                  <Copy className="size-3.5" aria-hidden="true" />
+                )}
                 <span>
                   {copiedSummary
                     ? t('copiedToClipboard')
                     : translate('نسخ الملخص', 'Copy summary')}
                 </span>
-              </button>
+              </Button>
             )}
           </div>
 
           {/* Reference Abstract / Description */}
           {description && (
-            <section className="hx-dialog-section p-4 space-y-1.5">
-              <h3 className="flex items-center gap-1.5 font-serif text-sm font-bold text-[var(--hx-gold-ink)] dark:text-[var(--hx-gold-bright)]">
-                <HeritageIcon name="octagram" size={12} />
-                <span>{t('singleDescLabel')}</span>
-              </h3>
-              <p
-                data-testid="summary-dialog-description"
-                className="text-xs sm:text-sm text-[var(--hx-ink-2)] leading-relaxed"
-              >
-                {description}
-              </p>
-            </section>
+            <div className="hx-note">
+              <h3 className="hx-note-h">{t('singleDescLabel')}</h3>
+              <p data-testid="summary-dialog-description">{description}</p>
+            </div>
           )}
 
           {/* Key Ideas / Points */}
-          <section className="space-y-2">
-            <h3
-              id="txtModalIdeasTitle"
-              className="flex items-center gap-1.5 font-serif text-sm font-bold text-[var(--hx-gold-ink)] dark:text-[var(--hx-gold-bright)]"
-            >
-              <HeritageIcon name="summary" size={14} />
+          <div className="hx-note">
+            <h3 id="txtModalIdeasTitle" className="hx-note-h">
+              <Sparkles aria-hidden="true" />
               <span>{t('txtModalIdeasTitle')}</span>
             </h3>
 
             <ul
               id="summaryKeyPoints"
               data-testid="summary-dialog-keypoints"
-              className="hx-dialog-section space-y-2.5 p-4 text-xs sm:text-sm text-[var(--hx-ink-2)]"
+              className="hx-note-list"
             >
               {keyPoints.map((point, idx) => (
-                <li key={idx} className="flex items-start gap-2.5 leading-relaxed">
-                  <span
-                    aria-hidden="true"
-                    className="mt-1.5 shrink-0 text-[var(--hx-gold-ink)] dark:text-[var(--hx-gold-bright)]"
-                  >
-                    <HeritageIcon name="octagram" size={11} />
-                  </span>
+                <li key={idx}>
                   <span>{point}</span>
                 </li>
               ))}
             </ul>
-          </section>
+          </div>
 
           {/* Target Audience (only when available in record) */}
           {targetAudience && (
-            <section className="hx-dialog-section p-4 space-y-1.5">
-              <h3
-                id="txtModalAudienceTitle"
-                className="flex items-center gap-1.5 font-serif text-sm font-bold text-[var(--hx-gold-ink)] dark:text-[var(--hx-gold-bright)]"
-              >
-                <HeritageIcon name="users" size={14} />
+            <div className="hx-note hx-note--teal">
+              <h3 id="txtModalAudienceTitle" className="hx-note-h hx-note-h--teal">
+                <Users aria-hidden="true" />
                 <span>{t('txtModalAudienceTitle')}</span>
               </h3>
-              <p
-                id="summaryAudience"
-                data-testid="summary-dialog-audience"
-                className="text-xs sm:text-sm text-[var(--hx-ink-2)] leading-relaxed"
-              >
+              <p id="summaryAudience" data-testid="summary-dialog-audience">
                 {targetAudience}
               </p>
-            </section>
+            </div>
           )}
 
           {/* APA Academic Citation Box */}
-          <section className="rounded-[12px] border border-[rgba(201,153,46,0.42)] bg-[var(--hx-surface-2)] p-4 space-y-2.5">
+          <div className="hx-note hx-note--lapis">
             <div className="flex items-center justify-between gap-2">
-              <h3
-                id="txtModalApaTitle"
-                className="flex items-center gap-1.5 font-serif text-sm font-bold text-[var(--hx-gold-ink)] dark:text-[var(--hx-gold-bright)]"
-              >
-                <HeritageIcon name="quote" size={14} />
+              <h3 id="txtModalApaTitle" className="hx-note-h hx-note-h--lapis">
+                <Quote aria-hidden="true" />
                 <span>{t('txtModalApaTitle')}</span>
               </h3>
 
-              <button
+              <Button
                 type="button"
+                variant="ghost"
+                size="xs"
                 data-testid="summary-copy-apa-btn"
                 onClick={handleCopyApaClick}
-                className="hx-btn hx-btn-line !min-h-8 !px-3 !py-1 !text-xs gap-1.5"
+                className="h-7 text-xs gap-1"
               >
-                <HeritageIcon name={copiedApa ? 'check' : 'copy'} size={13} />
+                {copiedApa ? (
+                  <Check
+                    className="size-3.5 text-[var(--hx-teal-text)]"
+                    aria-hidden="true"
+                  />
+                ) : (
+                  <Copy className="size-3.5" aria-hidden="true" />
+                )}
                 <span>{copiedApa ? t('copiedToClipboard') : t('cite')}</span>
-              </button>
+              </Button>
             </div>
 
             <pre
               id="summaryAPA"
               dir="auto"
               data-testid="summary-dialog-apa"
-              className="whitespace-pre-wrap break-words rounded-[10px] border border-[var(--hx-line)] bg-[var(--hx-surface)] p-3 font-sans text-xs text-[var(--hx-ink)] leading-relaxed"
+              className="hx-cite"
             >
               {apaText}
             </pre>
-          </section>
+          </div>
         </div>
 
         {/* Dialog Footer Actions */}
-        <footer className="hx-dialog-footer flex flex-wrap items-center justify-between gap-2 px-5 py-3.5 shrink-0">
-          <div className="flex flex-wrap items-center gap-2">
-            <button
+        <footer className="hx-modal-foot">
+          <div>
+            <Button
               type="button"
+              variant="default"
+              size="sm"
               data-testid="summary-open-details-btn"
               onClick={() => {
                 onOpenChange(false);
                 onOpenFullDetails(book);
               }}
-              className="hx-btn hx-btn-solid hx-btn-sm gap-1.5"
+              className="gap-1.5"
             >
               <span>{translate('صفحة المرجع الكاملة', 'Full reference page')}</span>
               <DetailsArrowIcon className="size-3.5 shrink-0" aria-hidden="true" />
-            </button>
+            </Button>
 
             {hasFile && (
-              <button
+              <Button
                 type="button"
+                variant="outline"
+                size="sm"
                 data-testid="summary-read-btn"
                 onClick={() => {
                   onOpenChange(false);
                   onRead(book);
                 }}
-                className="hx-btn hx-btn-line hx-btn-sm gap-1.5"
+                className="gap-1.5"
               >
-                <HeritageIcon name="read" size={14} />
+                <BookOpen className="size-3.5 shrink-0" aria-hidden="true" />
                 <span>{t('read')}</span>
-              </button>
+              </Button>
             )}
 
-            <button
+            <Button
               type="button"
               id="modalShareBtn"
+              variant="ghost"
+              size="sm"
               data-testid="summary-share-btn"
               onClick={() => onShare(book)}
-              className="hx-btn hx-btn-line hx-btn-sm gap-1.5"
+              className="gap-1.5"
             >
-              <HeritageIcon name="share" size={14} />
+              <Share2 className="size-3.5 shrink-0" aria-hidden="true" />
               <span id="txtShareModalBtn">{t('txtShareModalBtn')}</span>
-            </button>
+            </Button>
           </div>
 
-          <button
+          <Button
             type="button"
+            variant="outline"
+            size="sm"
             onClick={() => onOpenChange(false)}
-            className="hx-btn hx-btn-line hx-btn-sm"
           >
             <span id="txtModalClose">{t('txtModalClose')}</span>
-          </button>
+          </Button>
         </footer>
       </div>
     </div>
