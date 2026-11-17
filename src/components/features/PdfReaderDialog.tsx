@@ -17,12 +17,17 @@ import {
   computePageScale,
   countNormalizedTextMatches,
   getSpreadForPage,
+  isPdfSavedOffline,
+  loadBookReadingState,
   loadPdfJs,
   PDFJS_CMAP_URL,
   PDFJS_STANDARD_FONT_URL,
   resolvePdfOutline,
   resolveSafePdfUrl,
+  saveBookReadingState,
   stepZoom,
+  toggleBookPageBookmark,
+  togglePdfOfflineCache,
   type PdfLayoutMode,
   type PdfOutlineNode,
   type PdfPaperMode,
@@ -78,9 +83,24 @@ function PdfReaderSession({ book, safeUrl, onClose, onDownload }: PdfReaderSessi
     Record<number, { width: number; height: number }>
   >({});
 
-  const [zoom, setZoom] = useState<PdfZoomMode>('fit-width');
-  const [layoutMode, setLayoutMode] = useState<PdfLayoutMode>('continuous');
-  const [paperMode, setPaperMode] = useState<PdfPaperMode>('original');
+  const initialReadingState = useMemo(() => loadBookReadingState(book.id), [book.id]);
+  const initialSavedPageRef = useRef<number>(initialReadingState?.page ?? 1);
+
+  const [zoom, setZoom] = useState<PdfZoomMode>(
+    () => initialReadingState?.zoom ?? 'fit-width'
+  );
+  const [layoutMode, setLayoutMode] = useState<PdfLayoutMode>(
+    () => initialReadingState?.layoutMode ?? 'continuous'
+  );
+  const [paperMode, setPaperMode] = useState<PdfPaperMode>(
+    () => initialReadingState?.paperMode ?? 'original'
+  );
+  const [bookmarks, setBookmarks] = useState<number[]>(
+    () => initialReadingState?.bookmarks ?? []
+  );
+  const [isOfflineSaved, setIsOfflineSaved] = useState(false);
+  const [isOfflineBusy, setIsOfflineBusy] = useState(false);
+
   const [rotation, setRotation] = useState(0);
   const [sidebarOpen, setSidebarOpen] = useState(() =>
     typeof window !== 'undefined' ? window.innerWidth >= 1024 : true
@@ -96,6 +116,55 @@ function PdfReaderSession({ book, safeUrl, onClose, onDownload }: PdfReaderSessi
   const [currentHitIndex, setCurrentHitIndex] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [theaterMode, setTheaterMode] = useState(false);
+
+  // Check if current book PDF is already cached in Offline PDF Vault
+  useEffect(() => {
+    let active = true;
+    void isPdfSavedOffline(safeUrl).then((cached) => {
+      if (active) setIsOfflineSaved(cached);
+    });
+    return () => {
+      active = false;
+    };
+  }, [safeUrl]);
+
+  // Persist reading state (page, paperMode, layoutMode, zoom) once document is ready
+  useEffect(() => {
+    if (status !== 'ready') return;
+    saveBookReadingState(book.id, {
+      page: currentPage,
+      paperMode,
+      layoutMode,
+      zoom
+    });
+  }, [book.id, status, currentPage, paperMode, layoutMode, zoom]);
+
+  const handleToggleBookmark = useCallback(
+    (targetPage?: number) => {
+      const pageToToggle =
+        typeof targetPage === 'number' && Number.isFinite(targetPage)
+          ? targetPage
+          : currentPageRef.current;
+      const next = toggleBookPageBookmark(book.id, pageToToggle);
+      setBookmarks(next);
+    },
+    [book.id]
+  );
+
+  const handleToggleOfflineSave = useCallback(() => {
+    if (!safeUrl || isOfflineBusy) return;
+    setIsOfflineBusy(true);
+    togglePdfOfflineCache(safeUrl)
+      .then((saved) => {
+        setIsOfflineSaved(saved);
+      })
+      .catch(() => {
+        // Ignore network/cache errors
+      })
+      .finally(() => {
+        setIsOfflineBusy(false);
+      });
+  }, [safeUrl, isOfflineBusy]);
 
   const nativeFullscreenSupported = useMemo(() => {
     if (typeof document === 'undefined' || typeof HTMLElement === 'undefined') {
@@ -214,12 +283,26 @@ function PdfReaderSession({ book, safeUrl, onClose, onDownload }: PdfReaderSessi
       const resolvedOutline = await resolvePdfOutline(doc);
       if (cancelled) return;
 
+      const resumedPage = clampPageNumber(initialSavedPageRef.current, doc.numPages);
       setBasePageSize(firstSize);
       setOutline(resolvedOutline);
       setTotalPages(doc.numPages);
-      setCurrentPage(1);
+      setCurrentPage(resumedPage);
       setPdfDoc(doc);
       setStatus('ready');
+
+      if (resumedPage > 1) {
+        requestAnimationFrame(() => {
+          const targetEl = pageRefs.current.get(resumedPage);
+          if (targetEl && typeof targetEl.scrollIntoView === 'function') {
+            programmaticScrollRef.current = true;
+            targetEl.scrollIntoView({ behavior: 'auto', block: 'start' });
+            setTimeout(() => {
+              programmaticScrollRef.current = false;
+            }, 220);
+          }
+        });
+      }
     }
 
     loadDocument().catch(() => {
@@ -574,6 +657,9 @@ function PdfReaderSession({ book, safeUrl, onClose, onDownload }: PdfReaderSessi
       } else if (event.key.toLowerCase() === 'r' && !event.ctrlKey && !event.metaKey) {
         event.preventDefault();
         setRotation((prev) => (prev + 90) % 360);
+      } else if (event.key.toLowerCase() === 'b' && !event.ctrlKey && !event.metaKey) {
+        event.preventDefault();
+        handleToggleBookmark();
       }
     };
 
@@ -586,6 +672,7 @@ function PdfReaderSession({ book, safeUrl, onClose, onDownload }: PdfReaderSessi
     effectiveScale,
     handleNextPage,
     handlePrevPage,
+    handleToggleBookmark,
     jumpToPage,
     openAndFocusSearch
   ]);
@@ -659,6 +746,11 @@ function PdfReaderSession({ book, safeUrl, onClose, onDownload }: PdfReaderSessi
           onZoomIn={() => setZoom(stepZoom(effectiveScale, 'in'))}
           onZoomSelect={setZoom}
           onRotate={() => setRotation((prev) => (prev + 90) % 360)}
+          isPageBookmarked={bookmarks.includes(currentPage)}
+          onToggleBookmark={() => handleToggleBookmark(currentPage)}
+          isOfflineSaved={isOfflineSaved}
+          isOfflineBusy={isOfflineBusy}
+          onToggleOfflineSave={handleToggleOfflineSave}
           onDownload={onDownload}
           onToggleFullscreen={handleToggleFullscreen}
           onClose={onClose}
@@ -682,6 +774,8 @@ function PdfReaderSession({ book, safeUrl, onClose, onDownload }: PdfReaderSessi
             totalPages={totalPages}
             currentPage={currentPage}
             outline={outline}
+            bookmarks={bookmarks}
+            onToggleBookmark={handleToggleBookmark}
             book={book}
             onSelectPage={(pageNum) => {
               jumpToPage(pageNum);

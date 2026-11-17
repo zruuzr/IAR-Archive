@@ -4,19 +4,22 @@
      - App shell navigations & mutable catalog metadata
        (/, /index.html, /books.json, /manifest.json)
        → Network First (always fresh when online, offline fallback)
-     - Fingerprinted Vite bundles & static assets
-       (/bundles/**, /icons/**, /assets/**, /favicon.ico)
+     - Fingerprinted Vite bundles, static assets & PDF.js runtime assets
+       (/bundles/**, /icons/**, /assets/**, /pdfjs/**, /favicon.ico)
        → Cache First (fast offline-ready delivery)
-     - External services (Firebase Auth/Firestore, GitHub Raw PDFs/Covers, Google Fonts)
+     - User-saved Offline PDFs (iar-offline-pdfs-v1)
+       → Served directly from Offline PDF Cache when saved, else Network
+     - Book covers (/covers/** & GitHub Raw covers) and Google Fonts
+       → Stale-While-Revalidate in bounded runtime cache (iar-runtime-assets-v1)
+     - Live telemetry & auth (Firebase Auth/Firestore)
        → Network only (bypassed)
-   Update flow:
-     - Build step injects exact fingerprinted /bundles/* paths into PRECACHE_BUNDLES
-     - Old iar-archive-* caches (including legacy v28/v32 Vanilla JS caches)
-       are purged on activate
    ============================================================ */
 
-const CACHE_VERSION = 'v39';
+const CACHE_VERSION = 'v40';
 const CACHE_NAME = `iar-archive-${CACHE_VERSION}`;
+const OFFLINE_PDF_CACHE = 'iar-offline-pdfs-v1';
+const RUNTIME_ASSETS_CACHE = 'iar-runtime-assets-v1';
+const MAX_RUNTIME_ENTRIES = 160;
 
 const CORE_SHELL = [
   '/',
@@ -42,10 +45,6 @@ const BYPASS_HOSTS = [
   'identitytoolkit.googleapis.com',
   'firebaseapp.com',
   'firebaseio.com',
-  'gstatic.com',
-  'raw.githubusercontent.com',
-  'fonts.googleapis.com',
-  'fonts.gstatic.com',
   'cdn.jsdelivr.net',
   'huggingface.co',
   'xethub.hf.co',
@@ -78,13 +77,18 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('activate', (event) => {
+  const preservedCaches = new Set([
+    CACHE_NAME,
+    OFFLINE_PDF_CACHE,
+    RUNTIME_ASSETS_CACHE
+  ]);
   event.waitUntil(
     caches
       .keys()
       .then((names) =>
         Promise.all(
           names
-            .filter((name) => name !== CACHE_NAME)
+            .filter((name) => !preservedCaches.has(name))
             .map((name) => caches.delete(name))
         )
       )
@@ -98,7 +102,7 @@ self.addEventListener('fetch', (event) => {
 
   const url = new URL(request.url);
 
-  // Exact host matching for external services
+  // Exact host matching for live telemetry / auth services
   if (
     BYPASS_HOSTS.some(
       (host) => url.hostname === host || url.hostname.endsWith('.' + host)
@@ -107,18 +111,41 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Only handle same-origin requests
+  // 1. Check user-saved Offline PDFs (on GitHub Raw or local /pdf/)
+  if (url.pathname.toLowerCase().endsWith('.pdf')) {
+    event.respondWith(offlinePdfFirst(request));
+    return;
+  }
+
+  // 2. Book covers (GitHub Raw or local /covers/) & Google Fonts → Stale-While-Revalidate
+  if (
+    isCoverRequest(url) ||
+    url.hostname === 'fonts.googleapis.com' ||
+    url.hostname === 'fonts.gstatic.com'
+  ) {
+    event.respondWith(runtimeAssetCache(request));
+    return;
+  }
+
+  // Only handle same-origin requests beyond this point
   if (url.origin !== self.location.origin) return;
 
-  // Document navigations & mutable catalog/manifest → Network First
+  // 3. Document navigations & mutable catalog/manifest → Network First
   if (request.mode === 'navigate' || isNetworkFirstPath(url.pathname)) {
     event.respondWith(networkFirst(request));
     return;
   }
 
-  // Fingerprinted Vite bundles (/bundles/**) and static assets → Cache First
+  // 4. Fingerprinted Vite bundles (/bundles/**), /pdfjs/** worker/cmaps/fonts & static assets → Cache First
   event.respondWith(cacheFirst(request));
 });
+
+function isCoverRequest(url) {
+  return (
+    url.pathname.includes('/covers/') &&
+    /\.(webp|jpg|jpeg|png|avif)$/i.test(url.pathname)
+  );
+}
 
 function isNetworkFirstPath(pathname) {
   if (pathname === '/' || pathname === '/index.html') return true;
@@ -126,6 +153,49 @@ function isNetworkFirstPath(pathname) {
   if (pathname.endsWith('/books.json')) return true;
   if (pathname.endsWith('/manifest.json')) return true;
   return false;
+}
+
+async function trimCache(cacheName, maxEntries) {
+  try {
+    const cache = await caches.open(cacheName);
+    const keys = await cache.keys();
+    if (keys.length > maxEntries) {
+      const excess = keys.length - maxEntries;
+      await Promise.all(keys.slice(0, excess).map((k) => cache.delete(k)));
+    }
+  } catch (_err) {
+    // Ignore cache trim errors
+  }
+}
+
+async function offlinePdfFirst(request) {
+  try {
+    const pdfCache = await caches.open(OFFLINE_PDF_CACHE);
+    const cachedPdf = await pdfCache.match(request.url);
+    if (cachedPdf) return cachedPdf;
+  } catch (_err) {
+    // Fallback to network
+  }
+  return fetch(request);
+}
+
+async function runtimeAssetCache(request) {
+  const cache = await caches.open(RUNTIME_ASSETS_CACHE);
+  const cached = await cache.match(request);
+
+  const networkPromise = fetch(request)
+    .then((response) => {
+      if (response && (response.status === 200 || response.type === 'opaque')) {
+        const clone = response.clone();
+        cache.put(request, clone).then(() => {
+          void trimCache(RUNTIME_ASSETS_CACHE, MAX_RUNTIME_ENTRIES);
+        });
+      }
+      return response;
+    })
+    .catch(() => cached);
+
+  return cached || networkPromise;
 }
 
 async function cacheFirst(request) {

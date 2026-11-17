@@ -15,7 +15,7 @@ export const ZOOM_STEPS = [
 export type PdfZoomMode = 'fit-width' | 'fit-page' | number;
 export type PdfLayoutMode = 'continuous' | 'single' | 'book';
 export type PdfPaperMode = 'original' | 'parchment' | 'night';
-export type PdfSidebarTab = 'thumbnails' | 'outline' | 'info';
+export type PdfSidebarTab = 'thumbnails' | 'outline' | 'bookmarks' | 'info';
 
 export interface PdfOutlineNode {
   id: string;
@@ -266,4 +266,166 @@ export function countNormalizedTextMatches(
     idx += Math.max(1, normalizedQuery.length);
   }
   return count;
+}
+
+export const PDF_READING_STATE_KEY = 'iar_pdf_reading_state_v1';
+export const OFFLINE_PDF_CACHE_NAME = 'iar-offline-pdfs-v1';
+
+export interface PdfBookReadingState {
+  page: number;
+  paperMode: PdfPaperMode;
+  layoutMode: PdfLayoutMode;
+  zoom: PdfZoomMode;
+  bookmarks: number[];
+  updatedAt: number;
+}
+
+function readAllReadingStates(): Record<string, PdfBookReadingState> {
+  if (typeof window === 'undefined' || !window.localStorage) return {};
+  try {
+    const raw = window.localStorage.getItem(PDF_READING_STATE_KEY);
+    if (!raw) return {};
+    const parsed = JSON.parse(raw) as unknown;
+    if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) {
+      return {};
+    }
+    return parsed as Record<string, PdfBookReadingState>;
+  } catch {
+    return {};
+  }
+}
+
+function writeAllReadingStates(map: Record<string, PdfBookReadingState>): void {
+  if (typeof window === 'undefined' || !window.localStorage) return;
+  try {
+    window.localStorage.setItem(PDF_READING_STATE_KEY, JSON.stringify(map));
+  } catch {
+    // Ignore quota errors
+  }
+}
+
+export function loadBookReadingState(bookId: number): PdfBookReadingState | null {
+  if (!Number.isFinite(bookId)) return null;
+  const all = readAllReadingStates();
+  const entry = all[String(bookId)];
+  if (!entry || typeof entry !== 'object') return null;
+
+  const page =
+    typeof entry.page === 'number' && Number.isFinite(entry.page) && entry.page >= 1
+      ? Math.trunc(entry.page)
+      : 1;
+  const paperMode: PdfPaperMode =
+    entry.paperMode === 'parchment' || entry.paperMode === 'night'
+      ? entry.paperMode
+      : 'original';
+  const layoutMode: PdfLayoutMode =
+    entry.layoutMode === 'single' || entry.layoutMode === 'book'
+      ? entry.layoutMode
+      : 'continuous';
+  const zoom: PdfZoomMode =
+    entry.zoom === 'fit-page' ||
+    entry.zoom === 'fit-width' ||
+    (typeof entry.zoom === 'number' &&
+      Number.isFinite(entry.zoom) &&
+      entry.zoom >= 0.35 &&
+      entry.zoom <= 3)
+      ? entry.zoom
+      : 'fit-width';
+  const bookmarks = Array.isArray(entry.bookmarks)
+    ? [
+        ...new Set(
+          entry.bookmarks
+            .filter(
+              (n): n is number => typeof n === 'number' && Number.isFinite(n) && n >= 1
+            )
+            .map((n) => Math.trunc(n))
+        )
+      ].sort((a, b) => a - b)
+    : [];
+
+  return {
+    page,
+    paperMode,
+    layoutMode,
+    zoom,
+    bookmarks,
+    updatedAt: typeof entry.updatedAt === 'number' ? entry.updatedAt : 0
+  };
+}
+
+export function saveBookReadingState(
+  bookId: number,
+  patch: Partial<Omit<PdfBookReadingState, 'updatedAt'>>
+): PdfBookReadingState {
+  const existing = loadBookReadingState(bookId) ?? {
+    page: 1,
+    paperMode: 'original' as PdfPaperMode,
+    layoutMode: 'continuous' as PdfLayoutMode,
+    zoom: 'fit-width' as PdfZoomMode,
+    bookmarks: [],
+    updatedAt: 0
+  };
+
+  const next: PdfBookReadingState = {
+    page:
+      typeof patch.page === 'number' && Number.isFinite(patch.page) && patch.page >= 1
+        ? Math.trunc(patch.page)
+        : existing.page,
+    paperMode: patch.paperMode ?? existing.paperMode,
+    layoutMode: patch.layoutMode ?? existing.layoutMode,
+    zoom: patch.zoom ?? existing.zoom,
+    bookmarks: Array.isArray(patch.bookmarks)
+      ? [
+          ...new Set(
+            patch.bookmarks
+              .filter((n) => Number.isFinite(n) && n >= 1)
+              .map((n) => Math.trunc(n))
+          )
+        ].sort((a, b) => a - b)
+      : existing.bookmarks,
+    updatedAt: Date.now()
+  };
+
+  const all = readAllReadingStates();
+  all[String(bookId)] = next;
+  writeAllReadingStates(all);
+  return next;
+}
+
+export function toggleBookPageBookmark(bookId: number, pageNumber: number): number[] {
+  const safePage = Math.max(1, Math.trunc(pageNumber || 1));
+  const current = loadBookReadingState(bookId)?.bookmarks ?? [];
+  const exists = current.includes(safePage);
+  const nextBookmarks = exists
+    ? current.filter((p) => p !== safePage)
+    : [...current, safePage].sort((a, b) => a - b);
+  saveBookReadingState(bookId, { bookmarks: nextBookmarks });
+  return nextBookmarks;
+}
+
+export async function isPdfSavedOffline(safeUrl: string | null): Promise<boolean> {
+  if (!safeUrl || typeof caches === 'undefined') return false;
+  try {
+    const cache = await caches.open(OFFLINE_PDF_CACHE_NAME);
+    const match = await cache.match(safeUrl);
+    return Boolean(match);
+  } catch {
+    return false;
+  }
+}
+
+export async function togglePdfOfflineCache(safeUrl: string | null): Promise<boolean> {
+  if (!safeUrl || typeof caches === 'undefined') return false;
+  const cache = await caches.open(OFFLINE_PDF_CACHE_NAME);
+  const existing = await cache.match(safeUrl);
+  if (existing) {
+    await cache.delete(safeUrl);
+    return false;
+  }
+  const response = await fetch(safeUrl, { mode: 'cors' });
+  if (!response.ok && response.type !== 'opaque') {
+    throw new Error(`Failed to fetch PDF for offline cache (${response.status})`);
+  }
+  await cache.put(safeUrl, response);
+  return true;
 }

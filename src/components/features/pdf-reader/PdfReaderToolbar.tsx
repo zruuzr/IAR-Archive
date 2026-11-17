@@ -41,6 +41,11 @@ export interface PdfReaderToolbarProps {
   onZoomIn: () => void;
   onZoomSelect: (zoom: PdfZoomMode) => void;
   onRotate: () => void;
+  isPageBookmarked?: boolean;
+  onToggleBookmark?: () => void;
+  isOfflineSaved?: boolean;
+  isOfflineBusy?: boolean;
+  onToggleOfflineSave?: () => void;
   onDownload?: (book: Book) => void;
   onToggleFullscreen: () => void;
   onClose: () => void;
@@ -106,6 +111,11 @@ export function PdfReaderToolbar({
   onZoomIn,
   onZoomSelect,
   onRotate,
+  isPageBookmarked = false,
+  onToggleBookmark,
+  isOfflineSaved = false,
+  isOfflineBusy = false,
+  onToggleOfflineSave,
   onDownload,
   onToggleFullscreen,
   onClose,
@@ -328,6 +338,49 @@ export function PdfReaderToolbar({
             ))}
           </div>
 
+          {/* Save for Offline Reading (>=1024px inline in masthead, <1024px in Overflow Menu) */}
+          {safeUrl && onToggleOfflineSave && (
+            <button
+              type="button"
+              data-testid="pdf-reader-offline-toggle"
+              className={`hx-pdf-header-btn hx-pdf-from-desktop${isOfflineSaved ? ' is-active' : ''}`}
+              aria-pressed={isOfflineSaved}
+              disabled={isOfflineBusy}
+              onClick={onToggleOfflineSave}
+              aria-label={
+                isOfflineSaved
+                  ? translate(
+                      'متاح للقراءة بدون إنترنت (اضغط للإزالة)',
+                      'Saved for offline reading (click to remove)'
+                    )
+                  : translate('حفظ للقراءة بدون إنترنت', 'Save for offline reading')
+              }
+              title={
+                isOfflineSaved
+                  ? translate('متاح بدون إنترنت', 'Saved offline')
+                  : translate('حفظ بدون إنترنت', 'Save offline')
+              }
+            >
+              <SvgIcon>
+                {isOfflineSaved ? (
+                  <path d="M20 6 9 17l-5-5" />
+                ) : (
+                  <>
+                    <path d="M12 3v11m0 0-4-4m4 4 4-4" />
+                    <path d="M5 19h14" />
+                  </>
+                )}
+              </SvgIcon>
+              <span className="hx-pdf-btn-label">
+                {isOfflineBusy
+                  ? translate('جارٍ الحفظ…', 'Saving…')
+                  : isOfflineSaved
+                    ? translate('محفوظ', 'Offline')
+                    : translate('دون اتصال', 'Save offline')}
+              </span>
+            </button>
+          )}
+
           {/* Direct Download */}
           {book && onDownload ? (
             <button
@@ -522,7 +575,7 @@ export function PdfReaderToolbar({
           </button>
         </div>
 
-        {/* Zoom, Rotate & Responsive Overflow Menu */}
+        {/* Zoom, Rotate, Bookmark & Responsive Overflow Menu */}
         <div className="hx-pdf-toolbar-group hx-pdf-toolbar-group--zoom">
           <button
             type="button"
@@ -583,6 +636,33 @@ export function PdfReaderToolbar({
               <path d="M20 10a8 8 0 1 0-2.3 5.6" />
             </SvgIcon>
           </button>
+
+          {onToggleBookmark && (
+            <button
+              type="button"
+              data-testid="pdf-reader-bookmark-toggle"
+              className={`hx-pdf-tool-btn hx-pdf-tool-btn--icon hx-pdf-from-tablet${isPageBookmarked ? ' is-active' : ''}`}
+              aria-pressed={isPageBookmarked}
+              disabled={status !== 'ready'}
+              onClick={onToggleBookmark}
+              aria-label={
+                isPageBookmarked
+                  ? translate(
+                      'إزالة الإشارة المرجعية لهذه الصفحة',
+                      'Remove bookmark for this page'
+                    )
+                  : translate('حفظ إشارة مرجعية لهذه الصفحة', 'Bookmark this page')
+              }
+              title={translate('إشارة مرجعية (B)', 'Bookmark page (B)')}
+            >
+              <SvgIcon>
+                <path
+                  d="M6 4h12a1 1 0 0 1 1 1v15l-7-4-7 4V5a1 1 0 0 1 1-1z"
+                  fill={isPageBookmarked ? 'currentColor' : 'none'}
+                />
+              </SvgIcon>
+            </button>
+          )}
 
           {/* Responsive Overflow Menu Trigger (visible <1024px) */}
           <div className="hx-pdf-more-wrap">
@@ -665,7 +745,7 @@ export function PdfReaderToolbar({
                   </div>
                 </div>
 
-                {/* Zoom & Rotate (needed <768px) */}
+                {/* Zoom, Rotate & Bookmark (needed <768px) */}
                 <div className="hx-pdf-overflow-section hx-pdf-overflow-lt-tablet">
                   <span className="hx-pdf-overflow-heading">
                     {translate('التكبير والتدوير', 'Zoom and rotation')}
@@ -734,10 +814,38 @@ export function PdfReaderToolbar({
                         <path d="M20 10a8 8 0 1 0-2.3 5.6" />
                       </SvgIcon>
                     </button>
+
+                    {onToggleBookmark && (
+                      <button
+                        type="button"
+                        className={`hx-pdf-tool-btn hx-pdf-tool-btn--icon${isPageBookmarked ? ' is-active' : ''}`}
+                        aria-pressed={isPageBookmarked}
+                        disabled={status !== 'ready'}
+                        onClick={onToggleBookmark}
+                        aria-label={
+                          isPageBookmarked
+                            ? translate(
+                                'إزالة الإشارة المرجعية لهذه الصفحة',
+                                'Remove bookmark for this page'
+                              )
+                            : translate(
+                                'حفظ إشارة مرجعية لهذه الصفحة',
+                                'Bookmark this page'
+                              )
+                        }
+                      >
+                        <SvgIcon>
+                          <path
+                            d="M6 4h12a1 1 0 0 1 1 1v15l-7-4-7 4V5a1 1 0 0 1 1-1z"
+                            fill={isPageBookmarked ? 'currentColor' : 'none'}
+                          />
+                        </SvgIcon>
+                      </button>
+                    )}
                   </div>
                 </div>
 
-                {/* Window Actions (Fullscreen <480px, Direct Link <1024px) */}
+                {/* Window & Offline Actions (Fullscreen <480px, Offline & Direct Link <1024px) */}
                 <div className="hx-pdf-overflow-section">
                   <div className="hx-pdf-overflow-row hx-pdf-overflow-links">
                     <button
@@ -759,6 +867,47 @@ export function PdfReaderToolbar({
                       </SvgIcon>
                       <span>{fullscreenLabel}</span>
                     </button>
+
+                    {safeUrl && onToggleOfflineSave && (
+                      <button
+                        type="button"
+                        className={`hx-pdf-tool-btn hx-pdf-overflow-action${isOfflineSaved ? ' is-active' : ''}`}
+                        aria-pressed={isOfflineSaved}
+                        disabled={isOfflineBusy}
+                        aria-label={
+                          isOfflineSaved
+                            ? translate(
+                                'متاح للقراءة بدون إنترنت (اضغط للإزالة)',
+                                'Saved for offline reading (click to remove)'
+                              )
+                            : translate(
+                                'حفظ للقراءة بدون إنترنت',
+                                'Save for offline reading'
+                              )
+                        }
+                        onClick={() => {
+                          onToggleOfflineSave();
+                        }}
+                      >
+                        <SvgIcon>
+                          {isOfflineSaved ? (
+                            <path d="M20 6 9 17l-5-5" />
+                          ) : (
+                            <>
+                              <path d="M12 3v11m0 0-4-4m4 4 4-4" />
+                              <path d="M5 19h14" />
+                            </>
+                          )}
+                        </SvgIcon>
+                        <span>
+                          {isOfflineBusy
+                            ? translate('جارٍ الحفظ…', 'Saving…')
+                            : isOfflineSaved
+                              ? translate('متاح بدون إنترنت', 'Saved offline')
+                              : translate('حفظ بدون إنترنت', 'Save offline')}
+                        </span>
+                      </button>
+                    )}
 
                     {safeUrl && (
                       <a

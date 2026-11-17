@@ -8,14 +8,10 @@
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "orientation": "portrait-primary",
+  "orientation": "any",
   "background_color": "#F9F6EF",
   "theme_color": "#F9F6EF",
-  "categories": [
-    "education",
-    "books",
-    "reference"
-  ],
+  "categories": ["education", "books", "reference"],
   "icons": [
     {
       "src": "/icons/icon-192x192.png",
@@ -40,6 +36,47 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "رفوف المعرفة",
+      "short_name": "الرفوف",
+      "description": "تصفح فهرس المراجع والكتب الإدارية العراقية",
+      "url": "/#booksDisplayContainer",
+      "icons": [
+        {
+          "src": "/icons/icon-192x192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "المسارات المعرفية",
+      "short_name": "المسارات",
+      "description": "استعراض المسارات الإدارية والقانونية والاقتصادية الـ 14",
+      "url": "/#paths",
+      "icons": [
+        {
+          "src": "/icons/icon-192x192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "في دائرة الضوء",
+      "short_name": "المميزة",
+      "description": "الاطلاع على المرجع المختار في دائرة الضوء",
+      "url": "/#featuredSection",
+      "icons": [
+        {
+          "src": "/icons/icon-192x192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
     }
   ],
   "prefer_related_applications": false

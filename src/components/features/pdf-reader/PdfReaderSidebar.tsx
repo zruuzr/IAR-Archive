@@ -170,6 +170,8 @@ export interface PdfReaderSidebarProps {
   totalPages: number;
   currentPage: number;
   outline: PdfOutlineNode[];
+  bookmarks?: readonly number[];
+  onToggleBookmark?: (pageNumber: number) => void;
   book: Book | null;
   onSelectPage: (pageNumber: number) => void;
 }
@@ -183,6 +185,8 @@ export function PdfReaderSidebar({
   totalPages,
   currentPage,
   outline,
+  bookmarks = [],
+  onToggleBookmark,
   book,
   onSelectPage
 }: PdfReaderSidebarProps) {
@@ -259,7 +263,7 @@ export function PdfReaderSidebar({
     e: React.KeyboardEvent<HTMLButtonElement>,
     currentIndex: number
   ) => {
-    const tabIds: PdfSidebarTab[] = ['thumbnails', 'outline', 'info'];
+    const tabIds: PdfSidebarTab[] = ['thumbnails', 'outline', 'bookmarks', 'info'];
     const isRtl =
       document.documentElement.dir === 'rtl' ||
       e.currentTarget.closest('[dir]')?.getAttribute('dir') === 'rtl';
@@ -281,6 +285,8 @@ export function PdfReaderSidebar({
       e.currentTarget.parentElement?.querySelectorAll<HTMLButtonElement>('[role="tab"]');
     siblings?.[nextIndex]?.focus();
   };
+
+  const isCurrentBookmarked = bookmarks.includes(currentPage);
 
   return (
     <>
@@ -304,6 +310,13 @@ export function PdfReaderSidebar({
             [
               { id: 'thumbnails', label: translate('الصفحات', 'Pages') },
               { id: 'outline', label: translate('الفهرس', 'Outline') },
+              {
+                id: 'bookmarks',
+                label:
+                  bookmarks.length > 0
+                    ? `${translate('الإشارات', 'Bookmarks')} (${formatNumber(bookmarks.length)})`
+                    : translate('الإشارات', 'Bookmarks')
+              },
               { id: 'info', label: translate('البطاقة', 'Info') }
             ] as const
           ).map((tab, idx) => {
@@ -374,6 +387,64 @@ export function PdfReaderSidebar({
                 </p>
               )}
             </>
+          )}
+
+          {activeTab === 'bookmarks' && (
+            <div className="space-y-2.5" data-testid="pdf-sidebar-bookmarks">
+              {onToggleBookmark && totalPages > 0 && (
+                <button
+                  type="button"
+                  data-testid="pdf-sidebar-bookmark-current"
+                  className={`hx-pdf-tool-btn w-full justify-center${isCurrentBookmarked ? ' is-active' : ''}`}
+                  aria-pressed={isCurrentBookmarked}
+                  onClick={() => onToggleBookmark(currentPage)}
+                >
+                  <span>
+                    {isCurrentBookmarked
+                      ? translate(
+                          `إزالة إشارة الصفحة ${formatNumber(currentPage)}`,
+                          `Remove bookmark for page ${currentPage}`
+                        )
+                      : translate(
+                          `حفظ الصفحة الحالية (${formatNumber(currentPage)})`,
+                          `Bookmark current page (${currentPage})`
+                        )}
+                  </span>
+                </button>
+              )}
+
+              {bookmarks.length > 0 ? (
+                <ul className="hx-pdf-outline-list">
+                  {bookmarks.map((pageNum) => (
+                    <li key={pageNum} className="flex items-center gap-1">
+                      <button
+                        type="button"
+                        data-testid={`pdf-bookmark-item-${pageNum}`}
+                        className={`hx-pdf-outline-item-btn flex-1${pageNum === currentPage ? ' is-active' : ''}`}
+                        onClick={() => onSelectPage(pageNum)}
+                      >
+                        <span>
+                          {translate(
+                            `الصفحة المحفوظة ${formatNumber(pageNum)}`,
+                            `Bookmarked page ${pageNum}`
+                          )}
+                        </span>
+                        <span className="hx-pdf-outline-page">
+                          {formatNumber(pageNum)}
+                        </span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="hx-pdf-sidebar-empty">
+                  {translate(
+                    'لا توجد إشارات مرجعية محفوظة بعد لهذا الكتاب.',
+                    'No bookmarks saved for this reference yet.'
+                  )}
+                </p>
+              )}
+            </div>
           )}
 
           {activeTab === 'info' && book && (

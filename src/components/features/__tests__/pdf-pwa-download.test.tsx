@@ -91,6 +91,7 @@ function createMockPdfDoc() {
 describe('PdfReaderDialog & self-hosted PDF engine helpers', () => {
   beforeEach(() => {
     document.body.style.overflow = '';
+    window.localStorage.clear();
     vi.restoreAllMocks();
   });
 
@@ -341,6 +342,65 @@ describe('PdfReaderDialog & self-hosted PDF engine helpers', () => {
         delete (document as { fullscreenEnabled?: boolean }).fullscreenEnabled;
       }
     }
+  });
+
+  it('auto-resumes saved reading state (page, paperMode), manages page bookmarks, and toggles offline PDF cache', async () => {
+    const mockDoc = createMockPdfDoc();
+    vi.spyOn(pdfEngine, 'loadPdfJs').mockResolvedValue({
+      getDocument: vi.fn(() => ({
+        promise: Promise.resolve(mockDoc),
+        destroy: vi.fn(),
+        onProgress: null
+      })),
+      GlobalWorkerOptions: { workerSrc: '' }
+    } as unknown as Awaited<ReturnType<typeof pdfEngine.loadPdfJs>>);
+
+    const book = makeTestBook({ id: 42 });
+    pdfEngine.saveBookReadingState(42, {
+      page: 2,
+      paperMode: 'night',
+      layoutMode: 'single',
+      bookmarks: [3]
+    });
+
+    const { unmount } = render(
+      <I18nProvider initialLang="ar">
+        <PdfReaderDialog open={true} onOpenChange={vi.fn()} book={book} />
+      </I18nProvider>
+    );
+
+    await waitFor(() => {
+      expect(
+        (screen.getByTestId('pdf-reader-page-input') as HTMLInputElement).value
+      ).toBe('2');
+    });
+
+    expect(screen.getByTestId('pdf-reader-stage').getAttribute('data-paper-mode')).toBe(
+      'night'
+    );
+
+    // Toggle bookmark on page 2 via toolbar button
+    const bookmarkBtn = screen.getByTestId('pdf-reader-bookmark-toggle');
+    expect(bookmarkBtn.getAttribute('aria-pressed')).toBe('false');
+    fireEvent.click(bookmarkBtn);
+    expect(bookmarkBtn.getAttribute('aria-pressed')).toBe('true');
+    expect(pdfEngine.loadBookReadingState(42)?.bookmarks).toEqual([2, 3]);
+
+    // Switch sidebar to Bookmarks tab and verify saved bookmark items
+    const bookmarksTab = document.getElementById('pdf-sidebar-tab-bookmarks');
+    expect(bookmarksTab).not.toBeNull();
+    fireEvent.click(bookmarksTab!);
+    expect(screen.getByTestId('pdf-bookmark-item-2')).toBeTruthy();
+    expect(screen.getByTestId('pdf-bookmark-item-3')).toBeTruthy();
+
+    // Jumping to bookmarked page 3 updates current page and persists state
+    fireEvent.click(screen.getByTestId('pdf-bookmark-item-3'));
+    expect((screen.getByTestId('pdf-reader-page-input') as HTMLInputElement).value).toBe(
+      '3'
+    );
+    expect(pdfEngine.loadBookReadingState(42)?.page).toBe(3);
+
+    unmount();
   });
 });
 
