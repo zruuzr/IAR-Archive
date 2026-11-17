@@ -1,8 +1,8 @@
 {
   "name": "iar-archive",
-  "version": "1.0.0",
+  "version": "3.0.0",
   "private": true,
-  "description": "IAR Archive — Iraqi Administrative Reference (React + Vite + TypeScript)",
+  "description": "IAR Archive v3.0.0 — Iraqi Administrative Reference Repository (React 19 + TypeScript + Vite + Iraqi Heritage Design System & Self-Hosted PDF.js Reader)",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

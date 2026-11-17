@@ -4,26 +4,27 @@
 
 # 📚 IAR Archive
 
-### Iraqi Administrative Reference Repository
+### Iraqi Administrative Reference Repository — v3.0.0
 
 **مستودع رقمي لأرشفة وتنظيم المراجع الإدارية العراقية**
 
+[![Release](https://img.shields.io/badge/Release-v3.0.0-d4af37?style=flat&logo=github)](https://github.com/zruuzr/IAR-Archive/releases/tag/v3.0.0)
 [![Hosted on Firebase](https://img.shields.io/badge/Hosted%20on-Firebase%20Hosting-orange?style=flat&logo=firebase)](https://iararchive.web.app/)
 [![React](https://img.shields.io/badge/React-19.3-61dafb?style=flat&logo=react)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-6.0.3-blue?style=flat&logo=typescript)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-8.3.4-646cff?style=flat&logo=vite)](https://vitejs.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-38b2ac?style=flat&logo=tailwindcss)](https://tailwindcss.com/)
-[![PWA](https://img.shields.io/badge/PWA-SW%20v36-blueviolet?style=flat&logo=pwa)](https://web.dev/progressive-web-apps/)
-[![References](https://img.shields.io/badge/References-254%20Indexed-gold?style=flat&logo=bookmeter)](books.json)
-[![Tests](https://img.shields.io/badge/Tests-531%20Passed-brightgreen?style=flat)](tests/)
+[![PWA](https://img.shields.io/badge/PWA-SW%20v39-blueviolet?style=flat&logo=pwa)](https://web.dev/progressive-web-apps/)
+[![References](https://img.shields.io/badge/References-370%20Indexed-gold?style=flat&logo=bookmeter)](books.json)
+[![Tests](https://img.shields.io/badge/Tests-533%20Passed-brightgreen?style=flat)](tests/)
 [![License](https://img.shields.io/badge/License-Proprietary-red.svg)](LICENSE)
 [![Auto Process](https://github.com/zruuzr/IAR-Archive/actions/workflows/auto_process.yml/badge.svg)](https://github.com/zruuzr/IAR-Archive/actions/workflows/auto_process.yml)
 
-A digital repository dedicated to archiving, organizing, and presenting Iraqi administrative references.
+A digital repository dedicated to archiving, organizing, and presenting Iraqi administrative, legal, and economic references within an authentic Mesopotamian & Abbasid heritage design system.
 
-IAR Archive provides structured reference metadata, concise summaries, APA-style citations, searchable categories, document bundles, and direct access to administrative materials.
+IAR Archive provides structured bilingual metadata, concise 3-minute summaries, APA-style citations, multi-facet sovereign indexing, custom research bundles, and a self-hosted Iraqi-Heritage PDF.js manuscript reader.
 
-**Arabic RTL and English LTR support • Progressive Web App • Automated document indexing**
+**Arabic RTL and English LTR support • Iraqi Heritage Design v3 • Self-Hosted PDF.js Reader • Progressive Web App**
 
 </div>
 
@@ -31,23 +32,19 @@ IAR Archive provides structured reference metadata, concise summaries, APA-style
 
 ## 🏛️ About IAR Archive
 
-**IAR Archive — Iraqi Administrative Reference Repository** is a digital repository designed to organize Iraqi administrative, academic, and professional references in a structured and searchable environment.
+**IAR Archive — Iraqi Administrative Reference Repository (`الأرشيف الإداري العراقي`)** is a digital archival platform designed to preserve, organize, and present Iraqi administrative, academic, legal, and economic references in a structured, searchable, and culturally authentic environment.
 
-The project aims to make administrative references easier to discover, understand, cite, and use by researchers, university students, administrative professionals, and executive managers.
+The repository currently indexes **370 administrative and academic references** (spanning **1968–2026**) organized across **14 core thematic pathways** and **195 specific granular categories**, unified under the **Iraqi Heritage Design System v3** (Babylonian Ishtar glazed lapis-lazuli, Abbasid gilt ornament, and archival parchment), combining:
 
-The repository currently indexes **254 administrative and academic references** (covering 1968–2026) organized across **14 core thematic pathways** (the foundational administrative domains), navigated through **115+ specific granular categories**, a **Sovereign Archival Index sidebar** (filtering orthogonally by discipline, historical era, and reference type), and a **13-volume interactive cloth-bound bookshelf**, combining:
-
-* Structured bilingual bibliographic metadata (`books.json`).
-* Interactive 13-volume cloth bookshelf with instant hover cover preview and museum placard.
-* Concise 3-minute reference summaries and key points.
-* Multi-facet administrative and academic categorization.
-* Diacritic-insensitive Arabic & English search and `⌘K` Spotlight command palette.
-* APA-style citation generation.
-* Custom shareable research bundles.
-* In-app PDF reader and direct streamed downloads with progress tracking.
-* Community ratings and live download/visit statistics.
-* Automated AI document processing and metadata extraction with strict completeness validation.
-* Arabic (RTL) and English (LTR) interfaces with light parchment and dark obsidian themes.
+* **370 Indexed Bilingual References (`books.json`)** with full bibliographic records, WebP covers, and 370 pre-rendered OpenGraph social share pages (`dist/b/<id>/`).
+* **Abbasid Muqarnas Mihrab & Colonnette Interactive Bookshelf (`GateArt` & `HeritageHero`)**: A two-tier Mesopotamian/Abbasid monument crowning a 12-volume interactive cloth-bound bookshelf with grounded spine elevation and a live museum placard.
+* **Custom Self-Hosted Heritage PDF.js Reader (`PdfReaderDialog`)**: Built on `pdfjs-dist` with crisp Arabic glyph isolation, 3 reading paper modes (`Original`, `Parchment`, `Night`), 3 layout modes (`Continuous Scroll`, `Single Page`, `Two-Page Book Spread`), 3-tab sidebar (Table of Contents, Thumbnails, Bibliographic Card), full-text search with match stepping, and a WCAG AA 5-breakpoint responsive toolbar (`44×44px` mobile, `40×40px` tablet, `32×32px` desktop) with an Overflow Menu (`⋮`) and iOS Safari Theater Mode fallback.
+* **Site-Wide Heritage Cohesion Layer (`heritage-system.css`)**: Unified panels (`.hx-panel`), gilt-framed modals (`.hx-modal*`), facet controls (`.hx-facets`), pagination (`.hx-pg`), toasts (`.hx-toast`), states (`.hx-state`), and a bilingual heritage `404.html` page.
+* **Sovereign Archival Index Sidebar (`SovereignSidebar`)**: Orthogonal filtering by Discipline, Historical Era, and Reference Type.
+* **Concise 3-Minute Summaries (`SummaryDialog`)**, **1-Click APA Citations**, and **Shareable Research Bundles (`?bundle=1,2,3`)**.
+* **Diacritic-Insensitive Arabic & English Search** and `⌘K` / `Ctrl+K` **Spotlight Command Palette**.
+* **Community Ratings & Live Telemetry** powered by Firebase Firestore and Anonymous Authentication.
+* **Automated AI Document Ingestion (`process_books.py`)** with Gemini & Groq fallback and strict completeness validation.
 
 > **من ألواح سومر إلى أوراق الحاضر**
 
@@ -55,271 +52,127 @@ The repository currently indexes **254 administrative and academic references** 
 
 ## ✨ Features
 
-### 📖 Interactive 13-Volume Cloth Bookshelf (`HeroAcademic`)
+### 🏛️ Abbasid Muqarnas Mihrab & Interactive Cloth Bookshelf (`HeroAcademic` & `GateArt`)
 
-* Displays 13 curated flagship volumes bound in **9 archival book-cloth pigments** (`prussian`, `linen`, `terracotta`, `cypress`, `oatmeal`, `oxblood`, `petrol`, `ochre`, `slate`).
-* **Hover & Click Unfolding**: Hovering over any spine smoothly unfolds the volume face-out to display its **original book cover** alongside its catalog number and publication year.
-* **Live Museum Placard**: Dynamically updates beneath the shelf with the active book's full title, author, category, and direct actions to inspect the reference monograph or read the PDF.
-* **Segmented Discipline Tabs**: Filter the shelf across All Selections, Administration, Accounting & Finance, Law & Contracts, and Archive & Research.
-* **Tactile Paper Acoustics & Magnetic Cursor**: Subtle Web Audio bandpass-filtered paper rustle sound effects (with header mute toggle) and a desktop magnetic preview cursor badge.
+* **Monumental Iraqi Architecture**: Features a stepped Babylonian Ishtar ziggurat crown with merlon crenellations, an 11-rosette glazed frieze, spandrel medallions, a smooth 6-row muqarnas vault, a suspended Abbasid Khatim sanctuary lamp, sculpted gilt colonnettes, and a star-studded entablature.
+* **12-Volume Interactive Cloth Bookshelf**: Curated flagship volumes bound in **9 archival book-cloth pigments** (`prussian`, `linen`, `terracotta`, `cypress`, `oatmeal`, `oxblood`, `petrol`, `ochre`, `slate`) resting on an aged cedar ledge above a rosette plinth.
+* **Grounded Spine Elevation & Live Museum Placard**: Hovering or focusing any spine elevates it smoothly from its base (`transform-origin: bottom center; scaleY(1.06)`) with a gilt crown glow and updates the museum placard (`hx-placard`) with title, author, publication year, and page count; clicking opens the reference monograph.
+* **Tactile Paper Acoustics**: Subtle Web Audio bandpass-filtered paper rustle sound effects (with a header mute toggle).
+
+### 📜 Custom Self-Hosted Heritage PDF.js Reader (`PdfReaderDialog`)
+
+* **Self-Hosted Canvas + TextLayer Engine (`pdf-engine.ts`)**: Powered by `pdfjs-dist` (`5.6.205`) with zero dependency on external Mozilla or Google iframe viewers.
+* **Crisp Arabic BiDi & Glyph Isolation**: Isolates `<canvas>` and text layers with `direction: ltr; unicode-bidi: isolate; font-variant-ligatures: normal; letter-spacing: 0;` so Arabic words render with intact cursive joining across Chromium, Firefox, and Safari.
+* **3 Reading Paper Filters**: Switch instantaneously between **Original (`أصلي`)**, **Heritage Parchment (`رقّ`)**, and **Nocturnal Night (`ليلي`)**.
+* **3 Page Layout Modes & Rotation**: **Continuous Scroll (`متصل`)**, **Single Page (`صفحة`)**, and **Two-Page Book Spread (`كتاب`)**, plus `90°` clockwise rotation and zoom presets (`40%`–`300%`, Fit Width, Fit Page).
+* **3-Tab Archival Sidebar (`PdfReaderSidebar`)**: Navigate via **Table of Contents (`الفهرس`)**, **Page Thumbnails (`الصفحات`)**, or **Bibliographic Card (`البطاقة`)** with full keyboard arrow navigation (`ArrowLeft`/`ArrowRight`/`Home`/`End`) and 1-click APA citation copy.
+* **Full-Text Search**: In-document search bar with live match highlighting and previous/next match stepping.
+* **Unified Responsive Button & Accessibility Spec (`heritage-pdf.css`)**:
+  * Mathematical touch targets: **`44×44px`** on mobile (`320px–767px`), **`40×40px`** on tablet (`768px–1023px` and coarse pointers), and **`32×32px`** on fine-pointer desktop (`≥1024px`) over a `4px/8px` spacing scale.
+  * Single-row masthead and command toolbar across all 5 breakpoints (`320px`, `480px`, `768px`, `1024px`, `1280px+`) with secondary controls progressively housed in an accessible **Overflow Menu (`⋮`)** below `1024px`.
+  * Dual-ring `:focus-visible` indicators, WCAG 2.1 AA verified contrast (`12.47:1` light / `7.19:1` dark on active+hover), layered `Escape` dismissal, and iOS Safari CSS Theater Mode (`100dvh` + `safe-area-inset-*`) fallback.
 
 ### 🗂️ Sovereign Archival Index & Reference Library
 
-* **Orthogonal Multi-Facet Sidebar (`SovereignSidebar`)**: Filter references simultaneously by **Discipline** (Administration, Finance, Law, Research), **Historical Era** (1968–2005, 2006–2016, 2017–2026), and **Reference Type** (Academic Textbooks, Legal & Regulatory, Practical Guides) without overwriting the active search input.
-* **14 Core Pathways & Granular Category Directory (`CategoryPathways`)**: Quick-filter chips with live volume counts and a full searchable category directory.
-* **3D Hardcover Monograph Spread (`BookDetailsView`)**: Dedicated `?book=ID` view featuring a 3D hardcover book pedestal with layered cream paper-block edges, a 4-column specification grid, numbered key points, and full-resolution cover zoom.
-* **Grid & List Viewing Modes**: Responsive card grid and compact editorial list view with high-contrast cloth spine ribbons.
-* **Favorites**: Save favorite references locally in the browser.
+* **Orthogonal Multi-Facet Sidebar (`SovereignSidebar`)**: Filter references simultaneously by **Discipline** (Administration, Finance, Law, Research), **Historical Era** (1968–2005, 2006–2016, 2017–2026), and **Reference Type** (Academic Textbooks, Legal & Regulatory, Practical Guides) using gilt-accented `.hx-facets` controls.
+* **14 Core Pathways & 195 Granular Categories (`CategoryPathways`)**: Quick-filter pathway cards with cuneiform & heritage emblems and live volume counts.
+* **Mihrab Monograph Spread (`BookDetailsView` & `HeritageBookDetails`)**: Dedicated `?book=ID` view featuring a pointed mihrab cover niche (`NicheArt`), specification strip, numbered key points, clickable keywords, APA citation card, interactive 5-star rating, Baghdadi Square Kufic verification seal, prev/next book navigation, and related references.
+* **Grid & List Viewing Modes**: Responsive card grid and compact editorial list view with `.hx-panel--dock` toolbar and `.hx-pg` pagination.
+* **Static OpenGraph Share Cards (`scripts/generate-og-pages.mjs`)**: Every reference has a pre-rendered static share page at `/b/<id>/` with a tailored OG image (`/covers/og/<id>.jpg`) for rich previews on Telegram, X/Twitter, WhatsApp, and Facebook.
 
-### 📝 3-Minute Summaries
+### 📝 3-Minute Summaries, APA Citations & Research Bundles
 
-Each reference includes a concise overview covering its main subject, core key points, and intended audience, helping researchers determine relevance before opening or downloading the full document.
+* **3-Minute Summaries (`SummaryDialog`)**: Executive brief covering main subject, numbered key points, and target audience in a gilt-frieze `.hx-modal` dialog.
+* **APA-Style Citations**: Copy structured APA citations in Arabic or English with a single click.
+* **Custom Research Bundles (`BundleBar`)**: Group selected references into custom bundles (`?bundle=1,2,3`) and share them via a single URL.
 
-### 📑 APA-Style Citations
+### 🌐 Bilingual Interface, Kufi Legibility Rule & Heritage Themes
 
-Generate and copy structured APA-style citations in Arabic or English with a single click from any book card, summary dialog, or monograph details view.
-
-### 📦 Custom Research Bundles
-
-Group selected references into custom research bundles (`?bundle=1,2,3`) and share them through a generated link to prepare focused collections around specific administrative or legal topics.
-
-### 🌐 Bilingual Interface & Editorial Typography
-
-* **Arabic — RTL** and **English — LTR** with automatic layout and direction switching.
-* Engineered typography pairing **Amiri** (display serif), **IBM Plex Sans Arabic / IBM Plex Sans** (UI & body copy with explicit OpenType ligature suppression to preserve crisp Arabic letterforms), and **IBM Plex Mono** (tabular numerals and catalog codes).
-
-### 🌙 Warm Parchment & Dark Obsidian Themes
-
-Persistent light (`#f2ede2` cotton-rag parchment) and dark (`#131519` obsidian slate) themes meeting WCAG AA contrast ratios.
-
-### 📥 Download System & Externalized Asset CDN
-
-* Real-time download progress dialog with percentage completed, transferred/total byte size, cancellation support, and timeout handling.
-* Both **PDF documents (`pdf/*.pdf`)** and **book covers (`covers/*.webp`)** are served directly via **GitHub Raw CDN** rather than bundled into Firebase Hosting, keeping the hosted web app ultra-lightweight (~1.3 MB) and preventing Firebase Hosting storage quota limits.
-
-### 📊 Community Metrics & Official Channels
-
-* Firebase Firestore and Anonymous Authentication power live download counts, user star ratings, and visit statistics.
-* Official community channels showcase in the footer for **Telegram (`@iarArchive`)** and **TikTok (`@iar.archive`)**.
+* **Arabic — RTL** and **English — LTR** with logical CSS properties (`margin-inline`, `padding-inline`, `inset-inline`) and selective directional icon mirroring.
+* **Typography**: **Amiri** (display serif), **Reem Kufi** (display headings and badges at `≥ 0.95rem` per the Kufi legibility rule), **IBM Plex Sans Arabic / IBM Plex Sans** (UI & body copy), and **IBM Plex Mono** (tabular numerals).
+* **Light Parchment (`#F9F6EF`) & Nocturnal Lapis (`#071026`) Themes**: Persistent themes synchronized with browser `theme-color` meta tags and meeting WCAG AA contrast standards (`--hx-gold-ink` `≥ 5.7:1`).
 
 ---
 
 ## 🏗️ Technology Stack
 
-IAR Archive uses a modern, type-safe, and highly optimized frontend architecture powered by React 19, TypeScript, and Vite.
-
-| Layer                | Technology                                                  |
-| -------------------- | ----------------------------------------------------------- |
-| Frontend Framework   | React 19 (`react` + `react-dom` 19.3)                       |
-| Language & Tooling   | TypeScript 6.0.3 with strict type checking                  |
-| Build & Bundler      | Vite 8.3 (`@vitejs/plugin-react`, ES modules, chunking)     |
-| Styling & UI Tokens  | Tailwind CSS v4 (`@tailwindcss/vite`, modern `@theme`)      |
-| UI Primitives        | Radix UI / shadcn-inspired components + Lucide Icons        |
-| Database             | Firebase Firestore (Modular SDK v13.0.0)                    |
-| Authentication       | Firebase Anonymous Authentication (Modular SDK v13.0.0)     |
-| Web Hosting          | Firebase Hosting (`iararchive` on `iar-archive-328bc`)      |
-| Asset & PDF Delivery | GitHub Raw CDN (streamed PDFs & WebP covers)                |
-| PDF Viewer           | In-app Modal PDF reader & direct reading fallback           |
-| PWA & Offline        | Web App Manifest + Service Worker v36 (`sw.js`)             |
-| Document Extraction  | `firecrawl-anydoc` + `pypdf`                                |
-| Primary AI           | Google Gemini (`gemini-2.5-flash` / `gemini-2.5-pro`)       |
-| AI Fallback          | Groq (`llama-3.3-70b-versatile`)                            |
-| Unit & Integration   | Vitest (82 unit/component tests)                            |
-| E2E Browser Testing  | Playwright (23 browser tests on Chromium)                   |
-| Python Pipeline      | Pytest (426 unit/integration tests)                         |
-| CI/CD & Automation   | GitHub Actions (typecheck, lint, test, e2e, deploy)         |
-| Code Quality         | ESLint 9 + Prettier 3 + Husky                               |
-| Dependency Updates   | Dependabot                                                  |
+| Layer                | Technology                                                                     |
+| -------------------- | ------------------------------------------------------------------------------ |
+| Frontend Framework   | React 19 (`react` + `react-dom` 19.3)                                          |
+| Language & Tooling   | TypeScript 6.0.3 with strict type checking                                     |
+| Build & Bundler      | Vite 8.3 (`@vitejs/plugin-react`, ES modules, chunking, OG page postbuild)     |
+| Styling & Design     | Tailwind CSS v4 + Heritage CSS layers (`heritage`, `books`, `system`, `pdf`)   |
+| PDF Engine           | Self-hosted `pdfjs-dist` (`5.6.205`) Canvas + TextLayer + Outline + Search     |
+| UI Primitives        | Heritage Design System v3 components + Lucide Icons                            |
+| Database & Auth      | Firebase Firestore & Anonymous Authentication (Modular SDK v13.0.0)            |
+| Web Hosting          | Firebase Hosting (`iararchive` on `iar-archive-328bc`)                         |
+| Asset & PDF Delivery | GitHub Raw CDN (370 streamed PDFs, WebP covers & OG social cards)              |
+| PWA & Offline        | Web App Manifest + Service Worker v39 (`sw.js`)                                |
+| Document Extraction  | `firecrawl-anydoc` + `pypdf` + `Pillow` (WebP & OG cover generation)           |
+| AI Metadata Pipeline | Google Gemini (`gemini-2.5-flash` / `gemini-2.5-pro`) + Groq (`llama-3.3-70b`) |
+| Unit & Integration   | Vitest (**84 unit/component tests** across 8 suites)                           |
+| E2E Browser Testing  | Playwright (**23 browser tests** + 5-breakpoint PDF spec verification)         |
+| Python Pipeline      | Pytest (**426 unit/integration tests**)                                        |
+| Code Quality         | ESLint 9 + Prettier 3 + Husky pre-commit hooks                                 |
 
 ---
 
 ## 🧩 Architecture
 
-The application is structured around a modular, reactive architecture that decouples UI components, catalog state, service layers, and background processing pipelines:
-
 ```text
-                           IAR Archive (React 19 + TypeScript)
-                                         │
-        ┌────────────────────────────────┼────────────────────────────────┐
-        ▼                                ▼                                ▼
-  React Application              Firebase Services                 GitHub Actions
-  (Vite Bundled)             (Modular Web SDK v13)               (Continuous Delivery)
-        │                                │                                │
-  ┌─────┴──────────────────┐      ┌──────┴──────┐                  ┌──────┴──────┐
-  │ Components & UI        │      │  Firestore  │                  │  Workflows  │
-  │ • SiteHeader & TopBar  │      │  (Ratings,  │                  │ • lint.yml  │
-  │ • HeroAcademic (Shelf) │      │   Metrics)  │                  │ • e2e.yml   │
-  │ • SovereignSidebar     │      ├─────────────┤                  │ • test.yml  │
-  │ • CategoryPathways     │      │  Anonymous  │                  │ • hosting   │
-  │ • SearchAndControls    │      │    Auth     │                  └──────┬──────┘
-  │ • BookGrid & BookCard  │      └─────────────┘                         │
-  │ • BookDetailsView (3D) │                                              ▼
-  │ • Dialogs (Summary,    │                                       process_books.py
-  │   CoverZoom, PdfReader,│                                              │
-  │   Spotlight, Progress) │                                       ┌──────┴──────┐
-  │ • SiteFooter           │                                       ▼             ▼
-  └─────┬──────────────────┘                                    Gemini          Groq
-        │                                                          │             │
-  ┌─────┴──────────────────┐                                       └──────┬──────┘
-  │ Hooks, Lib & Services  │                                              │
-  │ • useCatalog           │                                              ▼
-  │ • useLibraryState      │                                          books.json
-  │ • editorial-cloth.tsx  │                                              │
-  │ • sovereign-facets.ts  │                                              ▼
-  │ • catalog-query.ts     │                                      GitHub Repository
-  │ • arabic-search.ts     │                                              │
-  └─────┬──────────────────┘                                              ▼
-        ▼                                                          GitHub Raw CDN
-   books.json (254 Indexed References) ──────────────────────► (PDFs & WebP Covers)
+                            IAR Archive v3.0.0 (React 19 + TypeScript)
+                                                │
+        ┌───────────────────────────────────────┼───────────────────────────────────────┐
+        ▼                                       ▼                                       ▼
+  React Application                     Firebase Services                        GitHub Actions
+  (Vite 8 Bundled)                    (Modular Web SDK v13)                   (Continuous Delivery)
+        │                                       │                                       │
+  ┌─────┴────────────────────────┐       ┌──────┴──────┐                         ┌──────┴──────┐
+  │ Heritage UI & Components     │       │  Firestore  │                         │  Workflows  │
+  │ • SiteHeader (Frieze & Seal) │       │  (Ratings,  │                         │ • lint.yml  │
+  │ • HeroAcademic & GateArt     │       │   Metrics)  │                         │ • e2e.yml   │
+  │   (Abbasid Mihrab & Shelf)   │       ├─────────────┤                         │ • test.yml  │
+  │ • SovereignSidebar (.hx-*)   │       │  Anonymous  │                         │ • hosting   │
+  │ • CategoryPathways (14/195)  │       │    Auth     │                         └──────┬──────┘
+  │ • FeaturedSpotlight          │       └─────────────┘                                │
+  │ • BookGrid & HeritageBookCard│                                                      ▼
+  │ • BookDetailsView (Mihrab)   │                                               process_books.py
+  │ • PdfReaderDialog (PDF.js    │                                               optimize_covers.py
+  │   Toolbar, Sidebar, PageView)│                                                      │
+  │ • Summary, Spotlight, Zoom   │                                               ┌──────┴──────┐
+  │ • SiteFooter                 │                                               ▼             ▼
+  └─────┬────────────────────────┘                                            Gemini          Groq
+        │                                                                        │             │
+        ▼                                                                        └──────┬──────┘
+   books.json (370 Indexed References / 195 Categories) ◄───────────────────────────────┘
+        │
+        ▼
+   GitHub Raw CDN (370 PDFs, WebP Covers & OG Cards) + 370 Static /b/<id>/ Share Pages
 ```
 
-### Component Hierarchy & Clean Separation
+### Style Architecture (`src/styles/`)
 
-- **`src/components/`**: Cleanly divided into functional domains:
-  - **`layout/`**: `TopAnnouncement`, `SiteHeader`, `HeroAcademic` (13-volume interactive cloth bookshelf with original cover previews), and `SiteFooter` (official Telegram & TikTok showcase cards).
-  - **`library/`**: `SovereignSidebar` (discipline, era, and reference type facets), `SearchAndControls`, `CategoryPathways`, `FeaturedSpotlight`, `BookGrid`, `BookCard`, `BookCover`, `BookDetailsView` (3D hardcover monograph spread), `BundleBar`, `RatingStars`, and `PaginationNav`.
-  - **`features/`**: `SummaryDialog` (3-minute executive brief), `CoverZoomDialog`, `PdfReaderDialog`, `SpotlightSearchDialog` (`⌘K`), and `DownloadProgressDialog`.
-  - **`ui/`**: Atomic UI primitives (`button`).
-- **`src/hooks/`**: Stateful hooks (`useCatalog`, `useLibraryState`, `useBookDownload`, `useBundle`, `useFavorites`, `usePWAInstall`, `useTheme`, `useAccessibleDialog`).
-- **`src/services/`**: Pure async clients for the catalog (`catalog.ts`), Firebase initialization (`firebase.ts`), Firestore metrics (`firebase-metrics.ts`), ratings (`firebase-ratings.ts`), and streaming PDF downloads (`download.ts`).
-- **`src/lib/`**: Deterministic utilities including diacritic-insensitive Arabic search (`arabic-search.ts`), catalog query/sort/filter engine (`catalog-query.ts`), multi-facet matchers (`sovereign-facets.ts`), and cloth binding specs & paper acoustics (`editorial-cloth.tsx`).
-- **`src/i18n/`**: Bilingual dictionary (`ar.ts` & `en.ts`) with `I18nProvider` context and instant RTL/LTR synchronization.
+1. **`src/index.css`**: Tailwind CSS v4 base, theme variables, and Arabic typography rules.
+2. **`src/styles/heritage.css`**: Core Babylonian & Abbasid design tokens, header, hero, Abbasid Muqarnas Mihrab & colonnette bookshelf, spotlight plaque, pathways, journey timeline, and footer.
+3. **`src/styles/heritage-books.css`**: 5:7 woven-cloth book covers, mihrab niche details view, cover lightbox, and skeleton cards.
+4. **`src/styles/heritage-system.css`**: Site-wide cohesion layer (`.hx-panel`, `.hx-ctl`, `.hx-seg`, `.hx-facets`, `.hx-pg`, `.hx-modal*`, `.hx-toast`, `.hx-state`, Kufi legibility enforcement, and `--hx-gold-ink` WCAG AA tokens).
+5. **`src/styles/heritage-pdf.css`**: Self-hosted PDF reader stylesheet with `--pdf-*` custom properties, 5 responsive breakpoints (`320px`–`1280px+`), overflow popover menu, RTL/LTR logical rules, and canvas glyph isolation.
 
 ---
 
-## 📱 Progressive Web App
+## 📱 Progressive Web App (Service Worker v39)
 
-IAR Archive is installable as a Progressive Web App on all modern browsers (Desktop and Mobile).
-
-### PWA Components
-
-* `manifest.json` — application metadata, theme colors, display mode `standalone`, and bilingual descriptors.
-* `sw.js` — Service Worker (version **`v36`**) with intelligent caching, auto-precaching of Vite production bundles, and instant offline availability.
-* Standard (`192x192`, `512x512`) and maskable icons, plus Apple touch icon (`/icons/apple-touch-icon.png`).
-* Custom bilingual `404.html` fallback page matching the archival parchment/obsidian theme.
-
-### Service Worker v36 Strategy
-
-The Service Worker operates with an optimized multi-tier caching model:
+IAR Archive is installable as a standalone Progressive Web App on Desktop, Android, and iOS.
 
 | Resource Type                        | Strategy      | Purpose                                                  |
 | ------------------------------------ | ------------- | -------------------------------------------------------- |
-| App Shell (`/`, `/index.html`)       | Network First | Delivers the latest code with instant offline fallback   |
-| Catalog Metadata (`books.json`)      | Network First | Ensures newly indexed references appear without delay    |
-| Manifest (`manifest.json`)           | Network First | Keeps PWA metadata synchronized                          |
-| Fingerprinted Bundles (`/bundles/*`) | Cache First   | Immutable fingerprinted JS/CSS chunks cached permanently |
-| App Icons (`/icons/*`, logo)         | Cache First   | Fast offline icon loading                                |
-| Firebase Auth & Firestore APIs       | Network Only  | Bypassed to prevent stale ratings and telemetry          |
+| App Shell (`/`, `/index.html`)       | Network First | Delivers the latest release with instant offline fallback|
+| Catalog Metadata (`books.json`)      | Network First | Ensures all 370 indexed references stay synchronized     |
+| Manifest (`manifest.json`)           | Network First | Keeps PWA theme colors (`#071026` / `#F9F6EF`) synced    |
+| Fingerprinted Bundles (`/bundles/*`) | Cache First   | Immutable fingerprinted JS/CSS/PDF.js worker chunks      |
+| App Icons (`/icons/*`, `favicon.ico`)| Cache First   | Fast offline icon delivery                               |
+| Firebase Auth & Firestore APIs       | Network Only  | Bypassed for live ratings and download telemetry         |
 | GitHub Raw PDFs & Book Covers        | Network Only  | Streamed directly from GitHub Raw CDN                    |
-| External CDNs & Google Fonts         | Network Only  | Bypassed to avoid cache bloat                            |
-
-> **Note on Upgrades:** On activation, Service Worker `v36` automatically purges legacy caches from previous versions, preventing cache collision or reload loops.
-
----
-
-## 🤖 Automated Document Processing
-
-New documents added to the `pdf/` directory are processed automatically through GitHub Actions (`auto_process.yml`).
-
-### Supported Input
-
-The processing pipeline handles formats including:
-
-* PDF, DOCX, XLSX, PPTX, ODT, RTF, EPUB, CSV, and ZIP.
-
-### Processing Flow
-
-```text
-New Document
-     │
-     ▼
-GitHub Actions (auto_process.yml)
-     │
-     ▼
-process_books.py
-     │
-     ▼
-AnyDoc Extraction + WebP Cover Generation
-     │
-     ├───────────────┐
-     │               │
-     ▼               ▼
-Text Extracted   Needs OCR
-     │               │
-     ▼               ▼
-   Gemini        Gemini File Upload
-     │
-     ├───────────────┐
-     │               │
-   Success         Failure
-     │               │
-     │               ▼
-     │             Groq
-     │               │
-     └───────┬───────┘
-             │
-             ▼
-   Strict Completeness Check
-             │
-             ▼
-        books.json
-             │
-             ▼
-     Git Commit / Push
-             │
-             ▼
-     Firebase Deployment
-```
-
-### Metadata Extraction & Strict Completeness Policy
-
-The AI processing stage extracts structured bilingual metadata (`title`, `title_en`, `author`, `author_en`, `publisher`, `publisher_en`, `year`, `isbn`, `category`, `category_en`, `type`, `type_en`, `keywords`, `keywords_en`, `key_points`, `key_points_en`, `description`, `description_en`, `target_audience`, `target_audience_en`).
-
-By default, `process_books.py` enforces `ALLOW_PARTIAL_RECORDS = False`: if all AI providers are temporarily unavailable or return an incomplete record, the book is skipped rather than saving a partial stub, and is automatically retried on the next scheduled workflow run.
-
----
-
-## ⚙️ Configuration
-
-The automated processing workflow uses GitHub Actions secrets:
-
-| Secret           | Required | Purpose                                  |
-| ---------------- | -------- | ---------------------------------------- |
-| `GEMINI_API_KEY` | Yes      | Gemini API key for primary AI processing |
-| `GROQ_API_KEY`   | No       | Groq API key for fallback processing     |
-
-Optional environment variables include:
-
-| Variable                | Default                   | Purpose                                        |
-| ----------------------- | ------------------------- | ---------------------------------------------- |
-| `GEMINI_MODEL`          | `gemini-2.5-flash`        | Primary Gemini model                           |
-| `GROQ_MODEL`            | `llama-3.3-70b-versatile` | Groq fallback model                            |
-| `ALLOW_PARTIAL_RECORDS` | `false`                   | Whether to persist partial fallback records    |
-| `MAX_UPLOAD_SIZE_MB`    | `50`                      | Maximum direct-upload size                     |
-| `LOG_LEVEL`             | `INFO`                    | Python logging level                           |
-
----
-
-## 📦 Storage & Deployment Architecture
-
-The project uses GitHub as the source repository and external asset CDN, while Firebase Hosting serves the compiled web application shell:
-
-```text
-GitHub Repository
-├── Source Code (React 19 + TypeScript)
-├── books.json (254 Indexed Records)
-├── covers/ (254 WebP/PNG Covers)
-└── pdf/ (254 PDF Documents)
-       │
-       ▼
-GitHub Raw CDN (raw.githubusercontent.com)
-       │
-       ▼
-IAR Archive Web Application (Firebase Hosting ~1.3 MB)
-```
-
-* Both `pdf/**` and `covers/**` are excluded from the Vite `dist/` output (`copyPublicAssetsPlugin` in `vite.config.ts`) and from Firebase Hosting uploads (`firebase.json`).
-* `.firebaserc` configures `"ReleaseStorage": 3` on the `iararchive` site target so Firebase Hosting retains only the 3 most recent releases and never exhausts Spark plan storage quotas.
 
 ---
 
@@ -327,122 +180,64 @@ IAR Archive Web Application (Firebase Hosting ~1.3 MB)
 
 ```text
 IAR-Archive/
-├── .github/
-│   ├── workflows/
-│   │   ├── auto_process.yml                  # Document OCR & AI metadata pipeline
-│   │   ├── e2e.yml                           # Playwright E2E browser tests
-│   │   ├── firebase-hosting-merge.yml        # Live production deployment on merge to main
-│   │   ├── firebase-hosting-pull-request.yml # Preview channel deployment on PR
-│   │   ├── lint.yml                          # TypeScript check, ESLint, Prettier & unit tests
-│   │   └── test.yml                          # Python pytest suite (3.12 & 3.13)
-│   └── dependabot.yml
-│
-├── assets/
-│   └── logo.svg                              # Official IAR Archive logo
-├── covers/                                   # Reference covers (1.webp – 254.png, served via GitHub Raw)
-├── icons/                                    # PWA app icons and favicons
-├── pdf/                                      # 254 Reference PDF documents (served via GitHub Raw)
-│
-├── src/                                      # React 19 + TypeScript Application
-│   ├── components/                           # Modular UI components
-│   │   ├── features/                         # PDF reader, summary, cover zoom, spotlight & download dialogs
-│   │   ├── layout/                           # TopAnnouncement, SiteHeader, HeroAcademic, SiteFooter
+├── .github/workflows/                        # CI/CD (auto_process, e2e, firebase-hosting, lint, test)
+├── assets/logo.svg                           # Official IAR Archive octagram emblem
+├── covers/                                   # 370 Reference covers (WebP/JPG + covers/og/*.jpg)
+├── icons/                                    # PWA app icons and Apple touch icon
+├── pdf/                                      # 370 Reference PDF documents (served via GitHub Raw)
+├── scripts/
+│   ├── generate-og-pages.mjs                 # Postbuild generator for 370 static /b/<id>/ OG pages
+│   └── optimize_covers.py                    # WebP & OpenGraph cover image optimizer
+├── src/
+│   ├── components/
+│   │   ├── features/                         # PdfReaderDialog (+ pdf-reader/), SummaryDialog,
+│   │   │                                     # SpotlightSearchDialog, CoverZoomDialog, DownloadProgressDialog
+│   │   ├── heritage/                         # GateArt, NicheArt, HeritageHero, HeritageBookCard,
+│   │   │                                     # HeritageBookCover, HeritageBookDetails, PathwayGrid,
+│   │   │                                     # SpotlightPlaque, JourneyTimeline, CuneiformSeal, ornaments
+│   │   ├── layout/                           # SiteHeader, HeroAcademic, SiteFooter, HeritageOrnaments
 │   │   ├── library/                          # SovereignSidebar, SearchAndControls, CategoryPathways,
 │   │   │                                     # FeaturedSpotlight, BookGrid, BookCard, BookCover,
 │   │   │                                     # BookDetailsView, BundleBar, RatingStars, PaginationNav
-│   │   └── ui/                               # Atomic UI primitives (button)
-│   ├── hooks/                                # Custom React hooks (useCatalog, useLibraryState, etc.)
-│   ├── i18n/                                 # Bilingual provider (Arabic RTL / English LTR) & locales
-│   ├── lib/                                  # Pure business algorithms (arabic-search, catalog-query,
-│   │                                         # editorial-cloth, sovereign-facets, clipboard, utils)
-│   ├── services/                             # Service layer (catalog, firebase, firebase-metrics,
-│   │                                         # firebase-ratings, download)
-│   ├── types/                                # TypeScript domain models (book.ts)
-│   ├── App.tsx                               # Root React component
-│   ├── main.tsx                              # Client entry point
-│   └── index.css                             # Tailwind CSS v4 directives, cloth palettes & design tokens
-│
-├── tests/                                    # Python test suite (426 tests)
-│   ├── test_ai_helpers.py
-│   ├── test_book_model.py
-│   ├── test_generic_helpers.py
-│   ├── test_json_io.py
-│   ├── test_metadata.py
-│   ├── test_migrate.py
-│   ├── test_resilience.py
-│   ├── test_validate.py
-│   ├── test_validate_partial.py
-│   └── test_zip_safety.py
-│
-├── e2e/                                      # Playwright E2E browser tests (23 tests)
-│   ├── home.spec.js
-│   ├── i18n.spec.js
-│   ├── routing.spec.js
-│   └── search.spec.js
-│
-├── js/                                       # Preserved legacy Vanilla JS modules (reference & regression checks)
-├── index.html                                # Application entry point (Vite mounts src/main.tsx)
-├── 404.html                                  # Bilingual archival 404 page
-├── migration.html                            # Migration test entry point (preserved)
-├── books.json                                # Indexed reference catalog (254 records)
-├── manifest.json                             # PWA web app manifest
-├── sw.js                                     # Service Worker v36 (App shell & bundle caching)
-├── _headers                                  # Security headers & cache control
-│
-├── vite.config.ts                            # Vite 8 configuration & bundle precache plugin
-├── tsconfig.json                             # TypeScript strict configuration
-├── package.json                              # Dependencies & scripts
-├── playwright.config.js                      # Playwright test configuration
-├── eslint.config.mjs                         # ESLint 9 configuration
-├── .prettierrc.json                          # Prettier formatting rules
-│
-├── process_books.py                          # Document processing & AI extraction
-├── validate_books.py                         # Catalog schema validation
-├── requirements.txt                          # Python dependencies
-│
-├── LICENSE                                   # Proprietary license terms
-├── SECURITY.md                               # Security & vulnerability reporting policy
-├── AUDIT.md                                  # Audit log & architectural evolution
-├── CHANGELOG.md                              # Release history & version notes
-├── firebase.json                             # Firebase Hosting & Firestore configuration
-└── .firebaserc                               # Firebase project target (`iar-archive-328bc`) & ReleaseStorage
+│   │   └── ui/                               # Shared button primitive (button.tsx)
+│   ├── hooks/                                # useCatalog, useLibraryState, useAccessibleDialog, useTheme, etc.
+│   ├── i18n/                                 # Bilingual Arabic (RTL) & English (LTR) dictionaries
+│   ├── lib/                                  # arabic-search, catalog-query, sovereign-facets, editorial-cloth
+│   ├── services/                             # catalog, firebase, firebase-metrics, firebase-ratings, download
+│   ├── styles/                               # heritage.css, heritage-books.css, heritage-system.css, heritage-pdf.css
+│   ├── App.tsx                               # Root application component
+│   └── main.tsx                              # Client entry point
+├── tests/                                    # Python pytest suite (426 tests)
+├── e2e/                                      # Playwright E2E suite (23 tests)
+├── books.json                                # Indexed reference catalog (370 records / 195 categories)
+├── index.html                                # Main Vite entry point
+├── 404.html                                  # Bilingual Iraqi Heritage 404 page
+├── manifest.json                             # PWA Web App Manifest
+├── sw.js                                     # Service Worker v39
+├── CHANGELOG.md                              # Version history (v1.0.0 -> v2.0.0 -> v3.0.0)
+└── package.json                              # v3.0.0 scripts & dependencies
 ```
 
 ---
 
 ## 🛠️ Developer Commands & Scripts
 
-### Frontend (Node.js & Vite)
-
-| Command                   | Description                                                          |
-| ------------------------- | -------------------------------------------------------------------- |
-| `npm run dev`             | Starts Vite local development server with instant HMR                |
-| `npm run build`           | Typechecks with `tsc -b` and builds production bundle to `dist/`     |
-| `npm run preview`         | Previews production build locally with Vite preview server           |
-| `npm run typecheck`       | Executes TypeScript compiler check without emitting files            |
-| `npm run test:unit`       | Runs Vitest unit & component test suite (82 tests)                   |
-| `npm run test:unit:watch` | Runs Vitest in interactive watch mode                                |
-| `npm run test:e2e`        | Executes Playwright E2E browser tests on Chromium (23 tests)         |
-| `npm run test:e2e:ui`     | Launches Playwright interactive UI test runner                       |
-| `npm run lint`            | Runs ESLint 9 across `src/`, `js/`, and config files                 |
-| `npm run lint:fix`        | Automatically fixes fixable ESLint warnings and errors               |
-| `npm run format:check`    | Validates formatting using Prettier                                  |
-| `npm run format`          | Formats codebase using Prettier                                      |
-| `npm run check`           | Complete pre-commit verification (`typecheck + lint + format:check`) |
-
-### Catalog & Document Ingestion (Python)
-
-| Command                    | Description                                                |
-| -------------------------- | ---------------------------------------------------------- |
-| `pytest tests/ -v`         | Runs full Python test suite (426 unit & integration tests) |
-| `python validate_books.py` | Validates `books.json` schema, covers, and references      |
-| `python process_books.py`  | Runs document extraction & AI metadata generation pipeline |
+| Command                    | Description                                                                   |
+| -------------------------- | ----------------------------------------------------------------------------- |
+| `npm run dev`              | Starts Vite local development server with instant HMR                         |
+| `npm run build`            | Typechecks (`tsc -b`), builds `dist/`, and generates 370 OG pages (`dist/b/`) |
+| `npm run check`            | Complete verification (`typecheck` + `lint` + `format:check`)                 |
+| `npm run test:unit`        | Runs Vitest unit & component test suite (**84 tests** across 8 files)         |
+| `npm run test:e2e`         | Runs Playwright E2E browser tests on Chromium (**23 tests**)                  |
+| `pytest tests/ -v`         | Runs Python ingestion & validation test suite (**426 tests**)                 |
+| `python validate_books.py` | Validates `books.json` schema, covers, and reference integrity                |
 
 ---
 
-## 🌐 Live Demo
+## 🌐 Live Demo & Release
 
-👉 **[iararchive.web.app](https://iararchive.web.app/)**
+* **Live Application:** **[iararchive.web.app](https://iararchive.web.app/)**
+* **Latest Release:** **[IAR Archive v3.0.0](https://github.com/zruuzr/IAR-Archive/releases/tag/v3.0.0)**
 
 ---
 
@@ -450,16 +245,10 @@ IAR-Archive/
 
 **Copyright © 2026 Zenvex. All Rights Reserved.**
 
-This repository is **proprietary**. It is made publicly viewable for technical and transparency reasons — specifically because GitHub Raw is used to serve large PDF documents and book covers, and because the source code serves as a technical reference for the deployed application.
-
-Public visibility does **not** constitute an open-source license, nor does it grant permission to copy, modify, reproduce, distribute, sublicense, sell, or otherwise use the source code, in whole or in part.
-
-For the full terms — including the distinct treatment of source code, reference documents, and design assets — see the [LICENSE](LICENSE) file.
+This repository is **proprietary**. Public visibility is maintained for technical delivery of reference assets via GitHub Raw CDN and architectural transparency. See [LICENSE](LICENSE) for full terms.
 
 ---
 
 ## 🏺 IAR Archive
 
 **من ألواح سومر إلى أوراق الحاضر**
-
-An evolving digital reference repository for Iraqi administrative knowledge.

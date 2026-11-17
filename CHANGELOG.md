@@ -16,6 +16,40 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [3.0.0] - 2026-11-17
+
+Major Iraqi Heritage Design System (`v3`), Self-Hosted Heritage PDF Reader, and 370-Reference Catalog milestone release. Unifies every surface of the application under the Babylonian / Abbasid Lapis, Gold, and Parchment visual language and replaces the external iframe PDF viewer with a custom, responsive, accessible PDF.js engine.
+
+### Added
+
+- **Iraqi Heritage Design System v3 (`heritage.css`, `heritage-books.css`, `heritage-system.css`)**:
+  - Complete Mesopotamian & Abbasid architectural identity across the header (`SiteHeader` with octagram seal & Babylonian frieze), hero monument (`HeritageHero`), featured spotlight (`SpotlightPlaque`), 14 thematic pathways (`PathwayGrid`), 4-stage historical journey timeline (`JourneyTimeline`), book cards (`HeritageBookCard`), 3D mihrab monograph details (`HeritageBookDetails`), and footer (`SiteFooter`).
+  - **Abbasid Muqarnas Mihrab & Colonnette Interactive Bookshelf (`GateArt`)**: Stepped Ishtar ziggurat crown with crenellations, glazed 11-rosette frieze, spandrel medallions, smooth 6-row muqarnas vault, suspended Abbasid Khatim sanctuary lamp, sculpted gilt colonnettes, star-studded entablature, and a 12-volume interactive cloth-bound bookshelf grounded on an aged cedar ledge with a museum placard.
+  - **Site-Wide Heritage Cohesion Layer (`heritage-system.css`)**: Unified `.hx-panel`, `.hx-ctl`, `.hx-seg`, `.hx-facets`, `.hx-pg`, `.hx-modal*`, `.hx-toast`, `.hx-state`, and `.hx-skel` primitives across all controls, sidebars, pagination, bundle bars, modals, toasts, and the bilingual `404.html` page.
+  - **Kufi Legibility & WCAG AA Tokens**: Enforced Reem Kufi display typography only at `>= 0.95rem` (with IBM Plex Sans Arabic for smaller UI labels) and high-contrast gilt text token `--hx-gold-ink` (`>= 5.7:1`).
+- **Custom Self-Hosted Heritage PDF.js Reader (`PdfReaderDialog`, `src/components/features/pdf-reader/*`, `heritage-pdf.css`)**:
+  - Built a self-hosted PDF reader powered by `pdfjs-dist` (`5.6.205`) with zero reliance on external Mozilla/Google iframe viewers.
+  - **3 Reading Paper Modes**: Original (`#ffffff`), Heritage Parchment (`#f4e7c8`), and Nocturnal Night (`#161d29`).
+  - **3 Layout Modes**: Continuous Scroll (`scroll`), Single Page (`single`), and Two-Page Book Spread (`spread`), plus `90°` page rotation and preset/step zoom (`40%`–`300%`, Fit Width, Fit Page).
+  - **Interactive Sidebar & Full-Text Search**: Bilingual 3-tab sidebar (Table of Contents outline, Page Thumbnails, and Bibliographic Card with 1-click APA citation copy) with `role="tablist"` keyboard navigation, plus live full-text document search with match highlighting and prev/next hit stepping.
+  - **Unified Responsive Button & Accessibility Spec**: Mathematical touch targets (`44×44px` mobile, `40×40px` tablet/coarse-pointer, `32×32px` fine-pointer desktop) on a `4px/8px` grid across 5 breakpoints (`320px`, `480px`, `768px`, `1024px`, `1280px+`), progressive Overflow Menu (`⋮`) below `1024px`, layered `Escape` dismissal, dual-ring `:focus-visible` indicators, WCAG AA contrast (`12.47:1` light / `7.19:1` dark on active+hover), and iOS Safari Theater Mode (`100dvh` + `safe-area-inset-*`) fallback.
+- **370-Reference Catalog, WebP Cover Optimization & Static OpenGraph Pages**:
+  - Expanded `books.json` to **370 indexed Iraqi administrative, legal, and economic references** spanning **195 granular categories**.
+  - Added `scripts/optimize_covers.py` and `scripts/generate-og-pages.mjs` (`postbuild`), automatically generating **370 static OpenGraph share pages** under `dist/b/<id>/index.html` with dedicated social preview cards (`covers/og/<id>.jpg`).
+
+### Fixed
+
+- **Arabic Glyph Rendering in PDF Viewer**: Isolated `<canvas>` and PDF text layers with `direction: ltr; unicode-bidi: isolate; font-variant-ligatures: normal; letter-spacing: 0;` to prevent RTL bidi reversal and broken Arabic letter joining inside Chromium, Firefox, and Safari.
+- **Accessible Dialog Focus Trap (`useAccessibleDialog`)**: Excluded ancestor-hidden (`display: none` / `visibility: hidden`) and `aria-disabled="true"` controls from the `Tab` cycle.
+
+### Changed
+
+- **Header & Footer Streamlining**: Removed the top announcement bar, header reference count pill, and `BAGHDAD 2026` footer tag for a cleaner archival layout.
+- **Service Worker `v39`**: Bumped cache version to `v39` to purge previous caches cleanly upon upgrade.
+- **Automated Test Suite**: Expanded Vitest unit/component coverage to **84 passed tests** across 8 suites (**533 total automated tests**: 84 Vitest + 23 Playwright + 426 Pytest).
+
+---
+
 ## [2.0.0] - 2026-10-17
 
 Major architecture modernization release. Migrates the frontend from legacy Vanilla
