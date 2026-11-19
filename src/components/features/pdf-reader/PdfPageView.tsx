@@ -13,6 +13,8 @@ export interface PdfPageViewProps {
   searchQuery: string;
   isActivePage?: boolean;
   isCurrentSearchHit?: boolean;
+  /** Draws a gold ribbon on pages the reader has bookmarked. */
+  isBookmarked?: boolean;
   lang: Language;
   /** Enables IntersectionObserver deferral in continuous scroll mode. */
   lazy?: boolean;
@@ -34,6 +36,7 @@ export function PdfPageView({
   searchQuery,
   isActivePage = false,
   isCurrentSearchHit = false,
+  isBookmarked = false,
   lang,
   lazy = false,
   defaultAspectRatio = 1.414,
@@ -241,7 +244,7 @@ export function PdfPageView({
       ref={setCombinedRef}
       data-page-number={pageNumber}
       data-paper-mode={paperMode}
-      className={`hx-pdf-sheet${isActivePage ? ' hx-pdf-sheet--active' : ''}`}
+      className={`hx-pdf-sheet${isActivePage ? ' hx-pdf-sheet--active' : ''}${isBookmarked ? ' hx-pdf-sheet--bookmarked' : ''}`}
       style={{ width: `${sheetWidth}px`, height: `${sheetHeight}px` }}
       onClick={() => onActivate?.(pageNumber)}
     >
@@ -250,6 +253,7 @@ export function PdfPageView({
       <span className="hx-pdf-sheet-badge" aria-hidden="true">
         {pageNumber}
       </span>
+      {isBookmarked && <span className="hx-pdf-sheet-ribbon" aria-hidden="true" />}
     </div>
   );
 }

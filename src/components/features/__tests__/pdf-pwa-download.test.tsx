@@ -378,6 +378,7 @@ describe('PdfReaderDialog & self-hosted PDF engine helpers', () => {
     expect(screen.getByTestId('pdf-reader-stage').getAttribute('data-paper-mode')).toBe(
       'night'
     );
+    expect(screen.getByTestId('pdf-resume-notice')).toBeTruthy();
 
     // Toggle bookmark on page 2 via toolbar button
     const bookmarkBtn = screen.getByTestId('pdf-reader-bookmark-toggle');
@@ -399,6 +400,11 @@ describe('PdfReaderDialog & self-hosted PDF engine helpers', () => {
       '3'
     );
     expect(pdfEngine.loadBookReadingState(42)?.page).toBe(3);
+
+    // Quick-remove button removes bookmark 3 directly from the list
+    fireEvent.click(screen.getByTestId('pdf-bookmark-remove-3'));
+    expect(screen.queryByTestId('pdf-bookmark-item-3')).toBeNull();
+    expect(pdfEngine.loadBookReadingState(42)?.bookmarks).toEqual([2]);
 
     unmount();
   });

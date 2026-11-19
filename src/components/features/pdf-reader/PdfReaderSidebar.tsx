@@ -11,6 +11,7 @@ interface ThumbnailTileProps {
   pdfDoc: PDFDocumentProxy;
   pageNumber: number;
   isActive: boolean;
+  isBookmarked?: boolean;
   label: string;
   onSelect: (pageNumber: number) => void;
   scrollRoot: HTMLDivElement | null;
@@ -20,6 +21,7 @@ function ThumbnailTile({
   pdfDoc,
   pageNumber,
   isActive,
+  isBookmarked = false,
   label,
   onSelect,
   scrollRoot
@@ -114,17 +116,30 @@ function ThumbnailTile({
     };
   }, [pdfDoc, pageNumber, visible]);
 
+  // Keep the active tile visible by scrolling the drawer body only. `scrollIntoView`
+  // would also scroll the clipped dialog/backdrop ancestors and shift the masthead.
   useEffect(() => {
-    if (isActive && tileRef.current?.scrollIntoView) {
-      tileRef.current.scrollIntoView({ block: 'nearest' });
+    const tile = tileRef.current;
+    if (!isActive || !tile || !scrollRoot) return;
+    const rootRect = scrollRoot.getBoundingClientRect();
+    const tileRect = tile.getBoundingClientRect();
+    const pad = 10;
+    let delta = 0;
+    if (tileRect.top < rootRect.top + pad) {
+      delta = tileRect.top - (rootRect.top + pad);
+    } else if (tileRect.bottom > rootRect.bottom - pad) {
+      delta = tileRect.bottom - (rootRect.bottom - pad);
     }
-  }, [isActive]);
+    if (delta !== 0 && typeof scrollRoot.scrollBy === 'function') {
+      scrollRoot.scrollBy({ top: delta, behavior: 'auto' });
+    }
+  }, [isActive, scrollRoot]);
 
   return (
     <button
       ref={tileRef}
       type="button"
-      className={`hx-pdf-thumb${isActive ? ' is-active' : ''}`}
+      className={`hx-pdf-thumb${isActive ? ' is-active' : ''}${isBookmarked ? ' is-bookmarked' : ''}`}
       onClick={() => onSelect(pageNumber)}
       aria-label={label}
       aria-current={isActive ? 'page' : undefined}
@@ -136,9 +151,47 @@ function ThumbnailTile({
             {AN_SIGN}
           </span>
         )}
+        {isBookmarked && <span className="hx-pdf-thumb-ribbon" aria-hidden="true" />}
       </div>
       <span className="hx-pdf-thumb-num">{pageNumber}</span>
     </button>
+  );
+}
+
+function SidebarTabIcon({ id }: { id: PdfSidebarTab }) {
+  return (
+    <svg
+      className="hx-pdf-tab-icon"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      focusable="false"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.85"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      {id === 'thumbnails' ? (
+        <>
+          <rect x="4" y="4" width="6.5" height="6.5" rx="1.4" />
+          <rect x="13.5" y="4" width="6.5" height="6.5" rx="1.4" />
+          <rect x="4" y="13.5" width="6.5" height="6.5" rx="1.4" />
+          <rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.4" />
+        </>
+      ) : id === 'outline' ? (
+        <>
+          <path d="M9.5 6h10.5M9.5 12h10.5M9.5 18h10.5" />
+          <path d="M4 6h.01M4 12h.01M4 18h.01" strokeWidth="2.6" />
+        </>
+      ) : id === 'bookmarks' ? (
+        <path d="M6.5 4h11a1 1 0 0 1 1 1v15l-6.5-3.8L5.5 20V5a1 1 0 0 1 1-1z" />
+      ) : (
+        <>
+          <circle cx="12" cy="12" r="8.5" />
+          <path d="M12 11v5M12 8h.01" strokeWidth="2.2" />
+        </>
+      )}
+    </svg>
   );
 }
 
@@ -310,13 +363,7 @@ export function PdfReaderSidebar({
             [
               { id: 'thumbnails', label: translate('الصفحات', 'Pages') },
               { id: 'outline', label: translate('الفهرس', 'Outline') },
-              {
-                id: 'bookmarks',
-                label:
-                  bookmarks.length > 0
-                    ? `${translate('الإشارات', 'Bookmarks')} (${formatNumber(bookmarks.length)})`
-                    : translate('الإشارات', 'Bookmarks')
-              },
+              { id: 'bookmarks', label: translate('الإشارات', 'Bookmarks') },
               { id: 'info', label: translate('البطاقة', 'Info') }
             ] as const
           ).map((tab, idx) => {
@@ -334,7 +381,15 @@ export function PdfReaderSidebar({
                 onClick={() => onTabChange(tab.id)}
                 onKeyDown={(e) => handleTabKeyDown(e, idx)}
               >
-                {tab.label}
+                <span className="hx-pdf-tab-icon-wrap">
+                  <SidebarTabIcon id={tab.id} />
+                  {tab.id === 'bookmarks' && bookmarks.length > 0 && (
+                    <span className="hx-pdf-tab-count">
+                      {formatNumber(bookmarks.length)}
+                    </span>
+                  )}
+                </span>
+                <span className="hx-pdf-tab-label">{tab.label}</span>
               </button>
             );
           })}
@@ -357,6 +412,7 @@ export function PdfReaderSidebar({
                       pdfDoc={pdfDoc}
                       pageNumber={num}
                       isActive={num === currentPage}
+                      isBookmarked={bookmarks.includes(num)}
                       label={translate(`الانتقال إلى الصفحة ${num}`, `Go to page ${num}`)}
                       onSelect={onSelectPage}
                       scrollRoot={scrollRoot}
@@ -395,7 +451,7 @@ export function PdfReaderSidebar({
                 <button
                   type="button"
                   data-testid="pdf-sidebar-bookmark-current"
-                  className={`hx-pdf-tool-btn w-full justify-center${isCurrentBookmarked ? ' is-active' : ''}`}
+                  className={`hx-pdf-tool-btn hx-pdf-bookmark-add w-full justify-center${isCurrentBookmarked ? ' is-active' : ''}`}
                   aria-pressed={isCurrentBookmarked}
                   onClick={() => onToggleBookmark(currentPage)}
                 >
@@ -416,11 +472,11 @@ export function PdfReaderSidebar({
               {bookmarks.length > 0 ? (
                 <ul className="hx-pdf-outline-list">
                   {bookmarks.map((pageNum) => (
-                    <li key={pageNum} className="flex items-center gap-1">
+                    <li key={pageNum} className="hx-pdf-bookmark-row">
                       <button
                         type="button"
                         data-testid={`pdf-bookmark-item-${pageNum}`}
-                        className={`hx-pdf-outline-item-btn flex-1${pageNum === currentPage ? ' is-active' : ''}`}
+                        className={`hx-pdf-outline-item-btn hx-pdf-bookmark-btn flex-1${pageNum === currentPage ? ' is-active' : ''}`}
                         onClick={() => onSelectPage(pageNum)}
                       >
                         <span>
@@ -433,6 +489,33 @@ export function PdfReaderSidebar({
                           {formatNumber(pageNum)}
                         </span>
                       </button>
+                      {onToggleBookmark && (
+                        <button
+                          type="button"
+                          data-testid={`pdf-bookmark-remove-${pageNum}`}
+                          className="hx-pdf-bookmark-remove"
+                          onClick={() => onToggleBookmark(pageNum)}
+                          aria-label={translate(
+                            `إزالة إشارة الصفحة ${formatNumber(pageNum)}`,
+                            `Remove bookmark for page ${pageNum}`
+                          )}
+                          title={translate('إزالة الإشارة', 'Remove bookmark')}
+                        >
+                          <svg
+                            className="hx-pdf-icon hx-pdf-icon--sm"
+                            viewBox="0 0 24 24"
+                            aria-hidden="true"
+                            focusable="false"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <path d="M6 6l12 12M18 6 6 18" />
+                          </svg>
+                        </button>
+                      )}
                     </li>
                   ))}
                 </ul>

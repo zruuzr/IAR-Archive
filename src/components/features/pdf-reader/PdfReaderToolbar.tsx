@@ -80,6 +80,23 @@ function SvgIcon({
   );
 }
 
+function LayoutIcon({ id }: { id: PdfLayoutMode }) {
+  return (
+    <SvgIcon className="hx-pdf-icon hx-pdf-icon--sm hx-pdf-seg-icon">
+      {id === 'continuous' ? (
+        <>
+          <rect x="6" y="3" width="12" height="7.5" rx="1.5" />
+          <rect x="6" y="13.5" width="12" height="7.5" rx="1.5" />
+        </>
+      ) : id === 'single' ? (
+        <rect x="7" y="3" width="10" height="18" rx="1.5" />
+      ) : (
+        <path d="M12 6.8C9.6 5.3 6.6 5.2 4 6.2v11.6c2.6-1 5.6-.9 8 .6 2.4-1.5 5.4-1.6 8-.6V6.2c-2.6-1-5.6-.9-8 .6ZM12 6.8v11.6" />
+      )}
+    </SvgIcon>
+  );
+}
+
 export function PdfReaderToolbar({
   book,
   title,
@@ -385,7 +402,7 @@ export function PdfReaderToolbar({
           {book && onDownload ? (
             <button
               type="button"
-              className="hx-pdf-header-btn"
+              className="hx-pdf-header-btn hx-pdf-header-btn--primary"
               onClick={() => onDownload(book)}
               aria-label={translate('تحميل نسخة PDF', 'Download PDF')}
               title={translate('تحميل نسخة PDF', 'Download PDF')}
@@ -397,7 +414,7 @@ export function PdfReaderToolbar({
             <a
               href={safeUrl}
               download={book?.file_name || undefined}
-              className="hx-pdf-header-btn"
+              className="hx-pdf-header-btn hx-pdf-header-btn--primary"
               aria-label={translate('تحميل نسخة PDF', 'Download PDF')}
               title={translate('تحميل نسخة PDF', 'Download PDF')}
             >
@@ -484,7 +501,7 @@ export function PdfReaderToolbar({
               <rect x="3" y="4" width="18" height="16" rx="2" />
               <path d="M9 4v16" />
             </SvgIcon>
-            <span className="hx-pdf-btn-label">{translate('الفهرس', 'Index')}</span>
+            <span className="hx-pdf-btn-label">{translate('التصفّح', 'Browse')}</span>
           </button>
 
           <button
@@ -523,14 +540,15 @@ export function PdfReaderToolbar({
                 disabled={status !== 'ready'}
                 onClick={() => onLayoutChange(m.id)}
               >
-                {translate(m.ar, m.en)}
+                <LayoutIcon id={m.id} />
+                <span>{translate(m.ar, m.en)}</span>
               </button>
             ))}
           </div>
         </div>
 
         {/* Page Navigation */}
-        <div className="hx-pdf-toolbar-group hx-pdf-toolbar-group--nav">
+        <div className="hx-pdf-toolbar-group hx-pdf-toolbar-group--nav hx-pdf-capsule">
           <button
             type="button"
             className="hx-pdf-tool-btn hx-pdf-tool-btn--icon"
@@ -577,50 +595,52 @@ export function PdfReaderToolbar({
 
         {/* Zoom, Rotate, Bookmark & Responsive Overflow Menu */}
         <div className="hx-pdf-toolbar-group hx-pdf-toolbar-group--zoom">
-          <button
-            type="button"
-            className="hx-pdf-tool-btn hx-pdf-tool-btn--icon hx-pdf-from-mobile-lg"
-            disabled={!canZoomOut}
-            onClick={onZoomOut}
-            aria-label={translate('تصغير', 'Zoom out')}
-            title={translate('تصغير (-)', 'Zoom out (-)')}
-          >
-            <SvgIcon>
-              <path d="M6 12h12" />
-            </SvgIcon>
-          </button>
+          <div className="hx-pdf-capsule hx-pdf-capsule--zoom">
+            <button
+              type="button"
+              className="hx-pdf-tool-btn hx-pdf-tool-btn--icon hx-pdf-from-mobile-lg"
+              disabled={!canZoomOut}
+              onClick={onZoomOut}
+              aria-label={translate('تصغير', 'Zoom out')}
+              title={translate('تصغير (-)', 'Zoom out (-)')}
+            >
+              <SvgIcon>
+                <path d="M6 12h12" />
+              </SvgIcon>
+            </button>
 
-          <select
-            className="hx-pdf-select hx-pdf-zoom-select hx-pdf-from-tablet"
-            value={zoomSelectValue}
-            disabled={status !== 'ready'}
-            aria-label={translate('مستوى التكبير', 'Zoom level')}
-            onChange={(e) => handleZoomSelectChange(e.target.value)}
-          >
-            <option value="fit-width">{translate('ملاءمة العرض', 'Fit width')}</option>
-            <option value="fit-page">{translate('ملاءمة الصفحة', 'Fit page')}</option>
-            {zoomSelectValue === '__custom__' && (
-              <option value="__custom__">{customPercentLabel}</option>
-            )}
-            {ZOOM_PRESETS.map((preset) => (
-              <option key={preset} value={String(preset)}>
-                {Math.round(preset * 100)}%
-              </option>
-            ))}
-          </select>
+            <select
+              className="hx-pdf-select hx-pdf-zoom-select hx-pdf-from-tablet"
+              value={zoomSelectValue}
+              disabled={status !== 'ready'}
+              aria-label={translate('مستوى التكبير', 'Zoom level')}
+              onChange={(e) => handleZoomSelectChange(e.target.value)}
+            >
+              <option value="fit-width">{translate('ملاءمة العرض', 'Fit width')}</option>
+              <option value="fit-page">{translate('ملاءمة الصفحة', 'Fit page')}</option>
+              {zoomSelectValue === '__custom__' && (
+                <option value="__custom__">{customPercentLabel}</option>
+              )}
+              {ZOOM_PRESETS.map((preset) => (
+                <option key={preset} value={String(preset)}>
+                  {Math.round(preset * 100)}%
+                </option>
+              ))}
+            </select>
 
-          <button
-            type="button"
-            className="hx-pdf-tool-btn hx-pdf-tool-btn--icon hx-pdf-from-mobile-lg"
-            disabled={!canZoomIn}
-            onClick={onZoomIn}
-            aria-label={translate('تكبير', 'Zoom in')}
-            title={translate('تكبير (+)', 'Zoom in (+)')}
-          >
-            <SvgIcon>
-              <path d="M12 6v12M6 12h12" />
-            </SvgIcon>
-          </button>
+            <button
+              type="button"
+              className="hx-pdf-tool-btn hx-pdf-tool-btn--icon hx-pdf-from-mobile-lg"
+              disabled={!canZoomIn}
+              onClick={onZoomIn}
+              aria-label={translate('تكبير', 'Zoom in')}
+              title={translate('تكبير (+)', 'Zoom in (+)')}
+            >
+              <SvgIcon>
+                <path d="M12 6v12M6 12h12" />
+              </SvgIcon>
+            </button>
+          </div>
 
           <button
             type="button"
@@ -710,7 +730,8 @@ export function PdfReaderToolbar({
                         disabled={status !== 'ready'}
                         onClick={() => onLayoutChange(m.id)}
                       >
-                        {translate(m.ar, m.en)}
+                        <LayoutIcon id={m.id} />
+                        <span>{translate(m.ar, m.en)}</span>
                       </button>
                     ))}
                   </div>
@@ -1010,7 +1031,10 @@ export function PdfReaderToolbar({
               onClick={() => onSearchStep('prev')}
               aria-label={translate('النتيجة السابقة', 'Previous match')}
             >
-              {translate('السابق', 'Prev')}
+              <SvgIcon className="hx-pdf-icon hx-pdf-icon--sm hx-pdf-icon--flip-rtl">
+                <path d="m15 6-6 6 6 6" />
+              </SvgIcon>
+              <span>{translate('السابق', 'Prev')}</span>
             </button>
 
             <button
@@ -1020,7 +1044,10 @@ export function PdfReaderToolbar({
               onClick={() => onSearchStep('next')}
               aria-label={translate('النتيجة التالية', 'Next match')}
             >
-              {translate('التالي', 'Next')}
+              <span>{translate('التالي', 'Next')}</span>
+              <SvgIcon className="hx-pdf-icon hx-pdf-icon--sm hx-pdf-icon--flip-rtl">
+                <path d="m9 6 6 6-6 6" />
+              </SvgIcon>
             </button>
 
             <button

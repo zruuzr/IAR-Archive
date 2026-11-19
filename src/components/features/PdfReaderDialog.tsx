@@ -1,10 +1,17 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type CSSProperties
+} from 'react';
 import type {
   OnProgressParameters,
   PDFDocumentLoadingTask,
   PDFDocumentProxy
 } from 'pdfjs-dist';
-import { AN_SIGN, HeritageFrieze } from '@/components/heritage';
+import { AN_SIGN, prefersReducedMotion } from '@/components/heritage';
 import { useAccessibleDialog } from '@/hooks/useAccessibleDialog';
 import { useI18n } from '@/i18n/I18nProvider';
 import { normalizeSearchText } from '@/lib/arabic-search';
@@ -100,6 +107,7 @@ function PdfReaderSession({ book, safeUrl, onClose, onDownload }: PdfReaderSessi
   );
   const [isOfflineSaved, setIsOfflineSaved] = useState(false);
   const [isOfflineBusy, setIsOfflineBusy] = useState(false);
+  const [resumedFromPage, setResumedFromPage] = useState<number | null>(null);
 
   const [rotation, setRotation] = useState(0);
   const [sidebarOpen, setSidebarOpen] = useState(() =>
@@ -292,11 +300,21 @@ function PdfReaderSession({ book, safeUrl, onClose, onDownload }: PdfReaderSessi
       setStatus('ready');
 
       if (resumedPage > 1) {
+        setResumedFromPage(resumedPage);
         requestAnimationFrame(() => {
           const targetEl = pageRefs.current.get(resumedPage);
-          if (targetEl && typeof targetEl.scrollIntoView === 'function') {
+          const stageEl = stageRef.current;
+          if (targetEl && stageEl) {
+            // Scroll the stage only: `scrollIntoView` also scrolls the clipped dialog
+            // ancestors and pushes the masthead out of place.
             programmaticScrollRef.current = true;
-            targetEl.scrollIntoView({ behavior: 'auto', block: 'start' });
+            stageEl.scrollTop = Math.max(
+              0,
+              targetEl.getBoundingClientRect().top -
+                stageEl.getBoundingClientRect().top +
+                stageEl.scrollTop -
+                12
+            );
             setTimeout(() => {
               programmaticScrollRef.current = false;
             }, 220);
@@ -389,8 +407,23 @@ function PdfReaderSession({ book, safeUrl, onClose, onDownload }: PdfReaderSessi
         programmaticScrollRef.current = true;
         requestAnimationFrame(() => {
           const el = pageRefs.current.get(clamped);
-          if (el?.scrollIntoView) {
-            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          const stageEl = stageRef.current;
+          if (el && stageEl) {
+            // Scroll the stage itself: `scrollIntoView` would also scroll the clipped
+            // dialog/backdrop ancestors and push the masthead out of place.
+            const top =
+              el.getBoundingClientRect().top -
+              stageEl.getBoundingClientRect().top +
+              stageEl.scrollTop -
+              12;
+            if (typeof stageEl.scrollTo === 'function') {
+              stageEl.scrollTo({
+                top: Math.max(0, top),
+                behavior: prefersReducedMotion() ? 'auto' : 'smooth'
+              });
+            } else {
+              stageEl.scrollTop = Math.max(0, top);
+            }
           }
           setTimeout(() => {
             programmaticScrollRef.current = false;
@@ -685,6 +718,8 @@ function PdfReaderSession({ book, safeUrl, onClose, onDownload }: PdfReaderSessi
       : activeSpread;
 
   const totalMatchCount = searchHits.reduce((acc, hit) => acc + hit.count, 0);
+  const scrubFillPercent =
+    totalPages > 1 ? Math.min(100, ((currentPage - 1) / (totalPages - 1)) * 100) : 0;
   const activeSearchPage = searchHits[currentHitIndex]?.pageNumber ?? null;
 
   return (
@@ -701,11 +736,11 @@ function PdfReaderSession({ book, safeUrl, onClose, onDownload }: PdfReaderSessi
     >
       <div
         ref={dialogRef}
-        className={`hx-panel hx-pdf-panel${expandedView ? ' hx-pdf-panel--fullscreen' : ''}`}
+        className={`hx-pdf-panel${expandedView ? ' hx-pdf-panel--fullscreen' : ''}`}
+        data-status={status}
+        data-paper-mode={paperMode}
         tabIndex={-1}
       >
-        <HeritageFrieze />
-
         <PdfReaderToolbar
           book={book}
           title={bookTitle}
@@ -798,14 +833,22 @@ function PdfReaderSession({ book, safeUrl, onClose, onDownload }: PdfReaderSessi
                 role="status"
                 aria-live="polite"
               >
+                <div className="hx-pdf-ghost" aria-hidden="true">
+                  <span />
+                  <span />
+                  <span />
+                  <span />
+                  <span />
+                  <span />
+                </div>
                 <div className="hx-pdf-loader-card">
-                  <div className="hx-pdf-loader-emblem" aria-hidden="true">
-                    {AN_SIGN}
+                  <div className="hx-pdf-medal hx-pdf-medal--spin" aria-hidden="true">
+                    <span>{AN_SIGN}</span>
                   </div>
-                  <h3 className="m-0 mb-1.5 text-base font-bold">
+                  <h3 className="hx-pdf-state-title">
                     {translate('جارٍ تهيئة مخطوطة PDF…', 'Preparing PDF manuscript…')}
                   </h3>
-                  <p className="m-0 text-xs opacity-75">
+                  <p className="hx-pdf-state-text">
                     {loadProgress !== null
                       ? translate(
                           `تم تحميل ${formatNumber(loadProgress)}% من المستند`,
@@ -832,25 +875,25 @@ function PdfReaderSession({ book, safeUrl, onClose, onDownload }: PdfReaderSessi
               <div className="hx-pdf-state-overlay">
                 <div
                   data-testid="pdf-reader-error"
-                  className="hx-panel hx-state hx-state--danger hx-pdf-error-card max-w-md w-full"
+                  className="hx-pdf-error-card"
                   role="alert"
                 >
-                  <span className="hx-state-medal" aria-hidden="true">
-                    {AN_SIGN}
-                  </span>
-                  <h3 className="font-bold text-base mb-1">
+                  <div className="hx-pdf-medal hx-pdf-medal--danger" aria-hidden="true">
+                    <span>{AN_SIGN}</span>
+                  </div>
+                  <h3 className="hx-pdf-state-title">
                     {translate(
                       'تعذّر فتح المستند داخل القارئ',
                       'Unable to open PDF in the viewer'
                     )}
                   </h3>
-                  <p className="text-sm text-[var(--hx-ink-2)] mb-4">
+                  <p className="hx-pdf-state-text">
                     {translate(
                       'تحقّق من الاتصال بالإنترنت أو افتح الملف مباشرة أو حمّله على جهازك.',
                       'Check your connection, retry loading, or open the file directly.'
                     )}
                   </p>
-                  <div className="flex flex-wrap items-center justify-center gap-2">
+                  <div className="hx-pdf-state-actions">
                     {safeUrl && (
                       <button
                         data-testid="pdf-reader-retry"
@@ -875,6 +918,15 @@ function PdfReaderSession({ book, safeUrl, onClose, onDownload }: PdfReaderSessi
                         {translate('فتح مباشر', 'Open original')}
                       </a>
                     )}
+                    {onDownload && (
+                      <button
+                        type="button"
+                        className="hx-pdf-tool-btn hx-pdf-action-btn"
+                        onClick={() => onDownload(book)}
+                      >
+                        {translate('تحميل الملف', 'Download file')}
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>
@@ -898,6 +950,7 @@ function PdfReaderSession({ book, safeUrl, onClose, onDownload }: PdfReaderSessi
                         searchQuery={normalizedSearchQuery}
                         isActivePage={pageNum === currentPage}
                         isCurrentSearchHit={pageNum === activeSearchPage}
+                        isBookmarked={bookmarks.includes(pageNum)}
                         lang={lang}
                         knownBaseSize={pageDimensions[pageNum] ?? effectiveBaseSize}
                         onPageDimensions={handlePageDimensions}
@@ -921,6 +974,7 @@ function PdfReaderSession({ book, safeUrl, onClose, onDownload }: PdfReaderSessi
                       searchQuery={normalizedSearchQuery}
                       isActivePage={pageNum === currentPage}
                       isCurrentSearchHit={pageNum === activeSearchPage}
+                      isBookmarked={bookmarks.includes(pageNum)}
                       lang={lang}
                       lazy={layoutMode === 'continuous' && totalPages > 3}
                       knownBaseSize={pageDimensions[pageNum] ?? effectiveBaseSize}
@@ -939,13 +993,14 @@ function PdfReaderSession({ book, safeUrl, onClose, onDownload }: PdfReaderSessi
         </div>
 
         <div className="hx-pdf-statusbar">
-          <span aria-hidden="true" className="text-[var(--hx-gold,#b8872d)]">
+          <span className="hx-pdf-status-sign" aria-hidden="true">
             {AN_SIGN}
           </span>
           <input
             data-testid="pdf-reader-scrubber"
             type="range"
             className="hx-pdf-scrubber"
+            style={{ '--pdf-fill': `${scrubFillPercent}%` } as CSSProperties}
             min={1}
             max={Math.max(1, totalPages)}
             value={Math.min(currentPage, Math.max(1, totalPages))}
@@ -954,19 +1009,39 @@ function PdfReaderSession({ book, safeUrl, onClose, onDownload }: PdfReaderSessi
             aria-label={translate('شريط تمرير الصفحات', 'Page scrubber')}
           />
           <span className="hx-pdf-status-readout">
-            {Math.round(effectiveScale * 100)}%
-            {totalPages > 0
-              ? ` · ${translate(
-                  `صفحة ${formatNumber(currentPage)} من ${formatNumber(totalPages)}`,
-                  `Page ${formatNumber(currentPage)} of ${formatNumber(totalPages)}`
-                )}`
-              : ''}
+            {resumedFromPage !== null && (
+              <button
+                type="button"
+                data-testid="pdf-resume-notice"
+                className="hx-pdf-status-chip hx-pdf-status-chip--resume"
+                onClick={() => setResumedFromPage(null)}
+                title={translate('إخفاء التنبيه', 'Dismiss notice')}
+              >
+                {translate(
+                  `تابعتَ من صفحة ${formatNumber(resumedFromPage)}`,
+                  `Resumed at page ${formatNumber(resumedFromPage)}`
+                )}
+              </button>
+            )}
+            <span className="hx-pdf-status-chip">
+              {totalPages > 0
+                ? translate(
+                    `صفحة ${formatNumber(currentPage)} من ${formatNumber(totalPages)}`,
+                    `Page ${formatNumber(currentPage)} of ${formatNumber(totalPages)}`
+                  )
+                : '—'}
+            </span>
+            <span className="hx-pdf-status-chip hx-pdf-status-chip--zoom" dir="ltr">
+              {Math.round(effectiveScale * 100)}%
+            </span>
           </span>
           <span className="hx-pdf-status-hints">
             <kbd className="hx-kbd">Ctrl+F</kbd>
             <span>{translate('بحث', 'Find')}</span>
             <kbd className="hx-kbd">R</kbd>
             <span>{translate('تدوير', 'Rotate')}</span>
+            <kbd className="hx-kbd">B</kbd>
+            <span>{translate('إشارة', 'Bookmark')}</span>
           </span>
         </div>
       </div>
