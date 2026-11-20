@@ -19209,7 +19209,7 @@
     "description_en": "",
     "publisher": "دار الوفاء لدنيا الطباعة والنشر",
     "publisher_en": "",
-    "type": "Book",
+    "type": "كتاب",
     "type_en": "",
     "target_audience": "طلاب الجامعات والباحثون والدارسون في مجالات العلوم الاجتماعية والتربوية والإدارية والراغبون في تعلم التحليل الإحصائي بواسطة الحاسوب.",
     "target_audience_en": "",
@@ -19243,7 +19243,7 @@
     "file_path": "pdf/الحاسوب_والإحصاء_الاجتماعي.pdf",
     "file_name": "الحاسوب_والإحصاء_الاجتماعي.pdf",
     "file_type": "PDF",
-    "cover_image": "covers/374.webp",
+    "cover_image": "covers/374.png",
     "source_sha256": "fd7ed80cfdac388143014bc15d36a0a69288d77ee4f01d447f917bf392383e09",
     "ai_status": "complete",
     "ai_attempts": 1
